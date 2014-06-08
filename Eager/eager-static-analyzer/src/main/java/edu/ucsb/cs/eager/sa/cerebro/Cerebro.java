@@ -24,6 +24,7 @@ import soot.G;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
+import soot.jimple.InvokeExpr;
 import soot.jimple.toolkits.annotation.logic.Loop;
 
 import java.io.File;
@@ -180,9 +181,19 @@ public class Cerebro {
 
         Collection<SootMethod> calledUserMethods = analyzer.getUserMethodCalls();
         if (calledUserMethods.size() > 0) {
-            System.out.println("Called user-defined methods: ");
+            System.out.println("Called user-defined methods (unique): ");
             for (SootMethod calledMethod : calledUserMethods) {
                 System.out.println("  " + calledMethod.getDeclaringClass().getName() + "#" +
+                        calledMethod.getName() + "()");
+            }
+        }
+
+        Collection<InvokeExpr> apiCalls = analyzer.getApiCalls();
+        if (apiCalls.size() > 0) {
+            System.out.println("Called GAE methods (non-unique): ");
+            for (InvokeExpr call : apiCalls) {
+                SootMethod calledMethod = call.getMethod();
+                System.out.println("  [cloud] " + calledMethod.getDeclaringClass().getName() + "#" +
                         calledMethod.getName() + "()");
             }
         }

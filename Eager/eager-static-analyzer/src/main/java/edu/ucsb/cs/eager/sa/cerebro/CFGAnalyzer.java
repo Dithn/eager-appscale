@@ -41,6 +41,7 @@ public class CFGAnalyzer {
     private List<Integer> pathApiCalls = new ArrayList<Integer>();
     private List<Integer> pathAllocations = new ArrayList<Integer>();
     private Set<SootMethod> userMethodCalls = new LinkedHashSet<SootMethod>();
+    private Set<InvokeExpr> apiCalls = new LinkedHashSet<InvokeExpr>();
 
     private final UnitGraph graph;
     private final SootMethod method;
@@ -225,6 +226,10 @@ public class CFGAnalyzer {
         return Collections.unmodifiableSet(userMethodCalls);
     }
 
+    public Collection<InvokeExpr> getApiCalls() {
+        return Collections.unmodifiableSet(apiCalls);
+    }
+
     public int getMaxApiCalls() {
         int max = 0;
         for (int calls : pathApiCalls) {
@@ -273,6 +278,7 @@ public class CFGAnalyzer {
                 InvokeExpr invocation = stmt.getInvokeExpr();
                 if (isApiCall(invocation)) {
                     apiCallCount++;
+                    apiCalls.add(invocation);
                 } else if (isUserMethodCall(invocation.getMethod())) {
                     userMethodCalls.add(invocation.getMethod());
                     CFGAnalyzer analyzer = xmansion.getAnalyzer(invocation.getMethod());
@@ -291,6 +297,7 @@ public class CFGAnalyzer {
             InvokeExpr invocation = stmt.getInvokeExpr();
             if (isApiCall(invocation)) {
                 apiCallCount++;
+                apiCalls.add(invocation);
             } else if (isUserMethodCall(invocation.getMethod())) {
                 userMethodCalls.add(invocation.getMethod());
                 CFGAnalyzer analyzer = xmansion.getAnalyzer(invocation.getMethod());
