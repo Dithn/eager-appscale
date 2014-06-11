@@ -198,6 +198,7 @@ public class CFGAnalyzer {
         "!com.google.appengine.api.blobstore.BlobKey#getKeyString()",
         "com.google.appengine.api.blobstore.BlobstoreService#serve()",
         "com.google.appengine.api.blobstore.BlobstoreService#getUploadedBlobs()",
+        "com.google.appengine.api.blobstore.BlobstoreService#createUploadUrl()",
 
         "com.google.appengine.tools.mapreduce.MapReduceState#getMapReduceStateFromJobID()",
         "com.google.appengine.tools.mapreduce.MapReduceState#getCounters()",
@@ -215,6 +216,10 @@ public class CFGAnalyzer {
         "!com.google.appengine.api.search.ScoredDocument#getOnlyField()",
         "!com.google.appengine.api.search.Field#getText()",
         "com.google.appengine.api.search.Index#delete()",
+        "!com.google.appengine.api.search.IndexSpec#newBuilder()",
+        "!com.google.appengine.api.search.IndexSpec$Builder#setName()",
+        "!com.google.appengine.api.search.IndexSpec$Builder#build()",
+        "!com.google.appengine.api.search.Document#newBuilder()",
 
         "edu.ucsb.cs.eager.gae.DataStore#query1()",
         "edu.ucsb.cs.eager.gae.DataStore#query2()",
