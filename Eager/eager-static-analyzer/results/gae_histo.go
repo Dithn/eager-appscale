@@ -52,6 +52,14 @@ func main() {
 			data["memcache"] += 1
 		} else if strings.Contains(method, ".channel.") {
 			data["channel"] += 1
+		} else if strings.Contains(method, ".images.") {
+			data["images"] += 1
+		} else if strings.Contains(method, ".tools.") {
+			data["tools"] += 1
+		} else if strings.Contains(method, ".search.") {
+			data["search"] += 1
+		} else if strings.Contains(method, ".blobstore.") {
+			data["blobstore"] += 1
 		} else {
 			fmt.Println(method)
 		}

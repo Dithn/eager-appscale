@@ -60,6 +60,10 @@ public class CFGAnalyzer {
         "com.google.appengine.api.datastore.DatastoreService#put()",
         "!com.google.appengine.api.datastore.DatastoreServiceFactory#getDatastoreService()",
         "!com.google.appengine.api.datastore.FetchOptions$Builder#withDefaults()",
+        "!com.google.appengine.api.datastore.FetchOptions#limit()",
+        "!com.google.appengine.api.datastore.FetchOptions#offset()",
+        "!com.google.appengine.api.datastore.FetchOptions#prefetchSize()",
+        "!com.google.appengine.api.datastore.Entity#setUnindexedProperty()",
         "!com.google.appengine.api.datastore.Key#getId()",
         "!com.google.appengine.api.datastore.Key#getName()",
         "com.google.appengine.api.datastore.KeyFactory#createKey()",
@@ -182,6 +186,35 @@ public class CFGAnalyzer {
         "!com.google.appengine.api.channel.ChannelServiceFactory#getChannelService()",
         "!com.google.appengine.api.channel.ChannelMessage#<init>()",
         "com.google.appengine.api.channel.ChannelService#sendMessage()",
+
+        "!com.google.appengine.api.images.ImagesServiceFactory#getImagesService()",
+        "com.google.appengine.api.images.ImagesServiceFactory#makeImage()",
+        "com.google.appengine.api.images.ImagesService#getServingUrl()",
+        "!com.google.appengine.api.images.Image#getWidth()",
+        "!com.google.appengine.api.images.Image#getHeight()",
+
+        "!com.google.appengine.api.blobstore.BlobstoreServiceFactory#getBlobstoreService()",
+        "!com.google.appengine.api.blobstore.BlobKey#<init>()",
+        "!com.google.appengine.api.blobstore.BlobKey#getKeyString()",
+        "com.google.appengine.api.blobstore.BlobstoreService#serve()",
+        "com.google.appengine.api.blobstore.BlobstoreService#getUploadedBlobs()",
+
+        "com.google.appengine.tools.mapreduce.MapReduceState#getMapReduceStateFromJobID()",
+        "com.google.appengine.tools.mapreduce.MapReduceState#getCounters()",
+
+        "!com.google.appengine.api.search.Field#newBuilder()",
+        "!com.google.appengine.api.search.Field$Builder#setName()",
+        "!com.google.appengine.api.search.Field$Builder#setText()",
+        "!com.google.appengine.api.search.Document$Builder#addField()",
+        "!com.google.appengine.api.search.Document$Builder#build()",
+        "!com.google.appengine.api.search.SearchServiceFactory#getSearchService()",
+        "com.google.appengine.api.search.SearchService#getIndex()",
+        "com.google.appengine.api.search.Index#put()",
+        "com.google.appengine.api.search.Index#search()",
+        "!com.google.appengine.api.search.Results#iterator()",
+        "!com.google.appengine.api.search.ScoredDocument#getOnlyField()",
+        "!com.google.appengine.api.search.Field#getText()",
+        "com.google.appengine.api.search.Index#delete()",
 
         "edu.ucsb.cs.eager.gae.DataStore#query1()",
         "edu.ucsb.cs.eager.gae.DataStore#query2()",
@@ -368,7 +401,21 @@ public class CFGAnalyzer {
     private boolean isUserMethodCall(SootMethod target) {
         String userPackage = method.getDeclaringClass().getJavaPackageName();
         String targetPackage = target.getDeclaringClass().getJavaPackageName();
-        return targetPackage.startsWith(userPackage);
+        if (targetPackage.startsWith(userPackage)) {
+            return true;
+        }
+
+        String[] userSegments = userPackage.split("\\.");
+        String[] targetSegments = targetPackage.split("\\.");
+        if (userSegments.length >= 3 && targetSegments.length >= 3) {
+            for (int i = 0; i < 3; i++) {
+                if (!userSegments[i].equals(targetSegments[i])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private Loop findLoop(Stmt stmt) {
