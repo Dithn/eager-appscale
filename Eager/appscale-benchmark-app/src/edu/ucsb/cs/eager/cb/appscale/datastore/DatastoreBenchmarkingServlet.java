@@ -38,8 +38,6 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
         String op = ServletUtils.getRequiredParameter(req, "op");
         int iterations = ServletUtils.getOptionalIntParameter(req, "count", 1);
 
-        cleanup();
-
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         List<Integer> results = new ArrayList<Integer>();
         if ("put".equals(op)) {
@@ -58,10 +56,42 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
                 long t2 = System.currentTimeMillis();
                 results.add((int) (t2 - t1));
             }
-            sendOutput(results, op, resp);
+        } else if ("asIterable".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                Query q = new Query(Constants.Project.class.getSimpleName());
+                PreparedQuery preparedQuery = datastore.prepare(q);
+                long t1 = System.currentTimeMillis();
+                preparedQuery.asIterable(); // Todo: How to handle this streaming op?
+                long t2 = System.currentTimeMillis();
+                results.add((int) (t2 - t1));
+            }
+        } else if ("asList".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                Query q = new Query(Constants.Project.class.getSimpleName());
+                PreparedQuery preparedQuery = datastore.prepare(q);
+                FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+                long t1 = System.currentTimeMillis();
+                preparedQuery.asList(fetchOptions);
+                long t2 = System.currentTimeMillis();
+                results.add((int) (t2 - t1));
+            }
+        } else if ("get".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectName = "Project" + i;
+                Key key = KeyFactory.createKey(Constants.Project.class.getSimpleName(), projectName);
+                long t1 = System.currentTimeMillis();
+                try {
+                    datastore.get(key);
+                } catch (EntityNotFoundException e) {
+                    throw new ServletException("Failed to locate object by key", e);
+                }
+                long t2 = System.currentTimeMillis();
+                results.add((int) (t2 - t1));
+            }
         } else {
             throw new ServletException("Unsupported datastore benchmark operation: " + op);
         }
+        sendOutput(results, op, resp);
     }
 
     private void sendOutput(List<Integer> results, String op,
@@ -76,6 +106,12 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
         }
         output.put("average", ((double) sum) / results.size());
         JSONUtils.serialize(output, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req,
+                            HttpServletResponse resp) throws ServletException, IOException {
+        cleanup();
     }
 
     private void cleanup() {

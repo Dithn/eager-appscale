@@ -66,7 +66,7 @@ public class CFGAnalyzer {
         "!com.google.appengine.api.datastore.Entity#setUnindexedProperty()",
         "!com.google.appengine.api.datastore.Key#getId()",
         "!com.google.appengine.api.datastore.Key#getName()",
-        "com.google.appengine.api.datastore.KeyFactory#createKey()",
+        "!com.google.appengine.api.datastore.KeyFactory#createKey()",
         "com.google.appengine.api.datastore.PreparedQuery#asIterable()",
         "com.google.appengine.api.datastore.PreparedQuery#asList()",
         "!com.google.appengine.api.datastore.Query#<init>()",
