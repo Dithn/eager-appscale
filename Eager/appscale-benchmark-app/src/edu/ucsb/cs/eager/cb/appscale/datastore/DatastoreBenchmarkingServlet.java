@@ -37,6 +37,9 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
                          HttpServletResponse resp) throws ServletException, IOException {
         String op = ServletUtils.getRequiredParameter(req, "op");
         int iterations = ServletUtils.getOptionalIntParameter(req, "count", 1);
+        if (iterations <= 0) {
+            throw new ServletException("Number of iterations must be positive");
+        }
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         List<Integer> results = new ArrayList<Integer>();
@@ -85,6 +88,15 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
                 } catch (EntityNotFoundException e) {
                     throw new ServletException("Failed to locate object by key", e);
                 }
+                long t2 = System.currentTimeMillis();
+                results.add((int) (t2 - t1));
+            }
+        } else if ("delete".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectName = "Project" + i;
+                Key key = KeyFactory.createKey(Constants.Project.class.getSimpleName(), projectName);
+                long t1 = System.currentTimeMillis();
+                datastore.delete(key);
                 long t2 = System.currentTimeMillis();
                 results.add((int) (t2 - t1));
             }
