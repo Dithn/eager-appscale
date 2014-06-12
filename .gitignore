@@ -8,3 +8,5 @@
 *.blb
 *.pdf
 *.aux
+appengine-java-sdk-1.8.0/
+war/
