@@ -116,7 +116,15 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
         for (int value : results) {
             sum += value;
         }
-        output.put("average", ((double) sum) / results.size());
+        double mean = ((double) sum) / results.size();
+        output.put("average", mean);
+
+        double squareSum = 0;
+        for (int value : results) {
+            squareSum += (value - mean) * (value - mean);
+        }
+        double stdDev = Math.sqrt(squareSum / (results.size() - 1));
+        output.put("stdDev", stdDev);
         JSONUtils.serialize(output, resp);
     }
 
