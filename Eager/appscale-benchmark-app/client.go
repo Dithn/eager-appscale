@@ -40,6 +40,9 @@ func main() {
 	result = doGet(fmt.Sprintf("%s/datastore?op=asList&count=100", url))
 	printResult(result)
 
+	result = doGet(fmt.Sprintf("%s/datastore?op=asIterable&count=100", url))
+	printResult(result)
+
 	result = doGet(fmt.Sprintf("%s/datastore?op=delete&count=100", url))
 	printResult(result)
 }
