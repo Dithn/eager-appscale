@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.*;
 import edu.ucsb.cs.eager.cb.appscale.JSONUtils;
 import edu.ucsb.cs.eager.cb.appscale.ServletUtils;
 
+import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -100,6 +101,96 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
                 long t2 = System.currentTimeMillis();
                 results.add((int) (t2 - t1));
             }
+        } else if ("jdo.makePersistent".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectId = "Project" + i;
+                Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
+                Project project = new Project(key, "Project" + i, 5);
+                PersistenceManager pm = PMF.get().getPersistenceManager();
+                try {
+                    long t1 = System.currentTimeMillis();
+                    pm.makePersistent(project);
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
+                } finally {
+                    pm.close();
+                }
+            }
+        } else if ("jdo.getObjectById".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectId = "Project" + i;
+                Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
+                PersistenceManager pm = PMF.get().getPersistenceManager();
+                try {
+                    long t1 = System.currentTimeMillis();
+                    pm.getObjectById(Project.class, key);
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
+                } finally {
+                    pm.close();
+                }
+            }
+        } else if ("jdo.close".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectId = "Project" + i;
+                Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
+                PersistenceManager pm = PMF.get().getPersistenceManager();
+                try {
+                    pm.getObjectById(Project.class, key);
+                } finally {
+                    long t1 = System.currentTimeMillis();
+                    pm.close();
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
+                }
+            }
+        } else if ("jdo.execute".equals(op)) {
+                for (int i = 0; i < iterations; i++) {
+                    String projectId = "Project" + i;
+                    PersistenceManager pm = PMF.get().getPersistenceManager();
+                    javax.jdo.Query query = pm.newQuery(Project.class);
+                    try {
+                        query.setFilter("name == " + projectId);
+                        long t1 = System.currentTimeMillis();
+                        query.execute();
+                        long t2 = System.currentTimeMillis();
+                        results.add((int) (t2 - t1));
+                    } finally {
+                        query.closeAll();
+                        pm.close();
+                    }
+                }
+        } else if ("jdo.closeAll".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectId = "Project" + i;
+                PersistenceManager pm = PMF.get().getPersistenceManager();
+                javax.jdo.Query query = pm.newQuery(Project.class);
+                try {
+                    query.setFilter("name == " + projectId);
+                    query.execute();
+                } finally {
+                    long t1 = System.currentTimeMillis();
+                    query.closeAll();
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
+                    pm.close();
+                }
+            }
+        } else if ("jdo.deletePersistent".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                String projectId = "Project" + i;
+                Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
+                PersistenceManager pm = PMF.get().getPersistenceManager();
+                try {
+                    Project project = pm.getObjectById(Project.class, key);
+                    long t1 = System.currentTimeMillis();
+                    pm.deletePersistent(project);
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
+                } finally {
+                    pm.close();
+                }
+            }
         } else {
             throw new ServletException("Unsupported datastore benchmark operation: " + op);
         }
@@ -119,12 +210,16 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
         double mean = ((double) sum) / results.size();
         output.put("average", mean);
 
-        double squareSum = 0;
-        for (int value : results) {
-            squareSum += (value - mean) * (value - mean);
+        if (results.size() > 1) {
+            double squareSum = 0;
+            for (int value : results) {
+                squareSum += (value - mean) * (value - mean);
+            }
+            double stdDev = Math.sqrt(squareSum / (results.size() - 1));
+            output.put("stdDev", stdDev);
+        } else {
+            output.put("stdDev", 0);
         }
-        double stdDev = Math.sqrt(squareSum / (results.size() - 1));
-        output.put("stdDev", stdDev);
         JSONUtils.serialize(output, resp);
     }
 

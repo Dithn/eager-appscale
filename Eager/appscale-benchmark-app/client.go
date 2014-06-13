@@ -18,8 +18,8 @@ type Result struct {
 func main() {
 	url := fmt.Sprintf("http://%s:%d", "localhost", 8080)
 	
-
-	fmt.Println("Benchmarking datastore API...")
+	fmt.Println("Benchmarking datastore API")
+	fmt.Println("==========================")
 	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/datastore", url), nil)
 	if err != nil {
 		fmt.Println(err)
@@ -44,6 +44,27 @@ func main() {
 	printResult(result)
 
 	result = doGet(fmt.Sprintf("%s/datastore?op=delete&count=100", url))
+	printResult(result)
+
+	fmt.Println()
+	fmt.Println("Benchmarking datastore API (JDO)")
+	fmt.Println("================================")
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.makePersistent&count=100", url))
+	printResult(result)
+
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.getObjectById&count=100", url))
+	printResult(result)
+
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.close&count=100", url))
+	printResult(result)
+
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.execute&count=100", url))
+	printResult(result)
+
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.closeAll&count=100", url))
+	printResult(result)
+
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.deletePersistent&count=100", url))
 	printResult(result)
 }
 
