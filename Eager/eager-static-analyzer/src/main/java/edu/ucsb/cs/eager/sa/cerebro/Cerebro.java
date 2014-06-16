@@ -28,10 +28,7 @@ import soot.jimple.InvokeExpr;
 import soot.jimple.toolkits.annotation.logic.Loop;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Cerebro {
 
@@ -195,6 +192,23 @@ public class Cerebro {
                 SootMethod calledMethod = call.getMethod();
                 System.out.println("  [cloud] " + calledMethod.getDeclaringClass().getName() + "#" +
                         calledMethod.getName() + "()");
+            }
+        }
+
+        Collection<List<SootMethod>> paths = analyzer.getPaths();
+        if (paths.size() > 0) {
+            System.out.println("API call traces: ");
+            int i = 0;
+            for (List<SootMethod> path : paths) {
+                if (path.size() == 0) {
+                    System.out.println("  [path" + i + "] -- No API Calls --");
+                } else {
+                    for (SootMethod m : path) {
+                        System.out.println("  [path" + i + "] " + m.getDeclaringClass().getName() + "#" +
+                                m.getName() + "()");
+                    }
+                }
+                i++;
             }
         }
     }

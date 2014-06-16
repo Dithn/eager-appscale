@@ -39,6 +39,7 @@ public class CFGAnalyzer {
     private Map<Loop,Integer> loopedApiCalls = new HashMap<Loop, Integer>();
     private Map<Loop,Integer> loopNestingLevels = new HashMap<Loop, Integer>();
     private List<Integer> pathApiCalls = new ArrayList<Integer>();
+    private List<List<SootMethod>> paths = new ArrayList<List<SootMethod>>();
     private List<Integer> pathAllocations = new ArrayList<Integer>();
     private Set<SootMethod> userMethodCalls = new LinkedHashSet<SootMethod>();
     private Set<InvokeExpr> apiCalls = new LinkedHashSet<InvokeExpr>();
@@ -241,7 +242,7 @@ public class CFGAnalyzer {
         loops = loopFinder.loops();
 
         Stmt stmt = (Stmt) graph.getHeads().get(0);
-        visit(stmt, graph, 0, 0);
+        visit(stmt, graph, 0, 0, new ArrayList<SootMethod>());
     }
 
     public Map<Loop, Integer> getLoopedApiCalls() {
@@ -268,6 +269,10 @@ public class CFGAnalyzer {
         return Collections.unmodifiableSet(apiCalls);
     }
 
+    public Collection<List<SootMethod>> getPaths() {
+        return Collections.unmodifiableList(paths);
+    }
+
     public int getMaxApiCalls() {
         int max = 0;
         for (int calls : pathApiCalls) {
@@ -286,6 +291,16 @@ public class CFGAnalyzer {
             }
         }
         return max;
+    }
+
+    public List<SootMethod> getLongestPath() {
+        int max = getMaxApiCalls();
+        for (List<SootMethod> path : paths) {
+            if (path.size() == max) {
+                return path;
+            }
+        }
+        throw new IllegalStateException("Failed to locate the longest path");
     }
 
     private void analyzeLoop(Loop loop, int nestingLevel) {
@@ -330,11 +345,13 @@ public class CFGAnalyzer {
         loopNestingLevels.put(loop, nestingLevel);
     }
 
-    private void visit(Stmt stmt, UnitGraph graph, int apiCallCount, int allocationCount) {
+    private void visit(Stmt stmt, UnitGraph graph, int apiCallCount,
+                       int allocationCount, List<SootMethod> path) {
         if (stmt.containsInvokeExpr()) {
             InvokeExpr invocation = stmt.getInvokeExpr();
             if (isApiCall(invocation)) {
                 apiCallCount++;
+                path.add(invocation.getMethod());
                 apiCalls.add(invocation);
             } else if (isUserMethodCall(invocation.getMethod())) {
                 userMethodCalls.add(invocation.getMethod());
@@ -342,6 +359,7 @@ public class CFGAnalyzer {
                 if (analyzer != null) {
                     apiCallCount += analyzer.getMaxApiCalls();
                     allocationCount += analyzer.getMaxAllocations();
+                    path.addAll(analyzer.getLongestPath());
                 }
             }
         } else if (stmt instanceof NewExpr || stmt instanceof NewArrayExpr) {
@@ -372,11 +390,13 @@ public class CFGAnalyzer {
         }
 
         for (Unit child : children) {
-            visit((Stmt) child, graph, apiCallCount, allocationCount);
+            visit((Stmt) child, graph, apiCallCount, allocationCount,
+                    new ArrayList<SootMethod>(path));
         }
         if (children.isEmpty()) {
             pathApiCalls.add(apiCallCount);
             pathAllocations.add(allocationCount);
+            paths.add(path);
         }
     }
 
