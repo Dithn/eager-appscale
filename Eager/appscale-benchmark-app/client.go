@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"io/ioutil"
+	"flag"
 )
 
 type Result struct {
@@ -15,8 +16,21 @@ type Result struct {
 	StdDev float64
 }
 
+var server string
+
+func init() {
+	const (
+		defaultServer = "localhost"
+		usage = "target AppScale server"
+	)
+	flag.StringVar(&server, "server", defaultServer, usage)
+	flag.StringVar(&server, "s", defaultServer, usage + " (shorthand)")
+}
+
 func main() {
-	url := fmt.Sprintf("http://%s:%d", "localhost", 8080)
+	flag.Parse()
+	fmt.Println("Target Server: ", server)
+	url := fmt.Sprintf("http://%s:%d", server, 8080)
 	
 	fmt.Println("Benchmarking datastore API")
 	fmt.Println("==========================")
