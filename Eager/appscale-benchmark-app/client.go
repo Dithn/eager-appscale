@@ -17,20 +17,28 @@ type Result struct {
 }
 
 var server string
+var port uint64
 
 func init() {
 	const (
 		defaultServer = "localhost"
-		usage = "target AppScale server"
+		serverUsage = "target AppScale server"
+		defaultPort = 8080
+		portUsage = "target AppScale port"
 	)
-	flag.StringVar(&server, "server", defaultServer, usage)
-	flag.StringVar(&server, "s", defaultServer, usage + " (shorthand)")
+	flag.StringVar(&server, "server", defaultServer, serverUsage)
+	flag.StringVar(&server, "s", defaultServer, serverUsage + " (shorthand)")
+	flag.Uint64Var(&port, "port", defaultPort, portUsage)
+	flag.Uint64Var(&port, "p", defaultPort, portUsage + " (shorthand)")
 }
 
 func main() {
 	flag.Parse()
 	fmt.Println("Target Server: ", server)
-	url := fmt.Sprintf("http://%s:%d", server, 8080)
+	fmt.Println("Target Port: ", port)
+	fmt.Println()
+
+	url := fmt.Sprintf("http://%s:%d", server, port)
 	
 	fmt.Println("Benchmarking datastore API")
 	fmt.Println("==========================")
