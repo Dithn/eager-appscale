@@ -83,14 +83,14 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             for (int i = 0; i < iterations; i++) {
                 String projectName = "Project" + i;
                 Key key = KeyFactory.createKey(Constants.Project.class.getSimpleName(), projectName);
-                long t1 = System.currentTimeMillis();
                 try {
+                    long t1 = System.currentTimeMillis();
                     datastore.get(key);
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
                 } catch (EntityNotFoundException e) {
                     throw new ServletException("Failed to locate object by key", e);
                 }
-                long t2 = System.currentTimeMillis();
-                results.add((int) (t2 - t1));
             }
         } else if ("delete".equals(op)) {
             for (int i = 0; i < iterations; i++) {
@@ -145,21 +145,21 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
                 }
             }
         } else if ("jdo.execute".equals(op)) {
-                for (int i = 0; i < iterations; i++) {
-                    String projectId = "Project" + i;
-                    PersistenceManager pm = PMF.get().getPersistenceManager();
-                    javax.jdo.Query query = pm.newQuery(Project.class);
-                    try {
-                        query.setFilter("name == " + projectId);
-                        long t1 = System.currentTimeMillis();
-                        query.execute();
-                        long t2 = System.currentTimeMillis();
-                        results.add((int) (t2 - t1));
-                    } finally {
-                        query.closeAll();
-                        pm.close();
-                    }
+            for (int i = 0; i < iterations; i++) {
+                String projectId = "Project" + i;
+                PersistenceManager pm = PMF.get().getPersistenceManager();
+                javax.jdo.Query query = pm.newQuery(Project.class);
+                try {
+                    query.setFilter("name == " + projectId);
+                    long t1 = System.currentTimeMillis();
+                    query.execute();
+                    long t2 = System.currentTimeMillis();
+                    results.add((int) (t2 - t1));
+                } finally {
+                    query.closeAll();
+                    pm.close();
                 }
+            }
         } else if ("jdo.closeAll".equals(op)) {
             for (int i = 0; i < iterations; i++) {
                 String projectId = "Project" + i;
