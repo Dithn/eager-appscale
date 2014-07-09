@@ -1,0 +1,26 @@
+We implemented a prototype of EAGER by extending AppScale~\cite{appscale13}, 
+an open source PaaS cloud that is 
+functionally equivalent to Google App Engine (GAE).  AppScale supports
+web applications written in Python, Java, Go and PHP. Our prototype
+implements governance for all applications and APIs hosted in an AppScale cloud. 
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{| p{4cm} | p{4cm} |}
+\hline
+EAGER Component & Implementation Technology\\ \hline
+Metadata Manager & MySQL~\cite{mysql}\\
+API Deployment Coordinator & Native Python implementation\\
+API Discovery Portal & WSO2 API Manager~\cite{wso2am}\\
+API Gateway & WSO2 API Manager\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Implementation Technologies used to Implement the EAGER Prototype}
+\label{tab:imp-tech}
+\end{table}
+\vspace{-0.2in}
+
+Table~\ref{tab:imp-tech} lists the key technologies that we use to implement 
+various EAGER functionalities described in
+Section~\ref{sec:eager} as services within AppScale itself. 
