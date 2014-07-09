@@ -158,7 +158,7 @@ the ADC initiates policy validation. Policies are specified by cloud
 or organizational administrators using a subset of the Python language.  
 We restrict the language to prevent state from being preserved across
 policy validations. In particular, the EAGER policy interpreter disables file
-and network operations, most library calls, and intrinsics that allow
+and network operations, most third party library calls, and intrinsics that allow
 state to persist across invocations.  In addition, it processes each 
 policy independently of others (i.e. each policy must be self-contained and 
 access no external state).  As part of this policy language toolkit, EAGER
@@ -186,23 +186,62 @@ assert_app_dependency_in_range(app, name,\
 %\end{itemize}
 
 Basing the policy language on Python allows EAGER to leverage
-existing programming tools to edit and debug policy files. An example policy
-file that mandates that all application names begin with upper case letters and
-that all applications be dependent upon an API called Logger-v1.0 is shown
-below:
+existing programming tools to edit and debug policy files. Using a real programming 
+language to specify policies, enables administrators to implement governance policies with
+arbitrary complexity and logic with ease. An example policy file written using EAGER
+policy language is shown below. This policy mandates that any application or mashup
+that uses both Geo and Direction APIs must adhere to certain versioning 
+rules. More specifically, if the application uses Geo 3.0 or higher, it must use
+Direction 4.0 or higher.
 
 {\footnotesize
 \begin{lstlisting}[language=Python, frame=single]
-import re
-pattern = re.compile(`^[A-Z]')
-assert_true(pattern.match(app.name))
-assert_app_dependency(app,`Logger',`1.0')
+g = filter(lambda dep: dep.name == 'Geo', \
+              app.dependencies)
+d = filter(lambda dep: dep.name == 'Direction',\
+              app.dependencies)
+if g and d:
+  g_api, d_api = g[0], d[0]
+  if compare_versions(g_api.version, '3.0') >= 0:
+    assert_true(compare_versions(d_api.version, \
+          '4.0') >= 0)
 \end{lstlisting}
 }
 
 In the above example \textit{app} is a special immutable logical variable available to
 all policy files. This variable allows policies to access information
-pertaining to the current application deployment request. 
+pertaining to the current application deployment request. The assert\_true and assert\_false
+functions allow testing for arbitrary conditions, thus greatly improving the expressive
+power and flexibility of the policy language.
+
+Next example shows a policy file which mandates that all applications deployed
+by the ``admin@test.com'' user must have role based authentication enabled, so that only
+users in the ``manager'' role can access them. To carry out this check the policy accesses
+the security configuration specified in the application descriptor (web.xml file of a Java app).
+
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single]
+if app.owner == 'admin@test.com':
+  roles = app.web_xml['security-role']
+  constraints = app.web_xml['security-constraint']
+  assert_true(roles and constraints)
+  assert_true(len(roles) == 1)
+  assert_true('manager' == roles[0]['role-name'])
+\end{lstlisting}
+}
+
+Finally, we present an example that mandates all POST operations exposed by APIs must be
+secured with OAuth 2.0.
+
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single]
+for api in app.api_list:
+  post = filter(lambda op : op.method == 'POST', \
+         api.operations)
+  for op in post:
+     assert_true(op.authorizations.get('oauth2'))
+\end{lstlisting}
+}
 
 EAGER places no restrictions on how many policy files are specified by 
 administrators. Applications are validated against each policy file. Failure
