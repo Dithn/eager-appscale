@@ -1,3 +1,12 @@
+\begin{figure*}[t]
+\centering
+%\includegraphics[scale=0.35]{eager_design}
+\includegraphics[width=5in]{eager_design}
+\caption{EAGER Architecture
+\label{fig:eager_design}
+}
+\end{figure*}
+
 In order to resolve the shortcomings of existing API governance models in the
 cloud, we propose EAGER, a new model and an architecture that can be built
 into the cloud fabrics for providing API governance as a cloud-native feature.
@@ -33,12 +42,6 @@ governance techniques we discuss and the extant methodologies for run-time
 features leads to new possibilities for run-time governance as well (which we
 discuss as future work).
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.35]{eager_design}
-\caption{EAGER Architecture}
-\label{fig:eager_design}
-\end{figure}
 
 Figure~\ref{fig:eager_design} illustrates the main components of EAGER (in
 blue) and their interactions. Solid arrows represent the interactions that take place
@@ -145,27 +148,39 @@ specifications. EAGER looks for type compatibility based on the following
 rules inspired by Hoare logic~\cite{Hoare:1969:ABC:363235.363259} and the
 rules of type inheritance from object oriented programming:
 \begin{itemize}
+\vspace{0.1in}
 \item New version of an input type is compatible with the old version of an input type, if the new version contains either all or less attributes than the 
 old version, and any new attributes that are unique to the new version are optional.
+\vspace{0.1in}
 \item New version of an output type is compatible with the old version of an output type, if the new version contains either all or more attributes than the 
 old version.
+\vspace{0.1in}
 \end{itemize}
 In addition to the type checks, ADC may also compare other parameters declared in the API specifications
 such as HTTP methods, mime types and URL patterns.
-
 Once the API specifications have been successfully compared without error,
-the ADC initiates policy validation. Policies are specified by cloud
+the ADC initiates policy validation. 
+
+\subsection{EAGER Policy Language and Examples}
+Policies are specified by cloud
 or organizational administrators using a subset of the Python language.  
 We restrict the language to prevent state from being preserved across
-policy validations. In particular, the EAGER policy interpreter disables file
-and network operations, most third party library calls, and intrinsics that allow
-state to persist across invocations.  In addition, it processes each 
+policy validations. In particular, the EAGER policy interpreter disables 
+file and network operations, third party library calls, 
+and intrinsics that allow
+state to persist across invocations.  
+In addition, EAGER processes each 
 policy independently of others (i.e. each policy must be self-contained and 
-access no external state).  As part of this policy language toolkit, EAGER
+access no external state).  All other Python constructs and 
+language features can be used to specify policies in EAGER.
+
+As part of this policy language toolkit, EAGER
 defines a set of assertions that policy writers can use to specify various 
 checks to perform on the applications. 
 Currently, this assertion list includes:
 
+%\vspace{0.25in}
+\vspace{0.05in}
 {\footnotesize 
 \begin{lstlisting}[language=Python, frame=single]
 assert_true(condition, optional_error_msg)
@@ -188,12 +203,16 @@ assert_app_dependency_in_range(app, name,\
 Basing the policy language on Python allows EAGER to leverage
 existing programming tools to edit and debug policy files. Using a real programming 
 language to specify policies, enables administrators to implement governance policies with
-arbitrary complexity and logic with ease. An example policy file written using EAGER
-policy language is shown below. This policy mandates that any application or mashup
+arbitrary complexity and logic with ease. 
+
+An example policy file written using EAGER
+policy language is shown below. 
+This policy mandates that any application or mashup
 that uses both Geo and Direction APIs must adhere to certain versioning 
 rules. More specifically, if the application uses Geo 3.0 or higher, it must use
 Direction 4.0 or higher.
 
+\vspace{0.05in}
 {\footnotesize
 \begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
 g = filter(lambda dep: dep.name == `Geo', \
@@ -207,6 +226,7 @@ if g and d:
     	`4.0') >= 0)
 \end{lstlisting}
 }
+\vspace{0.05in}
 
 In the above example \textit{app} is a special immutable logical variable available to
 all policy files. This variable allows policies to access information
@@ -219,6 +239,7 @@ by the ``admin@test.com'' user must have role based authentication enabled, so t
 users in the ``manager'' role can access them. To carry out this check the policy accesses
 the security configuration specified in the application descriptor (web.xml file of a Java app).
 
+\vspace{0.05in}
 {\footnotesize
 \begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
 if app.owner == `admin@test.com':
@@ -229,10 +250,12 @@ if app.owner == `admin@test.com':
   assert_true(`manager' == roles[0][`role-name'])
 \end{lstlisting}
 }
+\vspace{0.05in}
 
-Finally, we present an example that mandates all POST operations exposed by APIs must be
+Finally, we present an example that mandates that all POST operations exposed by APIs must be
 secured with OAuth 2.0.
 
+\vspace{0.05in}
 {\footnotesize
 \begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
 for api in app.api_list:
@@ -242,6 +265,7 @@ for api in app.api_list:
     assert_true(op.authorizations.get(`oauth2'))
 \end{lstlisting}
 }
+\vspace{0.05in}
 
 EAGER places no restrictions on how many policy files are specified by 
 administrators. Applications are validated against each policy file. Failure
@@ -253,10 +277,14 @@ and proceed with application deployment. In a PaaS setting
 this deployment activity typically involves three steps:
 
 \begin{enumerate}
+\vspace{0.05in}
 \item Deploy the application in the cloud application run-time (application server).
+\vspace{0.05in}
 \item Publish the APIs enclosed in the application and their specifications to
 the API Discovery Portal or catalog.
+\vspace{0.05in}
 \item Publish the APIs enclosed in the application to an API Gateway server.
+\vspace{0.05in}
 \end{enumerate}
 
 Step 1 is required to complete the application deployment in the cloud even

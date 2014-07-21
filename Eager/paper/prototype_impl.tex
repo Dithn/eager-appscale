@@ -17,9 +17,12 @@ process according to the policies that the platform administrator specifies.
 EAGER provides two developer tools for implementing applications and APIs for an
 EAGER-enabled cloud platform.
 \begin{enumerate}
+\vspace{0.05in}
 \item An Apache Maven~\cite{maven} archetype that is used to initialize a Java
 web application project, and 
+\vspace{0.05in}
 \item A Java doclet that is used to auto-generate API specifications from web APIs implemented in Java
+\vspace{0.05in}
 \end{enumerate}
 
 Developers can invoke the Maven archetype from the command-line to initialize
@@ -44,9 +47,9 @@ delegate the application deployment process to EAGER. This change requires
 just under 50 additional lines of code in AppScale.
 
 
-\begin{table}[ht]
+\begin{table}[t]
 \begin{center}
-\begin{tabular}{| p{4cm} | p{4cm} |}
+\begin{tabular}{| p{3cm} | p{3.5cm} |}
 \hline
 EAGER Component & Implementation Technology\\ \hline
 Metadata Manager & MySQL~\cite{mysql}\\
@@ -59,7 +62,7 @@ API Gateway & WSO2 API Manager\\
 \caption{Implementation Technologies used to Implement the EAGER Prototype}
 \label{tab:imp-tech}
 \end{table}
-\vspace{-0.2in}
+%\vspace{-0.2in}
 
 Table~\ref{tab:imp-tech} lists the key technologies that we use to implement 
 various EAGER functionalities described in

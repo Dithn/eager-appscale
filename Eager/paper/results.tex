@@ -44,13 +44,14 @@ latency, available bandwidth, contention, and large numbers of distributed
 application servers.
 
 
-\begin{figure}
+\begin{figure*}
 \centering
-\includegraphics[scale=0.45]{overhead_by_app}
-\vspace{-0.01in}
+\includegraphics[width=4in]{overhead_by_app}
+%\includegraphics[scale=0.45]{overhead_by_app}
+%\vspace{-0.01in}
 \caption{EAGER Absolute Overhead in Seconds by Application}
 \label{fig:overhead_by_app}
-\end{figure}
+\end{figure*}
 
 \subsection{Baseline EAGER Overhead by Application}
 
@@ -89,8 +90,9 @@ represents an optimization opportunity via parallelization in future implementat
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.45]{overhead_by_apis}
-\vspace{-0.01in}
+\includegraphics[scale=0.47]{overhead_by_apis}
+%\includegraphics[width=3in]{overhead_by_apis}
+%\vspace{-0.01in}
 \caption{EAGER Overhead vs. Number of APIs Exported by the Application}
 \label{fig:overhead_by_apis}
 %\vspace{-0.1in}
@@ -112,8 +114,8 @@ vary the number of declared dependencies and observe the EAGER overhead.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.45]{overhead_by_deps}
-\vspace{-0.01in}
+\includegraphics[scale=0.47]{overhead_by_deps}
+%\vspace{-0.01in}
 \caption{EAGER Overhead vs. Number of Dependencies Declared in the Application}
 \label{fig:overhead_by_deps}
 %\vspace{-0.1in}
@@ -141,9 +143,13 @@ experiment, our goal is to evaluate the overhead incurred by simply having
 many policy files to execute. We keep the content of the policies small and
 trivial. We create a policy file that runs following assertions:
 \begin{enumerate} 
+\vspace{0.05in}
 \item Application name must start with an upper case letter
+\vspace{0.05in}
 \item Application must be owned by a specific user 
+\vspace{0.05in}
 \item All API names must start with upper case letters 
+\vspace{0.05in}
 \end{enumerate} We create many copies of this
 initial policy file to vary the number of policies deployed. Then we evaluate
 the overhead of policy validation on two of our sample applications
@@ -151,8 +157,8 @@ the overhead of policy validation on two of our sample applications
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.45]{overhead_by_policies}
-\vspace{-0.01in}
+\includegraphics[scale=0.47]{overhead_by_policies}
+%\vspace{-0.01in}
 \caption{EAGER Overhead vs. Number of Policies}
 \label{fig:overhead_by_policies}
 %\vspace{-0.1in}
@@ -187,8 +193,8 @@ Metadata Manager to make the experimental setting more realistic.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.45]{scalability}
-\vspace{-0.01in}
+\includegraphics[scale=0.47]{scalability}
+%\vspace{-0.01in}
 \caption{EAGER Overhead vs. Number of APIs in Metadata Manager}
 \label{fig:scalability}
 %\vspace{-0.1in}
@@ -243,7 +249,7 @@ and measure EAGER overhead.
 \begin{figure}
 \centering
 \includegraphics[scale=0.45]{pweb_sample_overhead}
-\vspace{-0.01in}
+%\vspace{-0.01in}
 \caption{EAGER Overhead When Deploying on ProgrammableWeb Dataset}
 \label{fig:pweb_sample_overhead}
 %\vspace{-0.1in}
@@ -274,7 +280,7 @@ redeployments.
 \begin{figure}
 \centering
 \includegraphics[scale=0.45]{pweb_random_overhead}
-\vspace{-0.01in}
+%\vspace{-0.01in}
 \caption{EAGER Overhead When Deploying on ProgrammableWeb Dataset with
 Dependencies. The suffix value indicates the number of dependencies;
 the prefix indicates if these dependencies are randomized (or not) upon
