@@ -195,16 +195,16 @@ rules. More specifically, if the application uses Geo 3.0 or higher, it must use
 Direction 4.0 or higher.
 
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single]
-g = filter(lambda dep: dep.name == 'Geo', \
-              app.dependencies)
-d = filter(lambda dep: dep.name == 'Direction',\
-              app.dependencies)
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+g = filter(lambda dep: dep.name == `Geo', \
+	app.dependencies)
+d = filter(lambda dep: dep.name == `Direction',\
+	app.dependencies)
 if g and d:
   g_api, d_api = g[0], d[0]
-  if compare_versions(g_api.version, '3.0') >= 0:
-    assert_true(compare_versions(d_api.version, \
-          '4.0') >= 0)
+  if compare_versions(g_api.version, `3.0') >= 0:
+    assert_true(compare_versions(d_api.version, 
+    	`4.0') >= 0)
 \end{lstlisting}
 }
 
@@ -220,13 +220,13 @@ users in the ``manager'' role can access them. To carry out this check the polic
 the security configuration specified in the application descriptor (web.xml file of a Java app).
 
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single]
-if app.owner == 'admin@test.com':
-  roles = app.web_xml['security-role']
-  constraints = app.web_xml['security-constraint']
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+if app.owner == `admin@test.com':
+  roles = app.web_xml[`security-role']
+  constraints = app.web_xml[`security-constraint']
   assert_true(roles and constraints)
   assert_true(len(roles) == 1)
-  assert_true('manager' == roles[0]['role-name'])
+  assert_true(`manager' == roles[0][`role-name'])
 \end{lstlisting}
 }
 
@@ -234,12 +234,12 @@ Finally, we present an example that mandates all POST operations exposed by APIs
 secured with OAuth 2.0.
 
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single]
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
 for api in app.api_list:
-  post = filter(lambda op : op.method == 'POST', \
-         api.operations)
+  post = filter(lambda op : op.method == `POST', 
+  	api.operations)
   for op in post:
-     assert_true(op.authorizations.get('oauth2'))
+    assert_true(op.authorizations.get(`oauth2'))
 \end{lstlisting}
 }
 
