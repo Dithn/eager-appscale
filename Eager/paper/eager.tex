@@ -114,7 +114,7 @@ The API specifications used to describe the web APIs should specify the
 operations and the schema of their inputs and outputs.  Any standard API
 description language can be used for this purpose, as long as it clearly
 describes the schema of the requests and responses. For describing REST
-interfaces, we can use Web Application Description Language (WADL), Swagger,
+interfaces, we can use Web Application Description Language (WADL)~\cite{hl:wadl}, Swagger~\cite{hl:swagger},
 RESTful API Modeling Language (RAML) or any other language that provides similar functionality. %Our research
 %currently focuses on RESTful 
 %services only, but our design can also be adapted to govern SOAP services in
@@ -174,6 +174,13 @@ policy independently of others (i.e. each policy must be self-contained and
 access no external state).  All other Python constructs and 
 language features can be used to specify policies in EAGER.
 
+All module and function restrictions of the EAGER policy language are enforced
+through a configurable whitelist. The policy engine evaluates each module and function
+reference against this whitelist to determine whether they are allowed in the context of
+EAGER. Cloud administrators have the freedom
+and flexibility to expand the set of allowed built-in and third party modules by making
+changes to this whitelist.
+
 As part of this policy language toolkit, EAGER
 defines a set of assertions that policy writers can use to specify various 
 checks to perform on the applications. 
@@ -200,6 +207,11 @@ assert_app_dependency_in_range(app, name,\
 %\item assert\_app\_dependency\_in\_range(app, name, lower, upper, exclude\_lower, exclude\_upper)
 %\end{itemize}
 
+In addition to these assertions, EAGER adds one more function
+named ``compare\_versions'' to the list of available built-in functions. Policy
+writers can use this function to compare version number strings associated with
+applications and APIs.
+
 Basing the policy language on Python allows EAGER to leverage
 existing programming tools to edit and debug policy files. Using a real programming 
 language to specify policies, enables administrators to implement governance policies with
@@ -210,7 +222,8 @@ policy language is shown below.
 This policy mandates that any application or mashup
 that uses both Geo and Direction APIs must adhere to certain versioning 
 rules. More specifically, if the application uses Geo 3.0 or higher, it must use
-Direction 4.0 or higher.
+Direction 4.0 or higher. Note that the version numbers are compared using the
+``compare\_versions'' functions described earlier.
 
 \vspace{0.05in}
 {\footnotesize
@@ -251,6 +264,95 @@ if app.owner == `admin@test.com':
 \end{lstlisting}
 }
 \vspace{0.05in}
+
+Next, we present an example policy, which mandates that all deployed APIs must explicitly
+declare an operation which is accessible through the HTTP OPTIONS method. This policy further ensures
+that these operations return a description of the API in the Swagger~\cite{hl:swagger} machine-readable API
+description language.
+
+\vspace{0.05in}
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+options = filter(lambda op : op.method == `OPTIONS',  
+  api.operations)
+assert_true(options, `API does not support OPTIONS')
+assert_true(options[0].type == `swagger.API', 
+  `Does not return a Swagger description')
+\end{lstlisting}
+}
+\vspace{0.05in}
+
+Returning machine-readable API descriptions from web APIs 
+makes it easier to automate the API discovery and consumption processes. Several other
+research efforts have made this abundantly clear in the past~\cite{Verborgh:2012:FDB:2307819.2307828,Steiner:2011:FHC:1967428.1967433}. 
+A policy such as the one
+shown above can help enforce such practices, thus resulting in a high-quality
+API ecosystem in the target cloud. 
+
+The above policy also shows the use of the second and
+optional string argument to the assert\_true function (the same is supported by assert\_false as well). 
+This argument can be used to specify
+a custom error message that will be returned to the application developer, if his/her application
+violates the assertion in question.
+
+Next example is a relatively simple policy file that prevents developers from taking
+dependencies on deprecated web APIs. Deprecated APIs are the ones that have been flagged
+by their respective authors for removal in the near future. Therefore taking dependencies on such
+APIs is not recommended, and the following policy will enforce this condition in the cloud.
+
+\vspace{0.05in}
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+deprecared = filter(
+  lambda dep : dep.status == 'DEPRECATED', 
+  app.dependencies)
+assert_false(deprecated, 
+  'Must not use a deprecated dependency')
+\end{lstlisting}
+}
+\vspace{0.05in}
+
+Now we present a policy that enforces governance rules in a user-aware (i.e. tenant-aware) manner. Assume
+a multi-tenant private PaaS cloud that is being used by members of the development
+team and the sales team of a company. The primary goal is to ensure that applications deployed by both teams
+log their activities using a set of already existing logging APIs. However, we further need to ensure that applications
+deployed by the sales team log their activities using a special analytics API. A policy such as the one
+shown below can enforce these conditions.
+
+\vspace{0.05in}
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+if app.owner.endswith(`@engineering.test.com'):
+  assert_app_dependency(app, `Log', `1.0')
+elif app.owner.endswith(`@sales.test.com'):
+  assert_app_dependency(app, `AnalyticsLog', `1.0')
+else:
+  assert_app_dependency(app, `GenericLog', `1.0')
+\end{lstlisting}
+}
+\vspace{0.05in} 
+
+Next example shows a policy that mandates all GET operations exposed by APIs must support
+paging by accepting two input parameters named ``start'' and ``count''. 
+
+\vspace{0.05in}
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+for api in app.api_list:
+  get = filter(lambda op : op.method == `GET',  
+    api.operations)
+  for op in get:
+    param_names = map(lambda p : p.name, 
+      op.parameters)
+    assert_true(`start' in param_names and 
+      `count' in param_names)
+\end{lstlisting}
+}
+\vspace{0.05in}
+
+This policy accesses some of the metadata regarding the API operations available in the API descriptions.
+Since API descriptions can be auto-generated from the source code of the APIs, this policy indirectly
+references information pertaining to the actual API implementations.
 
 Finally, we present an example that mandates that all POST operations exposed by APIs must be
 secured with OAuth 2.0.
@@ -319,6 +421,18 @@ with the proper API keys. These types of policies can be implemented
 with minor changes to the
 application run-time in the cloud so that it loads the API credentials from
 the dependency declaration provided by the application developer.
+
+In addition to API discovery, the ADP also provides a user
+interface for API authors to select their own APIs and deprecate them or
+retire them. Deprecated APIs will be removed from the API search
+results of the portal, and application developers will no longer be able to 
+subscribe to them. However, already existing subscriptions and API keys will continue
+to work until the API is eventually retired. 
+The deprecation is considered a courtesy notice for application developers
+who have developed applications using the API, to migrate their code to a newer and active version
+if the API. 
+Once retired, any applications that have
+not still been migrated to the latest version of the API will cease to operate.
 
 \subsection{API Gateway} 
 Run-time governance of web services by systems such as

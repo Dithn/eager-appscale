@@ -47,6 +47,8 @@ delegate the application deployment process to EAGER. This change requires
 just under 50 additional lines of code in AppScale.
 
 
+\subsection{Other Technologies Used}
+
 \begin{table}[t]
 \begin{center}
 \begin{tabular}{| p{3cm} | p{3.5cm} |}
@@ -69,3 +71,8 @@ various EAGER functionalities described in
 Section~\ref{sec:eager} as services within AppScale itself.  For example, AppScale
 controls the lifecycle of the MySQL database as it would any of its other
 constituent services.
+
+Our default implementation of the EAGER policy engine does not allow any third party library
+calls. Also it disallows using all built-in Python modules except for the ``regex'' module used to
+evaluate regular expressions. As explained earlier these restrictions are managed through a
+whitelist which can be modified to allow more libraries if necessary.
