@@ -1,9 +1,13 @@
 The growth of the World Wide Web (WWW), web services, and cloud computing have
 significantly influenced the way developers implement software applications.
 Instead of implementing all the functionality from the scratch, developers
-increasingly offload as much application functionality as possible to remote,
-web-accessible application programming interfaces (web APIs) hosted ``in the
-cloud'', thereby significantly reducing both the programming and
+increasingly offload ({\em i.e.} as a ``mash-up'') as much application functionality 
+as possible 
+to remote,
+web-accessible services, each of which exports its own application programming
+interface (API).  Thus a modern application often combines local program logic
+with calls to APIs that interface to cloud-hosted services.
+This approach significantly reduces both the programming and
 the maintenance workload associated with the application.  In theory, because
 the APIs interface to software that is curated by cloud providers, the
 application leverages greater
@@ -11,6 +15,10 @@ reliability, scalability, performance,
 and availability in the implementations it calls upon through these APIs than
 it would if those implementations were local to the application
 (e.g. as locally available software libraries).
+Moreover, by accessing common services, developers avoid ``re-inventing the
+wheel'' each time they need a commonly available service and the scale at
+which clouds operate ensures that these services have access to enough request
+capacity.
 
 As a result, web-accessible APIs and the software implementations to which
 they provide access are rapidly proliferating.
@@ -53,19 +61,21 @@ that {\em combine} features such as API versioning,
 dependency management, and SLA enforcement as part of their respective
 applications.  Moreover, each application must
 implement its own governance -- there is no system for ensuring that the
-policies implemented by different developers are consistent both in their
-specification and their implementation.
+cloud administrators set and enforce policy to which developers must conform.
+%policies implemented by different developers are consistent both in their
+%specification and their implementation.
 
-In addition, many existing
-API management solutions have several limitations that make them difficult to
-use to implement governance.  
-These approaches often 
+In contrast API management solutions (which are typically implemented as
+stand-alone services that are not integrated with the cloud) do attempt to
+address some governance concerns beyond access control.  However, because they
+are in integrated within the cloud provisioning environment, their function is
+advisory and documentarian.  That is, they 
 do not possess the ability to implement full enforcement and, instead, alert
 operators to potential issues without preventing non-compliant behavior.
-Many of these systems operate outside the 
+In addition, many of these systems operate outside the 
 cloud that actually hosts the APIs thereby generating an additional cost that
 may preclude their use.
-In addition, they can fail independently of the cloud, thereby affecting 
+As such, they can fail independently of the cloud, thereby affecting 
 the scalability and availability of the software that they control.
 Finally, because they are not integrated with the cloud itself it is difficult
 for them to
@@ -75,66 +85,85 @@ Because of the scale at which clouds operate, deployment-time governance is
 critical since it permits policy violations to be remediated before the
 changes are put into production ({\em i.e.} before run-time).
 
-Thus, our thesis is that governance must be implemented as a built-in cloud service to
-overcome these liabilities.
+Thus, our thesis is that governance must be implemented as a built-in, native
+cloud service to
+overcome these shotcomings.
 That is, instead of an API management
 approach that layers governance features on top of the cloud, 
 we propose to provide API governance as a fundamental component of the cloud
-platform.  By doing so, this approach
+platform.  Cloud-native governance abstractions
 \begin{itemize}
-\item avoids inconsistencies and failure modes caused  
+\item enable both deployment-time and run-time enforcement of governance
+policies as part of the cloud hosting functionality,
+\item avoid inconsistencies and failure modes caused  
 by integration, and configuration of governance services that are not
 end-to-end integrated within the cloud fabric itself, 
-\item leverages already-present cloud functionality such as fault tolerance,
+\item leverage already-present cloud functionality such as fault tolerance,
 high availability, elasticity, and end-to-end security implementation to
 facilitate governance, and
-\item unifies a vast diversity of API
+\item unify a vast diversity of API
 governance features across all stages of the API lifecycle
 (development, deployment, evolution, deprecation, retirement). 
 \end{itemize}
-As a native cloud functionality, such an
+As a native functionality, such an
 approach also simplifies and automates API governance implementation for
 the administrators or ``DevOps'' teams responsible for application
 software deployment and
-maintenance.
+maintenance thereby allowing the separation of administrative and
+cloud management concerns from development concerns.
 
-Toward this end, we propose EAGER ({\bf E}nforced {\bf A}PI {\bf G}overnance
-{\bf E}ngine for {\bf R}EST), a model and an architecture that augments existing
+To explore the efficacy of cloud-integrated API governance we have developed
+an experimental cloud platform that supports governance policy specification
+and enforcement for the applications it hosts. 
+EAGER -- {\bf E}nforced {\bf A}PI {\bf G}overnance
+{\bf E}ngine for {\bf R}EST -- is a model and an architecture that is designed
+to be integrated within existing
 cloud platforms in order to facilitate API governance as a 
 cloud-native feature. EAGER enforces proper versioning of APIs and supports dependency 
 management and comprehensive policy enforcement at API deployment-time. 
 
-Deployment-time enforcement (heretofore unexplored) is attractive for several
+Using EAGER, we investigate the trade-offs between deployment-time policy
+enforcement and run-time policy enforcement.
+Deployment-time enforcement is attractive for several
 reasons.  First, if run-time only API governance is implemented, 
-policy violations will go undetected until the offending APIs are used.  
-As a result, multiple deployments and rollbacks may occur before a policy
+policy violations will go undetected until the offending APIs are used,
+possibly in a deep stack or call path in an application.  
+As a result, it may be difficult or time consuming to pinpoint the specific
+API and polciy that are being violated (especially in heavily loaded web and
+scalable web service).
+In these settings, multiple deployments and rollbacks may occur before a policy
 violation is triggered making it difficult or impossible to determine the root
-cause of the violation.  By enforcing governance at deployment-time (and
-run-time),
+cause of the violation.  By enforcing governance as much as possible
+at deployment-time
 EAGER implements ``fail fast'' in which violations are detected
 immediately making diagnosis and remediation less complex.  
 Further, from a maintenance perspective,  the overall
 system is prevented from entering a non-compliant state which aids in the
 certification of regulatory compliance.  In addition, run-time governance
 typically implies that each API call will be intercepted by a policy-checking engine
-that uses admission control and an enforcement mechanism.  Because deployment
-events are less frequent, implementing policy at deployment-time improves the
-scaling properties of governed systems.   Not all governance policies can be
-implemented strictly at deployment-time, but those that can provide a way
-of improving both compliance and system performance.
+that uses admission control and an enforcement mechanism creating scalability
+concerns.  Because deployment
+events occur before the application is executing
+traffic need not be intercepted and checked ``in flight''
+improving the
+scaling properties of governed systems.  However, not all governance policies can be
+implemented strictly at deployment-time.  As such, EAGER includes run-time
+deployment facilities as well.  The goal of the research is to identify how to
+implement enforced API governance most efficiently by combining deployment-time  
+governance where possible and run-time governance where necessary.
 
-Thus while
-EAGER also implements run-time
-enforcement in a way similar to API management
-solutions~\cite{wso2am,apigee,layer7,3scale}, in this paper, we focus
-on its deployment-time governance features as a way of helping to meet the
-emerging challenges faced by those
-implementing scalable web service venues. 
+%Thus while
+%EAGER also implements run-time
+%enforcement in a way similar to API management
+%solutions~\cite{wso2am,apigee,layer7,3scale}, in this paper, we focus
+%on its deployment-time governance features as a way of helping to meet the
+%emerging challenges faced by those
+%implementing scalable web service venues. 
 
 EAGER implements policies governing the APIs that are 
 deployed within a single administrative domain.  Focusing governance on
 the APIs simplifies both policy specification and the consistent
-and automatic implementation of policies.  At the same time, it promotes
+and automatic implementation of policy enforcement.  At the same time, it promotes
 software maintainability by separating the API lifecycle management from that
 of the service implementations and the client users.  That is, APIs are often
 longer lived than the individual clients that use them or the implementations
@@ -145,7 +174,7 @@ production (web service implementation).  Policy definition and enforcement at
 the API level permits the service and client implementations to change
 independently without the loss of governance control.
 
-EAGER further enhances software maintainability by guaranteeing that 
+Enforced API governance further enhances software maintainability by guaranteeing that 
 developers reuse existing APIs when possible to create new software artifacts
 (to prevent API redundancy and unverified API use). Concurrently, it
 tracks changes made by developers to deployed web APIs to prevent
@@ -163,11 +192,20 @@ order to benefit from EAGER. All other API governance related verification and
 enforcement work is carried out by the cloud platform automatically.
 
 To evaluate the feasibility and performance of the proposed 
-architecture, we implement EAGER as an extension to AppScale~\cite{appscale13}, 
+architecture, we prototype the EAGER concepts in an implementation
+that extends AppScale~\cite{appscale13}, 
 an open source
-cloud platform that emulates Google App Engine. We show that the EAGER 
-architecture can be easily implemented in extant clouds with
-minimal changes to the underlying platform technology. We further show that 
+cloud platform that emulates Google App Engine. We describe
+the implementation and integration as an investigation of
+the generality of the approach.  By focusing on deployment actions and
+run-time message checking, we believe that the integration methodology
+will translate to other extant cloud platforms.
+
+%show that the EAGER 
+%architecture can be easily implemented in extant clouds with
+%minimal changes to the underlying platform technology. 
+
+We further show that 
 EAGER API governance and policy enforcement impose a negligible 
 overhead on the application deployment process, and the overhead
 is linear in the number of APIs present in the applications being validated.  
