@@ -1,0 +1,31 @@
+In this paper we highlighted the need for thorough API governance in the cloud, and 
+presented the high-level design of our solution -- EAGER. We also demonstrated its
+deployment-time API governance capabilities and scalability features via prototyping and 
+empirical results. In the future we intend to further enhance EAGER and develop it into
+a comprehensive end-to-end API governance facilitator for clouds by implementing the
+run-time API governance support. This would allow cloud administrators and developers
+to keep their APIs and dependent applications in check from  the moment they are rolled out into
+the cloud until they are eventually retired. The current EAGER architecture has been carefully
+designed to enable this by having all API traffic go through the API gateway and the API discovery
+portal tracking the lifecycle of APIs.
+
+However, run-time API governance imposes a number of new scalability and reliability challenges
+that were not present with deployment-time API governance. More specifically, EAGER must ensure
+that the API gateway can scale up to handle large volumes of API traffic and it will be always available
+to receive and mediate API calls. By having API gateway integrated with the existing scalability and
+availability mechanics of the cloud, we believe these requirements can be fulfilled to the expected
+level (hence the need for having API governance as a native feature of the cloud).
+
+We also intend to explore the ways our policy language can be further improved and simplified.
+While the current state of the language is very flexible, too much flexibility can result in policy errors
+that are hard to track and debug. Therefore we plan to further study the ways in which the policy language
+can be further restricted and less error prone for the EAGER administrators. Also, work is currently underway
+to develop tools for better managing the policy store of EAGER (i.e. adding, editing and removing policies),
+with powerful atomic update and rollback support.
+
+Another future research direction is the integration of policy language and run-time API governance. In
+other words we wish to explore the possibility of using the same Python-based policy language for
+specifying policies that are enforced on APIs at run-time (i.e. on individual API calls). Since API calls
+are way more frequent than API deployment events, we need to pay attention to the performance aspects
+of the policy engine to make this integration practically useful.
+

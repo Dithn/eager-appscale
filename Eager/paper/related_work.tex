@@ -54,3 +54,16 @@ validation, dependency management, and API change management features
 ``fail fast'' to detect violations immediately making
 diagnosis and remediation less complex, and prevent
 the system from ever entering a non-compliant state.
+
+API management has been a popular topic in the industry over the last few years, resulting
+in many commercial and open source API management solutions~\cite{wso2am,apigee,layer7,mashery}. These products facilitate
+API lifecycle management, traffic shaping, access control, monitoring and a variety of other
+important API-related functionality. However, these tools do not support deep integration with
+cloud environments in which many web applications and APIs are deployed today. These API
+management products either run as standalone entities or are layered on top of existing clouds
+thus leading to many maintenance, reliability and integration issues. Also, the support provided by these
+tools to specify and enforce policies in a flexible manner is very limited. EAGER is complementary
+to such tools, providing very deep integration with PaaS clouds thereby facilitating API governance
+as a core cloud-native feature. Indeed, EAGER can embed and enhance some of these tools to
+obtain the required API governance support in the cloud. In fact, the EAGER prototype we have
+implemented makes extensive use of an existing open source API management product~\cite{wso2am}.
