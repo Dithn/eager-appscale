@@ -69,7 +69,11 @@ EAGER developer tools are also responsible for generating API specifications for
 web APIs embodied in the application. For this purpose, the developer tools
 should be able to perform some form of source code analysis on the application, and
 generate API specifications in a suitable API specification language. Generated specifications
-are also sent to EAGER as a part of the application deployment request.
+are also sent to EAGER as a part of the application deployment request. If more control is
+required over how these API specifications are generated, the EAGER developer tools
+can be offered as a trusted service hosted in the cloud. Developers will submit their source code
+to this service, which will generate the necessary API specifications in the cloud and trigger
+the application deployment process via EAGER.
 
 The proposed architecture typically does not require major changes to the 
 existing components of the cloud since its deployment mechanisms are likely to
