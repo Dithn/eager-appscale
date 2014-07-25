@@ -62,7 +62,14 @@ If a governance check fails, EAGER will preempt the application deployment,
 log relevant data pertaining to the event for later analysis,  and
 return an error. Otherwise it proceeds with the application deployment by
 activating the deployment mechanisms on the developer's or administrator's
-behalf.
+behalf. 
+
+In addition to submitting application deployment requests to EAGER, the
+EAGER developer tools are also responsible for generating API specifications for the
+web APIs embodied in the application. For this purpose, the developer tools
+should be able to perform some form of source code analysis on the application, and
+generate API specifications in a suitable API specification language. Generated specifications
+are also sent to EAGER as a part of the application deployment request.
 
 The proposed architecture typically does not require major changes to the 
 existing components of the cloud since its deployment mechanisms are likely to
