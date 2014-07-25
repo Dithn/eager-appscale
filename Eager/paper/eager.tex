@@ -1,7 +1,7 @@
 \begin{figure*}[t]
 \centering
 %\includegraphics[scale=0.35]{eager_design}
-\includegraphics[width=5in]{eager_design}
+\includegraphics[width=5in]{eager_design_2}
 \caption{EAGER Architecture
 \label{fig:eager_design}
 }
@@ -42,13 +42,15 @@ governance techniques we discuss and the extant methodologies for run-time
 features leads to new possibilities for run-time governance as well (which we
 discuss as future work).
 
-
 Figure~\ref{fig:eager_design} illustrates the main components of EAGER (in
 blue) and their interactions. Solid arrows represent the interactions that take place
 during application deployment-time, before an application has been validated
 for deployment. Short-dashed arrows indicate the interactions that take place
 during deployment-time, after an application has been successfully validated.
-Long-dashed arrows indicate interactions at run-time.
+Long-dashed arrows indicate interactions at run-time. The diagram also outlines the
+components of EAGER that are used to provide deployment  control and run-time control.
+Note that some components participate in interactions related to both deployment and
+run-time control (e.g. Metadata Manager).
 
 EAGER is invoked whenever a developer attempts to deploy an application, using
 the developer tools available on his/her workstation that activate the target
@@ -97,7 +99,8 @@ The API Deployment Coordinator (ADC)
 intercepts all application deployment requests and determines whether they are
 suitable for deployment, based on a set of policies specified by the cloud
 administrators. It receives application deployment requests via a web service
-interface.
+interface. At a high-level, ADC is the most important entity in the EAGER deployment
+control strategy.
 
 An application deployment request contains the name of the application,
 version number, names and versions of the APIs exported by the application,
@@ -138,7 +141,9 @@ request to see if they are compatible.
 
 To perform this API compatibility verification, the ADC checks to see whether
 the latest specification of an API contains all the operations available in
-the old specification. If the latest API specification is missing at least one
+the old specification. API specifications are generated at the application developer's
+end and submitted to EAGER along with the application deployment request.
+If the latest API specification is missing at least one
 operation that it used to have, the ADC reports this to the user and aborts
 the deployment. If all the past operations are present in the latest
 specification, the ADC performs a type check to make sure that all past and
