@@ -3,19 +3,39 @@ an open source PaaS cloud that is
 functionally equivalent to Google App Engine (GAE).  AppScale supports
 web applications written in Python, Java, Go and PHP. Our prototype
 implements governance for all applications and APIs hosted in an AppScale cloud. 
-Our current prototype of the EAGER developer tools that automatically generate
-API specifications and other metadata (c.f. Section~\ref{sec:adc}),
-currently support only the Java language.  Developers document the APIs manually
-for web services implemented in other languages.
+
+As described in Subsection~\ref{sec:policy-lang}, 
+our prototype policy specification
+language is based on Python.
+Using Python allows EAGER to leverage
+existing programming tools to edit and debug policy files. 
+It also allows the deployment control module (also written in Python) to
+execute the policies (using a modified Python interpreter to implement the
+restrictions previously discussed) directly.
+
+%Using a real
+%programming
+%language to specify policies, enables administrators to implement governance
+%policies with
+%arbitrary complexity and logic with ease.
+
+The prototype relies on a separate tool chain ({\em i.e.} one not hosted as a
+service in the cloud) to automatically generate
+API specifications and other metadata (c.f. Section~\ref{sec:adc}) and
+currently supports only the Java language.  
+Developers must document the APIs manually
+for web services implemented languages other than Java.
 
 Like most PaaS technologies, AppScale includes an application deployment
 service that distributes, launches and exports an application
 as a web-accessible service.  EAGER controls this deployment
 process according to the policies that the platform administrator specifies.
 
-\subsection{Developer Tools for EAGER}
-EAGER provides two developer tools for implementing applications and APIs for an
-EAGER-enabled cloud platform.
+\subsection{Autogeneration of API Specifications}
+To autogenerate API specifications, the build process for an application must
+include an analysis phase that generates specfiications from the code.
+The prototype includes two stand-alone tools for implementing this
+``build-and-analyze'' function.
 \begin{enumerate}
 \vspace{0.05in}
 \item An Apache Maven~\cite{maven} archetype that is used to initialize a Java
@@ -47,7 +67,7 @@ delegate the application deployment process to EAGER. This change requires
 just under 50 additional lines of code in AppScale.
 
 
-\subsection{Other Technologies Used}
+\subsection{Implementing the Prototype}
 
 \begin{table}[t]
 \begin{center}
@@ -70,9 +90,14 @@ Table~\ref{tab:imp-tech} lists the key technologies that we use to implement
 various EAGER functionalities described in
 Section~\ref{sec:eager} as services within AppScale itself.  For example, AppScale
 controls the lifecycle of the MySQL database as it would any of its other
-constituent services.
+constituent services.  EAGER incorporates the WSO2 API Manager~\cite{wso2am} for
+use as an API discovery mechansm and to implement any run-time policy 
+enforcement.  In the prototype, the API Gateway does not share policies
+expressed in the policy language with the ADC (although this integration is
+planned).
 
-Our default implementation of the EAGER policy engine does not allow any third party library
-calls. Also it disallows using all built-in Python modules except for the ``regex'' module used to
-evaluate regular expressions. As explained earlier these restrictions are managed through a
-whitelist which can be modified to allow more libraries if necessary.
+%Our default implementation of the EAGER ADC does not allow any third 
+%party library
+%calls. Also it disallows using all built-in Python modules except for the ``regex'' module used to
+%evaluate regular expressions. As explained earlier these restrictions are managed through a
+%whitelist which can be modified to allow more libraries if necessary.
