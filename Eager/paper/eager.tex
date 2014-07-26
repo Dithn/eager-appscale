@@ -8,7 +8,7 @@
 \end{figure*}
 
 To experiment with implementation of API governance, we have developed EAGER
--- an architecture for implementing governance suitable for integration as a
+-- an architecture for implementing governance suitable for integration
 as a cloud-native feature.
 %EAGER leverages existing SOA governance techniques and 
 %best practices and adapts them to make them
@@ -18,13 +18,13 @@ overview the high-level design of EAGER, describe its main
 components and the policy language.  Our goal in its design is two fold.
 First, we wished to verify that the integration between policy specification,
 api specification,
-deployment control, run-time control is feasible in a cloud settings.
-Secondly, we wished to use the designa s the basis for a prototype
+deployment control, and run-time control is feasible in a cloud setting.
+Secondly, we wished to use the design as the basis for a prototype
 implementation that we could use to evaluate the impact of API governance
 empirically.
 
-EAGER is designed to be integrated cloud platforms that provide PaaS services. 
-PaaS platforms accept code (uploaded via a well-defined API) that is in
+EAGER is designed to be integrated with cloud platforms that provide PaaS services. 
+PaaS platforms accept code (uploaded via a well-defined API) that is then
 deployed within the platform so that it may make calls to existing services
 (each via a separate API) supported by the platform.
 EAGER is designed to intercept all events related to application 
@@ -38,9 +38,9 @@ logging.
 When a policy verification check fails, 
 EAGER aborts the deployment of the application and logs the information
 necessary to perform remediation.  EAGER assumes that it is integrated with
-the cloud and that the cloud initiaties~\footnote{We use the term
-``initiates'' to differentiate the first clean installation fo the cloud from
-a cloud restart.  EAGER must be able to maintain compliance across resatrts,
+the cloud and that the cloud initiates~\footnote{We use the term
+``initiates'' to differentiate the first clean installation of the cloud from
+a cloud restart.  EAGER must be able to maintain compliance across restarts,
 but it assumes that when the cloud is installed and suitably tested, it is in
 a policy compliant state.} 
 in a compliant state ({\em i.e.} there are
@@ -91,15 +91,15 @@ specification governing the deployment, the code to be deployed, and a
 specification of the APIs that the code exercises and exports.
 EAGER assumes that cloud administrators have developed and installed policies
 (stored in the Metadata Manager)
-that are to be checked against all deployments.  API specifcations for the
+that are to be checked against all deployments.  API specifications for the
 application must also be available to the governance engine.  Because the API
-specifications are to derived from the code (and are, thus, under developer
+specifications are to be derived from the code (and are, thus, under developer
 control and not administrator control) our design assumes that automated
 tools are available
 to perform analysis on the application, and
 generate API specifications in a suitable API specification language. These
-specifcations must be present
-when the deploment request is considered by the platform.  In the prototype
+specifications must be present
+when the deployment request is considered by the platform.  In the prototype
 implementation described in Section~\ref{sec:prototype_impl} the API specifications are
 generated as part of the application development process ({\em e.g.} by the
 build system).  They may also
@@ -120,15 +120,15 @@ be web service based.  However, EAGER does require integration at the service le
 
 \subsection{Metadata Manager}
 The Metadata Manager stores all the API metadata in EAGER. This metadata 
-includes policiy specifications,  API names, versions, specifications and 
+includes policy specifications,  API names, versions, specifications and 
 dependencies.
 It uses the dependency information to compute the dependency tree 
 among 
 all deployed APIs and applications. Additionally, the Metadata Manager
 also keeps track of developers, their subscriptions to various APIs and the access credentials (API keys) issued to them. 
 For these purposes,
-the Metadata Manager must logically include a both a database
-and and identity management system.
+the Metadata Manager must logically include both a database
+and an identity management system.
 %management system. The developer information may be stored in a specialized user
 %store ({\em e.g.} LDAP).
 
@@ -230,7 +230,7 @@ policy independently of others (i.e. each policy must be self-contained and
 access no external state).  All other language constructs and 
 language features can be used to specify policies in EAGER.
 
-To accomodate built-in APIs that the adminsitrators trust by {\em fiat},
+To accommodate built-in APIs that the adminisitrators trust by {\em fiat},
 all module and function restrictions of the EAGER policy language are enforced
 through a configurable whitelist. The policy engine evaluates each module and function
 reference against this whitelist to determine whether they are allowed in the context of
@@ -274,7 +274,7 @@ applications and APIs.
 %language to specify policies, enables administrators to implement governance policies with
 %arbitrary complexity and logic with ease. 
 
-It the remainder of this section we illustrate the use of the policy language
+In the remainder of this section we illustrate the use of the policy language
 through examples.
 The first example policy mandates that any application or mashup
 that uses both Geo and Direction APIs must adhere to certain versioning 
@@ -496,7 +496,7 @@ Run-time governance of web services by systems such as
 Synapse~\cite{synapse} make use of an API ``proxy'' or gateway.
 The EAGER API Gateway does so to intercept API calls and validate 
 the API keys contained within them.
-Eager intercepts requests by blocking direct access to the APIs in the
+EAGER intercepts requests by blocking direct access to the APIs in the
 application run-time (app servers), and publishing the API Gateway address as
 the API endpoint in the ADP. We do so via firewall rules
 or router configuration that prevents the cloud app servers from receiving any
