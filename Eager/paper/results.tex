@@ -1,14 +1,18 @@
 In this section, we describe our empirical evaluation of the EAGER
 prototype and evaluate its overhead and scaling characteristics.
 To do so, we populate the EAGER database with a set of APIs and then examine
-the overheads aoociated with govering a set of sample applications (which
-execute in AppScale) for varying degrees of policy specification and
-dependencies(shown in Table~\ref{tab:sample_apps}).
+the overheads associated with governing a set of sample applications (which
+execute in AppScale) for varying degrees of policy specifications and
+dependencies (shown in Table~\ref{tab:sample_apps}).
 In the first set of results we use randomly generated APIs so that we may vary
 different parameters that may affect performance.  We then follow with a
 similar analysis using a large
 set of API specifications ``scraped'' from the ProgrammableWeb~\cite{pweb}
-public API registery.
+public API registry.
+
+Note that all the figures included in this section present the average values calculated
+over three sample runs. The error bars cover an interval of two standard deviations centered
+at the calculated sample average.
  
 We start by presenting the time required for AppScale application deployment
 without EAGER as it is this process on which we piggyback EAGER support.  
