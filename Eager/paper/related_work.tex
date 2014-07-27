@@ -36,10 +36,12 @@ composition~\cite{1592403,Erradi:2006:PMS:1515984.1515990} and
 management~\cite{Suleiman:2009:IUM:1564601.1564730,6481237,4028029}. We build
 upon the foundation of these past efforts and use policies to govern
 RESTful web APIs deployed in cloud settings. 
-Our work is also different in that it provides a 
-unifying policy language that employs a simple, developer-friendly syntax
-based upon the Python language (vs XML), which can be
-used to specify a wide range of governance requirements.
+Our work is also different in that it defines an executable
+policy language (implemented as a subset of Python in the EAGER prototype)
+% that employs a simple, developer-friendly syntax
+%based upon the Python language (vs XML), 
+which is capable of capturing
+a wide range of governance requirements.
 
 Peng, Lui and Chen showed that
 the major concerns associated with SOA governance 
@@ -59,11 +61,16 @@ API management has been a popular topic in the industry over the last few years,
 in many commercial and open source API management solutions~\cite{wso2am,apigee,layer7,mashery}. These products facilitate
 API lifecycle management, traffic shaping, access control, monitoring and a variety of other
 important API-related functionality. However, these tools do not support deep integration with
-cloud environments in which many web applications and APIs are deployed today. These API
-management products either run as standalone entities or are layered on top of existing clouds
-thus leading to many maintenance, reliability and integration issues. Also, the support provided by these
-tools to specify and enforce policies in a flexible manner is very limited. EAGER is complementary
-to such tools, providing very deep integration with PaaS clouds thereby facilitating API governance
-as a core cloud-native feature. Indeed, EAGER can embed and enhance some of these tools to
-obtain the required API governance support in the cloud. In fact, the EAGER prototype we have
-implemented makes extensive use of an existing open source API management product~\cite{wso2am}.
+cloud environments in which many web applications and APIs are deployed today. 
+EAGER is also different in that it combined deployment time and run-time
+enforcement.  Previous systems either work exclusively at run-time or do not
+include an enforcement capability (i.e. they are advisory).
+%
+%These API
+%management products either run as standalone entities or are layered on top of existing clouds
+%thus leading to many maintenance, reliability and integration issues. Also, the support provided by these
+%tools to specify and enforce policies in a flexible manner is very limited. EAGER is complementary
+%to such tools, providing very deep integration with PaaS clouds thereby facilitating API governance
+%as a core cloud-native feature. Indeed, EAGER can embed and enhance some of these tools to
+%obtain the required API governance support in the cloud. In fact, the EAGER prototype we have
+%implemented makes extensive use of an existing open source API management product~\cite{wso2am}.

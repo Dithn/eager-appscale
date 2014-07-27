@@ -68,6 +68,7 @@ data point averages three
 executions, the error
 bars are two standard deviations, and the units are seconds.}
 \label{fig:overhead_by_app}
+\vspace{-0.2in}
 \end{figure*}
 
 \subsection{Baseline EAGER Overhead by Application}
@@ -114,7 +115,7 @@ represents an optimization opportunity via parallelization in future implementat
 application.  Each data point averages three executions, the error bars 
 are two standard deviations, and the units are seconds.}
 \label{fig:overhead_by_apis}
-%\vspace{-0.1in}
+\vspace{-0.2in}
 \end{figure}
 
 At present we expect most applications deployed in cloud to have a small to 
@@ -143,7 +144,7 @@ vary the number of declared dependencies and observe the EAGER overhead.
 application.  Each data point averages three executions, the error bars are
 two standard deviations, and the units are seconds.}
 \label{fig:overhead_by_deps}
-%\vspace{-0.1in}
+\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:overhead_by_deps} shows the results of these experiments. 
@@ -186,9 +187,10 @@ the overhead of policy validation on two of our sample applications
 %\vspace{-0.01in}
 \caption{Average EAGER overhead vs. number of policies.  Each data point
 averages three executions, the error bars are two standard deviations, and the
-units are seconds.}
+units are seconds. Note that some of the error bars for 
+guestbook-py are smaller than the graph features at this scale and are thus obscured.}
 \label{fig:overhead_by_policies}
-%\vspace{-0.1in}
+\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:overhead_by_policies} shows how the number of active policies
@@ -224,9 +226,10 @@ Metadata Manager to make the experimental setting more realistic.
 %\vspace{-0.01in}
 \caption{Average EAGER overhead vs. number of APIs in Metadata Manager.  Each
 data point averages three executions, the error bars are two standard
-deviations, adn the units are seconds.}
+deviations, and the units are seconds.  Note that some of the error bars for
+guestbook-py are smaller than the graph features at this scale and are thus obscured.}
 \label{fig:scalability}
-%\vspace{-0.1in}
+\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:scalability} shows that the deployment overhead of the 
@@ -328,6 +331,7 @@ redeployment.  Each data point averages three executions,
 the error bars that are two standard deviations, and the units are seconds.
 \label{fig:pweb_random_overhead}
 }
+\vspace{-0.2in}
 \end{figure}
 
 
