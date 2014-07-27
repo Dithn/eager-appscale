@@ -63,13 +63,16 @@ application servers.
 \includegraphics[width=4in]{overhead_by_app}
 %\includegraphics[scale=0.45]{overhead_by_app}
 %\vspace{-0.01in}
-\caption{EAGER Absolute Overhead in Seconds by Application}
+\caption{Average EAGER absolute overhead in seconds by application.  Each
+data point averages three
+executions, the error
+bars are two standard deviations, and the units are seconds.}
 \label{fig:overhead_by_app}
 \end{figure*}
 
 \subsection{Baseline EAGER Overhead by Application}
 
-Figure~\ref{fig:overhead_by_app} shows the time in seconds taken by EAGER to validate and 
+Figure~\ref{fig:overhead_by_app} shows the average time in seconds taken by EAGER to validate and 
 verify each application.  We record these results on an EAGER deployment without any policies 
 deployed, and without any prior metadata recorded in the API Metadata Manager 
 (that is, an unpopulated database of policies).
@@ -107,7 +110,9 @@ represents an optimization opportunity via parallelization in future implementat
 \includegraphics[scale=0.47]{overhead_by_apis}
 %\includegraphics[width=3in]{overhead_by_apis}
 %\vspace{-0.01in}
-\caption{EAGER Overhead vs. Number of APIs Exported by the Application}
+\caption{Average EAGER overhead vs. number of APIs exported by the
+application.  Each data point averages three executions, the error bars 
+are two standard deviations, and the units are seconds.}
 \label{fig:overhead_by_apis}
 %\vspace{-0.1in}
 \end{figure}
@@ -116,7 +121,7 @@ At present we expect most applications deployed in cloud to have a small to
 moderate number of APIs ($10$ or fewer).  With this API density EAGER's current 
 scaling is adequate.  Even in the
 unlikely case that a single application exports as many as $100$ APIs,
-the total time for EAGER is under $20$ seconds.
+the average total time for EAGER is under $20$ seconds.
 
 Next, we analyze EAGER overhead as the number of dependencies declared in
 an application grows. For this experiment, we first populate the EAGER
@@ -134,7 +139,9 @@ vary the number of declared dependencies and observe the EAGER overhead.
 \centering
 \includegraphics[scale=0.47]{overhead_by_deps}
 %\vspace{-0.01in}
-\caption{EAGER Overhead vs. Number of Dependencies Declared in the Application}
+\caption{Average EAGER Overhead vs. number of dependencies declared in the
+application.  Each data point averages three executions, the error bars are
+two standard deviations, and the units are seconds.}
 \label{fig:overhead_by_deps}
 %\vspace{-0.1in}
 \end{figure}
@@ -177,7 +184,9 @@ the overhead of policy validation on two of our sample applications
 \centering
 \includegraphics[scale=0.47]{overhead_by_policies}
 %\vspace{-0.01in}
-\caption{EAGER Overhead vs. Number of Policies}
+\caption{Average EAGER overhead vs. number of policies.  Each data point
+averages three executions, the error bars are two standard deviations, and the
+units are seconds.}
 \label{fig:overhead_by_policies}
 %\vspace{-0.1in}
 \end{figure}
@@ -213,7 +222,9 @@ Metadata Manager to make the experimental setting more realistic.
 \centering
 \includegraphics[scale=0.47]{scalability}
 %\vspace{-0.01in}
-\caption{EAGER Overhead vs. Number of APIs in Metadata Manager}
+\caption{Average EAGER overhead vs. number of APIs in Metadata Manager.  Each
+data point averages three executions, the error bars are two standard
+deviations, adn the units are seconds.}
 \label{fig:scalability}
 %\vspace{-0.1in}
 \end{figure}
@@ -274,8 +285,9 @@ and measure EAGER overhead.
 \centering
 \includegraphics[scale=0.45]{pweb_sample_overhead}
 %\vspace{-0.01in}
-\caption{EAGER Overhead When Deploying on ProgrammableWeb Dataset.  The units
-are seconds.}
+\caption{Average EAGER overhead over three experiments when deploying on
+ProgrammableWeb Dataset.  The the error bars are two standard deviations and
+the units are seconds.}
 \label{fig:pweb_sample_overhead}
 %\vspace{-0.1in}
 \end{figure}
@@ -312,8 +324,8 @@ redeployments.
 \caption{EAGER Overhead When Deploying on ProgrammableWeb Dataset with
 Dependencies. The suffix value indicates the number of dependencies;
 the prefix indicates if these dependencies are randomized (or not) upon
-redeployment.  We present the average overhead in seconds across three
-redeployments.  The units are seconds.
+redeployment.  Each data point averages three executions,
+the error bars that are two standard deviations, and the units are seconds.
 \label{fig:pweb_random_overhead}
 }
 \end{figure}
