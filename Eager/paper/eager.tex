@@ -38,8 +38,8 @@ logging.
 When a policy verification check fails, 
 EAGER aborts the deployment of the application and logs the information
 necessary to perform remediation.  EAGER assumes that it is integrated with
-the cloud and that the cloud initiates~\footnote{We use the term
-``initiates'' to differentiate the first clean installation of the cloud from
+the cloud and that the cloud initiates\footnote{We use the term
+``initiates'' to differentiate the first clean installation of the cloud, from
 a cloud restart.  EAGER must be able to maintain compliance across restarts,
 but it assumes that when the cloud is installed and suitably tested, it is in
 a policy compliant state.} 
@@ -82,7 +82,7 @@ each deployment request is
 intercepted by EAGER, which then performs the required governance checks.
 If a governance check fails, EAGER will preempt the application deployment,
 log relevant data pertaining to the event for later analysis,  and
-return an error. Otherwise it proceeds with the application deployment by
+return an error. Otherwise, it proceeds with the application deployment by
 activating the deployment mechanisms on the user's 
 behalf. 
 
@@ -100,7 +100,7 @@ to perform analysis on the application, and
 generate API specifications in a suitable API specification language. These
 specifications must be present
 when the deployment request is considered by the platform.  In the prototype
-implementation described in Section~\ref{sec:prototype_impl} the API specifications are
+implementation described in Section~\ref{sec:prototype_impl}, the API specifications are
 generated as part of the application development process ({\em e.g.} by the
 build system).  They may also
 be offered as a trusted service hosted in the cloud. 
@@ -230,13 +230,13 @@ policy independently of others (i.e. each policy must be self-contained and
 access no external state).  All other language constructs and 
 language features can be used to specify policies in EAGER.
 
-To accommodate built-in APIs that the adminisitrators trust by {\em fiat},
+To accommodate built-in APIs that the administrators trust by {\em fiat},
 all module and function restrictions of the EAGER policy language are enforced
-through a configurable whitelist. The policy engine evaluates each module and function
-reference against this whitelist to determine whether they are allowed in the context of
+through a configurable white-list. The policy engine evaluates each module and function
+reference against this white-list to determine whether they are allowed in the context of
 EAGER. Cloud administrators have the freedom
 and flexibility to expand the set of allowed built-in and third party modules by making
-changes to this whitelist.
+changes to this white-list.
 
 As part of policy language, EAGER
 defines a set of assertions that policy writers can use to specify various 
@@ -264,9 +264,11 @@ assert_app_dependency_in_range(app, name,\
 %\item assert\_app\_dependency\_in\_range(app, name, lower, upper, exclude\_lower, exclude\_upper)
 %\end{itemize}
 
-In addition to these assertions, EAGER adds one more function
-named ``compare\_versions'' to the list of available built-in functions. Policy
-writers can use this function to compare version number strings associated with
+In addition to these assertions, EAGER adds a function
+called ``compare\_versions'' to the list 
+of available built-in functions. Policy
+writers can use this function to compare version 
+number strings associated with
 applications and APIs.
 
 %Basing the policy language on Python allows EAGER to leverage
@@ -276,7 +278,7 @@ applications and APIs.
 
 In the remainder of this section we illustrate the use of the policy language
 through examples.
-The first example policy mandates that any application or mashup
+The first example policy mandates that any application or mash-up
 that uses both Geo and Direction APIs must adhere to certain versioning 
 rules. More specifically, if the application uses Geo 3.0 or higher, it must use
 Direction 4.0 or higher. Note that the version numbers are compared using the
@@ -298,16 +300,17 @@ if g and d:
 }
 \vspace{0.05in}
 
-In the above example \textit{app} is a special immutable logical variable available to
+In the above example, \textit{app} is a special immutable logical variable available to
 all policy files. This variable allows policies to access information
 pertaining to the current application deployment request. The assert\_true and assert\_false
 functions allow testing for arbitrary conditions, thus greatly improving the expressive
 power and flexibility of the policy language.
 
-Next example shows a policy file which mandates that all applications deployed
-by the ``admin@test.com'' user must have role based authentication enabled, so that only
+The next example shows a policy file that mandates that all applications deployed
+by the ``admin@test.com'' user must have role-based authentication enabled, so that only
 users in the ``manager'' role can access them. To carry out this check the policy accesses
-the security configuration specified in the application descriptor (web.xml file of a Java app).
+the security configuration specified in the application descriptor (e.g. the
+web.xml for a Java application).
 
 \vspace{0.05in}
 {\footnotesize
@@ -341,26 +344,31 @@ assert_true(options[0].type == `swagger.API',
 
 Returning machine-readable API descriptions from web APIs 
 makes it easier to automate the API discovery and consumption processes. Several other
-research efforts have made this abundantly clear in the past~\cite{Verborgh:2012:FDB:2307819.2307828,Steiner:2011:FHC:1967428.1967433}. 
-A policy such as the one
-shown above can help enforce such practices, thus resulting in a high-quality
+research efforts confirm the need for such descriptions~\cite{Verborgh:2012:FDB:2307819.2307828,Steiner:2011:FHC:1967428.1967433}. 
+A policy such as this
+can help enforce such practices, thus resulting in a high-quality
 API ecosystem in the target cloud. 
 
-The above policy also shows the use of the second and
-optional string argument to the assert\_true function (the same is supported by assert\_false as well). 
+The policy above also shows the use of the second and
+optional string argument to 
+the assert\_true function (the same is supported by assert\_false as well). 
 This argument can be used to specify
 a custom error message that will be returned to the application developer, if his/her application
 violates the assertion in question.
 
-Next example is a relatively simple policy file that prevents developers from taking
-dependencies on deprecated web APIs. Deprecated APIs are the ones that have been flagged
-by their respective authors for removal in the near future. Therefore taking dependencies on such
-APIs is not recommended, and the following policy will enforce this condition in the cloud.
+The next example is a relatively simple policy file 
+that prevents developers from introducing
+dependencies on deprecated web APIs. Deprecated APIs 
+are the those that have been flagged
+by their respective authors for removal 
+in the near future. Therefore introducing dependencies on such
+APIs is not recommended. The following policy will 
+enforce this condition in the cloud.
 
 \vspace{0.05in}
 {\footnotesize
 \begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
-deprecared = filter(
+deprecated = filter(
   lambda dep : dep.status == 'DEPRECATED', 
   app.dependencies)
 assert_false(deprecated, 
@@ -369,12 +377,17 @@ assert_false(deprecated,
 }
 \vspace{0.05in}
 
-Now we present a policy that enforces governance rules in a user-aware (i.e. tenant-aware) manner. Assume
-a multi-tenant private PaaS cloud that is being used by members of the development
-team and the sales team of a company. The primary goal is to ensure that applications deployed by both teams
-log their activities using a set of already existing logging APIs. However, we further need to ensure that applications
-deployed by the sales team log their activities using a special analytics API. A policy such as the one
-shown below can enforce these conditions.
+Our next example presents a policy that enforces governance 
+rules in a user-aware (i.e. tenant-aware) manner. Assume
+a multi-tenant private PaaS cloud that is being 
+used by members of the development
+team and the sales team of a company. The primary goal in this case
+is to ensure that applications deployed by both teams
+log their activities using a set of preexisting logging APIs. 
+However, we further want to ensure that applications
+deployed by the sales team log their activities using 
+a special analytics API. A policy such as the one
+that follows can enforce these conditions.
 
 \vspace{0.05in}
 {\footnotesize
@@ -389,8 +402,10 @@ else:
 }
 \vspace{0.05in} 
 
-Next example shows a policy that mandates all GET operations exposed by APIs must support
-paging by accepting two input parameters named ``start'' and ``count''. 
+The example below shows a policy that mandates 
+that all HTTP GET operations exposed by APIs must support
+paging. APIs that do so define two input parameters 
+named ``start'' and ``count'' to the GET call.
 
 \vspace{0.05in}
 {\footnotesize
@@ -407,12 +422,16 @@ for api in app.api_list:
 }
 \vspace{0.05in}
 
-This policy accesses some of the metadata regarding the API operations available in the API descriptions.
-Since API descriptions can be auto-generated from the source code of the APIs, this policy indirectly
+This policy accesses the metadata of API operations that 
+is available in the API descriptions.
+Since API descriptions can be auto-generated 
+from the source code of the APIs, this policy indirectly
 references information pertaining to the actual API implementations.
 
-Finally, we present an example that mandates that all POST operations exposed by APIs must be
-secured with OAuth 2.0.
+Finally, we present an example for the POST method.  The 
+policy below mandates 
+that all POST operations exposed by an API are secured 
+with OAuth version 2.0.
 
 \vspace{0.05in}
 {\footnotesize

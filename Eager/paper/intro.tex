@@ -5,7 +5,7 @@ increasingly offload ({\em i.e.} as a ``mash-up'') as much application functiona
 as possible 
 to remote,
 web-accessible services, each of which exports its own application programming
-interface (API).  Thus a modern application often combines local program logic
+interface (API).  Thus, a modern application often combines local program logic
 with calls to APIs that interface to cloud-hosted services.
 This approach significantly reduces both the programming and
 the maintenance workload associated with the application.  In theory, because
@@ -87,7 +87,7 @@ changes are put into production ({\em i.e.} before run-time).
 
 Thus, our thesis is that governance must be implemented as a built-in, native
 cloud service to
-overcome these shotcomings.
+overcome these shortcomings.
 That is, instead of an API management
 approach that layers governance features on top of the cloud, 
 we propose to provide API governance as a fundamental component of the cloud
@@ -129,7 +129,7 @@ reasons.  First, if run-time only API governance is implemented,
 policy violations will go undetected until the offending APIs are used,
 possibly in a deep stack or call path in an application.  
 As a result, it may be difficult or time consuming to pinpoint the specific
-API and polciy that are being violated (especially in heavily loaded web and
+API and policy that are being violated (especially in heavily loaded web and
 scalable web service).
 In these settings, multiple deployments and rollbacks may occur before a policy
 violation is triggered making it difficult or impossible to determine the root
@@ -138,12 +138,12 @@ at deployment-time
 EAGER implements ``fail fast'' in which violations are detected
 immediately making diagnosis and remediation less complex.  
 Further, from a maintenance perspective,  the overall
-system is prevented from entering a non-compliant state which aids in the
+system is prevented from entering a non-compliant state, which aids in the
 certification of regulatory compliance.  In addition, run-time governance
 typically implies that each API call will be intercepted by a policy-checking engine
 that uses admission control and an enforcement mechanism creating scalability
 concerns.  Because deployment
-events occur before the application is executing
+events occur before the application is executing,
 traffic need not be intercepted and checked ``in flight''
 improving the
 scaling properties of governed systems.  However, not all governance policies can be
@@ -208,7 +208,8 @@ will translate to other extant cloud platforms.
 We further show that 
 EAGER API governance and policy enforcement impose a negligible 
 overhead on the application deployment process, and the overhead
-is linear in the number of APIs present in the applications being validated.  
+is linear in the number of APIs in the applications 
+being validated.  
 Finally, we show that EAGER is able to
 scale to tens of thousands of deployed web APIs and hundreds of user 
 defined governance policies.
