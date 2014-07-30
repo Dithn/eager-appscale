@@ -68,7 +68,7 @@ cloud administrators set and enforce policy to which developers must conform.
 In contrast API management solutions (which are typically implemented as
 stand-alone services that are not integrated with the cloud) do attempt to
 address some governance concerns beyond access control.  However, because they
-are in integrated within the cloud provisioning environment, their function is
+are not integrated within the cloud provisioning environment, their function is
 advisory and documentarian.  That is, they 
 do not possess the ability to implement full enforcement and, instead, alert
 operators to potential issues without preventing non-compliant behavior.
@@ -96,7 +96,7 @@ platform.  Cloud-native governance abstractions
 \item enable both deployment-time and run-time enforcement of governance
 policies as part of the cloud hosting functionality,
 \item avoid inconsistencies and failure modes caused  
-by integration, and configuration of governance services that are not
+by integration and configuration of governance services that are not
 end-to-end integrated within the cloud fabric itself, 
 \item leverage already-present cloud functionality such as fault tolerance,
 high availability, elasticity, and end-to-end security implementation to
@@ -129,7 +129,7 @@ reasons.  First, if run-time only API governance is implemented,
 policy violations will go undetected until the offending APIs are used,
 possibly in a deep stack or call path in an application.  
 As a result, it may be difficult or time consuming to pinpoint the specific
-API and policy that are being violated (especially in heavily loaded web and
+API and policy that are being violated (especially in a heavily loaded web
 scalable web service).
 In these settings, multiple deployments and rollbacks may occur before a policy
 violation is triggered making it difficult or impossible to determine the root
