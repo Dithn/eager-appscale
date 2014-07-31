@@ -19,7 +19,8 @@ without EAGER as it is this process on which we piggyback EAGER support.
 These measurements are conservative in that they are taken 
 from a single VM deployment of AppScale (it is designed to run at scale) so that
 logging and timing information is easier to gather.  AppScale uses an
-Ubuntu 12.04 Linux image which we hosted using Vagrant~\cite{vagrant}    
+Ubuntu 12.04 Linux image hosted via VirtualBox
+%Vagrant~\cite{vagrant}    
 on a $2.7$ GHz x86 CPU with $4$ GB of memory.
 Table~\ref{tab:sample_apps} lists a number of App Engine
 applications that we consider, their artifact size, and their average deployment times 
@@ -264,8 +265,8 @@ performance and the data transfer performance as the size of the database
 increases.
 
 In summary, the current EAGER prototype scales well to $1000$'s of APIs.
-If further scalability is required, there are opportunities to enable it
-via parallelization and database query optimization.
+If further scalability is required, we can employ
+parallelization and database query optimization.
 
 \subsection{Experimental Results with a Real-World Dataset}
 
