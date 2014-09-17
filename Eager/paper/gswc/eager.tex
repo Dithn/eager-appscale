@@ -11,8 +11,10 @@ implementations these tools could be available as an online service accessed
 via a web browser. In either case, the application deployment request is
 intercepted by EAGER API Deployment Coordinator (ADC), which then performs the 
 required governance checks based on the metadata stored in the Metadata Manager.
-These governance checks are driven by a set of administrator-specified policies that
-are stored along with the ADC. These policy files are written in Python, and makes use of 
+Metadata manager stores application names, versions, dependencies, API specifications,
+user profiles and API keys.
+Governance checks are driven by a set of administrator-specified policies that
+are stored along with the ADC. These policy files are written in Python, and make use of 
 the following assertion functions:
 
 \begin{figure}
