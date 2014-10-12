@@ -1,0 +1,83 @@
+{
+  "apiName" : "StudentResource",
+  "apiVersion" : "1.0",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/resources",
+  "resourcePath" : "/students",
+  "apis" : [ {
+    "path" : "/students",
+    "description" : "",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getStudents",
+      "type" : "StudentList",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addStudent",
+      "type" : "Student",
+      "parameters" : [ {
+        "paramType" : "form",
+        "name" : "firstName",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "lastName",
+        "dataType" : "string",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/x-www-form-urlencoded" ],
+      "responseMessages" : [ {
+        "code" : 201,
+        "message" : "Student resource created"
+      }, {
+        "code" : 500,
+        "message" : " Unexpected runtime error",
+        "responseModel" : "Error"
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "StudentList" : {
+      "id" : "StudentList",
+      "properties" : {
+        "students" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "Student"
+          }
+        }
+      },
+      "required" : [ "students" ]
+    },
+    "Student" : {
+      "id" : "Student",
+      "properties" : {
+        "lastName" : {
+          "type" : "string"
+        },
+        "firstName" : {
+          "type" : "string"
+        }
+      },
+      "required" : [ "lastName", "firstName" ]
+    },
+    "Error" : {
+      "id" : "Error",
+      "properties" : {
+        "reason" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "string"
+          }
+        },
+        "code" : {
+          "type" : "integer"
+        }
+      },
+      "required" : [ "code" ]
+    }
+  }
+}
