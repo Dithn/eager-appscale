@@ -1,0 +1,449 @@
+{
+  "apiName" : "StudentResource",
+  "apiVersion" : "1.0",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/resources",
+  "resourcePath" : "/students",
+  "apis" : [ {
+    "path" : "/students",
+    "description" : "",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addStudent",
+      "type" : "Student",
+      "parameters" : [ {
+        "paramType" : "form",
+        "name" : "p1",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p2",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p3",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p4",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p5",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p6",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p7",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p8",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p9",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p10",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p11",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p12",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p13",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p14",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p15",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p16",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p17",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p18",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p19",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p20",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p21",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p22",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p23",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p24",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p25",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p26",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p27",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p28",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p29",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p30",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p31",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p32",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p33",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p34",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p35",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p36",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p37",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p38",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p39",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p40",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p41",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p42",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p43",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p44",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p45",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p46",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p47",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p48",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p49",
+        "dataType" : "string",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p50",
+        "dataType" : "string",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/x-www-form-urlencoded" ],
+      "responseMessages" : [ {
+        "code" : 201,
+        "message" : "Student resource created"
+      }, {
+        "code" : 500,
+        "message" : " Unexpected runtime error",
+        "responseModel" : "Error"
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "Student" : {
+      "id" : "Student",
+      "properties" : {
+        "p1" : {
+          "type" : "string"
+        },
+        "p2" : {
+          "type" : "string"
+        },
+        "p3" : {
+          "type" : "string"
+        },
+        "p4" : {
+          "type" : "string"
+        },
+        "p5" : {
+          "type" : "string"
+        },
+        "p6" : {
+          "type" : "string"
+        },
+        "p7" : {
+          "type" : "string"
+        },
+        "p8" : {
+          "type" : "string"
+        },
+        "p9" : {
+          "type" : "string"
+        },
+        "p10" : {
+          "type" : "string"
+        },
+	"p11" : {
+          "type" : "string"
+        },
+        "p12" : {
+          "type" : "string"
+        },
+        "p13" : {
+          "type" : "string"
+        },
+        "p14" : {
+          "type" : "string"
+        },
+        "p15" : {
+          "type" : "string"
+        },
+        "p16" : {
+          "type" : "string"
+        },
+        "p17" : {
+          "type" : "string"
+        },
+        "p18" : {
+          "type" : "string"
+        },
+        "p19" : {
+          "type" : "string"
+        },
+        "p20" : {
+          "type" : "string"
+        },
+	"p21" : {
+          "type" : "string"
+        },
+        "p22" : {
+          "type" : "string"
+        },
+        "p23" : {
+          "type" : "string"
+        },
+        "p24" : {
+          "type" : "string"
+        },
+        "p25" : {
+          "type" : "string"
+        },
+        "p26" : {
+          "type" : "string"
+        },
+        "p27" : {
+          "type" : "string"
+        },
+        "p28" : {
+          "type" : "string"
+        },
+        "p29" : {
+          "type" : "string"
+        },
+        "p30" : {
+          "type" : "string"
+        },
+	"p31" : {
+          "type" : "string"
+        },
+        "p32" : {
+          "type" : "string"
+        },
+        "p33" : {
+          "type" : "string"
+        },
+        "p34" : {
+          "type" : "string"
+        },
+        "p35" : {
+          "type" : "string"
+        },
+        "p36" : {
+          "type" : "string"
+        },
+        "p37" : {
+          "type" : "string"
+        },
+        "p38" : {
+          "type" : "string"
+        },
+        "p39" : {
+          "type" : "string"
+        },
+        "p40" : {
+          "type" : "string"
+        },
+	"p41" : {
+          "type" : "string"
+        },
+        "p42" : {
+          "type" : "string"
+        },
+        "p43" : {
+          "type" : "string"
+        },
+        "p44" : {
+          "type" : "string"
+        },
+        "p45" : {
+          "type" : "string"
+        },
+        "p46" : {
+          "type" : "string"
+        },
+        "p47" : {
+          "type" : "string"
+        },
+        "p48" : {
+          "type" : "string"
+        },
+        "p49" : {
+          "type" : "string"
+        },
+        "p50" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Error" : {
+      "id" : "Error",
+      "properties" : {
+        "reason" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "string"
+          }
+        },
+        "code" : {
+          "type" : "integer"
+        }
+      },
+      "required" : [ "code" ]
+    }
+  }
+}

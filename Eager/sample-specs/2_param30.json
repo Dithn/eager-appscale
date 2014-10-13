@@ -1,0 +1,297 @@
+{
+  "apiName" : "StudentResource",
+  "apiVersion" : "1.0",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/resources",
+  "resourcePath" : "/students",
+  "apis" : [ {
+    "path" : "/students",
+    "description" : "",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addStudent",
+      "type" : "Student",
+      "parameters" : [ {
+        "paramType" : "form",
+        "name" : "p1",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p2",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p3",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p4",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p5",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p6",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p7",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p8",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p9",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p10",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p11",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p12",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p13",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p14",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p15",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p16",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p17",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p18",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p19",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p20",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p21",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p22",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p23",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p24",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p25",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p26",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p27",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p28",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p29",
+        "dataType" : "Child1",
+        "required" : true
+      }, {
+        "paramType" : "form",
+        "name" : "p30",
+        "dataType" : "Child1",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ],
+      "consumes" : [ "application/x-www-form-urlencoded" ],
+      "responseMessages" : [ {
+        "code" : 201,
+        "message" : "Student resource created"
+      }, {
+        "code" : 500,
+        "message" : " Unexpected runtime error",
+        "responseModel" : "Error"
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "Child1" : {
+      "id" : "Child1",
+      "properties" : {
+        "p1" : {
+	  "type" : "string"
+	}
+      }
+    },
+    "Student" : {
+      "id" : "Student",
+      "properties" : {
+        "p1" : {
+          "type" : "Child1"
+        },
+        "p2" : {
+          "type" : "Child1"
+        },
+        "p3" : {
+          "type" : "Child1"
+        },
+        "p4" : {
+          "type" : "Child1"
+        },
+        "p5" : {
+          "type" : "Child1"
+        },
+        "p6" : {
+          "type" : "Child1"
+        },
+        "p7" : {
+          "type" : "Child1"
+        },
+        "p8" : {
+          "type" : "Child1"
+        },
+        "p9" : {
+          "type" : "Child1"
+        },
+        "p10" : {
+          "type" : "Child1"
+        },
+	"p11" : {
+          "type" : "Child1"
+        },
+        "p12" : {
+          "type" : "Child1"
+        },
+        "p13" : {
+          "type" : "Child1"
+        },
+        "p14" : {
+          "type" : "Child1"
+        },
+        "p15" : {
+          "type" : "Child1"
+        },
+        "p16" : {
+          "type" : "Child1"
+        },
+        "p17" : {
+          "type" : "Child1"
+        },
+        "p18" : {
+          "type" : "Child1"
+        },
+        "p19" : {
+          "type" : "Child1"
+        },
+        "p20" : {
+          "type" : "Child1"
+        },
+	"p21" : {
+          "type" : "Child1"
+        },
+        "p22" : {
+          "type" : "Child1"
+        },
+        "p23" : {
+          "type" : "Child1"
+        },
+        "p24" : {
+          "type" : "Child1"
+        },
+        "p25" : {
+          "type" : "Child1"
+        },
+        "p26" : {
+          "type" : "Child1"
+        },
+        "p27" : {
+          "type" : "Child1"
+        },
+        "p28" : {
+          "type" : "Child1"
+        },
+        "p29" : {
+          "type" : "Child1"
+        },
+        "p30" : {
+          "type" : "Child1"
+        }
+      }
+    },
+    "Error" : {
+      "id" : "Error",
+      "properties" : {
+        "reason" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "string"
+          }
+        },
+        "code" : {
+          "type" : "integer"
+        }
+      },
+      "required" : [ "code" ]
+    }
+  }
+}
