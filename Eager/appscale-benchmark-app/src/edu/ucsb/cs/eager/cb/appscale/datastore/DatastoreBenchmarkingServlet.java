@@ -203,6 +203,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
         output.put("api", "datastore");
         output.put("operation", op);
         output.put("iterations", results.size());
+        output.put("rawData", results);
         int sum = 0;
         for (int value : results) {
             sum += value;

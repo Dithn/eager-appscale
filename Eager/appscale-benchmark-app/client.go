@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"encoding/json"
 	"net/http"
@@ -14,6 +15,7 @@ type Result struct {
 	Api string
 	Average float64
 	StdDev float64
+	RawData []int
 }
 
 var server string
@@ -92,6 +94,12 @@ func main() {
 
 func printResult(result *Result) {
 	fmt.Println(result.Operation, ": Iterations =", result.Iterations, "; Average =", result.Average, "ms ; StdDev =", result.StdDev)
+	var buffer bytes.Buffer
+	buffer.WriteString(result.Operation + "\n")
+	for _, r := range result.RawData {
+		buffer.WriteString(fmt.Sprintf("%d\n", r))
+	}
+	ioutil.WriteFile("benchmark_" + result.Operation + ".txt", buffer.Bytes(), 0644)
 }
 
 func doGet(url string) *Result {
