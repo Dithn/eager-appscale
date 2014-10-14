@@ -161,8 +161,16 @@ public class Kitty {
     private Prediction simulatePath(List<APICall> path) {
         double[] results = new double[simulations];
         for (int i = 0; i < simulations; i++) {
-            // TODO: Simulate path
-            results[i] = 0.0;
+            double total = 0.0;
+            for (APICall call : path) {
+                if (benchmarkResults.containsKey(call.getName())) {
+                    // TODO: How do we sample the distribution properly?
+                    total += benchmarkResults.get(call.getName());
+                } else {
+                    throw new RuntimeException("No benchmark data available for: " + call.getName());
+                }
+            }
+            results[i] = total;
         }
 
         double total = 0.0;
