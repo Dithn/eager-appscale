@@ -20,6 +20,7 @@ type Result struct {
 
 var server string
 var port uint64
+var samples uint64
 
 func init() {
 	const (
@@ -27,11 +28,14 @@ func init() {
 		serverUsage = "target AppScale server"
 		defaultPort = 8080
 		portUsage = "target AppScale port"
+		defaultSamples = 100
+		samplesUsage = "number of data samples to collect"
 	)
 	flag.StringVar(&server, "server", defaultServer, serverUsage)
 	flag.StringVar(&server, "s", defaultServer, serverUsage + " (shorthand)")
 	flag.Uint64Var(&port, "port", defaultPort, portUsage)
 	flag.Uint64Var(&port, "p", defaultPort, portUsage + " (shorthand)")
+	flag.Uint64Var(&samples, "samples", defaultSamples, samplesUsage)
 }
 
 func main() {
@@ -55,40 +59,40 @@ func main() {
 		return
 	}
 	
-	result := doGet(fmt.Sprintf("%s/datastore?op=put&count=100", url))
+	result := doGet(fmt.Sprintf("%s/datastore?op=put&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=get&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=get&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=asList&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=asList&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=asIterable&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=asIterable&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=delete&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=delete&count=%d", url, samples))
 	printResult(result)
 
 	fmt.Println()
 	fmt.Println("Benchmarking datastore API (JDO)")
 	fmt.Println("================================")
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.makePersistent&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.makePersistent&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.getObjectById&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.getObjectById&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.close&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.close&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.execute&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.execute&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.closeAll&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.closeAll&count=%d", url, samples))
 	printResult(result)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.deletePersistent&count=100", url))
+	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.deletePersistent&count=%d", url, samples))
 	printResult(result)
 }
 
