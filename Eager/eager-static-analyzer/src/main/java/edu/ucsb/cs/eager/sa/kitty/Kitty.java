@@ -126,6 +126,9 @@ public class Kitty {
                 reader.close();
             }
         }
+        if (dataFiles.length > 0) {
+            System.out.println();
+        }
 
         this.simulations = simulations;
     }
@@ -197,7 +200,7 @@ public class Kitty {
             if (msg != null) {
                 return msg;
             }
-            return mean + "ms";
+            return String.format("%.4fms", mean);
         }
     }
 }
