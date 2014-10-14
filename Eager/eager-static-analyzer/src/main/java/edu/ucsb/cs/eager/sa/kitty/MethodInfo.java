@@ -25,7 +25,13 @@ import java.util.List;
 public class MethodInfo {
 
     private String name;
+
+    /**
+     * This is used to verify that the trace log parser picks up
+     * all the captured paths correctly (for sanity checking purposes).
+     */
     private int explicitPathCount;
+
     private List<List<APICall>> paths = new ArrayList<List<APICall>>();
 
     public MethodInfo(String name) {
