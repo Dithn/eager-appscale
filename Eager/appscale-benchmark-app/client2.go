@@ -20,7 +20,7 @@ type Result struct {
 
 var server string
 var port uint64
-var samples uint64
+var samples int
 
 func init() {
 	const (
@@ -35,7 +35,7 @@ func init() {
 	flag.StringVar(&server, "s", defaultServer, serverUsage+" (shorthand)")
 	flag.Uint64Var(&port, "port", defaultPort, portUsage)
 	flag.Uint64Var(&port, "p", defaultPort, portUsage+" (shorthand)")
-	flag.Uint64Var(&samples, "samples", defaultSamples, samplesUsage)
+	flag.IntVar(&samples, "samples", defaultSamples, samplesUsage)
 }
 
 func main() {
@@ -59,22 +59,15 @@ func main() {
 		return
 	}
 
-	result := doGet(fmt.Sprintf("%s/datastore?op=put&count=%d", url, samples))
-	printResult(result, "com.google.appengine.api.datastore.DatastoreService#put()")
+	dsURL := url + "/datastore"
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=get&count=%d", url, samples))
-	printResult(result, "com.google.appengine.api.datastore.DatastoreService#get()")
+	testOp(dsURL, "put", "com.google.appengine.api.datastore.DatastoreService#put()", samples)
+	testOp(dsURL, "get", "com.google.appengine.api.datastore.DatastoreService#get()", samples)
+	testOp(dsURL, "asList", "com.google.appengine.api.datastore.PreparedQuery#asList()", samples)
+	testOp(dsURL, "asIterable", "com.google.appengine.api.datastore.PreparedQuery#asIterable()", samples)
+	testOp(dsURL, "delete", "com.google.appengine.api.datastore.DatastoreService#delete()", samples)
 
-	result = doGet(fmt.Sprintf("%s/datastore?op=asList&count=%d", url, samples))
-	printResult(result, "com.google.appengine.api.datastore.PreparedQuery#asList()")
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=asIterable&count=%d", url, samples))
-	printResult(result, "com.google.appengine.api.datastore.PreparedQuery#asIterable()")
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=delete&count=%d", url, samples))
-	printResult(result, "com.google.appengine.api.datastore.DatastoreService#delete()")
-
-	fmt.Println()
+	/*fmt.Println()
 	fmt.Println("Benchmarking datastore API (JDO)")
 	fmt.Println("================================")
 	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.makePersistent&count=%d", url, samples))
@@ -93,17 +86,23 @@ func main() {
 	printResult(result, result.Operation)
 
 	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.deletePersistent&count=%d", url, samples))
-	printResult(result, result.Operation)
+	printResult(result, result.Operation)*/
 }
 
-func printResult(result *Result, method string) {
-	fmt.Println(result.Operation, ": Iterations =", result.Iterations, "; Average =", result.Average, "ms ; StdDev =", result.StdDev)
+func testOp(url, op, method string, samples int) {
+	fmt.Printf("Benchmarking %s method\n", method)
 	var buffer bytes.Buffer
 	buffer.WriteString(method + "\n")
-	for _, r := range result.RawData {
-		buffer.WriteString(fmt.Sprintf("%d\n", r))
+	for i := 0; i < samples; i++ {
+		if (i + 1) % 100 == 0 {
+			fmt.Printf("Collected %d samples...\n", i + 1)
+		}
+		result := doGet(fmt.Sprintf("%s?op=%s&count=1", url, op))
+		for _, r := range result.RawData {
+			buffer.WriteString(fmt.Sprintf("%d\n", r))
+		}
 	}
-	ioutil.WriteFile("benchmark_"+result.Operation+".txt", buffer.Bytes(), 0644)
+	ioutil.WriteFile("benchmark_" + op + ".txt", buffer.Bytes(), 0644)
 }
 
 func doGet(url string) *Result {

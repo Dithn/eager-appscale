@@ -109,28 +109,33 @@ public class Kitty {
                 return name.endsWith(".txt");
             }
         });
-        for (File f : dataFiles) {
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            try {
-                String name = reader.readLine();
-                System.out.println("Loading benchmark data for: " + name);
-                String line;
-                int count = 0;
-                double total = 0.0;
-                while ((line = reader.readLine()) != null) {
-                    total += Double.parseDouble(line);
-                    count++;
-                }
-                benchmarkResults.put(name, total / count);
-            } finally {
-                reader.close();
-            }
-        }
         if (dataFiles.length > 0) {
+            for (File f : dataFiles) {
+                loadBenchmarkData(f);
+            }
             System.out.println();
         }
 
         this.simulations = simulations;
+    }
+
+    private void loadBenchmarkData(File file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        try {
+            String name = reader.readLine();
+            System.out.println("Loading benchmark data for: " + name);
+            String line;
+            int count = 0;
+            double total = 0.0;
+            while ((line = reader.readLine()) != null) {
+                total += Double.parseDouble(line);
+                count++;
+            }
+            double mean = total / count;
+            benchmarkResults.put(name, mean);
+        } finally {
+            reader.close();
+        }
     }
 
     public Prediction predictExecTime(MethodInfo method) {
