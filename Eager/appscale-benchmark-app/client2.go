@@ -58,6 +58,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println("Cleaned up old test data in datastore")
 
 	dsURL := url + "/datastore"
 
@@ -67,26 +68,12 @@ func main() {
 	testOp(dsURL, "asIterable", "com.google.appengine.api.datastore.PreparedQuery#asIterable()", samples)
 	testOp(dsURL, "delete", "com.google.appengine.api.datastore.DatastoreService#delete()", samples)
 
-	/*fmt.Println()
-	fmt.Println("Benchmarking datastore API (JDO)")
-	fmt.Println("================================")
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.makePersistent&count=%d", url, samples))
-	printResult(result, result.Operation)
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.getObjectById&count=%d", url, samples))
-	printResult(result, result.Operation)
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.close&count=%d", url, samples))
-	printResult(result, result.Operation)
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.execute&count=%d", url, samples))
-	printResult(result, result.Operation)
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.closeAll&count=%d", url, samples))
-	printResult(result, result.Operation)
-
-	result = doGet(fmt.Sprintf("%s/datastore?op=jdo.deletePersistent&count=%d", url, samples))
-	printResult(result, result.Operation)*/
+	testOp(dsURL, "jdo.makePersistent", "javax.jdo.PersistenceManager#makePersistent()", samples)
+	testOp(dsURL, "jdo.getObjectById", "javax.jdo.PersistenceManager#getObjectById()", samples)
+	testOp(dsURL, "jdo.close", "javax.jdo.PersistenceManager#close()", samples)
+	testOp(dsURL, "jdo.execute", "javax.jdo.Query#execute()", samples)
+	testOp(dsURL, "jdo.closeAll", "javax.jdo.Query#closeAll()", samples)
+	testOp(dsURL, "jdo.deletePersistent", "javax.jdo.PersistenceManager#deletePersistent()", samples)
 }
 
 func testOp(url, op, method string, samples int) {
@@ -94,15 +81,15 @@ func testOp(url, op, method string, samples int) {
 	var buffer bytes.Buffer
 	buffer.WriteString(method + "\n")
 	for i := 0; i < samples; i++ {
-		if (i + 1) % 100 == 0 {
-			fmt.Printf("Collected %d samples...\n", i + 1)
+		if (i+1)%100 == 0 {
+			fmt.Printf("Collected %d samples...\n", i+1)
 		}
-		result := doGet(fmt.Sprintf("%s?op=%s&count=1", url, op))
+		result := doGet(fmt.Sprintf("%s?op=%s&obj=%d", url, op, i))
 		for _, r := range result.RawData {
 			buffer.WriteString(fmt.Sprintf("%d\n", r))
 		}
 	}
-	ioutil.WriteFile("benchmark_" + op + ".txt", buffer.Bytes(), 0644)
+	ioutil.WriteFile("benchmark_"+op+".txt", buffer.Bytes(), 0644)
 }
 
 func doGet(url string) *Result {

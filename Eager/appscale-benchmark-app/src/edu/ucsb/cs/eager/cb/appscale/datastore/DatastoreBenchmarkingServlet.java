@@ -41,13 +41,14 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
         if (iterations <= 0) {
             throw new ServletException("Number of iterations must be positive");
         }
+        int obj = ServletUtils.getOptionalIntParameter(req, "obj", -1);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         List<Integer> results = new ArrayList<Integer>();
         if ("put".equals(op)) {
             for (int i = 0; i < iterations; i++) {
                 String projectId = UUID.randomUUID().toString();
-                String projectName = "Project" + i;
+                String projectName = "Project" + uniqueId(obj, i);
                 Entity project = new Entity(Constants.Project.class.getSimpleName(), projectName);
                 project.setProperty(Constants.Project.PROJECT_ID, projectId);
                 project.setProperty(Constants.Project.NAME, projectName);
@@ -81,7 +82,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("get".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectName = "Project" + i;
+                String projectName = "Project" + uniqueId(obj, i);
                 Key key = KeyFactory.createKey(Constants.Project.class.getSimpleName(), projectName);
                 try {
                     long t1 = System.currentTimeMillis();
@@ -94,7 +95,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("delete".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectName = "Project" + i;
+                String projectName = "Project" + uniqueId(obj, i);
                 Key key = KeyFactory.createKey(Constants.Project.class.getSimpleName(), projectName);
                 long t1 = System.currentTimeMillis();
                 datastore.delete(key);
@@ -103,9 +104,9 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("jdo.makePersistent".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectId = "Project" + i;
+                String projectId = "Project" + uniqueId(obj, i);
                 Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
-                Project project = new Project(key, "Project" + i, 5);
+                Project project = new Project(key, projectId, 5);
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 try {
                     long t1 = System.currentTimeMillis();
@@ -118,7 +119,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("jdo.getObjectById".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectId = "Project" + i;
+                String projectId = "Project" + uniqueId(obj, i);
                 Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 try {
@@ -132,7 +133,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("jdo.close".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectId = "Project" + i;
+                String projectId = "Project" + uniqueId(obj, i);
                 Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 try {
@@ -146,7 +147,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("jdo.execute".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectId = "Project" + i;
+                String projectId = "Project" + uniqueId(obj, i);
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 javax.jdo.Query query = pm.newQuery(Project.class);
                 try {
@@ -162,7 +163,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("jdo.closeAll".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectId = "Project" + i;
+                String projectId = "Project" + uniqueId(obj, i);
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 javax.jdo.Query query = pm.newQuery(Project.class);
                 try {
@@ -178,7 +179,7 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             }
         } else if ("jdo.deletePersistent".equals(op)) {
             for (int i = 0; i < iterations; i++) {
-                String projectId = "Project" + i;
+                String projectId = "Project" + uniqueId(obj, i);
                 Key key = KeyFactory.createKey(Project.class.getSimpleName(), projectId);
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 try {
@@ -238,4 +239,12 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
             datastore.delete(result.getKey());
         }
     }
+
+    private int uniqueId(int objId, int iteration) {
+        if (objId >= 0) {
+            return objId;
+        }
+        return iteration;
+    }
+
 }
