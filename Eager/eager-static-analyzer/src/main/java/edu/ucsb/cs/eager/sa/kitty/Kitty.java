@@ -69,7 +69,7 @@ public class Kitty {
         }
 
         String sim = cmd.getOptionValue("s");
-        int simulations = 100;
+        int simulations = 10;
         if (sim != null) {
             simulations = Integer.parseInt(sim);
         }
@@ -99,7 +99,7 @@ public class Kitty {
     }
 
     private int simulations;
-    private Map<String,Double> benchmarkResults = new HashMap<String, Double>();
+    private Map<String,TimingDistribution> benchmarkResults = new HashMap<String,TimingDistribution>();
 
     public Kitty(String benchmarkDir, int simulations) throws IOException {
         File dir = new File(benchmarkDir);
@@ -111,31 +111,14 @@ public class Kitty {
         });
         if (dataFiles.length > 0) {
             for (File f : dataFiles) {
-                loadBenchmarkData(f);
+                TimingDistribution dist = new TimingDistribution(f);
+                benchmarkResults.put(dist.getApiCall(), dist);
             }
             System.out.println();
         }
 
         this.simulations = simulations;
-    }
-
-    private void loadBenchmarkData(File file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        try {
-            String name = reader.readLine();
-            System.out.println("Loading benchmark data for: " + name);
-            String line;
-            int count = 0;
-            double total = 0.0;
-            while ((line = reader.readLine()) != null) {
-                total += Double.parseDouble(line);
-                count++;
-            }
-            double mean = total / count;
-            benchmarkResults.put(name, mean);
-        } finally {
-            reader.close();
-        }
+        System.out.println("Running " + simulations + " simulations...\n");
     }
 
     public Prediction predictExecTime(MethodInfo method) {
@@ -172,8 +155,7 @@ public class Kitty {
             double total = 0.0;
             for (APICall call : path) {
                 if (benchmarkResults.containsKey(call.getName())) {
-                    // TODO: How do we sample the distribution properly?
-                    total += benchmarkResults.get(call.getName());
+                    total += benchmarkResults.get(call.getName()).sample();
                 } else {
                     throw new RuntimeException("No benchmark data available for: " + call.getName());
                 }
