@@ -37,11 +37,11 @@ public class TimingDistribution {
         BufferedReader reader = new BufferedReader(new FileReader(f));
         try {
             apiCall = reader.readLine();
-            System.out.println("Loading benchmark data for: " + apiCall);
             String line;
             while ((line = reader.readLine()) != null) {
                 values.add(Double.parseDouble(line));
             }
+            System.out.println("Loaded benchmark data for: " + apiCall + " [" + values.size() + "]");
         } finally {
             reader.close();
         }

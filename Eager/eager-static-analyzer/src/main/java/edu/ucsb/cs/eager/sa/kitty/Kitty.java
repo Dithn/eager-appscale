@@ -43,7 +43,7 @@ public class Kitty {
         options.addOption("b", "benchmark-dir", true,
                 "Path to the directory containing seed benchmark results");
         options.addOption("s", "simulations", true,
-                "Number of times to simulate each path");
+                "Number of times to simulate each path (default 100)");
 
         CommandLine cmd;
         try {
@@ -69,7 +69,7 @@ public class Kitty {
         }
 
         String sim = cmd.getOptionValue("s");
-        int simulations = 10;
+        int simulations = 100;
         if (sim != null) {
             simulations = Integer.parseInt(sim);
         }
