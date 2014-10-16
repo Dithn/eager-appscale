@@ -80,6 +80,22 @@ public class DatastoreBenchmarkingServlet extends HttpServlet {
                 long t2 = System.currentTimeMillis();
                 results.add((int) (t2 - t1));
             }
+        } else if ("asListAll".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                long t1 = System.currentTimeMillis();
+                Query q = new Query(Constants.Project.class.getSimpleName());
+                PreparedQuery preparedQuery = datastore.prepare(q);
+                FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+                preparedQuery.asList(fetchOptions);
+                long t2 = System.currentTimeMillis();
+                results.add((int) (t2 - t1));
+            }
+        } else if ("doNothing".equals(op)) {
+            for (int i = 0; i < iterations; i++) {
+                long t1 = System.currentTimeMillis();
+                long t2 = System.currentTimeMillis();
+                results.add((int) (t2 - t1));
+            }
         } else if ("get".equals(op)) {
             for (int i = 0; i < iterations; i++) {
                 String projectName = "Project" + uniqueId(obj, i);

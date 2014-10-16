@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 type Result struct {
@@ -68,23 +69,32 @@ func main() {
 	testOp(dsURL, "asIterable", "com.google.appengine.api.datastore.PreparedQuery#asIterable()", samples)
 	testOp(dsURL, "delete", "com.google.appengine.api.datastore.DatastoreService#delete()", samples)
 
-	testOp(dsURL, "jdo.makePersistent", "javax.jdo.PersistenceManager#makePersistent()", samples)
+	/*testOp(dsURL, "jdo.makePersistent", "javax.jdo.PersistenceManager#makePersistent()", samples)
 	testOp(dsURL, "jdo.getObjectById", "javax.jdo.PersistenceManager#getObjectById()", samples)
 	testOp(dsURL, "jdo.close", "javax.jdo.PersistenceManager#close()", samples)
 	testOp(dsURL, "jdo.execute", "javax.jdo.Query#execute()", samples)
 	testOp(dsURL, "jdo.closeAll", "javax.jdo.Query#closeAll()", samples)
-	testOp(dsURL, "jdo.deletePersistent", "javax.jdo.PersistenceManager#deletePersistent()", samples)
+	testOp(dsURL, "jdo.deletePersistent", "javax.jdo.PersistenceManager#deletePersistent()", samples)*/
 }
 
 func testOp(url, op, method string, samples int) {
 	fmt.Printf("Benchmarking %s method\n", method)
+	tr := &http.Transport{
+		DisableKeepAlives: false,
+		MaxIdleConnsPerHost: 10,
+	}
+	client := &http.Client{Transport: tr}
+
 	var buffer bytes.Buffer
 	buffer.WriteString(method + "\n")
 	for i := 0; i < samples; i++ {
 		if (i+1)%100 == 0 {
 			fmt.Printf("Collected %d samples...\n", i+1)
 		}
-		result := doGet(fmt.Sprintf("%s?op=%s&obj=%d", url, op, i))
+		result := doGet(client, fmt.Sprintf("%s?op=%s&obj=%d", url, op, i))
+		if result.RawData[0] < 4 {
+			time.Sleep(150 * time.Millisecond)
+		}
 		for _, r := range result.RawData {
 			buffer.WriteString(fmt.Sprintf("%d\n", r))
 		}
@@ -92,8 +102,10 @@ func testOp(url, op, method string, samples int) {
 	ioutil.WriteFile("benchmark_"+op+".txt", buffer.Bytes(), 0644)
 }
 
-func doGet(url string) *Result {
-	resp, err := http.Get(url)
+func doGet(client *http.Client, url string) *Result {
+	//start := time.Now()
+	resp, err := client.Get(url)
+	//fmt.Println("Time elapsed:", time.Now().Sub(start))
 	if err != nil {
 		fmt.Println(err)
 		panic("Error making HTTP GET on " + url)
