@@ -1,0 +1,206 @@
+Benchmarking com.google.appengine.api.datastore.PreparedQuery#asList() method
+Time elapsed: 3.364378ms
+Time elapsed: 3.296643ms
+Time elapsed: 2.972ms
+Time elapsed: 2.78484ms
+Time elapsed: 2.546598ms
+Time elapsed: 2.456586ms
+Time elapsed: 2.530396ms
+Time elapsed: 2.35333ms
+Time elapsed: 2.338ms
+Time elapsed: 2.406388ms
+Time elapsed: 2.516133ms
+Time elapsed: 2.754006ms
+Time elapsed: 2.658222ms
+Time elapsed: 2.347856ms
+Time elapsed: 2.311664ms
+Time elapsed: 2.34ms
+Time elapsed: 2.334626ms
+Time elapsed: 2.529149ms
+Time elapsed: 2.314332ms
+Time elapsed: 2.38048ms
+Time elapsed: 2.367631ms
+Time elapsed: 2.339ms
+Time elapsed: 2.468887ms
+Time elapsed: 2.468877ms
+Time elapsed: 2.367355ms
+Time elapsed: 2.3748ms
+Time elapsed: 2.49761ms
+Time elapsed: 2.427627ms
+Time elapsed: 2.415ms
+Time elapsed: 2.380365ms
+Time elapsed: 2.345123ms
+Time elapsed: 2.413259ms
+Time elapsed: 2.199393ms
+Time elapsed: 2.798292ms
+Time elapsed: 2.461ms
+Time elapsed: 2.376461ms
+Time elapsed: 2.375928ms
+Time elapsed: 2.43034ms
+Time elapsed: 2.552748ms
+Time elapsed: 2.889926ms
+Time elapsed: 2.305825ms
+Time elapsed: 2.776ms
+Time elapsed: 2.241555ms
+Time elapsed: 2.773574ms
+Time elapsed: 2.220496ms
+Time elapsed: 3.093061ms
+Time elapsed: 2.331814ms
+Time elapsed: 3.21309ms
+Time elapsed: 2.491826ms
+Time elapsed: 2.631238ms
+Time elapsed: 2.528567ms
+Time elapsed: 2.585403ms
+Time elapsed: 2.485827ms
+Time elapsed: 2.553618ms
+Time elapsed: 2.492ms
+Time elapsed: 2.434114ms
+Time elapsed: 2.50024ms
+Time elapsed: 2.481769ms
+Time elapsed: 2.438076ms
+Time elapsed: 2.396467ms
+Time elapsed: 2.639806ms
+Time elapsed: 2.488917ms
+Time elapsed: 2.355045ms
+Time elapsed: 3.291593ms
+Time elapsed: 2.476213ms
+Time elapsed: 2.3335ms
+Time elapsed: 2.432282ms
+Time elapsed: 2.513ms
+Time elapsed: 2.363448ms
+Time elapsed: 3.831307ms
+Time elapsed: 2.381675ms
+Time elapsed: 2.3206ms
+Time elapsed: 2.53839ms
+Time elapsed: 2.471096ms
+Time elapsed: 2.287866ms
+Time elapsed: 2.292618ms
+Time elapsed: 2.624749ms
+Time elapsed: 2.413642ms
+Time elapsed: 2.573249ms
+Time elapsed: 2.391339ms
+Time elapsed: 2.411ms
+Time elapsed: 2.425114ms
+Time elapsed: 2.416428ms
+Time elapsed: 2.367846ms
+Time elapsed: 2.412528ms
+Time elapsed: 2.424505ms
+Time elapsed: 2.417429ms
+Time elapsed: 2.439271ms
+Time elapsed: 2.68641ms
+Time elapsed: 2.235843ms
+Time elapsed: 2.945655ms
+Time elapsed: 5.835183ms
+Time elapsed: 2.835462ms
+Time elapsed: 2.613ms
+Time elapsed: 2.882506ms
+Time elapsed: 2.625657ms
+Time elapsed: 2.835326ms
+Time elapsed: 2.477191ms
+Time elapsed: 2.501501ms
+Collected 100 samples...
+Time elapsed: 3.005566ms
+
+=======================
+
+com.google.appengine.api.datastore.PreparedQuery#asList()
+0
+1
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+1
+0
+0
+0
+0
+1
+0
+0
+1
+0
+0
+0
+0
+1
+0
+0
+0
+0
+1
+0
+0
+0
+0
+0
+0
+0
+0
+0
+1
+0
+0
+0
+0
+1
+0
+0
+1
+0
+0
+0
+0
+0
+0
+1
+1
+0
+0
+0
+1
+0
+0
+0
+0
