@@ -1,22 +1,20 @@
 The type of service ecosystem described in the previous section 
-is becoming the norm for digitally-based
-businesses: cloud-based web APIs, complex service relationships, external and
+is becoming the norm for modern organizations: cloud-based web APIs, 
+complex service relationships, external and
 internal service consumers, agile software development, rapid release
-cycles, constant customer demand for improvements, bug fixes, and
-new features, and a host of diverse policies and SLAs that
-govern their development, deployment, and use.  
+cycles, and a host of diverse policies and SLAs that
+govern service development, deployment, and use.  
 As a result, IT organizations are increasingly responsible 
-for deploying, securing, managing, monitoring, testing, and evolving services
+for deploying, managing, and evolving services
 and their APIs as software infrastructure components at scale (10s-100s
-of engineering teams, 100s-1000s of APIs/services).  The goal of our work
+of engineering teams, 100s-1000s of APIs/services).  The goal of my work
 is to reduce the cost and labor burden of IT management of web services
 by automating and simplifying governance (policy specification, 
-verification, and enforcement) for a wide range of management functions
-(e.g. deployment, change control, access control, auditing, etc.).
+and enforcement) for a wide range of management functions.
 
 To enable this, I propose to investigate
 a holistic solution that leverages, combines, and extends techniques from 
-formal methods, static and dynamic programming language analysis, 
+formal methods, programming language analysis, 
 language design, runtime systems, and cloud platforms in a new 
 and unified way that achieves simplified and uniform specification of,
 and end-to-end enforcement of, disparate governance policies and SLAs.
@@ -32,16 +30,14 @@ between services and ensure that developers adhere to proper naming conventions,
 reuse existing APIs as much as possible, and retain backwards-compatibility when
 releasing new versions of existing APIs. To that end I will also explore the
 requirements for a new policy language that is both easy to use for policy authors
-and efficient to process and execute at the cloud-based policy engine (most existing
+and efficient to process and execute in the cloud (most existing
 declarative policy languages are inflexible and hard to program with). The tracked
 dependency information will be used to perform impact analysis and point
 out potential failures due to API changes, before they occur. Similarly this
 model will be able to enforce a wide range of runtime policies involving security,
 request rate limiting, caching, load balancing and fail-over routing. In order to fit the
 cloud model, the architecture of the policy enforcer needs to be distributed, highly
-scalable and highly available. I also intend to research into the possibility of
-moving many governance checks from runtime into the API development/deployment
-time so as to improve the overall scalability of the system.
+scalable and highly available.
 
 \item {\bf Simplify the API-based development model}: Developers today need to perform
 a large amount of manual work in order to deal with issues pertaining to API discovery,
@@ -49,16 +45,13 @@ subscription, evaluation and consumption. But these problems keep getting compli
 as the popularity of cloud computing drives the number of APIs to new heights. In order to
 efficiently deal with these issues, and make the API-based development model
 simpler, we need new tools and mechanisms that are both powerful and automatic. To
-that end I will explore new techniques and algorithms for automating a wide range of tasks
+that end I will explore new techniques for automating a wide range of tasks
 related to API-based development, with a strong focus on cloud-based development and
 deployment environments. This includes research in machine-readable languages for describing
 the syntactic and semantic aspects of APIs, tools to auto-generate such specifications by
 performing static analysis on service or API code, automated discovery and engagement
 protocols for APIs, and formal methods for evaluating APIs for risk, usability and 
-developer experience. We can then look into integrating these tools into cloud SDKs and
-runtimes so they are always active and available for developers to use. Also an interesting research
-problem is the issue of automated code or mashup generation from a given application
-requirement and a set of APIs.
+developer experience.
 
 \item {\bf Automated QoS and performance analysis}: Service providers today have to perform
 a large amount of offline and online testing to understand the performance and QoS characteristics
@@ -68,13 +61,13 @@ platforms rely on core cloud services (e.g. datastore and taskqueue in case of G
 and other web services hosted
 in the cloud. A through static analysis on the service implementation can reveal these dependencies
 and any patterns in invoking them (branches, loops etc.). By combining this information with the
-historical monitoring data of those dependency services and APIs, we can make predictions regarding
+historical performance data of those dependencies, we can make predictions regarding
 the performance that can be expected from a web service. We can make these estimates even
 more accurate by taking into account the network usage, database growth and other infrastructure
-related metrics. Such an approach will enable service developers to better understand the SLAs their
+related metrics. Such an approach will enable service developers to better understand what SLAs their
 services can support, under which circumstances, and what improvements should be made to their 
-service or API implementations
-in order to support stronger and more competitive SLAs. The deep insight into the different SLAs
+service implementations
+in order to support more competitive SLAs. This deep insight into the different SLAs
 an API can support along with the knowledge on limitations of the target cloud, allow developers
 to set up proper redundancy and backup channels, and also to implement graceful degradation
 in the event of a catastrophic failure. 

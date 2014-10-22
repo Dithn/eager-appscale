@@ -1,13 +1,13 @@
 Cloud computing is fostering a model of 
 application development that combines authored code with functionality
-provided by extant, curated web services.  Consumer-targeting applications 
-(particularly those designed for mobile platforms and the WWW) interact with highly
+provided by extant web services.  Consumer-targeting applications 
+(particularly those designed for mobile platforms) interact with highly
 scalable and reliable ``back-end'' web services that are deployed
-in well-connected, secure data centers.  In addition, enterprise
+in remote data centers.  In addition, enterprise
 Information Technology (IT) strategies are focusing on 
 exposing their {\em digital assets} as
 web services for consumption
-by their employees via internal corporate applications or
+by their employees via corporate applications or
 by their customers via software and data ``as-a-service''.
 
 This rapidly proliferating model of application development and IT operation
@@ -16,31 +16,15 @@ and in the number of web services that must be
 hosted and curated.  Each web service exports one or more Application Programming
 Interfaces (APIs) that must be accessible by users, applications, and/or
 other services.
-Because applications encode their internal logic in terms of
-remote ``calls'' to curated services,
+Because applications encode their logic in terms of
+remote ``calls'' to web services,
 these APIs define functional boundaries that must be incorporated into the
 application architecture.  
 
-%APIs also define the boundaries between IT's management responsibility and the
-%customer base it serves.  
-%Applications and users ``see'' the APIs and not the
-%complexity of the services that implement them (which may, in fact, be held as
-%trade secrets).  Thus, the APIs have become the critical value-carrying 
-%digital asset in many sectors of the new digital economy.
-
 From an IT management perspective, the vast collection of web APIs must be
 governed as critical infrastructure components or else ``client'' applications
-will fail to meet their service-level agreements (SLAs)
-or become unavailable altogether, due to the changes and faults in APIs.  
-%That is, APIs have become separate digital artifacts that 
-%must be managed by IT to ensure operational functionality.
-%Modern software management strategies, such as DevOps,
-%require teams comprised of both developers and sysadmins to develop, 
-%deploy, and manage web services
-%that IT must curate and oversee.  In the case of Google or Amazon, these
-%teams number in the hundreds and the APIs that their services export in the
-%thousands.  
-Further, these services often make API calls to each other 
+will encounter problems when the APIs they depend on change or fail.  
+Further, web services often make API calls to each other 
 creating dependencies between APIs that must be carefully managed.
 Moreover, the APIs have a software life cycle that is
 independent and longer than the life cycle of the services themselves. 
@@ -48,51 +32,47 @@ As technological improvements make better service implementations possible, IT
 management must upgrade these services while keeping the APIs unchanged.
 Similarly, as new API versions emerge to increase functionality, backward
 compatibility must be maintained in a way that takes into
-account the strategic objectives of the organization.  As an organization
-grows under this new model, the costs associated with
-incorrectly managing APIs grow as well.
+account the strategic objectives of the organization.  
 
-Today's cloud computing platforms severely lag behind in 
-API governance. Typical cloud environments impose certain restrictions
+Today's cloud platforms severely lag behind in 
+API governance. Typical cloud environments impose restrictions
 on applications and web services in order to guarantee scalability
 and high availability (e.g. Google App Engine prevents applications from accessing
 the file system). 
 However, they do not prevent the developers from violating
-software development policies and maintenance best practices. 
+software development and maintenance policies. 
 Consequently, developers often violate naming and versioning conventions
-when naming APIs and other digital assets, take dependencies
+when naming digital assets, take dependencies
 on incorrect or deprecated APIs, and very often end up re-implementing program logic
 from the scratch instead of reusing extant APIs that provide the required functionality.
 This lack of API governance also leads to many security vulnerabilities (e.g. DoS attacks
 by malicious or poorly coded clients), violations of IP rights and licensing terms, and in
-some cases even financial losses. Web APIs also play a key role in SLA
+some cases even financial losses. 
+
+Web APIs also play a key role in SLA
 management and enforcement. Ideally, any public API should be exposed with a well-defined
-SLA detailing its performance and quality of service characteristics. Without proper means
+SLA detailing its performance and quality of service (QoS) characteristics. Without proper means
 of API governance, developers that host services in cloud settings have no way of enforcing
 competitive SLAs on their APIs, or even getting a thorough idea of what kind of SLAs
 their services can uphold. Today, developers have to perform a lot of offline
-and online testing to learn the performance characteristics of their APIs which is tedious and
-time-consuming. Furthermore developers often have to be content with basic SLA monitoring 
-as opposed to comprehensive SLA enforcement. Moreover, the general deficiency in
-automated mechanisms for developing, analyzing and reasoning 
-about web APIs in cloud environments
-is a strong inhibitor of cloud adoption by many developers and enterprises.
+and online testing to learn the performance characteristics of their APIs.
+Furthermore developers often have to be content with basic SLA monitoring 
+as opposed to comprehensive SLA enforcement. 
 
 My research focuses on designing and implementing systems for facilitating 
-strong API governance as a cloud-native feature. With this research, API
+API governance as a cloud-native feature. With this research, API
 governance will no longer be an afterthought or a feature poorly layered on
-top of a computing cloud. Rather, it would be supported as a capability built into
-the cloud that is hosting the APIs and the cloud management
-tools used to develop APIs. 
+top of a cloud platform. Rather, it would be supported as a capability built into
+the cloud and the cloud management tools. 
 In a cloud-based IT context, APIs must be governed by
-policies that are defined by the organization to ensure predictable and
-economic operation of the web services hosted by the cloud. Additionally
+policies that are defined by the organization to ensure predictable
+operation of the web services hosted by the cloud. Additionally
 there should be automated mechanisms in place for easily developing new
 APIs, discovering existing APIs, analyzing the syntactic and semantic features
 of APIs, and porting applications across APIs. My research will make 
 it easier for developers to consume, mix and match APIs to create powerful
-applications, while adhering to tried and tested software development and 
-maintenance best practices. They will be able to quickly and easily understand
+applications, while adhering to tried and tested software engineering 
+best practices. They will be able to quickly and easily understand
 the QoS properties of APIs and enforce competitive SLAs through the cloud
 with clear and accurate confidence levels. My plan is to
 \begin{itemize}
@@ -104,30 +84,22 @@ with clear and accurate confidence levels. My plan is to
 management policies} governing
 web APIs when operating at scale in cloud settings,
 \item develop automated mechanisms for discovering, analyzing, comparing and reasoning
-about web APIs, in order to {\bf simplify the API-based development model} and
-the inevitable process of porting applications across different APIs or API versions,
+about web APIs, in order to {\bf simplify the API-based development model}, and,
 \item develop methods for {\bf automated QoS and performance analysis} of web services
-using static analysis, simulations and runtime monitoring in order
-to formulate and enforce competitive SLAs for APIs hosted in clouds, and,
-\item focus on the {\bf API software components} as the boundary between 
-IT-managed
-service implementations and client users, software applications, and other
-services.
+to formulate and enforce competitive SLAs for APIs hosted in clouds.
 \end{itemize}
 
-My research is based on a number of other prominent research areas in computer
-science including programming languages, program analysis and verification, 
+My research is based on a number of prominent research areas in computer
+science including programming languages, 
 distributed systems and software engineering. The proposed policy enforcement
-platform for clouds motivates new research on innovative new ways of using existing
+platform motivates new research on innovative new ways of using existing
 distributed consensus, scalability and high availability techniques. It also calls for
 more research in novel policy specification languages that
-are easier to understand (for policy authors), analyze and execute in cloud settings.
-Automated QoS and performance analysis requires more research in using
+are easier to understand (for policy authors), verify and execute in cloud settings.
+Automated performance analysis requires more research in using
 static analysis methods (e.g. abstract interpretation, WCET analysis etc.), system modeling,
 and simulations for analyzing a wide range of services deployed in modern cloud platforms.
-Automated mechanisms for discovering and analyzing web APIs require more research
-in specifying the syntactic and semantic features of APIs in a machine-readable way
-and processing such specifications efficiently. Above all, since the primary target of this
+Above all, since the primary target of this
 work are cloud platforms, there needs to be a strong focus towards making all these 
 proposed mechanisms scale to handle thousands of APIs, policies, client applications and users.
 
@@ -135,7 +107,7 @@ proposed mechanisms scale to handle thousands of APIs, policies, client applicat
 
 The outcome of this research plan,
 I believe, will be new advances in services computing, IT management, cloud
-platform computing, and API policy enforcement and SLA management.
+computing, and API policy enforcement and SLA management.
 If successful, the research will be transformative as it
 enables scalable management of the services that form the
 bulk of cloud workloads.
@@ -144,11 +116,8 @@ In addition,
 as a cloud systems researcher, I intend to use open source, on-premise clouds (AppScale
 and Eucalyptus) to serve research and educational artifacts (data sets, demos and test applications, 
 code repositories, etc.) to my colleagues, 
-and the wider research community.  Another measure of success will
-be the degree to which my research reduces the management burden that results from
-the scale and speed that these systems require.
-
-Finally, I plan to make my systems, tools and mechanisms available as persistent software artifacts to
+and the wider research community.  
+I also plan to make my systems, tools and mechanisms available as persistent software artifacts to
 the wider research community and to monitor its uptake.  Because of their design
 and their use of open source cloud technologies, results of my research will be readily available
 to researchers and educators who wish to develop new artifacts and curricula
