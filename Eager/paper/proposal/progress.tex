@@ -60,8 +60,8 @@ Figure~\ref{fig:eager}  shows EAGER's main components and their interactions.
 The Application Deployment Coordinator intercepts all application and API 
 deployment requests issued by developers, and validates them against a set of 
 admin-specified policies. Applications and APIs are further subjected to a wide 
-range of built-in sanity checks, which include an API backwards-compatibility test based 
-on the syntactic comparison method described earlier. Applications and APIs are only 
+range of built-in sanity checks, which include an API backwards-compatibility test.
+Applications and APIs are only 
 hosted in the cloud service runtime, if all the policy and sanity checks return successfully.
 Application metadata and historic information required to perform these validations are 
 loaded from the Metadata Manager, which gets updated upon each successful deployment
@@ -80,7 +80,8 @@ prototype using the AppScale~\cite{krintzappscale13} open source PaaS (open
 source Google App Engine clone).  Like Google App Engine, AppScale
 automatically deploys all applications before they execute.  My first
 explorations with the EAGER prototype explore its ability to implement
-deployment-time governance enforcement on applications that use the GAE APIs.
+deployment-time governance enforcement on applications that use the Google
+App Engine APIs.
 
 To this end, I have modified AppScale so that EAGER is embedded in it.  My
 first concern was whether the performance overhead introduced by EAGER would
@@ -91,7 +92,7 @@ included in the application deployment process.
 Figure~\ref{fig:eager_perf}
 shows how the EAGER deployment overhead varies for several example web applications, under different
 conditions. The time to deploy an application increases slowly as both the
-number of API EAGER must consider and the number of policies in its governance
+number of APIs EAGER must consider and the number of policies in its governance
 database increase.
 From these early results, I believe that EAGER will
 add negligible overhead to the typical application deployment 
@@ -99,12 +100,11 @@ process in the cloud, and can scale to handle thousands of APIs and policies.
 The run-time governance features of EAGER will be further developed and studied in
 my future work.
 
-
 The EAGER deployment-time experiment has prompted me to open a new line of
 research exploring the degree to which {\em all} governance policies can be
 implemented at deployment time.  Clearly there are some access control
-policies (e.g. those that depend on specific values of parameters passed in a
-REST call) that must be checked at run time.  However, I believe it to be an
+policies (e.g. those that depend on specific values of parameters passed in an
+API call) that must be checked at run time.  However, I believe it to be an
 open question as to what the minimal set of run-time only governance policies
 are.
 
