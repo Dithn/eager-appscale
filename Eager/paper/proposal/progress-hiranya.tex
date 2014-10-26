@@ -19,21 +19,16 @@ validated against both randomly generated and real world API descriptions.
 I also combined my approach with $k$-means clustering in order to classify API pairs into 
 multiple categories (typically 2 -- easy and hard) based on the relative difficulty in 
 porting applications between them. %Initial developer studies have shown that my 
-
-This work helped me both to explore the characteristics that a policy
-specification language for API governance will need and also informed the
-architectural tradeoffs inherent in the design of a working system for API
-governance.
 %automated mechanism closely resembles the relative difficulty 
 %that human programmers associate with porting applications across web APIs.
 
-%Recently, I have further extended my automated porting effort calculation 
-%mechanism to also take the syntactic features of web APIs into consideration. This 
-%results in a two-phase API comparison algorithm where the first phase performs a 
-%syntactic comparison between APIs (i.e operations, input/output types), and the 
-%second phase performs the semantic analysis described earlier. The syntactic 
-%comparison is based on well-established programming languages research and 
-%static type checking methods.
+Recently, I have further extended my automated porting effort calculation 
+mechanism to also take the syntactic features of web APIs into consideration. This 
+results in a two-phase API comparison algorithm where the first phase performs a 
+syntactic comparison between APIs (i.e operations, input/output types), and the 
+second phase performs the semantic analysis described earlier. The syntactic 
+comparison is based on well-established programming languages research and 
+static type checking methods.
 
 \begin{figure}
 \centering
@@ -53,8 +48,8 @@ governance.
 \label{fig:eager_perf}
 \end{figure}
 
-This research led me to design
-EAGER (Enforced API Governance Engine for REST), a 
+In an effort to support design-time and run-time API governance as cloud-native features, 
+I designed EAGER (Enforced API Governance Engine for REST), a 
 system that augments PaaS clouds~\cite{6903538}. 
 Figure~\ref{fig:eager}  shows EAGER's main components and their interactions.
 The Application Deployment Coordinator intercepts all application and API 
@@ -74,64 +69,26 @@ order to perform policy validations in a stateless and side-effect free manner. 
 supports dependency management and OAuth based authorization for all deployed APIs. 
 At run-time EAGER API gateway
 intercepts all API calls (requests), and performs authorization and run-time policy validation.
-
 I implemented an initial EAGER 
-prototype using the AppScale~\cite{krintzappscale13} open source PaaS (open
-source Google App Engine clone).  Like Google App Engine, AppScale
-automatically deploys all applications before they execute.  My first
-explorations with the EAGER prototype explore its ability to implement
-deployment-time governance enforcement on applications that use the GAE APIs.
-
-To this end, I have modified AppScale so that EAGER is embedded in it.  My
-first concern was whether the performance overhead introduced by EAGER would
-prohibit its use and adoption.  Using synthetic applications and governance
-policies, (i.e. randomized calls and policy predicates) I've profiled EAGER to
-determine how invasive its overheads are when its governance checks are
-included in the application deployment process.
-Figure~\ref{fig:eager_perf}
+prototype using the AppScale~\cite{krintzappscale13} open source PaaS (open source Google App Engine clone), 
+and demonstrated that EAGER adds negligible overhead to the typical application deployment 
+process in the cloud, and it scales to handle thousands of APIs and policies. Figure~\ref{fig:eager_perf}
 shows how the EAGER deployment overhead varies for several example web applications, under different
-conditions. The time to deploy an application increases slowly as both the
-number of API EAGER must consider and the number of policies in its governance
-database increase.
-From these early results, I believe that EAGER will
-add negligible overhead to the typical application deployment 
-process in the cloud, and can scale to handle thousands of APIs and policies. 
-The run-time governance features of EAGER will be further developed and studied in
+conditions. The run-time governance features of EAGER will be further developed and studied in
 my future work.
 
-
-The EAGER deployment-time experiment has prompted me to open a new line of
-research exploring the degree to which {\em all} governance policies can be
-implemented at deployment time.  Clearly there are some access control
-policies (e.g. those that depend on specific values of parameters passed in a
-REST call) that must be checked at run time.  However, I believe it to be an
-open question as to what the minimal set of run-time only governance policies
-are.
-
-Deployment-time governance implementation
-%Currently I'm conducting research in the area of automated performance analysis of web
-%services at development time (i.e. before services are deployed into the cloud). This was
-%partly inspired by EAGER, which showed that design-time governance
-%is not only feasible in clouds, but also 
-is desirable for two primary reasons.
+Currently I'm conducting research in the area of automated performance analysis of web
+services at development time (i.e. before services are deployed into the cloud). This was
+partly inspired by EAGER, which showed that design-time governance
+is not only feasible in clouds, but also desirable to run-time governance due to two reasons:
 
 \begin{itemize}
-%\item APIs are designed and (re)deployed only a few times in their life cycle, whereas they might
-%get invoked billions of times once they are in production. Therefore, performing most governance
-%checks at design-time of the API avoids repeated work, and scales better in cloud environments.
-\item Checking at deployment time occurs before the application moves into
-production execution making its overhead insensitive to the request load 
-the application
-(or other applications) experience while they are running.  Thus
-deployment-time checking does not impede application scaling due to load
-(although it may delay application start-up viz. the data shown in
-Figure~\ref{fig:eager_perf}).
+\item APIs are designed and (re)deployed only a few times in their life cycle, whereas they might
+get invoked billions of times once they are in production. Therefore, performing most governance
+checks at design-time of the API avoids repeated work, and scales better in cloud environments.
 \item Enforcing most governance policies and sanity checks before the APIs are in production,
 prevents the overall cloud system from entering a policy non-compliant state and helps reduce
-remediation costs.  In particular, a cloud administrator need not understand
-the run time execution sequence (possibly requiring the assistance of the
-application's developer) that causes a policy violation and subsequent failure
-of service.
+remediation costs.
 \end{itemize}
 
 \begin{floatingfigure}[rb]{2.8in}
@@ -141,13 +98,9 @@ of service.
 \caption{API performance prediction results\label{fig:static_analysis}}
 \end{floatingfigure}
 
-These factors compel me to research what types of policy validations can be 
-performed
-on web services and APIs before they are deployed in a cloud environment.
-In this vein, my current work focuses on deployment-time analysis of 
-the application's
-ability to meet a run time SLA once it is deployed.  
-I'm attempting to develop methods for analyzing the performance and
+These factors compelled me to research what other type of validations can be performed
+on web services and APIs, before they are deployed in a cloud environment.
+More specifically, I'm attempting to develop methods for analyzing the performance and
 QoS traits of APIs at development time, in order to predict their expected performance 
 levels early. This is a fairly complex research problem due to the undecidability
 inherent in most program analysis tasks. However, cloud environments and SDKs
@@ -157,7 +110,7 @@ over 100 real world applications developed for PaaS clouds) show that most servi
 clouds have very few loops and branches, making them highly amenable to static analysis and
 verification.
 
-I'm currently using
+Motivated by these early results, I'm currently using
 prominent static analysis methods (abstract interpretation based loop bound analysis,
 branch prediction, WCET analysis etc.~\cite{ermedahl_et_al:OASIcs:2007:1194,Yeh:1991:TAT:123465.123475,bygde2010static}) 
 to compute paths of execution through service 
