@@ -102,9 +102,9 @@ my future work.
 
 The EAGER deployment-time experiment has prompted me to open a new line of
 research exploring the degree to which {\em all} governance policies can be
-implemented at deployment time.  Clearly there are some access control
+implemented at deployment-time.  Clearly there are some access control
 policies (e.g. those that depend on specific values of parameters passed in an
-API call) that must be checked at run time.  However, I believe it to be an
+API call) that must be checked at run-time.  However, I believe it to be an
 open question as to what the minimal set of run-time only governance policies
 are.
 
@@ -119,7 +119,7 @@ is desirable for two primary reasons.
 %\item APIs are designed and (re)deployed only a few times in their life cycle, whereas they might
 %get invoked billions of times once they are in production. Therefore, performing most governance
 %checks at design-time of the API avoids repeated work, and scales better in cloud environments.
-\item Checking at deployment time occurs before the application moves into
+\item Checking at deployment-time occurs before the application moves into
 production execution making its overhead insensitive to the request load 
 the application
 (or other applications) experience while they are running.  Thus
@@ -129,7 +129,7 @@ Figure~\ref{fig:eager_perf}).
 \item Enforcing most governance policies and sanity checks before the APIs are in production,
 prevents the overall cloud system from entering a policy non-compliant state and helps reduce
 remediation costs.  In particular, a cloud administrator need not understand
-the run time execution sequence (possibly requiring the assistance of the
+the run-time execution sequence (possibly requiring the assistance of the
 application's developer) that causes a policy violation and subsequent failure
 of service.
 \end{itemize}
@@ -146,7 +146,7 @@ performed
 on web services and APIs before they are deployed in a cloud environment.
 In this vein, my current work focuses on deployment-time analysis of 
 the application's
-ability to meet a run time SLA once it is deployed.  
+ability to meet a run-time SLA once it is deployed.  
 I'm attempting to develop methods for analyzing the performance and
 QoS traits of APIs at development time, in order to predict their expected performance 
 levels early. This is a fairly complex research problem due to the undecidability
