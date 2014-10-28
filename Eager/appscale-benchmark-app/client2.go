@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -87,6 +88,7 @@ func testOp(url, op, method string, samples int) {
 
 	var buffer bytes.Buffer
 	buffer.WriteString(method + "\n")
+	var data []int
 	for i := 0; i < samples; i++ {
 		if (i+1)%100 == 0 {
 			fmt.Printf("Collected %d samples...\n", i+1)
@@ -96,8 +98,12 @@ func testOp(url, op, method string, samples int) {
 			time.Sleep(150 * time.Millisecond)
 		}
 		for _, r := range result.RawData {
-			buffer.WriteString(fmt.Sprintf("%d\n", r))
+			data = append(data, r)
 		}
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(data)))
+	for _, d := range data {
+		buffer.WriteString(fmt.Sprintf("%d\n", d))
 	}
 	ioutil.WriteFile("benchmark_"+op+".txt", buffer.Bytes(), 0644)
 }
