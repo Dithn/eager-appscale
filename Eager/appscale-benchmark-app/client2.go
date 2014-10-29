@@ -23,6 +23,7 @@ type Result struct {
 var server string
 var port uint64
 var samples int
+var order bool
 
 func init() {
 	const (
@@ -32,12 +33,14 @@ func init() {
 		portUsage      = "target AppScale port"
 		defaultSamples = 100
 		samplesUsage   = "number of data samples to collect"
+		orderUsage     = "sort the values in the decreasing order"
 	)
 	flag.StringVar(&server, "server", defaultServer, serverUsage)
 	flag.StringVar(&server, "s", defaultServer, serverUsage+" (shorthand)")
 	flag.Uint64Var(&port, "port", defaultPort, portUsage)
 	flag.Uint64Var(&port, "p", defaultPort, portUsage+" (shorthand)")
 	flag.IntVar(&samples, "samples", defaultSamples, samplesUsage)
+	flag.BoolVar(&order, "order", false, orderUsage)
 }
 
 func main() {
@@ -101,7 +104,9 @@ func testOp(url, op, method string, samples int) {
 			data = append(data, r)
 		}
 	}
-	sort.Sort(sort.Reverse(sort.IntSlice(data)))
+	if order {
+		sort.Sort(sort.Reverse(sort.IntSlice(data)))
+	}
 	for _, d := range data {
 		buffer.WriteString(fmt.Sprintf("%d\n", d))
 	}
