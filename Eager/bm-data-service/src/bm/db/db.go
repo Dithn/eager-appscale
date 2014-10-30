@@ -1,3 +1,5 @@
+// Package db encapsulates the interfaces and functions necessary for
+// loading and querying existing time series data.
 package db
 
 import (
@@ -10,16 +12,24 @@ import (
 	"strings"
 )
 
+// TimeSeries represents a sequence of time-ordered data
 type TimeSeries []int
 
+// Database interface defines what operations/queries should be supported
+// by a database implementation.
 type Database interface {
 	Query(n int, ops []string) map[string]TimeSeries
 }
 
+// FSDatabase implements the Database interface using a set of data files
+// located in the local file system.
 type FSDatabase struct {
 	data map[string]TimeSeries
 }
 
+// NewFSDatabase creates a new FSDatabase instance by loading the 
+// required time serties data from the specified directory in the file
+// system.
 func NewFSDatabase(root string) (*FSDatabase,error) {
 	files, err := ioutil.ReadDir(root)
 	if err != nil {
@@ -41,6 +51,9 @@ func NewFSDatabase(root string) (*FSDatabase,error) {
 	return fsd, nil
 }
 
+// Query returns a set of TimeSeries instances as a map, keyed by the
+// operation names. The maximum length of each TimeSeries will be limited
+// to n.
 func (fsd *FSDatabase) Query(n int, ops []string) map[string]TimeSeries {
 	result := make(map[string]TimeSeries)
 	for _, op := range ops {
