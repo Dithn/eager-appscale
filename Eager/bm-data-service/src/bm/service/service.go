@@ -11,12 +11,17 @@ import (
 type timeSeriesReq struct {
 	MaxLength int
 	Operations []string
+	Quantile, Confidence float64
 }
 
 func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
-		var tsr timeSeriesReq
+		tsr := timeSeriesReq{
+			MaxLength: 1000,
+			Quantile: 0.95,
+			Confidence: 0.05,
+		}
 		if err := decoder.Decode(&tsr); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -25,7 +30,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 		result := d.Query(tsr.MaxLength, tsr.Operations)
 		predictions := make(map[string]int)
 		for k, ts := range result {
-			p, err := qbets.PredictQuantile(ts, 0.95, 0.05)
+			p, err := qbets.PredictQuantile(ts, tsr.Quantile, tsr.Confidence)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -64,7 +69,7 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 }
 
 func main() {
-	fsd, err := db.NewFSDatabase("/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/appscale-benchmark-app")
+	fsd, err := db.NewFSDatabase("/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/appscale-benchmark-app/latest_results")
 	if err != nil {
 		fmt.Println(err)
 		return
