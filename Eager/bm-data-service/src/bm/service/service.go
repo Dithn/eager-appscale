@@ -1,16 +1,16 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
 	"bm/db"
 	"bm/qbets"
+	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 type timeSeriesReq struct {
-	MaxLength int
-	Operations []string
+	MaxLength            int
+	Operations           []string
 	Quantile, Confidence float64
 }
 
@@ -18,8 +18,8 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		tsr := timeSeriesReq{
-			MaxLength: 1000,
-			Quantile: 0.95,
+			MaxLength:  1000,
+			Quantile:   0.95,
 			Confidence: 0.05,
 		}
 		if err := decoder.Decode(&tsr); err != nil {
@@ -27,8 +27,13 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			return
 		}
 
-		result := d.Query(tsr.MaxLength, tsr.Operations)
-		predictions := make(map[string]int)
+		result, err := d.Query(tsr.MaxLength, tsr.Operations)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		predictions := make(map[string]float64)
 		for k, ts := range result {
 			p, err := qbets.PredictQuantile(ts, tsr.Quantile, tsr.Confidence)
 			if err != nil {
@@ -57,7 +62,12 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 			return
 		}
 
-		result := d.Query(tsr.MaxLength, tsr.Operations)
+		result, err := d.Query(tsr.MaxLength, tsr.Operations)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		jsonString, err := json.Marshal(result)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

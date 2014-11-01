@@ -18,7 +18,7 @@ type TimeSeries []int
 // Database interface defines what operations/queries should be supported
 // by a database implementation.
 type Database interface {
-	Query(n int, ops []string) map[string]TimeSeries
+	Query(n int, ops []string) (map[string]TimeSeries, error)
 }
 
 // FSDatabase implements the Database interface using a set of data files
@@ -27,16 +27,16 @@ type FSDatabase struct {
 	data map[string]TimeSeries
 }
 
-// NewFSDatabase creates a new FSDatabase instance by loading the 
+// NewFSDatabase creates a new FSDatabase instance by loading the
 // required time serties data from the specified directory in the file
 // system.
-func NewFSDatabase(root string) (*FSDatabase,error) {
+func NewFSDatabase(root string) (*FSDatabase, error) {
 	files, err := ioutil.ReadDir(root)
 	if err != nil {
 		return nil, err
 	}
 
-	fsd := &FSDatabase {
+	fsd := &FSDatabase{
 		data: make(map[string]TimeSeries),
 	}
 	for _, f := range files {
@@ -54,12 +54,12 @@ func NewFSDatabase(root string) (*FSDatabase,error) {
 // Query returns a set of TimeSeries instances as a map, keyed by the
 // operation names. The maximum length of each TimeSeries will be limited
 // to n.
-func (fsd *FSDatabase) Query(n int, ops []string) map[string]TimeSeries {
+func (fsd *FSDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
 	result := make(map[string]TimeSeries)
 	for _, op := range ops {
 		ts, ok := fsd.data[op]
 		if !ok {
-			panic("no data available for " + op)
+			return nil, fmt.Errorf("no data available for %s", op)
 		}
 		if n <= len(ts) {
 			result[op] = ts[len(ts)-n:]
@@ -67,10 +67,10 @@ func (fsd *FSDatabase) Query(n int, ops []string) map[string]TimeSeries {
 			result[op] = ts
 		}
 	}
-	return result
+	return result, nil
 }
 
-func loadFile(root, child string) (string,TimeSeries,error) {
+func loadFile(root, child string) (string, TimeSeries, error) {
 	fmt.Println("Loading data from", child)
 	fh, err := os.Open(path.Join(root, child))
 	if err != nil {

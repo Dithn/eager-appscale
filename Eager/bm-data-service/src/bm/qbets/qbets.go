@@ -12,10 +12,12 @@ import (
 )
 
 const (
-	qbetsBin = "/Users/hiranya/Projects/eager/sandbox/qbets/run_qbets.sh"
+	qbetsBin = "/Users/hiranya/Projects/eager/sandbox/qbets/bmbp_ts"
 )
 
-func PredictQuantile(ts db.TimeSeries, q, c float64) (int,error) {
+// PredictQuantile runs QBETS on the given TimeSeries to predict its q-th
+// quantile with c upper-confidence.
+func PredictQuantile(ts db.TimeSeries, q, c float64) (float64, error) {
 	file, err := ioutil.TempFile(os.TempDir(), "_qbets_")
 	if err != nil {
 		return -1, err
@@ -27,14 +29,10 @@ func PredictQuantile(ts db.TimeSeries, q, c float64) (int,error) {
 		return -1, err
 	}
 
-	quantile, err := strconv.ParseFloat(out, 64)
-	if err != nil {
-		return -1, err
-	}
-	return int(quantile), nil
+	return strconv.ParseFloat(out, 64)
 }
 
-func runQBETS(ts db.TimeSeries, file string, q, c float64) (string,error) {
+func runQBETS(ts db.TimeSeries, file string, q, c float64) (string, error) {
 	var buffer bytes.Buffer
 	for _, v := range ts {
 		buffer.WriteString(fmt.Sprintf("%d\n", v))
@@ -43,9 +41,17 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64) (string,error) {
 		return "", err
 	}
 
-	out, err := exec.Command(qbetsBin, file, fmt.Sprintf("%f", q), fmt.Sprintf("%f", c)).Output()
+	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c)).Output()
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(string(out)), nil
+	lines := strings.Split(string(out), "\n")
+	var last string
+	for _, l := range lines {
+		if strings.HasPrefix(l, "time:") {
+			last = l
+		}
+	}
+	segments := strings.Fields(last)
+	return segments[5], nil
 }
