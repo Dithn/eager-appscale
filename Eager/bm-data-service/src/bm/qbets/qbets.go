@@ -1,3 +1,5 @@
+// Package qbets contains the utility functions for running QBETS over a
+// time series to predict its quantiles.
 package qbets
 
 import (
