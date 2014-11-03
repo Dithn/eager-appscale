@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 )
 
 type timeSeriesReq struct {
@@ -34,13 +35,28 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 		}
 
 		predictions := make(map[string]float64)
+		c := make(chan bool, 4)
+		var wg sync.WaitGroup
+		var perr error
 		for k, ts := range result {
-			p, err := qbets.PredictQuantile(ts, tsr.Quantile, tsr.Confidence)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			predictions[k] = p
+			c <- true
+			wg.Add(1)
+			go func(key string, data db.TimeSeries){
+				defer func(){ <- c }()
+				defer wg.Done()
+				p, err := qbets.PredictQuantile(data, tsr.Quantile, tsr.Confidence)
+				if err != nil {
+					perr = err
+					return
+				}
+				predictions[key] = p
+			}(k, ts)
+		}
+		wg.Wait()
+
+		if perr != nil {
+			http.Error(w, perr.Error(), http.StatusInternalServerError)
+			return
 		}
 
 		jsonString, err := json.Marshal(predictions)
