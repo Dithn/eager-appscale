@@ -30,6 +30,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.*;
 
+/**
+ * ProfessorX performs static analysis on a collection of Java applications,
+ * using Cerebro. All application metadata are read from an XML file.
+ */
 public class ProfessorX {
 
     public static void main(String[] args) {
@@ -98,16 +102,15 @@ public class ProfessorX {
         Set<String> analyzedMethods = new HashSet<String>();
         for (String className : classes) {
             Cerebro cerebro = new Cerebro(classPathDir.getAbsolutePath(), className);
-            //cerebro.setVerbose(true);
             cerebro.setWholeProgramMode(true);
             Map<SootMethod,CFGAnalyzer> results = cerebro.analyze();
+            cerebro.setVerbose(true);
             for (Map.Entry<SootMethod,CFGAnalyzer> entry : results.entrySet()) {
                 String method = toString(entry.getKey());
                 if (analyzedMethods.contains(method)) {
                     continue;
                 }
                 analyzedMethods.add(method);
-                cerebro.setVerbose(true);
                 cerebro.printResult(entry.getKey(), entry.getValue());
             }
             cerebro.cleanup();

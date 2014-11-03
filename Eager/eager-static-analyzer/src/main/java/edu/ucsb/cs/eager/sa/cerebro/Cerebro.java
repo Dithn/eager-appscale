@@ -30,6 +30,9 @@ import soot.jimple.toolkits.annotation.logic.Loop;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Cerebro performs static analysis on a specified Java application.
+ */
 public class Cerebro {
 
     private Set<SootMethod> analyzedMethods = new HashSet<SootMethod>();
