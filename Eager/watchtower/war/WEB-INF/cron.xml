@@ -2,7 +2,7 @@
 <cronentries>
     <cron>
         <url>/benchmark</url>
-        <description>Benchmark the APIs every 10 seconds</description>
+        <description>Benchmark the APIs every minute</description>
         <schedule>every 1 minutes</schedule>
     </cron>
 </cronentries>
