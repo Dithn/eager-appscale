@@ -43,7 +43,8 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64) (string, error) {
 		return "", err
 	}
 
-	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c)).Output()
+	// TODO: How to set the -t parameter properly?
+	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-t", "10").Output()
 	if err != nil {
 		return "", err
 	}

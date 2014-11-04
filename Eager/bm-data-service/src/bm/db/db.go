@@ -4,8 +4,10 @@ package db
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path"
 	"strconv"
@@ -97,3 +99,42 @@ func loadFile(root, child string) (string, TimeSeries, error) {
 	}
 	return name, ts, nil
 }
+
+// AEDatabase implements the Database interface, using a remote
+// watchtower service hosted in the cloud.
+type AEDatabase struct {
+	BaseURL string
+}
+
+// Query returns a set of TimeSeries instances as a map, keyed by the
+// operation names. If n > 0, maximum length of each TimeSeries will be 
+// limited to n.
+func (aed *AEDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
+	url := fmt.Sprintf("%s/query?ops=%s", aed.BaseURL, strings.Join(ops, ","))
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var r interface{}
+	err = json.Unmarshal(body, &r)
+	if err != nil {
+		return nil, err
+	}
+	result := make(map[string]TimeSeries)
+	for k,v := range r.(map[string]interface{}) {
+		var ts TimeSeries
+		for _,p := range v.([]interface{}) {
+			ts = append(ts, int(p.(float64)))
+		}
+		result[k] = ts
+	}
+	return result, nil
+}
+

@@ -67,11 +67,11 @@ func main() {
 
 	dsURL := url + "/datastore"
 
-	testOp(dsURL, "put", "com.google.appengine.api.datastore.DatastoreService#put()", samples)
-	testOp(dsURL, "get", "com.google.appengine.api.datastore.DatastoreService#get()", samples)
-	testOp(dsURL, "asList", "com.google.appengine.api.datastore.PreparedQuery#asList()", samples)
-	testOp(dsURL, "asIterable", "com.google.appengine.api.datastore.PreparedQuery#asIterable()", samples)
-	testOp(dsURL, "delete", "com.google.appengine.api.datastore.DatastoreService#delete()", samples)
+	testOp(dsURL, "put", "bm_datastore_put", samples)
+	testOp(dsURL, "get", "bm_datastore_get", samples)
+	testOp(dsURL, "asList", "bm_datastore_asList", samples)
+	testOp(dsURL, "asIterable", "bm_datastore_asIterable", samples)
+	testOp(dsURL, "delete", "bm_datastore_delete", samples)
 
 	/*testOp(dsURL, "jdo.makePersistent", "javax.jdo.PersistenceManager#makePersistent()", samples)
 	testOp(dsURL, "jdo.getObjectById", "javax.jdo.PersistenceManager#getObjectById()", samples)
