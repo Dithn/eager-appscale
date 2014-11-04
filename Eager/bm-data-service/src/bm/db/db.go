@@ -52,8 +52,8 @@ func NewFSDatabase(root string) (*FSDatabase, error) {
 }
 
 // Query returns a set of TimeSeries instances as a map, keyed by the
-// operation names. The maximum length of each TimeSeries will be limited
-// to n.
+// operation names. If n > 0, maximum length of each TimeSeries will be 
+// limited to n.
 func (fsd *FSDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
 	result := make(map[string]TimeSeries)
 	for _, op := range ops {
@@ -61,7 +61,7 @@ func (fsd *FSDatabase) Query(n int, ops []string) (map[string]TimeSeries, error)
 		if !ok {
 			return nil, fmt.Errorf("no data available for %s", op)
 		}
-		if n <= len(ts) {
+		if n > 0 && n <= len(ts) {
 			result[op] = ts[len(ts)-n:]
 		} else {
 			result[op] = ts
