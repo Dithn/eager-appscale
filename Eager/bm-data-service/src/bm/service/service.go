@@ -27,7 +27,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			return
 		}
 
-		result, err := d.Query(-1, tsr.Operations)
+		result, err := d.Query(tsr.MaxLength, tsr.Operations)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
