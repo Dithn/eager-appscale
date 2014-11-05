@@ -101,7 +101,7 @@ func loadFile(root, child string) (string, TimeSeries, error) {
 }
 
 // AEDatabase implements the Database interface, using a remote
-// watchtower service hosted in the cloud.
+// watchtower service hosted in the AppEngine cloud.
 type AEDatabase struct {
 	BaseURL string
 }
@@ -122,18 +122,19 @@ func (aed *AEDatabase) Query(n int, ops []string) (map[string]TimeSeries, error)
 		return nil, err
 	}
 
-	var r interface{}
-	err = json.Unmarshal(body, &r)
-	if err != nil {
+	type queryResult map[string][]int
+	var qr queryResult
+	if err := json.Unmarshal(body, &qr); err != nil {
 		return nil, err
 	}
+
 	result := make(map[string]TimeSeries)
-	for k,v := range r.(map[string]interface{}) {
-		var ts TimeSeries
-		for _,p := range v.([]interface{}) {
-			ts = append(ts, int(p.(float64)))
+	for k,v := range qr {
+		if n > 0 && n <= len(v) {
+			result[k] = TimeSeries(v[len(v)-n:])
+		} else {
+			result[k] = TimeSeries(v)
 		}
-		result[k] = ts
 	}
 	return result, nil
 }

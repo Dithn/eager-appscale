@@ -19,7 +19,6 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		tsr := timeSeriesReq{
-			MaxLength:  1000,
 			Quantile:   0.95,
 			Confidence: 0.05,
 		}
@@ -28,7 +27,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			return
 		}
 
-		result, err := d.Query(tsr.MaxLength, tsr.Operations)
+		result, err := d.Query(-1, tsr.Operations)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -95,13 +94,18 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 }
 
 func main() {
-	fsd, err := db.NewFSDatabase("/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/appscale-benchmark-app/latest_results")
+	/*d, err := db.NewFSDatabase("/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/appscale-benchmark-app/latest_results")
 	if err != nil {
 		fmt.Println(err)
 		return
-	}
+	}*/
 
-	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(fsd))
-	http.HandleFunc("/ts", getTimeSeriesHandler(fsd))
+	d := &db.AEDatabase{
+		BaseURL: "http://192.168.33.101:8081",
+	}
+	fmt.Println("Loading TimeSeries data from the Watchtower service at", d.BaseURL)
+
+	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
+	http.HandleFunc("/ts", getTimeSeriesHandler(d))
 	http.ListenAndServe(":8080", nil)
 }
