@@ -19,8 +19,7 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class TraceLogParser {
 
@@ -33,7 +32,7 @@ public class TraceLogParser {
     private String currentPrefix;
     private List<APICall> currentPath;
 
-    private List<MethodInfo> methods = new ArrayList<MethodInfo>();
+    private Set<MethodInfo> methods = new TreeSet<MethodInfo>(new MethodInfo.MethodInfoComparator());
 
     public void parse(String line) {
         if (line.startsWith("Warning: ")) {
@@ -85,7 +84,7 @@ public class TraceLogParser {
         }
     }
 
-    public List<MethodInfo> getMethods() {
+    public Collection<MethodInfo> getMethods() {
         return methods;
     }
 }

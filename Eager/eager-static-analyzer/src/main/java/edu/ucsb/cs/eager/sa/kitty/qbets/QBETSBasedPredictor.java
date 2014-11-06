@@ -39,20 +39,16 @@ import java.util.*;
 
 public class QBETSBasedPredictor {
 
-    public static void predict(PredictionConfig config, List<MethodInfo> methods) throws IOException {
+    public static void predict(PredictionConfig config, Collection<MethodInfo> methods) throws IOException {
         if (config.isAggregateTimeSeries()) {
             throw new NotImplementedException();
         }
 
+        System.out.printf("\nQuantile: %.4f; Confidence: %.4f\n", config.getQuantile(),
+                config.getConfidence());
         for (MethodInfo m : methods) {
-            System.out.println(m.getName());
-            for (int i = 0; i < m.getName().length(); i++) {
-                System.out.print("=");
-            }
-            System.out.println();
-            System.out.println("Total paths: " + m.getPaths().size());
             Prediction prediction = predictExecTime(m, config);
-            System.out.println("\nWorst-case exec time: " + prediction);
+            System.out.printf("%s\t%d\t%s\n", m.getName(), m.getPaths().size(), prediction.toString());
         }
     }
 
@@ -62,6 +58,8 @@ public class QBETSBasedPredictor {
         List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
         for (List<APICall> p : method.getPaths()) {
             if (p.size() == 1 && p.get(0).getName().equals("-- No API Calls --")) {
+                continue;
+            } else if (p.size() == 0) {
                 continue;
             }
             pathsOfInterest.add(p);
@@ -127,7 +125,6 @@ public class QBETSBasedPredictor {
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
 
-            System.out.println("Contacting benchmark data service... ");
             HttpResponse response = httpClient.execute(request);
             InputStream in = response.getEntity().getContent();
             StringBuilder sb = new StringBuilder();
@@ -144,16 +141,11 @@ public class QBETSBasedPredictor {
             httpClient.close();
         }
 
-        System.out.printf("\nQuantile: %.4f; Confidence: %.4f\n", quantile, confidence);
-        System.out.println("------------------------------------");
-
         Map<String,Integer> quantiles = new HashMap<String, Integer>();
         Iterator keys = svcResponse.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();
-            int value = svcResponse.getInt(k);
-            quantiles.put(k, value);
-            System.out.println(k + ": " + value + "ms");
+            quantiles.put(k, svcResponse.getInt(k));
         }
         return quantiles;
     }

@@ -27,14 +27,11 @@ import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SimulationBasedPredictor {
 
-    public static void predict(PredictionConfig config, List<MethodInfo> methods) throws IOException {
+    public static void predict(PredictionConfig config, Collection<MethodInfo> methods) throws IOException {
         Map<String,TimingDistribution> benchmarkResults = loadBenchmarkDataFromDir(
                 config.getBenchmarkDataDir());
         System.out.println("Running " + config.getSimulations() + " simulations...\n");

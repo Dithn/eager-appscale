@@ -20,6 +20,7 @@
 package edu.ucsb.cs.eager.sa.kitty;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MethodInfo {
@@ -62,4 +63,12 @@ public class MethodInfo {
     public String toString() {
         return name + ": " + paths.size() + " paths";
     }
+
+    public static class MethodInfoComparator implements Comparator<MethodInfo> {
+        @Override
+        public int compare(MethodInfo o1, MethodInfo o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    }
+
 }

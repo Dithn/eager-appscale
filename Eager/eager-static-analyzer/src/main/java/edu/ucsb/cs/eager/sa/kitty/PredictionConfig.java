@@ -54,6 +54,11 @@ public class PredictionConfig {
      */
     private String traceFile;
 
+    private String cerebroClasspath;
+    private String clazz;
+    private boolean loadNecessaryClasses = true;
+    private boolean wholeProgramMode;
+
     public String getBenchmarkDataDir() {
         return benchmarkDataDir;
     }
@@ -110,6 +115,38 @@ public class PredictionConfig {
         this.traceFile = traceFile;
     }
 
+    public String getCerebroClasspath() {
+        return cerebroClasspath;
+    }
+
+    public void setCerebroClasspath(String cerebroClasspath) {
+        this.cerebroClasspath = cerebroClasspath;
+    }
+
+    public String getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(String clazz) {
+        this.clazz = clazz;
+    }
+
+    public boolean isLoadNecessaryClasses() {
+        return loadNecessaryClasses;
+    }
+
+    public void setLoadNecessaryClasses(boolean loadNecessaryClasses) {
+        this.loadNecessaryClasses = loadNecessaryClasses;
+    }
+
+    public boolean isWholeProgramMode() {
+        return wholeProgramMode;
+    }
+
+    public void setWholeProgramMode(boolean wholeProgramMode) {
+        this.wholeProgramMode = wholeProgramMode;
+    }
+
     public void validate() throws Exception {
         if (benchmarkDataDir == null && benchmarkDataSvc == null) {
             throw new Exception("One of benchmark data directory and benchmark data service" +
@@ -117,12 +154,16 @@ public class PredictionConfig {
         } else if (benchmarkDataDir != null && benchmarkDataSvc != null) {
             throw new Exception("Both benchmark data directory and benchmark data service" +
                     " should not be specified.");
-        } else if (traceFile == null) {
-            throw new Exception("Trace file path must be specified.");
+        } else if (traceFile == null && cerebroClasspath == null) {
+            throw new Exception("One of trace file path and Cerebro class path must be specified.");
         } else if (quantile < 0 || quantile > 1) {
             throw new Exception("Quantile must be in the interval [0,1]");
         } else if (confidence < 0 || confidence > 1) {
             throw new Exception("Confidence must be in the interval [0,1]");
+        } else if (traceFile != null && cerebroClasspath != null) {
+            throw new Exception("Trace file and Cerebro class path should not specified together.");
+        } else if (cerebroClasspath != null && clazz == null) {
+            throw new Exception("Class must be specified when Cerebro class path is provided.");
         }
     }
 }

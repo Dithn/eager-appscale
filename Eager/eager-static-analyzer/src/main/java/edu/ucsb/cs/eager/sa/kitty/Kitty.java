@@ -19,9 +19,12 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.cerebro.CFGAnalyzer;
+import edu.ucsb.cs.eager.sa.cerebro.Cerebro;
 import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSBasedPredictor;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationBasedPredictor;
 import org.apache.commons.cli.*;
+import soot.SootMethod;
 
 import java.io.*;
 import java.util.*;
@@ -39,15 +42,26 @@ public class Kitty {
         Options options = new Options();
         options.addOption("i", "input-file", true,
                 "Path to the Cerebro trace file");
+
+        options.addOption("ccp", "cerebro-classpath", true,
+                "Cerebro classpath");
+        options.addOption("c", "class", true,
+                "Class to be used as the starting point");
+        options.addOption("dnc", "disable-nec-classes", false,
+                "Disable loading of necessary classes");
+        options.addOption("wp", "whole-program", false,
+                "Enable whole program mode");
+
         options.addOption("b", "benchmark-dir", true,
                 "Path to the directory containing seed benchmark results");
         options.addOption("sn", "simulations", true,
                 "Number of times to simulate each path (default 100)");
+
         options.addOption("s", "benchmark-svc", true,
                 "URL of the benchmark data service");
         options.addOption("q", "quantile", true,
                 "Execution time quantile that should be predicted");
-        options.addOption("c", "confidence", true,
+        options.addOption("cn", "confidence", true,
                 "Upper confidence of the predicted execution time quantile");
         options.addOption("a", "aggregate-ts", false,
                 "Aggregate multiple time series into a single time series");
@@ -65,6 +79,11 @@ public class Kitty {
 
         PredictionConfig config = new PredictionConfig();
         config.setTraceFile(cmd.getOptionValue("i"));
+        config.setCerebroClasspath(cmd.getOptionValue("ccp"));
+        config.setClazz(cmd.getOptionValue("c"));
+        config.setLoadNecessaryClasses(!cmd.hasOption("dnc"));
+        config.setWholeProgramMode(cmd.hasOption("wp"));
+
         config.setBenchmarkDataDir(cmd.getOptionValue("b"));
         String sn = cmd.getOptionValue("sn");
         if (sn != null) {
@@ -75,7 +94,7 @@ public class Kitty {
         if (q != null) {
             config.setQuantile(Double.parseDouble(q));
         }
-        String c = cmd.getOptionValue("c");
+        String c = cmd.getOptionValue("cn");
         if (c != null) {
             config.setConfidence(Double.parseDouble(c));
         }
@@ -93,7 +112,13 @@ public class Kitty {
     }
 
     public void run(PredictionConfig config) throws IOException {
-        List<MethodInfo> methods = getMethods(config);
+        Collection<MethodInfo> methods;
+        if (config.getTraceFile() != null) {
+            methods = getMethodsFromTraceFile(config);
+        } else {
+            methods = getMethodsFromCerebro(config);
+        }
+
         if (config.getBenchmarkDataDir() != null) {
             SimulationBasedPredictor.predict(config, methods);
         } else if (config.getBenchmarkDataSvc() != null) {
@@ -103,7 +128,7 @@ public class Kitty {
         }
     }
 
-    private List<MethodInfo> getMethods(PredictionConfig config) throws IOException {
+    private Collection<MethodInfo> getMethodsFromTraceFile(PredictionConfig config) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(config.getTraceFile()));
         TraceLogParser parser = new TraceLogParser();
         String line;
@@ -115,6 +140,31 @@ public class Kitty {
             reader.close();
         }
         return parser.getMethods();
+    }
+
+    private Collection<MethodInfo> getMethodsFromCerebro(PredictionConfig config) {
+        Cerebro cerebro = new Cerebro(config.getCerebroClasspath(), config.getClazz());
+        cerebro.setLoadNecessaryClasses(config.isLoadNecessaryClasses());
+        cerebro.setWholeProgramMode(config.isWholeProgramMode());
+        try {
+            Map<SootMethod,CFGAnalyzer> results = cerebro.analyze();
+            Set<MethodInfo> methods = new TreeSet<MethodInfo>(new MethodInfo.MethodInfoComparator());
+            for (Map.Entry<SootMethod,CFGAnalyzer> entry : results.entrySet()) {
+                MethodInfo mi = new MethodInfo(entry.getKey().getName());
+                for (List<SootMethod> path : entry.getValue().getPaths()) {
+                    List<APICall> callPath = new ArrayList<APICall>();
+                    for (SootMethod sm : path) {
+                        callPath.add(new APICall(sm.getDeclaringClass().getName() + "#" +
+                                sm.getName() + "()"));
+                    }
+                    mi.addPath(callPath);
+                }
+                methods.add(mi);
+            }
+            return methods;
+        } finally {
+            cerebro.cleanup();
+        }
     }
 
 }
