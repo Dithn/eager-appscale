@@ -19,12 +19,19 @@
 
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
+import edu.ucsb.cs.eager.sa.kitty.APICall;
 import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
+import edu.ucsb.cs.eager.sa.kitty.Prediction;
 import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class QBETSBasedPredictor {
 
@@ -47,9 +54,36 @@ public class QBETSBasedPredictor {
         }
     }
 
-    private static double predictExecTime(MethodInfo m, String bmDataSvc,
+    private static Prediction predictExecTime(MethodInfo method, String bmDataSvc,
                                         double quantile, double confidence) {
-        return 0.0;
+
+        List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
+        for (List<APICall> p : method.getPaths()) {
+            if (p.size() == 1 && p.get(0).getName().equals("-- No API Calls --")) {
+                continue;
+            }
+            pathsOfInterest.add(p);
+        }
+
+        if (pathsOfInterest.size() == 0) {
+            return new Prediction("No paths with API calls found");
+        }
+
+        for (int i = 0; i < pathsOfInterest.size(); i++) {
+            List<APICall> path = pathsOfInterest.get(i);
+            Set<String> uniqueOps = new HashSet<String>();
+            for (APICall call : path) {
+                uniqueOps.add(call.getShortName());
+            }
+
+            JSONObject msg = new JSONObject();
+            msg.put("quantile", quantile);
+            msg.put("confidence", confidence);
+            msg.put("operations", new JSONArray(uniqueOps));
+            System.out.println(msg.toString());
+        }
+
+        return null;
     }
 
 }

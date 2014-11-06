@@ -21,6 +21,7 @@ package edu.ucsb.cs.eager.sa.kitty.simulation;
 
 import edu.ucsb.cs.eager.sa.kitty.APICall;
 import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
+import edu.ucsb.cs.eager.sa.kitty.Prediction;
 import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
 
 import java.io.File;
@@ -92,7 +93,7 @@ public class SimulationBasedPredictor {
             // And return the most expensive one
             Prediction max = new Prediction(0.0);
             for (int i = 0; i < pathsOfInterest.size(); i++) {
-                if (predictions[i].mean > max.mean) {
+                if (predictions[i].getValue() > max.getValue()) {
                     max = predictions[i];
                 }
             }
@@ -122,24 +123,4 @@ public class SimulationBasedPredictor {
         return new Prediction(total / simulations);
     }
 
-    private static class Prediction {
-        private String msg;
-        private double mean;
-
-        private Prediction(String msg) {
-            this.msg = msg;
-        }
-
-        private Prediction(double mean) {
-            this.mean = mean;
-        }
-
-        @Override
-        public String toString() {
-            if (msg != null) {
-                return msg;
-            }
-            return String.format("%.4fms", mean);
-        }
-    }
 }
