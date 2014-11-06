@@ -23,15 +23,19 @@ import edu.ucsb.cs.eager.sa.kitty.APICall;
 import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
 import edu.ucsb.cs.eager.sa.kitty.Prediction;
 import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.InputStream;
+import java.util.*;
 
 public class QBETSBasedPredictor {
 
@@ -55,7 +59,7 @@ public class QBETSBasedPredictor {
     }
 
     private static Prediction predictExecTime(MethodInfo method, String bmDataSvc,
-                                        double quantile, double confidence) {
+                                        double quantile, double confidence) throws IOException {
 
         List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
         for (List<APICall> p : method.getPaths()) {
@@ -69,21 +73,80 @@ public class QBETSBasedPredictor {
             return new Prediction("No paths with API calls found");
         }
 
-        for (int i = 0; i < pathsOfInterest.size(); i++) {
-            List<APICall> path = pathsOfInterest.get(i);
-            Set<String> uniqueOps = new HashSet<String>();
+        Set<Integer> pathLengths = new HashSet<Integer>();
+        Set<String> uniqueOps = new HashSet<String>();
+        for (List<APICall> path : pathsOfInterest) {
+            pathLengths.add(path.size());
             for (APICall call : path) {
                 uniqueOps.add(call.getShortName());
             }
-
-            JSONObject msg = new JSONObject();
-            msg.put("quantile", quantile);
-            msg.put("confidence", confidence);
-            msg.put("operations", new JSONArray(uniqueOps));
-            System.out.println(msg.toString());
         }
 
-        return null;
+        Map<Integer, Map<String,Integer>> quantiles = new HashMap<Integer, Map<String, Integer>>();
+        for (Integer pathLength : pathLengths) {
+            double adjustedQuantile = Math.pow(quantile, 1.0/pathLength);
+            quantiles.put(pathLength, getQuantiles(bmDataSvc, adjustedQuantile, confidence, uniqueOps));
+        }
+        Prediction[] predictions = new Prediction[pathsOfInterest.size()];
+        for (int i = 0; i < pathsOfInterest.size(); i++) {
+            List<APICall> path = pathsOfInterest.get(i);
+            predictions[i] = analyzePath(path, quantiles.get(path.size()));
+        }
+
+        // And return the most expensive one
+        Prediction max = new Prediction(0.0);
+        for (int i = 0; i < pathsOfInterest.size(); i++) {
+            if (predictions[i].getValue() > max.getValue()) {
+                max = predictions[i];
+            }
+        }
+        return max;
+    }
+
+    private static Prediction analyzePath(List<APICall> path, Map<String,Integer> quantiles) {
+        double total = 0.0;
+        for (APICall call : path) {
+            total += quantiles.get(call.getShortName());
+        }
+        return new Prediction(total);
+    }
+
+    private static Map<String,Integer> getQuantiles(String bmDataSvc, double quantile,
+                                                    double confidence, Collection<String> ops) throws IOException {
+        JSONObject msg = new JSONObject();
+        msg.put("quantile", quantile);
+        msg.put("confidence", confidence);
+        msg.put("operations", new JSONArray(ops));
+
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        JSONObject svcResponse;
+        try {
+            HttpPost request = new HttpPost(bmDataSvc + "/predict");
+            StringEntity params = new StringEntity(msg.toString());
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+
+            System.out.println("Contacting benchmark data service... " + msg.toString());
+            HttpResponse response = httpClient.execute(request);
+            InputStream in = response.getEntity().getContent();
+            StringBuilder sb = new StringBuilder();
+            byte[] data = new byte[1024];
+            int len;
+            while ((len = in.read(data)) != -1) {
+                sb.append(new String(data, 0, len));
+            }
+            svcResponse = new JSONObject(sb.toString());
+        } finally {
+            httpClient.close();
+        }
+
+        Map<String,Integer> quantiles = new HashMap<String, Integer>();
+        Iterator keys = svcResponse.keys();
+        while (keys.hasNext()) {
+            String k = (String) keys.next();
+            quantiles.put(k, svcResponse.getInt(k));
+        }
+        return quantiles;
     }
 
 }
