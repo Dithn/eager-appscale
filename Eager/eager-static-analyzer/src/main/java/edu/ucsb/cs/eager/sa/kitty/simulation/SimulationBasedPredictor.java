@@ -17,7 +17,11 @@
  *  under the License.
  */
 
-package edu.ucsb.cs.eager.sa.kitty;
+package edu.ucsb.cs.eager.sa.kitty.simulation;
+
+import edu.ucsb.cs.eager.sa.kitty.APICall;
+import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
+import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
 
 import java.io.File;
 import java.io.FilenameFilter;

@@ -19,6 +19,8 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSBasedPredictor;
+import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationBasedPredictor;
 import org.apache.commons.cli.*;
 
 import java.io.*;

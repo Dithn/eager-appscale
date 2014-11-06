@@ -17,7 +17,7 @@
  *  under the License.
  */
 
-package edu.ucsb.cs.eager.sa.kitty;
+package edu.ucsb.cs.eager.sa.kitty.simulation;
 
 import java.io.BufferedReader;
 import java.io.File;

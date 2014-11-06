@@ -19,8 +19,6 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class PredictionConfig {
 
     /**

@@ -17,8 +17,10 @@
  *  under the License.
  */
 
-package edu.ucsb.cs.eager.sa.kitty;
+package edu.ucsb.cs.eager.sa.kitty.qbets;
 
+import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
+import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
@@ -30,5 +32,24 @@ public class QBETSBasedPredictor {
         if (config.isAggregateTimeSeries()) {
             throw new NotImplementedException();
         }
+
+        for (MethodInfo m : methods) {
+            System.out.println(m.getName());
+            for (int i = 0; i < m.getName().length(); i++) {
+                System.out.print("=");
+            }
+            System.out.println();
+            System.out.println("Total paths: " + m.getPaths().size());
+            // TODO: read q,c from CLI
+            System.out.println("Worst-case exec time: " + predictExecTime(m,
+                    config.getBenchmarkDataSvc(), 0.95, 0.05));
+            System.out.println();
+        }
     }
+
+    private static double predictExecTime(MethodInfo m, String bmDataSvc,
+                                        double quantile, double confidence) {
+        return 0.0;
+    }
+
 }
