@@ -136,6 +136,9 @@ public class QBETSBasedPredictor {
             while ((len = in.read(data)) != -1) {
                 sb.append(new String(data, 0, len));
             }
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new IOException(sb.toString());
+            }
             svcResponse = new JSONObject(sb.toString());
         } finally {
             httpClient.close();

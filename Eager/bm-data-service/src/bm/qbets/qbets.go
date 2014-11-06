@@ -44,7 +44,13 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64) (string, error) {
 	}
 
 	// TODO: How to set the -t parameter properly?
-	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-t", "10").Output()
+	t := "0"
+	if len(ts) < 10 {
+		return "", fmt.Errorf("not enough data points in the TimeSeries")
+	} else if len(ts) < 200 {
+		t = "10"
+	}
+	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-t", t).Output()
 	if err != nil {
 		return "", err
 	}
