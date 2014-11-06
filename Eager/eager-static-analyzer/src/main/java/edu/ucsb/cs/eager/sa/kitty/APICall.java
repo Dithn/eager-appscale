@@ -30,4 +30,13 @@ public class APICall {
     public String getName() {
         return name;
     }
+
+    public String getShortName() {
+        if (name.startsWith("com.google.appengine.api.")) {
+            String api = name.split("\\.")[4];
+            String op = name.substring(name.indexOf('#') + 1, name.indexOf('('));
+            return "bm_" + api + "_" + op;
+        }
+        throw new RuntimeException("Unsupported API call name: " + name);
+    }
 }
