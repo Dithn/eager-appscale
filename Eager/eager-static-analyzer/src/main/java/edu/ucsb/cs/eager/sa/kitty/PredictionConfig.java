@@ -35,6 +35,14 @@ public class PredictionConfig {
      */
     private String benchmarkDataSvc;
     /**
+     * Execution time quantile that should be predicted.
+     */
+    private double quantile = 0.95;
+    /**
+     * Upper confidence of the predicted time quantile.
+     */
+    private double confidence = 0.05;
+    /**
      * Whether the predictions should be made by aggregating
      * multiple time series data into a single time series.
      */
@@ -74,6 +82,22 @@ public class PredictionConfig {
         return aggregateTimeSeries;
     }
 
+    public double getQuantile() {
+        return quantile;
+    }
+
+    public void setQuantile(double quantile) {
+        this.quantile = quantile;
+    }
+
+    public double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(double confidence) {
+        this.confidence = confidence;
+    }
+
     public void setAggregateTimeSeries(boolean aggregateTimeSeries) {
         this.aggregateTimeSeries = aggregateTimeSeries;
     }
@@ -95,6 +119,10 @@ public class PredictionConfig {
                     " should not be specified.");
         } else if (traceFile == null) {
             throw new Exception("Trace file path must be specified.");
+        } else if (quantile < 0 || quantile > 1) {
+            throw new Exception("Quantile must be in the interval [0,1]");
+        } else if (confidence < 0 || confidence > 1) {
+            throw new Exception("Confidence must be in the interval [0,1]");
         }
     }
 }

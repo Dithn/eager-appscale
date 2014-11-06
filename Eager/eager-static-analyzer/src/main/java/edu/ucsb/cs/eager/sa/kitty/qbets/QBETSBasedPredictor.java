@@ -51,15 +51,13 @@ public class QBETSBasedPredictor {
             }
             System.out.println();
             System.out.println("Total paths: " + m.getPaths().size());
-            // TODO: read q,c from CLI
-            System.out.println("Worst-case exec time: " + predictExecTime(m,
-                    config.getBenchmarkDataSvc(), 0.95, 0.05));
-            System.out.println();
+            Prediction prediction = predictExecTime(m, config);
+            System.out.println("\nWorst-case exec time: " + prediction);
         }
     }
 
-    private static Prediction predictExecTime(MethodInfo method, String bmDataSvc,
-                                        double quantile, double confidence) throws IOException {
+    private static Prediction predictExecTime(MethodInfo method,
+                                              PredictionConfig config) throws IOException {
 
         List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
         for (List<APICall> p : method.getPaths()) {
@@ -82,11 +80,14 @@ public class QBETSBasedPredictor {
             }
         }
 
+        // Compute quantiles for each API call, under different API call counts
         Map<Integer, Map<String,Integer>> quantiles = new HashMap<Integer, Map<String, Integer>>();
         for (Integer pathLength : pathLengths) {
-            double adjustedQuantile = Math.pow(quantile, 1.0/pathLength);
-            quantiles.put(pathLength, getQuantiles(bmDataSvc, adjustedQuantile, confidence, uniqueOps));
+            double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
+            quantiles.put(pathLength, getQuantiles(config.getBenchmarkDataSvc(),
+                    adjustedQuantile, config.getConfidence(), uniqueOps));
         }
+
         Prediction[] predictions = new Prediction[pathsOfInterest.size()];
         for (int i = 0; i < pathsOfInterest.size(); i++) {
             List<APICall> path = pathsOfInterest.get(i);
@@ -126,7 +127,7 @@ public class QBETSBasedPredictor {
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
 
-            System.out.println("Contacting benchmark data service... " + msg.toString());
+            System.out.println("Contacting benchmark data service... ");
             HttpResponse response = httpClient.execute(request);
             InputStream in = response.getEntity().getContent();
             StringBuilder sb = new StringBuilder();
@@ -140,11 +141,16 @@ public class QBETSBasedPredictor {
             httpClient.close();
         }
 
+        System.out.printf("\nQuantile: %.4f; Confidence: %.4f\n", quantile, confidence);
+        System.out.println("------------------------------------");
+
         Map<String,Integer> quantiles = new HashMap<String, Integer>();
         Iterator keys = svcResponse.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();
-            quantiles.put(k, svcResponse.getInt(k));
+            int value = svcResponse.getInt(k);
+            quantiles.put(k, value);
+            System.out.println(k + ": " + value + "ms");
         }
         return quantiles;
     }

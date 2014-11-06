@@ -45,6 +45,10 @@ public class Kitty {
                 "Number of times to simulate each path (default 100)");
         options.addOption("s", "benchmark-svc", true,
                 "URL of the benchmark data service");
+        options.addOption("q", "quantile", true,
+                "Execution time quantile that should be predicted");
+        options.addOption("c", "confidence", true,
+                "Upper confidence of the predicted execution time quantile");
         options.addOption("a", "aggregate-ts", false,
                 "Aggregate multiple time series into a single time series");
 
@@ -67,6 +71,14 @@ public class Kitty {
             config.setSimulations(Integer.parseInt(sn));
         }
         config.setBenchmarkDataSvc(cmd.getOptionValue("s"));
+        String q = cmd.getOptionValue("q");
+        if (q != null) {
+            config.setQuantile(Double.parseDouble(q));
+        }
+        String c = cmd.getOptionValue("c");
+        if (c != null) {
+            config.setConfidence(Double.parseDouble(c));
+        }
         config.setAggregateTimeSeries(cmd.hasOption("a"));
 
         try {
