@@ -45,12 +45,19 @@ public class QBETSBasedPredictor {
             throw new NotImplementedException();
         }
 
-        System.out.printf("\nQuantile: %.4f; Confidence: %.4f\n", config.getQuantile(),
+        System.out.printf("\nQuantile: %.4f\nConfidence: %.4f\n\n", config.getQuantile(),
                 config.getConfidence());
         QuantileCache cache = new QuantileCache();
+        int maxLength = 0;
+        for (MethodInfo m : methods) {
+            if (m.getName().length() > maxLength) {
+                maxLength = m.getName().length();
+            }
+        }
         for (MethodInfo m : methods) {
             Prediction prediction = predictExecTime(m, config, cache);
-            System.out.printf("%s\t%d\t%s\n", m.getName(), m.getPaths().size(), prediction.toString());
+            System.out.format("%-" + maxLength + "s%5d%15s\n", m.getName(), m.getPaths().size(),
+                    prediction.toString());
         }
     }
 
@@ -70,7 +77,7 @@ public class QBETSBasedPredictor {
         }
 
         if (pathsOfInterest.size() == 0) {
-            return new Prediction("No paths with API calls found");
+            return new Prediction("------");
         }
 
         Set<Integer> pathLengths = new HashSet<Integer>();
