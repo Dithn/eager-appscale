@@ -89,6 +89,8 @@ public class QBETSBasedPredictor {
                 continue;
             }
 
+            // If there are n API calls in the path, we need to compute the n-th root
+            // quantile for each API call
             double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
             Map<String,Integer> map = getQuantiles(config.getBenchmarkDataSvc(),
                     adjustedQuantile, config.getConfidence(), reducedOps);
