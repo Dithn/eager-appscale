@@ -45,8 +45,8 @@ public class QBETSBasedPredictor {
             throw new NotImplementedException();
         }
 
-        System.out.printf("\nQuantile: %.4f\nConfidence: %.4f\n\n", config.getQuantile(),
-                config.getConfidence());
+        System.out.printf("\nQuantile: %.4f\nConfidence: %.4f\nClass: %s\n\n",
+                config.getQuantile(), config.getConfidence(), config.getClazz());
         QuantileCache cache = new QuantileCache();
         int maxLength = 0;
         for (MethodInfo m : methods) {

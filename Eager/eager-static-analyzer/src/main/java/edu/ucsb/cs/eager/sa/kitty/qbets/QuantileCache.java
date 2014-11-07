@@ -27,18 +27,18 @@ public class QuantileCache {
     private Map<String,Integer> cache = new HashMap<String, Integer>();
 
     public void put(String op, int pathLength, int quantile) {
-        cache.put(getKey(op, pathLength), quantile);
+        cache.put(key(op, pathLength), quantile);
     }
 
     public int get(String op, int pathLength) {
-        return cache.get(getKey(op, pathLength));
+        return cache.get(key(op, pathLength));
     }
 
     public boolean contains(String op, int pathLength) {
-        return cache.containsKey(getKey(op, pathLength));
+        return cache.containsKey(key(op, pathLength));
     }
 
-    private String getKey(String op, int pathLength) {
+    private String key(String op, int pathLength) {
         return op + "__" + pathLength;
     }
 }
