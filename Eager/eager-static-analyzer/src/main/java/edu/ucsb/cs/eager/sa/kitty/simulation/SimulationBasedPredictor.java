@@ -19,10 +19,7 @@
 
 package edu.ucsb.cs.eager.sa.kitty.simulation;
 
-import edu.ucsb.cs.eager.sa.kitty.APICall;
-import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
-import edu.ucsb.cs.eager.sa.kitty.Prediction;
-import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
+import edu.ucsb.cs.eager.sa.kitty.*;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -71,31 +68,18 @@ public class SimulationBasedPredictor {
 
     private static Prediction predictExecTime(MethodInfo method, Map<String,TimingDistribution> bm,
                                        int simulations) {
-        List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
-        for (List<APICall> p : method.getPaths()) {
-            if (p.size() == 1 && p.get(0).getName().equals("-- No API Calls --")) {
-                continue;
-            }
-            pathsOfInterest.add(p);
-        }
-
+        List<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             return new Prediction("No paths with API calls found");
-        } else {
-            Prediction[] predictions = new Prediction[pathsOfInterest.size()];
-            // Simulate each path
-            for (int i = 0; i < pathsOfInterest.size(); i++) {
-                predictions[i] = simulatePath(pathsOfInterest.get(i), bm, simulations);
-            }
-            // And return the most expensive one
-            Prediction max = new Prediction(0.0);
-            for (int i = 0; i < pathsOfInterest.size(); i++) {
-                if (predictions[i].getValue() > max.getValue()) {
-                    max = predictions[i];
-                }
-            }
-            return max;
         }
+
+        Prediction[] predictions = new Prediction[pathsOfInterest.size()];
+        // Simulate each path
+        for (int i = 0; i < pathsOfInterest.size(); i++) {
+            predictions[i] = simulatePath(pathsOfInterest.get(i), bm, simulations);
+        }
+        // And return the most expensive one
+        return PredictionUtils.max(predictions);
     }
 
     private static Prediction simulatePath(List<APICall> path, Map<String,TimingDistribution> bm,

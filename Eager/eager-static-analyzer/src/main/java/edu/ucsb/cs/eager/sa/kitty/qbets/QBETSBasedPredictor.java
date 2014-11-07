@@ -19,10 +19,7 @@
 
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
-import edu.ucsb.cs.eager.sa.kitty.APICall;
-import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
-import edu.ucsb.cs.eager.sa.kitty.Prediction;
-import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
+import edu.ucsb.cs.eager.sa.kitty.*;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -64,18 +61,7 @@ public class QBETSBasedPredictor {
     private static Prediction predictExecTime(MethodInfo method, PredictionConfig config,
                                               QuantileCache cache) throws IOException {
 
-        List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
-        for (List<APICall> p : method.getPaths()) {
-            if (p.size() == 1 && p.get(0).getName().equals("-- No API Calls --")) {
-                // this is for when the trace is loaded from a file
-                continue;
-            } else if (p.size() == 0) {
-                // this is for when the trace is loaded from Cerebro
-                continue;
-            }
-            pathsOfInterest.add(p);
-        }
-
+        List<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             return new Prediction("------");
         }
@@ -93,6 +79,7 @@ public class QBETSBasedPredictor {
         for (Integer pathLength : pathLengths) {
             Set<String> reducedOps = new HashSet<String>();
             for (String op : uniqueOps) {
+                // Only request combinations, that are not in the cache already
                 if (!cache.contains(op, pathLength)) {
                     reducedOps.add(op);
                 }
@@ -117,13 +104,7 @@ public class QBETSBasedPredictor {
         }
 
         // And return the most expensive one
-        Prediction max = new Prediction(0.0);
-        for (int i = 0; i < pathsOfInterest.size(); i++) {
-            if (predictions[i].getValue() > max.getValue()) {
-                max = predictions[i];
-            }
-        }
-        return max;
+        return PredictionUtils.max(predictions);
     }
 
     private static Prediction analyzePath(List<APICall> path, QuantileCache cache) {
