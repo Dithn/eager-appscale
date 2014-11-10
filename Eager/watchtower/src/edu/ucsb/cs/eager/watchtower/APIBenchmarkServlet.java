@@ -19,7 +19,6 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
-import com.google.appengine.api.datastore.*;
 import edu.ucsb.cs.eager.watchtower.benchmark.APIBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmark;
 
@@ -43,25 +42,15 @@ public class APIBenchmarkServlet extends HttpServlet {
 
         long timestamp = System.currentTimeMillis();
         Map<String,Map<String,Integer>> results = new HashMap<String, Map<String, Integer>>();
+        DataPoint p = new DataPoint(timestamp);
         for (APIBenchmark b : benchmarks) {
-            results.put(b.getName(), b.benchmark());
+            Map<String,Integer> data = b.benchmark();
+            p.putAll(data);
+            results.put(b.getName(), data);
         }
 
-        saveDataPoint(results, timestamp);
+        p.save();
         JSONUtils.serialize(results, resp);
     }
-
-    private void saveDataPoint(Map<String,Map<String,Integer>> results, long timestamp) {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Entity dataPoint = new Entity(Constants.DATA_POINT_KIND, Constants.DATA_POINT_PARENT);
-        dataPoint.setProperty(Constants.DATA_POINT_TIMESTAMP, timestamp);
-        for (Map<String,Integer> apiData : results.values()) {
-            for (Map.Entry<String,Integer> entry : apiData.entrySet()) {
-                dataPoint.setProperty(entry.getKey(), entry.getValue());
-            }
-        }
-        datastore.put(dataPoint);
-    }
-
 
 }

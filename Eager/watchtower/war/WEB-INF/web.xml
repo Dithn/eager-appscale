@@ -13,14 +13,22 @@
         <servlet-name>QueryServlet</servlet-name>
         <servlet-class>edu.ucsb.cs.eager.watchtower.QueryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BackupServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.eager.watchtower.BackupServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>APIBenchmarkServlet</servlet-name>
         <url-pattern>/benchmark</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>QueryServlet</servlet-name>
         <url-pattern>/query</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BackupServlet</servlet-name>
+        <url-pattern>/backup</url-pattern>
     </servlet-mapping>
 
 </web-app>

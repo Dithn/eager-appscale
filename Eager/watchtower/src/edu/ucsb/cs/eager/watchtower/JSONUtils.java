@@ -31,23 +31,6 @@ import java.util.Map;
 
 public class JSONUtils {
 
-    public static void serialize(Entity entity,
-                                 HttpServletResponse response) throws IOException {
-        setContentType(response);
-        response.getOutputStream().println(toJSON(entity).toString());
-    }
-
-    public static void serialize(Iterable<Entity> entities,
-                                 HttpServletResponse response) throws IOException {
-        List<JSONObject> list = new ArrayList<JSONObject>();
-        for (Entity entity : entities) {
-            list.add(toJSON(entity));
-        }
-        JSONArray jsonArray = new JSONArray(list);
-        setContentType(response);
-        response.getOutputStream().println(jsonArray.toString());
-    }
-
     public static void serialize(Map<String,Map<String,Integer>> map,
                                  HttpServletResponse response) throws IOException {
         JSONObject json = new JSONObject(map);
@@ -62,8 +45,11 @@ public class JSONUtils {
         response.getOutputStream().println(json.toString());
     }
 
-    private static JSONObject toJSON(Entity entity) {
-        return new JSONObject(entity.getProperties());
+    public static void serializeDump(Map<Long,Map<String,Integer>> map,
+                                      HttpServletResponse response) throws IOException {
+        JSONObject json = new JSONObject(map);
+        setContentType(response);
+        response.getOutputStream().println(json.toString());
     }
 
     private static void setContentType(HttpServletResponse response) {
