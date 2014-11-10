@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -53,5 +54,9 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("Prediction:", pred)
+	fmt.Println("Actual Quantile (QBETS):", pred)
+
+	sort.Ints(ts)
+	index := int(float64(len(ts)) * (*q))
+	fmt.Println("Actual Quantile: ", ts[index - 1], "(element-", index, ")")
 }

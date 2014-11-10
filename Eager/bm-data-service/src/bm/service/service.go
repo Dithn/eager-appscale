@@ -4,6 +4,7 @@ import (
 	"bm/db"
 	"bm/qbets"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"net/http"
 	"sync"
@@ -43,6 +44,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			go func(key string, data db.TimeSeries){
 				defer func(){ <- c }()
 				defer wg.Done()
+				fmt.Printf("%s (q = %f, c = %f) => %d data points\n", key, tsr.Quantile, tsr.Confidence, len(data))
 				p, err := qbets.PredictQuantile(data, tsr.Quantile, tsr.Confidence)
 				if err != nil {
 					perr = err
@@ -100,8 +102,14 @@ func main() {
 		return
 	}*/
 
+	url := flag.String("u", "", "URL of the Watchtower service")
+	flag.Parse()
+	if *url == "" {
+		fmt.Println("URL of the Watchtower service not specified.")
+		return
+	}
 	d := &db.AEDatabase{
-		BaseURL: "http://192.168.33.101:8081",
+		BaseURL: *url,
 	}
 	fmt.Println("Loading TimeSeries data from the Watchtower service at", d.BaseURL)
 

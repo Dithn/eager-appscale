@@ -1,0 +1,9 @@
+{
+  "maxLength": -1,
+  "operations": [
+    "bm_datastore_get",
+    "bm_datastore_put"
+  ],
+  "quantile": 0.95,
+  "confidence": 0.05
+}
