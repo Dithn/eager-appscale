@@ -32,6 +32,8 @@ import java.util.Map;
 
 public class APIBenchmarkServlet extends HttpServlet {
 
+    private static boolean first = true;
+
     private static final APIBenchmark[] benchmarks = new APIBenchmark[]{
         new DatastoreBenchmark(),
     };
@@ -49,7 +51,12 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        if (p.save()) {
+        if (first) {
+            // Always drop the very first data point collected.
+            // This is almost always an outlier.
+            first = false;
+            JSONUtils.serialize(results, resp);
+        } else if (p.save()) {
             JSONUtils.serialize(results, resp);
         } else {
             resp.sendError(500, "Failed to save benchmark data point");
