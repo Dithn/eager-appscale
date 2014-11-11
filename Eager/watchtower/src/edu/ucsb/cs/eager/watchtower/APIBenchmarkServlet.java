@@ -49,8 +49,11 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        p.save();
-        JSONUtils.serialize(results, resp);
+        if (p.save()) {
+            JSONUtils.serialize(results, resp);
+        } else {
+            resp.sendError(500, "Failed to save benchmark data point");
+        }
     }
 
 }

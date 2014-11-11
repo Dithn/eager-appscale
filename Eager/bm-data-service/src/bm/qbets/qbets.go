@@ -50,7 +50,7 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64) (string, error) {
 	} else if len(ts) < 200 {
 		t = "10"
 	}
-	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-t", t).Output()
+	out, err := exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-t", t, "-T").Output()
 	if err != nil {
 		return "", err
 	}

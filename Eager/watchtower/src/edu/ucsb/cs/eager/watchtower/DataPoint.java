@@ -31,8 +31,6 @@ public class DataPoint {
     private long timestamp;
     private Map<String,Integer> data = new HashMap<String, Integer>();
 
-    private static final Object lock = new Object();
-
     public DataPoint(long timestamp) {
         this.timestamp = timestamp;
     }
@@ -53,13 +51,6 @@ public class DataPoint {
         return this.data;
     }
 
-    public void save() {
-        synchronized (DataPoint.lock) {
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            datastore.put(toEntity());
-        }
-    }
-
     private Entity toEntity() {
         Entity entity = new Entity(Constants.DATA_POINT_KIND, Constants.DATA_POINT_PARENT);
         entity.setProperty(Constants.DATA_POINT_TIMESTAMP, timestamp);
@@ -69,44 +60,79 @@ public class DataPoint {
         return entity;
     }
 
-    public static List<DataPoint> getAll() {
-        Query q = new Query(Constants.DATA_POINT_KIND).
-                addSort(Constants.DATA_POINT_TIMESTAMP, Query.SortDirection.ASCENDING);
-
+    public boolean save() {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery pq = datastore.prepare(q);
-        List<DataPoint> data = new ArrayList<DataPoint>();
-        for (Entity entity : pq.asIterable()) {
-            DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
-            Map<String,Object> props = entity.getProperties();
-            for (Map.Entry<String,Object> entry : props.entrySet()) {
-                if (entry.getKey().startsWith("bm_")) {
-                    // AppEngine turns integers into longs.
-                    // So the value returned here would be a Long.
-                    long value = (Long) entry.getValue();
-                    p.put(entry.getKey(), (int) value);
-                }
+        Transaction txn = datastore.beginTransaction();
+        boolean result = true;
+        try {
+            datastore.put(txn, toEntity());
+            txn.commit();
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+                result = false;
             }
-            data.add(p);
         }
-        return data;
+        return result;
     }
 
-    public static void restore(List<DataPoint> dataPoints) {
-        synchronized (DataPoint.lock) {
-            Query q = new Query(Constants.DATA_POINT_KIND).
-                    addSort(Constants.DATA_POINT_TIMESTAMP, Query.SortDirection.ASCENDING);
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            PreparedQuery pq = datastore.prepare(q);
+    public static List<DataPoint> getAll() {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Query q = new Query(Constants.DATA_POINT_KIND, Constants.DATA_POINT_PARENT).
+                addSort(Constants.DATA_POINT_TIMESTAMP, Query.SortDirection.ASCENDING);
+        Transaction txn = datastore.beginTransaction();
+        try {
+            PreparedQuery pq = datastore.prepare(txn, q);
+            List<DataPoint> data = new ArrayList<DataPoint>();
             for (Entity entity : pq.asIterable()) {
-                datastore.delete(entity.getKey());
+                DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
+                Map<String,Object> props = entity.getProperties();
+                for (Map.Entry<String,Object> entry : props.entrySet()) {
+                    if (entry.getKey().startsWith("bm_")) {
+                        // AppEngine turns integers into longs.
+                        // So the value returned here would be a Long.
+                        long value = (Long) entry.getValue();
+                        p.put(entry.getKey(), (int) value);
+                    }
+                }
+                data.add(p);
             }
+            txn.commit();
+            return data;
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    public static boolean restore(List<DataPoint> dataPoints) {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Transaction txn = datastore.beginTransaction();
+
+        boolean result = true;
+        try {
+            Query q = new Query(Constants.DATA_POINT_KIND, Constants.DATA_POINT_PARENT).
+                    addSort(Constants.DATA_POINT_TIMESTAMP, Query.SortDirection.ASCENDING);
+            PreparedQuery pq = datastore.prepare(txn, q);
+            List<Key> keys = new ArrayList<Key>();
+            for (Entity entity : pq.asIterable()) {
+                keys.add(entity.getKey());
+            }
+            datastore.delete(txn, keys);
 
             List<Entity> entities = new ArrayList<Entity>();
             for (DataPoint p : dataPoints) {
                 entities.add(p.toEntity());
             }
-            datastore.put(entities);
+            datastore.put(txn, entities);
+            txn.commit();
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+                result = false;
+            }
         }
+        return result;
     }
 }

@@ -44,12 +44,12 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			go func(key string, data db.TimeSeries){
 				defer func(){ <- c }()
 				defer wg.Done()
-				fmt.Printf("%s (q = %f, c = %f) => %d data points\n", key, tsr.Quantile, tsr.Confidence, len(data))
 				p, err := qbets.PredictQuantile(data, tsr.Quantile, tsr.Confidence)
 				if err != nil {
 					perr = err
 					return
 				}
+				fmt.Printf("%s (q = %f, c = %f) => %f (%d data points)\n", key, tsr.Quantile, tsr.Confidence, p, len(data))
 				predictions[key] = p
 			}(k, ts)
 		}

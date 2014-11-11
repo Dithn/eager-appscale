@@ -58,5 +58,5 @@ func main() {
 
 	sort.Ints(ts)
 	index := int(float64(len(ts)) * (*q))
-	fmt.Println("Actual Quantile: ", ts[index - 1], "(element-", index, ")")
+	fmt.Println("Actual Quantile: ", ts[index - 1], "(element =", index, ")")
 }

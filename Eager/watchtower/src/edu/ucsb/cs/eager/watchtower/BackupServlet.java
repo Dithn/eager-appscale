@@ -72,8 +72,11 @@ public class BackupServlet extends HttpServlet {
                 dataPoints.add(p);
             }
 
-            DataPoint.restore(dataPoints);
-            System.out.println("Restored " + dataPoints.size() + " data points...");
+            if (DataPoint.restore(dataPoints)) {
+                System.out.println("Restored " + dataPoints.size() + " data points...");
+            } else {
+                resp.sendError(500, "Restoration operation failed");
+            }
         } catch (JSONException e) {
             throw new IOException("Error parsing JSON string", e);
         }
