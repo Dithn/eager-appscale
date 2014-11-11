@@ -45,7 +45,7 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64) (string, error) {
 
 	// TODO: How to set the -t parameter properly?
 	t := "0"
-	if len(ts) < 10 {
+	if len(ts) < 20 {
 		return "", fmt.Errorf("not enough data points in the TimeSeries")
 	} else if len(ts) < 200 {
 		t = "10"
