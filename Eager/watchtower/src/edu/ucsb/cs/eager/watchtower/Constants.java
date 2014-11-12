@@ -35,4 +35,10 @@ public class Constants {
         public static final String GET = "bm_datastore_get";
         public static final String DELETE = "bm_datastore_delete";
     }
+
+    public class DatastoreJDO {
+        public static final String MAKE_PERSISTENT = "bm_datastore_jdo_makePersistent";
+        public static final String EXECUTE = "bm_datastore_jdo_execute";
+        public static final String DELETE = "bm_datastore_jdo_delete";
+    }
 }

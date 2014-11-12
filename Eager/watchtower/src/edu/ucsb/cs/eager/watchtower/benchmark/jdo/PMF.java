@@ -17,22 +17,20 @@
  *  under the License.
  */
 
-package edu.ucsb.cs.eager.watchtower.benchmark;
+package edu.ucsb.cs.eager.watchtower.benchmark.jdo;
 
-import javax.servlet.ServletException;
-import java.util.Map;
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManagerFactory;
 
-public abstract class APIBenchmark {
+public class PMF {
 
-    public abstract String getName();
+    private static final PersistenceManagerFactory pmfInstance =
+            JDOHelper.getPersistenceManagerFactory("transactions-optional");
 
-    public abstract Map<String,Integer> benchmark() throws ServletException;
+    private PMF() {}
 
-    protected void sleep(long t) {
-        try {
-            Thread.sleep(t);
-        } catch (InterruptedException ignored) {
-        }
+    public static PersistenceManagerFactory get() {
+        return pmfInstance;
     }
 
 }

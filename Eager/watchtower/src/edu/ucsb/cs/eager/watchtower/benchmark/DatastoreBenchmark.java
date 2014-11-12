@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class DatastoreBenchmark implements APIBenchmark {
+public class DatastoreBenchmark extends APIBenchmark {
 
     public static final String PROJECT_ID = "project_id";
     public static final String NAME = "name";
@@ -87,12 +87,5 @@ public class DatastoreBenchmark implements APIBenchmark {
         long start = System.currentTimeMillis();
         datastore.delete(key);
         return (int) (System.currentTimeMillis() - start);
-    }
-
-    private void sleep(long t) {
-        try {
-            Thread.sleep(t);
-        } catch (InterruptedException ignored) {
-        }
     }
 }
