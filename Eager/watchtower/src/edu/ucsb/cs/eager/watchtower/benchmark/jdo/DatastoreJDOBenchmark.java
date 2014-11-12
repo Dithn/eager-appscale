@@ -27,7 +27,6 @@ import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class DatastoreJDOBenchmark extends APIBenchmark {
 
@@ -38,8 +37,7 @@ public class DatastoreJDOBenchmark extends APIBenchmark {
 
     @Override
     public Map<String, Integer> benchmark() throws ServletException {
-        // Drop the '-' signs. JDO doesn't like that.
-        String projectId = UUID.randomUUID().toString().replaceAll("\\-", "");
+        String projectId = "TestProjectId";
         Map<String,Integer> results = new HashMap<String, Integer>();
 
         // makePersistent
