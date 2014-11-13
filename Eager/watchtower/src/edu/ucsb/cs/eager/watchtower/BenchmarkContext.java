@@ -24,7 +24,7 @@ public class BenchmarkContext {
     private static final BenchmarkContext instance = new BenchmarkContext();
 
     private boolean firstRecord = true;
-    private boolean collectionStopped = false;
+    private boolean collectionStopped = true;
 
     private BenchmarkContext(){
     }
