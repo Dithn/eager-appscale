@@ -31,7 +31,11 @@ public class QuantileCache {
     }
 
     public int get(String op, int pathLength) {
-        return cache.get(key(op, pathLength));
+        String k = key(op, pathLength);
+        if (cache.containsKey(k)) {
+            return cache.get(k);
+        }
+        throw new IllegalArgumentException("No benchmark data available for: " + op);
     }
 
     public boolean contains(String op, int pathLength) {

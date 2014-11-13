@@ -101,8 +101,11 @@ public class QBETSBasedPredictor {
 
         Prediction[] predictions = new Prediction[pathsOfInterest.size()];
         for (int i = 0; i < pathsOfInterest.size(); i++) {
-            List<APICall> path = pathsOfInterest.get(i);
-            predictions[i] = analyzePath(path, cache);
+            try {
+                predictions[i] = analyzePath(pathsOfInterest.get(i), cache);
+            } catch (Exception e) {
+                return new Prediction("error");
+            }
         }
 
         // And return the most expensive one
