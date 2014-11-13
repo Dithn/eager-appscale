@@ -33,11 +33,9 @@ import java.util.Map;
 
 public class APIBenchmarkServlet extends HttpServlet {
 
-    private static boolean first = true;
-
     private static final APIBenchmark[] benchmarks = new APIBenchmark[]{
         new DatastoreBenchmark(),
-        new DatastoreJDOBenchmark(),
+        //new DatastoreJDOBenchmark(),
     };
 
     @Override
@@ -53,10 +51,11 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        if (first) {
+        BenchmarkContext context = BenchmarkContext.getInstance();
+        if (context.isFirstRecord() || context.isCollectionStopped()) {
             // Always drop the very first data point collected.
             // This is almost always an outlier.
-            first = false;
+            context.setFirstRecord(false);
             JSONUtils.serialize(results, resp);
         } else if (p.save()) {
             JSONUtils.serialize(results, resp);
@@ -65,4 +64,12 @@ public class APIBenchmarkServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req,
+                          HttpServletResponse resp) throws ServletException, IOException {
+        String stopCollection = req.getParameter("stopCollection");
+        BenchmarkContext context = BenchmarkContext.getInstance();
+        context.setCollectionStopped(Boolean.parseBoolean(stopCollection));
+        JSONUtils.serializeCollectionStatus(context.isCollectionStopped(), resp);
+    }
 }

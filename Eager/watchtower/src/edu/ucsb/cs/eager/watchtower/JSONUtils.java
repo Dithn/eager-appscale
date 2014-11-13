@@ -21,6 +21,7 @@ package edu.ucsb.cs.eager.watchtower;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.labs.repackaged.org.json.JSONArray;
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,18 @@ public class JSONUtils {
         JSONObject json = new JSONObject(map);
         setContentType(response);
         response.getOutputStream().println(json.toString());
+    }
+
+    public static void serializeCollectionStatus(boolean collectionStopped,
+                                                 HttpServletResponse response) throws IOException {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("collectionStopped", collectionStopped);
+            response.getOutputStream().println(json.toString());
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+
     }
 
     private static void setContentType(HttpServletResponse response) {
