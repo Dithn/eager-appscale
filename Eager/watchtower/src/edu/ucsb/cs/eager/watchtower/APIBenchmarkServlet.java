@@ -56,12 +56,10 @@ public class APIBenchmarkServlet extends HttpServlet {
             // Always drop the very first data point collected.
             // This is almost always an outlier.
             context.setFirstRecord(false);
-            JSONUtils.serialize(results, resp);
-        } else if (p.save()) {
-            JSONUtils.serialize(results, resp);
         } else {
-            resp.sendError(500, "Failed to save benchmark data point");
+            p.save();
         }
+        JSONUtils.serialize(results, resp);
     }
 
     @Override

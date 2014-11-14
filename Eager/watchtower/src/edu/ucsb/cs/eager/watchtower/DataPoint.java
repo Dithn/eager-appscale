@@ -60,50 +60,31 @@ public class DataPoint {
         return entity;
     }
 
-    public boolean save() {
+    public void save() {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Transaction txn = datastore.beginTransaction();
-        boolean result = true;
-        try {
-            datastore.put(txn, toEntity());
-            txn.commit();
-        } finally {
-            if (txn.isActive()) {
-                txn.rollback();
-                result = false;
-            }
-        }
-        return result;
+        datastore.put(toEntity());
     }
 
     public static List<DataPoint> getAll() {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query q = new Query(Constants.DATA_POINT_KIND, Constants.DATA_POINT_PARENT).
                 addSort(Constants.DATA_POINT_TIMESTAMP, Query.SortDirection.ASCENDING);
-        Transaction txn = datastore.beginTransaction();
-        try {
-            PreparedQuery pq = datastore.prepare(txn, q);
-            List<DataPoint> data = new ArrayList<DataPoint>();
-            for (Entity entity : pq.asIterable()) {
-                DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
-                Map<String,Object> props = entity.getProperties();
-                for (Map.Entry<String,Object> entry : props.entrySet()) {
-                    if (entry.getKey().startsWith("bm_")) {
-                        // AppEngine turns integers into longs.
-                        // So the value returned here would be a Long.
-                        long value = (Long) entry.getValue();
-                        p.put(entry.getKey(), (int) value);
-                    }
+        PreparedQuery pq = datastore.prepare(q);
+        List<DataPoint> data = new ArrayList<DataPoint>();
+        for (Entity entity : pq.asIterable()) {
+            DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
+            Map<String,Object> props = entity.getProperties();
+            for (Map.Entry<String,Object> entry : props.entrySet()) {
+                if (entry.getKey().startsWith("bm_")) {
+                    // AppEngine turns integers into longs.
+                    // So the value returned here would be a Long.
+                    long value = (Long) entry.getValue();
+                    p.put(entry.getKey(), (int) value);
                 }
-                data.add(p);
             }
-            txn.commit();
-            return data;
-        } finally {
-            if (txn.isActive()) {
-                txn.rollback();
-            }
+            data.add(p);
         }
+        return data;
     }
 
     public static boolean restore(List<DataPoint> dataPoints) {
