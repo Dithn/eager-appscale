@@ -51,12 +51,16 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        BenchmarkContext context = BenchmarkContext.getInstance();
+        BenchmarkContext context = new BenchmarkContext();
         if (context.isFirstRecord() || context.isCollectionStopped()) {
             // Always drop the very first data point collected.
             // This is almost always an outlier.
             context.setFirstRecord(false);
-            JSONUtils.serialize(results, resp);
+            if (context.save()) {
+                JSONUtils.serialize(results, resp);
+            } else {
+                resp.sendError(500, "Failed to save benchmark context");
+            }
         } else if (p.save()) {
             JSONUtils.serialize(results, resp);
         } else {
@@ -68,8 +72,12 @@ public class APIBenchmarkServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req,
                           HttpServletResponse resp) throws ServletException, IOException {
         String stopCollection = req.getParameter("stopCollection");
-        BenchmarkContext context = BenchmarkContext.getInstance();
+        BenchmarkContext context = new BenchmarkContext();
         context.setCollectionStopped(Boolean.parseBoolean(stopCollection));
-        JSONUtils.serializeCollectionStatus(context.isCollectionStopped(), resp);
+        if (context.save()) {
+            JSONUtils.serializeCollectionStatus(context.isCollectionStopped(), resp);
+        } else {
+            resp.sendError(500, "Failed to save benchmark context");
+        }
     }
 }

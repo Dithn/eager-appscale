@@ -24,10 +24,15 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public class Constants {
 
-    public static final String DATA_POINT_KIND = "DATA_POINT";
+    public static final String BM_CONTEXT_KIND = "BM_CONTEXT";
+    public static final String BM_CONTEXT_KEY = "BM_CONTEXT";
+    public static final String BM_CONTEXT_FIRST_RECORD = "FirstRecord";
+    public static final String BM_CONTEXT_STOP_COLLECTION = "StopCollection";
 
+    public static final String DATA_POINT_KIND = "DATA_POINT";
     public static final String DATA_POINT_TIMESTAMP = "Timestamp";
 
+    public static final Key BM_CONTEXT_PARENT = KeyFactory.createKey("BMContextParent", "Root");
     public static final Key DATA_POINT_PARENT = KeyFactory.createKey("DataPointParent", "Root");
 
     public class Datastore {

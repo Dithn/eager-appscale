@@ -19,18 +19,32 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
-public class BenchmarkContext {
+import com.google.appengine.api.datastore.*;
 
-    private static final BenchmarkContext instance = new BenchmarkContext();
+public class BenchmarkContext {
 
     private boolean firstRecord = true;
     private boolean collectionStopped = true;
 
-    private BenchmarkContext(){
-    }
-
-    public static BenchmarkContext getInstance() {
-        return instance;
+    public BenchmarkContext(){
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Query q = new Query(Constants.BM_CONTEXT_KIND, Constants.BM_CONTEXT_PARENT);
+        Transaction txn = datastore.beginTransaction();
+        try {
+            PreparedQuery pq = datastore.prepare(txn, q);
+            Entity entity = pq.asSingleEntity();
+            if (entity != null) {
+                firstRecord = (Boolean) entity.getProperty(
+                        Constants.BM_CONTEXT_FIRST_RECORD);
+                collectionStopped = (Boolean) entity.getProperty(
+                        Constants.BM_CONTEXT_STOP_COLLECTION);
+            }
+            txn.commit();
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
     }
 
     public boolean isFirstRecord() {
@@ -48,4 +62,25 @@ public class BenchmarkContext {
     public void setCollectionStopped(boolean collectionStopped) {
         this.collectionStopped = collectionStopped;
     }
+
+    public boolean save() {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Transaction txn = datastore.beginTransaction();
+        boolean result = true;
+        try {
+            Entity entity = new Entity(Constants.BM_CONTEXT_KIND,
+                    Constants.BM_CONTEXT_KEY, Constants.BM_CONTEXT_PARENT);
+            entity.setProperty(Constants.BM_CONTEXT_FIRST_RECORD, firstRecord);
+            entity.setProperty(Constants.BM_CONTEXT_STOP_COLLECTION, collectionStopped);
+            datastore.put(txn, entity);
+            txn.commit();
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+                result = false;
+            }
+        }
+        return result;
+    }
+
 }
