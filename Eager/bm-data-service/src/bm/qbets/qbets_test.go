@@ -10,11 +10,11 @@ func TestPredictQuantile(t *testing.T) {
 	for i := 0; i < 250; i++ {
 		slice = append(slice, i%100)
 	}
-	q, err := PredictQuantile(db.TimeSeries(slice), 0.95, 0.05)
+	q, err := PredictQuantile(db.TimeSeries(slice), 0.95, 0.05, false)
 	if err != nil {
 		t.Error(err)
 	}
-	if q != 96 {
-		t.Errorf("expected: 96, got: %f", q)
+	if q != 99 {
+		t.Errorf("expected: 99, got: %f", q)
 	}
 }
