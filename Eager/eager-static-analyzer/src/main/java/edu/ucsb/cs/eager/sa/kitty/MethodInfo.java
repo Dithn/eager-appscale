@@ -33,7 +33,7 @@ public class MethodInfo {
      */
     private int explicitPathCount;
 
-    private List<List<APICall>> paths = new ArrayList<List<APICall>>();
+    private List<Path> paths = new ArrayList<Path>();
 
     public MethodInfo(String name) {
         this.name = name;
@@ -43,11 +43,11 @@ public class MethodInfo {
         return name;
     }
 
-    public void addPath(List<APICall> path) {
+    public void addPath(Path path) {
         paths.add(path);
     }
 
-    public List<List<APICall>> getPaths() {
+    public List<Path> getPaths() {
         return paths;
     }
 

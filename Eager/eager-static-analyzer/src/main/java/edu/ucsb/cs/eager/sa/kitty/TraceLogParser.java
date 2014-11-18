@@ -30,7 +30,7 @@ public class TraceLogParser {
     private int state = READY;
     private MethodInfo currentMethod;
     private String currentPrefix;
-    private List<APICall> currentPath;
+    private Path currentPath;
 
     private Set<MethodInfo> methods = new TreeSet<MethodInfo>(new MethodInfo.MethodInfoComparator());
 
@@ -50,7 +50,7 @@ public class TraceLogParser {
                 if (line.startsWith("API call traces:")) {
                     state = PATHS;
                     currentPrefix = "[path0]";
-                    currentPath = new ArrayList<APICall>();
+                    currentPath = new Path();
                 } else if (line.startsWith("Distinct paths through the code: ")) {
                     String pathCountStr = line.substring(line.indexOf(':') + 2);
                     int pathCount = Integer.parseInt(pathCountStr);
@@ -75,7 +75,7 @@ public class TraceLogParser {
                     String apiCall = line.substring(index + 1);
                     if (!prefix.equals(currentPrefix)) {
                         currentMethod.addPath(currentPath);
-                        currentPath = new ArrayList<APICall>();
+                        currentPath = new Path();
                     }
                     currentPath.add(new APICall(apiCall));
                     currentPrefix = prefix;

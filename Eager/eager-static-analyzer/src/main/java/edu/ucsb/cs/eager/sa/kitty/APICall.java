@@ -39,4 +39,12 @@ public class APICall {
         }
         throw new RuntimeException("Unsupported API call name: " + name);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof APICall) {
+            return this.name.equals(((APICall) obj).name);
+        }
+        return false;
+    }
 }

@@ -34,10 +34,10 @@ public class PredictionUtils {
         return max;
     }
 
-    public static List<List<APICall>> getPathsOfInterest(MethodInfo method) {
-        List<List<APICall>> pathsOfInterest = new ArrayList<List<APICall>>();
-        for (List<APICall> p : method.getPaths()) {
-            if (p.size() == 1 && p.get(0).getName().equals("-- No API Calls --")) {
+    public static List<Path> getPathsOfInterest(MethodInfo method) {
+        List<Path> pathsOfInterest = new ArrayList<Path>();
+        for (Path p : method.getPaths()) {
+            if (p.size() == 1 && p.calls().get(0).getName().equals("-- No API Calls --")) {
                 // this is for when the trace is loaded from a file
                 continue;
             } else if (p.size() == 0) {

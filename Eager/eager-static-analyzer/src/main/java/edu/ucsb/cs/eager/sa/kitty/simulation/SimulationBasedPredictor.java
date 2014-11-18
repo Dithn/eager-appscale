@@ -68,7 +68,7 @@ public class SimulationBasedPredictor {
 
     private static Prediction predictExecTime(MethodInfo method, Map<String,TimingDistribution> bm,
                                        int simulations) {
-        List<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
+        List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             return new Prediction("No paths with API calls found");
         }
@@ -82,12 +82,12 @@ public class SimulationBasedPredictor {
         return PredictionUtils.max(predictions);
     }
 
-    private static Prediction simulatePath(List<APICall> path, Map<String,TimingDistribution> bm,
+    private static Prediction simulatePath(Path path, Map<String,TimingDistribution> bm,
                                     int simulations) {
         double[] results = new double[simulations];
         for (int i = 0; i < simulations; i++) {
             double total = 0.0;
-            for (APICall call : path) {
+            for (APICall call : path.calls()) {
                 if (bm.containsKey(call.getShortName())) {
                     total += bm.get(call.getShortName()).sample();
                 } else {

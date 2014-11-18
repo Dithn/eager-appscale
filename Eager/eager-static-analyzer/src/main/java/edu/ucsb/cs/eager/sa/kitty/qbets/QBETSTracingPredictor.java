@@ -19,10 +19,7 @@
 
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
-import edu.ucsb.cs.eager.sa.kitty.APICall;
-import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
-import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
-import edu.ucsb.cs.eager.sa.kitty.PredictionUtils;
+import edu.ucsb.cs.eager.sa.kitty.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,8 +38,8 @@ public class QBETSTracingPredictor {
 
         Set<String> ops = new HashSet<String>();
         for (MethodInfo m : methods) {
-            for (List<APICall> path : m.getPaths()) {
-                for (APICall call : path) {
+            for (Path path : m.getPaths()) {
+                for (APICall call : path.calls()) {
                     ops.add(call.getShortName());
                 }
             }
@@ -71,23 +68,49 @@ public class QBETSTracingPredictor {
     private static void analyzeMethod(MethodInfo method, TimeSeriesDataCache cache,
                                       PredictionConfig config) throws IOException {
         printTitle(method.getName(), '=');
-        List<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
+        List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             System.out.println("No paths with API calls found.");
             return;
         }
 
-        System.out.println(pathsOfInterest.size() + " paths with API calls found.");
+        if (pathsOfInterest.size() > 1) {
+            System.out.println(pathsOfInterest.size() + " paths with API calls found.");
+        } else {
+            System.out.println("1 path with API calls found.");
+        }
 
-        // TODO: Compute the list of 'unique' paths
-        for (int i = 0; i < pathsOfInterest.size(); i++) {
-            printTitle("Path: " + i, '-');
-            analyzePath(pathsOfInterest.get(i), cache, config);
+        List<Path> uniquePaths = new ArrayList<Path>();
+        uniquePaths.add(pathsOfInterest.get(0));
+        for (int i = 1; i < pathsOfInterest.size(); i++) {
+            Path current = pathsOfInterest.get(i);
+            boolean matchFound = false;
+            for (Path uniquePath : uniquePaths) {
+                if (uniquePath.equivalent(current)) {
+                    matchFound = true;
+                    break;
+                }
+            }
+            if (!matchFound) {
+                uniquePaths.add(current);
+            }
+        }
+
+        if (uniquePaths.size() > 1) {
+            System.out.println(uniquePaths.size() + " unique paths with API calls found.");
+        } else {
+            System.out.println("1 unique path with API calls found.");
+        }
+
+        for (int i = 0; i < uniquePaths.size(); i++) {
+            analyzePath(method, pathsOfInterest.get(i), i, cache, config);
         }
     }
 
-    private static void analyzePath(List<APICall> path, TimeSeriesDataCache cache,
-                                    PredictionConfig config) throws IOException {
+    private static void analyzePath(MethodInfo method, Path path, int pathIndex,
+                                    TimeSeriesDataCache cache, PredictionConfig config) throws IOException {
+        printTitle("Path: " + pathIndex, '-');
+
         int tsLength = cache.getTimeSeriesLength();
         int pathLength = path.size();
         double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
@@ -95,7 +118,7 @@ public class QBETSTracingPredictor {
         // create new aggregate time series
         int[] aggregate = new int[tsLength];
         for (int i = 0; i < tsLength; i++) {
-            for (APICall call : path) {
+            for (APICall call : path.calls()) {
                 aggregate[i] += cache.getTimeSeries(call.getShortName())[i];
             }
         }
@@ -129,11 +152,13 @@ public class QBETSTracingPredictor {
 
         exec.shutdownNow();
 
+        System.out.println();
         int failures = 0;
         for (int i = 0; i < results.length; i++) {
             TraceAnalysisResult r = results[i];
             if (r.e != null) {
-                System.err.println("------------ error ------------");
+                System.err.printf("[trace][%s][%d] %4d ------------ error ------------\n",
+                        method.getName(), pathIndex, i + MIN_INDEX);
                 continue;
             }
             if (i > 0) {
@@ -142,11 +167,13 @@ public class QBETSTracingPredictor {
                     failures++;
                 }
                 double successRate = ((double)(i - failures) / i) * 100.0;
-                System.out.printf("%4d %4dms %4dms %4dms  %-5s %4.4f\n", i + MIN_INDEX, r.approach1,
-                        r.approach2, r.sum, success, successRate);
+                System.out.printf("[trace][%s][%d] %4d %4dms %4dms %4dms  %-5s %4.4f\n",
+                        method.getName(), pathIndex, i + MIN_INDEX, r.approach1, r.approach2,
+                        r.sum, success, successRate);
             } else {
-                System.out.printf("%4d %4dms %4dms %4dms  %-5s %-7s\n", i + MIN_INDEX, r.approach1,
-                        r.approach2, r.sum, "N/A", "N/A");
+                System.out.printf("[trace][%s][%d] %4d %4dms %4dms %4dms  %-5s %-7s\n",
+                        method.getName(), pathIndex, i + MIN_INDEX, r.approach1, r.approach2,
+                        r.sum, "N/A", "N/A");
             }
         }
     }
@@ -199,7 +226,7 @@ public class QBETSTracingPredictor {
 
     private static class PredictionWorker implements Runnable {
 
-        private List<APICall> path;
+        private Path path;
         private TimeSeriesDataCache cache;
         private int tsPos;
         private double adjustedQuantile;
@@ -214,7 +241,7 @@ public class QBETSTracingPredictor {
             try {
                 // Approach 1
                 int prediction1 = 0;
-                for (APICall call : path) {
+                for (APICall call : path.calls()) {
                     String op = call.getShortName();
                     if (!cache.containsQuantile(op, pathLength, tsPos)) {
                         int[] copy = new int[tsPos + 1];
@@ -235,7 +262,9 @@ public class QBETSTracingPredictor {
                 r.approach1 = prediction1;
                 r.approach2 = prediction2;
                 r.sum = aggregate[tsPos];
-                System.out.println("Computed the predictions for index: " + tsPos);
+                if (tsPos % 100 == 0) {
+                    System.out.println("Computed the predictions for index: " + tsPos);
+                }
             } catch (IOException e) {
                 r.e = e;
                 System.err.println("Error computing the predictions for index: " + tsPos);

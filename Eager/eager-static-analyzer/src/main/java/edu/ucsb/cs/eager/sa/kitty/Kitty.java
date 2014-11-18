@@ -160,7 +160,7 @@ public class Kitty {
             for (Map.Entry<SootMethod,CFGAnalyzer> entry : results.entrySet()) {
                 MethodInfo mi = new MethodInfo(entry.getKey().getName());
                 for (List<SootMethod> path : entry.getValue().getPaths()) {
-                    List<APICall> callPath = new ArrayList<APICall>();
+                    Path callPath = new Path();
                     for (SootMethod sm : path) {
                         callPath.add(new APICall(sm.getDeclaringClass().getName() + "#" +
                                 sm.getName() + "()"));

@@ -55,16 +55,16 @@ public class SimpleQBETSPredictor {
     private static Prediction predictExecTime(MethodInfo method, PredictionConfig config,
                                               QuantileCache cache) throws IOException {
 
-        List<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
+        List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             return new Prediction("------");
         }
 
         Set<Integer> pathLengths = new HashSet<Integer>();
         Set<String> uniqueOps = new HashSet<String>();
-        for (List<APICall> path : pathsOfInterest) {
+        for (Path path : pathsOfInterest) {
             pathLengths.add(path.size());
-            for (APICall call : path) {
+            for (APICall call : path.calls()) {
                 uniqueOps.add(call.getShortName());
             }
         }
@@ -106,9 +106,9 @@ public class SimpleQBETSPredictor {
         return PredictionUtils.max(predictions);
     }
 
-    private static Prediction analyzePath(List<APICall> path, QuantileCache cache) {
+    private static Prediction analyzePath(Path path, QuantileCache cache) {
         double total = 0.0;
-        for (APICall call : path) {
+        for (APICall call : path.calls()) {
             total += cache.get(call.getShortName(), path.size());
         }
         return new Prediction(total);
