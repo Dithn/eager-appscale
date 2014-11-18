@@ -28,6 +28,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class QBETSTracingPredictor {
 
@@ -97,47 +100,52 @@ public class QBETSTracingPredictor {
             }
         }
 
-        TraceAnalysisResult[] results = new TraceAnalysisResult[tsLength - MIN_INDEX];
-        int failures = 0;
-        System.out.println("\nPos Prediction1 Prediction2 CurrentSum Success SuccessRate");
-        for (int tsPos = MIN_INDEX; tsPos < tsLength; tsPos++) {
-            // Approach 1
-            int prediction1 = 0;
-            for (APICall call : path) {
-                String op = call.getShortName();
-                if (!cache.containsQuantile(op, pathLength, tsPos)) {
-                    int[] copy = new int[tsPos + 1];
-                    System.arraycopy(cache.getTimeSeries(op), 0, copy, 0, copy.length);
-                    int prediction = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
-                            adjustedQuantile, config.getConfidence());
-                    cache.putQuantile(op, pathLength, tsPos, prediction);
-                }
-                prediction1 += cache.getQuantile(op, pathLength, tsPos);
+        int dataPoints = 250; //tsLength - MIN_INDEX;
+        TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
+        Future<?>[] futures = new Future<?>[dataPoints];
+        ExecutorService exec = Executors.newFixedThreadPool(8);
+
+        for (int tsPos = 0; tsPos < dataPoints; tsPos++) {
+            PredictionWorker worker = new PredictionWorker();
+            worker.adjustedQuantile = adjustedQuantile;
+            worker.cache = cache;
+            worker.config = config;
+            worker.path = path;
+            worker.results = results;
+            worker.tsPos = MIN_INDEX + tsPos;
+            worker.aggregate = aggregate;
+
+            futures[tsPos] = exec.submit(worker);
+        }
+
+        // Wait for the workers to finish
+        for (Future<?> f : futures) {
+            try {
+                f.get();
+            } catch (Exception e) {
+                throw new IOException("Exception in the prediction worker", e);
             }
+        }
 
-            // Approach 2
-            int[] copy = new int[tsPos + 1];
-            System.arraycopy(aggregate, 0, copy, 0, copy.length);
-            int prediction2 = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
-                    config.getQuantile(), config.getConfidence());
+        exec.shutdownNow();
 
-            TraceAnalysisResult r = new TraceAnalysisResult();
-            r.approach1 = prediction1;
-            r.approach2 = prediction2;
-            r.sum = aggregate[tsPos];
-            results[tsPos - MIN_INDEX] = r;
-
-            if (tsPos > MIN_INDEX) {
-                boolean success = r.sum < results[tsPos - MIN_INDEX - 1].approach2;
+        int failures = 0;
+        for (int i = 0; i < results.length; i++) {
+            TraceAnalysisResult r = results[i];
+            if (r.e != null) {
+                System.err.println("------------ error ------------");
+                continue;
+            }
+            if (i > 0) {
+                boolean success = r.sum < results[i - 1].approach2;
                 if (!success) {
                     failures++;
                 }
-                double successRate = ((double)(tsPos - MIN_INDEX - failures) /
-                        (tsPos - MIN_INDEX)) * 100.0;
-                System.out.printf("%4d %4dms %4dms %4dms  %-5s %4.4f\n", tsPos, r.approach1,
+                double successRate = ((double)(i - failures) / i) * 100.0;
+                System.out.printf("%4d %4dms %4dms %4dms  %-5s %4.4f\n", i + MIN_INDEX, r.approach1,
                         r.approach2, r.sum, success, successRate);
             } else {
-                System.out.printf("%4d %4dms %4dms %4dms  %-5s %-7s\n", tsPos, r.approach1,
+                System.out.printf("%4d %4dms %4dms %4dms  %-5s %-7s\n", i + MIN_INDEX, r.approach1,
                         r.approach2, r.sum, "N/A", "N/A");
             }
         }
@@ -186,5 +194,53 @@ public class QBETSTracingPredictor {
         private int approach1;
         private int approach2;
         private int sum;
+        private Exception e;
+    }
+
+    private static class PredictionWorker implements Runnable {
+
+        private List<APICall> path;
+        private TimeSeriesDataCache cache;
+        private int tsPos;
+        private double adjustedQuantile;
+        private PredictionConfig config;
+        private int[] aggregate;
+        private TraceAnalysisResult[] results;
+
+        @Override
+        public void run() {
+            int pathLength = path.size();
+            TraceAnalysisResult r = new TraceAnalysisResult();
+            try {
+                // Approach 1
+                int prediction1 = 0;
+                for (APICall call : path) {
+                    String op = call.getShortName();
+                    if (!cache.containsQuantile(op, pathLength, tsPos)) {
+                        int[] copy = new int[tsPos + 1];
+                        System.arraycopy(cache.getTimeSeries(op), 0, copy, 0, copy.length);
+                        int prediction = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
+                                adjustedQuantile, config.getConfidence());
+                        cache.putQuantile(op, pathLength, tsPos, prediction);
+                    }
+                    prediction1 += cache.getQuantile(op, pathLength, tsPos);
+                }
+
+                // Approach 2
+                int[] copy = new int[tsPos + 1];
+                System.arraycopy(aggregate, 0, copy, 0, copy.length);
+                int prediction2 = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
+                        config.getQuantile(), config.getConfidence());
+
+                r.approach1 = prediction1;
+                r.approach2 = prediction2;
+                r.sum = aggregate[tsPos];
+                System.out.println("Computed the predictions for index: " + tsPos);
+            } catch (IOException e) {
+                r.e = e;
+                System.err.println("Error computing the predictions for index: " + tsPos);
+            }
+            results[tsPos - MIN_INDEX] = r;
+        }
     }
 }
