@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-public class QBETSBasedPredictor2 {
+public class QBETSTracingPredictor {
 
     public static void predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
@@ -114,7 +114,7 @@ public class QBETSBasedPredictor2 {
             int prediction2 = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
                     config.getQuantile(), config.getConfidence());
 
-            System.out.printf("%d  %d %d\n", tsPos, prediction1, prediction2);
+            System.out.printf("%4d %3dms %3dms\n", tsPos, prediction1, prediction2);
         }
     }
 

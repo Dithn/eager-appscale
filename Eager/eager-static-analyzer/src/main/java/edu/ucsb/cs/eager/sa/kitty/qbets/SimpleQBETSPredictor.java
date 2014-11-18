@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-public class QBETSBasedPredictor {
+public class SimpleQBETSPredictor {
 
     public static void predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
