@@ -22,6 +22,7 @@ package edu.ucsb.cs.eager.sa.kitty;
 import edu.ucsb.cs.eager.sa.cerebro.CFGAnalyzer;
 import edu.ucsb.cs.eager.sa.cerebro.Cerebro;
 import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSBasedPredictor;
+import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSBasedPredictor2;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationBasedPredictor;
 import org.apache.commons.cli.*;
 import soot.SootMethod;
@@ -122,7 +123,7 @@ public class Kitty {
         if (config.getBenchmarkDataDir() != null) {
             SimulationBasedPredictor.predict(config, methods);
         } else if (config.getBenchmarkDataSvc() != null) {
-            QBETSBasedPredictor.predict(config, methods);
+            QBETSBasedPredictor2.predict(config, methods);
         } else {
             throw new IllegalArgumentException();
         }
