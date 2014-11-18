@@ -16,6 +16,11 @@ type timeSeriesReq struct {
 	Quantile, Confidence float64
 }
 
+type customPredictionReq struct {
+	Data db.TimeSeries
+	Quantile, Confidence float64
+}
+
 func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
@@ -95,13 +100,41 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 	}
 }
 
-func main() {
-	/*d, err := db.NewFSDatabase("/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/appscale-benchmark-app/latest_results")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}*/
+func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		decoder := json.NewDecoder(r.Body)
+		cpr := customPredictionReq{
+			Quantile:   0.95,
+			Confidence: 0.05,
+		}
+		if err := decoder.Decode(&cpr); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
+		p, err := qbets.PredictQuantile(cpr.Data, cpr.Quantile, cpr.Confidence, false)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Printf("(q = %f, c = %f) => %f (%d data points)\n", cpr.Quantile, cpr.Confidence, p, len(cpr.Data))
+		predictions := map[string]float64{
+			"Prediction": p,
+			"Quantile": cpr.Quantile,
+			"Confidence": cpr.Confidence,
+		}
+
+		jsonString, err := json.Marshal(predictions)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonString)
+	}
+}
+
+func main() {
 	url := flag.String("u", "", "URL of the Watchtower service")
 	flag.Parse()
 	if *url == "" {
@@ -114,6 +147,7 @@ func main() {
 	fmt.Println("Loading TimeSeries data from the Watchtower service at", d.BaseURL)
 
 	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
+	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler())
 	http.HandleFunc("/ts", getTimeSeriesHandler(d))
 	http.ListenAndServe(":8080", nil)
 }
