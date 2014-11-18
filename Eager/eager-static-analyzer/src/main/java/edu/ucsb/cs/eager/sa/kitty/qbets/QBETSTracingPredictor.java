@@ -93,6 +93,9 @@ public class QBETSTracingPredictor {
             }
         }
 
+        TraceAnalysisResult[] results = new TraceAnalysisResult[tsLength - 199];
+        int failures = 0;
+        System.out.println("\nPos Prediction1 Prediction2 CurrentSum Success SuccessRate");
         for (int tsPos = 199; tsPos < tsLength; tsPos++) {
             // Approach 1
             int prediction1 = 0;
@@ -114,7 +117,24 @@ public class QBETSTracingPredictor {
             int prediction2 = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
                     config.getQuantile(), config.getConfidence());
 
-            System.out.printf("%4d %3dms %3dms\n", tsPos, prediction1, prediction2);
+            TraceAnalysisResult r = new TraceAnalysisResult();
+            r.approach1 = prediction1;
+            r.approach2 = prediction2;
+            r.sum = aggregate[tsPos];
+            results[tsPos - 199] = r;
+
+            if (tsPos > 199) {
+                boolean success = r.sum < results[tsPos - 199 - 1].approach2;
+                if (!success) {
+                    failures++;
+                }
+                double successRate = ((double)(tsPos - 199 - failures) / (tsPos - 199)) * 100.0;
+                System.out.printf("%4d %4dms %4dms %4dms  %-5s %4.4f\n", tsPos, r.approach1,
+                        r.approach2, r.sum, success, successRate);
+            } else {
+                System.out.printf("%4d %4dms %4dms %4dms  %-5s %-7s\n", tsPos, r.approach1,
+                        r.approach2, r.sum, "N/A", "N/A");
+            }
         }
     }
 
@@ -192,5 +212,11 @@ public class QBETSTracingPredictor {
             data.put(k, ts);
         }
         return data;
+    }
+
+    private static class TraceAnalysisResult {
+        private int approach1;
+        private int approach2;
+        private int sum;
     }
 }
