@@ -50,12 +50,15 @@ public class QBETSTracingPredictor {
             return;
         }
 
+        System.out.println("\nRetrieving time series data for " + ops.size() + " API calls...");
         TimeSeriesDataCache cache = new TimeSeriesDataCache(
                 getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
-        if (cache.getTimeSeriesLength() < MIN_INDEX + 1) {
+        int timeSeriesLength = cache.getTimeSeriesLength();
+        if (timeSeriesLength < MIN_INDEX + 1) {
             System.out.println("In sufficient data in time series.");
             return;
         }
+        System.out.println("Retrieved time series length: " + timeSeriesLength);
 
         for (MethodInfo m : methods) {
             analyzeMethod(m, cache, config);
@@ -64,14 +67,19 @@ public class QBETSTracingPredictor {
 
     private static void analyzeMethod(MethodInfo method, TimeSeriesDataCache cache,
                                       PredictionConfig config) throws IOException {
-        Collection<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
+        printTitle(method.getName(), '=');
+        List<List<APICall>> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
+            System.out.println("No paths with API calls found.");
             return;
         }
 
+        System.out.println(pathsOfInterest.size() + " paths with API calls found.");
+
         // TODO: Compute the list of 'unique' paths
-        for (List<APICall> path : pathsOfInterest) {
-            analyzePath(path, cache, config);
+        for (int i = 0; i < pathsOfInterest.size(); i++) {
+            printTitle("Path: " + i, '-');
+            analyzePath(pathsOfInterest.get(i), cache, config);
         }
     }
 
@@ -164,6 +172,14 @@ public class QBETSTracingPredictor {
             data.put(k, ts);
         }
         return data;
+    }
+
+    private static void printTitle(String text, char underline) {
+        System.out.println("\n" + text);
+        for (int i = 0; i < text.length(); i++) {
+            System.out.print(underline);
+        }
+        System.out.println();
     }
 
     private static class TraceAnalysisResult {

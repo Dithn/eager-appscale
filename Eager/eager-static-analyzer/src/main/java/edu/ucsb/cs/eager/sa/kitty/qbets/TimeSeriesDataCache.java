@@ -21,11 +21,12 @@ package edu.ucsb.cs.eager.sa.kitty.qbets;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TimeSeriesDataCache {
 
     private Map<String,int[]> ts;
-    private Map<String,Integer> quantiles = new HashMap<String, Integer>();
+    private Map<String,Integer> quantiles = new ConcurrentHashMap<String, Integer>();
 
     public TimeSeriesDataCache(Map<String, int[]> ts) {
         this.ts = ts;
