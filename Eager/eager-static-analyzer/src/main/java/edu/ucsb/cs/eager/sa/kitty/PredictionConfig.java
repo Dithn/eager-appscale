@@ -54,6 +54,12 @@ public class PredictionConfig {
      */
     private String traceFile;
 
+    /**
+     * Use the simple QBETS predictor, instead of the trace-based
+     * predictor.
+     */
+    private boolean simplePredictor;
+
     private String cerebroClasspath;
     private String clazz;
     private boolean loadNecessaryClasses = true;
@@ -145,6 +151,14 @@ public class PredictionConfig {
 
     public void setWholeProgramMode(boolean wholeProgramMode) {
         this.wholeProgramMode = wholeProgramMode;
+    }
+
+    public boolean isSimplePredictor() {
+        return simplePredictor;
+    }
+
+    public void setSimplePredictor(boolean simplePredictor) {
+        this.simplePredictor = simplePredictor;
     }
 
     public void validate() throws Exception {

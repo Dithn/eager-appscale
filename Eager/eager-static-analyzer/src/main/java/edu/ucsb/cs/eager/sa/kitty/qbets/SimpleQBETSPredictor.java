@@ -21,17 +21,11 @@ package edu.ucsb.cs.eager.sa.kitty.qbets;
 
 import edu.ucsb.cs.eager.sa.kitty.*;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 public class SimpleQBETSPredictor {
@@ -129,35 +123,12 @@ public class SimpleQBETSPredictor {
         msg.put("confidence", confidence);
         msg.put("operations", new JSONArray(ops));
 
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        JSONObject svcResponse;
-        try {
-            HttpPost request = new HttpPost(bmDataSvc + "/predict");
-            StringEntity params = new StringEntity(msg.toString());
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-
-            HttpResponse response = httpClient.execute(request);
-            InputStream in = response.getEntity().getContent();
-            StringBuilder sb = new StringBuilder();
-            byte[] data = new byte[1024];
-            int len;
-            while ((len = in.read(data)) != -1) {
-                sb.append(new String(data, 0, len));
-            }
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException(sb.toString());
-            }
-            svcResponse = new JSONObject(sb.toString());
-        } finally {
-            httpClient.close();
-        }
-
+        JSONObject resp = HttpUtils.doPost(bmDataSvc + "/predict", msg);
         Map<String,Integer> quantiles = new HashMap<String, Integer>();
-        Iterator keys = svcResponse.keys();
+        Iterator keys = resp.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();
-            quantiles.put(k, svcResponse.getInt(k));
+            quantiles.put(k, resp.getInt(k));
         }
         return quantiles;
     }

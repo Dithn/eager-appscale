@@ -23,19 +23,15 @@ import edu.ucsb.cs.eager.sa.kitty.APICall;
 import edu.ucsb.cs.eager.sa.kitty.MethodInfo;
 import edu.ucsb.cs.eager.sa.kitty.PredictionConfig;
 import edu.ucsb.cs.eager.sa.kitty.PredictionUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 public class QBETSTracingPredictor {
+
+    private static final int MIN_INDEX = 199;
 
     public static void predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
@@ -56,7 +52,7 @@ public class QBETSTracingPredictor {
 
         TimeSeriesDataCache cache = new TimeSeriesDataCache(
                 getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
-        if (cache.getTimeSeriesLength() < 200) {
+        if (cache.getTimeSeriesLength() < MIN_INDEX + 1) {
             System.out.println("In sufficient data in time series.");
             return;
         }
@@ -93,10 +89,10 @@ public class QBETSTracingPredictor {
             }
         }
 
-        TraceAnalysisResult[] results = new TraceAnalysisResult[tsLength - 199];
+        TraceAnalysisResult[] results = new TraceAnalysisResult[tsLength - MIN_INDEX];
         int failures = 0;
         System.out.println("\nPos Prediction1 Prediction2 CurrentSum Success SuccessRate");
-        for (int tsPos = 199; tsPos < tsLength; tsPos++) {
+        for (int tsPos = MIN_INDEX; tsPos < tsLength; tsPos++) {
             // Approach 1
             int prediction1 = 0;
             for (APICall call : path) {
@@ -121,14 +117,15 @@ public class QBETSTracingPredictor {
             r.approach1 = prediction1;
             r.approach2 = prediction2;
             r.sum = aggregate[tsPos];
-            results[tsPos - 199] = r;
+            results[tsPos - MIN_INDEX] = r;
 
-            if (tsPos > 199) {
-                boolean success = r.sum < results[tsPos - 199 - 1].approach2;
+            if (tsPos > MIN_INDEX) {
+                boolean success = r.sum < results[tsPos - MIN_INDEX - 1].approach2;
                 if (!success) {
                     failures++;
                 }
-                double successRate = ((double)(tsPos - 199 - failures) / (tsPos - 199)) * 100.0;
+                double successRate = ((double)(tsPos - MIN_INDEX - failures) /
+                        (tsPos - MIN_INDEX)) * 100.0;
                 System.out.printf("%4d %4dms %4dms %4dms  %-5s %4.4f\n", tsPos, r.approach1,
                         r.approach2, r.sum, success, successRate);
             } else {
@@ -145,30 +142,8 @@ public class QBETSTracingPredictor {
         msg.put("confidence", confidence);
         msg.put("data", new JSONArray(ts));
 
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        JSONObject svcResponse;
-        try {
-            HttpPost request = new HttpPost(bmDataSvc + "/cpredict");
-            StringEntity params = new StringEntity(msg.toString());
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-
-            HttpResponse response = httpClient.execute(request);
-            InputStream in = response.getEntity().getContent();
-            StringBuilder sb = new StringBuilder();
-            byte[] data = new byte[128];
-            int len;
-            while ((len = in.read(data)) != -1) {
-                sb.append(new String(data, 0, len));
-            }
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException(sb.toString());
-            }
-            svcResponse = new JSONObject(sb.toString());
-            return svcResponse.getInt("Prediction");
-        } finally {
-            httpClient.close();
-        }
+        JSONObject resp = HttpUtils.doPost(bmDataSvc + "/cpredict", msg);
+        return resp.getInt("Prediction");
     }
 
     private static Map<String,int[]> getTimeSeriesData(String bmDataSvc,
@@ -176,35 +151,12 @@ public class QBETSTracingPredictor {
         JSONObject msg = new JSONObject();
         msg.put("operations", new JSONArray(ops));
 
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        JSONObject svcResponse;
-        try {
-            HttpPost request = new HttpPost(bmDataSvc + "/ts");
-            StringEntity params = new StringEntity(msg.toString());
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-
-            HttpResponse response = httpClient.execute(request);
-            InputStream in = response.getEntity().getContent();
-            StringBuilder sb = new StringBuilder();
-            byte[] data = new byte[1024];
-            int len;
-            while ((len = in.read(data)) != -1) {
-                sb.append(new String(data, 0, len));
-            }
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException(sb.toString());
-            }
-            svcResponse = new JSONObject(sb.toString());
-        } finally {
-            httpClient.close();
-        }
-
+        JSONObject resp = HttpUtils.doPost(bmDataSvc + "/ts", msg);
         Map<String,int[]> data = new HashMap<String,int[]>();
-        Iterator keys = svcResponse.keys();
+        Iterator keys = resp.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();
-            JSONArray array = svcResponse.getJSONArray(k);
+            JSONArray array = resp.getJSONArray(k);
             int[] ts = new int[array.length()];
             for (int i = 0; i < ts.length; i++) {
                 ts[i] = array.getInt(i);

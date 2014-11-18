@@ -22,6 +22,7 @@ package edu.ucsb.cs.eager.sa.kitty;
 import edu.ucsb.cs.eager.sa.cerebro.CFGAnalyzer;
 import edu.ucsb.cs.eager.sa.cerebro.Cerebro;
 import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSTracingPredictor;
+import edu.ucsb.cs.eager.sa.kitty.qbets.SimpleQBETSPredictor;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationBasedPredictor;
 import org.apache.commons.cli.*;
 import soot.SootMethod;
@@ -65,6 +66,8 @@ public class Kitty {
                 "Upper confidence of the predicted execution time quantile");
         options.addOption("a", "aggregate-ts", false,
                 "Aggregate multiple time series into a single time series");
+        options.addOption("sp", "simple", false,
+                "Use the simple QBETS predictor");
 
         CommandLine cmd;
         try {
@@ -99,6 +102,7 @@ public class Kitty {
             config.setConfidence(Double.parseDouble(c));
         }
         config.setAggregateTimeSeries(cmd.hasOption("a"));
+        config.setSimplePredictor(cmd.hasOption("sp"));
 
         try {
             config.validate();
@@ -122,7 +126,11 @@ public class Kitty {
         if (config.getBenchmarkDataDir() != null) {
             SimulationBasedPredictor.predict(config, methods);
         } else if (config.getBenchmarkDataSvc() != null) {
-            QBETSTracingPredictor.predict(config, methods);
+            if (config.isSimplePredictor()) {
+                SimpleQBETSPredictor.predict(config, methods);
+            } else {
+                QBETSTracingPredictor.predict(config, methods);
+            }
         } else {
             throw new IllegalArgumentException();
         }
