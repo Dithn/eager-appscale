@@ -83,4 +83,13 @@ public class PathTest extends TestCase {
         assertTrue(p1.equivalent(p2));
         assertTrue(p2.equivalent(p1));
     }
+
+    public void testPathId() {
+        Path p1 = new Path();
+        p1.add(new APICall("c1"));
+        p1.add(new APICall("c2"));
+        p1.add(new APICall("c3"));
+        p1.add(new APICall("c2"));
+        assertEquals("c1:c2:c2:c3", p1.getId());
+    }
 }

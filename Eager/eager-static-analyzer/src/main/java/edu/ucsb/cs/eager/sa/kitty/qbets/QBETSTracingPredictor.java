@@ -29,6 +29,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * QBETSTracingPredictor obtains time series data for different API calls,
+ * and performs an offline trace on them. For each entry in a time series,
+ * it calculates 2 quantile predictions, and computes how often the actual
+ * values fall within the predicted bounds.
+ */
 public class QBETSTracingPredictor {
 
     private static final int MIN_INDEX = 199;
@@ -237,6 +243,7 @@ public class QBETSTracingPredictor {
         @Override
         public void run() {
             int pathLength = path.size();
+            String pathId = path.getId();
             TraceAnalysisResult r = new TraceAnalysisResult();
             try {
                 // Approach 1
@@ -254,10 +261,14 @@ public class QBETSTracingPredictor {
                 }
 
                 // Approach 2
-                int[] copy = new int[tsPos + 1];
-                System.arraycopy(aggregate, 0, copy, 0, copy.length);
-                int prediction2 = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
-                        config.getQuantile(), config.getConfidence());
+                if (!cache.containsQuantile(pathId, pathLength, tsPos)) {
+                    int[] copy = new int[tsPos + 1];
+                    System.arraycopy(aggregate, 0, copy, 0, copy.length);
+                    int prediction = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
+                            config.getQuantile(), config.getConfidence());
+                    cache.putQuantile(pathId, pathLength, tsPos, prediction);
+                }
+                int prediction2 = cache.getQuantile(pathId, pathLength, tsPos);
 
                 r.approach1 = prediction1;
                 r.approach2 = prediction2;

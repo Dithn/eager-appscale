@@ -61,4 +61,20 @@ public class Path {
         return true;
     }
 
+    public String getId() {
+        List<String> names = new ArrayList<String>();
+        for (APICall call : calls) {
+            names.add(call.getName());
+        }
+        Collections.sort(names);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < names.size(); i++) {
+            if (i > 0) {
+                sb.append(':');
+            }
+            sb.append(names.get(i));
+        }
+        return sb.toString();
+    }
+
 }
