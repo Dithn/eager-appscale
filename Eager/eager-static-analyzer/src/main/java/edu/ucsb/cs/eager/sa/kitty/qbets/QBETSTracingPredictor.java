@@ -56,7 +56,11 @@ public class QBETSTracingPredictor {
             return;
         }
 
-        System.out.println("\nRetrieving time series data for " + ops.size() + " API calls...");
+        if (ops.size() > 1) {
+            System.out.println("\nRetrieving time series data for " + ops.size() + " API calls...");
+        } else {
+            System.out.println("\nRetrieving time series data for 1 API call...");
+        }
         TimeSeriesDataCache cache = new TimeSeriesDataCache(
                 getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
         int timeSeriesLength = cache.getTimeSeriesLength();
@@ -129,7 +133,7 @@ public class QBETSTracingPredictor {
             }
         }
 
-        int dataPoints = 250; //tsLength - MIN_INDEX;
+        int dataPoints = tsLength - MIN_INDEX;
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         Future<?>[] futures = new Future<?>[dataPoints];
         ExecutorService exec = Executors.newFixedThreadPool(8);
@@ -160,6 +164,7 @@ public class QBETSTracingPredictor {
 
         System.out.println();
         int failures = 0;
+        System.out.printf("[trace][method][path] index p1 p2 current  success success_rate\n");
         for (int i = 0; i < results.length; i++) {
             TraceAnalysisResult r = results[i];
             if (r.e != null) {
@@ -173,11 +178,11 @@ public class QBETSTracingPredictor {
                     failures++;
                 }
                 double successRate = ((double)(i - failures) / i) * 100.0;
-                System.out.printf("[trace][%s][%d] %4d %4dms %4dms %4dms  %-5s %4.4f\n",
+                System.out.printf("[trace][%s][%d] %4d %4d %4d %4d  %-5s %4.4f\n",
                         method.getName(), pathIndex, i + MIN_INDEX, r.approach1, r.approach2,
                         r.sum, success, successRate);
             } else {
-                System.out.printf("[trace][%s][%d] %4d %4dms %4dms %4dms  %-5s %-7s\n",
+                System.out.printf("[trace][%s][%d] %4d %4d %4d %4d  %-5s %-7s\n",
                         method.getName(), pathIndex, i + MIN_INDEX, r.approach1, r.approach2,
                         r.sum, "N/A", "N/A");
             }
@@ -261,14 +266,21 @@ public class QBETSTracingPredictor {
                 }
 
                 // Approach 2
-                if (!cache.containsQuantile(pathId, pathLength, tsPos)) {
-                    int[] copy = new int[tsPos + 1];
-                    System.arraycopy(aggregate, 0, copy, 0, copy.length);
-                    int prediction = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
-                            config.getQuantile(), config.getConfidence());
-                    cache.putQuantile(pathId, pathLength, tsPos, prediction);
+                int prediction2;
+                if (pathLength > 1) {
+                    if (!cache.containsQuantile(pathId, pathLength, tsPos)) {
+                        int[] copy = new int[tsPos + 1];
+                        System.arraycopy(aggregate, 0, copy, 0, copy.length);
+                        int prediction = getQuantilePrediction(config.getBenchmarkDataSvc(), copy,
+                                config.getQuantile(), config.getConfidence());
+                        cache.putQuantile(pathId, pathLength, tsPos, prediction);
+                    }
+                    prediction2 = cache.getQuantile(pathId, pathLength, tsPos);
+                } else {
+                    // When there's only one API call in the path, the two predictions
+                    // are going to be the same.
+                    prediction2 = prediction1;
                 }
-                int prediction2 = cache.getQuantile(pathId, pathLength, tsPos);
 
                 r.approach1 = prediction1;
                 r.approach2 = prediction2;
