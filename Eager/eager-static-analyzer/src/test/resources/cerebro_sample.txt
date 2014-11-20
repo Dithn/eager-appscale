@@ -1,0 +1,39 @@
+----------------- PROJECT: AppEngineAndStorage -----------------
+
+Warning: javax.servlet.http.HttpServlet is a phantom class!
+Warning: com.google.appengine.api.files.GSFileOptions is a phantom class!
+Warning: com.google.appengine.api.files.AppEngineFile is a phantom class!
+Warning: com.google.appengine.api.files.FileWriteChannel is a phantom class!
+Warning: javax.servlet.http.HttpServletRequest is a phantom class!
+Warning: com.google.appengine.api.files.FileServiceFactory is a phantom class!
+Warning: javax.servlet.http.HttpServletResponse is a phantom class!
+Warning: com.google.appengine.api.files.FileService is a phantom class!
+Warning: com.google.appengine.api.files.GSFileOptions$GSFileOptionsBuilder is a phantom class!
+Warning: java.dyn.InvokeDynamic is a phantom class!
+
+Analyzing: sfeir.poc.appengine.cs.GoogleCloudStorageServlet#doGet()
+====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 4 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called GAE methods (non-unique):
+  [cloud] com.google.appengine.api.files.GSFileOptions$GSFileOptionsBuilder#build()
+  [cloud] com.google.appengine.api.files.FileService#createNewGSFile()
+  [cloud] com.google.appengine.api.files.FileService#openWriteChannel()
+  [cloud] com.google.appengine.api.files.FileWriteChannel#closeFinally()
+API call traces:
+  [path0] com.google.appengine.api.files.GSFileOptions$GSFileOptionsBuilder#build()
+  [path0] com.google.appengine.api.files.FileService#createNewGSFile()
+  [path0] com.google.appengine.api.files.FileService#openWriteChannel()
+  [path0] com.google.appengine.api.files.FileWriteChannel#closeFinally()
+
+Analyzing: sfeir.poc.appengine.cs.GoogleCloudStorageServlet#<init>()
+=====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces:
+  [path0] -- No API Calls --
+

@@ -19,6 +19,9 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class TraceLogParser {
@@ -34,7 +37,22 @@ public class TraceLogParser {
 
     private Set<MethodInfo> methods = new TreeSet<MethodInfo>(new MethodInfo.MethodInfoComparator());
 
-    public void parse(String line) {
+    public void parseFile(String file) throws IOException {
+        parse(new BufferedReader(new FileReader(file)));
+    }
+
+    public void parse(BufferedReader reader) throws IOException {
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                parseLine(line);
+            }
+        } finally {
+            reader.close();
+        }
+    }
+
+    private void parseLine(String line) {
         if (line.startsWith("Warning: ")) {
             return;
         }

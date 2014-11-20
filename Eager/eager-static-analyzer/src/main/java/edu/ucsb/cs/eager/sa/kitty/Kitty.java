@@ -118,7 +118,9 @@ public class Kitty {
     public void run(PredictionConfig config) throws IOException {
         Collection<MethodInfo> methods;
         if (config.getTraceFile() != null) {
-            methods = getMethodsFromTraceFile(config);
+            TraceLogParser parser = new TraceLogParser();
+            parser.parseFile(config.getTraceFile());
+            methods = parser.getMethods();
         } else {
             methods = getMethodsFromCerebro(config);
         }
@@ -134,20 +136,6 @@ public class Kitty {
         } else {
             throw new IllegalArgumentException();
         }
-    }
-
-    private Collection<MethodInfo> getMethodsFromTraceFile(PredictionConfig config) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(config.getTraceFile()));
-        TraceLogParser parser = new TraceLogParser();
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                parser.parse(line);
-            }
-        } finally {
-            reader.close();
-        }
-        return parser.getMethods();
     }
 
     private Collection<MethodInfo> getMethodsFromCerebro(PredictionConfig config) {

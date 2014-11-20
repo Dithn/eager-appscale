@@ -48,4 +48,8 @@ public class PredictionUtils {
         }
         return pathsOfInterest;
     }
+
+    public static String pluralize(int count, String singular) {
+        return count == 1 ? singular : singular + "s";
+    }
 }

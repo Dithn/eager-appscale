@@ -56,11 +56,8 @@ public class QBETSTracingPredictor {
             return;
         }
 
-        if (ops.size() > 1) {
-            System.out.println("\nRetrieving time series data for " + ops.size() + " API calls...");
-        } else {
-            System.out.println("\nRetrieving time series data for 1 API call...");
-        }
+        System.out.println("\nRetrieving time series data for " + ops.size() + " API " +
+                PredictionUtils.pluralize(ops.size(), "call..."));
         TimeSeriesDataCache cache = new TimeSeriesDataCache(
                 getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
         int timeSeriesLength = cache.getTimeSeriesLength();
@@ -84,11 +81,8 @@ public class QBETSTracingPredictor {
             return;
         }
 
-        if (pathsOfInterest.size() > 1) {
-            System.out.println(pathsOfInterest.size() + " paths with API calls found.");
-        } else {
-            System.out.println("1 path with API calls found.");
-        }
+        System.out.println(pathsOfInterest.size() + PredictionUtils.pluralize(
+                pathsOfInterest.size(), " path") + " with API calls found.");
 
         List<Path> uniquePaths = new ArrayList<Path>();
         uniquePaths.add(pathsOfInterest.get(0));
@@ -106,12 +100,8 @@ public class QBETSTracingPredictor {
             }
         }
 
-        if (uniquePaths.size() > 1) {
-            System.out.println(uniquePaths.size() + " unique paths with API calls found.");
-        } else {
-            System.out.println("1 unique path with API calls found.");
-        }
-
+        System.out.println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
+                uniquePaths.size(), "path") + " with API calls found.");
         for (int i = 0; i < uniquePaths.size(); i++) {
             analyzePath(method, pathsOfInterest.get(i), i, cache, config);
         }
@@ -229,9 +219,15 @@ public class QBETSTracingPredictor {
     }
 
     private static class TraceAnalysisResult {
+        // run QBETS on individual time series and sum the results
         private int approach1;
+
+        // aggregate the time series and run QBETS
         private int approach2;
+
+        // current data point in the aggregate time series
         private int sum;
+
         private Exception e;
     }
 
