@@ -21,6 +21,8 @@ package edu.ucsb.cs.eager.sa.kitty;
 
 import junit.framework.TestCase;
 
+import java.util.List;
+
 public class PathTest extends TestCase {
 
     public void testPathEquivalence1() {
@@ -84,12 +86,48 @@ public class PathTest extends TestCase {
         assertTrue(p2.equivalent(p1));
     }
 
-    public void testPathId() {
+    public void testPathId1() {
+        Path p1 = new Path();
+        p1.add(new APICall("com.google.appengine.api.datastore.DataStoreService#get()"));
+        assertEquals("bm_datastore_get", p1.getId());
+    }
+
+    public void testPathId2() {
+        Path p1 = new Path();
+        p1.add(new APICall("com.google.appengine.api.datastore.DataStoreService#get()"));
+        p1.add(new APICall("com.google.appengine.api.datastore.DataStoreService#put()"));
+        p1.add(new APICall("com.google.appengine.api.datastore.DataStoreService#delete()"));
+        p1.add(new APICall("com.google.appengine.api.datastore.DataStoreService#get()"));
+        assertEquals("bm_datastore_delete:bm_datastore_get:bm_datastore_get:bm_datastore_put",
+                p1.getId());
+    }
+
+    public void testPathLength() {
         Path p1 = new Path();
         p1.add(new APICall("c1"));
         p1.add(new APICall("c2"));
         p1.add(new APICall("c3"));
+        assertEquals(3, p1.size());
+
+        Path p2 = new Path();
+        p2.add(new APICall("c1"));
+        assertEquals(1, p2.size());
+
+        Path p3 = new Path();
+        assertEquals(0, p3.size());
+    }
+
+    public void testImmutability() {
+        Path p1 = new Path();
+        p1.add(new APICall("c1"));
         p1.add(new APICall("c2"));
-        assertEquals("c1:c2:c2:c3", p1.getId());
+        p1.add(new APICall("c3"));
+
+        List<APICall> calls = p1.calls();
+        try {
+            calls.add(new APICall("c4"));
+            fail("API call list is mutable");
+        } catch (Exception ignore) {
+        }
     }
 }
