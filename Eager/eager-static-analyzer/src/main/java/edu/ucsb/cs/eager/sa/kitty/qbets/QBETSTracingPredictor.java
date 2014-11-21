@@ -37,7 +37,7 @@ import java.util.concurrent.Future;
  */
 public class QBETSTracingPredictor {
 
-    private static final int MIN_INDEX = 199;
+    private static final int MIN_INDEX = 99;
 
     public static void predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
