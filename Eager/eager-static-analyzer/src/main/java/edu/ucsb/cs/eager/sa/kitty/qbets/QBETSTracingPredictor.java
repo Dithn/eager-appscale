@@ -57,7 +57,7 @@ public class QBETSTracingPredictor {
         }
 
         System.out.println("\nRetrieving time series data for " + ops.size() + " API " +
-                PredictionUtils.pluralize(ops.size(), "call..."));
+                PredictionUtils.pluralize(ops.size(), "call") + "...");
         TimeSeriesDataCache cache = new TimeSeriesDataCache(
                 getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
         int timeSeriesLength = cache.getTimeSeriesLength();
