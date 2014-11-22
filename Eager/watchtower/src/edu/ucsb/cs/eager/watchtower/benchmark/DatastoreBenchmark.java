@@ -24,6 +24,7 @@ import edu.ucsb.cs.eager.watchtower.Constants;
 
 import javax.servlet.ServletException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -55,6 +56,10 @@ public class DatastoreBenchmark extends APIBenchmark {
         results.put(Constants.Datastore.GET, getEntity(datastore, projectId));
         sleep(1000);
 
+        // asList
+        results.put(Constants.Datastore.AS_LIST, asList(datastore));
+        sleep(1000);
+
         // delete
         results.put(Constants.Datastore.DELETE, deleteEntity(datastore, projectId));
         return results;
@@ -80,6 +85,14 @@ public class DatastoreBenchmark extends APIBenchmark {
         } catch (EntityNotFoundException e) {
             throw new ServletException("Failed to locate object by key", e);
         }
+    }
+
+    private int asList(DatastoreService datastore) {
+        Query q = new Query(PROJECT_KIND);
+        PreparedQuery pq = datastore.prepare(q);
+        long start = System.currentTimeMillis();
+        List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+        return (int) (System.currentTimeMillis() - start);
     }
 
     private int deleteEntity(DatastoreService datastore, String id) {

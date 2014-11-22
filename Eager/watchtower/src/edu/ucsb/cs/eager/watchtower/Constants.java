@@ -39,6 +39,7 @@ public class Constants {
         public static final String PUT = "bm_datastore_put";
         public static final String GET = "bm_datastore_get";
         public static final String DELETE = "bm_datastore_delete";
+        public static final String AS_LIST = "bm_datastore_asList";
     }
 
     public class DatastoreJDO {
