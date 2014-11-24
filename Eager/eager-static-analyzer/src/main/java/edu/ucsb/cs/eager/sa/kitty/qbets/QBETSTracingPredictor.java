@@ -123,7 +123,7 @@ public class QBETSTracingPredictor {
             }
         }
 
-        int dataPoints = tsLength - MIN_INDEX;
+        int dataPoints = 500;//tsLength - MIN_INDEX;
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         Future<?>[] futures = new Future<?>[dataPoints];
         ExecutorService exec = Executors.newFixedThreadPool(8);
@@ -286,7 +286,8 @@ public class QBETSTracingPredictor {
                 }
             } catch (IOException e) {
                 r.e = e;
-                System.err.println("Error computing the predictions for index: " + tsPos);
+                System.err.println("Error computing the predictions for index: " + tsPos + " (" +
+                    e.getMessage() + ")");
             }
             results[tsPos - MIN_INDEX] = r;
         }
