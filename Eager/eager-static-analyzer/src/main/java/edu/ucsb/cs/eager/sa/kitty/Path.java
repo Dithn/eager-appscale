@@ -77,4 +77,16 @@ public class Path {
         return sb.toString();
     }
 
+    @Override
+    public String toString() {
+        if (calls.size() == 0) {
+            return "[empty]";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(calls.get(0).getShortName());
+        for (int i = 1; i < calls.size(); i++) {
+            sb.append(" -> ").append(calls.get(i).getShortName());
+        }
+        return sb.toString();
+    }
 }

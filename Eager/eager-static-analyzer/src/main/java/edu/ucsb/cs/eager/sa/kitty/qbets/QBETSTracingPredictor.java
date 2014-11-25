@@ -37,8 +37,6 @@ import java.util.concurrent.Future;
  */
 public class QBETSTracingPredictor {
 
-    private static final int MIN_INDEX = 99;
-
     public static void predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
 
@@ -60,12 +58,7 @@ public class QBETSTracingPredictor {
                 PredictionUtils.pluralize(ops.size(), "call") + "...");
         TimeSeriesDataCache cache = new TimeSeriesDataCache(
                 getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
-        int timeSeriesLength = cache.getTimeSeriesLength();
-        if (timeSeriesLength < MIN_INDEX + 1) {
-            System.out.println("In sufficient data in time series.");
-            return;
-        }
-        System.out.println("Retrieved time series length: " + timeSeriesLength);
+        System.out.println("Retrieved time series length: " + cache.getTimeSeriesLength());
 
         for (MethodInfo m : methods) {
             if (config.isEnabledMethod(m.getName())) {
@@ -105,17 +98,21 @@ public class QBETSTracingPredictor {
         System.out.println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
         for (int i = 0; i < uniquePaths.size(); i++) {
-            analyzePath(method, pathsOfInterest.get(i), i, cache, config);
+            analyzePath(method, uniquePaths.get(i), i, cache, config);
         }
     }
 
     private static void analyzePath(MethodInfo method, Path path, int pathIndex,
                                     TimeSeriesDataCache cache, PredictionConfig config) throws IOException {
         printTitle("Path: " + pathIndex, '-');
+        System.out.println("API Calls: " + path);
 
-        int tsLength = cache.getTimeSeriesLength();
+        int tsLength = 700;//cache.getTimeSeriesLength();
         int pathLength = path.size();
         double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
+
+        int minIndex = (int) (Math.log(config.getConfidence()) / Math.log(adjustedQuantile)) + 10;
+        System.out.println("Minimum acceptable time series length: " + (minIndex + 1));
 
         // create new aggregate time series
         int[] aggregate = new int[tsLength];
@@ -125,7 +122,12 @@ public class QBETSTracingPredictor {
             }
         }
 
-        int dataPoints = tsLength - MIN_INDEX;
+        int dataPoints = tsLength - minIndex;
+        if (dataPoints <= 0) {
+            System.out.println("Insufficient data in time series...");
+            return;
+        }
+
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         Future<?>[] futures = new Future<?>[dataPoints];
         ExecutorService exec = Executors.newFixedThreadPool(8);
@@ -137,7 +139,8 @@ public class QBETSTracingPredictor {
             worker.config = config;
             worker.path = path;
             worker.results = results;
-            worker.tsPos = MIN_INDEX + tsPos;
+            worker.tsPos = minIndex + tsPos;
+            worker.minIndex = minIndex;
             worker.aggregate = aggregate;
 
             futures[tsPos] = exec.submit(worker);
@@ -161,7 +164,7 @@ public class QBETSTracingPredictor {
             TraceAnalysisResult r = results[i];
             if (r.e != null) {
                 System.out.printf("[trace][%s][%d] %4d ------------ error ------------\n",
-                        method.getName(), pathIndex, i + MIN_INDEX);
+                        method.getName(), pathIndex, i + minIndex);
                 continue;
             }
             if (i > 0) {
@@ -171,11 +174,11 @@ public class QBETSTracingPredictor {
                 }
                 double successRate = ((double)(i - failures) / i) * 100.0;
                 System.out.printf("[trace][%s][%d] %4d %4d %4d %4d  %-5s %4.4f\n",
-                        method.getName(), pathIndex, i + MIN_INDEX, r.approach1, r.approach2,
+                        method.getName(), pathIndex, i + minIndex, r.approach1, r.approach2,
                         r.sum, success, successRate);
             } else {
                 System.out.printf("[trace][%s][%d] %4d %4d %4d %4d  %-5s %-7s\n",
-                        method.getName(), pathIndex, i + MIN_INDEX, r.approach1, r.approach2,
+                        method.getName(), pathIndex, i + minIndex, r.approach1, r.approach2,
                         r.sum, "N/A", "N/A");
             }
         }
@@ -238,6 +241,7 @@ public class QBETSTracingPredictor {
         private Path path;
         private TimeSeriesDataCache cache;
         private int tsPos;
+        private int minIndex;
         private double adjustedQuantile;
         private PredictionConfig config;
         private int[] aggregate;
@@ -291,7 +295,7 @@ public class QBETSTracingPredictor {
                 System.err.println("Error computing the predictions for index: " + tsPos + " (" +
                     e.getMessage() + ")");
             }
-            results[tsPos - MIN_INDEX] = r;
+            results[tsPos - minIndex] = r;
         }
     }
 }
