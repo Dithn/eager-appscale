@@ -65,6 +65,8 @@ public class PredictionConfig {
     private boolean loadNecessaryClasses = true;
     private boolean wholeProgramMode;
 
+    private String[] methods;
+
     public String getBenchmarkDataDir() {
         return benchmarkDataDir;
     }
@@ -159,6 +161,22 @@ public class PredictionConfig {
 
     public void setSimplePredictor(boolean simplePredictor) {
         this.simplePredictor = simplePredictor;
+    }
+
+    public boolean isEnabledMethod(String method) {
+        if (methods == null || methods.length == 0) {
+            return true;
+        }
+        for (String m : methods) {
+            if (m.equals(method)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setMethods(String[] methods) {
+        this.methods = methods;
     }
 
     public void validate() throws Exception {

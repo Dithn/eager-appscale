@@ -46,9 +46,11 @@ public class SimpleQBETSPredictor {
             }
         }
         for (MethodInfo m : methods) {
-            Prediction prediction = predictExecTime(m, config, cache);
-            System.out.format("%-" + maxLength + "s%5d%15s\n", m.getName(), m.getPaths().size(),
-                    prediction.toString());
+            if (config.isEnabledMethod(m.getName())) {
+                Prediction prediction = predictExecTime(m, config, cache);
+                System.out.format("%-" + maxLength + "s%5d%15s\n", m.getName(), m.getPaths().size(),
+                        prediction.toString());
+            }
         }
     }
 

@@ -52,6 +52,8 @@ public class Kitty {
                 "Disable loading of necessary classes");
         options.addOption("wp", "whole-program", false,
                 "Enable whole program mode");
+        options.addOption("m", "methods", true,
+                "Methods that should be analyzed");
 
         options.addOption("b", "benchmark-dir", true,
                 "Path to the directory containing seed benchmark results");
@@ -86,6 +88,11 @@ public class Kitty {
         config.setClazz(cmd.getOptionValue("c"));
         config.setLoadNecessaryClasses(!cmd.hasOption("dnc"));
         config.setWholeProgramMode(cmd.hasOption("wp"));
+
+        String methods = cmd.getOptionValue("m");
+        if (methods != null) {
+            config.setMethods(methods.split(","));
+        }
 
         config.setBenchmarkDataDir(cmd.getOptionValue("b"));
         String sn = cmd.getOptionValue("sn");

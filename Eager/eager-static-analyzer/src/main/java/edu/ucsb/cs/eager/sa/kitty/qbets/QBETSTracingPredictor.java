@@ -68,7 +68,9 @@ public class QBETSTracingPredictor {
         System.out.println("Retrieved time series length: " + timeSeriesLength);
 
         for (MethodInfo m : methods) {
-            analyzeMethod(m, cache, config);
+            if (config.isEnabledMethod(m.getName())) {
+                analyzeMethod(m, cache, config);
+            }
         }
     }
 
@@ -123,7 +125,7 @@ public class QBETSTracingPredictor {
             }
         }
 
-        int dataPoints = 500;//tsLength - MIN_INDEX;
+        int dataPoints = tsLength - MIN_INDEX;
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         Future<?>[] futures = new Future<?>[dataPoints];
         ExecutorService exec = Executors.newFixedThreadPool(8);
@@ -158,7 +160,7 @@ public class QBETSTracingPredictor {
         for (int i = 0; i < results.length; i++) {
             TraceAnalysisResult r = results[i];
             if (r.e != null) {
-                System.err.printf("[trace][%s][%d] %4d ------------ error ------------\n",
+                System.out.printf("[trace][%s][%d] %4d ------------ error ------------\n",
                         method.getName(), pathIndex, i + MIN_INDEX);
                 continue;
             }
