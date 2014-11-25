@@ -107,7 +107,7 @@ public class QBETSTracingPredictor {
         printTitle("Path: " + pathIndex, '-');
         System.out.println("API Calls: " + path);
 
-        int tsLength = 700;//cache.getTimeSeriesLength();
+        int tsLength = cache.getTimeSeriesLength();
         int pathLength = path.size();
         double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
 
