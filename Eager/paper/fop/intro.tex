@@ -5,7 +5,7 @@ increasingly offload as much application functionality as possible to remote,
 web-accessible application programming interfaces (web APIs) hosted ``in the
 cloud''. As a result, web APIs are rapidly proliferating.
 At the time of this writing, 
-ProgrammableWeb~\cite{pweb}, a popular web API index, lists more than $11,000$
+ProgrammableWeb~\cite{pweb}, a popular web API index, lists over $11,000$
 web APIs and a nearly 100\% annual growth rate. 
 
 This proliferation of web APIs demands new techniques that
@@ -15,29 +15,44 @@ security breaches, denial of service (DoS)
 attacks, poor code reuse and violation of service-level agreements (SLAs). 
 Unfortunately, most existing cloud platforms
 within which web APIs are hosted provide only minimal governance support.
+Therefore, organizations that use cloud platforms to deploy their web APIs, have to
+do it without proper governance support thus leading to many software maintenance
+and evolution issues.
 
-Toward this end, we propose EAGER ({\bf E}nforced {\bf A}PI {\bf G}overnance
-{\bf E}ngine for {\bf R}EST), a model and an architecture that augments existing
-cloud platforms in order to facilitate API governance as a 
-cloud-native feature. EAGER enforces proper versioning of APIs and supports dependency 
-management and comprehensive policy enforcement at API deployment-time. 
-
-Deployment-time enforcement (heretofore unexplored) is attractive for several
+API governance for cloud platforms can be broken down into two varieties:
+\begin{itemize}
+\item deployment-time governance in which governance checks are performed 
+when the APIs are being deployed into the cloud, and
+\item run-time governance in which governance checks are carried out when the APIs
+are being invoked by the clients.
+\end{itemize}
+Of these two, 
+deployment-time enforcement (heretofore unexplored) is attractive for several
 reasons.  First, if run-time only API governance is implemented, 
-policy violations will go undetected until the offending APIs are used.  
+policy violations will go undetected until the offending APIs are used (at which
+point it is too late and expensive to take corrective measures).  
 By enforcing governance at deployment-time,
-EAGER implements ``fail fast'' in which violations are detected
-immediately. Further, the overall
-system is prevented from entering a non-compliant state which aids in the
-certification of regulatory compliance. 
+cloud platforms can support ``fail fast'' in which violations are detected
+immediately, before they even become available for use. Further, APIs served from a cloud
+platform are invoked way more times than they are deployed and redeployed. 
+Therefore, deployment-time API governance helps reduce the overall API governance
+overhead by eliminating many checks that would otherwise be repeated unnecessarily
+if executed as run-time checks.
+
+In order to explore the feasibility and the performance traits of deployment-time
+API governance in cloud platforms,
+we propose EAGER ({\bf E}nforced {\bf A}PI {\bf G}overnance
+{\bf E}ngine for {\bf R}EST), a model and an architecture that augments existing
+Platform as a Service (PaaS) clouds in order to facilitate API governance as a 
+cloud-native feature. EAGER enforces proper versioning of APIs and supports dependency 
+management and comprehensive policy enforcement, all at API deployment-time.
 
 EAGER further enhances software maintainability by guaranteeing that 
 developers reuse existing APIs when possible to create new software artifacts. 
 Concurrently, it
 tracks changes made by developers to deployed web APIs to prevent
 any backwards-incompatible API changes from being put into production.
-
-EAGER includes a language for specifying 
+EAGER also includes a language for specifying 
 API governance policies.  It incorporates a developer-friendly 
 Python programming language syntax for 
 specifying complex policy statements in a simple and 
@@ -46,12 +61,16 @@ is the only additional activity that API providers should perform in
 order to benefit from EAGER. All other API governance related verification and 
 enforcement work is carried out by the cloud platform automatically.
 
-To evaluate the proposed 
-architecture, we implement EAGER as an extension to AppScale~\cite{appscale13}, 
-an open source
-cloud platform that emulates Google App Engine. We show that the EAGER 
-architecture can be easily implemented in extant clouds with
-minimal changes to the underlying platform technology. 
+To evaluate the usefulness and the performance of deployment-time API governance, 
+we implement EAGER as an extension to AppScale~\cite{appscale13}, 
+an open source cloud platform that emulates Google App Engine. Through this
+prototype we show that the EAGER 
+architecture and hence deployment-time API governance can be easily implemented 
+in extant clouds with minimal changes to the underlying platform technology. Further,
+our performance test results show that EAGER scales well to handle thousands of APIs,
+policies and API inter-dependencies, thus bringing the cloud computing community several
+steps closer to supporting comprehensive low-overhead deployment-time API governance
+as a cloud-native feature.
 
 In the sections that follow, we present the design and implementation of
 EAGER. We then empirically evaluate EAGER using a wide range of
