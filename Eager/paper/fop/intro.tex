@@ -5,7 +5,7 @@ increasingly offload as much application functionality as possible to remote,
 web-accessible application programming interfaces (web APIs) hosted ``in the
 cloud''. As a result, web APIs are rapidly proliferating.
 At the time of this writing, 
-ProgrammableWeb~\cite{pweb}, a popular web API index, lists over $11,000$
+ProgrammableWeb~\cite{pweb}, a popular web API index, lists over $12,000$
 web APIs and a nearly 100\% annual growth rate. 
 
 This proliferation of web APIs demands new techniques that
@@ -17,13 +17,13 @@ Unfortunately, most existing cloud platforms
 within which web APIs are hosted provide only minimal governance support.
 Therefore, organizations that use cloud platforms to deploy their web APIs, have to
 do it without proper governance support thus leading to many software maintenance
-and evolution issues.
+issues.
 
 API governance for cloud platforms can be broken down into two varieties:
 \begin{itemize}
-\item deployment-time governance in which governance checks are performed 
+\item \textit{deployment-time governance} in which governance checks are performed 
 when the APIs are being deployed into the cloud, and
-\item run-time governance in which governance checks are carried out when the APIs
+\item \textit{run-time governance} in which governance checks are carried out when the APIs
 are being invoked by the clients.
 \end{itemize}
 Of these two, 
@@ -45,7 +45,7 @@ we propose EAGER ({\bf E}nforced {\bf A}PI {\bf G}overnance
 {\bf E}ngine for {\bf R}EST), a model and an architecture that augments existing
 Platform as a Service (PaaS) clouds in order to facilitate API governance as a 
 cloud-native feature. EAGER enforces proper versioning of APIs and supports dependency 
-management and comprehensive policy enforcement, all at API deployment-time.
+management and comprehensive policy enforcement, at API deployment-time.
 
 EAGER further enhances software maintainability by guaranteeing that 
 developers reuse existing APIs when possible to create new software artifacts. 
@@ -58,8 +58,7 @@ Python programming language syntax for
 specifying complex policy statements in a simple and 
 intuitive manner. Moreover, we ensure that specifying the required policies 
 is the only additional activity that API providers should perform in
-order to benefit from EAGER. All other API governance related verification and 
-enforcement work is carried out by the cloud platform automatically.
+order to benefit from EAGER.
 
 To evaluate the usefulness and the performance of deployment-time API governance, 
 we implement EAGER as an extension to AppScale~\cite{appscale13}, 

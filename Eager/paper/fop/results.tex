@@ -27,8 +27,7 @@ represents an optimization opportunity via parallelization in future implementat
 %\includegraphics[width=3in]{overhead_by_apis}
 %\vspace{-0.01in}
 \caption{Average EAGER overhead vs. number of APIs exported by the
-application.  Each data point averages three executions, the error bars 
-are two standard deviations, and the units are seconds.}
+application.}
 \label{fig:overhead_by_apis}
 \vspace{-0.2in}
 \end{figure}
@@ -54,8 +53,7 @@ vary the number of declared dependencies and observe the EAGER overhead.
 \includegraphics[scale=0.47]{overhead_by_deps}
 %\vspace{-0.01in}
 \caption{Average EAGER Overhead vs. number of dependencies declared in the
-application.  Each data point averages three executions, the error bars are
-two standard deviations, and the units are seconds.}
+application.}
 \label{fig:overhead_by_deps}
 \vspace{-0.2in}
 \end{figure}
@@ -92,9 +90,7 @@ the overhead of policy validation on two of our sample applications
 \centering
 \includegraphics[scale=0.47]{overhead_by_policies}
 %\vspace{-0.01in}
-\caption{Average EAGER overhead vs. number of policies.  Each data point
-averages three executions, the error bars are two standard deviations, and the
-units are seconds. Note that some of the error bars for 
+\caption{Average EAGER overhead vs. number of policies.Note that some of the error bars for 
 guestbook-py are smaller than the graph features at this scale and are thus obscured.}
 \label{fig:overhead_by_policies}
 \vspace{-0.2in}
@@ -123,9 +119,7 @@ Metadata Manager to make the experimental setting more realistic.
 \centering
 \includegraphics[scale=0.47]{scalability}
 %\vspace{-0.01in}
-\caption{Average EAGER overhead vs. number of APIs in Metadata Manager.  Each
-data point averages three executions, the error bars are two standard
-deviations, and the units are seconds.  Note that some of the error bars for
+\caption{Average EAGER overhead vs. number of APIs in Metadata Manager. Note that some of the error bars for
 guestbook-py are smaller than the graph features at this scale and are thus obscured.}
 \label{fig:scalability}
 \vspace{-0.2in}
@@ -163,7 +157,7 @@ this overhead increases linearly with the number of APIs exported by the applica
 and the number of APIs deployed in the cloud. 
 Interestingly, the number of deployed policies and declared dependencies
 have little impact on the EAGER governance overhead. Based on this analysis we
-can conclude that enforced API governance can be implemented in modern PaaS
-clouds with negligible overhead and very high scalability. Further, the API governance
+can conclude that enforced deployment-time API governance can be implemented in modern PaaS
+clouds with negligible overhead and very high scalability. Further, deployment-time API governance
 can be made an intrinsic component of the PaaS cloud itself thus alleviating the need
 for poorly integrated third party API management solutions.
