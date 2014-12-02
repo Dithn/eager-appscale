@@ -2,9 +2,8 @@ Figure~\ref{fig:eager_design} illustrates the main components of EAGER (in
 blue) and their interactions. Solid arrows represent the interactions that take place
 during application deployment-time, before an application has been validated
 for deployment (an application may export zero or more web APIs). 
-Short-dashed arrows indicate the interactions that take place
-during deployment-time, after an application has been successfully validated.
-Long-dashed arrows indicate interactions at run-time.
+Short-dashed arrows represent deployment-time interactions that follow application validation.
+Long-dashed arrows represent runtime interactions.
 
 EAGER is invoked whenever a developer attempts to deploy an application, using
 the developer tools available on his/her workstation. In some cloud
@@ -12,7 +11,7 @@ implementations these tools may be available as an online service accessed
 via a web browser. In either case, the application deployment request is
 intercepted by EAGER API Deployment Coordinator (ADC), which then performs the 
 required governance checks based on the metadata stored in the Metadata Manager.
-Metadata Manager stores application names, versions, dependencies, API specifications,
+The Metadata Manager stores application names, versions, dependencies, API specifications,
 user profiles and API keys.
 Governance checks are driven by a set of administrator-specified policies that
 are stored along with the ADC. These policy files are written in Python, and make use of 
@@ -37,20 +36,19 @@ assert_app_dependency_in_range(app, name,\
 }
 
 In order to keep all policy executions simple and stateless, EAGER prevents
-policy code from accessing the file system, network and most third party Python
-libraries. Policy language also does not allow keeping in-memory global state.
+policy code from accessing the file system, network and most third-party Python
+libraries. Moreover, the policy language prohibits storoage of global state.
 
-If a governance check fails (i.e. assertion failure), EAGER will preempt the 
-application deployment, and
-return an error. Otherwise it proceeds with the application deployment by
+If a governance check fails (i.e. assertion failure), EAGER preempts the 
+deployment process and returns an error. Otherwise it proceeds with the application deployment by
 activating the deployment mechanisms on the developer's or administrator's
-behalf. Additionally, all application metadata will be saved to the Metadata Manager, and
+behalf. Additionally, all application metadata is saved to the Metadata Manager, and
 if the application contains any web APIs, they will be published to the API Discovery Portal
 and the API Gateway components. The API Discovery Portal is a web GUI that enables 
 application developers to browse and
 discover available APIs, and obtain the necessary API keys. The API Gateway intercepts
-API calls at run-time and performs security and rate-limiting checks. %In the future, we intend
-%to use the API Gateway as a starting point to implement more comprehensive run-time
+API calls at runtime and performs security, rate-limiting, and runtime policy checks . %In the future, we intend
+%to use the API Gateway as a starting point to implement more comprehensive runtime
 %API governance for cloud platforms.
 
 In addition to the governance policy validations, EAGER also performs a set of built-in
@@ -64,9 +62,9 @@ to syntactic and semantic similarity of web APIs~\cite{6930607}.
 We implemented a prototype of EAGER using the AppScale open source PaaS cloud.  Prototype
 was mostly implemented in Python, while using MySQL as the underlying datastore of the 
 Metadata Manager. The prototype implementation did not require any code changes at the AppScale core.
-However, we did some configuration changes so that AppScale would treat
-EAGER components as built-in elements of the PaaS cloud. This way, we 
-were able to leverage the existing reliability and high availability mechanisms of AppScale to make 
-EAGER components more reliable and high available. We also did some minor code changes to the
+However, we made configuration changes so that AppScale treats
+EAGER components as built-in elements of the PaaS cloud.  As such, we 
+are able to leverage the existing reliability and high availability mechanisms of AppScale to make 
+EAGER components more reliable and high available. We also made some minor code modifications to the
 AppScale developer tools, so that when a developer attempts to deploy an application into AppScale,
 the deployment request is routed to the EAGER ADC.

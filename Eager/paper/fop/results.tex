@@ -9,7 +9,7 @@ Note that all the figures included in this section present the average values ca
 over three sample runs. The error bars cover an interval of two standard deviations centered
 at the calculated sample average. Also, our experiments have shown that the absolute
 overhead introduced by EAGER is very small compared to the overall time taken by
-AppScale to deploy an application (100's of milliseconds as opposed
+AppScale to deploy an application (100's of milliseconds versus
 to 10's of seconds). Therefore, for clarity and ease of comparison, all the figures presented 
 in this section only show the absolute overhead of EAGER.
 
@@ -34,8 +34,8 @@ application.}
 
 At present we expect most applications deployed in cloud to have a small to 
 moderate number of APIs ($10$ or fewer).  With this API density EAGER's current 
-scaling is adequate.  Even in the
-unlikely case that a single application exports as many as $100$ APIs,
+scaling is adequate.  In the
+unlikely case that an application exports $100$ APIs,
 the average total time for EAGER is under $20$ seconds.
 
 Next, we analyze EAGER overhead as the number of dependencies declared in
@@ -44,8 +44,8 @@ Metadata Manager with metadata for $100$ randomly
 generated APIs.
 Then we
 deploy an application on EAGER which exports a single API and declares
-artificial dependencies on the set of fictitious 
-APIs that are already stored in the Metadata Manager. We
+artificial dependencies on the synthesized
+APIs in the Metadata Manager. We
 vary the number of declared dependencies and observe the EAGER overhead.
 
 \begin{figure}
@@ -66,11 +66,12 @@ all dependency-related information via batch operations.
 As a result, the number of web service calls and database queries that originate 
 due to varying number of dependencies is fairly constant. 
 
-So far we have conducted all our experiments without any active governance 
-policies in the system. In this section, we report how EAGER overhead
-is impacted by the number of policies.
+Thus far we have conducted our experiments without active governance 
+policies in the system. We next investigate policy validation. For this study,
+we consider three simple web apps: guestbook.py which exports no web APIs, 
+and simple-jaxrs-app and dep-jaxrs-app which export two and one APIs, respectively.
 
-The overhead of policy validation is largely dependent on the actual policy
+The overhead of policy validation depends on policy
 content. Since users may include any Python code 
 (as long as it falls in the accepted subset) in a policy file, evaluating a
 given policy can take an arbitrary amount of time.  Therefore, in this
@@ -83,8 +84,7 @@ trivial. We create a policy file that runs following assertions:
 \item All API names must start with upper case letters 
 \end{enumerate} We create many copies of this
 initial policy file to vary the number of policies deployed. Then we evaluate
-the overhead of policy validation on two of our sample applications
-(guestbook-py and simple-jaxrs-app). 
+the overhead of policy validation on two of our sample applications.
 
 \begin{figure}
 \centering
@@ -106,13 +106,12 @@ This result is due to the fact that EAGER loads policy content into memory at sy
 startup (or when a new policy is deployed), and executes them from memory each
 time an application is deployed. Since policy files are typically small (at
 most a few kilobytes), this is a viable option. The overhead of validating the
-simple-jaxrs-app is higher than that of the guestbook-py because,
-simple-jaxrs-app exports two web APIs whereas guestbook-py exports none. 
+simple-jaxrs-app is higher than that of the guestbook-py because it exports two APIs.
 
 Next, we evaluate how EAGER scales when a large number of APIs are deployed 
 in the cloud. In this experiment, we populate the EAGER
-Metadata Manager with a varying number of random APIs. We then attempt to deploy various sample 
-applications. We also create random dependencies among the APIs recorded in the 
+Metadata Manager with a varying number of random APIs. We then deploy various sample 
+applications. We create random dependencies among the APIs recorded in the 
 Metadata Manager to make the experimental setting more realistic.
 
 \begin{figure}
@@ -127,7 +126,7 @@ guestbook-py are smaller than the graph features at this scale and are thus obsc
 
 Figure~\ref{fig:scalability} shows that the deployment overhead of the 
 guestbook-py application is not impacted by the growth of metadata
-in the cloud. Recall that guestbook-py does not export any APIs nor does it 
+in the PaaS. Recall that guestbook-py does not export any APIs nor does it 
 declare any dependencies. Therefore the deployment process of
 the guestbook-py application has minimal interactions with the 
 Metadata Manager. Based on this result we conclude that applications that
@@ -135,9 +134,8 @@ do not export web APIs are not significantly affected by the accumulation
 of API metadata in EAGER.
 
 Both simple-jaxrs-app and dep-jaxrs-app are
-affected by the volume of data stored in Metadata Manager. Since these applications 
-export web APIs that must be recorded and validated by the Metadata Manager, 
-the growth of metadata has an increasingly higher impact on them. 
+affected by the volume of data stored in Metadata Manager, since they
+export web APIs are recorded and validated by the Metadata Manager.
 The degradation 
 of performance as a function of the number of APIs in the Metadata Manager
 database is due to the slowing of query performance of the RDBMS engine (MySQL) 
@@ -145,19 +143,19 @@ as the database size grows. Note that the simple-jaxrs-app
 is affected more by this performance drop, because it exports two APIs compared to the single API exported 
 by dep-jaxrs-app. However, the growth
 in overhead is linear to the number of APIs deployed in the cloud. Also,
-even after deploying $10000$ APIs, the overhead on simple-jaxrs-app is only been increased by 
-about $0.5$ seconds.
+even after deploying $10000$ APIs, the overhead on simple-jaxrs-app increases only by 
+$0.5$ seconds.
 
-In summary, the current EAGER prototype scales well to $1000$'s of APIs.
+In summary, the current EAGER prototype scales well to thousands of APIs.
 If further scalability is required, we can employ
-parallelization and data storage-level optimizations.
+parallelization and data storage optimizations.
 EAGER adds a very small overhead to the application deployment
 process, and 
 this overhead increases linearly with the number of APIs exported by the applications
 and the number of APIs deployed in the cloud. 
 Interestingly, the number of deployed policies and declared dependencies
-have little impact on the EAGER governance overhead. Based on this analysis we
-can conclude that enforced deployment-time API governance can be implemented in modern PaaS
-clouds with negligible overhead and very high scalability. Further, deployment-time API governance
+have little impact on the EAGER overhead. Based on this analysis we
+conclude that enforced deployment-time API governance can be implemented in modern PaaS
+clouds with negligible overhead and high scalability. Further, deployment-time API governance
 can be made an intrinsic component of the PaaS cloud itself thus alleviating the need
-for poorly integrated third party API management solutions.
+for poorly integrated third-party API management solutions.
