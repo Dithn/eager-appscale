@@ -136,6 +136,7 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 
 func main() {
 	url := flag.String("u", "", "URL of the Watchtower service")
+	port := flag.Int("p", 8080, "Port of the data service")
 	flag.Parse()
 	if *url == "" {
 		fmt.Println("URL of the Watchtower service not specified.")
@@ -149,5 +150,5 @@ func main() {
 	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
 	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler())
 	http.HandleFunc("/ts", getTimeSeriesHandler(d))
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
 }
