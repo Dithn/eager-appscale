@@ -109,7 +109,7 @@ func analyzeTrace(ts []int, q, c float64) {
 		fmt.Println(perr)
 		return
 	}
-	for i := minIndex; i < len(results); i++ {
-		fmt.Printf("[trace] %d %d %d\n", i, results[i], ts[i])
+	for i := 0; i < len(results); i++ {
+		fmt.Printf("[trace] %d %d %d\n", i + minIndex, results[i], ts[i])
 	}
 }
