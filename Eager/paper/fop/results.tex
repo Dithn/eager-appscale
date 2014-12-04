@@ -23,13 +23,13 @@ represents an optimization opportunity via parallelization in future implementat
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.47]{overhead_by_apis}
+\includegraphics[scale=0.45]{overhead_by_apis}
 %\includegraphics[width=3in]{overhead_by_apis}
 %\vspace{-0.01in}
 \caption{Average EAGER overhead vs. number of APIs exported by the
 application.}
 \label{fig:overhead_by_apis}
-\vspace{-0.2in}
+%\vspace{-0.2in}
 \end{figure}
 
 At present we expect most applications deployed in cloud to have a small to 
@@ -50,7 +50,7 @@ vary the number of declared dependencies and observe the EAGER overhead.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.47]{overhead_by_deps}
+\includegraphics[scale=0.45]{overhead_by_deps}
 %\vspace{-0.01in}
 \caption{Average EAGER Overhead vs. number of dependencies declared in the
 application.}
@@ -88,12 +88,12 @@ the overhead of policy validation on two of our sample applications.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.47]{overhead_by_policies}
+\includegraphics[scale=0.45]{overhead_by_policies}
 %\vspace{-0.01in}
 \caption{Average EAGER overhead vs. number of policies.Note that some of the error bars for 
 guestbook-py are smaller than the graph features at this scale and are thus obscured.}
 \label{fig:overhead_by_policies}
-\vspace{-0.2in}
+%\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:overhead_by_policies} shows how the number of active policies
@@ -116,7 +116,7 @@ Metadata Manager to make the experimental setting more realistic.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.47]{scalability}
+\includegraphics[scale=0.45]{scalability}
 %\vspace{-0.01in}
 \caption{Average EAGER overhead vs. number of APIs in Metadata Manager. Note that some of the error bars for
 guestbook-py are smaller than the graph features at this scale and are thus obscured.}
@@ -135,7 +135,7 @@ of API metadata in EAGER.
 
 Both simple-jaxrs-app and dep-jaxrs-app are
 affected by the volume of data stored in Metadata Manager, since they
-export web APIs are recorded and validated by the Metadata Manager.
+export web APIs which need to be recorded and validated by the Metadata Manager.
 The degradation 
 of performance as a function of the number of APIs in the Metadata Manager
 database is due to the slowing of query performance of the RDBMS engine (MySQL) 

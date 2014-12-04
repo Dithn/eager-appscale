@@ -43,11 +43,11 @@ If a governance check fails (i.e. assertion failure), EAGER preempts the
 deployment process and returns an error. Otherwise it proceeds with the application deployment by
 activating the deployment mechanisms on the developer's or administrator's
 behalf. Additionally, all application metadata is saved to the Metadata Manager, and
-if the application contains any web APIs, they will be published to the API Discovery Portal
+if the application contains any web APIs, they will be published to the API Discovery Portal (ADP)
 and the API Gateway components. The API Discovery Portal is a web GUI that enables 
 application developers to browse and
 discover available APIs, and obtain the necessary API keys. The API Gateway intercepts
-API calls at runtime and performs security, rate-limiting, and runtime policy checks . %In the future, we intend
+API calls at runtime and performs security, rate-limiting, and runtime policy checks. %In the future, we intend
 %to use the API Gateway as a starting point to implement more comprehensive runtime
 %API governance for cloud platforms.
 
