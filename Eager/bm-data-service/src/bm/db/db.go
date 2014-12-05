@@ -54,7 +54,7 @@ func NewFSDatabase(root string) (*FSDatabase, error) {
 }
 
 // Query returns a set of TimeSeries instances as a map, keyed by the
-// operation names. If n > 0, maximum length of each TimeSeries will be 
+// operation names. If n > 0, maximum length of each TimeSeries will be
 // limited to n.
 func (fsd *FSDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
 	result := make(map[string]TimeSeries)
@@ -107,7 +107,7 @@ type AEDatabase struct {
 }
 
 // Query returns a set of TimeSeries instances as a map, keyed by the
-// operation names. If n > 0, maximum length of each TimeSeries will be 
+// operation names. If n > 0, maximum length of each TimeSeries will be
 // limited to n.
 func (aed *AEDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
 	url := fmt.Sprintf("%s/query?ops=%s", aed.BaseURL, strings.Join(ops, ","))
@@ -129,7 +129,7 @@ func (aed *AEDatabase) Query(n int, ops []string) (map[string]TimeSeries, error)
 	}
 
 	result := make(map[string]TimeSeries)
-	for k,v := range qr {
+	for k, v := range qr {
 		if n > 0 && n <= len(v) {
 			result[k] = TimeSeries(v[len(v)-n:])
 		} else {
@@ -138,4 +138,3 @@ func (aed *AEDatabase) Query(n int, ops []string) (map[string]TimeSeries, error)
 	}
 	return result, nil
 }
-

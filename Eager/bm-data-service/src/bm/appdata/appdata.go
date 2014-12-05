@@ -1,4 +1,4 @@
-package main 
+package main
 
 import (
 	"bm/db"
@@ -25,7 +25,7 @@ func main() {
 		fmt.Println("input file path not specified")
 		return
 	}
-	
+
 	file, err := os.Open(*path)
 	if err != nil {
 		fmt.Println(err)
@@ -43,7 +43,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-		ts = append(ts, int(val * 1000.0))
+		ts = append(ts, int(val*1000.0))
 	}
 	fmt.Println("Loaded", len(ts), "data points from file")
 
@@ -66,18 +66,18 @@ func main() {
 
 	sort.Ints(ts)
 	index := int(float64(len(ts)) * (*q))
-	fmt.Println("Actual Quantile: ", ts[index - 1], "(element =", index, ")")
+	fmt.Println("Actual Quantile: ", ts[index-1], "(element =", index, ")")
 }
 
 func analyzeTrace(ts []int, q, c float64) {
-	minIndex := int(math.Log(c) / math.Log(q)) + 10
+	minIndex := int(math.Log(c)/math.Log(q)) + 10
 	fmt.Println("Min index: ", minIndex)
-	if len(ts) < minIndex + 1 {
+	if len(ts) < minIndex+1 {
 		fmt.Println("insufficient data in time series")
 		return
 	}
 
-	results := make([]int, len(ts) - minIndex, len(ts) - minIndex)
+	results := make([]int, len(ts)-minIndex, len(ts)-minIndex)
 	var perr error
 	workers := make(chan bool, 8)
 	var wg sync.WaitGroup
@@ -86,19 +86,19 @@ func analyzeTrace(ts []int, q, c float64) {
 		workers <- true
 		wg.Add(1)
 		go func(cnt int) {
-			defer func(){ <- workers }()
+			defer func() { <-workers }()
 			defer wg.Done()
 			if perr != nil {
 				return
 			}
-			data := ts[0:cnt+1]
+			data := ts[0 : cnt+1]
 			pred, err := qbets.PredictQuantile(data, q, c, false)
 			if err != nil {
 				perr = err
 				return
 			}
-			results[cnt - minIndex] = int(pred)
-			if cnt % 100 == 0 {
+			results[cnt-minIndex] = int(pred)
+			if cnt%100 == 0 {
 				fmt.Println("Computed the predictions for index:", cnt)
 			}
 		}(i)
@@ -110,6 +110,6 @@ func analyzeTrace(ts []int, q, c float64) {
 		return
 	}
 	for i := 0; i < len(results); i++ {
-		fmt.Printf("[trace] %d %d %d\n", i + minIndex, results[i], ts[i])
+		fmt.Printf("[trace] %d %d %d\n", i+minIndex, results[i], ts[i])
 	}
 }

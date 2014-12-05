@@ -17,7 +17,7 @@ type timeSeriesReq struct {
 }
 
 type customPredictionReq struct {
-	Data db.TimeSeries
+	Data                 db.TimeSeries
 	Quantile, Confidence float64
 }
 
@@ -46,8 +46,8 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 		for k, ts := range result {
 			c <- true
 			wg.Add(1)
-			go func(key string, data db.TimeSeries){
-				defer func(){ <- c }()
+			go func(key string, data db.TimeSeries) {
+				defer func() { <-c }()
 				defer wg.Done()
 				p, err := qbets.PredictQuantile(data, tsr.Quantile, tsr.Confidence, false)
 				if err != nil {
@@ -120,7 +120,7 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 		fmt.Printf("(q = %f, c = %f) => %f (%d data points)\n", cpr.Quantile, cpr.Confidence, p, len(cpr.Data))
 		predictions := map[string]float64{
 			"Prediction": p,
-			"Quantile": cpr.Quantile,
+			"Quantile":   cpr.Quantile,
 			"Confidence": cpr.Confidence,
 		}
 
