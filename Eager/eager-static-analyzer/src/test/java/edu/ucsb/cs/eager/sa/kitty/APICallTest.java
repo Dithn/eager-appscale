@@ -27,7 +27,7 @@ public class APICallTest extends TestCase {
         String name = "com.google.appengine.api.datastore.DataStoreService#get()";
         APICall call = new APICall(name);
         assertEquals(name, call.getName());
-        assertEquals("bm_datastore_get", call.getShortName());
+        assertEquals("bm_datastore_get", call.getId());
     }
 
     public void testShortName2() {
@@ -35,7 +35,7 @@ public class APICallTest extends TestCase {
         APICall call = new APICall(name);
         assertEquals(name, call.getName());
         try {
-            assertEquals("bm_datastore_get", call.getShortName());
+            assertEquals("bm_datastore_get", call.getId());
             fail("no exception thrown on unsupported API call name");
         } catch (Exception ignored) {
         }

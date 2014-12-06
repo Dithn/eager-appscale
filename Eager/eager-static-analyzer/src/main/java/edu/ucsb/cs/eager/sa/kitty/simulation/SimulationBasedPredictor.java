@@ -88,8 +88,8 @@ public class SimulationBasedPredictor {
         for (int i = 0; i < simulations; i++) {
             double total = 0.0;
             for (APICall call : path.calls()) {
-                if (bm.containsKey(call.getShortName())) {
-                    total += bm.get(call.getShortName()).sample();
+                if (bm.containsKey(call.getId())) {
+                    total += bm.get(call.getId()).sample();
                 } else {
                     throw new RuntimeException("No benchmark data available for: " + call.getName());
                 }

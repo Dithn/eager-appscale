@@ -21,7 +21,7 @@ package edu.ucsb.cs.eager.sa.kitty;
 
 import java.util.*;
 
-public class Path {
+public class Path implements Identifiable {
 
     private List<APICall> calls = new ArrayList<APICall>();
 
@@ -64,7 +64,7 @@ public class Path {
     public String getId() {
         List<String> names = new ArrayList<String>();
         for (APICall call : calls) {
-            names.add(call.getShortName());
+            names.add(call.getId());
         }
         Collections.sort(names);
         StringBuilder sb = new StringBuilder();
@@ -83,9 +83,9 @@ public class Path {
             return "[empty]";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(calls.get(0).getShortName());
+        sb.append(calls.get(0).getId());
         for (int i = 1; i < calls.size(); i++) {
-            sb.append(" -> ").append(calls.get(i).getShortName());
+            sb.append(" -> ").append(calls.get(i).getId());
         }
         return sb.toString();
     }

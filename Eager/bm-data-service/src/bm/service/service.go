@@ -19,6 +19,7 @@ type timeSeriesReq struct {
 type customPredictionReq struct {
 	Data                 db.TimeSeries
 	Quantile, Confidence float64
+	Name string
 }
 
 func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
@@ -106,22 +107,21 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 		cpr := customPredictionReq{
 			Quantile:   0.95,
 			Confidence: 0.05,
+			Name: "Unknown",
 		}
 		if err := decoder.Decode(&cpr); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		p, err := qbets.PredictQuantile(cpr.Data, cpr.Quantile, cpr.Confidence, false)
+		p, err := qbets.PredictQuantileTrace(cpr.Data, cpr.Quantile, cpr.Confidence, false)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Printf("(q = %f, c = %f) => %f (%d data points)\n", cpr.Quantile, cpr.Confidence, p, len(cpr.Data))
-		predictions := map[string]float64{
-			"Prediction": p,
-			"Quantile":   cpr.Quantile,
-			"Confidence": cpr.Confidence,
+		fmt.Printf("TracePrediction [%s] (q = %f, c = %f) => (%d data points)\n", cpr.Name, cpr.Quantile, cpr.Confidence, len(cpr.Data))
+		predictions := map[string][]float64{
+			"Predictions": p,
 		}
 
 		jsonString, err := json.Marshal(predictions)

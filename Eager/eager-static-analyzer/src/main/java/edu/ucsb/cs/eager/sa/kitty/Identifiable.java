@@ -19,32 +19,8 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
-public class APICall implements Identifiable {
+public interface Identifiable {
 
-    private String name;
+    public String getId();
 
-    public APICall(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getId() {
-        if (name.startsWith("com.google.appengine.api.")) {
-            String api = name.split("\\.")[4];
-            String op = name.substring(name.indexOf('#') + 1, name.indexOf('('));
-            return "bm_" + api + "_" + op;
-        }
-        throw new RuntimeException("Unsupported API call name: " + name);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof APICall) {
-            return this.name.equals(((APICall) obj).name);
-        }
-        return false;
-    }
 }

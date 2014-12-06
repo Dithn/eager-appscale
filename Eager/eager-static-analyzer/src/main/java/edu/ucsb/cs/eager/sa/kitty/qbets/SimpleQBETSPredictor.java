@@ -67,7 +67,7 @@ public class SimpleQBETSPredictor {
         for (Path path : pathsOfInterest) {
             pathLengths.add(path.size());
             for (APICall call : path.calls()) {
-                uniqueOps.add(call.getShortName());
+                uniqueOps.add(call.getId());
             }
         }
 
@@ -111,7 +111,7 @@ public class SimpleQBETSPredictor {
     private static Prediction analyzePath(Path path, QuantileCache cache) {
         double total = 0.0;
         for (APICall call : path.calls()) {
-            total += cache.get(call.getShortName(), path.size());
+            total += cache.get(call.getId(), path.size());
         }
         return new Prediction(total);
     }

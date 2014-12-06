@@ -19,37 +19,38 @@
 
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
-import java.util.HashMap;
+import edu.ucsb.cs.eager.sa.kitty.Identifiable;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TimeSeriesDataCache {
 
     private Map<String,int[]> ts;
-    private Map<String,Integer> quantiles = new ConcurrentHashMap<String, Integer>();
+    private Map<String,int[]> quantiles = new ConcurrentHashMap<String,int[]>();
 
     public TimeSeriesDataCache(Map<String, int[]> ts) {
         this.ts = ts;
     }
 
-    public int[] getTimeSeries(String op) {
-        return ts.get(op);
+    public int[] getTimeSeries(Identifiable op) {
+        return ts.get(op.getId());
     }
 
-    public void putQuantile(String op, int pathLength, int tsPos, int value) {
-        quantiles.put(key(op, pathLength, tsPos), value);
+    public void putQuantiles(Identifiable op, int pathLength, int[] value) {
+        quantiles.put(key(op, pathLength), value);
     }
 
-    public int getQuantile(String op, int pathLength, int tsPos) {
-        return quantiles.get(key(op, pathLength, tsPos));
+    public int[] getQuantiles(Identifiable op, int pathLength) {
+        return quantiles.get(key(op, pathLength));
     }
 
-    public boolean containsQuantile(String op, int pathLength, int tsPos) {
-        return quantiles.containsKey(key(op, pathLength, tsPos));
+    public boolean containsQuantiles(Identifiable op, int pathLength) {
+        return quantiles.containsKey(key(op, pathLength));
     }
 
-    private String key(String op, int pathLength, int tsPos) {
-        return op + "_" + pathLength + "_" + tsPos;
+    private String key(Identifiable op, int pathLength) {
+        return op.getId() + "_" + pathLength;
     }
 
     public int getTimeSeriesLength() {
