@@ -36,7 +36,20 @@ public class QBETSTracingPredictor {
 
     public static void predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
+        QBETSTracingPredictor predictor = new QBETSTracingPredictor(config, methods);
+        predictor.run();
+    }
 
+    private TimeSeriesDataCache cache;
+    private PredictionConfig config;
+    private Collection<MethodInfo> methods;
+
+    public QBETSTracingPredictor(PredictionConfig config, Collection<MethodInfo> methods) {
+        this.config = config;
+        this.methods = methods;
+    }
+
+    public void run() throws IOException {
         Set<String> ops = new HashSet<String>();
         for (MethodInfo m : methods) {
             for (Path path : m.getPaths()) {
@@ -53,19 +66,17 @@ public class QBETSTracingPredictor {
 
         System.out.println("\nRetrieving time series data for " + ops.size() + " API " +
                 PredictionUtils.pluralize(ops.size(), "call") + "...");
-        TimeSeriesDataCache cache = new TimeSeriesDataCache(
-                getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
+        cache = new TimeSeriesDataCache(getTimeSeriesData(config.getBenchmarkDataSvc(), ops));
         System.out.println("Retrieved time series length: " + cache.getTimeSeriesLength());
 
         for (MethodInfo m : methods) {
             if (config.isEnabledMethod(m.getName())) {
-                analyzeMethod(m, cache, config);
+                analyzeMethod(m);
             }
         }
     }
 
-    private static void analyzeMethod(MethodInfo method, TimeSeriesDataCache cache,
-                                      PredictionConfig config) throws IOException {
+    private void analyzeMethod(MethodInfo method) throws IOException {
         printTitle(method.getName(), '=');
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
@@ -95,12 +106,11 @@ public class QBETSTracingPredictor {
         System.out.println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
         for (int i = 0; i < uniquePaths.size(); i++) {
-            analyzePath(method, uniquePaths.get(i), i, cache, config);
+            analyzePath(method, uniquePaths.get(i), i);
         }
     }
 
-    private static void analyzePath(MethodInfo method, Path path, int pathIndex,
-                                    TimeSeriesDataCache cache, PredictionConfig config) throws IOException {
+    private void analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
         printTitle("Path: " + pathIndex, '-');
         System.out.println("API Calls: " + path);
 
@@ -111,14 +121,6 @@ public class QBETSTracingPredictor {
         int minIndex = (int) (Math.log(config.getConfidence()) / Math.log(adjustedQuantile)) + 10;
         System.out.println("Minimum acceptable time series length: " + (minIndex + 1));
 
-        // create new aggregate time series
-        int[] aggregate = new int[tsLength];
-        for (int i = 0; i < tsLength; i++) {
-            for (APICall call : path.calls()) {
-                aggregate[i] += cache.getTimeSeries(call)[i];
-            }
-        }
-
         int dataPoints = tsLength - minIndex;
         if (dataPoints <= 0) {
             System.out.println("Insufficient data in time series...");
@@ -126,37 +128,16 @@ public class QBETSTracingPredictor {
         }
         System.out.println("Number of data points analyzed: " + dataPoints);
 
-        // Approach 1
-        for (APICall call : path.calls()) {
-            if (!cache.containsQuantiles(call, path.size())) {
-                System.out.println("Calculating quantiles for: " + call.getId() +
-                        " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
-                int[] quantilePredictions = getQuantilePredictions(config.getBenchmarkDataSvc(),
-                        cache.getTimeSeries(call), call.getId(), dataPoints,
-                        adjustedQuantile, config.getConfidence());
-                cache.putQuantiles(call, path.size(), quantilePredictions);
-            }
-        }
-
-        int[] quantileSums = new int[dataPoints];
         int[] actualSums = new int[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
             for (APICall call : path.calls()) {
-                // Sum up the adjusted quantiles
-                quantileSums[i] += cache.getQuantiles(call, path.size())[i];
                 // Sum up the actual values from the original time series
                 actualSums[i] += cache.getTimeSeries(call)[i + minIndex];
             }
         }
 
-        // Approach 2
-        if (!cache.containsQuantiles(path, path.size())) {
-            int[] quantilePredictions = getQuantilePredictions(config.getBenchmarkDataSvc(),
-                    aggregate, path.getId(), dataPoints, config.getQuantile(),
-                    config.getConfidence());
-            cache.putQuantiles(path, path.size(), quantilePredictions);
-        }
-        int[] aggregateQuantiles = cache.getQuantiles(path, path.size());
+        int[] quantileSums = approach1(path, adjustedQuantile, dataPoints);
+        int[] aggregateQuantiles = approach2(path, tsLength, dataPoints);
 
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
@@ -188,27 +169,64 @@ public class QBETSTracingPredictor {
         }
     }
 
+    private int[] approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
+        for (APICall call : path.calls()) {
+            if (!cache.containsQuantiles(call, path.size())) {
+                System.out.println("Calculating quantiles for: " + call.getId() +
+                        " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
+                int[] quantilePredictions = getQuantilePredictions(cache.getTimeSeries(call),
+                        call.getId(), dataPoints, adjustedQuantile);
+                cache.putQuantiles(call, path.size(), quantilePredictions);
+            }
+        }
+
+        int[] quantileSums = new int[dataPoints];
+        for (int i = 0; i < dataPoints; i++) {
+            for (APICall call : path.calls()) {
+                // Sum up the adjusted quantiles
+                quantileSums[i] += cache.getQuantiles(call, path.size())[i];
+            }
+        }
+        return quantileSums;
+    }
+
+    private int[] approach2(Path path, int tsLength, int dataPoints) throws IOException {
+        // create new aggregate time series
+        int[] aggregate = new int[tsLength];
+        for (int i = 0; i < tsLength; i++) {
+            for (APICall call : path.calls()) {
+                aggregate[i] += cache.getTimeSeries(call)[i];
+            }
+        }
+
+        // Approach 2
+        if (!cache.containsQuantiles(path, path.size())) {
+            int[] quantilePredictions = getQuantilePredictions(aggregate, path.getId(),
+                    dataPoints, config.getQuantile());
+            cache.putQuantiles(path, path.size(), quantilePredictions);
+        }
+        return cache.getQuantiles(path, path.size());
+    }
+
     /**
      * Obtain a trace of quantiles for a time series
      *
-     * @param bmDataSvc URL of the bm-data-service
      * @param ts Time series to be analyzed
      * @param name A human readable name for the time series
      * @param len Length of the quantile trace to be returned
      * @param quantile Quantile to be calculated (e.g. 0.95)
-     * @param confidence Upper confidence of the prediction
      * @return An array of quantiles
      * @throws IOException on error
      */
-    private static int[] getQuantilePredictions(String bmDataSvc, int[] ts, String name, int len,
-                                      double quantile, double confidence) throws IOException {
+    private int[] getQuantilePredictions(int[] ts, String name, int len,
+                                      double quantile) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("quantile", quantile);
-        msg.put("confidence", confidence);
+        msg.put("confidence", config.getConfidence());
         msg.put("data", new JSONArray(ts));
         msg.put("name", name);
 
-        JSONObject resp = HttpUtils.doPost(bmDataSvc + "/cpredict", msg);
+        JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/cpredict", msg);
         JSONArray array = resp.getJSONArray("Predictions");
         int[] result = new int[len];
         // Just return the last len elements of the resulting array
@@ -218,8 +236,8 @@ public class QBETSTracingPredictor {
         return result;
     }
 
-    private static Map<String,int[]> getTimeSeriesData(String bmDataSvc,
-                                                    Collection<String> ops) throws IOException {
+    private Map<String,int[]> getTimeSeriesData(String bmDataSvc,
+                                                Collection<String> ops) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("operations", new JSONArray(ops));
 
@@ -238,7 +256,7 @@ public class QBETSTracingPredictor {
         return data;
     }
 
-    private static void printTitle(String text, char underline) {
+    private void printTitle(String text, char underline) {
         System.out.println("\n" + text);
         for (int i = 0; i < text.length(); i++) {
             System.out.print(underline);
