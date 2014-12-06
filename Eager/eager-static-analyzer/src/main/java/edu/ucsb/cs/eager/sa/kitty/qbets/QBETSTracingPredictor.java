@@ -188,6 +188,18 @@ public class QBETSTracingPredictor {
         }
     }
 
+    /**
+     * Obtain a trace of quantiles for a time series
+     *
+     * @param bmDataSvc URL of the bm-data-service
+     * @param ts Time series to be analyzed
+     * @param name A human readable name for the time series
+     * @param len Length of the quantile trace to be returned
+     * @param quantile Quantile to be calculated (e.g. 0.95)
+     * @param confidence Upper confidence of the prediction
+     * @return An array of quantiles
+     * @throws IOException on error
+     */
     private static int[] getQuantilePredictions(String bmDataSvc, int[] ts, String name, int len,
                                       double quantile, double confidence) throws IOException {
         JSONObject msg = new JSONObject();
@@ -199,6 +211,7 @@ public class QBETSTracingPredictor {
         JSONObject resp = HttpUtils.doPost(bmDataSvc + "/cpredict", msg);
         JSONArray array = resp.getJSONArray("Predictions");
         int[] result = new int[len];
+        // Just return the last len elements of the resulting array
         for (int i = 0; i < len; i++) {
             result[i] = array.getInt(array.length() - len + i);
         }

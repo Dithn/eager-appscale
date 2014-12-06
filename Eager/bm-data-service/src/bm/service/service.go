@@ -119,7 +119,7 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Printf("TracePrediction [%s] (q = %f, c = %f) => (%d data points)\n", cpr.Name, cpr.Quantile, cpr.Confidence, len(cpr.Data))
+		fmt.Printf("TracePrediction [%s] (q = %f, c = %f) => %d quantiles (%d data points)\n", cpr.Name, cpr.Quantile, cpr.Confidence, len(p), len(cpr.Data))
 		predictions := map[string][]float64{
 			"Predictions": p,
 		}
