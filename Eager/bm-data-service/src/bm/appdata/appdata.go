@@ -85,6 +85,6 @@ func analyzeTrace(ts []int, q, c float64) {
 	startIndex := len(ts) - len(results)
 
 	for i := 0; i < len(results); i++ {
-		fmt.Printf("[trace] %d %d %d\n", i+startIndex, int(results[i]), ts[i])
+		fmt.Printf("[trace] %d %d %d\n", i+startIndex, int(results[i]), ts[i+startIndex])
 	}
 }

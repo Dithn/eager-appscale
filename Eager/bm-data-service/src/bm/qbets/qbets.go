@@ -52,14 +52,7 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64, debug bool) ([]byte, 
 		return nil, err
 	}
 
-	// TODO: How to set the -t parameter properly?
-	t := "0"
-	if len(ts) < 20 {
-		return nil, fmt.Errorf("not enough data points in the TimeSeries")
-	} else if len(ts) < 200 {
-		t = "10"
-	}
-	return exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-t", t, "-T").Output()
+	return exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-T").Output()
 }
 
 func getLastPrediction(ts db.TimeSeries, file string, q, c float64, debug bool) (float64, error) {
