@@ -11,7 +11,6 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"sync"
 )
 
 func main() {
@@ -77,39 +76,15 @@ func analyzeTrace(ts []int, q, c float64) {
 		return
 	}
 
-	results := make([]int, len(ts)-minIndex, len(ts)-minIndex)
-	var perr error
-	workers := make(chan bool, 8)
-	var wg sync.WaitGroup
-
-	for i := minIndex; i < len(ts); i++ {
-		workers <- true
-		wg.Add(1)
-		go func(cnt int) {
-			defer func() { <-workers }()
-			defer wg.Done()
-			if perr != nil {
-				return
-			}
-			data := ts[0 : cnt+1]
-			pred, err := qbets.PredictQuantile(data, q, c, false)
-			if err != nil {
-				perr = err
-				return
-			}
-			results[cnt-minIndex] = int(pred)
-			if cnt%100 == 0 {
-				fmt.Println("Computed the predictions for index:", cnt)
-			}
-		}(i)
-	}
-	wg.Wait()
-
-	if perr != nil {
-		fmt.Println(perr)
+	results, err := qbets.PredictQuantileTrace(ts, q, c, false)
+	if err != nil {
+		fmt.Println(err)
 		return
 	}
+
+	startIndex := len(ts) - len(results)
+
 	for i := 0; i < len(results); i++ {
-		fmt.Printf("[trace] %d %d %d\n", i+minIndex, results[i], ts[i])
+		fmt.Printf("[trace] %d %d %d\n", i+startIndex, int(results[i]), ts[i])
 	}
 }
