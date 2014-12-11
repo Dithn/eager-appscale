@@ -40,7 +40,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			return
 		}
 
-		predictions := make(map[string]float64)
+		predictions := make(map[string]int)
 		c := make(chan bool, 4)
 		var wg sync.WaitGroup
 		var perr error
@@ -55,7 +55,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 					perr = err
 					return
 				}
-				fmt.Printf("%s (q = %f, c = %f) => %f (%d data points)\n", key, tsr.Quantile, tsr.Confidence, p, len(data))
+				fmt.Printf("%s (q = %f, c = %f) => %d (%d data points)\n", key, tsr.Quantile, tsr.Confidence, p, len(data))
 				predictions[key] = p
 			}(k, ts)
 		}
@@ -120,7 +120,7 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 			return
 		}
 		fmt.Printf("TracePrediction [%s] (q = %f, c = %f) => %d quantiles (%d data points)\n", cpr.Name, cpr.Quantile, cpr.Confidence, len(p), len(cpr.Data))
-		predictions := map[string][]float64{
+		predictions := map[string][]int{
 			"Predictions": p,
 		}
 

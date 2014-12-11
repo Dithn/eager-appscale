@@ -20,7 +20,7 @@ const (
 // PredictQuantile runs QBETS on the given TimeSeries to predict its q-th
 // quantile with c upper-confidence. It returns the quantile predicted at
 // the last data point of the time series.
-func PredictQuantile(ts db.TimeSeries, q, c float64, debug bool) (float64, error) {
+func PredictQuantile(ts db.TimeSeries, q, c float64, debug bool) (int, error) {
 	file, err := ioutil.TempFile(os.TempDir(), "_qbets_")
 	if err != nil {
 		return -1, err
@@ -33,7 +33,7 @@ func PredictQuantile(ts db.TimeSeries, q, c float64, debug bool) (float64, error
 // PredictQuantileTrace runs QBETS on the given TimeSeries to predict its q-th
 // quantile with c upper-confidence at each data point. It returns the quantiles
 // calculated at each data point of the time series.
-func PredictQuantileTrace(ts db.TimeSeries, q, c float64, debug bool) ([]float64, error) {
+func PredictQuantileTrace(ts db.TimeSeries, q, c float64, debug bool) ([]int, error) {
 	file, err := ioutil.TempFile(os.TempDir(), "_qbets_")
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func runQBETS(ts db.TimeSeries, file string, q, c float64, debug bool) ([]byte, 
 	return exec.Command(qbetsBin, "-f", file, "-q", fmt.Sprintf("%f", q), "-c", fmt.Sprintf("%f", c), "-T").Output()
 }
 
-func getLastPrediction(ts db.TimeSeries, file string, q, c float64, debug bool) (float64, error) {
+func getLastPrediction(ts db.TimeSeries, file string, q, c float64, debug bool) (int, error) {
 	out, err := runQBETS(ts, file, q, c, debug)
 	if err != nil {
 		return -1, err
@@ -72,17 +72,21 @@ func getLastPrediction(ts db.TimeSeries, file string, q, c float64, debug bool) 
 		}
 	}
 	segments := strings.Fields(last)
-	return strconv.ParseFloat(segments[5], 64)
+	p, err := strconv.ParseFloat(segments[5], 64)
+	if err != nil {
+		return -1, err
+	}
+	return int(p), nil
 }
 
-func getAllPredictions(ts db.TimeSeries, file string, q, c float64, debug bool) ([]float64, error) {
+func getAllPredictions(ts db.TimeSeries, file string, q, c float64, debug bool) ([]int, error) {
 	out, err := runQBETS(ts, file, q, c, debug)
 	if err != nil {
 		return nil, err
 	}
 
 	lines := strings.Split(string(out), "\n")
-	var p []float64
+	var p []int
 	for _, l := range lines {
 		if debug {
 			fmt.Println(l)
@@ -93,7 +97,7 @@ func getAllPredictions(ts db.TimeSeries, file string, q, c float64, debug bool) 
 			if err != nil {
 				return nil, err
 			}
-			p = append(p, val)
+			p = append(p, int(val))
 		}
 	}
 	return p, nil
