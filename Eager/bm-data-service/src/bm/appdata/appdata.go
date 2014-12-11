@@ -1,13 +1,12 @@
 package main
 
 import (
+	"bm/bmutil"
 	"bm/db"
 	"bm/qbets"
-	"bufio"
 	"flag"
 	"fmt"
 	"math"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -25,17 +24,14 @@ func main() {
 		return
 	}
 
-	file, err := os.Open(*path)
+	lines, err := bmutil.ReadLines(*path)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer file.Close()
 
 	var ts db.TimeSeries
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, line := range lines {
 		segments := strings.Fields(line)
 		val, err := strconv.ParseFloat(segments[1], 64)
 		if err != nil {
@@ -45,11 +41,6 @@ func main() {
 		ts = append(ts, int(val*1000.0))
 	}
 	fmt.Println("Loaded", len(ts), "data points from file")
-
-	if err := scanner.Err(); err != nil {
-		fmt.Println(err)
-		return
-	}
 
 	if *tr {
 		analyzeTrace(ts, *q, *c)

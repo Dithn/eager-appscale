@@ -3,12 +3,11 @@
 package db
 
 import (
-	"bufio"
+	"bm/bmutil"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"path"
 	"strconv"
 	"strings"
@@ -74,28 +73,23 @@ func (fsd *FSDatabase) Query(n int, ops []string) (map[string]TimeSeries, error)
 
 func loadFile(root, child string) (string, TimeSeries, error) {
 	fmt.Println("Loading data from", child)
-	fh, err := os.Open(path.Join(root, child))
+	lines, err := bmutil.ReadLines(path.Join(root, child))
 	if err != nil {
 		return "", nil, err
 	}
-	defer fh.Close()
 
-	scanner := bufio.NewScanner(fh)
 	name := ""
 	var ts TimeSeries
-	for scanner.Scan() {
+	for _, line := range lines {
 		if name == "" {
-			name = scanner.Text()
+			name = line
 		} else {
-			val, err := strconv.Atoi(scanner.Text())
+			val, err := strconv.Atoi(line)
 			if err != nil {
 				return "", nil, err
 			}
 			ts = append(ts, val)
 		}
-	}
-	if err := scanner.Err(); err != nil {
-		return "", nil, err
 	}
 	return name, ts, nil
 }
