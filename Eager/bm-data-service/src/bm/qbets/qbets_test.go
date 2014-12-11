@@ -59,7 +59,7 @@ func TestPredictQuantile2(t *testing.T) {
 	}
 }*/
 
-func loadTS(file string) ([]int,error) {
+func loadTS(file string) ([]int, error) {
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		return nil, err
