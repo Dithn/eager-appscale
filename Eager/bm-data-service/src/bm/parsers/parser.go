@@ -23,7 +23,7 @@ func main() {
 	}
 
 	for index := range tsd.APICallTime {
-		fmt.Println("[timeseries]", tsd.APICallTime[index], tsd.OtherTime[index])
+		fmt.Println("[timeseries]", tsd.APICallTime[index], tsd.OtherTime[index], tsd.APICallTime[index]+tsd.OtherTime[index])
 	}
 }
 

@@ -1,1484 +1,1484 @@
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 24 2
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 28 3
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 35 2
-[timeseries] 26 2
-[timeseries] 34 3
-[timeseries] 29 2
-[timeseries] 29 2
-[timeseries] 26 2
-[timeseries] 24 5
-[timeseries] 34 2
-[timeseries] 30 5
-[timeseries] 27 2
-[timeseries] 28 3
-[timeseries] 28 5
-[timeseries] 30 2
-[timeseries] 26 5
-[timeseries] 28 4
-[timeseries] 24 3
-[timeseries] 26 2
-[timeseries] 28 5
-[timeseries] 26 3
-[timeseries] 26 4
-[timeseries] 27 29
-[timeseries] 28 5
-[timeseries] 27 2
-[timeseries] 26 5
-[timeseries] 27 2
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 28 3
-[timeseries] 28 5
-[timeseries] 30 4
-[timeseries] 30 4
-[timeseries] 27 5
-[timeseries] 26 3
-[timeseries] 31 3
-[timeseries] 26 3
-[timeseries] 26 4
-[timeseries] 28 3
-[timeseries] 29 4
-[timeseries] 28 4
-[timeseries] 26 5
-[timeseries] 37 3
-[timeseries] 25 6
-[timeseries] 33 3
-[timeseries] 25 4
-[timeseries] 29 5
-[timeseries] 26 4
-[timeseries] 30 3
-[timeseries] 26 4
-[timeseries] 24 3
-[timeseries] 31 4
-[timeseries] 26 4
-[timeseries] 33 6
-[timeseries] 26 4
-[timeseries] 25 4
-[timeseries] 33 2
-[timeseries] 27 3
-[timeseries] 28 3
-[timeseries] 26 3
-[timeseries] 27 3
-[timeseries] 24 4
-[timeseries] 27 4
-[timeseries] 45 2
-[timeseries] 25 3
-[timeseries] 25 3
-[timeseries] 24 3
-[timeseries] 33 4
-[timeseries] 31 2
-[timeseries] 28 2
-[timeseries] 23 225
-[timeseries] 30 3
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 26 1
-[timeseries] 34 2
-[timeseries] 24 3
-[timeseries] 26 3
-[timeseries] 28 4
-[timeseries] 36 2
-[timeseries] 25 2
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 29 3
-[timeseries] 33 2
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 28 3
-[timeseries] 30 2
-[timeseries] 27 2
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 24 3
-[timeseries] 23 3
-[timeseries] 28 3
-[timeseries] 27 1
-[timeseries] 25 2
-[timeseries] 25 1
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 33 2
-[timeseries] 27 3
-[timeseries] 32 2
-[timeseries] 26 2
-[timeseries] 28 3
-[timeseries] 27 1
-[timeseries] 29 2
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 26 10
-[timeseries] 24 2
-[timeseries] 24 2
-[timeseries] 25 2
-[timeseries] 24 3
-[timeseries] 23 3
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 24 3
-[timeseries] 28 2
-[timeseries] 26 2
-[timeseries] 27 1
-[timeseries] 27 3
-[timeseries] 24 3
-[timeseries] 28 3
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 26 1
-[timeseries] 28 3
-[timeseries] 27 1
-[timeseries] 30 1
-[timeseries] 24 2
-[timeseries] 26 2
-[timeseries] 25 1
-[timeseries] 33 2
-[timeseries] 28 3
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 25 3
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 23 2
-[timeseries] 24 3
-[timeseries] 24 2
-[timeseries] 28 2
-[timeseries] 25 2
-[timeseries] 29 2
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 28 3
-[timeseries] 44 3
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 25 4
-[timeseries] 27 2
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 31 2
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 27 2
-[timeseries] 30 3
-[timeseries] 32 2
-[timeseries] 25 2
-[timeseries] 26 3
-[timeseries] 28 1
-[timeseries] 24 3
-[timeseries] 34 2
-[timeseries] 25 1
-[timeseries] 28 3
-[timeseries] 24 4
-[timeseries] 27 1
-[timeseries] 28 2
-[timeseries] 26 4
-[timeseries] 28 1
-[timeseries] 27 3
-[timeseries] 25 2
-[timeseries] 27 1
-[timeseries] 25 3
-[timeseries] 33 1
-[timeseries] 25 1
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 28 2
-[timeseries] 29 3
-[timeseries] 27 1
-[timeseries] 29 2
-[timeseries] 26 2
-[timeseries] 29 3
-[timeseries] 24 2
-[timeseries] 27 2
-[timeseries] 24 4
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 26 3
-[timeseries] 27 2
-[timeseries] 24 2
-[timeseries] 26 2
-[timeseries] 27 1
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 30 3
-[timeseries] 27 1
-[timeseries] 27 3
-[timeseries] 26 1
-[timeseries] 24 1
-[timeseries] 26 2
-[timeseries] 29 2
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 42 1
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 24 3
-[timeseries] 29 2
-[timeseries] 27 1
-[timeseries] 25 3
-[timeseries] 27 3
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 32 2
-[timeseries] 66 3
-[timeseries] 26 2
-[timeseries] 23 2
-[timeseries] 29 3
-[timeseries] 27 1
-[timeseries] 25 2
-[timeseries] 28 2
-[timeseries] 25 1
-[timeseries] 25 1
-[timeseries] 29 2
-[timeseries] 25 3
-[timeseries] 25 2
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 24 2
-[timeseries] 31 1
-[timeseries] 27 1
-[timeseries] 27 2
-[timeseries] 29 2
-[timeseries] 25 1
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 23 2
-[timeseries] 31 3
-[timeseries] 30 3
-[timeseries] 28 3
-[timeseries] 24 2
-[timeseries] 24 3
-[timeseries] 25 2
-[timeseries] 29 2
-[timeseries] 27 2
-[timeseries] 25 3
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 25 3
-[timeseries] 25 3
-[timeseries] 24 1
-[timeseries] 27 2
-[timeseries] 26 3
-[timeseries] 26 1
-[timeseries] 29 3
-[timeseries] 23 3
-[timeseries] 26 3
-[timeseries] 27 2
-[timeseries] 28 1
-[timeseries] 33 2
-[timeseries] 24 1
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 28 3
-[timeseries] 38 1
-[timeseries] 28 2
-[timeseries] 26 2
-[timeseries] 31 2
-[timeseries] 24 7
-[timeseries] 25 3
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 28 1
-[timeseries] 26 1
-[timeseries] 25 2
-[timeseries] 26 1
-[timeseries] 29 2
-[timeseries] 29 1
-[timeseries] 34 2
-[timeseries] 24 2
-[timeseries] 29 2
-[timeseries] 25 3
-[timeseries] 25 2
-[timeseries] 28 1
-[timeseries] 30 2
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 29 2
-[timeseries] 27 2
-[timeseries] 25 4
-[timeseries] 26 1
-[timeseries] 32 5
-[timeseries] 27 3
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 24 3
-[timeseries] 26 2
-[timeseries] 30 2
-[timeseries] 27 3
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 27 2
-[timeseries] 23 4
-[timeseries] 26 2
-[timeseries] 27 4
-[timeseries] 26 3
-[timeseries] 28 2
-[timeseries] 27 3
-[timeseries] 26 2
-[timeseries] 28 2
-[timeseries] 26 2
-[timeseries] 45 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 29 3
-[timeseries] 27 3
-[timeseries] 28 4
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 29 3
-[timeseries] 27 3
-[timeseries] 30 4
-[timeseries] 25 4
-[timeseries] 28 2
-[timeseries] 33 2
-[timeseries] 50 5
-[timeseries] 32 3
-[timeseries] 25 2
-[timeseries] 26 4
-[timeseries] 40 3
-[timeseries] 29 3
-[timeseries] 27 3
-[timeseries] 25 2
-[timeseries] 25 3
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 28 2
-[timeseries] 27 2
-[timeseries] 24 2
-[timeseries] 25 2
-[timeseries] 31 4
-[timeseries] 26 6
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 30 4
-[timeseries] 27 4
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 28 4
-[timeseries] 24 3
-[timeseries] 29 2
-[timeseries] 26 4
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 29 2
-[timeseries] 25 4
-[timeseries] 28 2
-[timeseries] 24 5
-[timeseries] 25 3
-[timeseries] 24 2
-[timeseries] 24 6
-[timeseries] 25 3
-[timeseries] 28 2
-[timeseries] 26 4
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 30 3
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 27 2
-[timeseries] 27 4
-[timeseries] 29 4
-[timeseries] 36 2
-[timeseries] 25 4
-[timeseries] 30 3
-[timeseries] 26 2
-[timeseries] 44 1
-[timeseries] 23 2
-[timeseries] 25 2
-[timeseries] 30 2
-[timeseries] 32 3
-[timeseries] 26 2
-[timeseries] 33 3
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 30 2
-[timeseries] 30 2
-[timeseries] 27 2
-[timeseries] 27 1
-[timeseries] 24 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 28 2
-[timeseries] 27 1
-[timeseries] 26 1
-[timeseries] 27 2
-[timeseries] 29 2
-[timeseries] 26 3
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 29 1
-[timeseries] 24 2
-[timeseries] 24 3
-[timeseries] 26 3
-[timeseries] 29 1
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 31 1
-[timeseries] 24 3
-[timeseries] 28 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 28 1
-[timeseries] 25 2
-[timeseries] 29 2
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 24 1
-[timeseries] 28 3
-[timeseries] 36 3
-[timeseries] 28 0
-[timeseries] 25 3
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 30 2
-[timeseries] 40 2
-[timeseries] 24 3
-[timeseries] 29 3
-[timeseries] 25 1
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 28 2
-[timeseries] 29 1
-[timeseries] 25 3
-[timeseries] 30 1
-[timeseries] 25 3
-[timeseries] 27 2
-[timeseries] 24 2
-[timeseries] 26 3
-[timeseries] 28 2
-[timeseries] 28 2
-[timeseries] 28 1
-[timeseries] 27 3
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 31 2
-[timeseries] 25 2
-[timeseries] 29 2
-[timeseries] 26 2
-[timeseries] 23 3
-[timeseries] 26 3
-[timeseries] 30 1
-[timeseries] 25 1
-[timeseries] 25 3
-[timeseries] 24 1
-[timeseries] 24 3
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 29 2
-[timeseries] 29 1
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 37 1
-[timeseries] 27 3
-[timeseries] 31 3
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 25 2
-[timeseries] 24 1
-[timeseries] 26 2
-[timeseries] 24 3
-[timeseries] 32 3
-[timeseries] 28 1
-[timeseries] 26 1
-[timeseries] 26 3
-[timeseries] 36 1
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 30 3
-[timeseries] 27 2
-[timeseries] 47 3
-[timeseries] 29 3
-[timeseries] 23 3
-[timeseries] 29 2
-[timeseries] 27 2
-[timeseries] 26 1
-[timeseries] 32 2
-[timeseries] 36 2
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 29 2
-[timeseries] 31 2
-[timeseries] 26 4
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 26 1
-[timeseries] 29 2
-[timeseries] 25 3
-[timeseries] 30 3
-[timeseries] 27 4
-[timeseries] 25 3
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 24 2
-[timeseries] 26 3
-[timeseries] 24 3
-[timeseries] 27 2
-[timeseries] 26 4
-[timeseries] 29 2
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 27 3
-[timeseries] 30 3
-[timeseries] 25 3
-[timeseries] 31 2
-[timeseries] 33 2
-[timeseries] 26 2
-[timeseries] 28 2
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 26 3
-[timeseries] 25 3
-[timeseries] 29 2
-[timeseries] 26 1
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 25 4
-[timeseries] 26 5
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 27 1
-[timeseries] 29 3
-[timeseries] 26 2
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 29 2
-[timeseries] 25 1
-[timeseries] 27 2
-[timeseries] 31 2
-[timeseries] 32 2
-[timeseries] 27 3
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 28 3
-[timeseries] 24 3
-[timeseries] 26 2
-[timeseries] 28 2
-[timeseries] 25 2
-[timeseries] 26 1
-[timeseries] 37 4
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 27 4
-[timeseries] 28 2
-[timeseries] 23 2
-[timeseries] 26 36
-[timeseries] 24 3
-[timeseries] 24 2
-[timeseries] 43 4
-[timeseries] 25 2
-[timeseries] 28 3
-[timeseries] 25 2
-[timeseries] 28 2
-[timeseries] 24 4
-[timeseries] 26 3
-[timeseries] 26 1
-[timeseries] 24 2
-[timeseries] 24 1
-[timeseries] 25 2
-[timeseries] 27 3
-[timeseries] 29 2
-[timeseries] 24 3
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 24 2
-[timeseries] 26 1
-[timeseries] 29 3
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 43 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 25 3
-[timeseries] 26 2
-[timeseries] 24 2
-[timeseries] 33 2
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 25 1
-[timeseries] 25 2
-[timeseries] 25 1
-[timeseries] 26 1
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 26 4
-[timeseries] 24 2
-[timeseries] 34 1
-[timeseries] 28 2
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 26 2
-[timeseries] 28 3
-[timeseries] 57 2
-[timeseries] 24 2
-[timeseries] 29 2
-[timeseries] 33 1
-[timeseries] 27 2
-[timeseries] 25 1
-[timeseries] 25 2
-[timeseries] 27 3
-[timeseries] 24 3
-[timeseries] 25 1
-[timeseries] 27 1
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 24 3
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 31 3
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 26 1
-[timeseries] 29 2
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 27 1
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 25 2
-[timeseries] 23 1
-[timeseries] 24 2
-[timeseries] 26 2
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 24 3
-[timeseries] 28 2
-[timeseries] 27 2
-[timeseries] 24 2
-[timeseries] 29 2
-[timeseries] 24 2
-[timeseries] 26 1
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 24 2
-[timeseries] 24 2
-[timeseries] 31 1
-[timeseries] 24 2
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 28 2
-[timeseries] 25 1
-[timeseries] 36 1
-[timeseries] 26 1
-[timeseries] 26 2
-[timeseries] 30 2
-[timeseries] 28 1
-[timeseries] 28 3
-[timeseries] 25 2
-[timeseries] 28 1
-[timeseries] 27 2
-[timeseries] 26 3
-[timeseries] 24 3
-[timeseries] 27 2
-[timeseries] 28 2
-[timeseries] 24 1
-[timeseries] 25 3
-[timeseries] 27 3
-[timeseries] 26 3
-[timeseries] 24 1
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 25 4
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 28 1
-[timeseries] 25 3
-[timeseries] 32 2
-[timeseries] 24 2
-[timeseries] 28 2
-[timeseries] 25 2
-[timeseries] 24 2
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 25 3
-[timeseries] 25 2
-[timeseries] 28 2
-[timeseries] 26 3
-[timeseries] 26 3
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 28 2
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 24 3
-[timeseries] 24 4
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 31 3
-[timeseries] 29 2
-[timeseries] 25 2
-[timeseries] 32 1
-[timeseries] 26 3
-[timeseries] 25 3
-[timeseries] 26 2
-[timeseries] 26 1
-[timeseries] 30 2
-[timeseries] 29 3
-[timeseries] 24 2
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 24 3
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 27 3
-[timeseries] 27 2
-[timeseries] 25 1
-[timeseries] 23 5
-[timeseries] 26 2
-[timeseries] 27 3
-[timeseries] 26 2
-[timeseries] 24 3
-[timeseries] 33 2
-[timeseries] 27 2
-[timeseries] 28 2
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 25 3
-[timeseries] 28 3
-[timeseries] 24 1
-[timeseries] 28 1
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 28 3
-[timeseries] 27 2
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 30 1
-[timeseries] 23 3
-[timeseries] 24 2
-[timeseries] 27 1
-[timeseries] 30 1
-[timeseries] 24 4
-[timeseries] 26 2
-[timeseries] 23 4
-[timeseries] 26 2
-[timeseries] 26 3
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 27 2
-[timeseries] 29 2
-[timeseries] 30 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 29 1
-[timeseries] 24 3
-[timeseries] 25 2
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 28 1
-[timeseries] 28 2
-[timeseries] 24 2
-[timeseries] 24 2
-[timeseries] 27 1
-[timeseries] 26 2
-[timeseries] 52 3
-[timeseries] 27 1
-[timeseries] 23 3
-[timeseries] 24 3
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 27 1
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 25 1
-[timeseries] 27 2
-[timeseries] 32 3
-[timeseries] 25 3
-[timeseries] 28 1
-[timeseries] 25 2
-[timeseries] 26 2
-[timeseries] 24 3
-[timeseries] 51 3
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 25 4
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 24 3
-[timeseries] 28 3
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 26 3
-[timeseries] 28 3
-[timeseries] 24 2
-[timeseries] 25 2
-[timeseries] 28 3
-[timeseries] 34 2
-[timeseries] 27 3
-[timeseries] 23 3
-[timeseries] 28 1
-[timeseries] 34 2
-[timeseries] 27 2
-[timeseries] 26 1
-[timeseries] 26 3
-[timeseries] 24 2
-[timeseries] 25 1
-[timeseries] 27 3
-[timeseries] 25 3
-[timeseries] 25 3
-[timeseries] 27 2
-[timeseries] 23 2
-[timeseries] 25 1
-[timeseries] 24 3
-[timeseries] 24 3
-[timeseries] 24 2
-[timeseries] 25 3
-[timeseries] 25 1
-[timeseries] 28 3
-[timeseries] 28 2
-[timeseries] 27 3
-[timeseries] 27 2
-[timeseries] 26 3
-[timeseries] 27 2
-[timeseries] 23 3
-[timeseries] 25 1
-[timeseries] 27 2
-[timeseries] 25 2
-[timeseries] 26 1
-[timeseries] 26 1
-[timeseries] 26 2
-[timeseries] 26 3
-[timeseries] 26 2
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 26 1
-[timeseries] 25 2
-[timeseries] 25 1
-[timeseries] 24 1
-[timeseries] 25 1
-[timeseries] 24 2
-[timeseries] 24 3
-[timeseries] 28 2
-[timeseries] 30 2
-[timeseries] 28 1
-[timeseries] 28 3
-[timeseries] 30 3
-[timeseries] 35 1
-[timeseries] 24 3
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 27 2
-[timeseries] 34 2
-[timeseries] 26 2
-[timeseries] 30 2
-[timeseries] 26 2
-[timeseries] 24 2
-[timeseries] 26 1
-[timeseries] 28 2
-[timeseries] 23 3
-[timeseries] 25 3
-[timeseries] 27 2
-[timeseries] 24 2
-[timeseries] 27 2
-[timeseries] 27 3
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 26 2
-[timeseries] 30 2
-[timeseries] 24 3
-[timeseries] 23 2
-[timeseries] 28 1
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 25 2
-[timeseries] 34 1
-[timeseries] 25 1
-[timeseries] 23 3
-[timeseries] 28 3
-[timeseries] 24 3
-[timeseries] 27 3
-[timeseries] 24 2
-[timeseries] 27 2
-[timeseries] 26 2
-[timeseries] 29 2
-[timeseries] 26 3
-[timeseries] 31 2
-[timeseries] 24 3
-[timeseries] 31 2
-[timeseries] 29 2
-[timeseries] 29 2
-[timeseries] 26 1
-[timeseries] 34 3
-[timeseries] 28 3
-[timeseries] 30 3
-[timeseries] 26 2
-[timeseries] 26 3
-[timeseries] 32 2
-[timeseries] 29 3
-[timeseries] 28 3
-[timeseries] 30 2
-[timeseries] 31 3
-[timeseries] 33 2
-[timeseries] 31 3
-[timeseries] 39 3
-[timeseries] 28 2
-[timeseries] 30 1
-[timeseries] 32 2
-[timeseries] 30 1
-[timeseries] 27 3
-[timeseries] 27 1
-[timeseries] 38 3
-[timeseries] 31 3
-[timeseries] 25 2
-[timeseries] 29 2
-[timeseries] 32 2
-[timeseries] 27 2
-[timeseries] 30 2
-[timeseries] 28 1
-[timeseries] 27 1
-[timeseries] 27 2
-[timeseries] 32 3
-[timeseries] 59 2
-[timeseries] 29 3
-[timeseries] 37 1
-[timeseries] 26 3
-[timeseries] 27 2
-[timeseries] 29 3
-[timeseries] 31 1
-[timeseries] 33 2
-[timeseries] 34 2
-[timeseries] 30 3
-[timeseries] 27 2
-[timeseries] 30 3
-[timeseries] 32 2
-[timeseries] 27 3
-[timeseries] 36 2
-[timeseries] 29 2
-[timeseries] 32 3
-[timeseries] 33 1
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 29 2
-[timeseries] 32 2
-[timeseries] 28 2
-[timeseries] 36 2
-[timeseries] 30 2
-[timeseries] 28 2
-[timeseries] 30 2
-[timeseries] 27 2
-[timeseries] 39 2
-[timeseries] 31 2
-[timeseries] 28 2
-[timeseries] 30 2
-[timeseries] 27 1
-[timeseries] 31 2
-[timeseries] 28 3
-[timeseries] 31 1
-[timeseries] 32 2
-[timeseries] 26 2
-[timeseries] 59 2
-[timeseries] 35 2
-[timeseries] 31 3
-[timeseries] 28 2
-[timeseries] 33 1
-[timeseries] 28 2
-[timeseries] 29 3
-[timeseries] 30 2
-[timeseries] 28 1
-[timeseries] 32 2
-[timeseries] 26 1
-[timeseries] 29 3
-[timeseries] 43 2
-[timeseries] 27 1
-[timeseries] 31 2
-[timeseries] 31 2
-[timeseries] 28 2
-[timeseries] 31 2
-[timeseries] 26 3
-[timeseries] 31 1
-[timeseries] 29 2
-[timeseries] 29 2
-[timeseries] 29 2
-[timeseries] 30 1
-[timeseries] 31 1
-[timeseries] 40 2
-[timeseries] 26 2
-[timeseries] 29 2
-[timeseries] 32 2
-[timeseries] 29 2
-[timeseries] 29 3
-[timeseries] 28 2
-[timeseries] 28 3
-[timeseries] 33 2
-[timeseries] 28 2
-[timeseries] 26 2
-[timeseries] 30 3
-[timeseries] 32 2
-[timeseries] 29 2
-[timeseries] 29 3
-[timeseries] 32 3
-[timeseries] 29 3
-[timeseries] 31 1
-[timeseries] 27 2
-[timeseries] 30 3
-[timeseries] 25 3
-[timeseries] 28 2
-[timeseries] 34 1
-[timeseries] 28 2
-[timeseries] 26 3
-[timeseries] 27 1
-[timeseries] 28 2
-[timeseries] 31 2
-[timeseries] 29 1
-[timeseries] 29 2
-[timeseries] 30 2
-[timeseries] 30 2
-[timeseries] 26 3
-[timeseries] 28 3
-[timeseries] 34 1
-[timeseries] 27 2
-[timeseries] 29 1
-[timeseries] 30 1
-[timeseries] 27 3
-[timeseries] 31 2
-[timeseries] 32 2
-[timeseries] 28 1
-[timeseries] 27 3
-[timeseries] 32 4
-[timeseries] 27 3
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 62 2
-[timeseries] 26 2
-[timeseries] 34 2
-[timeseries] 28 2
-[timeseries] 32 2
-[timeseries] 29 1
-[timeseries] 32 2
-[timeseries] 33 2
-[timeseries] 28 2
-[timeseries] 49 1
-[timeseries] 27 2
-[timeseries] 29 3
-[timeseries] 30 1
-[timeseries] 26 2
-[timeseries] 28 2
-[timeseries] 29 3
-[timeseries] 29 2
-[timeseries] 36 1
-[timeseries] 30 2
-[timeseries] 32 1
-[timeseries] 29 2
-[timeseries] 26 3
-[timeseries] 26 3
-[timeseries] 32 2
-[timeseries] 28 2
-[timeseries] 27 2
-[timeseries] 32 3
-[timeseries] 37 2
-[timeseries] 28 1
-[timeseries] 35 3
-[timeseries] 31 3
-[timeseries] 35 4
-[timeseries] 29 3
-[timeseries] 37 2
-[timeseries] 32 3
-[timeseries] 32 2
-[timeseries] 26 3
-[timeseries] 27 1
-[timeseries] 36 3
-[timeseries] 29 2
-[timeseries] 28 3
-[timeseries] 34 2
-[timeseries] 38 1
-[timeseries] 32 2
-[timeseries] 30 2
-[timeseries] 28 2
-[timeseries] 30 3
-[timeseries] 30 2
-[timeseries] 28 3
-[timeseries] 27 3
-[timeseries] 35 2
-[timeseries] 29 1
-[timeseries] 32 3
-[timeseries] 26 4
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 33 2
-[timeseries] 30 1
-[timeseries] 29 2
-[timeseries] 40 2
-[timeseries] 31 1
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 32 2
-[timeseries] 30 2
-[timeseries] 27 1
-[timeseries] 29 2
-[timeseries] 26 3
-[timeseries] 28 2
-[timeseries] 30 2
-[timeseries] 35 4
-[timeseries] 39 2
-[timeseries] 36 2
-[timeseries] 27 3
-[timeseries] 29 3
-[timeseries] 34 2
-[timeseries] 27 2
-[timeseries] 29 3
-[timeseries] 31 2
-[timeseries] 34 2
-[timeseries] 28 2
-[timeseries] 29 4
-[timeseries] 28 4
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 30 2
-[timeseries] 30 2
-[timeseries] 35 1
-[timeseries] 27 2
-[timeseries] 28 3
-[timeseries] 45 2
-[timeseries] 28 2
-[timeseries] 28 1
-[timeseries] 32 2
-[timeseries] 28 2
-[timeseries] 36 3
-[timeseries] 30 1
-[timeseries] 33 2
-[timeseries] 34 2
-[timeseries] 26 3
-[timeseries] 27 2
-[timeseries] 39 3
-[timeseries] 28 1
-[timeseries] 28 3
-[timeseries] 32 3
-[timeseries] 25 3
-[timeseries] 28 28
-[timeseries] 29 2
-[timeseries] 33 1
-[timeseries] 30 3
-[timeseries] 30 2
-[timeseries] 40 2
-[timeseries] 45 2
-[timeseries] 30 2
-[timeseries] 28 3
-[timeseries] 29 1
-[timeseries] 27 2
-[timeseries] 31 2
-[timeseries] 30 1
-[timeseries] 32 2
-[timeseries] 34 2
-[timeseries] 28 2
-[timeseries] 28 2
-[timeseries] 28 2
-[timeseries] 54 1
-[timeseries] 33 2
-[timeseries] 28 2
-[timeseries] 30 3
-[timeseries] 28 2
-[timeseries] 27 3
-[timeseries] 61 2
-[timeseries] 42 2
-[timeseries] 30 2
-[timeseries] 28 2
-[timeseries] 35 2
-[timeseries] 30 2
-[timeseries] 35 2
-[timeseries] 29 2
-[timeseries] 31 1
-[timeseries] 34 2
-[timeseries] 34 2
-[timeseries] 27 3
-[timeseries] 31 2
-[timeseries] 31 2
-[timeseries] 35 2
-[timeseries] 29 2
-[timeseries] 27 2
-[timeseries] 31 3
-[timeseries] 33 2
-[timeseries] 31 2
-[timeseries] 30 2
-[timeseries] 29 2
-[timeseries] 30 2
-[timeseries] 34 3
-[timeseries] 31 3
-[timeseries] 34 1
-[timeseries] 31 1
-[timeseries] 29 2
-[timeseries] 30 2
-[timeseries] 35 1
-[timeseries] 35 2
-[timeseries] 30 2
-[timeseries] 29 4
-[timeseries] 32 3
-[timeseries] 35 2
-[timeseries] 29 2
-[timeseries] 28 3
-[timeseries] 27 2
-[timeseries] 39 3
-[timeseries] 29 3
-[timeseries] 28 1
-[timeseries] 35 3
-[timeseries] 34 2
-[timeseries] 28 1
-[timeseries] 34 3
-[timeseries] 29 2
-[timeseries] 33 2
-[timeseries] 34 1
-[timeseries] 39 2
-[timeseries] 28 3
-[timeseries] 27 2
-[timeseries] 30 1
-[timeseries] 28 2
-[timeseries] 28 2
-[timeseries] 27 3
-[timeseries] 29 2
-[timeseries] 31 2
-[timeseries] 29 3
-[timeseries] 31 2
-[timeseries] 28 2
-[timeseries] 28 3
-[timeseries] 30 2
-[timeseries] 29 2
-[timeseries] 30 3
-[timeseries] 29 3
-[timeseries] 31 1
-[timeseries] 40 1
-[timeseries] 29 2
-[timeseries] 30 1
-[timeseries] 31 2
-[timeseries] 31 3
-[timeseries] 34 3
-[timeseries] 28 3
-[timeseries] 41 2
-[timeseries] 28 2
-[timeseries] 32 1
-[timeseries] 30 2
-[timeseries] 33 1
-[timeseries] 31 2
-[timeseries] 27 3
-[timeseries] 32 2
-[timeseries] 35 2
-[timeseries] 34 2
-[timeseries] 30 2
-[timeseries] 27 2
-[timeseries] 31 2
-[timeseries] 31 2
-[timeseries] 32 3
-[timeseries] 28 1
-[timeseries] 32 2
-[timeseries] 33 5
-[timeseries] 33 2
-[timeseries] 44 2
-[timeseries] 32 2
-[timeseries] 31 2
-[timeseries] 29 1
-[timeseries] 30 2
-[timeseries] 33 3
-[timeseries] 27 2
-[timeseries] 29 2
-[timeseries] 27 3
-[timeseries] 27 3
-[timeseries] 28 2
-[timeseries] 33 1
-[timeseries] 43 2
-[timeseries] 32 1
-[timeseries] 27 1
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 32 2
-[timeseries] 34 2
-[timeseries] 34 2
-[timeseries] 29 3
-[timeseries] 34 2
-[timeseries] 37 2
-[timeseries] 32 1
-[timeseries] 29 1
-[timeseries] 32 2
-[timeseries] 34 2
-[timeseries] 30 2
-[timeseries] 38 1
-[timeseries] 32 2
-[timeseries] 32 2
-[timeseries] 31 1
-[timeseries] 29 2
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 34 2
-[timeseries] 29 3
-[timeseries] 29 3
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 28 3
-[timeseries] 32 3
-[timeseries] 33 2
-[timeseries] 30 1
-[timeseries] 28 2
-[timeseries] 28 2
-[timeseries] 28 1
-[timeseries] 29 4
-[timeseries] 32 2
-[timeseries] 34 2
-[timeseries] 30 2
-[timeseries] 33 2
-[timeseries] 30 3
-[timeseries] 25 3
-[timeseries] 30 3
-[timeseries] 33 2
-[timeseries] 29 2
-[timeseries] 26 3
-[timeseries] 35 2
-[timeseries] 32 2
-[timeseries] 28 3
-[timeseries] 31 2
-[timeseries] 32 1
-[timeseries] 32 2
-[timeseries] 33 3
-[timeseries] 39 36
-[timeseries] 31 2
-[timeseries] 31 3
-[timeseries] 37 2
-[timeseries] 28 3
-[timeseries] 29 7
-[timeseries] 27 3
-[timeseries] 29 2
-[timeseries] 27 2
-[timeseries] 32 1
-[timeseries] 39 2
-[timeseries] 32 2
-[timeseries] 41 2
-[timeseries] 31 2
-[timeseries] 36 2
-[timeseries] 46 1
-[timeseries] 31 2
-[timeseries] 32 2
-[timeseries] 32 3
-[timeseries] 29 4
-[timeseries] 36 2
-[timeseries] 28 2
-[timeseries] 28 3
-[timeseries] 31 1
-[timeseries] 27 1
-[timeseries] 30 3
-[timeseries] 36 2
-[timeseries] 31 2
-[timeseries] 38 2
-[timeseries] 33 3
-[timeseries] 30 1
-[timeseries] 27 2
-[timeseries] 33 3
-[timeseries] 30 1
-[timeseries] 45 2
-[timeseries] 28 3
-[timeseries] 30 3
-[timeseries] 32 2
-[timeseries] 32 3
-[timeseries] 32 2
-[timeseries] 30 1
-[timeseries] 31 2
-[timeseries] 43 1
-[timeseries] 28 2
-[timeseries] 35 2
-[timeseries] 34 1
-[timeseries] 27 2
-[timeseries] 31 3
-[timeseries] 30 2
-[timeseries] 34 1
-[timeseries] 30 3
-[timeseries] 29 2
-[timeseries] 28 2
-[timeseries] 29 1
-[timeseries] 30 2
-[timeseries] 48 2
-[timeseries] 31 1
-[timeseries] 34 3
-[timeseries] 25 3
-[timeseries] 32 3
-[timeseries] 28 3
-[timeseries] 31 2
-[timeseries] 27 2
-[timeseries] 33 2
-[timeseries] 31 1
-[timeseries] 31 2
-[timeseries] 27 2
-[timeseries] 28 1
-[timeseries] 28 3
-[timeseries] 30 3
-[timeseries] 27 1
-[timeseries] 29 2
-[timeseries] 31 2
-[timeseries] 31 2
-[timeseries] 34 2
-[timeseries] 42 1
-[timeseries] 33 2
-[timeseries] 31 3
-[timeseries] 30 2
-[timeseries] 36 2
-[timeseries] 29 2
-[timeseries] 30 3
-[timeseries] 36 2
-[timeseries] 83 2
-[timeseries] 27 3
-[timeseries] 31 2
-[timeseries] 28 2
-[timeseries] 30 2
-[timeseries] 28 2
-[timeseries] 29 2
-[timeseries] 31 1
-[timeseries] 31 2
-[timeseries] 30 1
-[timeseries] 31 3
-[timeseries] 32 2
-[timeseries] 35 3
-[timeseries] 36 2
-[timeseries] 30 1
-[timeseries] 28 2
-[timeseries] 30 1
-[timeseries] 33 1
-[timeseries] 31 2
-[timeseries] 29 1
-[timeseries] 29 3
-[timeseries] 27 3
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 24 2 26
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 28 3 31
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 35 2 37
+[timeseries] 26 2 28
+[timeseries] 34 3 37
+[timeseries] 29 2 31
+[timeseries] 29 2 31
+[timeseries] 26 2 28
+[timeseries] 24 5 29
+[timeseries] 34 2 36
+[timeseries] 30 5 35
+[timeseries] 27 2 29
+[timeseries] 28 3 31
+[timeseries] 28 5 33
+[timeseries] 30 2 32
+[timeseries] 26 5 31
+[timeseries] 28 4 32
+[timeseries] 24 3 27
+[timeseries] 26 2 28
+[timeseries] 28 5 33
+[timeseries] 26 3 29
+[timeseries] 26 4 30
+[timeseries] 27 29 56
+[timeseries] 28 5 33
+[timeseries] 27 2 29
+[timeseries] 26 5 31
+[timeseries] 27 2 29
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 28 3 31
+[timeseries] 28 5 33
+[timeseries] 30 4 34
+[timeseries] 30 4 34
+[timeseries] 27 5 32
+[timeseries] 26 3 29
+[timeseries] 31 3 34
+[timeseries] 26 3 29
+[timeseries] 26 4 30
+[timeseries] 28 3 31
+[timeseries] 29 4 33
+[timeseries] 28 4 32
+[timeseries] 26 5 31
+[timeseries] 37 3 40
+[timeseries] 25 6 31
+[timeseries] 33 3 36
+[timeseries] 25 4 29
+[timeseries] 29 5 34
+[timeseries] 26 4 30
+[timeseries] 30 3 33
+[timeseries] 26 4 30
+[timeseries] 24 3 27
+[timeseries] 31 4 35
+[timeseries] 26 4 30
+[timeseries] 33 6 39
+[timeseries] 26 4 30
+[timeseries] 25 4 29
+[timeseries] 33 2 35
+[timeseries] 27 3 30
+[timeseries] 28 3 31
+[timeseries] 26 3 29
+[timeseries] 27 3 30
+[timeseries] 24 4 28
+[timeseries] 27 4 31
+[timeseries] 45 2 47
+[timeseries] 25 3 28
+[timeseries] 25 3 28
+[timeseries] 24 3 27
+[timeseries] 33 4 37
+[timeseries] 31 2 33
+[timeseries] 28 2 30
+[timeseries] 23 225 248
+[timeseries] 30 3 33
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 26 1 27
+[timeseries] 34 2 36
+[timeseries] 24 3 27
+[timeseries] 26 3 29
+[timeseries] 28 4 32
+[timeseries] 36 2 38
+[timeseries] 25 2 27
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 29 3 32
+[timeseries] 33 2 35
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 28 3 31
+[timeseries] 30 2 32
+[timeseries] 27 2 29
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 24 3 27
+[timeseries] 23 3 26
+[timeseries] 28 3 31
+[timeseries] 27 1 28
+[timeseries] 25 2 27
+[timeseries] 25 1 26
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 33 2 35
+[timeseries] 27 3 30
+[timeseries] 32 2 34
+[timeseries] 26 2 28
+[timeseries] 28 3 31
+[timeseries] 27 1 28
+[timeseries] 29 2 31
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 26 10 36
+[timeseries] 24 2 26
+[timeseries] 24 2 26
+[timeseries] 25 2 27
+[timeseries] 24 3 27
+[timeseries] 23 3 26
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 24 3 27
+[timeseries] 28 2 30
+[timeseries] 26 2 28
+[timeseries] 27 1 28
+[timeseries] 27 3 30
+[timeseries] 24 3 27
+[timeseries] 28 3 31
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 26 1 27
+[timeseries] 28 3 31
+[timeseries] 27 1 28
+[timeseries] 30 1 31
+[timeseries] 24 2 26
+[timeseries] 26 2 28
+[timeseries] 25 1 26
+[timeseries] 33 2 35
+[timeseries] 28 3 31
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 25 3 28
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 23 2 25
+[timeseries] 24 3 27
+[timeseries] 24 2 26
+[timeseries] 28 2 30
+[timeseries] 25 2 27
+[timeseries] 29 2 31
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 28 3 31
+[timeseries] 44 3 47
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 25 4 29
+[timeseries] 27 2 29
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 31 2 33
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 27 2 29
+[timeseries] 30 3 33
+[timeseries] 32 2 34
+[timeseries] 25 2 27
+[timeseries] 26 3 29
+[timeseries] 28 1 29
+[timeseries] 24 3 27
+[timeseries] 34 2 36
+[timeseries] 25 1 26
+[timeseries] 28 3 31
+[timeseries] 24 4 28
+[timeseries] 27 1 28
+[timeseries] 28 2 30
+[timeseries] 26 4 30
+[timeseries] 28 1 29
+[timeseries] 27 3 30
+[timeseries] 25 2 27
+[timeseries] 27 1 28
+[timeseries] 25 3 28
+[timeseries] 33 1 34
+[timeseries] 25 1 26
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 28 2 30
+[timeseries] 29 3 32
+[timeseries] 27 1 28
+[timeseries] 29 2 31
+[timeseries] 26 2 28
+[timeseries] 29 3 32
+[timeseries] 24 2 26
+[timeseries] 27 2 29
+[timeseries] 24 4 28
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 26 3 29
+[timeseries] 27 2 29
+[timeseries] 24 2 26
+[timeseries] 26 2 28
+[timeseries] 27 1 28
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 30 3 33
+[timeseries] 27 1 28
+[timeseries] 27 3 30
+[timeseries] 26 1 27
+[timeseries] 24 1 25
+[timeseries] 26 2 28
+[timeseries] 29 2 31
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 42 1 43
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 24 3 27
+[timeseries] 29 2 31
+[timeseries] 27 1 28
+[timeseries] 25 3 28
+[timeseries] 27 3 30
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 32 2 34
+[timeseries] 66 3 69
+[timeseries] 26 2 28
+[timeseries] 23 2 25
+[timeseries] 29 3 32
+[timeseries] 27 1 28
+[timeseries] 25 2 27
+[timeseries] 28 2 30
+[timeseries] 25 1 26
+[timeseries] 25 1 26
+[timeseries] 29 2 31
+[timeseries] 25 3 28
+[timeseries] 25 2 27
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 24 2 26
+[timeseries] 31 1 32
+[timeseries] 27 1 28
+[timeseries] 27 2 29
+[timeseries] 29 2 31
+[timeseries] 25 1 26
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 23 2 25
+[timeseries] 31 3 34
+[timeseries] 30 3 33
+[timeseries] 28 3 31
+[timeseries] 24 2 26
+[timeseries] 24 3 27
+[timeseries] 25 2 27
+[timeseries] 29 2 31
+[timeseries] 27 2 29
+[timeseries] 25 3 28
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 25 3 28
+[timeseries] 25 3 28
+[timeseries] 24 1 25
+[timeseries] 27 2 29
+[timeseries] 26 3 29
+[timeseries] 26 1 27
+[timeseries] 29 3 32
+[timeseries] 23 3 26
+[timeseries] 26 3 29
+[timeseries] 27 2 29
+[timeseries] 28 1 29
+[timeseries] 33 2 35
+[timeseries] 24 1 25
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 28 3 31
+[timeseries] 38 1 39
+[timeseries] 28 2 30
+[timeseries] 26 2 28
+[timeseries] 31 2 33
+[timeseries] 24 7 31
+[timeseries] 25 3 28
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 28 1 29
+[timeseries] 26 1 27
+[timeseries] 25 2 27
+[timeseries] 26 1 27
+[timeseries] 29 2 31
+[timeseries] 29 1 30
+[timeseries] 34 2 36
+[timeseries] 24 2 26
+[timeseries] 29 2 31
+[timeseries] 25 3 28
+[timeseries] 25 2 27
+[timeseries] 28 1 29
+[timeseries] 30 2 32
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 29 2 31
+[timeseries] 27 2 29
+[timeseries] 25 4 29
+[timeseries] 26 1 27
+[timeseries] 32 5 37
+[timeseries] 27 3 30
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 24 3 27
+[timeseries] 26 2 28
+[timeseries] 30 2 32
+[timeseries] 27 3 30
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 27 2 29
+[timeseries] 23 4 27
+[timeseries] 26 2 28
+[timeseries] 27 4 31
+[timeseries] 26 3 29
+[timeseries] 28 2 30
+[timeseries] 27 3 30
+[timeseries] 26 2 28
+[timeseries] 28 2 30
+[timeseries] 26 2 28
+[timeseries] 45 3 48
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 29 3 32
+[timeseries] 27 3 30
+[timeseries] 28 4 32
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 29 3 32
+[timeseries] 27 3 30
+[timeseries] 30 4 34
+[timeseries] 25 4 29
+[timeseries] 28 2 30
+[timeseries] 33 2 35
+[timeseries] 50 5 55
+[timeseries] 32 3 35
+[timeseries] 25 2 27
+[timeseries] 26 4 30
+[timeseries] 40 3 43
+[timeseries] 29 3 32
+[timeseries] 27 3 30
+[timeseries] 25 2 27
+[timeseries] 25 3 28
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 28 2 30
+[timeseries] 27 2 29
+[timeseries] 24 2 26
+[timeseries] 25 2 27
+[timeseries] 31 4 35
+[timeseries] 26 6 32
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 30 4 34
+[timeseries] 27 4 31
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 28 4 32
+[timeseries] 24 3 27
+[timeseries] 29 2 31
+[timeseries] 26 4 30
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 29 2 31
+[timeseries] 25 4 29
+[timeseries] 28 2 30
+[timeseries] 24 5 29
+[timeseries] 25 3 28
+[timeseries] 24 2 26
+[timeseries] 24 6 30
+[timeseries] 25 3 28
+[timeseries] 28 2 30
+[timeseries] 26 4 30
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 30 3 33
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 27 2 29
+[timeseries] 27 4 31
+[timeseries] 29 4 33
+[timeseries] 36 2 38
+[timeseries] 25 4 29
+[timeseries] 30 3 33
+[timeseries] 26 2 28
+[timeseries] 44 1 45
+[timeseries] 23 2 25
+[timeseries] 25 2 27
+[timeseries] 30 2 32
+[timeseries] 32 3 35
+[timeseries] 26 2 28
+[timeseries] 33 3 36
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 30 2 32
+[timeseries] 30 2 32
+[timeseries] 27 2 29
+[timeseries] 27 1 28
+[timeseries] 24 3 27
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 28 2 30
+[timeseries] 27 1 28
+[timeseries] 26 1 27
+[timeseries] 27 2 29
+[timeseries] 29 2 31
+[timeseries] 26 3 29
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 29 1 30
+[timeseries] 24 2 26
+[timeseries] 24 3 27
+[timeseries] 26 3 29
+[timeseries] 29 1 30
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 31 1 32
+[timeseries] 24 3 27
+[timeseries] 28 2 30
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 28 1 29
+[timeseries] 25 2 27
+[timeseries] 29 2 31
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 24 1 25
+[timeseries] 28 3 31
+[timeseries] 36 3 39
+[timeseries] 28 0 28
+[timeseries] 25 3 28
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 30 2 32
+[timeseries] 40 2 42
+[timeseries] 24 3 27
+[timeseries] 29 3 32
+[timeseries] 25 1 26
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 28 2 30
+[timeseries] 29 1 30
+[timeseries] 25 3 28
+[timeseries] 30 1 31
+[timeseries] 25 3 28
+[timeseries] 27 2 29
+[timeseries] 24 2 26
+[timeseries] 26 3 29
+[timeseries] 28 2 30
+[timeseries] 28 2 30
+[timeseries] 28 1 29
+[timeseries] 27 3 30
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 31 2 33
+[timeseries] 25 2 27
+[timeseries] 29 2 31
+[timeseries] 26 2 28
+[timeseries] 23 3 26
+[timeseries] 26 3 29
+[timeseries] 30 1 31
+[timeseries] 25 1 26
+[timeseries] 25 3 28
+[timeseries] 24 1 25
+[timeseries] 24 3 27
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 29 2 31
+[timeseries] 29 1 30
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 37 1 38
+[timeseries] 27 3 30
+[timeseries] 31 3 34
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 25 2 27
+[timeseries] 24 1 25
+[timeseries] 26 2 28
+[timeseries] 24 3 27
+[timeseries] 32 3 35
+[timeseries] 28 1 29
+[timeseries] 26 1 27
+[timeseries] 26 3 29
+[timeseries] 36 1 37
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 30 3 33
+[timeseries] 27 2 29
+[timeseries] 47 3 50
+[timeseries] 29 3 32
+[timeseries] 23 3 26
+[timeseries] 29 2 31
+[timeseries] 27 2 29
+[timeseries] 26 1 27
+[timeseries] 32 2 34
+[timeseries] 36 2 38
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 29 2 31
+[timeseries] 31 2 33
+[timeseries] 26 4 30
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 26 1 27
+[timeseries] 29 2 31
+[timeseries] 25 3 28
+[timeseries] 30 3 33
+[timeseries] 27 4 31
+[timeseries] 25 3 28
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 24 2 26
+[timeseries] 26 3 29
+[timeseries] 24 3 27
+[timeseries] 27 2 29
+[timeseries] 26 4 30
+[timeseries] 29 2 31
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 27 3 30
+[timeseries] 30 3 33
+[timeseries] 25 3 28
+[timeseries] 31 2 33
+[timeseries] 33 2 35
+[timeseries] 26 2 28
+[timeseries] 28 2 30
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 26 3 29
+[timeseries] 25 3 28
+[timeseries] 29 2 31
+[timeseries] 26 1 27
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 25 4 29
+[timeseries] 26 5 31
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 27 1 28
+[timeseries] 29 3 32
+[timeseries] 26 2 28
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 29 2 31
+[timeseries] 25 1 26
+[timeseries] 27 2 29
+[timeseries] 31 2 33
+[timeseries] 32 2 34
+[timeseries] 27 3 30
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 28 3 31
+[timeseries] 24 3 27
+[timeseries] 26 2 28
+[timeseries] 28 2 30
+[timeseries] 25 2 27
+[timeseries] 26 1 27
+[timeseries] 37 4 41
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 27 4 31
+[timeseries] 28 2 30
+[timeseries] 23 2 25
+[timeseries] 26 36 62
+[timeseries] 24 3 27
+[timeseries] 24 2 26
+[timeseries] 43 4 47
+[timeseries] 25 2 27
+[timeseries] 28 3 31
+[timeseries] 25 2 27
+[timeseries] 28 2 30
+[timeseries] 24 4 28
+[timeseries] 26 3 29
+[timeseries] 26 1 27
+[timeseries] 24 2 26
+[timeseries] 24 1 25
+[timeseries] 25 2 27
+[timeseries] 27 3 30
+[timeseries] 29 2 31
+[timeseries] 24 3 27
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 24 2 26
+[timeseries] 26 1 27
+[timeseries] 29 3 32
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 43 2 45
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 25 3 28
+[timeseries] 26 2 28
+[timeseries] 24 2 26
+[timeseries] 33 2 35
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 25 1 26
+[timeseries] 25 2 27
+[timeseries] 25 1 26
+[timeseries] 26 1 27
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 26 4 30
+[timeseries] 24 2 26
+[timeseries] 34 1 35
+[timeseries] 28 2 30
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 26 2 28
+[timeseries] 28 3 31
+[timeseries] 57 2 59
+[timeseries] 24 2 26
+[timeseries] 29 2 31
+[timeseries] 33 1 34
+[timeseries] 27 2 29
+[timeseries] 25 1 26
+[timeseries] 25 2 27
+[timeseries] 27 3 30
+[timeseries] 24 3 27
+[timeseries] 25 1 26
+[timeseries] 27 1 28
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 24 3 27
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 31 3 34
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 26 1 27
+[timeseries] 29 2 31
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 27 1 28
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 25 2 27
+[timeseries] 23 1 24
+[timeseries] 24 2 26
+[timeseries] 26 2 28
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 24 3 27
+[timeseries] 28 2 30
+[timeseries] 27 2 29
+[timeseries] 24 2 26
+[timeseries] 29 2 31
+[timeseries] 24 2 26
+[timeseries] 26 1 27
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 24 2 26
+[timeseries] 24 2 26
+[timeseries] 31 1 32
+[timeseries] 24 2 26
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 28 2 30
+[timeseries] 25 1 26
+[timeseries] 36 1 37
+[timeseries] 26 1 27
+[timeseries] 26 2 28
+[timeseries] 30 2 32
+[timeseries] 28 1 29
+[timeseries] 28 3 31
+[timeseries] 25 2 27
+[timeseries] 28 1 29
+[timeseries] 27 2 29
+[timeseries] 26 3 29
+[timeseries] 24 3 27
+[timeseries] 27 2 29
+[timeseries] 28 2 30
+[timeseries] 24 1 25
+[timeseries] 25 3 28
+[timeseries] 27 3 30
+[timeseries] 26 3 29
+[timeseries] 24 1 25
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 25 4 29
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 28 1 29
+[timeseries] 25 3 28
+[timeseries] 32 2 34
+[timeseries] 24 2 26
+[timeseries] 28 2 30
+[timeseries] 25 2 27
+[timeseries] 24 2 26
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 25 3 28
+[timeseries] 25 2 27
+[timeseries] 28 2 30
+[timeseries] 26 3 29
+[timeseries] 26 3 29
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 28 2 30
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 24 3 27
+[timeseries] 24 4 28
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 31 3 34
+[timeseries] 29 2 31
+[timeseries] 25 2 27
+[timeseries] 32 1 33
+[timeseries] 26 3 29
+[timeseries] 25 3 28
+[timeseries] 26 2 28
+[timeseries] 26 1 27
+[timeseries] 30 2 32
+[timeseries] 29 3 32
+[timeseries] 24 2 26
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 24 3 27
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 27 3 30
+[timeseries] 27 2 29
+[timeseries] 25 1 26
+[timeseries] 23 5 28
+[timeseries] 26 2 28
+[timeseries] 27 3 30
+[timeseries] 26 2 28
+[timeseries] 24 3 27
+[timeseries] 33 2 35
+[timeseries] 27 2 29
+[timeseries] 28 2 30
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 25 3 28
+[timeseries] 28 3 31
+[timeseries] 24 1 25
+[timeseries] 28 1 29
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 28 3 31
+[timeseries] 27 2 29
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 30 1 31
+[timeseries] 23 3 26
+[timeseries] 24 2 26
+[timeseries] 27 1 28
+[timeseries] 30 1 31
+[timeseries] 24 4 28
+[timeseries] 26 2 28
+[timeseries] 23 4 27
+[timeseries] 26 2 28
+[timeseries] 26 3 29
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 27 2 29
+[timeseries] 29 2 31
+[timeseries] 30 3 33
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 29 1 30
+[timeseries] 24 3 27
+[timeseries] 25 2 27
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 28 1 29
+[timeseries] 28 2 30
+[timeseries] 24 2 26
+[timeseries] 24 2 26
+[timeseries] 27 1 28
+[timeseries] 26 2 28
+[timeseries] 52 3 55
+[timeseries] 27 1 28
+[timeseries] 23 3 26
+[timeseries] 24 3 27
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 27 1 28
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 25 1 26
+[timeseries] 27 2 29
+[timeseries] 32 3 35
+[timeseries] 25 3 28
+[timeseries] 28 1 29
+[timeseries] 25 2 27
+[timeseries] 26 2 28
+[timeseries] 24 3 27
+[timeseries] 51 3 54
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 25 4 29
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 24 3 27
+[timeseries] 28 3 31
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 26 3 29
+[timeseries] 28 3 31
+[timeseries] 24 2 26
+[timeseries] 25 2 27
+[timeseries] 28 3 31
+[timeseries] 34 2 36
+[timeseries] 27 3 30
+[timeseries] 23 3 26
+[timeseries] 28 1 29
+[timeseries] 34 2 36
+[timeseries] 27 2 29
+[timeseries] 26 1 27
+[timeseries] 26 3 29
+[timeseries] 24 2 26
+[timeseries] 25 1 26
+[timeseries] 27 3 30
+[timeseries] 25 3 28
+[timeseries] 25 3 28
+[timeseries] 27 2 29
+[timeseries] 23 2 25
+[timeseries] 25 1 26
+[timeseries] 24 3 27
+[timeseries] 24 3 27
+[timeseries] 24 2 26
+[timeseries] 25 3 28
+[timeseries] 25 1 26
+[timeseries] 28 3 31
+[timeseries] 28 2 30
+[timeseries] 27 3 30
+[timeseries] 27 2 29
+[timeseries] 26 3 29
+[timeseries] 27 2 29
+[timeseries] 23 3 26
+[timeseries] 25 1 26
+[timeseries] 27 2 29
+[timeseries] 25 2 27
+[timeseries] 26 1 27
+[timeseries] 26 1 27
+[timeseries] 26 2 28
+[timeseries] 26 3 29
+[timeseries] 26 2 28
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 26 1 27
+[timeseries] 25 2 27
+[timeseries] 25 1 26
+[timeseries] 24 1 25
+[timeseries] 25 1 26
+[timeseries] 24 2 26
+[timeseries] 24 3 27
+[timeseries] 28 2 30
+[timeseries] 30 2 32
+[timeseries] 28 1 29
+[timeseries] 28 3 31
+[timeseries] 30 3 33
+[timeseries] 35 1 36
+[timeseries] 24 3 27
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 27 2 29
+[timeseries] 34 2 36
+[timeseries] 26 2 28
+[timeseries] 30 2 32
+[timeseries] 26 2 28
+[timeseries] 24 2 26
+[timeseries] 26 1 27
+[timeseries] 28 2 30
+[timeseries] 23 3 26
+[timeseries] 25 3 28
+[timeseries] 27 2 29
+[timeseries] 24 2 26
+[timeseries] 27 2 29
+[timeseries] 27 3 30
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 26 2 28
+[timeseries] 30 2 32
+[timeseries] 24 3 27
+[timeseries] 23 2 25
+[timeseries] 28 1 29
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 25 2 27
+[timeseries] 34 1 35
+[timeseries] 25 1 26
+[timeseries] 23 3 26
+[timeseries] 28 3 31
+[timeseries] 24 3 27
+[timeseries] 27 3 30
+[timeseries] 24 2 26
+[timeseries] 27 2 29
+[timeseries] 26 2 28
+[timeseries] 29 2 31
+[timeseries] 26 3 29
+[timeseries] 31 2 33
+[timeseries] 24 3 27
+[timeseries] 31 2 33
+[timeseries] 29 2 31
+[timeseries] 29 2 31
+[timeseries] 26 1 27
+[timeseries] 34 3 37
+[timeseries] 28 3 31
+[timeseries] 30 3 33
+[timeseries] 26 2 28
+[timeseries] 26 3 29
+[timeseries] 32 2 34
+[timeseries] 29 3 32
+[timeseries] 28 3 31
+[timeseries] 30 2 32
+[timeseries] 31 3 34
+[timeseries] 33 2 35
+[timeseries] 31 3 34
+[timeseries] 39 3 42
+[timeseries] 28 2 30
+[timeseries] 30 1 31
+[timeseries] 32 2 34
+[timeseries] 30 1 31
+[timeseries] 27 3 30
+[timeseries] 27 1 28
+[timeseries] 38 3 41
+[timeseries] 31 3 34
+[timeseries] 25 2 27
+[timeseries] 29 2 31
+[timeseries] 32 2 34
+[timeseries] 27 2 29
+[timeseries] 30 2 32
+[timeseries] 28 1 29
+[timeseries] 27 1 28
+[timeseries] 27 2 29
+[timeseries] 32 3 35
+[timeseries] 59 2 61
+[timeseries] 29 3 32
+[timeseries] 37 1 38
+[timeseries] 26 3 29
+[timeseries] 27 2 29
+[timeseries] 29 3 32
+[timeseries] 31 1 32
+[timeseries] 33 2 35
+[timeseries] 34 2 36
+[timeseries] 30 3 33
+[timeseries] 27 2 29
+[timeseries] 30 3 33
+[timeseries] 32 2 34
+[timeseries] 27 3 30
+[timeseries] 36 2 38
+[timeseries] 29 2 31
+[timeseries] 32 3 35
+[timeseries] 33 1 34
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 29 2 31
+[timeseries] 32 2 34
+[timeseries] 28 2 30
+[timeseries] 36 2 38
+[timeseries] 30 2 32
+[timeseries] 28 2 30
+[timeseries] 30 2 32
+[timeseries] 27 2 29
+[timeseries] 39 2 41
+[timeseries] 31 2 33
+[timeseries] 28 2 30
+[timeseries] 30 2 32
+[timeseries] 27 1 28
+[timeseries] 31 2 33
+[timeseries] 28 3 31
+[timeseries] 31 1 32
+[timeseries] 32 2 34
+[timeseries] 26 2 28
+[timeseries] 59 2 61
+[timeseries] 35 2 37
+[timeseries] 31 3 34
+[timeseries] 28 2 30
+[timeseries] 33 1 34
+[timeseries] 28 2 30
+[timeseries] 29 3 32
+[timeseries] 30 2 32
+[timeseries] 28 1 29
+[timeseries] 32 2 34
+[timeseries] 26 1 27
+[timeseries] 29 3 32
+[timeseries] 43 2 45
+[timeseries] 27 1 28
+[timeseries] 31 2 33
+[timeseries] 31 2 33
+[timeseries] 28 2 30
+[timeseries] 31 2 33
+[timeseries] 26 3 29
+[timeseries] 31 1 32
+[timeseries] 29 2 31
+[timeseries] 29 2 31
+[timeseries] 29 2 31
+[timeseries] 30 1 31
+[timeseries] 31 1 32
+[timeseries] 40 2 42
+[timeseries] 26 2 28
+[timeseries] 29 2 31
+[timeseries] 32 2 34
+[timeseries] 29 2 31
+[timeseries] 29 3 32
+[timeseries] 28 2 30
+[timeseries] 28 3 31
+[timeseries] 33 2 35
+[timeseries] 28 2 30
+[timeseries] 26 2 28
+[timeseries] 30 3 33
+[timeseries] 32 2 34
+[timeseries] 29 2 31
+[timeseries] 29 3 32
+[timeseries] 32 3 35
+[timeseries] 29 3 32
+[timeseries] 31 1 32
+[timeseries] 27 2 29
+[timeseries] 30 3 33
+[timeseries] 25 3 28
+[timeseries] 28 2 30
+[timeseries] 34 1 35
+[timeseries] 28 2 30
+[timeseries] 26 3 29
+[timeseries] 27 1 28
+[timeseries] 28 2 30
+[timeseries] 31 2 33
+[timeseries] 29 1 30
+[timeseries] 29 2 31
+[timeseries] 30 2 32
+[timeseries] 30 2 32
+[timeseries] 26 3 29
+[timeseries] 28 3 31
+[timeseries] 34 1 35
+[timeseries] 27 2 29
+[timeseries] 29 1 30
+[timeseries] 30 1 31
+[timeseries] 27 3 30
+[timeseries] 31 2 33
+[timeseries] 32 2 34
+[timeseries] 28 1 29
+[timeseries] 27 3 30
+[timeseries] 32 4 36
+[timeseries] 27 3 30
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 62 2 64
+[timeseries] 26 2 28
+[timeseries] 34 2 36
+[timeseries] 28 2 30
+[timeseries] 32 2 34
+[timeseries] 29 1 30
+[timeseries] 32 2 34
+[timeseries] 33 2 35
+[timeseries] 28 2 30
+[timeseries] 49 1 50
+[timeseries] 27 2 29
+[timeseries] 29 3 32
+[timeseries] 30 1 31
+[timeseries] 26 2 28
+[timeseries] 28 2 30
+[timeseries] 29 3 32
+[timeseries] 29 2 31
+[timeseries] 36 1 37
+[timeseries] 30 2 32
+[timeseries] 32 1 33
+[timeseries] 29 2 31
+[timeseries] 26 3 29
+[timeseries] 26 3 29
+[timeseries] 32 2 34
+[timeseries] 28 2 30
+[timeseries] 27 2 29
+[timeseries] 32 3 35
+[timeseries] 37 2 39
+[timeseries] 28 1 29
+[timeseries] 35 3 38
+[timeseries] 31 3 34
+[timeseries] 35 4 39
+[timeseries] 29 3 32
+[timeseries] 37 2 39
+[timeseries] 32 3 35
+[timeseries] 32 2 34
+[timeseries] 26 3 29
+[timeseries] 27 1 28
+[timeseries] 36 3 39
+[timeseries] 29 2 31
+[timeseries] 28 3 31
+[timeseries] 34 2 36
+[timeseries] 38 1 39
+[timeseries] 32 2 34
+[timeseries] 30 2 32
+[timeseries] 28 2 30
+[timeseries] 30 3 33
+[timeseries] 30 2 32
+[timeseries] 28 3 31
+[timeseries] 27 3 30
+[timeseries] 35 2 37
+[timeseries] 29 1 30
+[timeseries] 32 3 35
+[timeseries] 26 4 30
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 33 2 35
+[timeseries] 30 1 31
+[timeseries] 29 2 31
+[timeseries] 40 2 42
+[timeseries] 31 1 32
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 32 2 34
+[timeseries] 30 2 32
+[timeseries] 27 1 28
+[timeseries] 29 2 31
+[timeseries] 26 3 29
+[timeseries] 28 2 30
+[timeseries] 30 2 32
+[timeseries] 35 4 39
+[timeseries] 39 2 41
+[timeseries] 36 2 38
+[timeseries] 27 3 30
+[timeseries] 29 3 32
+[timeseries] 34 2 36
+[timeseries] 27 2 29
+[timeseries] 29 3 32
+[timeseries] 31 2 33
+[timeseries] 34 2 36
+[timeseries] 28 2 30
+[timeseries] 29 4 33
+[timeseries] 28 4 32
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 30 2 32
+[timeseries] 30 2 32
+[timeseries] 35 1 36
+[timeseries] 27 2 29
+[timeseries] 28 3 31
+[timeseries] 45 2 47
+[timeseries] 28 2 30
+[timeseries] 28 1 29
+[timeseries] 32 2 34
+[timeseries] 28 2 30
+[timeseries] 36 3 39
+[timeseries] 30 1 31
+[timeseries] 33 2 35
+[timeseries] 34 2 36
+[timeseries] 26 3 29
+[timeseries] 27 2 29
+[timeseries] 39 3 42
+[timeseries] 28 1 29
+[timeseries] 28 3 31
+[timeseries] 32 3 35
+[timeseries] 25 3 28
+[timeseries] 28 28 56
+[timeseries] 29 2 31
+[timeseries] 33 1 34
+[timeseries] 30 3 33
+[timeseries] 30 2 32
+[timeseries] 40 2 42
+[timeseries] 45 2 47
+[timeseries] 30 2 32
+[timeseries] 28 3 31
+[timeseries] 29 1 30
+[timeseries] 27 2 29
+[timeseries] 31 2 33
+[timeseries] 30 1 31
+[timeseries] 32 2 34
+[timeseries] 34 2 36
+[timeseries] 28 2 30
+[timeseries] 28 2 30
+[timeseries] 28 2 30
+[timeseries] 54 1 55
+[timeseries] 33 2 35
+[timeseries] 28 2 30
+[timeseries] 30 3 33
+[timeseries] 28 2 30
+[timeseries] 27 3 30
+[timeseries] 61 2 63
+[timeseries] 42 2 44
+[timeseries] 30 2 32
+[timeseries] 28 2 30
+[timeseries] 35 2 37
+[timeseries] 30 2 32
+[timeseries] 35 2 37
+[timeseries] 29 2 31
+[timeseries] 31 1 32
+[timeseries] 34 2 36
+[timeseries] 34 2 36
+[timeseries] 27 3 30
+[timeseries] 31 2 33
+[timeseries] 31 2 33
+[timeseries] 35 2 37
+[timeseries] 29 2 31
+[timeseries] 27 2 29
+[timeseries] 31 3 34
+[timeseries] 33 2 35
+[timeseries] 31 2 33
+[timeseries] 30 2 32
+[timeseries] 29 2 31
+[timeseries] 30 2 32
+[timeseries] 34 3 37
+[timeseries] 31 3 34
+[timeseries] 34 1 35
+[timeseries] 31 1 32
+[timeseries] 29 2 31
+[timeseries] 30 2 32
+[timeseries] 35 1 36
+[timeseries] 35 2 37
+[timeseries] 30 2 32
+[timeseries] 29 4 33
+[timeseries] 32 3 35
+[timeseries] 35 2 37
+[timeseries] 29 2 31
+[timeseries] 28 3 31
+[timeseries] 27 2 29
+[timeseries] 39 3 42
+[timeseries] 29 3 32
+[timeseries] 28 1 29
+[timeseries] 35 3 38
+[timeseries] 34 2 36
+[timeseries] 28 1 29
+[timeseries] 34 3 37
+[timeseries] 29 2 31
+[timeseries] 33 2 35
+[timeseries] 34 1 35
+[timeseries] 39 2 41
+[timeseries] 28 3 31
+[timeseries] 27 2 29
+[timeseries] 30 1 31
+[timeseries] 28 2 30
+[timeseries] 28 2 30
+[timeseries] 27 3 30
+[timeseries] 29 2 31
+[timeseries] 31 2 33
+[timeseries] 29 3 32
+[timeseries] 31 2 33
+[timeseries] 28 2 30
+[timeseries] 28 3 31
+[timeseries] 30 2 32
+[timeseries] 29 2 31
+[timeseries] 30 3 33
+[timeseries] 29 3 32
+[timeseries] 31 1 32
+[timeseries] 40 1 41
+[timeseries] 29 2 31
+[timeseries] 30 1 31
+[timeseries] 31 2 33
+[timeseries] 31 3 34
+[timeseries] 34 3 37
+[timeseries] 28 3 31
+[timeseries] 41 2 43
+[timeseries] 28 2 30
+[timeseries] 32 1 33
+[timeseries] 30 2 32
+[timeseries] 33 1 34
+[timeseries] 31 2 33
+[timeseries] 27 3 30
+[timeseries] 32 2 34
+[timeseries] 35 2 37
+[timeseries] 34 2 36
+[timeseries] 30 2 32
+[timeseries] 27 2 29
+[timeseries] 31 2 33
+[timeseries] 31 2 33
+[timeseries] 32 3 35
+[timeseries] 28 1 29
+[timeseries] 32 2 34
+[timeseries] 33 5 38
+[timeseries] 33 2 35
+[timeseries] 44 2 46
+[timeseries] 32 2 34
+[timeseries] 31 2 33
+[timeseries] 29 1 30
+[timeseries] 30 2 32
+[timeseries] 33 3 36
+[timeseries] 27 2 29
+[timeseries] 29 2 31
+[timeseries] 27 3 30
+[timeseries] 27 3 30
+[timeseries] 28 2 30
+[timeseries] 33 1 34
+[timeseries] 43 2 45
+[timeseries] 32 1 33
+[timeseries] 27 1 28
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 32 2 34
+[timeseries] 34 2 36
+[timeseries] 34 2 36
+[timeseries] 29 3 32
+[timeseries] 34 2 36
+[timeseries] 37 2 39
+[timeseries] 32 1 33
+[timeseries] 29 1 30
+[timeseries] 32 2 34
+[timeseries] 34 2 36
+[timeseries] 30 2 32
+[timeseries] 38 1 39
+[timeseries] 32 2 34
+[timeseries] 32 2 34
+[timeseries] 31 1 32
+[timeseries] 29 2 31
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 34 2 36
+[timeseries] 29 3 32
+[timeseries] 29 3 32
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 28 3 31
+[timeseries] 32 3 35
+[timeseries] 33 2 35
+[timeseries] 30 1 31
+[timeseries] 28 2 30
+[timeseries] 28 2 30
+[timeseries] 28 1 29
+[timeseries] 29 4 33
+[timeseries] 32 2 34
+[timeseries] 34 2 36
+[timeseries] 30 2 32
+[timeseries] 33 2 35
+[timeseries] 30 3 33
+[timeseries] 25 3 28
+[timeseries] 30 3 33
+[timeseries] 33 2 35
+[timeseries] 29 2 31
+[timeseries] 26 3 29
+[timeseries] 35 2 37
+[timeseries] 32 2 34
+[timeseries] 28 3 31
+[timeseries] 31 2 33
+[timeseries] 32 1 33
+[timeseries] 32 2 34
+[timeseries] 33 3 36
+[timeseries] 39 36 75
+[timeseries] 31 2 33
+[timeseries] 31 3 34
+[timeseries] 37 2 39
+[timeseries] 28 3 31
+[timeseries] 29 7 36
+[timeseries] 27 3 30
+[timeseries] 29 2 31
+[timeseries] 27 2 29
+[timeseries] 32 1 33
+[timeseries] 39 2 41
+[timeseries] 32 2 34
+[timeseries] 41 2 43
+[timeseries] 31 2 33
+[timeseries] 36 2 38
+[timeseries] 46 1 47
+[timeseries] 31 2 33
+[timeseries] 32 2 34
+[timeseries] 32 3 35
+[timeseries] 29 4 33
+[timeseries] 36 2 38
+[timeseries] 28 2 30
+[timeseries] 28 3 31
+[timeseries] 31 1 32
+[timeseries] 27 1 28
+[timeseries] 30 3 33
+[timeseries] 36 2 38
+[timeseries] 31 2 33
+[timeseries] 38 2 40
+[timeseries] 33 3 36
+[timeseries] 30 1 31
+[timeseries] 27 2 29
+[timeseries] 33 3 36
+[timeseries] 30 1 31
+[timeseries] 45 2 47
+[timeseries] 28 3 31
+[timeseries] 30 3 33
+[timeseries] 32 2 34
+[timeseries] 32 3 35
+[timeseries] 32 2 34
+[timeseries] 30 1 31
+[timeseries] 31 2 33
+[timeseries] 43 1 44
+[timeseries] 28 2 30
+[timeseries] 35 2 37
+[timeseries] 34 1 35
+[timeseries] 27 2 29
+[timeseries] 31 3 34
+[timeseries] 30 2 32
+[timeseries] 34 1 35
+[timeseries] 30 3 33
+[timeseries] 29 2 31
+[timeseries] 28 2 30
+[timeseries] 29 1 30
+[timeseries] 30 2 32
+[timeseries] 48 2 50
+[timeseries] 31 1 32
+[timeseries] 34 3 37
+[timeseries] 25 3 28
+[timeseries] 32 3 35
+[timeseries] 28 3 31
+[timeseries] 31 2 33
+[timeseries] 27 2 29
+[timeseries] 33 2 35
+[timeseries] 31 1 32
+[timeseries] 31 2 33
+[timeseries] 27 2 29
+[timeseries] 28 1 29
+[timeseries] 28 3 31
+[timeseries] 30 3 33
+[timeseries] 27 1 28
+[timeseries] 29 2 31
+[timeseries] 31 2 33
+[timeseries] 31 2 33
+[timeseries] 34 2 36
+[timeseries] 42 1 43
+[timeseries] 33 2 35
+[timeseries] 31 3 34
+[timeseries] 30 2 32
+[timeseries] 36 2 38
+[timeseries] 29 2 31
+[timeseries] 30 3 33
+[timeseries] 36 2 38
+[timeseries] 83 2 85
+[timeseries] 27 3 30
+[timeseries] 31 2 33
+[timeseries] 28 2 30
+[timeseries] 30 2 32
+[timeseries] 28 2 30
+[timeseries] 29 2 31
+[timeseries] 31 1 32
+[timeseries] 31 2 33
+[timeseries] 30 1 31
+[timeseries] 31 3 34
+[timeseries] 32 2 34
+[timeseries] 35 3 38
+[timeseries] 36 2 38
+[timeseries] 30 1 31
+[timeseries] 28 2 30
+[timeseries] 30 1 31
+[timeseries] 33 1 34
+[timeseries] 31 2 33
+[timeseries] 29 1 30
+[timeseries] 29 3 32
+[timeseries] 27 3 30
