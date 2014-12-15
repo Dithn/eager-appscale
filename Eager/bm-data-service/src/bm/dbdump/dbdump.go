@@ -28,20 +28,23 @@ func main() {
 	}
 	fmt.Println("Loading TimeSeries data from the Watchtower service at", d.BaseURL)
 
-	result, err := d.Query(-1, []string{*op})
+	p, err := getQuantile(d, *q, *c, *op, *l)
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+	fmt.Printf("Predicted %.2f Quantile: %d\n", *q, p)
+}
+
+func getQuantile(d db.Database, q, c float64, op string, l int) (int,error) {
+	result, err := d.Query(-1, []string{op})
+	if err != nil {
+		return -1, err
 	}
 
-	ts := result[*op]
-	if *l > 0 {
-		ts = ts[0:*l]
+	ts := result[op]
+	if l > 0 {
+		ts = ts[0:l]
 	}
-	p, err := qbets.PredictQuantile(ts, *q, *c, true)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("Predicted %.2f Quantile: %f\n", *q, p)
+	return qbets.PredictQuantile(ts, q, c, true)
 }
