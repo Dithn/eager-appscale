@@ -174,7 +174,7 @@ public class Cerebro {
         if (loopedApiCalls.size() > 0) {
             System.out.println("API calls in loops: ");
             for (Map.Entry<Loop,Integer> entry : loopedApiCalls.entrySet()) {
-                System.out.println("  " + entry.getKey().getHead() + " [Nesting Level: " +
+                System.out.println("  [loop] " + entry.getKey().getHead() + " [Nesting Level: " +
                         loopNestingLevels.get(entry.getKey()) + "] : " + entry.getValue());
             }
         }

@@ -34,48 +34,8 @@ Warning: com.google.appengine.api.images.Image is a phantom class!
 Warning: com.google.appengine.api.blobstore.BlobInfo is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getYCoord()
-===============================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.Serve#readImageData()
-=========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 1
-API calls in loops: 
-  $b5 = l1 cmp 0L [Nesting Level: 1] : 1
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.blobstore.BlobstoreService#fetchData()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#getUSerAttList()
-=================================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r8.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-Called user-defined methods (unique): 
-  cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#<init>()
-  cs263aacalfaproject.cs263aacalfaproject.Pair#<init>()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-API call traces: 
-  [path0] com.google.appengine.api.users.UserService#getCurrentUser()
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.Pair#getL()
-===============================================================
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.Pair#<init>()
+=================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -92,6 +52,48 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.Serve#readImageData()
+=========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 1
+API calls in loops: 
+  [loop] $b5 = l1 cmp 0L [Nesting Level: 1] : 1
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.blobstore.BlobstoreService#fetchData()
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getYCoord()
+===============================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#deleteSelectedMarker()
+=======================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 3 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r8.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+Called user-defined methods (unique): 
+  cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getXCoord()
+  cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getYCoord()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] com.google.appengine.api.users.UserService#getCurrentUser()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
 Analyzing: cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getXCoord()
 ===============================================================================
 Distinct paths through the code: 1
@@ -101,14 +103,32 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.Pair#<init>()
-=================================================================
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.Pair#getL()
+===============================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
+
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#getUSerAttList()
+=================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r8.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+Called user-defined methods (unique): 
+  cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#<init>()
+  cs263aacalfaproject.cs263aacalfaproject.Pair#<init>()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+API call traces: 
+  [path0] com.google.appengine.api.users.UserService#getCurrentUser()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
 
 Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#doGet()
 ========================================================================
@@ -117,8 +137,8 @@ API calls in paths: [ 16 12 12 12 12 12 9 12 9 12 9 15 11 11 11 11 11 8 11 8 11 
 Memory (heap) allocations in paths: [ 9 7 7 7 7 7 6 7 6 7 6 9 7 7 7 7 7 6 7 6 7 6 ]
 Loops: 2
 API calls in loops: 
-  $z3 = interfaceinvoke r23.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-  $z8 = interfaceinvoke r91.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 4
+  [loop] $z3 = interfaceinvoke r23.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+  [loop] $z8 = interfaceinvoke r91.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 4
 Called user-defined methods (unique): 
   cs263aacalfaproject.cs263aacalfaproject.Serve#readImageData()
   cs263aacalfaproject.cs263aacalfaproject.BoardServlet#getUSerAttList()
@@ -390,35 +410,6 @@ API call traces:
   [path21] com.google.appengine.api.users.UserService#getCurrentUser()
   [path21] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#<init>()
-=========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#deleteSelectedMarker()
-=======================================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 3 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r8.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-Called user-defined methods (unique): 
-  cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getXCoord()
-  cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#getYCoord()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.users.UserService#getCurrentUser()
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
 Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#doPost()
 =========================================================================
 Distinct paths through the code: 1
@@ -435,7 +426,7 @@ API calls in paths: [ 3 3 ]
 Memory (heap) allocations in paths: [ 0 0 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
   cs263aacalfaproject.cs263aacalfaproject.Pair#getL()
   cs263aacalfaproject.cs263aacalfaproject.Pair#getR()
@@ -455,6 +446,15 @@ API call traces:
 
 Analyzing: cs263aacalfaproject.cs263aacalfaproject.ImageCoordinate#<init>()
 ============================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: cs263aacalfaproject.cs263aacalfaproject.BoardServlet#<init>()
+=========================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -509,6 +509,17 @@ API call traces:
   [path1] -- No API Calls --
   [path2] -- No API Calls --
 
+Analyzing: cs263project.cs263project.Validator#isValidLongitude()
+==================================================================
+Distinct paths through the code: 3
+API calls in paths: [ 0 0 0 ]
+Memory (heap) allocations in paths: [ 0 0 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
+  [path2] -- No API Calls --
+
 Analyzing: cs263project.cs263project.Validator#isValidName()
 =============================================================
 Distinct paths through the code: 3
@@ -520,18 +531,16 @@ API call traces:
   [path1] -- No API Calls --
   [path2] -- No API Calls --
 
-Analyzing: cs263project.cs263project.RoomRestApi#getRoomsInCity()
-==================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r6.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
+Analyzing: cs263project.cs263project.Validator#isValidLatitude()
+=================================================================
+Distinct paths through the code: 3
+API calls in paths: [ 0 0 0 ]
+Memory (heap) allocations in paths: [ 0 0 0 ]
+Loops: 0
 API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
+  [path2] -- No API Calls --
 
 Analyzing: cs263project.cs263project.RoomRestApi#<init>()
 ==========================================================
@@ -566,17 +575,6 @@ API call traces:
   [path4] com.google.appengine.api.memcache.MemcacheService#put()
   [path5] com.google.appengine.api.memcache.MemcacheService#get()
 
-Analyzing: cs263project.cs263project.Validator#isValidLatitude()
-=================================================================
-Distinct paths through the code: 3
-API calls in paths: [ 0 0 0 ]
-Memory (heap) allocations in paths: [ 0 0 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] -- No API Calls --
-  [path2] -- No API Calls --
-
 Analyzing: cs263project.cs263project.RoomRestApi#createNewRoomInCity()
 =======================================================================
 Distinct paths through the code: 6
@@ -602,16 +600,18 @@ API call traces:
   [path4] -- No API Calls --
   [path5] -- No API Calls --
 
-Analyzing: cs263project.cs263project.Validator#isValidLongitude()
+Analyzing: cs263project.cs263project.RoomRestApi#getRoomsInCity()
 ==================================================================
-Distinct paths through the code: 3
-API calls in paths: [ 0 0 0 ]
-Memory (heap) allocations in paths: [ 0 0 0 ]
-Loops: 0
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r6.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
 API call traces: 
-  [path0] -- No API Calls --
-  [path1] -- No API Calls --
-  [path2] -- No API Calls --
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
 
 ----------------- PROJECT: divya-sambasivan -----------------
 
@@ -657,8 +657,109 @@ Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phant
 Warning: javax.ws.rs.core.GenericEntity is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setStartTimeMinute()
+====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setEndTimeHour()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#<init>()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#getLecture()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureDao#getLecture()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.Entity#getParent()
+
+Analyzing: com.ucsb.cs.rtsystems.validation.LectureValidator#<init>()
+======================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#deleteLecture()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+
 Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setLectureDate()
 ========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#updateLecture()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.Lecture#getID()
+  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
+  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeHour()
+  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeMinute()
+  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeHour()
+  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeMinute()
+  com.ucsb.cs.rtsystems.model.Lecture#getDayOfWeek()
+  com.ucsb.cs.rtsystems.model.Lecture#getLat()
+  com.ucsb.cs.rtsystems.model.Lecture#getLon()
+  com.ucsb.cs.rtsystems.model.Lecture#getTutor()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setSubjectCode()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setLat()
+========================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -701,14 +802,47 @@ API call traces:
   [path0] com.google.appengine.api.datastore.Entity#getParent()
   [path1] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
-========================================================================
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#createLecture()
+===========================================================================
+Distinct paths through the code: 2
+API calls in paths: [ 0 1 ]
+Memory (heap) allocations in paths: [ 4 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.validation.LectureValidator#<init>()
+  com.ucsb.cs.rtsystems.validation.LectureValidator#validate()
+  com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
+  com.ucsb.cs.rtsystems.dao.LectureDao#addLecture()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#deleteLecture()
+===========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 7 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r4.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstances()
+  com.ucsb.cs.rtsystems.model.LectureInstance#getID()
+  com.ucsb.cs.rtsystems.dao.LectureDao#deleteLecture()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.taskqueue.Queue#add()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
+=========================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
 Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.exception.BadRequestException$1#<init>()
+  com.ucsb.cs.rtsystems.dao.SubjectDao#<init>()
 API call traces: 
   [path0] -- No API Calls --
 
@@ -721,42 +855,32 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getID()
-===============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setLectureId()
-======================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#getLecture()
-========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureDao#getLecture()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.Entity#getParent()
-
 Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setID()
 =======================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setStartTimeHour()
+==================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#<init>()
+=================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
 API call traces: 
   [path0] -- No API Calls --
 
@@ -778,8 +902,155 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getStartTimeHour()
+==================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.exception.BadRequestException$1#<init>()
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#getLectures()
+=========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+
 Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getStartTimeMinute()
 ====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getID()
+=======================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setLon()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#addLecture()
+=============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
+  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeHour()
+  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeMinute()
+  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeHour()
+  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeMinute()
+  com.ucsb.cs.rtsystems.model.Lecture#getDayOfWeek()
+  com.ucsb.cs.rtsystems.model.Lecture#getLat()
+  com.ucsb.cs.rtsystems.model.Lecture#getLon()
+  com.ucsb.cs.rtsystems.model.Lecture#getTutor()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setLectureId()
+======================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getDayOfWeek()
+==============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setTutor()
+==========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setID()
+===============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#<init>()
+====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 5 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#<init>()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+API call traces: 
+  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getLon()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#<init>()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.exception.BadRequestException$1#<init>()
+==========================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -1774,164 +2045,39 @@ API call traces:
   [path970] -- No API Calls --
   [path971] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#createLecture()
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getEndTimeMinute()
+==================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getID()
+===============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#updateLecture()
 ===========================================================================
 Distinct paths through the code: 2
-API calls in paths: [ 0 1 ]
-Memory (heap) allocations in paths: [ 4 3 ]
+API calls in paths: [ 0 2 ]
+Memory (heap) allocations in paths: [ 4 2 ]
 Loops: 0
 Called user-defined methods (unique): 
   com.ucsb.cs.rtsystems.validation.LectureValidator#<init>()
   com.ucsb.cs.rtsystems.validation.LectureValidator#validate()
   com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
-  com.ucsb.cs.rtsystems.dao.LectureDao#addLecture()
+  com.ucsb.cs.rtsystems.dao.LectureDao#updateLecture()
 API call traces: 
   [path0] -- No API Calls --
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
   [path1] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getID()
-=======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setEndTimeHour()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setStartTimeMinute()
-====================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setStudentId()
-======================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
-=========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.SubjectDao#<init>()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setLon()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#addLecture()
-=============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
-  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeHour()
-  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeMinute()
-  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeHour()
-  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeMinute()
-  com.ucsb.cs.rtsystems.model.Lecture#getDayOfWeek()
-  com.ucsb.cs.rtsystems.model.Lecture#getLat()
-  com.ucsb.cs.rtsystems.model.Lecture#getLon()
-  com.ucsb.cs.rtsystems.model.Lecture#getTutor()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#getLectures()
-=========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#deleteLecture()
-===========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 7 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r4.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstances()
-  com.ucsb.cs.rtsystems.model.LectureInstance#getID()
-  com.ucsb.cs.rtsystems.dao.LectureDao#deleteLecture()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.taskqueue.Queue#add()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getLon()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#<init>()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.validation.LectureValidator#<init>()
-======================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#<init>()
-=================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
-API call traces: 
-  [path0] -- No API Calls --
 
 Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
 =================================================================
@@ -1940,7 +2086,7 @@ API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 2 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
+  [loop] $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
 Called user-defined methods (unique): 
   com.ucsb.cs.rtsystems.model.Lecture#<init>()
   com.ucsb.cs.rtsystems.model.Lecture#setID()
@@ -1967,7 +2113,7 @@ API calls in paths: [ 1 1 ]
 Memory (heap) allocations in paths: [ 6 4 ]
 Loops: 1
 API calls in loops: 
-  $z1 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
+  [loop] $z1 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
 Called user-defined methods (unique): 
   com.ucsb.cs.rtsystems.model.LectureInstance#<init>()
   com.ucsb.cs.rtsystems.model.LectureInstance#setID()
@@ -1983,15 +2129,6 @@ API call traces:
   [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
   [path1] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setTutor()
-==========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
 Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getTutor()
 ==========================================================
 Distinct paths through the code: 1
@@ -2001,32 +2138,8 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#updateLecture()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.Lecture#getID()
-  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
-  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeHour()
-  com.ucsb.cs.rtsystems.model.Lecture#getStartTimeMinute()
-  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeHour()
-  com.ucsb.cs.rtsystems.model.Lecture#getEndTimeMinute()
-  com.ucsb.cs.rtsystems.model.Lecture#getDayOfWeek()
-  com.ucsb.cs.rtsystems.model.Lecture#getLat()
-  com.ucsb.cs.rtsystems.model.Lecture#getLon()
-  com.ucsb.cs.rtsystems.model.Lecture#getTutor()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
-================================================================
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setStudentId()
+======================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -2034,19 +2147,8 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#deleteLecture()
+Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
 ================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setID()
-===============================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -2065,108 +2167,6 @@ API call traces:
 
 Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#<init>()
 =========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getDayOfWeek()
-==============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setLat()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getStartTimeHour()
-==================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#updateLecture()
-===========================================================================
-Distinct paths through the code: 2
-API calls in paths: [ 0 2 ]
-Memory (heap) allocations in paths: [ 4 2 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.validation.LectureValidator#<init>()
-  com.ucsb.cs.rtsystems.validation.LectureValidator#validate()
-  com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
-  com.ucsb.cs.rtsystems.dao.LectureDao#updateLecture()
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.exception.BadRequestException$1#<init>()
-==========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#setStartTimeHour()
-==================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Lecture#getEndTimeMinute()
-==================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureResource#<init>()
-====================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 5 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#<init>()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-API call traces: 
-  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#setSubjectCode()
-========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#<init>()
-================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -2209,114 +2209,14 @@ Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phant
 Warning: javax.ws.rs.core.GenericEntity is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getLectureDate()
-========================================================================
+Analyzing: com.ucsb.cs.rtsystems.model.User#setPictureUrl()
+============================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getSubjectCode()
-========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#getUser()
-=======================================================
-Distinct paths through the code: 2
-API calls in paths: [ 1 1 ]
-Memory (heap) allocations in paths: [ 1 0 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.User#<init>()
-  com.ucsb.cs.rtsystems.model.User#setID()
-  com.ucsb.cs.rtsystems.model.User#setFirstName()
-  com.ucsb.cs.rtsystems.model.User#setLastName()
-  com.ucsb.cs.rtsystems.model.User#setEmail()
-  com.ucsb.cs.rtsystems.model.User#setPictureUrl()
-  com.ucsb.cs.rtsystems.model.User#setPhoneNumber()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#<init>()
-======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#<init>()
-============================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#<init>()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#setFirstName()
-===========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#isUser()
-======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#setID()
-====================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#<init>()
-==============================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#<init>()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#getLectureInstances()
-=========================================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 6 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstances()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 
 Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstance()
 =============================================================================
@@ -2340,6 +2240,195 @@ API call traces:
   [path0] com.google.appengine.api.datastore.Entity#getParent()
   [path0] com.google.appengine.api.datastore.Entity#getParent()
   [path1] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#<init>()
+==============================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#<init>()
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#<init>()
+=====================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#isUser()
+======================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#createLectureInstance()
+===========================================================================================
+Distinct paths through the code: 2
+API calls in paths: [ 1 2 ]
+Memory (heap) allocations in paths: [ 6 7 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#<init>()
+  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#validate()
+  com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#addLectureInstance()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getSubjectCode()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getLectureId()
+======================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#setPhoneNumber()
+=============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#<init>()
+======================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#setFirstName()
+===========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#getLectureInstance()
+========================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 3 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstance()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.Entity#getParent()
+  [path0] com.google.appengine.api.datastore.Entity#getParent()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#getLectureInstances()
+=========================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 6 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstances()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#setLastName()
+==========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#addLectureInstance()
+=============================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.LectureInstance#getSubjectCode()
+  com.ucsb.cs.rtsystems.model.LectureInstance#getLectureId()
+  com.ucsb.cs.rtsystems.model.LectureInstance#getStudentId()
+  com.ucsb.cs.rtsystems.model.LectureInstance#getLectureDate()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#getUser()
+=======================================================
+Distinct paths through the code: 2
+API calls in paths: [ 1 1 ]
+Memory (heap) allocations in paths: [ 1 0 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.User#<init>()
+  com.ucsb.cs.rtsystems.model.User#setID()
+  com.ucsb.cs.rtsystems.model.User#setFirstName()
+  com.ucsb.cs.rtsystems.model.User#setLastName()
+  com.ucsb.cs.rtsystems.model.User#setEmail()
+  com.ucsb.cs.rtsystems.model.User#setPictureUrl()
+  com.ucsb.cs.rtsystems.model.User#setPhoneNumber()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#<init>()
+============================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#<init>()
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#updateLecture()
+===================================================================================
+Distinct paths through the code: 2
+API calls in paths: [ 1 3 ]
+Memory (heap) allocations in paths: [ 6 5 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#<init>()
+  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#validate()
+  com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#updateLectureInstance()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#put()
 
 Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#deleteLectureInstance()
 ===========================================================================================
@@ -2371,115 +2460,6 @@ API call traces:
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#updateLecture()
-===================================================================================
-Distinct paths through the code: 2
-API calls in paths: [ 1 3 ]
-Memory (heap) allocations in paths: [ 6 5 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#<init>()
-  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#validate()
-  com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#updateLectureInstance()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#createLectureInstance()
-===========================================================================================
-Distinct paths through the code: 2
-API calls in paths: [ 1 2 ]
-Memory (heap) allocations in paths: [ 6 7 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#<init>()
-  com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#validate()
-  com.ucsb.cs.rtsystems.exception.BadRequestException#<init>()
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#addLectureInstance()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#addLectureInstance()
-=============================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.LectureInstance#getSubjectCode()
-  com.ucsb.cs.rtsystems.model.LectureInstance#getLectureId()
-  com.ucsb.cs.rtsystems.model.LectureInstance#getStudentId()
-  com.ucsb.cs.rtsystems.model.LectureInstance#getLectureDate()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.LectureInstanceResource#getLectureInstance()
-========================================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 3 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstance()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.Entity#getParent()
-  [path0] com.google.appengine.api.datastore.Entity#getParent()
-
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#deleteLectureInstance()
-================================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getStudentId()
-======================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#setLastName()
-==========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#<init>()
-=====================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#setPictureUrl()
-============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
 Analyzing: com.ucsb.cs.rtsystems.validation.LectureInstanceValidator#validate()
 ================================================================================
 Distinct paths through the code: 4
@@ -2505,8 +2485,19 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.model.User#setPhoneNumber()
-=============================================================
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#deleteLectureInstance()
+================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#setID()
+====================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -2514,7 +2505,16 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getLectureId()
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getLectureDate()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstance#getStudentId()
 ======================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
@@ -2558,81 +2558,14 @@ Warning: com.google.appengine.api.memcache.MemcacheServiceFactory is a phantom c
 Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#getSubjects()
-=========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 3 ]
-Memory (heap) allocations in paths: [ 6 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.SubjectDao#getAllSubjects()
-API call traces: 
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [path0] com.google.appengine.api.memcache.MemcacheService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#updateSubject()
-===========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.SubjectDao#updateSubject()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#getImageUrl()
-=============================================================
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#getDescription()
+================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#getAllSubjects()
-=================================================================
-Distinct paths through the code: 3
-API calls in paths: [ 3 1 3 ]
-Memory (heap) allocations in paths: [ 2 1 2 ]
-Loops: 1
-API calls in loops: 
-  $z1 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.Subject#<init>()
-  com.ucsb.cs.rtsystems.model.Subject#setCode()
-  com.ucsb.cs.rtsystems.model.Subject#setName()
-  com.ucsb.cs.rtsystems.model.Subject#setDescription()
-  com.ucsb.cs.rtsystems.model.Subject#setImageUrl()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [cloud] com.google.appengine.api.memcache.MemcacheService#put()
-API call traces: 
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [path0] com.google.appengine.api.memcache.MemcacheService#put()
-  [path1] com.google.appengine.api.memcache.MemcacheService#get()
-  [path2] com.google.appengine.api.memcache.MemcacheService#get()
-  [path2] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [path2] com.google.appengine.api.memcache.MemcacheService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#updateSubject()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.Subject#getCode()
-  com.ucsb.cs.rtsystems.model.Subject#getName()
-  com.ucsb.cs.rtsystems.model.Subject#getDescription()
-  com.ucsb.cs.rtsystems.model.Subject#getImageUrl()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
 Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#getSubject()
 =============================================================
@@ -2652,7 +2585,7 @@ API call traces:
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path1] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#getCode()
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#setName()
 =========================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
@@ -2661,25 +2594,27 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#setImageUrl()
-=============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#getSubject()
-========================================================================
+Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#updateSubject()
+===========================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
 Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.SubjectDao#getSubject()
+  com.ucsb.cs.rtsystems.dao.SubjectDao#updateSubject()
 API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#deleteSubject()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
 
 Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#createSubject()
 ===========================================================================
@@ -2691,83 +2626,6 @@ Called user-defined methods (unique):
   com.ucsb.cs.rtsystems.dao.SubjectDao#addSubject()
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#setName()
-=========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#deleteSubject()
-===========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
-  com.ucsb.cs.rtsystems.model.Lecture#getID()
-  com.ucsb.cs.rtsystems.dao.SubjectDao#deleteSubject()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.taskqueue.Queue#add()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#<init>()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#setDescription()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#getDescription()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#<init>()
-====================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.SubjectDao#<init>()
-  com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-API call traces: 
-  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-
-Analyzing: com.ucsb.cs.rtsystems.model.Subject#setCode()
-=========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#addSubject()
 =============================================================
@@ -2785,19 +2643,161 @@ Called GAE methods (non-unique):
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
-Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#deleteSubject()
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#setCode()
+=========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#<init>()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#updateSubject()
 ================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.Subject#getCode()
+  com.ucsb.cs.rtsystems.model.Subject#getName()
+  com.ucsb.cs.rtsystems.model.Subject#getDescription()
+  com.ucsb.cs.rtsystems.model.Subject#getImageUrl()
 Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
 API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#getSubjects()
+=========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 3 ]
+Memory (heap) allocations in paths: [ 6 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.SubjectDao#getAllSubjects()
+API call traces: 
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [path0] com.google.appengine.api.memcache.MemcacheService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#getSubject()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.SubjectDao#getSubject()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
 
 Analyzing: com.ucsb.cs.rtsystems.model.Subject#getName()
 =========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.SubjectDao#getAllSubjects()
+=================================================================
+Distinct paths through the code: 3
+API calls in paths: [ 3 1 3 ]
+Memory (heap) allocations in paths: [ 2 1 2 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z1 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.Subject#<init>()
+  com.ucsb.cs.rtsystems.model.Subject#setCode()
+  com.ucsb.cs.rtsystems.model.Subject#setName()
+  com.ucsb.cs.rtsystems.model.Subject#setDescription()
+  com.ucsb.cs.rtsystems.model.Subject#setImageUrl()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [cloud] com.google.appengine.api.memcache.MemcacheService#put()
+API call traces: 
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [path0] com.google.appengine.api.memcache.MemcacheService#put()
+  [path1] com.google.appengine.api.memcache.MemcacheService#get()
+  [path2] com.google.appengine.api.memcache.MemcacheService#get()
+  [path2] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [path2] com.google.appengine.api.memcache.MemcacheService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#setDescription()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#deleteSubject()
+===========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
+  com.ucsb.cs.rtsystems.model.Lecture#getID()
+  com.ucsb.cs.rtsystems.dao.SubjectDao#deleteSubject()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.taskqueue.Queue#add()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.SubjectResource#<init>()
+====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.SubjectDao#<init>()
+  com.ucsb.cs.rtsystems.dao.LectureDao#<init>()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+API call traces: 
+  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#setImageUrl()
+=============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#getCode()
+=========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.Subject#getImageUrl()
+=============================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -2831,32 +2831,46 @@ Warning: javax.ws.rs.core.Response$ResponseBuilder is a phantom class!
 Warning: javax.ws.rs.core.GenericEntity is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: com.ucsb.cs.rtsystems.validation.UserValidator#<init>()
-===================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#getEmail()
+Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#addUser()
 =======================================================
 Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.User#getID()
+  com.ucsb.cs.rtsystems.model.User#getFirstName()
+  com.ucsb.cs.rtsystems.model.User#getLastName()
+  com.ucsb.cs.rtsystems.model.User#getEmail()
+  com.ucsb.cs.rtsystems.model.User#getPictureUrl()
+  com.ucsb.cs.rtsystems.model.User#getPhoneNumber()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
 API call traces: 
-  [path0] -- No API Calls --
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
-Analyzing: com.ucsb.cs.rtsystems.model.User#getPictureUrl()
-============================================================
+Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#deleteUser()
+==========================================================
 Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
 API call traces: 
-  [path0] -- No API Calls --
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#getUserByEmail()
+=========================================================================
+Distinct paths through the code: 2
+API calls in paths: [ 1 1 ]
+Memory (heap) allocations in paths: [ 4 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
+  [path1] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
 
 Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#updateUser()
 ==========================================================
@@ -2878,6 +2892,17 @@ API call traces:
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
+Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#<init>()
+=================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#<init>()
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#createUser()
 =====================================================================
 Distinct paths through the code: 2
@@ -2893,16 +2918,14 @@ API call traces:
   [path0] -- No API Calls --
   [path1] com.google.appengine.api.datastore.DatastoreService#put()
 
-Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#deleteUser()
-==========================================================
+Analyzing: com.ucsb.cs.rtsystems.model.User#getFirstName()
+===========================================================
 Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
 API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path0] -- No API Calls --
 
 Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
 ==============================================================
@@ -2924,29 +2947,8 @@ API call traces:
   [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
   [path1] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#updateUser()
-=====================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#updateUser()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#getFirstName()
-===========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#getID()
-====================================================
+Analyzing: com.ucsb.cs.rtsystems.model.User#getPictureUrl()
+============================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -2963,59 +2965,8 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#getUser()
-==================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#<init>()
-=================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#<init>()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.UserDao#addUser()
-=======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.User#getID()
-  com.ucsb.cs.rtsystems.model.User#getFirstName()
-  com.ucsb.cs.rtsystems.model.User#getLastName()
-  com.ucsb.cs.rtsystems.model.User#getEmail()
-  com.ucsb.cs.rtsystems.model.User#getPictureUrl()
-  com.ucsb.cs.rtsystems.model.User#getPhoneNumber()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#deleteUser()
-=====================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#deleteUser()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-
-Analyzing: com.ucsb.cs.rtsystems.model.User#getPhoneNumber()
-=============================================================
+Analyzing: com.ucsb.cs.rtsystems.validation.UserValidator#<init>()
+===================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -3052,17 +3003,66 @@ API call traces:
   [path16] -- No API Calls --
   [path17] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#getUserByEmail()
-=========================================================================
-Distinct paths through the code: 2
-API calls in paths: [ 1 1 ]
-Memory (heap) allocations in paths: [ 4 3 ]
+Analyzing: com.ucsb.cs.rtsystems.model.User#getPhoneNumber()
+=============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#deleteUser()
+=====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
 Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
+  com.ucsb.cs.rtsystems.dao.UserDao#deleteUser()
 API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
-  [path1] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#getUser()
+==================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#getID()
+====================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.UserResource#updateUser()
+=====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#updateUser()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: com.ucsb.cs.rtsystems.model.User#getEmail()
+=======================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
 Warning: javax.ws.rs.Path is a phantom class!
 Warning: javax.ws.rs.GET is a phantom class!
 Warning: javax.ws.rs.WebApplicationException is a phantom class!
@@ -3100,75 +3100,17 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#<init>()
+======================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#setStudent()
 ==========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#setLecture()
-==========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#setTutor()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#<init>()
-==============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstancesByStudent()
-=======================================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 6 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r10.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.model.LectureInstance#<init>()
-  com.ucsb.cs.rtsystems.model.LectureInstance#setID()
-  com.ucsb.cs.rtsystems.model.LectureInstance#setLectureId()
-  com.ucsb.cs.rtsystems.model.LectureInstance#setSubjectCode()
-  com.ucsb.cs.rtsystems.model.LectureInstance#setStudentId()
-  com.ucsb.cs.rtsystems.model.LectureInstance#setLectureDate()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-  [cloud] com.google.appengine.api.datastore.Entity#getParent()
-  [cloud] com.google.appengine.api.datastore.Entity#getParent()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#setLecture()
-==================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#setSubject()
-==================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -3183,7 +3125,7 @@ API calls in paths: [ 2 ]
 Memory (heap) allocations in paths: [ 10 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r6.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 3
+  [loop] $z0 = interfaceinvoke r6.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 3
 Called user-defined methods (unique): 
   com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
   com.ucsb.cs.rtsystems.model.User#getID()
@@ -3201,8 +3143,8 @@ API call traces:
   [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
   [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#setTutor()
-========================================================================
+Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#setLecture()
+==================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -3210,52 +3152,14 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.ucsb.cs.rtsystems.contoller.Search#getLectureInstancesForTutor()
-================================================================================
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#setLecture()
+==========================================================================
 Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 7 ]
-Loops: 2
-API calls in loops: 
-  $z1 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 2] : 1
-  $z0 = interfaceinvoke r6.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
-  com.ucsb.cs.rtsystems.model.User#getID()
-  com.ucsb.cs.rtsystems.dao.LectureDao#getLecturesByTutor()
-  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
-  com.ucsb.cs.rtsystems.model.Lecture#getID()
-  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstances()
-  com.ucsb.cs.rtsystems.model.LectureInstanceResult#<init>()
-  com.ucsb.cs.rtsystems.model.LectureInstanceResult#setLecture()
-  com.ucsb.cs.rtsystems.model.LectureInstanceResult#setLectureInstance()
-  com.ucsb.cs.rtsystems.model.LectureInstance#getStudentId()
-  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
-  com.ucsb.cs.rtsystems.model.LectureInstanceResult#setStudent()
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
 API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.Search#getLecturesForTutor()
-========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 7 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
-  com.ucsb.cs.rtsystems.model.User#getID()
-  com.ucsb.cs.rtsystems.dao.LectureDao#getLecturesByTutor()
-  com.ucsb.cs.rtsystems.model.LectureResult#<init>()
-  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
-  com.ucsb.cs.rtsystems.dao.SubjectDao#getSubject()
-  com.ucsb.cs.rtsystems.model.LectureResult#setLecture()
-  com.ucsb.cs.rtsystems.model.LectureResult#setSubject()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [path0] -- No API Calls --
 
 Analyzing: com.ucsb.cs.rtsystems.dao.LectureDao#getLecturesByTutor()
 =====================================================================
@@ -3264,7 +3168,7 @@ API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 3 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r8.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
+  [loop] $z0 = interfaceinvoke r8.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
 Called user-defined methods (unique): 
   com.ucsb.cs.rtsystems.model.Lecture#<init>()
   com.ucsb.cs.rtsystems.model.Lecture#setID()
@@ -3284,32 +3188,14 @@ Called GAE methods (non-unique):
 API call traces: 
   [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 
-Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#<init>()
-======================================================================
+Analyzing: com.ucsb.cs.rtsystems.model.LectureInstanceResult#setTutor()
+========================================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
-
-Analyzing: com.ucsb.cs.rtsystems.contoller.Search#getLectures()
-================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called user-defined methods (unique): 
-  com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
-  com.ucsb.cs.rtsystems.model.LectureResult#<init>()
-  com.ucsb.cs.rtsystems.model.Lecture#getTutor()
-  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
-  com.ucsb.cs.rtsystems.model.LectureResult#setLecture()
-  com.ucsb.cs.rtsystems.model.LectureResult#setTutor()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 
 Analyzing: com.ucsb.cs.rtsystems.contoller.Search#<init>()
 ===========================================================
@@ -3324,6 +3210,120 @@ Called user-defined methods (unique):
   com.ucsb.cs.rtsystems.dao.SubjectDao#<init>()
 API call traces: 
   [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstancesByStudent()
+=======================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 6 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r10.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.model.LectureInstance#<init>()
+  com.ucsb.cs.rtsystems.model.LectureInstance#setID()
+  com.ucsb.cs.rtsystems.model.LectureInstance#setLectureId()
+  com.ucsb.cs.rtsystems.model.LectureInstance#setSubjectCode()
+  com.ucsb.cs.rtsystems.model.LectureInstance#setStudentId()
+  com.ucsb.cs.rtsystems.model.LectureInstance#setLectureDate()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+  [cloud] com.google.appengine.api.datastore.Entity#getParent()
+  [cloud] com.google.appengine.api.datastore.Entity#getParent()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.Search#getLectures()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.LectureDao#getAllLectures()
+  com.ucsb.cs.rtsystems.model.LectureResult#<init>()
+  com.ucsb.cs.rtsystems.model.Lecture#getTutor()
+  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
+  com.ucsb.cs.rtsystems.model.LectureResult#setLecture()
+  com.ucsb.cs.rtsystems.model.LectureResult#setTutor()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.Search#getLectureInstancesForTutor()
+================================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 7 ]
+Loops: 2
+API calls in loops: 
+  [loop] $z1 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 2] : 1
+  [loop] $z0 = interfaceinvoke r6.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
+  com.ucsb.cs.rtsystems.model.User#getID()
+  com.ucsb.cs.rtsystems.dao.LectureDao#getLecturesByTutor()
+  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
+  com.ucsb.cs.rtsystems.model.Lecture#getID()
+  com.ucsb.cs.rtsystems.dao.LectureInstanceDao#getLectureInstances()
+  com.ucsb.cs.rtsystems.model.LectureInstanceResult#<init>()
+  com.ucsb.cs.rtsystems.model.LectureInstanceResult#setLecture()
+  com.ucsb.cs.rtsystems.model.LectureInstanceResult#setLectureInstance()
+  com.ucsb.cs.rtsystems.model.LectureInstance#getStudentId()
+  com.ucsb.cs.rtsystems.dao.UserDao#getUser()
+  com.ucsb.cs.rtsystems.model.LectureInstanceResult#setStudent()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#setSubject()
+==================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#<init>()
+==============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.model.LectureResult#setTutor()
+================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: com.ucsb.cs.rtsystems.contoller.Search#getLecturesForTutor()
+========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 7 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called user-defined methods (unique): 
+  com.ucsb.cs.rtsystems.dao.UserDao#getUserByEmail()
+  com.ucsb.cs.rtsystems.model.User#getID()
+  com.ucsb.cs.rtsystems.dao.LectureDao#getLecturesByTutor()
+  com.ucsb.cs.rtsystems.model.LectureResult#<init>()
+  com.ucsb.cs.rtsystems.model.Lecture#getSubjectCode()
+  com.ucsb.cs.rtsystems.dao.SubjectDao#getSubject()
+  com.ucsb.cs.rtsystems.model.LectureResult#setLecture()
+  com.ucsb.cs.rtsystems.model.LectureResult#setSubject()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 
 ----------------- PROJECT: fenghuo -----------------
 
@@ -3348,11 +3348,36 @@ Warning: com.google.appengine.api.memcache.MemcacheServiceFactory is a phantom c
 Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: cs263.cs263.Login#passwordMatch()
-=============================================
+Analyzing: cs263.cs263.Service#Login()
+=======================================
+Distinct paths through the code: 2
+API calls in paths: [ 3 3 ]
+Memory (heap) allocations in paths: [ 5 5 ]
+Loops: 0
+Called user-defined methods (unique): 
+  cs263.cs263.Login#passwordMatch()
+API call traces: 
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.memcache.MemcacheService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: cs263.cs263.User#<init>()
+=====================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: cs263.cs263.Service#GetUser()
+=========================================
 Distinct paths through the code: 1
 API calls in paths: [ 3 ]
-Memory (heap) allocations in paths: [ 5 ]
+Memory (heap) allocations in paths: [ 4 ]
 Loops: 0
 Called user-defined methods (unique): 
   cs263.cs263.UserServices#Get()
@@ -3361,8 +3386,8 @@ API call traces:
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: cs263.cs263.Service#GetSession()
-============================================
+Analyzing: cs263.cs263.User#clone()
+====================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -3370,18 +3395,17 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: cs263.cs263.UserServices#Get()
+Analyzing: cs263.cs263.UserServices#Add()
 ==========================================
 Distinct paths through the code: 1
-API calls in paths: [ 3 ]
-Memory (heap) allocations in paths: [ 4 ]
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
 Called user-defined methods (unique): 
-  cs263.cs263.User#Get()
+  cs263.cs263.User#Add()
 API call traces: 
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
 Analyzing: cs263.cs263.Service#AddUser()
 =========================================
@@ -3394,15 +3418,6 @@ Called user-defined methods (unique):
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: cs263.cs263.User#clone()
-====================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 Analyzing: cs263.cs263.User#Get()
 ==================================
@@ -3425,17 +3440,8 @@ API call traces:
   [path2] com.google.appengine.api.datastore.DatastoreService#get()
   [path2] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: cs263.cs263.Service#SetSession()
+Analyzing: cs263.cs263.Service#GetSession()
 ============================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: cs263.cs263.User#<init>()
-=====================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -3452,39 +3458,11 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: cs263.cs263.Service#Login()
-=======================================
-Distinct paths through the code: 2
-API calls in paths: [ 3 3 ]
-Memory (heap) allocations in paths: [ 5 5 ]
-Loops: 0
-Called user-defined methods (unique): 
-  cs263.cs263.Login#passwordMatch()
-API call traces: 
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.memcache.MemcacheService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: cs263.cs263.UserServices#Add()
-==========================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  cs263.cs263.User#Add()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: cs263.cs263.Service#GetUser()
-=========================================
+Analyzing: cs263.cs263.Login#passwordMatch()
+=============================================
 Distinct paths through the code: 1
 API calls in paths: [ 3 ]
-Memory (heap) allocations in paths: [ 4 ]
+Memory (heap) allocations in paths: [ 5 ]
 Loops: 0
 Called user-defined methods (unique): 
   cs263.cs263.UserServices#Get()
@@ -3492,6 +3470,28 @@ API call traces:
   [path0] com.google.appengine.api.memcache.MemcacheService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: cs263.cs263.UserServices#Get()
+==========================================
+Distinct paths through the code: 1
+API calls in paths: [ 3 ]
+Memory (heap) allocations in paths: [ 4 ]
+Loops: 0
+Called user-defined methods (unique): 
+  cs263.cs263.User#Get()
+API call traces: 
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: cs263.cs263.Service#SetSession()
+============================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
 
 Analyzing: cs263.cs263.User#Add()
 ==================================
@@ -3565,17 +3565,23 @@ Warning: com.google.appengine.api.search.Document$Builder is a phantom class!
 Warning: com.google.appengine.api.search.Query is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: com.swimr.mappt.API.GpAssetHistoryController#getAssetHistoryById()
-==============================================================================
+Analyzing: com.swimr.mappt.datastore.GpDatastore#deleteEntirePositionIndex()
+=============================================================================
 Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 5 ]
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
-Called user-defined methods (unique): 
-  com.swimr.mappt.datastore.GpDatastore#fetchHistoricalPositionReportsFromTextSearchIndexForAssetId()
 API call traces: 
-  [path0] com.google.appengine.api.search.SearchService#getIndex()
-  [path0] com.google.appengine.api.search.Index#search()
+  [path0] -- No API Calls --
+
+Analyzing: com.swimr.mappt.API.GpAssetHistoryController#<init>()
+=================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
 
 Analyzing: com.swimr.mappt.datastore.GpPositionObject#<init>()
 ===============================================================
@@ -3593,7 +3599,7 @@ API calls in paths: [ 2 2 ]
 Memory (heap) allocations in paths: [ 3 2 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r11.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r11.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
   com.swimr.mappt.datastore.GpPositionObject#<init>()
 Called GAE methods (non-unique): 
@@ -3616,23 +3622,17 @@ Called user-defined methods (unique):
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: com.swimr.mappt.datastore.GpDatastore#deleteEntirePositionIndex()
-=============================================================================
+Analyzing: com.swimr.mappt.API.GpAssetHistoryController#getAssetHistoryById()
+==============================================================================
 Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 5 ]
 Loops: 0
+Called user-defined methods (unique): 
+  com.swimr.mappt.datastore.GpDatastore#fetchHistoricalPositionReportsFromTextSearchIndexForAssetId()
 API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: com.swimr.mappt.API.GpAssetHistoryController#<init>()
-=================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
+  [path0] com.google.appengine.api.search.SearchService#getIndex()
+  [path0] com.google.appengine.api.search.Index#search()
 Warning: javax.ws.rs.core.Response is a phantom class!
 Warning: javax.ws.rs.Path is a phantom class!
 Warning: javax.ws.rs.GET is a phantom class!
@@ -3698,17 +3698,6 @@ Warning: com.google.appengine.api.search.Document$Builder is a phantom class!
 Warning: com.google.appengine.api.search.Query is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: com.swimr.mappt.datastore.GpDatastore#getConnectedChannelIds()
-==========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
-API call traces: 
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-
 Analyzing: com.swimr.mappt.API.GpBroadcasterController#broadcastMessageFromUserToAllSubscribers()
 ==================================================================================================
 Distinct paths through the code: 1
@@ -3719,23 +3708,6 @@ Called user-defined methods (unique):
   com.swimr.mappt.API.GpMessageCenter#sendBroadcastTextMessage()
 API call traces: 
   [path0] com.google.appengine.api.memcache.MemcacheService#get()
-
-Analyzing: com.swimr.mappt.API.GpMessageCenter#sendBroadcastWithContainer()
-============================================================================
-Distinct paths through the code: 3
-API calls in paths: [ 1 1 0 ]
-Memory (heap) allocations in paths: [ 0 0 0 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called user-defined methods (unique): 
-  com.swimr.mappt.datastore.GpDatastore#getConnectedChannelIds()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.channel.ChannelService#sendMessage()
-API call traces: 
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-  [path1] com.google.appengine.api.memcache.MemcacheService#get()
-  [path2] -- No API Calls --
 
 Analyzing: com.swimr.mappt.API.GpMessageCenter#sendBroadcastTextMessage()
 ==========================================================================
@@ -3749,15 +3721,6 @@ Called user-defined methods (unique):
 API call traces: 
   [path0] com.google.appengine.api.memcache.MemcacheService#get()
 
-Analyzing: com.swimr.mappt.API.GpMessageObject#<init>()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
 Analyzing: com.swimr.mappt.API.GpBroadcasterController#openBroadcastHandler()
 ==============================================================================
 Distinct paths through the code: 1
@@ -3768,6 +3731,43 @@ Called GAE methods (non-unique):
   [cloud] com.google.appengine.api.channel.ChannelService#createChannel()
 API call traces: 
   [path0] com.google.appengine.api.channel.ChannelService#createChannel()
+
+Analyzing: com.swimr.mappt.API.GpMessageCenter#sendBroadcastWithContainer()
+============================================================================
+Distinct paths through the code: 3
+API calls in paths: [ 1 1 0 ]
+Memory (heap) allocations in paths: [ 0 0 0 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called user-defined methods (unique): 
+  com.swimr.mappt.datastore.GpDatastore#getConnectedChannelIds()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.channel.ChannelService#sendMessage()
+API call traces: 
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path1] com.google.appengine.api.memcache.MemcacheService#get()
+  [path2] -- No API Calls --
+
+Analyzing: com.swimr.mappt.datastore.GpDatastore#getConnectedChannelIds()
+==========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
+API call traces: 
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+
+Analyzing: com.swimr.mappt.API.GpMessageObject#<init>()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
 
 Analyzing: com.swimr.mappt.API.GpBroadcasterController#<init>()
 ================================================================
@@ -3794,6 +3794,19 @@ Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom
 Warning: javax.ws.rs.Produces is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: cs263project.cs263project.ChallengesRestAPI#getAllChallenges()
+==========================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
+
 Analyzing: cs263project.cs263project.ChallengesRestAPI#<init>()
 ================================================================
 Distinct paths through the code: 1
@@ -3802,19 +3815,6 @@ Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
-
-Analyzing: cs263project.cs263project.ChallengesRestAPI#getAllChallenges()
-==========================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
 Warning: javax.servlet.http.HttpServlet is a phantom class!
 Warning: com.google.appengine.api.datastore.Query$SortDirection is a phantom class!
 Warning: com.google.appengine.api.images.ImagesServiceFactory is a phantom class!
@@ -3844,7 +3844,7 @@ API calls in paths: [ 1 1 ]
 Memory (heap) allocations in paths: [ 2 2 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
 API call traces: 
@@ -3867,7 +3867,7 @@ API calls in paths: [ 0 1 0 ]
 Memory (heap) allocations in paths: [ 0 2 0 ]
 Loops: 1
 API calls in loops: 
-  $z1 = interfaceinvoke r10.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
+  [loop] $z1 = interfaceinvoke r10.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 2
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
   [cloud] com.google.appengine.api.datastore.DatastoreService#get()
@@ -3905,6 +3905,15 @@ Warning: com.google.appengine.api.users.UserService is a phantom class!
 Warning: javax.servlet.ServletException is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: enqueue.EnqueueServlet#<init>()
+===========================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: enqueue.EnqueueServlet#doPost()
 ===========================================
 Distinct paths through the code: 4
@@ -3927,15 +3936,6 @@ API call traces:
   [path2] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
   [path2] com.google.appengine.api.taskqueue.Queue#add()
   [path3] com.google.appengine.api.users.UserService#getCurrentUser()
-
-Analyzing: enqueue.EnqueueServlet#<init>()
-===========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 ----------------- PROJECT: henrievk -----------------
 
@@ -3987,20 +3987,6 @@ Warning: com.google.appengine.api.blobstore.BlobstoreService is a phantom class!
 Warning: com.google.appengine.api.datastore.Query$FilterPredicate is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: MyGAEApp.project.SupprServlet#doGet()
-=================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
-  [cloud] com.google.appengine.api.blobstore.BlobstoreService#serve()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
-
 Analyzing: MyGAEApp.project.SupprServlet#<init>()
 ==================================================
 Distinct paths through the code: 1
@@ -4009,6 +3995,20 @@ Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
+
+Analyzing: MyGAEApp.project.SupprServlet#doGet()
+=================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
+  [cloud] com.google.appengine.api.blobstore.BlobstoreService#serve()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
 
 ----------------- PROJECT: johannesolier -----------------
 
@@ -4025,6 +4025,15 @@ Warning: com.google.appengine.api.users.UserService is a phantom class!
 Warning: javax.servlet.ServletException is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: com.johannes.maps.AddFriendServlet#<init>()
+=======================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: com.johannes.maps.AddFriendServlet#doPost()
 =======================================================
 Distinct paths through the code: 1
@@ -4037,15 +4046,6 @@ Called GAE methods (non-unique):
 API call traces: 
   [path0] com.google.appengine.api.users.UserService#getCurrentUser()
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.johannes.maps.AddFriendServlet#<init>()
-=======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 Warning: javax.servlet.http.HttpServlet is a phantom class!
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: com.google.appengine.api.datastore.Key is a phantom class!
@@ -4062,15 +4062,6 @@ Warning: com.google.appengine.api.users.User is a phantom class!
 Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phantom class!
 Warning: com.google.appengine.api.users.UserService is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
-
-Analyzing: com.johannes.maps.SendInviteServlet#<init>()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 Analyzing: com.johannes.maps.SendInviteServlet#doPost()
 ========================================================
@@ -4095,6 +4086,15 @@ API call traces:
   [path1] com.google.appengine.api.memcache.MemcacheService#get()
   [path1] com.google.appengine.api.memcache.MemcacheService#delete()
   [path1] com.google.appengine.api.memcache.MemcacheService#put()
+
+Analyzing: com.johannes.maps.SendInviteServlet#<init>()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
 Warning: javax.servlet.http.HttpServlet is a phantom class!
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: com.google.appengine.api.datastore.Query$Filter is a phantom class!
@@ -4113,6 +4113,15 @@ Warning: com.google.appengine.api.datastore.Query$FilterPredicate is a phantom c
 Warning: com.google.appengine.api.users.UserService is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: com.johannes.maps.StartTrackingServlet#<init>()
+===========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: com.johannes.maps.StartTrackingServlet#doPost()
 ===========================================================
 Distinct paths through the code: 1
@@ -4129,15 +4138,6 @@ API call traces:
   [path0] com.google.appengine.api.datastore.PreparedQuery#asSingleEntity()
   [path0] com.google.appengine.api.datastore.DatastoreService#delete()
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: com.johannes.maps.StartTrackingServlet#<init>()
-===========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 Warning: javax.servlet.http.HttpServlet is a phantom class!
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: com.google.appengine.api.datastore.Query$Filter is a phantom class!
@@ -4205,6 +4205,15 @@ Warning: javax.servlet.http.HttpServletResponse is a phantom class!
 Warning: javax.servlet.ServletException is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: project.CreateDescriptionPointCloud#<init>()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: project.CreateDescriptionPointCloud#doPost()
 ========================================================
 Distinct paths through the code: 1
@@ -4215,15 +4224,6 @@ Called GAE methods (non-unique):
   [cloud] com.google.appengine.api.datastore.DatastoreService#put()
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: project.CreateDescriptionPointCloud#<init>()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 Warning: javax.servlet.http.HttpServlet is a phantom class!
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: com.google.appengine.api.datastore.FetchOptions is a phantom class!
@@ -4248,34 +4248,23 @@ Warning: com.google.appengine.api.blobstore.BlobInfo is a phantom class!
 Warning: com.google.appengine.api.datastore.Blob is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: project.GetPCD#getTypeStr()
-=======================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 1
-API calls in loops: 
-  if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: project.PointCloud2#<init>()
+Analyzing: project.GetPCD#getFieldstr()
 ========================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: project.GetPCD#getSizeStr()
-=======================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 1
 API calls in loops: 
-  if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
+  [loop] if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: project.GetPCD#<init>()
+===================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
@@ -4286,8 +4275,8 @@ API calls in paths: [ 1 3 3 3 ]
 Memory (heap) allocations in paths: [ 2 19 20 19 ]
 Loops: 2
 API calls in loops: 
-  $i10 = interfaceinvoke r13.<java.util.List: int size()>() [Nesting Level: 1] : 0
-  if i20 >= i3 goto virtualinvoke r14.<javax.servlet.ServletOutputStream: void flush()>() [Nesting Level: 1] : 1
+  [loop] if i20 >= i3 goto virtualinvoke r14.<javax.servlet.ServletOutputStream: void flush()>() [Nesting Level: 1] : 1
+  [loop] $i10 = interfaceinvoke r13.<java.util.List: int size()>() [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
   project.PointCloud2#<init>()
   project.PointField#<init>()
@@ -4312,23 +4301,43 @@ API call traces:
   [path3] com.google.appengine.api.datastore.PreparedQuery#asList()
   [path3] com.google.appengine.api.blobstore.BlobInfoFactory#loadBlobInfo()
 
-Analyzing: project.GetPCD#<init>()
-===================================
+Analyzing: project.PointCloud2#<init>()
+========================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 2 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: project.GetPCD#getFieldstr()
-========================================
+Analyzing: project.GetPCD#getTypeStr()
+=======================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 1
 API calls in loops: 
-  if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
+  [loop] if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: project.PointField#<init>()
+=======================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: project.GetPCD#getSizeStr()
+=======================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 1
+API calls in loops: 
+  [loop] if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
 API call traces: 
   [path0] -- No API Calls --
 
@@ -4339,16 +4348,7 @@ API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 1
 API calls in loops: 
-  if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: project.PointField#<init>()
-=======================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 0
+  [loop] if i1 >= i0 goto return r3 [Nesting Level: 1] : 0
 API call traces: 
   [path0] -- No API Calls --
 Warning: javax.servlet.http.HttpServlet is a phantom class!
@@ -4424,40 +4424,6 @@ Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom
 Warning: com.google.appengine.api.images.ServingUrlOptions$Builder is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: edu.ucsb.cs.lawtonnichols.NineTiles#TryToPopFront()
-===============================================================
-Distinct paths through the code: 3
-API calls in paths: [ 4 2 4 ]
-Memory (heap) allocations in paths: [ 5 4 4 ]
-Loops: 0
-Called user-defined methods (unique): 
-  edu.ucsb.cs.lawtonnichols.NineTiles#GetMainEntity()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [cloud] com.google.appengine.api.taskqueue.Queue#add()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [path0] com.google.appengine.api.taskqueue.Queue#add()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-  [path2] com.google.appengine.api.datastore.DatastoreService#get()
-  [path2] com.google.appengine.api.datastore.DatastoreService#put()
-  [path2] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [path2] com.google.appengine.api.taskqueue.Queue#add()
-
-Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#posttest()
-==========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
 Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#getAllTiles()
 =============================================================
 Distinct paths through the code: 1
@@ -4465,7 +4431,7 @@ API calls in paths: [ 2 ]
 Memory (heap) allocations in paths: [ 3 ]
 Loops: 1
 API calls in loops: 
-  if i0 > 9 goto $r17 = new java.lang.StringBuilder [Nesting Level: 1] : 4
+  [loop] if i0 > 9 goto $r17 = new java.lang.StringBuilder [Nesting Level: 1] : 4
 Called user-defined methods (unique): 
   edu.ucsb.cs.lawtonnichols.NineTiles#IncrementPageViewCount()
   edu.ucsb.cs.lawtonnichols.NineTiles#GetImageForTile()
@@ -4516,6 +4482,35 @@ API call traces:
   [path1] com.google.appengine.api.datastore.DatastoreService#get()
   [path1] com.google.appengine.api.datastore.DatastoreService#put()
 
+Analyzing: edu.ucsb.cs.lawtonnichols.NineTiles#AddImageToTaskQueue()
+=====================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [cloud] com.google.appengine.api.taskqueue.Queue#add()
+API call traces: 
+  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [path0] com.google.appengine.api.taskqueue.Queue#add()
+
+Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#downvote()
+==========================================================
+Distinct paths through the code: 3
+API calls in paths: [ 4 0 0 ]
+Memory (heap) allocations in paths: [ 7 2 2 ]
+Loops: 0
+Called user-defined methods (unique): 
+  edu.ucsb.cs.lawtonnichols.NineTiles#TryToPopFront()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [path0] com.google.appengine.api.taskqueue.Queue#add()
+  [path1] -- No API Calls --
+  [path2] -- No API Calls --
+
 Analyzing: edu.ucsb.cs.lawtonnichols.NineTiles#GetMainEntity()
 ===============================================================
 Distinct paths through the code: 1
@@ -4529,6 +4524,15 @@ API call traces:
 
 Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#<init>()
 ========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#test()
+======================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -4580,43 +4584,39 @@ API call traces:
   [path5] com.google.appengine.api.files.FileWriteChannel#closeFinally()
   [path5] com.google.appengine.api.files.FileService#getBlobKey()
 
-Analyzing: edu.ucsb.cs.lawtonnichols.NineTiles#AddImageToTaskQueue()
-=====================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [cloud] com.google.appengine.api.taskqueue.Queue#add()
-API call traces: 
-  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [path0] com.google.appengine.api.taskqueue.Queue#add()
-
-Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#test()
-======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#downvote()
-==========================================================
+Analyzing: edu.ucsb.cs.lawtonnichols.NineTiles#TryToPopFront()
+===============================================================
 Distinct paths through the code: 3
-API calls in paths: [ 4 0 0 ]
-Memory (heap) allocations in paths: [ 7 2 2 ]
+API calls in paths: [ 4 2 4 ]
+Memory (heap) allocations in paths: [ 5 4 4 ]
 Loops: 0
 Called user-defined methods (unique): 
-  edu.ucsb.cs.lawtonnichols.NineTiles#TryToPopFront()
+  edu.ucsb.cs.lawtonnichols.NineTiles#GetMainEntity()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [cloud] com.google.appengine.api.taskqueue.Queue#add()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
   [path0] com.google.appengine.api.datastore.DatastoreService#put()
   [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
   [path0] com.google.appengine.api.taskqueue.Queue#add()
-  [path1] -- No API Calls --
-  [path2] -- No API Calls --
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#put()
+  [path2] com.google.appengine.api.datastore.DatastoreService#get()
+  [path2] com.google.appengine.api.datastore.DatastoreService#put()
+  [path2] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [path2] com.google.appengine.api.taskqueue.Queue#add()
+
+Analyzing: edu.ucsb.cs.lawtonnichols.rest.REST#posttest()
+==========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
 
 ----------------- PROJECT: lgrinta -----------------
 
@@ -4632,6 +4632,15 @@ Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom
 Warning: javax.servlet.ServletException is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: com.google.appengine.demos.guestbook.ListQuestions#<init>()
+=======================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: com.google.appengine.demos.guestbook.ListQuestions#doGet()
 ======================================================================
 Distinct paths through the code: 1
@@ -4639,7 +4648,7 @@ API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r7.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
   com.google.appengine.api.datastore.DatastoreServiceFactory#getDatastoreService()
   com.google.appengine.api.datastore.Query#<init>()
@@ -4651,15 +4660,6 @@ Called GAE methods (non-unique):
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 API call traces: 
   [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
-
-Analyzing: com.google.appengine.demos.guestbook.ListQuestions#<init>()
-=======================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 ----------------- PROJECT: machiry -----------------
 
@@ -4725,7 +4725,26 @@ Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom
 Warning: com.google.appengine.api.datastore.Query$FilterPredicate is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: questor.Quest#isCompleted()
+Analyzing: questor.QuestServlet#doGet()
+========================================
+Distinct paths through the code: 3
+API calls in paths: [ 0 4 2 ]
+Memory (heap) allocations in paths: [ 0 6 4 ]
+Loops: 0
+Called user-defined methods (unique): 
+  questor.User#fromEmailAddress()
+  questor.QuestServlet#doList()
+  questor.QuestServlet#doShow()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.memcache.MemcacheService#get()
+  [path1] com.google.appengine.api.datastore.PreparedQuery#asList()
+  [path1] com.google.appengine.api.memcache.MemcacheService#put()
+  [path2] com.google.appengine.api.datastore.DatastoreService#get()
+  [path2] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: questor.Quest#getQuestKey()
 =======================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
@@ -4736,6 +4755,94 @@ API call traces:
 
 Analyzing: questor.User#getUserKey()
 =====================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#updateStore()
+=======================================
+Distinct paths through the code: 3
+API calls in paths: [ 0 2 2 ]
+Memory (heap) allocations in paths: [ 1 0 0 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.datastore.DatastoreService#put()
+  [path2] com.google.appengine.api.datastore.DatastoreService#get()
+  [path2] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: questor.Quest#fromJSON()
+====================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#getAvailableForUser()
+===============================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called user-defined methods (unique): 
+  questor.User#getUserKey()
+  questor.Quest#fromEntities()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
+
+Analyzing: questor.Quest#setCompleted()
+========================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.User#<init>()
+=================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#setDescription()
+==========================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.User#fromEmailAddress()
+===========================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  questor.User#fromEntity()
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+
+Analyzing: questor.Quest#isCompleted()
+=======================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -4759,7 +4866,7 @@ API calls in paths: [ 0 2 2 4 8 4 4 4 2 2 6 2 2 2 ]
 Memory (heap) allocations in paths: [ 0 3 5 6 7 6 6 6 5 5 6 5 5 5 ]
 Loops: 1
 API calls in loops: 
-  $r19 = virtualinvoke r6.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
+  [loop] $r19 = virtualinvoke r6.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
   questor.User#fromEmailAddress()
   questor.Quest#fromKey()
@@ -4822,115 +4929,27 @@ API call traces:
   [path13] com.google.appengine.api.datastore.DatastoreService#get()
   [path13] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: questor.Quest#setQuestKey()
-=======================================
+Analyzing: questor.Quest#fromEntities()
+========================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#getQuesterKey()
-=========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#isAccepted()
-======================================
-Distinct paths through the code: 2
-API calls in paths: [ 0 0 ]
-Memory (heap) allocations in paths: [ 0 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] -- No API Calls --
-
-Analyzing: questor.Quest#getQuestKey()
-=======================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.User#fromEmailAddress()
-===========================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.User#fromEntity()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: questor.Quest#setExpiration()
-=========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#fromKey()
-===================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.Quest#fromEntity()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: questor.QuestServlet#doPost()
-=========================================
-Distinct paths through the code: 4
-API calls in paths: [ 0 1 1 3 ]
-Memory (heap) allocations in paths: [ 0 1 1 9 ]
 Loops: 1
 API calls in loops: 
-  $r17 = virtualinvoke r15.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
-  questor.User#fromEmailAddress()
-  questor.Quest#fromJSON()
-  questor.Quest#getTitle()
-  questor.Quest#getDescription()
-  questor.Quest#getReward()
   questor.Quest#<init>()
-  questor.Quest#getQuestKey()
+  questor.Quest#setTitle()
+  questor.Quest#setDescription()
+  questor.Quest#setExpiration()
+  questor.Quest#setQuestKey()
+  questor.Quest#setReward()
+  questor.Quest#setCompleted()
+  questor.Quest#setQuesterKey()
 API call traces: 
   [path0] -- No API Calls --
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path2] com.google.appengine.api.datastore.DatastoreService#get()
-  [path3] com.google.appengine.api.datastore.DatastoreService#get()
-  [path3] com.google.appengine.api.datastore.DatastoreService#put()
-  [path3] com.google.appengine.api.datastore.DatastoreService#put()
 
-Analyzing: questor.Quest#setReward()
-=====================================
-Distinct paths through the code: 2
-API calls in paths: [ 0 0 ]
-Memory (heap) allocations in paths: [ 1 0 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.Quest$ValueError#<init>()
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] -- No API Calls --
-
-Analyzing: questor.QuestServlet#<init>()
+Analyzing: questor.Quest#setExpiration()
 =========================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
@@ -4948,87 +4967,30 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: questor.Quest#setDescription()
-==========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#setQuesterKey()
-=========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest$ValueError#<init>()
-=============================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#fromEntities()
-========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-Called user-defined methods (unique): 
-  questor.Quest#<init>()
-  questor.Quest#setTitle()
-  questor.Quest#setDescription()
-  questor.Quest#setExpiration()
-  questor.Quest#setQuestKey()
-  questor.Quest#setReward()
-  questor.Quest#setCompleted()
-  questor.Quest#setQuesterKey()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.User#updateStore()
-======================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 0 ]
+Analyzing: questor.Quest#setReward()
+=====================================
+Distinct paths through the code: 2
+API calls in paths: [ 0 0 ]
+Memory (heap) allocations in paths: [ 1 0 ]
 Loops: 0
 Called user-defined methods (unique): 
-  questor.User#getUserKey()
-  questor.User#getExperiencePoints()
+  questor.Quest$ValueError#<init>()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
+
+Analyzing: questor.Quest#fromKey()
+===================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called user-defined methods (unique): 
+  questor.Quest#fromEntity()
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: questor.QuestServlet#doGet()
-========================================
-Distinct paths through the code: 3
-API calls in paths: [ 0 4 2 ]
-Memory (heap) allocations in paths: [ 0 6 4 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.User#fromEmailAddress()
-  questor.QuestServlet#doList()
-  questor.QuestServlet#doShow()
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.memcache.MemcacheService#get()
-  [path1] com.google.appengine.api.datastore.PreparedQuery#asList()
-  [path1] com.google.appengine.api.memcache.MemcacheService#put()
-  [path2] com.google.appengine.api.datastore.DatastoreService#get()
-  [path2] com.google.appengine.api.datastore.DatastoreService#get()
 
 Analyzing: questor.QuestServlet#doList()
 =========================================
@@ -5048,11 +5010,76 @@ API call traces:
   [path0] com.google.appengine.api.memcache.MemcacheService#put()
   [path1] com.google.appengine.api.memcache.MemcacheService#get()
 
-Analyzing: questor.Quest#fromJSON()
-====================================
+Analyzing: questor.QuestServlet#<init>()
+=========================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.User#getExperiencePoints()
+==============================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#getReward()
+=====================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#fromEntity()
+======================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called user-defined methods (unique): 
+  questor.Quest#fromEntities()
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.User#setFirstName()
+=======================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#<init>()
+==================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.User#setLastName()
+======================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#setQuesterKey()
+=========================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
@@ -5071,65 +5098,6 @@ Called user-defined methods (unique):
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: questor.User#getExperiencePoints()
-==============================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#<init>()
-==================================
-Distinct paths through the code: 2
-API calls in paths: [ 0 2 ]
-Memory (heap) allocations in paths: [ 1 3 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.Quest$ValueError#<init>()
-  questor.User#getUserKey()
-  questor.Quest#setTitle()
-  questor.Quest#setDescription()
-  questor.Quest#setCompleted()
-  questor.Quest#setReward()
-  questor.Quest#setExpiration()
-  questor.Quest#setQuestKey()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-
-Analyzing: questor.User#<init>()
-=================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.User#setLastName()
-======================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#getReward()
-=====================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
 Analyzing: questor.QuestServlet#doShow()
 =========================================
 Distinct paths through the code: 1
@@ -5141,39 +5109,6 @@ Called user-defined methods (unique):
   questor.Quest#toJson()
 API call traces: 
   [path0] com.google.appengine.api.datastore.DatastoreService#get()
-
-Analyzing: questor.Quest#getDescription()
-==========================================
-Distinct paths through the code: 3
-API calls in paths: [ 0 0 0 ]
-Memory (heap) allocations in paths: [ 1 0 1 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.Quest$ValueError#<init>()
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] -- No API Calls --
-  [path2] -- No API Calls --
-
-Analyzing: questor.Quest#fromEntity()
-======================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called user-defined methods (unique): 
-  questor.Quest#fromEntities()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: questor.Quest#getTitle()
-====================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 Analyzing: questor.Quest#setTitle()
 ====================================
@@ -5188,38 +5123,24 @@ API call traces:
   [path1] -- No API Calls --
   [path2] -- No API Calls --
 
-Analyzing: questor.Quest#getAvailableForUser()
-===============================================
+Analyzing: questor.User#updateStore()
+======================================
 Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 Called user-defined methods (unique): 
   questor.User#getUserKey()
-  questor.Quest#fromEntities()
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
-
-Analyzing: questor.Quest#updateStore()
-=======================================
-Distinct paths through the code: 3
-API calls in paths: [ 0 2 2 ]
-Memory (heap) allocations in paths: [ 1 0 0 ]
-Loops: 0
+  questor.User#getExperiencePoints()
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.DatastoreService#get()
   [cloud] com.google.appengine.api.datastore.DatastoreService#put()
 API call traces: 
-  [path0] -- No API Calls --
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.datastore.DatastoreService#put()
-  [path2] com.google.appengine.api.datastore.DatastoreService#get()
-  [path2] com.google.appengine.api.datastore.DatastoreService#put()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
-Analyzing: questor.Quest#setCompleted()
-========================================
+Analyzing: questor.Quest$ValueError#<init>()
+=============================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
@@ -5227,7 +5148,29 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: questor.User#setFirstName()
+Analyzing: questor.Quest#getDescription()
+==========================================
+Distinct paths through the code: 3
+API calls in paths: [ 0 0 0 ]
+Memory (heap) allocations in paths: [ 1 0 1 ]
+Loops: 0
+Called user-defined methods (unique): 
+  questor.Quest$ValueError#<init>()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
+  [path2] -- No API Calls --
+
+Analyzing: questor.Quest#getQuesterKey()
+=========================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.Quest#setQuestKey()
 =======================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
@@ -5235,6 +5178,49 @@ Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
+
+Analyzing: questor.Quest#getTitle()
+====================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: questor.QuestServlet#doPost()
+=========================================
+Distinct paths through the code: 4
+API calls in paths: [ 0 1 1 3 ]
+Memory (heap) allocations in paths: [ 0 1 1 9 ]
+Loops: 1
+API calls in loops: 
+  [loop] $r17 = virtualinvoke r15.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
+Called user-defined methods (unique): 
+  questor.User#fromEmailAddress()
+  questor.Quest#fromJSON()
+  questor.Quest#getTitle()
+  questor.Quest#getDescription()
+  questor.Quest#getReward()
+  questor.Quest#<init>()
+  questor.Quest#getQuestKey()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
+  [path2] com.google.appengine.api.datastore.DatastoreService#get()
+  [path3] com.google.appengine.api.datastore.DatastoreService#get()
+  [path3] com.google.appengine.api.datastore.DatastoreService#put()
+  [path3] com.google.appengine.api.datastore.DatastoreService#put()
+
+Analyzing: questor.Quest#isAccepted()
+======================================
+Distinct paths through the code: 2
+API calls in paths: [ 0 0 ]
+Memory (heap) allocations in paths: [ 0 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
 
 ----------------- PROJECT: shayon -----------------
 
@@ -5259,6 +5245,41 @@ Warning: com.google.appengine.api.channel.ChannelService is a phantom class!
 Warning: com.google.appengine.api.channel.ChannelMessage is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: WorldChat.WorldChat.ChatServlet#doPost()
+====================================================
+Distinct paths through the code: 4
+API calls in paths: [ 0 0 0 0 ]
+Memory (heap) allocations in paths: [ 2 2 2 2 ]
+Loops: 0
+Called user-defined methods (unique): 
+  WorldChat.WorldChat.ChatIdGen#getClientId()
+  WorldChat.WorldChat.ChatManager#sendMessage()
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
+  [path2] -- No API Calls --
+  [path3] -- No API Calls --
+
+Analyzing: WorldChat.WorldChat.ChatServlet#<init>()
+====================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: WorldChat.WorldChat.ChatManager#addToHistory()
+==========================================================
+Distinct paths through the code: 3
+API calls in paths: [ 0 0 0 ]
+Memory (heap) allocations in paths: [ 0 1 1 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+  [path1] -- No API Calls --
+  [path2] -- No API Calls --
+
 Analyzing: WorldChat.WorldChat.ChatServlet#doGet()
 ===================================================
 Distinct paths through the code: 6
@@ -5266,7 +5287,7 @@ API calls in paths: [ 2 2 6 6 6 6 ]
 Memory (heap) allocations in paths: [ 0 0 7 7 7 7 ]
 Loops: 1
 API calls in loops: 
-  $i1 = lengthof r6 [Nesting Level: 1] : 0
+  [loop] $i1 = lengthof r6 [Nesting Level: 1] : 0
 Called user-defined methods (unique): 
   WorldChat.WorldChat.ChatManager#removeSub()
   WorldChat.WorldChat.ChatManager#addSub()
@@ -5308,31 +5329,14 @@ API call traces:
   [path5] com.google.appengine.api.memcache.MemcacheService#get()
   [path5] com.google.appengine.api.datastore.DatastoreService#get()
 
-Analyzing: WorldChat.WorldChat.ChatServlet#doPost()
-====================================================
-Distinct paths through the code: 4
-API calls in paths: [ 0 0 0 0 ]
-Memory (heap) allocations in paths: [ 2 2 2 2 ]
-Loops: 0
-Called user-defined methods (unique): 
-  WorldChat.WorldChat.ChatIdGen#getClientId()
-  WorldChat.WorldChat.ChatManager#sendMessage()
-API call traces: 
-  [path0] -- No API Calls --
-  [path1] -- No API Calls --
-  [path2] -- No API Calls --
-  [path3] -- No API Calls --
-
-Analyzing: WorldChat.WorldChat.ChatManager#addToHistory()
-==========================================================
-Distinct paths through the code: 3
-API calls in paths: [ 0 0 0 ]
-Memory (heap) allocations in paths: [ 0 1 1 ]
+Analyzing: WorldChat.WorldChat.ChatManager#removeSub()
+=======================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
 API call traces: 
   [path0] -- No API Calls --
-  [path1] -- No API Calls --
-  [path2] -- No API Calls --
 
 Analyzing: WorldChat.WorldChat.ChatIdGen#generateIdAndCreateChannel()
 ======================================================================
@@ -5341,7 +5345,7 @@ API calls in paths: [ 0 4 4 ]
 Memory (heap) allocations in paths: [ 0 5 6 ]
 Loops: 1
 API calls in loops: 
-  $r22 = interfaceinvoke r5.<com.google.appengine.api.memcache.MemcacheService: java.lang.Object get(java.lang.Object)>(r6) [Nesting Level: 1] : 2
+  [loop] $r22 = interfaceinvoke r5.<com.google.appengine.api.memcache.MemcacheService: java.lang.Object get(java.lang.Object)>(r6) [Nesting Level: 1] : 2
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.memcache.MemcacheService#get()
   [cloud] com.google.appengine.api.datastore.DatastoreService#get()
@@ -5359,6 +5363,15 @@ API call traces:
   [path2] com.google.appengine.api.datastore.DatastoreService#put()
   [path2] com.google.appengine.api.memcache.MemcacheService#put()
 
+Analyzing: WorldChat.WorldChat.ChatManager#addSub()
+====================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
 Analyzing: WorldChat.WorldChat.ChatManager#sendMessage()
 =========================================================
 Distinct paths through the code: 1
@@ -5366,29 +5379,11 @@ API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 2 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+  [loop] $z0 = interfaceinvoke r3.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
 Called user-defined methods (unique): 
   WorldChat.WorldChat.ChatManager#addToHistory()
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.channel.ChannelService#sendMessage()
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: WorldChat.WorldChat.ChatServlet#<init>()
-====================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: WorldChat.WorldChat.ChatManager#addSub()
-====================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
@@ -5399,16 +5394,7 @@ API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 0 ]
 Loops: 1
 API calls in loops: 
-  if r1 == null goto return r2 [Nesting Level: 1] : 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: WorldChat.WorldChat.ChatManager#removeSub()
-=======================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
+  [loop] if r1 == null goto return r2 [Nesting Level: 1] : 0
 API call traces: 
   [path0] -- No API Calls --
 Warning: javax.servlet.http.HttpServlet is a phantom class!
@@ -5427,27 +5413,12 @@ Warning: com.google.appengine.api.channel.ChannelMessage is a phantom class!
 Warning: com.google.appengine.api.channel.ChannelService is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: WorldChat.WorldChat.InteractServlet#doPost()
-========================================================
-Distinct paths through the code: 1
-API calls in paths: [ 2 ]
-Memory (heap) allocations in paths: [ 1 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [cloud] com.google.appengine.api.taskqueue.Queue#add()
-API call traces: 
-  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
-  [path0] com.google.appengine.api.taskqueue.Queue#add()
-
-Analyzing: WorldChat.WorldChat.InteractServlet#doGet()
-=======================================================
+Analyzing: WorldChat.WorldChat.ChatManager#getChatHistory()
+============================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 0 ]
 Loops: 0
-Called user-defined methods (unique): 
-  WorldChat.WorldChat.ChatManager#getChatHistory()
 API call traces: 
   [path0] -- No API Calls --
 
@@ -5460,14 +5431,29 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: WorldChat.WorldChat.ChatManager#getChatHistory()
-============================================================
+Analyzing: WorldChat.WorldChat.InteractServlet#doGet()
+=======================================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 1 ]
 Loops: 0
+Called user-defined methods (unique): 
+  WorldChat.WorldChat.ChatManager#getChatHistory()
 API call traces: 
   [path0] -- No API Calls --
+
+Analyzing: WorldChat.WorldChat.InteractServlet#doPost()
+========================================================
+Distinct paths through the code: 1
+API calls in paths: [ 2 ]
+Memory (heap) allocations in paths: [ 1 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [cloud] com.google.appengine.api.taskqueue.Queue#add()
+API call traces: 
+  [path0] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()
+  [path0] com.google.appengine.api.taskqueue.Queue#add()
 
 ----------------- PROJECT: sivapalan -----------------
 
@@ -5507,7 +5493,7 @@ API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 3 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 API call traces: 
@@ -5520,7 +5506,7 @@ API calls in paths: [ 1 ]
 Memory (heap) allocations in paths: [ 1 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
+  [loop] $z0 = interfaceinvoke r5.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
 API call traces: 
@@ -5544,19 +5530,16 @@ Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom
 Warning: com.google.appengine.api.memcache.MemcacheServiceFactory is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: test1.test1.TestJersey#getUsers()
-=============================================
-Distinct paths through the code: 2
-API calls in paths: [ 1 1 ]
-Memory (heap) allocations in paths: [ 4 4 ]
+Analyzing: test1.test1.TestJersey#getPostRates()
+=================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 5 ]
 Loops: 1
 API calls in loops: 
-  $i3 = interfaceinvoke r6.<java.util.List: int size()>() [Nesting Level: 1] : 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
+  [loop] $r13 = virtualinvoke r5.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
 API call traces: 
-  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
-  [path1] com.google.appengine.api.datastore.PreparedQuery#asList()
+  [path0] -- No API Calls --
 
 Analyzing: test1.test1.TestJersey#getRates_mem()
 =================================================
@@ -5570,14 +5553,12 @@ API call traces:
   [path0] com.google.appengine.api.memcache.MemcacheService#get()
   [path1] com.google.appengine.api.memcache.MemcacheService#get()
 
-Analyzing: test1.test1.TestJersey#getRates()
-=============================================
+Analyzing: test1.test1.TestJersey#<init>()
+===========================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 5 ]
-Loops: 1
-API calls in loops: 
-  $r13 = virtualinvoke r5.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
@@ -5588,30 +5569,35 @@ API calls in paths: [ 1 1 ]
 Memory (heap) allocations in paths: [ 4 4 ]
 Loops: 1
 API calls in loops: 
-  $i3 = interfaceinvoke r6.<java.util.List: int size()>() [Nesting Level: 1] : 0
+  [loop] $i3 = interfaceinvoke r6.<java.util.List: int size()>() [Nesting Level: 1] : 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
 API call traces: 
   [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
   [path1] com.google.appengine.api.datastore.PreparedQuery#asList()
 
-Analyzing: test1.test1.TestJersey#getPostRates()
-=================================================
+Analyzing: test1.test1.TestJersey#getUsers()
+=============================================
+Distinct paths through the code: 2
+API calls in paths: [ 1 1 ]
+Memory (heap) allocations in paths: [ 4 4 ]
+Loops: 1
+API calls in loops: 
+  [loop] $i3 = interfaceinvoke r6.<java.util.List: int size()>() [Nesting Level: 1] : 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.PreparedQuery#asList()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.PreparedQuery#asList()
+  [path1] com.google.appengine.api.datastore.PreparedQuery#asList()
+
+Analyzing: test1.test1.TestJersey#getRates()
+=============================================
 Distinct paths through the code: 1
 API calls in paths: [ 0 ]
 Memory (heap) allocations in paths: [ 5 ]
 Loops: 1
 API calls in loops: 
-  $r13 = virtualinvoke r5.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: test1.test1.TestJersey#<init>()
-===========================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
+  [loop] $r13 = virtualinvoke r5.<java.io.BufferedReader: java.lang.String readLine()>() [Nesting Level: 1] : 0
 API call traces: 
   [path0] -- No API Calls --
 
@@ -5637,49 +5623,6 @@ Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom
 Warning: com.google.appengine.api.memcache.MemcacheServiceFactory is a phantom class!
 Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
-
-Analyzing: travelplanapp.travelplanapp.ActivityWorker#deleteActivity()
-=======================================================================
-Distinct paths through the code: 5
-API calls in paths: [ 4 4 4 4 2 ]
-Memory (heap) allocations in paths: [ 1 1 1 1 1 ]
-Loops: 1
-API calls in loops: 
-  if i1 >= i0 goto $i2 = virtualinvoke r10.<java.lang.String: int length()>() [Nesting Level: 1] : 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
-  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
-  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
-  [cloud] com.google.appengine.api.memcache.MemcacheService#put()
-  [cloud] com.google.appengine.api.memcache.MemcacheService#delete()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-  [path0] com.google.appengine.api.memcache.MemcacheService#get()
-  [path0] com.google.appengine.api.memcache.MemcacheService#put()
-  [path1] com.google.appengine.api.datastore.DatastoreService#delete()
-  [path1] com.google.appengine.api.memcache.MemcacheService#get()
-  [path1] com.google.appengine.api.memcache.MemcacheService#get()
-  [path1] com.google.appengine.api.memcache.MemcacheService#delete()
-  [path2] com.google.appengine.api.datastore.DatastoreService#delete()
-  [path2] com.google.appengine.api.memcache.MemcacheService#get()
-  [path2] com.google.appengine.api.memcache.MemcacheService#get()
-  [path2] com.google.appengine.api.memcache.MemcacheService#put()
-  [path3] com.google.appengine.api.datastore.DatastoreService#delete()
-  [path3] com.google.appengine.api.memcache.MemcacheService#get()
-  [path3] com.google.appengine.api.memcache.MemcacheService#get()
-  [path3] com.google.appengine.api.memcache.MemcacheService#delete()
-  [path4] com.google.appengine.api.datastore.DatastoreService#delete()
-  [path4] com.google.appengine.api.memcache.MemcacheService#get()
-
-Analyzing: travelplanapp.travelplanapp.ActivityWorker#<init>()
-===============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
 
 Analyzing: travelplanapp.travelplanapp.ActivityWorker#createActivity()
 =======================================================================
@@ -5707,6 +5650,49 @@ API call traces:
   [path2] com.google.appengine.api.datastore.DatastoreService#put()
   [path2] com.google.appengine.api.memcache.MemcacheService#get()
   [path2] com.google.appengine.api.memcache.MemcacheService#put()
+
+Analyzing: travelplanapp.travelplanapp.ActivityWorker#<init>()
+===============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: travelplanapp.travelplanapp.ActivityWorker#deleteActivity()
+=======================================================================
+Distinct paths through the code: 5
+API calls in paths: [ 4 4 4 4 2 ]
+Memory (heap) allocations in paths: [ 1 1 1 1 1 ]
+Loops: 1
+API calls in loops: 
+  [loop] if i1 >= i0 goto $i2 = virtualinvoke r10.<java.lang.String: int length()>() [Nesting Level: 1] : 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
+  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
+  [cloud] com.google.appengine.api.memcache.MemcacheService#get()
+  [cloud] com.google.appengine.api.memcache.MemcacheService#put()
+  [cloud] com.google.appengine.api.memcache.MemcacheService#delete()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path0] com.google.appengine.api.memcache.MemcacheService#get()
+  [path0] com.google.appengine.api.memcache.MemcacheService#put()
+  [path1] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path1] com.google.appengine.api.memcache.MemcacheService#get()
+  [path1] com.google.appengine.api.memcache.MemcacheService#get()
+  [path1] com.google.appengine.api.memcache.MemcacheService#delete()
+  [path2] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path2] com.google.appengine.api.memcache.MemcacheService#get()
+  [path2] com.google.appengine.api.memcache.MemcacheService#get()
+  [path2] com.google.appengine.api.memcache.MemcacheService#put()
+  [path3] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path3] com.google.appengine.api.memcache.MemcacheService#get()
+  [path3] com.google.appengine.api.memcache.MemcacheService#get()
+  [path3] com.google.appengine.api.memcache.MemcacheService#delete()
+  [path4] com.google.appengine.api.datastore.DatastoreService#delete()
+  [path4] com.google.appengine.api.memcache.MemcacheService#get()
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: javax.ws.rs.GET is a phantom class!
 Warning: com.google.appengine.api.datastore.Key is a phantom class!
@@ -5737,24 +5723,6 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: travelplanapp.travelplanapp.AlbumServer#getGallery()
-================================================================
-Distinct paths through the code: 2
-API calls in paths: [ 2 2 ]
-Memory (heap) allocations in paths: [ 2 3 ]
-Loops: 1
-API calls in loops: 
-  $z0 = interfaceinvoke r12.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
-  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
-  [cloud] com.google.appengine.api.images.ImagesService#getServingUrl()
-API call traces: 
-  [path0] com.google.appengine.api.users.UserService#getCurrentUser()
-  [path0] com.google.appengine.api.datastore.DatastoreService#get()
-  [path1] com.google.appengine.api.users.UserService#getCurrentUser()
-  [path1] com.google.appengine.api.datastore.DatastoreService#get()
-
 Analyzing: travelplanapp.travelplanapp.AlbumServer#getAllAlbums()
 ==================================================================
 Distinct paths through the code: 2
@@ -5762,8 +5730,8 @@ API calls in paths: [ 2 2 ]
 Memory (heap) allocations in paths: [ 3 3 ]
 Loops: 2
 API calls in loops: 
-  $z0 = interfaceinvoke r10.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
-  $i1 = interfaceinvoke r12.<java.util.List: int size()>() [Nesting Level: 2] : 1
+  [loop] $i1 = interfaceinvoke r12.<java.util.List: int size()>() [Nesting Level: 2] : 1
+  [loop] $z0 = interfaceinvoke r10.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
@@ -5773,6 +5741,24 @@ API call traces:
   [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
   [path1] com.google.appengine.api.users.UserService#getCurrentUser()
   [path1] com.google.appengine.api.datastore.PreparedQuery#asIterable()
+
+Analyzing: travelplanapp.travelplanapp.AlbumServer#getGallery()
+================================================================
+Distinct paths through the code: 2
+API calls in paths: [ 2 2 ]
+Memory (heap) allocations in paths: [ 2 3 ]
+Loops: 1
+API calls in loops: 
+  [loop] $z0 = interfaceinvoke r12.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
+  [cloud] com.google.appengine.api.datastore.DatastoreService#get()
+  [cloud] com.google.appengine.api.images.ImagesService#getServingUrl()
+API call traces: 
+  [path0] com.google.appengine.api.users.UserService#getCurrentUser()
+  [path0] com.google.appengine.api.datastore.DatastoreService#get()
+  [path1] com.google.appengine.api.users.UserService#getCurrentUser()
+  [path1] com.google.appengine.api.datastore.DatastoreService#get()
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: javax.ws.rs.Path is a phantom class!
 Warning: com.google.appengine.api.datastore.Transaction is a phantom class!
@@ -5787,6 +5773,26 @@ Warning: com.google.appengine.api.blobstore.BlobstoreServiceFactory is a phantom
 Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom class!
 Warning: com.google.appengine.api.blobstore.BlobstoreService is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
+
+Analyzing: travelplanapp.travelplanapp.AlbumWorker#<init>()
+============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 0 ]
+Memory (heap) allocations in paths: [ 0 ]
+Loops: 0
+API call traces: 
+  [path0] -- No API Calls --
+
+Analyzing: travelplanapp.travelplanapp.AlbumWorker#createAlbum()
+=================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
 Analyzing: travelplanapp.travelplanapp.AlbumWorker#deletePhoto()
 =================================================================
@@ -5805,37 +5811,6 @@ API call traces:
   [path1] com.google.appengine.api.datastore.DatastoreService#get()
   [path1] com.google.appengine.api.datastore.DatastoreService#put()
   [path1] com.google.appengine.api.blobstore.BlobstoreService#delete()
-
-Analyzing: travelplanapp.travelplanapp.AlbumWorker#<init>()
-============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 0 ]
-Memory (heap) allocations in paths: [ 0 ]
-Loops: 0
-API call traces: 
-  [path0] -- No API Calls --
-
-Analyzing: travelplanapp.travelplanapp.AlbumWorker#deleteAlbum()
-=================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
-
-Analyzing: travelplanapp.travelplanapp.AlbumWorker#createAlbum()
-=================================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 2 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
 Analyzing: travelplanapp.travelplanapp.AlbumWorker#upload()
 ============================================================
@@ -5868,6 +5843,17 @@ API call traces:
   [path3] com.google.appengine.api.datastore.DatastoreService#get()
   [path3] com.google.appengine.api.datastore.DatastoreService#put()
   [path3] com.google.appengine.api.datastore.Transaction#commit()
+
+Analyzing: travelplanapp.travelplanapp.AlbumWorker#deleteAlbum()
+=================================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 2 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#delete()
 Warning: com.google.appengine.api.datastore.KeyFactory is a phantom class!
 Warning: com.google.appengine.api.datastore.Entity is a phantom class!
 Warning: javax.ws.rs.Path is a phantom class!
@@ -5882,11 +5868,11 @@ Warning: com.google.appengine.api.datastore.DatastoreService is a phantom class!
 Warning: com.google.appengine.api.users.UserService is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
-Analyzing: travelplanapp.travelplanapp.CheckForm#checkAlbum()
-==============================================================
+Analyzing: travelplanapp.travelplanapp.CheckForm#checkPlan()
+=============================================================
 Distinct paths through the code: 2
 API calls in paths: [ 2 2 ]
-Memory (heap) allocations in paths: [ 1 1 ]
+Memory (heap) allocations in paths: [ 0 0 ]
 Loops: 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
@@ -5906,11 +5892,11 @@ Loops: 0
 API call traces: 
   [path0] -- No API Calls --
 
-Analyzing: travelplanapp.travelplanapp.CheckForm#checkPlan()
-=============================================================
+Analyzing: travelplanapp.travelplanapp.CheckForm#checkAlbum()
+==============================================================
 Distinct paths through the code: 2
 API calls in paths: [ 2 2 ]
-Memory (heap) allocations in paths: [ 0 0 ]
+Memory (heap) allocations in paths: [ 1 1 ]
 Loops: 0
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.users.UserService#getCurrentUser()
@@ -5938,6 +5924,17 @@ Warning: com.google.appengine.api.memcache.MemcacheServiceFactory is a phantom c
 Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
+Analyzing: travelplanapp.travelplanapp.PlanWorker#createPlan()
+===============================================================
+Distinct paths through the code: 1
+API calls in paths: [ 1 ]
+Memory (heap) allocations in paths: [ 3 ]
+Loops: 0
+Called GAE methods (non-unique): 
+  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
+API call traces: 
+  [path0] com.google.appengine.api.datastore.DatastoreService#put()
+
 Analyzing: travelplanapp.travelplanapp.PlanWorker#<init>()
 ===========================================================
 Distinct paths through the code: 1
@@ -5954,7 +5951,7 @@ API calls in paths: [ 3 ]
 Memory (heap) allocations in paths: [ 2 ]
 Loops: 1
 API calls in loops: 
-  $z0 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
+  [loop] $z0 = interfaceinvoke r9.<java.util.Iterator: boolean hasNext()>() [Nesting Level: 1] : 1
 Called GAE methods (non-unique): 
   [cloud] com.google.appengine.api.datastore.PreparedQuery#asIterable()
   [cloud] com.google.appengine.api.datastore.DatastoreService#delete()
@@ -5964,15 +5961,4 @@ API call traces:
   [path0] com.google.appengine.api.datastore.PreparedQuery#asIterable()
   [path0] com.google.appengine.api.datastore.DatastoreService#delete()
   [path0] com.google.appengine.api.memcache.MemcacheService#delete()
-
-Analyzing: travelplanapp.travelplanapp.PlanWorker#createPlan()
-===============================================================
-Distinct paths through the code: 1
-API calls in paths: [ 1 ]
-Memory (heap) allocations in paths: [ 3 ]
-Loops: 0
-Called GAE methods (non-unique): 
-  [cloud] com.google.appengine.api.datastore.DatastoreService#put()
-API call traces: 
-  [path0] com.google.appengine.api.datastore.DatastoreService#put()
 
