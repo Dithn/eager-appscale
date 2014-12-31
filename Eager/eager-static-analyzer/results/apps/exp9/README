@@ -1,0 +1,2 @@
+Added server side instrumentation to SimpleRestApp#getStudent and monitored performance, both at server side and client side.
+Watchtower run simultaneously.
