@@ -17,6 +17,10 @@
         <servlet-name>BackupServlet</servlet-name>
         <servlet-class>edu.ucsb.cs.eager.watchtower.BackupServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DatastoreServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmarkServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>APIBenchmarkServlet</servlet-name>
@@ -29,6 +33,10 @@
     <servlet-mapping>
         <servlet-name>BackupServlet</servlet-name>
         <url-pattern>/backup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DatastoreServlet</servlet-name>
+        <url-pattern>/datastore</url-pattern>
     </servlet-mapping>
 
 </web-app>
