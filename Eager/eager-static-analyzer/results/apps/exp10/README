@@ -1,0 +1,2 @@
+Same GAE data as exp9. SimpleRestApp#getStudent benchmarked separatelty from Watchtower (with server-side instrumentation).
+
