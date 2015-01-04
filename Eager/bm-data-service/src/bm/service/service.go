@@ -135,20 +135,34 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 }
 
 func main() {
-	url := flag.String("u", "", "URL of the Watchtower service")
+	url := flag.String("u", "", "URL/Path of the data files")
+	dbType := flag.String("d", "ae", "Type of database to use")
 	port := flag.Int("p", 8080, "Port of the data service")
 	flag.Parse()
 	if *url == "" {
-		fmt.Println("URL of the Watchtower service not specified.")
+		fmt.Println("URL/Path of the data files not specified.")
 		return
 	}
-	d := &db.AEDatabase{
-		BaseURL: *url,
+	var d db.Database
+	var err error
+	if *dbType == "ae" {
+		d = &db.AEDatabase{
+			BaseURL: *url,
+		}
+	} else if *dbType == "file" {
+		d, err = db.NewFSDatabase(*url)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	} else {
+		fmt.Println("Invalid database type:", *dbType)
+		return
 	}
-	fmt.Println("Loading TimeSeries data from the Watchtower service at", d.BaseURL)
+	fmt.Println("Loading TimeSeries data from", *url)
 
 	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
 	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler())
 	http.HandleFunc("/ts", getTimeSeriesHandler(d))
-	http.ListenAndServe(fmt.Sprintf(":%d", *port), nil)
+	http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", *port), nil)
 }

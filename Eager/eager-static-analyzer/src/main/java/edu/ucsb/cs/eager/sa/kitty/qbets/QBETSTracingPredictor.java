@@ -52,9 +52,11 @@ public class QBETSTracingPredictor {
     public void run() throws IOException {
         Set<String> ops = new HashSet<String>();
         for (MethodInfo m : methods) {
-            for (Path path : m.getPaths()) {
-                for (APICall call : path.calls()) {
-                    ops.add(call.getId());
+            if (config.isEnabledMethod(m.getName())) {
+                for (Path path : m.getPaths()) {
+                    for (APICall call : path.calls()) {
+                        ops.add(call.getId());
+                    }
                 }
             }
         }
