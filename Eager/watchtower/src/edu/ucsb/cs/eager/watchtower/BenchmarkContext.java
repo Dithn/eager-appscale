@@ -23,6 +23,7 @@ import com.google.appengine.api.datastore.*;
 
 public class BenchmarkContext {
 
+    private boolean initialized = false;
     private boolean firstRecord = true;
     private boolean collectionStopped = true;
 
@@ -38,6 +39,8 @@ public class BenchmarkContext {
                         Constants.BM_CONTEXT_FIRST_RECORD);
                 collectionStopped = (Boolean) entity.getProperty(
                         Constants.BM_CONTEXT_STOP_COLLECTION);
+                initialized = (Boolean) entity.getProperty(
+                        Constants.BM_CONTEXT_INITIALIZED);
             }
             txn.commit();
         } finally {
@@ -63,6 +66,14 @@ public class BenchmarkContext {
         this.collectionStopped = collectionStopped;
     }
 
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
+    }
+
     public boolean save() {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Transaction txn = datastore.beginTransaction();
@@ -72,6 +83,7 @@ public class BenchmarkContext {
                     Constants.BM_CONTEXT_KEY, Constants.BM_CONTEXT_PARENT);
             entity.setProperty(Constants.BM_CONTEXT_FIRST_RECORD, firstRecord);
             entity.setProperty(Constants.BM_CONTEXT_STOP_COLLECTION, collectionStopped);
+            entity.setProperty(Constants.BM_CONTEXT_INITIALIZED, initialized);
             datastore.put(txn, entity);
             txn.commit();
         } finally {

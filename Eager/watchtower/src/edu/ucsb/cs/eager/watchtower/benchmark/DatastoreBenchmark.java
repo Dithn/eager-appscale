@@ -30,6 +30,9 @@ import java.util.UUID;
 
 public class DatastoreBenchmark extends APIBenchmark {
 
+    private static final Key root = KeyFactory.createKey("StudentRoot", "StudentRoot");
+
+    private static final String STUDENT_KIND = "Student";
     public static final String PROJECT_ID = "project_id";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
@@ -50,18 +53,50 @@ public class DatastoreBenchmark extends APIBenchmark {
 
         // put
         results.put(Constants.Datastore.PUT, putEntity(datastore, projectId));
-        sleep(1000);
+        sleep(100);
 
         // get
         results.put(Constants.Datastore.GET, getEntity(datastore, projectId));
-        sleep(1000);
+        sleep(100);
 
         // asList
         results.put(Constants.Datastore.AS_LIST, asList(datastore));
-        sleep(1000);
+        sleep(100);
 
         // delete
         results.put(Constants.Datastore.DELETE, deleteEntity(datastore, projectId));
+        sleep(100);
+
+        // asList (lim = 1)
+        results.put(Constants.Datastore.AS_LIST_LIM_1, asListWithLimit(datastore, 1));
+        sleep(100);
+
+        // asList (lim = 10)
+        results.put(Constants.Datastore.AS_LIST_LIM_10, asListWithLimit(datastore, 10));
+        sleep(100);
+
+        // asList (lim = 100)
+        results.put(Constants.Datastore.AS_LIST_LIM_100, asListWithLimit(datastore, 100));
+        sleep(100);
+
+        // asList (lim = 100)
+        results.put(Constants.Datastore.AS_LIST_LIM_1000, asListWithLimit(datastore, 1000));
+        sleep(100);
+
+        // asList (cs = 1)
+        results.put(Constants.Datastore.AS_LIST_CS_1, asListWithChunkSize(datastore, 1));
+        sleep(100);
+
+        // asList (cs = 10)
+        results.put(Constants.Datastore.AS_LIST_CS_10, asListWithChunkSize(datastore, 10));
+        sleep(100);
+
+        // asList (cs = 100)
+        results.put(Constants.Datastore.AS_LIST_CS_100, asListWithChunkSize(datastore, 100));
+        sleep(100);
+
+        // asList (cs = 1000)
+        results.put(Constants.Datastore.AS_LIST_CS_1000, asListWithChunkSize(datastore, 1000));
         return results;
     }
 
@@ -100,5 +135,40 @@ public class DatastoreBenchmark extends APIBenchmark {
         long start = System.currentTimeMillis();
         datastore.delete(key);
         return (int) (System.currentTimeMillis() - start);
+    }
+
+    private int asListWithLimit(DatastoreService datastore, int limit) {
+        Query q = new Query(STUDENT_KIND);
+        PreparedQuery pq = datastore.prepare(q);
+        long start = System.currentTimeMillis();
+        List<Entity> list = pq.asList(FetchOptions.Builder.withLimit(limit));
+        for (Entity student : list) {
+        }
+        return (int) (System.currentTimeMillis() - start);
+    }
+
+    private int asListWithChunkSize(DatastoreService datastore, int chunkSize) {
+        Query q = new Query(STUDENT_KIND);
+        PreparedQuery pq = datastore.prepare(q);
+        long start = System.currentTimeMillis();
+        List<Entity> list = pq.asList(FetchOptions.Builder.withChunkSize(chunkSize));
+        for (Entity student : list) {
+        }
+        return (int) (System.currentTimeMillis() - start);
+    }
+
+    public void init() {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        try {
+            datastore.get(root);
+        } catch (EntityNotFoundException e) {
+            datastore.put(new Entity(root));
+            for (int i = 0; i < 1000; i++) {
+                Entity student = new Entity(STUDENT_KIND, root);
+                student.setProperty("FirstName", "First" + i);
+                student.setProperty("LastName", "Last" + i);
+                datastore.put(student);
+            }
+        }
     }
 }

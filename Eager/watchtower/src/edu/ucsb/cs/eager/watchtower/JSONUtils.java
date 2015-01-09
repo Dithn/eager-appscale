@@ -62,7 +62,17 @@ public class JSONUtils {
         } catch (JSONException e) {
             throw new IOException(e);
         }
+    }
 
+    public static void sendStatusMessage(String message,
+                                         HttpServletResponse response) throws IOException {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("message", message);
+            response.getOutputStream().println(json.toString());
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
     }
 
     private static void setContentType(HttpServletResponse response) {

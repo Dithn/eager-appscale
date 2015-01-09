@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet used for benchmarking datastore API from the client-side.
+ */
 public class DatastoreBenchmarkServlet extends HttpServlet {
 
     private static DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

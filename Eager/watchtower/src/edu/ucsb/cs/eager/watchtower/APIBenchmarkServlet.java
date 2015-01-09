@@ -21,7 +21,6 @@ package edu.ucsb.cs.eager.watchtower;
 
 import edu.ucsb.cs.eager.watchtower.benchmark.APIBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmark;
-import edu.ucsb.cs.eager.watchtower.benchmark.jdo.DatastoreJDOBenchmark;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +34,6 @@ public class APIBenchmarkServlet extends HttpServlet {
 
     private static final APIBenchmark[] benchmarks = new APIBenchmark[]{
         new DatastoreBenchmark(),
-        //new DatastoreJDOBenchmark(),
     };
 
     @Override
@@ -43,6 +41,20 @@ public class APIBenchmarkServlet extends HttpServlet {
                          HttpServletResponse resp) throws ServletException, IOException {
 
         long timestamp = System.currentTimeMillis();
+        BenchmarkContext context = new BenchmarkContext();
+        if (!context.isInitialized()) {
+            for (APIBenchmark b : benchmarks) {
+                b.init();
+            }
+            context.setInitialized(true);
+            if (context.save()) {
+                JSONUtils.sendStatusMessage("Benchmarks initialized", resp);
+            } else {
+                resp.sendError(500, "Failed to save benchmark context");
+            }
+            return;
+        }
+
         Map<String,Map<String,Integer>> results = new HashMap<String, Map<String, Integer>>();
         DataPoint p = new DataPoint(timestamp);
         for (APIBenchmark b : benchmarks) {
@@ -51,7 +63,6 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        BenchmarkContext context = new BenchmarkContext();
         if (context.isFirstRecord() || context.isCollectionStopped()) {
             // Always drop the very first data point collected.
             // This is almost always an outlier.

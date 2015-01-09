@@ -28,6 +28,9 @@ public abstract class APIBenchmark {
 
     public abstract Map<String,Integer> benchmark() throws ServletException;
 
+    public void init() {
+    }
+
     protected void sleep(long t) {
         try {
             Thread.sleep(t);

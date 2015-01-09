@@ -28,6 +28,7 @@ public class Constants {
     public static final String BM_CONTEXT_KEY = "BM_CONTEXT";
     public static final String BM_CONTEXT_FIRST_RECORD = "FirstRecord";
     public static final String BM_CONTEXT_STOP_COLLECTION = "StopCollection";
+    public static final String BM_CONTEXT_INITIALIZED = "Initialized";
 
     public static final String DATA_POINT_KIND = "DATA_POINT";
     public static final String DATA_POINT_TIMESTAMP = "Timestamp";
@@ -40,6 +41,15 @@ public class Constants {
         public static final String GET = "bm_datastore_get";
         public static final String DELETE = "bm_datastore_delete";
         public static final String AS_LIST = "bm_datastore_asList";
+
+        public static final String AS_LIST_LIM_1 = "bm_datastore_asList_lim1";
+        public static final String AS_LIST_LIM_10 = "bm_datastore_asList_lim10";
+        public static final String AS_LIST_LIM_100 = "bm_datastore_asList_lim100";
+        public static final String AS_LIST_LIM_1000 = "bm_datastore_asList_lim1000";
+        public static final String AS_LIST_CS_1 = "bm_datastore_asList_cs1";
+        public static final String AS_LIST_CS_10 = "bm_datastore_asList_cs10";
+        public static final String AS_LIST_CS_100 = "bm_datastore_asList_cs100";
+        public static final String AS_LIST_CS_1000 = "bm_datastore_asList_cs1000";
     }
 
     public class DatastoreJDO {
