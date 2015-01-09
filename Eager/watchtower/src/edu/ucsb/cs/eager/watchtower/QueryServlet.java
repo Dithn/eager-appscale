@@ -47,7 +47,7 @@ public class QueryServlet extends HttpServlet {
         }
 
         long start = -1L, end = Long.MAX_VALUE;
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         if (startParam != null) {
             try {
                 start = dateFormat.parse(startParam).getTime();
