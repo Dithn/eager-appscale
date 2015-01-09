@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app
+        version="2.5"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <servlet>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>edu.ucsb.cs</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.config.feature.DisableWADL</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>TimeServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.TimeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InMemoryStudentServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.InMemoryStudentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimeServlet</servlet-name>
+        <url-pattern>/times</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InMemoryStudentServlet</servlet-name>
+        <url-pattern>/test_no_jaxrs</url-pattern>
+    </servlet-mapping>
+</web-app>
