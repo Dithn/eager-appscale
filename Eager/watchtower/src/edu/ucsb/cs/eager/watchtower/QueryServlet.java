@@ -19,13 +19,14 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
-import com.google.appengine.api.datastore.*;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,17 +38,39 @@ public class QueryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req,
                          HttpServletResponse resp) throws ServletException, IOException {
         String opsParam = req.getParameter("ops");
+        String startParam = req.getParameter("start");
+        String endParam = req.getParameter("end");
+
         String[] ops = new String[]{};
         if (opsParam != null && !"".equals(opsParam)) {
             ops = opsParam.trim().split(",");
         }
 
+        long start = -1L, end = Long.MAX_VALUE;
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmm");
+        if (startParam != null) {
+            try {
+                start = dateFormat.parse(startParam).getTime();
+            } catch (ParseException e) {
+                throw new ServletException("Invalid start timestamp: " + startParam, e);
+            }
+        }
+        if (endParam != null) {
+            try {
+                end = dateFormat.parse(endParam).getTime();
+            } catch (ParseException e) {
+                throw new ServletException("Invalid end timestamp: " + endParam, e);
+            }
+        }
+
         Map<String,List<Integer>> results = new HashMap<String, List<Integer>>();
         for (DataPoint p : DataPoint.getAll()) {
-            Map<String,Integer> data = p.getData();
-            for (Map.Entry<String,Integer> entry : data.entrySet()) {
-                if (addToResult(entry.getKey(), ops)) {
-                    addToMap(results, entry.getKey(), entry.getValue());
+            if (start <= p.getTimestamp() && p.getTimestamp() <= end) {
+                Map<String,Integer> data = p.getData();
+                for (Map.Entry<String,Integer> entry : data.entrySet()) {
+                    if (addToResult(entry.getKey(), ops)) {
+                        addToMap(results, entry.getKey(), entry.getValue());
+                    }
                 }
             }
         }
