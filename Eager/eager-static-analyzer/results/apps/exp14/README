@@ -1,2 +1,2 @@
 Analyzing the impact of chunkSize parameter on asList and asIterable API calls.
-Testing with 1000 entities in the datastore.
+Testing with 5000 entities in the datastore.
