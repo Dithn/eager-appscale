@@ -1,0 +1,2 @@
+Testing the impact of chunkSize parameter on asList datastore query.
+Datastore populated with 1000 records.
