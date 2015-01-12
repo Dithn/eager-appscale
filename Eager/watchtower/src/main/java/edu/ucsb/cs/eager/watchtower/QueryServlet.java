@@ -24,9 +24,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,20 +44,11 @@ public class QueryServlet extends HttpServlet {
         }
 
         long start = -1L, end = Long.MAX_VALUE;
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         if (startParam != null) {
-            try {
-                start = dateFormat.parse(startParam).getTime();
-            } catch (ParseException e) {
-                throw new ServletException("Invalid start timestamp: " + startParam, e);
-            }
+            start = Long.parseLong(startParam);
         }
         if (endParam != null) {
-            try {
-                end = dateFormat.parse(endParam).getTime();
-            } catch (ParseException e) {
-                throw new ServletException("Invalid end timestamp: " + endParam, e);
-            }
+            end = Long.parseLong(endParam);
         }
 
         Map<String,List<Integer>> results = new HashMap<String, List<Integer>>();
