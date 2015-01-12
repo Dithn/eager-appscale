@@ -1,6 +1,8 @@
 import httplib
 import urllib
 import sys
+import time
+import datetime
 from urlparse import urlparse
 
 class InvocationResult:
@@ -23,7 +25,7 @@ def add_student(url):
             headers = response.getheaders()
             for header in headers:
                 if header[0] == 'location':
-                    return InvocationResult(header[1], None, 0)
+                    return InvocationResult(header[1], None, get_time(result.netloc).output)
             return InvocationResult(None, 'No location header', 0)
     finally:
         conn.close()
@@ -37,7 +39,7 @@ def get_student(url):
         if response.status != 200:
             return InvocationResult(None, 'Unexpected status code', 0)
         else:
-            return InvocationResult(url, None, 0)
+            return InvocationResult(url, None, get_time(result.netloc).output)
     finally:
         conn.close()
 
@@ -50,7 +52,7 @@ def delete_student(url):
         if response.status != 200:
             return InvocationResult(None, 'Unexpected status code', 0)
         else:
-            return InvocationResult(url, None, 0)
+            return InvocationResult(url, None, get_time(result.netloc).output)
     finally:
         conn.close()
 
@@ -60,30 +62,40 @@ def fatal(msg):
 
 def get_time(netloc):
     conn = httplib.HTTPConnection(netloc)
-    conn.request("GET", "/timing")
-    response = conn.getresponse()
-    if response.status != 200:
-        return InvocationResult(None, 'Unexpected status code', 0)
-    else:
-        data = response.read()
-        return InvocationResult(int(data), None, 0)
+    try:
+        conn.request("GET", "/resources/timing")
+        response = conn.getresponse()
+        if response.status != 200:
+            return InvocationResult(None, 'Unexpected status code', 0)
+        else:
+            data = response.read()
+            return InvocationResult(int(data), None, 0)
+    finally:
+        conn.close()
+
+def timestamp():
+    return int((datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).total_seconds() * 1000)
     
 if __name__ == '__main__':
-    root_url = 'http://128.111.179.151:8080/resources/students'
+    root_url = sys.argv[1]
+    print 'Benchmarking URL:', root_url
+    
     resp = add_student(root_url)
     if resp.error is None:
-        print 'Created student resource: ', resp.output
-    else:
-        fatal(resp.error)
-    
-    resp = get_student(resp.output)
-    if resp.error is None:
-        print 'Student resource read successfully'
+        print timestamp(), 'Create', resp.output, resp.duration
     else:
         fatal(resp.error)
 
+    time.sleep(0.1)
+    resp = get_student(resp.output)
+    if resp.error is None:
+        print timestamp(), 'Get', resp.output, resp.duration
+    else:
+        fatal(resp.error)
+
+    time.sleep(0.1)
     resp = delete_student(resp.output)
     if resp.error is None:
-        print 'Student resource deleted'
+        print timestamp(), 'Delete', resp.output, resp.duration
     else:
         fatal(resp.error)
