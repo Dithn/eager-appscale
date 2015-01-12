@@ -67,6 +67,7 @@ public class DatastoreBenchmark extends APIBenchmark {
         results.put(Constants.Datastore.DELETE, deleteEntity(datastore, projectId));
         sleep(100);
 
+        /*
         // asList (lim = 1)
         results.put(Constants.Datastore.AS_LIST_LIM_1, asListWithLimit(datastore, 1));
         sleep(100);
@@ -96,7 +97,7 @@ public class DatastoreBenchmark extends APIBenchmark {
         sleep(100);
 
         // asList (cs = 1000)
-        results.put(Constants.Datastore.AS_LIST_CS_1000, asListWithChunkSize(datastore, 1000));
+        results.put(Constants.Datastore.AS_LIST_CS_1000, asListWithChunkSize(datastore, 1000));*/
         return results;
     }
 
