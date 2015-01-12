@@ -6,7 +6,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <groupId>edu.ucsb.cs.eager.watchtower</groupId>
-    <artifactId>watchtower-new</artifactId>
+    <artifactId>watchtower</artifactId>
 
     <properties>
         <appengine.app.version>1</appengine.app.version>

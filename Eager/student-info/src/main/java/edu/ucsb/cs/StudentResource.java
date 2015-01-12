@@ -56,6 +56,7 @@ public class StudentResource {
     public Response addStudent(@FormParam("firstName") String firstName,
                                @FormParam("lastName") String lastName) {
 
+        long start = System.currentTimeMillis();
         String studentId = UUID.randomUUID().toString();
         Entity student = new Entity("Student", studentId);
         student.setProperty("firstName", firstName);
@@ -67,24 +68,59 @@ public class StudentResource {
         s.setFirstName(firstName);
         s.setLastName(lastName);
         s.setStudentId(studentId);
-        return Response.created(URI.create("/" + studentId)).entity(s).build();
+        Response response = Response.created(URI.create("/" + studentId)).entity(s).build();
+        long end = System.currentTimeMillis();
+        TimingResource.saveTime(end - start);
+        return response;
     }
 
     @GET
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudent(@PathParam("studentId") String studentId) {
+        long start = System.currentTimeMillis();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Key key = KeyFactory.createKey("Student", studentId);
+        Response response;
         try {
             Entity entity = datastore.get(key);
             Student s = new Student();
             s.setStudentId(studentId);
             s.setFirstName((String) entity.getProperty("firstName"));
             s.setLastName((String) entity.getProperty("lastName"));
-            return Response.ok(s).build();
+            response = Response.ok(s).build();
         } catch (EntityNotFoundException e) {
-            return Response.status(404).build();
+            response = Response.status(404).build();
+        } finally {
+            long end = System.currentTimeMillis();
+            TimingResource.saveTime(end - start);
         }
+        return response;
     }
+
+    @DELETE
+    @Path("/{studentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteStudent(@PathParam("studentId") String studentId) {
+        long start = System.currentTimeMillis();
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Key key = KeyFactory.createKey("Student", studentId);
+        Response response;
+        try {
+            Entity entity = datastore.get(key);
+            Student s = new Student();
+            s.setStudentId(studentId);
+            s.setFirstName((String) entity.getProperty("firstName"));
+            s.setLastName((String) entity.getProperty("lastName"));
+            datastore.delete(key);
+            response = Response.ok(s).build();
+        } catch (EntityNotFoundException e) {
+            response = Response.status(404).build();
+        } finally {
+            long end = System.currentTimeMillis();
+            TimingResource.saveTime(end - start);
+        }
+        return response;
+    }
+
 }
