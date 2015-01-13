@@ -37,7 +37,7 @@ func main() {
 }
 
 func getQuantile(d db.Database, q, c float64, op string, l int) (int,error) {
-	result, err := d.Query(-1, []string{op})
+	result, err := d.Query(-1, []string{op}, -1, -1)
 	if err != nil {
 		return -1, err
 	}

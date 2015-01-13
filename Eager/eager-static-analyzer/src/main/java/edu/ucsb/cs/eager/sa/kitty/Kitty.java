@@ -71,6 +71,11 @@ public class Kitty {
         options.addOption("sp", "simple", false,
                 "Use the simple QBETS predictor");
 
+        options.addOption("st", "start", true,
+                "Start timestamp for fetching time series data");
+        options.addOption("en", "end", true,
+                "End timestamp for fetching time series data");
+
         CommandLine cmd;
         try {
             CommandLineParser parser = new BasicParser();
@@ -110,6 +115,15 @@ public class Kitty {
         }
         config.setAggregateTimeSeries(cmd.hasOption("a"));
         config.setSimplePredictor(cmd.hasOption("sp"));
+
+        String start = cmd.getOptionValue("st");
+        if (start != null) {
+            config.setStart(Long.parseLong(start));
+        }
+        String end = cmd.getOptionValue("en");
+        if (end != null) {
+            config.setEnd(Long.parseLong(end));
+        }
 
         try {
             config.validate();

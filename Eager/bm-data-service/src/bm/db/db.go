@@ -19,7 +19,7 @@ type TimeSeries []int
 // Database interface defines what operations/queries should be supported
 // by a database implementation.
 type Database interface {
-	Query(n int, ops []string) (map[string]TimeSeries, error)
+	Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error)
 }
 
 // FSDatabase implements the Database interface using a set of data files
@@ -55,7 +55,7 @@ func NewFSDatabase(root string) (*FSDatabase, error) {
 // Query returns a set of TimeSeries instances as a map, keyed by the
 // operation names. If n > 0, maximum length of each TimeSeries will be
 // limited to n.
-func (fsd *FSDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
+func (fsd *FSDatabase) Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error) {
 	result := make(map[string]TimeSeries)
 	for _, op := range ops {
 		ts, ok := fsd.data[op]
@@ -103,8 +103,14 @@ type AEDatabase struct {
 // Query returns a set of TimeSeries instances as a map, keyed by the
 // operation names. If n > 0, maximum length of each TimeSeries will be
 // limited to n.
-func (aed *AEDatabase) Query(n int, ops []string) (map[string]TimeSeries, error) {
+func (aed *AEDatabase) Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error) {
 	url := fmt.Sprintf("%s/query?ops=%s", aed.BaseURL, strings.Join(ops, ","))
+	if start != -1 {
+		url += fmt.Sprintf("&start=%d", start)
+	}
+	if end != -1 {
+		url += fmt.Sprintf("&end=%d", end)
+	}
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err

@@ -55,6 +55,16 @@ public class PredictionConfig {
     private String traceFile;
 
     /**
+     * Start timestamp to use when fetching time series data.
+     */
+    private long start = -1L;
+
+    /**
+     * End timestamp to use when fetching time series data.
+     */
+    private long end = -1L;
+
+    /**
      * Use the simple QBETS predictor, instead of the trace-based
      * predictor.
      */
@@ -179,6 +189,22 @@ public class PredictionConfig {
         this.methods = methods;
     }
 
+    public long getStart() {
+        return start;
+    }
+
+    public void setStart(long start) {
+        this.start = start;
+    }
+
+    public long getEnd() {
+        return end;
+    }
+
+    public void setEnd(long end) {
+        this.end = end;
+    }
+
     public void validate() throws Exception {
         if (benchmarkDataDir == null && benchmarkDataSvc == null) {
             throw new Exception("One of benchmark data directory and benchmark data service" +
@@ -196,6 +222,8 @@ public class PredictionConfig {
             throw new Exception("Trace file and Cerebro class path should not specified together.");
         } else if (cerebroClasspath != null && clazz == null) {
             throw new Exception("Class must be specified when Cerebro class path is provided.");
+        } else if (end < start) {
+            throw new Exception("End timestamp must be greater than or equal to start timestamp.");
         }
     }
 }

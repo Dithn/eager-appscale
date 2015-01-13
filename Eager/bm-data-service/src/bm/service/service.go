@@ -13,6 +13,7 @@ import (
 type timeSeriesReq struct {
 	MaxLength            int
 	Operations           []string
+	Start, End           int64
 	Quantile, Confidence float64
 }
 
@@ -26,6 +27,8 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		tsr := timeSeriesReq{
+			Start: -1,
+			End: -1,
 			Quantile:   0.95,
 			Confidence: 0.05,
 		}
@@ -34,7 +37,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			return
 		}
 
-		result, err := d.Query(tsr.MaxLength, tsr.Operations)
+		result, err := d.Query(tsr.MaxLength, tsr.Operations, tsr.Start, tsr.End)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -79,13 +82,16 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
-		var tsr timeSeriesReq
+		tsr := timeSeriesReq{
+			Start: -1,
+			End: -1,
+		}
 		if err := decoder.Decode(&tsr); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		result, err := d.Query(tsr.MaxLength, tsr.Operations)
+		result, err := d.Query(tsr.MaxLength, tsr.Operations, tsr.Start, tsr.End)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

@@ -22,7 +22,7 @@ func TestFSDatabase(t *testing.T) {
 		{n: -1, op: "Test2()", ts: TimeSeries([]int{5, 4, 3, 2, 1})},
 		{n: -1, op: "Test3()", ts: TimeSeries([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})},
 	} {
-		got, err := fsd.Query(want.n, []string{want.op})
+		got, err := fsd.Query(want.n, []string{want.op}, -1, -1)
 		if err != nil {
 			t.Error(err)
 		}
@@ -31,7 +31,7 @@ func TestFSDatabase(t *testing.T) {
 		}
 	}
 
-	if _, err := fsd.Query(10, []string{"Bogus()"}); err == nil {
+	if _, err := fsd.Query(10, []string{"Bogus()"}, -1, -1); err == nil {
 		t.Error("no error returned on query with invalid operation")
 	}
 }
