@@ -11,6 +11,19 @@ class InvocationResult:
         self.error = error
         self.duration = duration
 
+def get_all_students(url):
+    result = urlparse(url)
+    conn = httplib.HTTPConnection(result.netloc)
+    try:
+        conn.request("GET", result.path)
+        response = conn.getresponse()
+        if response.status != 200:
+            return InvocationResult(None, 'Unexpected status code', 0)
+        else:
+            return InvocationResult(url, None, get_time(result.netloc).output)
+    finally:
+        conn.close()
+        
 def add_student(url):
     result = urlparse(url)
     params = urllib.urlencode({'firstName':'Peter', 'lastName':'Parker'})
@@ -79,6 +92,12 @@ def timestamp():
 if __name__ == '__main__':
     root_url = sys.argv[1]
     print 'Benchmarking URL:', root_url
+
+    resp = get_all_students(root_url)
+    if resp.error is None:
+        print timestamp(), 'GetAll', resp.output, resp.duration
+    else:
+        fatal(resp.error)
     
     resp = add_student(root_url)
     if resp.error is None:

@@ -34,20 +34,20 @@ public class StudentResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public StudentListSummary getStudents(@DefaultValue("1") @QueryParam("chunkSize") int chunkSize) {
+    public StudentListSummary getStudents() {
+        long start = System.currentTimeMillis();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query("Student");
         int count = 0;
-        long apiStart = System.currentTimeMillis();
-        List<Entity> results = datastore.prepare(query).asList(
-                FetchOptions.Builder.withChunkSize(chunkSize));
+        List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
         for (Entity r : results) {
             count++;
         }
-        long apiEnd = System.currentTimeMillis();
         StudentListSummary summary = new StudentListSummary();
         summary.setCount(count);
-        summary.setTime(apiEnd - apiStart);
+        summary.setTime(0);
+        long end = System.currentTimeMillis();
+        TimingResource.saveTime(end - start);
         return summary;
     }
 
@@ -121,6 +121,30 @@ public class StudentResource {
             TimingResource.saveTime(end - start);
         }
         return response;
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public StudentListSummary deleteAll() {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Query query = new Query("Student");
+        int count = 0;
+        List<Entity> results = datastore.prepare(query).asList(
+                FetchOptions.Builder.withChunkSize(100));
+        List<Key> keys = new ArrayList<Key>();
+        for (Entity r : results) {
+            keys.add(r.getKey());
+            count++;
+        }
+
+        long apiStart = System.currentTimeMillis();
+        datastore.delete(keys);
+        long apiEnd = System.currentTimeMillis();
+
+        StudentListSummary summary = new StudentListSummary();
+        summary.setCount(count);
+        summary.setTime(apiEnd - apiStart);
+        return summary;
     }
 
 }
