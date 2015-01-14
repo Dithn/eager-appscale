@@ -23,6 +23,10 @@ public class APICall implements Identifiable {
 
     private String name;
 
+    private static final String[] loops = new String[]{
+            "bm_datastore_asList",
+    };
+
     public APICall(String name) {
         this.name = name;
     }
@@ -38,6 +42,16 @@ public class APICall implements Identifiable {
             return "bm_" + api + "_" + op;
         }
         throw new RuntimeException("Unsupported API call name: " + name);
+    }
+
+    public boolean isLoop() {
+        String id = getId();
+        for (String l : loops) {
+            if (l.equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

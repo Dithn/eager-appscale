@@ -55,7 +55,9 @@ public class QBETSTracingPredictor {
             if (config.isEnabledMethod(m.getName())) {
                 for (Path path : m.getPaths()) {
                     for (APICall call : path.calls()) {
-                        ops.add(call.getId());
+                        // Use the same entity count limit for all loops for now.
+                        ops.add(call.isLoop() ? call.getId() + "_" +
+                                config.getMaxEntities() : call.getId());
                     }
                 }
             }
@@ -68,8 +70,7 @@ public class QBETSTracingPredictor {
 
         System.out.println("\nRetrieving time series data for " + ops.size() + " API " +
                 PredictionUtils.pluralize(ops.size(), "call") + "...");
-        cache = new TimeSeriesDataCache(getTimeSeriesData(config.getBenchmarkDataSvc(),
-                ops, config.getStart(), config.getEnd()));
+        cache = new TimeSeriesDataCache(getTimeSeriesData(ops, config));
         System.out.println("Retrieved time series length: " + cache.getTimeSeriesLength());
         if (config.getStart() != -1 || config.getEnd() != -1) {
             System.out.println("Time range: " + config.getStart() + " - " + config.getEnd());
@@ -242,18 +243,18 @@ public class QBETSTracingPredictor {
         return result;
     }
 
-    private Map<String,int[]> getTimeSeriesData(String bmDataSvc, Collection<String> ops,
-                                                long start, long end) throws IOException {
+    private Map<String,int[]> getTimeSeriesData(Collection<String> ops,
+                                                PredictionConfig config) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("operations", new JSONArray(ops));
-        if (start > 0) {
-            msg.put("start", start);
+        if (config.getStart() > 0) {
+            msg.put("start", config.getStart());
         }
-        if (end > 0) {
-            msg.put("end", end);
+        if (config.getEnd() > 0) {
+            msg.put("end", config.getEnd());
         }
 
-        JSONObject resp = HttpUtils.doPost(bmDataSvc + "/ts", msg);
+        JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/ts", msg);
         Map<String,int[]> data = new HashMap<String,int[]>();
         Iterator keys = resp.keys();
         while (keys.hasNext()) {
@@ -264,6 +265,10 @@ public class QBETSTracingPredictor {
                 ts[i] = array.getInt(i);
             }
             data.put(k, ts);
+        }
+
+        if (data.size() == 0) {
+            throw new IllegalStateException("No time series data found");
         }
         return data;
     }

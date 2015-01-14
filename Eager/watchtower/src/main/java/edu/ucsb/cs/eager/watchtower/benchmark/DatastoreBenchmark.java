@@ -59,45 +59,21 @@ public class DatastoreBenchmark extends APIBenchmark {
         results.put(Constants.Datastore.GET, getEntity(datastore, projectId));
         sleep(100);
 
-        // asList
-        results.put(Constants.Datastore.AS_LIST, asList(datastore));
-        sleep(100);
-
         // delete
         results.put(Constants.Datastore.DELETE, deleteEntity(datastore, projectId));
         sleep(100);
 
-        /*
-        // asList (lim = 1)
-        results.put(Constants.Datastore.AS_LIST_LIM_1, asListWithLimit(datastore, 1));
-        sleep(100);
-
         // asList (lim = 10)
-        results.put(Constants.Datastore.AS_LIST_LIM_10, asListWithLimit(datastore, 10));
+        results.put(Constants.Datastore.AS_LIST_10, asListWithLimit(datastore, 10));
         sleep(100);
 
         // asList (lim = 100)
-        results.put(Constants.Datastore.AS_LIST_LIM_100, asListWithLimit(datastore, 100));
+        results.put(Constants.Datastore.AS_LIST_100, asListWithLimit(datastore, 100));
         sleep(100);
 
         // asList (lim = 100)
-        results.put(Constants.Datastore.AS_LIST_LIM_1000, asListWithLimit(datastore, 1000));
-        sleep(100);
+        results.put(Constants.Datastore.AS_LIST_1000, asListWithLimit(datastore, 1000));
 
-        // asList (cs = 1)
-        results.put(Constants.Datastore.AS_LIST_CS_1, asListWithChunkSize(datastore, 1));
-        sleep(100);
-
-        // asList (cs = 10)
-        results.put(Constants.Datastore.AS_LIST_CS_10, asListWithChunkSize(datastore, 10));
-        sleep(100);
-
-        // asList (cs = 100)
-        results.put(Constants.Datastore.AS_LIST_CS_100, asListWithChunkSize(datastore, 100));
-        sleep(100);
-
-        // asList (cs = 1000)
-        results.put(Constants.Datastore.AS_LIST_CS_1000, asListWithChunkSize(datastore, 1000));*/
         return results;
     }
 
@@ -123,14 +99,6 @@ public class DatastoreBenchmark extends APIBenchmark {
         }
     }
 
-    private int asList(DatastoreService datastore) {
-        Query q = new Query(PROJECT_KIND);
-        PreparedQuery pq = datastore.prepare(q);
-        long start = System.currentTimeMillis();
-        List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
-        return (int) (System.currentTimeMillis() - start);
-    }
-
     private int deleteEntity(DatastoreService datastore, String id) {
         Key key = KeyFactory.createKey(PROJECT_KIND, id);
         long start = System.currentTimeMillis();
@@ -143,16 +111,6 @@ public class DatastoreBenchmark extends APIBenchmark {
         PreparedQuery pq = datastore.prepare(q);
         long start = System.currentTimeMillis();
         List<Entity> list = pq.asList(FetchOptions.Builder.withLimit(limit));
-        for (Entity student : list) {
-        }
-        return (int) (System.currentTimeMillis() - start);
-    }
-
-    private int asListWithChunkSize(DatastoreService datastore, int chunkSize) {
-        Query q = new Query(STUDENT_KIND);
-        PreparedQuery pq = datastore.prepare(q);
-        long start = System.currentTimeMillis();
-        List<Entity> list = pq.asList(FetchOptions.Builder.withChunkSize(chunkSize));
         for (Entity student : list) {
         }
         return (int) (System.currentTimeMillis() - start);

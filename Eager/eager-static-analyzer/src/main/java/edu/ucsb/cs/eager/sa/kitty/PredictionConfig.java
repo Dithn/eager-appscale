@@ -77,6 +77,8 @@ public class PredictionConfig {
 
     private String[] methods;
 
+    private int maxEntities = 1000;
+
     public String getBenchmarkDataDir() {
         return benchmarkDataDir;
     }
@@ -203,6 +205,14 @@ public class PredictionConfig {
 
     public void setEnd(long end) {
         this.end = end;
+    }
+
+    public int getMaxEntities() {
+        return maxEntities;
+    }
+
+    public void setMaxEntities(int maxEntities) {
+        this.maxEntities = maxEntities;
     }
 
     public void validate() throws Exception {

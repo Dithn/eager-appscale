@@ -84,7 +84,7 @@ public class DataPoint {
         try {
             PreparedQuery pq = datastore.prepare(txn, q);
             List<DataPoint> data = new ArrayList<DataPoint>();
-            for (Entity entity : pq.asIterable()) {
+            for (Entity entity : pq.asIterable(FetchOptions.Builder.withChunkSize(100))) {
                 DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
                 Map<String,Object> props = entity.getProperties();
                 for (Map.Entry<String,Object> entry : props.entrySet()) {

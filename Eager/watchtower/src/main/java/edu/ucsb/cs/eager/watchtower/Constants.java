@@ -40,21 +40,9 @@ public class Constants {
         public static final String PUT = "bm_datastore_put";
         public static final String GET = "bm_datastore_get";
         public static final String DELETE = "bm_datastore_delete";
-        public static final String AS_LIST = "bm_datastore_asList";
 
-        public static final String AS_LIST_LIM_1 = "bm_datastore_asList_lim1";
-        public static final String AS_LIST_LIM_10 = "bm_datastore_asList_lim10";
-        public static final String AS_LIST_LIM_100 = "bm_datastore_asList_lim100";
-        public static final String AS_LIST_LIM_1000 = "bm_datastore_asList_lim1000";
-        public static final String AS_LIST_CS_1 = "bm_datastore_asList_cs1";
-        public static final String AS_LIST_CS_10 = "bm_datastore_asList_cs10";
-        public static final String AS_LIST_CS_100 = "bm_datastore_asList_cs100";
-        public static final String AS_LIST_CS_1000 = "bm_datastore_asList_cs1000";
-    }
-
-    public class DatastoreJDO {
-        public static final String MAKE_PERSISTENT = "bm_datastore_jdo_makePersistent";
-        public static final String EXECUTE = "bm_datastore_jdo_execute";
-        public static final String DELETE = "bm_datastore_jdo_delete";
+        public static final String AS_LIST_10 = "bm_datastore_asList_10";
+        public static final String AS_LIST_100 = "bm_datastore_asList_100";
+        public static final String AS_LIST_1000 = "bm_datastore_asList_1000";
     }
 }
