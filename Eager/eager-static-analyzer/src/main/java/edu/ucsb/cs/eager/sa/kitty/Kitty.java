@@ -179,8 +179,13 @@ public class Kitty {
                 for (List<SootMethod> path : entry.getValue().getPaths()) {
                     Path callPath = new Path();
                     for (SootMethod sm : path) {
-                        callPath.add(new APICall(sm.getDeclaringClass().getName() + "#" +
-                                sm.getName() + "()"));
+                        APICall call = new APICall(sm.getDeclaringClass().getName() + "#" +
+                                sm.getName() + "()");
+                        if (call.isLoop()) {
+                            // Use the same entity count limit for all loops for now.
+                            call.setIterations(config.getMaxEntities());
+                        }
+                        callPath.add(call);
                     }
                     mi.addPath(callPath);
                 }

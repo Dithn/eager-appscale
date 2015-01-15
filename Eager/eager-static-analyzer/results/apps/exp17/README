@@ -1,0 +1,4 @@
+Testing StudentInfo app on AppScale (4-node setup) with server-side instrumentation.
+Watchtower run simultaneously on the same cloud setup.
+Also measuring the time for getAllStudents operation (which was not included in exp16).
+

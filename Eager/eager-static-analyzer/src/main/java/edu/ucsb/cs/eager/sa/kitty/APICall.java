@@ -22,6 +22,7 @@ package edu.ucsb.cs.eager.sa.kitty;
 public class APICall implements Identifiable {
 
     private String name;
+    private int iterations;
 
     private static final String[] loops = new String[]{
             "bm_datastore_asList",
@@ -35,11 +36,19 @@ public class APICall implements Identifiable {
         return name;
     }
 
+    public void setIterations(int iterations) {
+        this.iterations = iterations;
+    }
+
     public String getId() {
         if (name.startsWith("com.google.appengine.api.")) {
             String api = name.split("\\.")[4];
             String op = name.substring(name.indexOf('#') + 1, name.indexOf('('));
-            return "bm_" + api + "_" + op;
+            String id = "bm_" + api + "_" + op;
+            if (iterations > 0) {
+                id += "_" + iterations;
+            }
+            return id;
         }
         throw new RuntimeException("Unsupported API call name: " + name);
     }

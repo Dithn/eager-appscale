@@ -55,9 +55,7 @@ public class QBETSTracingPredictor {
             if (config.isEnabledMethod(m.getName())) {
                 for (Path path : m.getPaths()) {
                     for (APICall call : path.calls()) {
-                        // Use the same entity count limit for all loops for now.
-                        ops.add(call.isLoop() ? call.getId() + "_" +
-                                config.getMaxEntities() : call.getId());
+                        ops.add(call.getId());
                     }
                 }
             }
