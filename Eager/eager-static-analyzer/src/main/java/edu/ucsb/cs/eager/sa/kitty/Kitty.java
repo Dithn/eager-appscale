@@ -76,7 +76,7 @@ public class Kitty {
         options.addOption("en", "end", true,
                 "End timestamp for fetching time series data");
 
-        options.addOption("m", "max-entities", true,
+        options.addOption("me", "max-entities", true,
                 "Maximum entities that may exist in the datastore");
 
         CommandLine cmd;
@@ -128,7 +128,7 @@ public class Kitty {
             config.setEnd(Long.parseLong(end));
         }
 
-        String maxEntities = cmd.getOptionValue("m");
+        String maxEntities = cmd.getOptionValue("me");
         if (maxEntities != null) {
             config.setMaxEntities(Integer.parseInt(maxEntities));
         }
