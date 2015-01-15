@@ -5308,3 +5308,858 @@ Benchmarking URL: http://128.111.179.151:8080/resources/students
 1421348731768 Create http://128.111.179.151:8080/resources/students/641f5c92-ca4f-4cd7-8451-1ba4a2dfc001 33
 1421348731939 Get http://128.111.179.151:8080/resources/students/641f5c92-ca4f-4cd7-8451-1ba4a2dfc001 11
 1421348732153 Delete http://128.111.179.151:8080/resources/students/641f5c92-ca4f-4cd7-8451-1ba4a2dfc001 56
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349505915 GetAll http://128.111.179.151:8080/resources/students 45
+1421349506006 Create http://128.111.179.151:8080/resources/students/4dbab5d5-e24a-4ff4-9518-439a68053e7a 32
+1421349506178 Get http://128.111.179.151:8080/resources/students/4dbab5d5-e24a-4ff4-9518-439a68053e7a 13
+1421349506376 Delete http://128.111.179.151:8080/resources/students/4dbab5d5-e24a-4ff4-9518-439a68053e7a 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349567070 GetAll http://128.111.179.151:8080/resources/students 570
+1421349567160 Create http://128.111.179.151:8080/resources/students/2987d0c0-8ced-4def-8d36-4fab5d983f2f 26
+1421349567332 Get http://128.111.179.151:8080/resources/students/2987d0c0-8ced-4def-8d36-4fab5d983f2f 8
+1421349567560 Delete http://128.111.179.151:8080/resources/students/2987d0c0-8ced-4def-8d36-4fab5d983f2f 52
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349627726 GetAll http://128.111.179.151:8080/resources/students 50
+1421349627819 Create http://128.111.179.151:8080/resources/students/bab0296f-fc3f-476a-9b12-c83e60664a27 32
+1421349628022 Get http://128.111.179.151:8080/resources/students/bab0296f-fc3f-476a-9b12-c83e60664a27 14
+1421349628211 Delete http://128.111.179.151:8080/resources/students/bab0296f-fc3f-476a-9b12-c83e60664a27 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349688916 GetAll http://128.111.179.151:8080/resources/students 582
+1421349689003 Create http://128.111.179.151:8080/resources/students/d3696a84-6c0b-4231-a197-66d063fe5598 26
+1421349689168 Get http://128.111.179.151:8080/resources/students/d3696a84-6c0b-4231-a197-66d063fe5598 8
+1421349689364 Delete http://128.111.179.151:8080/resources/students/d3696a84-6c0b-4231-a197-66d063fe5598 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349749560 GetAll http://128.111.179.151:8080/resources/students 60
+1421349749648 Create http://128.111.179.151:8080/resources/students/af237854-6337-4aaf-96c2-c154b7aca513 30
+1421349749812 Get http://128.111.179.151:8080/resources/students/af237854-6337-4aaf-96c2-c154b7aca513 8
+1421349750004 Delete http://128.111.179.151:8080/resources/students/af237854-6337-4aaf-96c2-c154b7aca513 44
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349810169 GetAll http://128.111.179.151:8080/resources/students 45
+1421349810276 Create http://128.111.179.151:8080/resources/students/cd5965e2-231b-4c53-b83e-2e94eb272971 33
+1421349810443 Get http://128.111.179.151:8080/resources/students/cd5965e2-231b-4c53-b83e-2e94eb272971 8
+1421349810641 Delete http://128.111.179.151:8080/resources/students/cd5965e2-231b-4c53-b83e-2e94eb272971 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349870834 GetAll http://128.111.179.151:8080/resources/students 57
+1421349870914 Create http://128.111.179.151:8080/resources/students/c8d9d401-c13c-4b4c-a066-c2ed42bc983c 29
+1421349871079 Get http://128.111.179.151:8080/resources/students/c8d9d401-c13c-4b4c-a066-c2ed42bc983c 8
+1421349871276 Delete http://128.111.179.151:8080/resources/students/c8d9d401-c13c-4b4c-a066-c2ed42bc983c 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349931452 GetAll http://128.111.179.151:8080/resources/students 46
+1421349931542 Create http://128.111.179.151:8080/resources/students/0c00bed6-d5ad-4532-8363-9920805bc44e 35
+1421349931733 Get http://128.111.179.151:8080/resources/students/0c00bed6-d5ad-4532-8363-9920805bc44e 9
+1421349931922 Delete http://128.111.179.151:8080/resources/students/0c00bed6-d5ad-4532-8363-9920805bc44e 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421349992092 GetAll http://128.111.179.151:8080/resources/students 45
+1421349992190 Create http://128.111.179.151:8080/resources/students/6157fab0-92c7-4f84-bd08-fe2acbfa066e 30
+1421349992356 Get http://128.111.179.151:8080/resources/students/6157fab0-92c7-4f84-bd08-fe2acbfa066e 9
+1421349992552 Delete http://128.111.179.151:8080/resources/students/6157fab0-92c7-4f84-bd08-fe2acbfa066e 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350052710 GetAll http://128.111.179.151:8080/resources/students 46
+1421350052797 Create http://128.111.179.151:8080/resources/students/3a6e41b5-5555-4666-99e4-39f48fbd9eb9 27
+1421350052974 Get http://128.111.179.151:8080/resources/students/3a6e41b5-5555-4666-99e4-39f48fbd9eb9 14
+1421350053162 Delete http://128.111.179.151:8080/resources/students/3a6e41b5-5555-4666-99e4-39f48fbd9eb9 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350113325 GetAll http://128.111.179.151:8080/resources/students 44
+1421350113412 Create http://128.111.179.151:8080/resources/students/e76bf4df-abad-4f03-8f88-ef84a53000d8 31
+1421350113583 Get http://128.111.179.151:8080/resources/students/e76bf4df-abad-4f03-8f88-ef84a53000d8 8
+1421350113779 Delete http://128.111.179.151:8080/resources/students/e76bf4df-abad-4f03-8f88-ef84a53000d8 44
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350174202 GetAll http://128.111.179.151:8080/resources/students 300
+1421350174311 Create http://128.111.179.151:8080/resources/students/4d3fcbc1-c4bf-4d57-a862-1e69b1a4cccd 36
+1421350174476 Get http://128.111.179.151:8080/resources/students/4d3fcbc1-c4bf-4d57-a862-1e69b1a4cccd 8
+1421350174667 Delete http://128.111.179.151:8080/resources/students/4d3fcbc1-c4bf-4d57-a862-1e69b1a4cccd 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350234831 GetAll http://128.111.179.151:8080/resources/students 41
+1421350234922 Create http://128.111.179.151:8080/resources/students/0a4af63a-9eb0-4064-beb5-b6342455621b 33
+1421350235128 Get http://128.111.179.151:8080/resources/students/0a4af63a-9eb0-4064-beb5-b6342455621b 9
+1421350235334 Delete http://128.111.179.151:8080/resources/students/0a4af63a-9eb0-4064-beb5-b6342455621b 46
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350295504 GetAll http://128.111.179.151:8080/resources/students 47
+1421350295607 Create http://128.111.179.151:8080/resources/students/7fa41704-6b10-4e25-84b5-271a86603c59 41
+1421350295770 Get http://128.111.179.151:8080/resources/students/7fa41704-6b10-4e25-84b5-271a86603c59 8
+1421350295968 Delete http://128.111.179.151:8080/resources/students/7fa41704-6b10-4e25-84b5-271a86603c59 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350356133 GetAll http://128.111.179.151:8080/resources/students 43
+1421350356222 Create http://128.111.179.151:8080/resources/students/567f6701-82a5-4dba-858f-4ec910c6c94a 31
+1421350356384 Get http://128.111.179.151:8080/resources/students/567f6701-82a5-4dba-858f-4ec910c6c94a 8
+1421350356581 Delete http://128.111.179.151:8080/resources/students/567f6701-82a5-4dba-858f-4ec910c6c94a 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350416765 GetAll http://128.111.179.151:8080/resources/students 51
+1421350416852 Create http://128.111.179.151:8080/resources/students/47bab0c8-adb4-42a9-b297-1db8aea166b9 31
+1421350417012 Get http://128.111.179.151:8080/resources/students/47bab0c8-adb4-42a9-b297-1db8aea166b9 9
+1421350417210 Delete http://128.111.179.151:8080/resources/students/47bab0c8-adb4-42a9-b297-1db8aea166b9 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350477384 GetAll http://128.111.179.151:8080/resources/students 50
+1421350477469 Create http://128.111.179.151:8080/resources/students/14d76f67-1cde-4361-ae93-273b5a936c8d 35
+1421350477631 Get http://128.111.179.151:8080/resources/students/14d76f67-1cde-4361-ae93-273b5a936c8d 8
+1421350477846 Delete http://128.111.179.151:8080/resources/students/14d76f67-1cde-4361-ae93-273b5a936c8d 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350538109 GetAll http://128.111.179.151:8080/resources/students 140
+1421350538188 Create http://128.111.179.151:8080/resources/students/51ed6bc2-24de-4667-a12a-e7406611d483 29
+1421350538360 Get http://128.111.179.151:8080/resources/students/51ed6bc2-24de-4667-a12a-e7406611d483 8
+1421350538556 Delete http://128.111.179.151:8080/resources/students/51ed6bc2-24de-4667-a12a-e7406611d483 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350598736 GetAll http://128.111.179.151:8080/resources/students 54
+1421350598829 Create http://128.111.179.151:8080/resources/students/ee15b82a-9b32-4c5b-8e5d-47d953953c08 32
+1421350598999 Get http://128.111.179.151:8080/resources/students/ee15b82a-9b32-4c5b-8e5d-47d953953c08 9
+1421350599193 Delete http://128.111.179.151:8080/resources/students/ee15b82a-9b32-4c5b-8e5d-47d953953c08 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350659358 GetAll http://128.111.179.151:8080/resources/students 42
+1421350659450 Create http://128.111.179.151:8080/resources/students/1341766a-4880-456b-bbaf-5b3832152f45 33
+1421350659616 Get http://128.111.179.151:8080/resources/students/1341766a-4880-456b-bbaf-5b3832152f45 8
+1421350659812 Delete http://128.111.179.151:8080/resources/students/1341766a-4880-456b-bbaf-5b3832152f45 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350719973 GetAll http://128.111.179.151:8080/resources/students 47
+1421350720074 Create http://128.111.179.151:8080/resources/students/fbcb0f85-073b-4e43-9176-5d411691cab2 37
+1421350720240 Get http://128.111.179.151:8080/resources/students/fbcb0f85-073b-4e43-9176-5d411691cab2 10
+1421350720470 Delete http://128.111.179.151:8080/resources/students/fbcb0f85-073b-4e43-9176-5d411691cab2 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350780629 GetAll http://128.111.179.151:8080/resources/students 44
+1421350780710 Create http://128.111.179.151:8080/resources/students/86851b06-a79b-4cf1-ab9d-e3c594f9ab11 27
+1421350780879 Get http://128.111.179.151:8080/resources/students/86851b06-a79b-4cf1-ab9d-e3c594f9ab11 8
+1421350781068 Delete http://128.111.179.151:8080/resources/students/86851b06-a79b-4cf1-ab9d-e3c594f9ab11 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350841228 GetAll http://128.111.179.151:8080/resources/students 42
+1421350841314 Create http://128.111.179.151:8080/resources/students/ab728db9-de84-4d92-8458-ff1dd1c7e585 30
+1421350841479 Get http://128.111.179.151:8080/resources/students/ab728db9-de84-4d92-8458-ff1dd1c7e585 9
+1421350841672 Delete http://128.111.179.151:8080/resources/students/ab728db9-de84-4d92-8458-ff1dd1c7e585 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350901848 GetAll http://128.111.179.151:8080/resources/students 48
+1421350901945 Create http://128.111.179.151:8080/resources/students/368f274b-9836-49d3-9591-cc96b16d16d7 37
+1421350902107 Get http://128.111.179.151:8080/resources/students/368f274b-9836-49d3-9591-cc96b16d16d7 8
+1421350902298 Delete http://128.111.179.151:8080/resources/students/368f274b-9836-49d3-9591-cc96b16d16d7 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421350962473 GetAll http://128.111.179.151:8080/resources/students 51
+1421350962562 Create http://128.111.179.151:8080/resources/students/07359ab7-fe7b-45bf-909e-37917234e68b 31
+1421350962727 Get http://128.111.179.151:8080/resources/students/07359ab7-fe7b-45bf-909e-37917234e68b 8
+1421350962926 Delete http://128.111.179.151:8080/resources/students/07359ab7-fe7b-45bf-909e-37917234e68b 33
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351023151 GetAll http://128.111.179.151:8080/resources/students 104
+1421351023243 Create http://128.111.179.151:8080/resources/students/290f8464-a33d-49d8-92be-91220c81d030 33
+1421351023408 Get http://128.111.179.151:8080/resources/students/290f8464-a33d-49d8-92be-91220c81d030 9
+1421351023599 Delete http://128.111.179.151:8080/resources/students/290f8464-a33d-49d8-92be-91220c81d030 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351083762 GetAll http://128.111.179.151:8080/resources/students 45
+1421351083856 Create http://128.111.179.151:8080/resources/students/144863b2-25a4-4f71-86fd-946ff4e79319 31
+1421351084030 Get http://128.111.179.151:8080/resources/students/144863b2-25a4-4f71-86fd-946ff4e79319 9
+1421351084237 Delete http://128.111.179.151:8080/resources/students/144863b2-25a4-4f71-86fd-946ff4e79319 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351144437 GetAll http://128.111.179.151:8080/resources/students 74
+1421351144536 Create http://128.111.179.151:8080/resources/students/9c692ea4-ea33-47e2-b69f-46cfab98aedd 35
+1421351144705 Get http://128.111.179.151:8080/resources/students/9c692ea4-ea33-47e2-b69f-46cfab98aedd 8
+1421351144911 Delete http://128.111.179.151:8080/resources/students/9c692ea4-ea33-47e2-b69f-46cfab98aedd 45
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351205077 GetAll http://128.111.179.151:8080/resources/students 44
+1421351205165 Create http://128.111.179.151:8080/resources/students/256e8963-2f83-453e-8c49-ab6efa1b89d6 36
+1421351205329 Get http://128.111.179.151:8080/resources/students/256e8963-2f83-453e-8c49-ab6efa1b89d6 9
+1421351205525 Delete http://128.111.179.151:8080/resources/students/256e8963-2f83-453e-8c49-ab6efa1b89d6 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351265693 GetAll http://128.111.179.151:8080/resources/students 42
+1421351265786 Create http://128.111.179.151:8080/resources/students/7a35248b-a6df-4a7c-b833-24e54a9efb56 39
+1421351265989 Get http://128.111.179.151:8080/resources/students/7a35248b-a6df-4a7c-b833-24e54a9efb56 18
+1421351266205 Delete http://128.111.179.151:8080/resources/students/7a35248b-a6df-4a7c-b833-24e54a9efb56 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351326383 GetAll http://128.111.179.151:8080/resources/students 59
+1421351326495 Create http://128.111.179.151:8080/resources/students/66a2d9cc-46f4-4e49-94f2-e02f23457330 46
+1421351326688 Get http://128.111.179.151:8080/resources/students/66a2d9cc-46f4-4e49-94f2-e02f23457330 12
+1421351326886 Delete http://128.111.179.151:8080/resources/students/66a2d9cc-46f4-4e49-94f2-e02f23457330 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351387055 GetAll http://128.111.179.151:8080/resources/students 46
+1421351387136 Create http://128.111.179.151:8080/resources/students/a790adbd-26a4-4f54-8550-848cc3cb4ef3 27
+1421351387303 Get http://128.111.179.151:8080/resources/students/a790adbd-26a4-4f54-8550-848cc3cb4ef3 9
+1421351387506 Delete http://128.111.179.151:8080/resources/students/a790adbd-26a4-4f54-8550-848cc3cb4ef3 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351447665 GetAll http://128.111.179.151:8080/resources/students 45
+1421351447748 Create http://128.111.179.151:8080/resources/students/f84fb9be-8e8e-495a-8819-659bfa96b762 29
+1421351447912 Get http://128.111.179.151:8080/resources/students/f84fb9be-8e8e-495a-8819-659bfa96b762 8
+1421351448111 Delete http://128.111.179.151:8080/resources/students/f84fb9be-8e8e-495a-8819-659bfa96b762 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351508288 GetAll http://128.111.179.151:8080/resources/students 56
+1421351508375 Create http://128.111.179.151:8080/resources/students/d2b577e0-73f8-4d0e-8f67-71e7a5a004ac 31
+1421351508539 Get http://128.111.179.151:8080/resources/students/d2b577e0-73f8-4d0e-8f67-71e7a5a004ac 8
+1421351508732 Delete http://128.111.179.151:8080/resources/students/d2b577e0-73f8-4d0e-8f67-71e7a5a004ac 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351568910 GetAll http://128.111.179.151:8080/resources/students 47
+1421351569000 Create http://128.111.179.151:8080/resources/students/c63e0444-987e-444b-adea-8d81b0110bd7 34
+1421351569170 Get http://128.111.179.151:8080/resources/students/c63e0444-987e-444b-adea-8d81b0110bd7 10
+1421351569369 Delete http://128.111.179.151:8080/resources/students/c63e0444-987e-444b-adea-8d81b0110bd7 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351629539 GetAll http://128.111.179.151:8080/resources/students 49
+1421351629637 Create http://128.111.179.151:8080/resources/students/9adc76bd-f9c6-4299-831d-8ed62bdbde9e 30
+1421351629801 Get http://128.111.179.151:8080/resources/students/9adc76bd-f9c6-4299-831d-8ed62bdbde9e 8
+1421351630009 Delete http://128.111.179.151:8080/resources/students/9adc76bd-f9c6-4299-831d-8ed62bdbde9e 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351690705 GetAll http://128.111.179.151:8080/resources/students 574
+1421351690799 Create http://128.111.179.151:8080/resources/students/51fb8a98-c65f-4553-b5e1-c63637c3e8a0 33
+1421351690965 Get http://128.111.179.151:8080/resources/students/51fb8a98-c65f-4553-b5e1-c63637c3e8a0 8
+1421351691170 Delete http://128.111.179.151:8080/resources/students/51fb8a98-c65f-4553-b5e1-c63637c3e8a0 48
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351751351 GetAll http://128.111.179.151:8080/resources/students 43
+1421351751444 Create http://128.111.179.151:8080/resources/students/d6e8938d-9def-4c4b-9a24-f077976c7bd9 38
+1421351751605 Get http://128.111.179.151:8080/resources/students/d6e8938d-9def-4c4b-9a24-f077976c7bd9 9
+1421351751794 Delete http://128.111.179.151:8080/resources/students/d6e8938d-9def-4c4b-9a24-f077976c7bd9 34
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351811961 GetAll http://128.111.179.151:8080/resources/students 43
+1421351812069 Create http://128.111.179.151:8080/resources/students/e2c2bf52-949f-4262-8b83-9902b5b72ba4 43
+1421351812235 Get http://128.111.179.151:8080/resources/students/e2c2bf52-949f-4262-8b83-9902b5b72ba4 9
+1421351812444 Delete http://128.111.179.151:8080/resources/students/e2c2bf52-949f-4262-8b83-9902b5b72ba4 53
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351872628 GetAll http://128.111.179.151:8080/resources/students 55
+1421351872725 Create http://128.111.179.151:8080/resources/students/063c3899-0d85-4139-b234-2bb0fb591127 40
+1421351872894 Get http://128.111.179.151:8080/resources/students/063c3899-0d85-4139-b234-2bb0fb591127 9
+1421351873088 Delete http://128.111.179.151:8080/resources/students/063c3899-0d85-4139-b234-2bb0fb591127 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351933272 GetAll http://128.111.179.151:8080/resources/students 59
+1421351933360 Create http://128.111.179.151:8080/resources/students/98a82371-af9d-4e5c-9bd6-d3a1f9da7473 30
+1421351933526 Get http://128.111.179.151:8080/resources/students/98a82371-af9d-4e5c-9bd6-d3a1f9da7473 8
+1421351933720 Delete http://128.111.179.151:8080/resources/students/98a82371-af9d-4e5c-9bd6-d3a1f9da7473 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421351993894 GetAll http://128.111.179.151:8080/resources/students 52
+1421351993975 Create http://128.111.179.151:8080/resources/students/d45d56d9-8b1b-4e4d-a398-7cb5646630b1 31
+1421351994148 Get http://128.111.179.151:8080/resources/students/d45d56d9-8b1b-4e4d-a398-7cb5646630b1 8
+1421351994344 Delete http://128.111.179.151:8080/resources/students/d45d56d9-8b1b-4e4d-a398-7cb5646630b1 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352054510 GetAll http://128.111.179.151:8080/resources/students 45
+1421352054603 Create http://128.111.179.151:8080/resources/students/d62ed757-638d-4c4b-bdf5-9bbc130c2c7f 35
+1421352054775 Get http://128.111.179.151:8080/resources/students/d62ed757-638d-4c4b-bdf5-9bbc130c2c7f 8
+1421352054968 Delete http://128.111.179.151:8080/resources/students/d62ed757-638d-4c4b-bdf5-9bbc130c2c7f 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352115149 GetAll http://128.111.179.151:8080/resources/students 44
+1421352115243 Create http://128.111.179.151:8080/resources/students/b6b06870-78ac-4b20-bfab-e0df8790315b 38
+1421352115418 Get http://128.111.179.151:8080/resources/students/b6b06870-78ac-4b20-bfab-e0df8790315b 9
+1421352115628 Delete http://128.111.179.151:8080/resources/students/b6b06870-78ac-4b20-bfab-e0df8790315b 46
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352175785 GetAll http://128.111.179.151:8080/resources/students 43
+1421352175865 Create http://128.111.179.151:8080/resources/students/a3d6f286-dc6a-4d8d-af23-62e578520414 26
+1421352176034 Get http://128.111.179.151:8080/resources/students/a3d6f286-dc6a-4d8d-af23-62e578520414 9
+1421352176228 Delete http://128.111.179.151:8080/resources/students/a3d6f286-dc6a-4d8d-af23-62e578520414 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352236392 GetAll http://128.111.179.151:8080/resources/students 45
+1421352236476 Create http://128.111.179.151:8080/resources/students/6c0a6263-cf05-4a73-97cf-03a02248423b 29
+1421352236640 Get http://128.111.179.151:8080/resources/students/6c0a6263-cf05-4a73-97cf-03a02248423b 8
+1421352236838 Delete http://128.111.179.151:8080/resources/students/6c0a6263-cf05-4a73-97cf-03a02248423b 46
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352297029 GetAll http://128.111.179.151:8080/resources/students 69
+1421352297131 Create http://128.111.179.151:8080/resources/students/b4560ab2-a88d-4e02-9d73-75cf786cf353 40
+1421352297321 Get http://128.111.179.151:8080/resources/students/b4560ab2-a88d-4e02-9d73-75cf786cf353 9
+1421352297510 Delete http://128.111.179.151:8080/resources/students/b4560ab2-a88d-4e02-9d73-75cf786cf353 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352357676 GetAll http://128.111.179.151:8080/resources/students 47
+1421352357766 Create http://128.111.179.151:8080/resources/students/5ed3a6e3-6808-406f-b9b9-168c5d08ddd3 34
+1421352357928 Get http://128.111.179.151:8080/resources/students/5ed3a6e3-6808-406f-b9b9-168c5d08ddd3 8
+1421352358126 Delete http://128.111.179.151:8080/resources/students/5ed3a6e3-6808-406f-b9b9-168c5d08ddd3 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352418290 GetAll http://128.111.179.151:8080/resources/students 45
+1421352418375 Create http://128.111.179.151:8080/resources/students/af6c6c09-4d2e-4d90-87ba-81617817558a 29
+1421352418548 Get http://128.111.179.151:8080/resources/students/af6c6c09-4d2e-4d90-87ba-81617817558a 16
+1421352418737 Delete http://128.111.179.151:8080/resources/students/af6c6c09-4d2e-4d90-87ba-81617817558a 34
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352478924 GetAll http://128.111.179.151:8080/resources/students 45
+1421352479032 Create http://128.111.179.151:8080/resources/students/406f3118-7663-4226-8db1-a7833d89986d 47
+1421352479194 Get http://128.111.179.151:8080/resources/students/406f3118-7663-4226-8db1-a7833d89986d 9
+1421352479398 Delete http://128.111.179.151:8080/resources/students/406f3118-7663-4226-8db1-a7833d89986d 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352539564 GetAll http://128.111.179.151:8080/resources/students 47
+1421352539657 Create http://128.111.179.151:8080/resources/students/32f0f587-cc1d-412d-adfa-16a4558596f7 36
+1421352539855 Get http://128.111.179.151:8080/resources/students/32f0f587-cc1d-412d-adfa-16a4558596f7 9
+1421352540047 Delete http://128.111.179.151:8080/resources/students/32f0f587-cc1d-412d-adfa-16a4558596f7 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352600229 GetAll http://128.111.179.151:8080/resources/students 62
+1421352600320 Create http://128.111.179.151:8080/resources/students/513e8359-363f-4141-8505-a697690e39c5 32
+1421352600500 Get http://128.111.179.151:8080/resources/students/513e8359-363f-4141-8505-a697690e39c5 8
+1421352600696 Delete http://128.111.179.151:8080/resources/students/513e8359-363f-4141-8505-a697690e39c5 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352660998 GetAll http://128.111.179.151:8080/resources/students 181
+1421352661087 Create http://128.111.179.151:8080/resources/students/100d4d46-8cb9-4a57-b000-2db95ed0c712 29
+1421352661256 Get http://128.111.179.151:8080/resources/students/100d4d46-8cb9-4a57-b000-2db95ed0c712 8
+1421352661473 Delete http://128.111.179.151:8080/resources/students/100d4d46-8cb9-4a57-b000-2db95ed0c712 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352721732 GetAll http://128.111.179.151:8080/resources/students 119
+1421352721842 Create http://128.111.179.151:8080/resources/students/51938efc-4a4c-4695-b4ee-733fc8846b09 45
+1421352722017 Get http://128.111.179.151:8080/resources/students/51938efc-4a4c-4695-b4ee-733fc8846b09 8
+1421352722215 Delete http://128.111.179.151:8080/resources/students/51938efc-4a4c-4695-b4ee-733fc8846b09 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352782411 GetAll http://128.111.179.151:8080/resources/students 69
+1421352782507 Create http://128.111.179.151:8080/resources/students/563855bc-aad1-4e06-9a70-1dfbc5e563f4 30
+1421352782672 Get http://128.111.179.151:8080/resources/students/563855bc-aad1-4e06-9a70-1dfbc5e563f4 9
+1421352782876 Delete http://128.111.179.151:8080/resources/students/563855bc-aad1-4e06-9a70-1dfbc5e563f4 47
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352843056 GetAll http://128.111.179.151:8080/resources/students 44
+1421352843148 Create http://128.111.179.151:8080/resources/students/c0ed8b62-5f0b-4134-85ba-f5f5ad1b21a9 31
+1421352843309 Get http://128.111.179.151:8080/resources/students/c0ed8b62-5f0b-4134-85ba-f5f5ad1b21a9 8
+1421352843499 Delete http://128.111.179.151:8080/resources/students/c0ed8b62-5f0b-4134-85ba-f5f5ad1b21a9 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352903679 GetAll http://128.111.179.151:8080/resources/students 53
+1421352903763 Create http://128.111.179.151:8080/resources/students/97600f69-630d-433e-a5a0-505a6650924f 32
+1421352903943 Get http://128.111.179.151:8080/resources/students/97600f69-630d-433e-a5a0-505a6650924f 11
+1421352904147 Delete http://128.111.179.151:8080/resources/students/97600f69-630d-433e-a5a0-505a6650924f 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421352964321 GetAll http://128.111.179.151:8080/resources/students 48
+1421352964411 Create http://128.111.179.151:8080/resources/students/60e47ae3-5d3c-4e0f-a8ac-9ac2cecf2a55 31
+1421352964579 Get http://128.111.179.151:8080/resources/students/60e47ae3-5d3c-4e0f-a8ac-9ac2cecf2a55 12
+1421352964772 Delete http://128.111.179.151:8080/resources/students/60e47ae3-5d3c-4e0f-a8ac-9ac2cecf2a55 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353025174 GetAll http://128.111.179.151:8080/resources/students 281
+1421353025264 Create http://128.111.179.151:8080/resources/students/38c9990f-befa-41bf-a33b-a786866d7ec4 32
+1421353025441 Get http://128.111.179.151:8080/resources/students/38c9990f-befa-41bf-a33b-a786866d7ec4 9
+1421353025632 Delete http://128.111.179.151:8080/resources/students/38c9990f-befa-41bf-a33b-a786866d7ec4 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353085813 GetAll http://128.111.179.151:8080/resources/students 57
+1421353085899 Create http://128.111.179.151:8080/resources/students/0740db4f-190f-4c2b-8bc4-fbd09c233d3a 30
+1421353086070 Get http://128.111.179.151:8080/resources/students/0740db4f-190f-4c2b-8bc4-fbd09c233d3a 9
+1421353086266 Delete http://128.111.179.151:8080/resources/students/0740db4f-190f-4c2b-8bc4-fbd09c233d3a 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353146436 GetAll http://128.111.179.151:8080/resources/students 49
+1421353146521 Create http://128.111.179.151:8080/resources/students/4cd4ce77-ae06-4f37-a477-19b94b83a058 30
+1421353146685 Get http://128.111.179.151:8080/resources/students/4cd4ce77-ae06-4f37-a477-19b94b83a058 10
+1421353146881 Delete http://128.111.179.151:8080/resources/students/4cd4ce77-ae06-4f37-a477-19b94b83a058 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353207066 GetAll http://128.111.179.151:8080/resources/students 59
+1421353207159 Create http://128.111.179.151:8080/resources/students/7bf3d6ad-bf74-4148-9d1f-a05c43c4346b 33
+1421353207327 Get http://128.111.179.151:8080/resources/students/7bf3d6ad-bf74-4148-9d1f-a05c43c4346b 8
+1421353207525 Delete http://128.111.179.151:8080/resources/students/7bf3d6ad-bf74-4148-9d1f-a05c43c4346b 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353267718 GetAll http://128.111.179.151:8080/resources/students 65
+1421353267812 Create http://128.111.179.151:8080/resources/students/bfc23e05-7394-4b64-9643-21b41d9d3911 33
+1421353267982 Get http://128.111.179.151:8080/resources/students/bfc23e05-7394-4b64-9643-21b41d9d3911 9
+1421353268179 Delete http://128.111.179.151:8080/resources/students/bfc23e05-7394-4b64-9643-21b41d9d3911 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353328376 GetAll http://128.111.179.151:8080/resources/students 59
+1421353328473 Create http://128.111.179.151:8080/resources/students/014b9466-6fa4-48a7-a26d-b9eba2107c5c 32
+1421353328671 Get http://128.111.179.151:8080/resources/students/014b9466-6fa4-48a7-a26d-b9eba2107c5c 38
+1421353328865 Delete http://128.111.179.151:8080/resources/students/014b9466-6fa4-48a7-a26d-b9eba2107c5c 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353389048 GetAll http://128.111.179.151:8080/resources/students 48
+1421353389158 Create http://128.111.179.151:8080/resources/students/a7bec47a-4c53-4203-b966-24f3210e76c9 41
+1421353389323 Get http://128.111.179.151:8080/resources/students/a7bec47a-4c53-4203-b966-24f3210e76c9 8
+1421353389526 Delete http://128.111.179.151:8080/resources/students/a7bec47a-4c53-4203-b966-24f3210e76c9 45
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353449700 GetAll http://128.111.179.151:8080/resources/students 53
+1421353449789 Create http://128.111.179.151:8080/resources/students/e5caa406-f85e-4a68-8d2d-f2cfbf33d578 32
+1421353449956 Get http://128.111.179.151:8080/resources/students/e5caa406-f85e-4a68-8d2d-f2cfbf33d578 12
+1421353450153 Delete http://128.111.179.151:8080/resources/students/e5caa406-f85e-4a68-8d2d-f2cfbf33d578 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353510320 GetAll http://128.111.179.151:8080/resources/students 44
+1421353510426 Create http://128.111.179.151:8080/resources/students/7a319e80-a616-4d89-a43b-bc93bcedc7b6 41
+1421353510602 Get http://128.111.179.151:8080/resources/students/7a319e80-a616-4d89-a43b-bc93bcedc7b6 12
+1421353510802 Delete http://128.111.179.151:8080/resources/students/7a319e80-a616-4d89-a43b-bc93bcedc7b6 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353570977 GetAll http://128.111.179.151:8080/resources/students 54
+1421353571068 Create http://128.111.179.151:8080/resources/students/2111e9ae-1028-47d3-94d5-81d1b2c1a99a 31
+1421353571236 Get http://128.111.179.151:8080/resources/students/2111e9ae-1028-47d3-94d5-81d1b2c1a99a 8
+1421353571429 Delete http://128.111.179.151:8080/resources/students/2111e9ae-1028-47d3-94d5-81d1b2c1a99a 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353631619 GetAll http://128.111.179.151:8080/resources/students 60
+1421353631719 Create http://128.111.179.151:8080/resources/students/89cd5ba1-6de2-40a7-86c5-9cb0655beff8 31
+1421353631888 Get http://128.111.179.151:8080/resources/students/89cd5ba1-6de2-40a7-86c5-9cb0655beff8 9
+1421353632086 Delete http://128.111.179.151:8080/resources/students/89cd5ba1-6de2-40a7-86c5-9cb0655beff8 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353692257 GetAll http://128.111.179.151:8080/resources/students 49
+1421353692348 Create http://128.111.179.151:8080/resources/students/64373e9e-e9d9-49c3-b2c4-a57e2fe6d41a 34
+1421353692510 Get http://128.111.179.151:8080/resources/students/64373e9e-e9d9-49c3-b2c4-a57e2fe6d41a 8
+1421353692710 Delete http://128.111.179.151:8080/resources/students/64373e9e-e9d9-49c3-b2c4-a57e2fe6d41a 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353752880 GetAll http://128.111.179.151:8080/resources/students 44
+1421353752965 Create http://128.111.179.151:8080/resources/students/d4d7ce34-ff63-4b53-a18c-397ee24b90d2 30
+1421353753130 Get http://128.111.179.151:8080/resources/students/d4d7ce34-ff63-4b53-a18c-397ee24b90d2 8
+1421353753328 Delete http://128.111.179.151:8080/resources/students/d4d7ce34-ff63-4b53-a18c-397ee24b90d2 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353813511 GetAll http://128.111.179.151:8080/resources/students 58
+1421353813597 Create http://128.111.179.151:8080/resources/students/436f0421-3929-4554-bbfc-07d712c815eb 31
+1421353813763 Get http://128.111.179.151:8080/resources/students/436f0421-3929-4554-bbfc-07d712c815eb 7
+1421353813959 Delete http://128.111.179.151:8080/resources/students/436f0421-3929-4554-bbfc-07d712c815eb 33
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353874129 GetAll http://128.111.179.151:8080/resources/students 42
+1421353874214 Create http://128.111.179.151:8080/resources/students/bf53d3a1-c62e-4f4d-9142-c37f1947de7f 31
+1421353874388 Get http://128.111.179.151:8080/resources/students/bf53d3a1-c62e-4f4d-9142-c37f1947de7f 9
+1421353874589 Delete http://128.111.179.151:8080/resources/students/bf53d3a1-c62e-4f4d-9142-c37f1947de7f 46
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353934769 GetAll http://128.111.179.151:8080/resources/students 56
+1421353934863 Create http://128.111.179.151:8080/resources/students/5c5e1c6d-101d-4d62-ad8a-3fddf81ae2f6 35
+1421353935047 Get http://128.111.179.151:8080/resources/students/5c5e1c6d-101d-4d62-ad8a-3fddf81ae2f6 8
+1421353935258 Delete http://128.111.179.151:8080/resources/students/5c5e1c6d-101d-4d62-ad8a-3fddf81ae2f6 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421353995431 GetAll http://128.111.179.151:8080/resources/students 43
+1421353995518 Create http://128.111.179.151:8080/resources/students/8cb7b548-8f11-481e-8704-9542b8608e8a 28
+1421353995682 Get http://128.111.179.151:8080/resources/students/8cb7b548-8f11-481e-8704-9542b8608e8a 8
+1421353995878 Delete http://128.111.179.151:8080/resources/students/8cb7b548-8f11-481e-8704-9542b8608e8a 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354056050 GetAll http://128.111.179.151:8080/resources/students 46
+1421354056132 Create http://128.111.179.151:8080/resources/students/b216b4b6-686e-4a9d-ac65-578cf72a2972 27
+1421354056294 Get http://128.111.179.151:8080/resources/students/b216b4b6-686e-4a9d-ac65-578cf72a2972 8
+1421354056531 Delete http://128.111.179.151:8080/resources/students/b216b4b6-686e-4a9d-ac65-578cf72a2972 46
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354116699 GetAll http://128.111.179.151:8080/resources/students 44
+1421354116785 Create http://128.111.179.151:8080/resources/students/a82f2cde-98b7-49f2-a749-a439e97c10a6 30
+1421354116945 Get http://128.111.179.151:8080/resources/students/a82f2cde-98b7-49f2-a749-a439e97c10a6 8
+1421354117135 Delete http://128.111.179.151:8080/resources/students/a82f2cde-98b7-49f2-a749-a439e97c10a6 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354177307 GetAll http://128.111.179.151:8080/resources/students 44
+1421354177396 Create http://128.111.179.151:8080/resources/students/4553e0a3-d528-4f41-a281-eb1a08aae484 35
+1421354177572 Get http://128.111.179.151:8080/resources/students/4553e0a3-d528-4f41-a281-eb1a08aae484 9
+1421354177762 Delete http://128.111.179.151:8080/resources/students/4553e0a3-d528-4f41-a281-eb1a08aae484 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354237945 GetAll http://128.111.179.151:8080/resources/students 48
+1421354238039 Create http://128.111.179.151:8080/resources/students/131eeba3-61a6-4929-bd37-4de36849ecb4 36
+1421354238234 Get http://128.111.179.151:8080/resources/students/131eeba3-61a6-4929-bd37-4de36849ecb4 8
+1421354238444 Delete http://128.111.179.151:8080/resources/students/131eeba3-61a6-4929-bd37-4de36849ecb4 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354298620 GetAll http://128.111.179.151:8080/resources/students 54
+1421354298716 Create http://128.111.179.151:8080/resources/students/3b2ba0ca-043d-4849-a887-fbc4df050425 35
+1421354298880 Get http://128.111.179.151:8080/resources/students/3b2ba0ca-043d-4849-a887-fbc4df050425 8
+1421354299076 Delete http://128.111.179.151:8080/resources/students/3b2ba0ca-043d-4849-a887-fbc4df050425 32
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354359242 GetAll http://128.111.179.151:8080/resources/students 42
+1421354359329 Create http://128.111.179.151:8080/resources/students/012c9fea-7354-4887-8cbf-d7e220f3cf3a 32
+1421354359504 Get http://128.111.179.151:8080/resources/students/012c9fea-7354-4887-8cbf-d7e220f3cf3a 9
+1421354359704 Delete http://128.111.179.151:8080/resources/students/012c9fea-7354-4887-8cbf-d7e220f3cf3a 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354419871 GetAll http://128.111.179.151:8080/resources/students 47
+1421354419958 Create http://128.111.179.151:8080/resources/students/cb30d4d6-b12b-4663-9c06-7b34dd6916aa 29
+1421354420127 Get http://128.111.179.151:8080/resources/students/cb30d4d6-b12b-4663-9c06-7b34dd6916aa 8
+1421354420348 Delete http://128.111.179.151:8080/resources/students/cb30d4d6-b12b-4663-9c06-7b34dd6916aa 52
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354480518 GetAll http://128.111.179.151:8080/resources/students 46
+1421354480605 Create http://128.111.179.151:8080/resources/students/3bbd74db-9460-4bec-8b53-3ce91f75d1ef 32
+1421354480779 Get http://128.111.179.151:8080/resources/students/3bbd74db-9460-4bec-8b53-3ce91f75d1ef 12
+1421354480978 Delete http://128.111.179.151:8080/resources/students/3bbd74db-9460-4bec-8b53-3ce91f75d1ef 46
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354541152 GetAll http://128.111.179.151:8080/resources/students 48
+1421354541256 Create http://128.111.179.151:8080/resources/students/a7778806-2423-4b1a-a16e-c7df53ea485c 31
+1421354541425 Get http://128.111.179.151:8080/resources/students/a7778806-2423-4b1a-a16e-c7df53ea485c 8
+1421354541624 Delete http://128.111.179.151:8080/resources/students/a7778806-2423-4b1a-a16e-c7df53ea485c 44
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354601819 GetAll http://128.111.179.151:8080/resources/students 63
+1421354601906 Create http://128.111.179.151:8080/resources/students/43ba617a-8fde-4cfe-a7d8-dafa1fbc8bf6 30
+1421354602077 Get http://128.111.179.151:8080/resources/students/43ba617a-8fde-4cfe-a7d8-dafa1fbc8bf6 9
+1421354602274 Delete http://128.111.179.151:8080/resources/students/43ba617a-8fde-4cfe-a7d8-dafa1fbc8bf6 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354662985 GetAll http://128.111.179.151:8080/resources/students 580
+1421354663082 Create http://128.111.179.151:8080/resources/students/eeb3fef2-03b8-439b-b00e-889176b4e5e9 34
+1421354663257 Get http://128.111.179.151:8080/resources/students/eeb3fef2-03b8-439b-b00e-889176b4e5e9 9
+1421354663450 Delete http://128.111.179.151:8080/resources/students/eeb3fef2-03b8-439b-b00e-889176b4e5e9 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354723630 GetAll http://128.111.179.151:8080/resources/students 57
+1421354723716 Create http://128.111.179.151:8080/resources/students/8895db05-ddf3-4199-9377-7a8d895c78c7 30
+1421354723899 Get http://128.111.179.151:8080/resources/students/8895db05-ddf3-4199-9377-7a8d895c78c7 9
+1421354724096 Delete http://128.111.179.151:8080/resources/students/8895db05-ddf3-4199-9377-7a8d895c78c7 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354784272 GetAll http://128.111.179.151:8080/resources/students 51
+1421354784358 Create http://128.111.179.151:8080/resources/students/b0b3d51f-1ecd-450f-9601-639aa99f52c9 29
+1421354784527 Get http://128.111.179.151:8080/resources/students/b0b3d51f-1ecd-450f-9601-639aa99f52c9 8
+1421354784777 Delete http://128.111.179.151:8080/resources/students/b0b3d51f-1ecd-450f-9601-639aa99f52c9 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354844960 GetAll http://128.111.179.151:8080/resources/students 59
+1421354845058 Create http://128.111.179.151:8080/resources/students/e72e34a0-bc96-4503-8bf9-f5ee3c61ba26 32
+1421354845219 Get http://128.111.179.151:8080/resources/students/e72e34a0-bc96-4503-8bf9-f5ee3c61ba26 8
+1421354845419 Delete http://128.111.179.151:8080/resources/students/e72e34a0-bc96-4503-8bf9-f5ee3c61ba26 33
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354905602 GetAll http://128.111.179.151:8080/resources/students 54
+1421354905698 Create http://128.111.179.151:8080/resources/students/34d05587-6b15-40cf-8aa8-695a1075d854 30
+1421354905893 Get http://128.111.179.151:8080/resources/students/34d05587-6b15-40cf-8aa8-695a1075d854 16
+1421354906108 Delete http://128.111.179.151:8080/resources/students/34d05587-6b15-40cf-8aa8-695a1075d854 34
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421354966278 GetAll http://128.111.179.151:8080/resources/students 48
+1421354966366 Create http://128.111.179.151:8080/resources/students/ed985854-e82c-4049-91b2-fe1c635a57c6 30
+1421354966525 Get http://128.111.179.151:8080/resources/students/ed985854-e82c-4049-91b2-fe1c635a57c6 9
+1421354966715 Delete http://128.111.179.151:8080/resources/students/ed985854-e82c-4049-91b2-fe1c635a57c6 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355027408 GetAll http://128.111.179.151:8080/resources/students 567
+1421355027514 Create http://128.111.179.151:8080/resources/students/b9abe545-a316-4495-a717-cb9a9c279222 28
+1421355027681 Get http://128.111.179.151:8080/resources/students/b9abe545-a316-4495-a717-cb9a9c279222 7
+1421355027884 Delete http://128.111.179.151:8080/resources/students/b9abe545-a316-4495-a717-cb9a9c279222 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355088059 GetAll http://128.111.179.151:8080/resources/students 47
+1421355088145 Create http://128.111.179.151:8080/resources/students/7d9a1538-24b8-48d3-aa29-eab9564cf998 30
+1421355088307 Get http://128.111.179.151:8080/resources/students/7d9a1538-24b8-48d3-aa29-eab9564cf998 9
+1421355088495 Delete http://128.111.179.151:8080/resources/students/7d9a1538-24b8-48d3-aa29-eab9564cf998 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355148664 GetAll http://128.111.179.151:8080/resources/students 47
+1421355148751 Create http://128.111.179.151:8080/resources/students/1906b146-198b-427c-a15e-9492a91604b0 37
+1421355148913 Get http://128.111.179.151:8080/resources/students/1906b146-198b-427c-a15e-9492a91604b0 8
+1421355149160 Delete http://128.111.179.151:8080/resources/students/1906b146-198b-427c-a15e-9492a91604b0 75
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355209330 GetAll http://128.111.179.151:8080/resources/students 46
+1421355209421 Create http://128.111.179.151:8080/resources/students/ecb97430-8884-4587-9bf4-038aba6ecdd2 33
+1421355209585 Get http://128.111.179.151:8080/resources/students/ecb97430-8884-4587-9bf4-038aba6ecdd2 8
+1421355209787 Delete http://128.111.179.151:8080/resources/students/ecb97430-8884-4587-9bf4-038aba6ecdd2 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355269968 GetAll http://128.111.179.151:8080/resources/students 58
+1421355270062 Create http://128.111.179.151:8080/resources/students/83aed3fd-5d5e-4671-a23f-1957031ea3f7 35
+1421355270226 Get http://128.111.179.151:8080/resources/students/83aed3fd-5d5e-4671-a23f-1957031ea3f7 9
+1421355270417 Delete http://128.111.179.151:8080/resources/students/83aed3fd-5d5e-4671-a23f-1957031ea3f7 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355330590 GetAll http://128.111.179.151:8080/resources/students 50
+1421355330682 Create http://128.111.179.151:8080/resources/students/61a4f1a5-427f-4a4b-ae32-579dd7c35d89 29
+1421355330848 Get http://128.111.179.151:8080/resources/students/61a4f1a5-427f-4a4b-ae32-579dd7c35d89 10
+1421355331041 Delete http://128.111.179.151:8080/resources/students/61a4f1a5-427f-4a4b-ae32-579dd7c35d89 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355391234 GetAll http://128.111.179.151:8080/resources/students 71
+1421355391336 Create http://128.111.179.151:8080/resources/students/ba076350-f7e2-4dc8-8a41-645571ab3956 40
+1421355391502 Get http://128.111.179.151:8080/resources/students/ba076350-f7e2-4dc8-8a41-645571ab3956 9
+1421355391691 Delete http://128.111.179.151:8080/resources/students/ba076350-f7e2-4dc8-8a41-645571ab3956 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355451979 GetAll http://128.111.179.151:8080/resources/students 166
+1421355452068 Create http://128.111.179.151:8080/resources/students/1f34da4a-3cfe-4d38-8660-be7a8e9aaa24 30
+1421355452236 Get http://128.111.179.151:8080/resources/students/1f34da4a-3cfe-4d38-8660-be7a8e9aaa24 9
+1421355452451 Delete http://128.111.179.151:8080/resources/students/1f34da4a-3cfe-4d38-8660-be7a8e9aaa24 52
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355512626 GetAll http://128.111.179.151:8080/resources/students 47
+1421355512712 Create http://128.111.179.151:8080/resources/students/bc6515cd-07e1-48de-9275-dc0b1c517802 31
+1421355512878 Get http://128.111.179.151:8080/resources/students/bc6515cd-07e1-48de-9275-dc0b1c517802 8
+1421355513084 Delete http://128.111.179.151:8080/resources/students/bc6515cd-07e1-48de-9275-dc0b1c517802 45
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355573355 GetAll http://128.111.179.151:8080/resources/students 147
+1421355573447 Create http://128.111.179.151:8080/resources/students/3f9409df-9ab9-475b-84ad-c07429d7b8b2 32
+1421355573662 Get http://128.111.179.151:8080/resources/students/3f9409df-9ab9-475b-84ad-c07429d7b8b2 8
+1421355573859 Delete http://128.111.179.151:8080/resources/students/3f9409df-9ab9-475b-84ad-c07429d7b8b2 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355634045 GetAll http://128.111.179.151:8080/resources/students 53
+1421355634141 Create http://128.111.179.151:8080/resources/students/7a9fa3fe-1df1-46a0-a4f9-66252417bc2c 29
+1421355634303 Get http://128.111.179.151:8080/resources/students/7a9fa3fe-1df1-46a0-a4f9-66252417bc2c 8
+1421355634504 Delete http://128.111.179.151:8080/resources/students/7a9fa3fe-1df1-46a0-a4f9-66252417bc2c 44
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355694674 GetAll http://128.111.179.151:8080/resources/students 48
+1421355694791 Create http://128.111.179.151:8080/resources/students/e098b89a-c2c4-40bb-ba41-f3a6589fb593 36
+1421355694964 Get http://128.111.179.151:8080/resources/students/e098b89a-c2c4-40bb-ba41-f3a6589fb593 9
+1421355695167 Delete http://128.111.179.151:8080/resources/students/e098b89a-c2c4-40bb-ba41-f3a6589fb593 50
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355755333 GetAll http://128.111.179.151:8080/resources/students 47
+1421355755417 Create http://128.111.179.151:8080/resources/students/a967f344-3ec4-41f3-b8c4-c3edd9bcfc59 29
+1421355755584 Get http://128.111.179.151:8080/resources/students/a967f344-3ec4-41f3-b8c4-c3edd9bcfc59 9
+1421355755800 Delete http://128.111.179.151:8080/resources/students/a967f344-3ec4-41f3-b8c4-c3edd9bcfc59 44
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355815971 GetAll http://128.111.179.151:8080/resources/students 50
+1421355816059 Create http://128.111.179.151:8080/resources/students/a6dab23d-b0c6-4141-a8a6-0164b9357511 32
+1421355816220 Get http://128.111.179.151:8080/resources/students/a6dab23d-b0c6-4141-a8a6-0164b9357511 8
+1421355816411 Delete http://128.111.179.151:8080/resources/students/a6dab23d-b0c6-4141-a8a6-0164b9357511 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355876591 GetAll http://128.111.179.151:8080/resources/students 55
+1421355876682 Create http://128.111.179.151:8080/resources/students/a455498c-4c5a-4896-9366-5df1db129569 32
+1421355876849 Get http://128.111.179.151:8080/resources/students/a455498c-4c5a-4896-9366-5df1db129569 9
+1421355877039 Delete http://128.111.179.151:8080/resources/students/a455498c-4c5a-4896-9366-5df1db129569 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355937203 GetAll http://128.111.179.151:8080/resources/students 45
+1421355937288 Create http://128.111.179.151:8080/resources/students/1c155116-7b5c-4c34-80cd-848d3da6ffdb 29
+1421355937463 Get http://128.111.179.151:8080/resources/students/1c155116-7b5c-4c34-80cd-848d3da6ffdb 11
+1421355937662 Delete http://128.111.179.151:8080/resources/students/1c155116-7b5c-4c34-80cd-848d3da6ffdb 45
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421355997834 GetAll http://128.111.179.151:8080/resources/students 51
+1421355997932 Create http://128.111.179.151:8080/resources/students/17ecd141-ae76-43f9-8761-ae21a148001d 32
+1421355998099 Get http://128.111.179.151:8080/resources/students/17ecd141-ae76-43f9-8761-ae21a148001d 9
+1421355998292 Delete http://128.111.179.151:8080/resources/students/17ecd141-ae76-43f9-8761-ae21a148001d 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356058463 GetAll http://128.111.179.151:8080/resources/students 52
+1421356058544 Create http://128.111.179.151:8080/resources/students/ba9541de-a38b-49e7-becb-e8fc3f794591 25
+1421356058707 Get http://128.111.179.151:8080/resources/students/ba9541de-a38b-49e7-becb-e8fc3f794591 9
+1421356058903 Delete http://128.111.179.151:8080/resources/students/ba9541de-a38b-49e7-becb-e8fc3f794591 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356119094 GetAll http://128.111.179.151:8080/resources/students 75
+1421356119175 Create http://128.111.179.151:8080/resources/students/148bf872-b005-4df6-b940-0ba6b578f8f9 31
+1421356119341 Get http://128.111.179.151:8080/resources/students/148bf872-b005-4df6-b940-0ba6b578f8f9 10
+1421356119532 Delete http://128.111.179.151:8080/resources/students/148bf872-b005-4df6-b940-0ba6b578f8f9 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356179693 GetAll http://128.111.179.151:8080/resources/students 42
+1421356179789 Create http://128.111.179.151:8080/resources/students/318e29a8-7e9e-43b2-bad0-aa7600f33aa9 35
+1421356179951 Get http://128.111.179.151:8080/resources/students/318e29a8-7e9e-43b2-bad0-aa7600f33aa9 8
+1421356180159 Delete http://128.111.179.151:8080/resources/students/318e29a8-7e9e-43b2-bad0-aa7600f33aa9 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356240329 GetAll http://128.111.179.151:8080/resources/students 47
+1421356240417 Create http://128.111.179.151:8080/resources/students/5d713d69-8f31-4fb7-b4a6-aee9027720d0 31
+1421356240585 Get http://128.111.179.151:8080/resources/students/5d713d69-8f31-4fb7-b4a6-aee9027720d0 8
+1421356240803 Delete http://128.111.179.151:8080/resources/students/5d713d69-8f31-4fb7-b4a6-aee9027720d0 60
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356300971 GetAll http://128.111.179.151:8080/resources/students 44
+1421356301061 Create http://128.111.179.151:8080/resources/students/08b49d1d-60b4-4b15-9e77-01729b0ff873 29
+1421356301228 Get http://128.111.179.151:8080/resources/students/08b49d1d-60b4-4b15-9e77-01729b0ff873 8
+1421356301412 Delete http://128.111.179.151:8080/resources/students/08b49d1d-60b4-4b15-9e77-01729b0ff873 29
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356361574 GetAll http://128.111.179.151:8080/resources/students 45
+1421356361663 Create http://128.111.179.151:8080/resources/students/ef10546d-d6bb-4162-b729-f561c76f365d 35
+1421356361825 Get http://128.111.179.151:8080/resources/students/ef10546d-d6bb-4162-b729-f561c76f365d 8
+1421356362015 Delete http://128.111.179.151:8080/resources/students/ef10546d-d6bb-4162-b729-f561c76f365d 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356422189 GetAll http://128.111.179.151:8080/resources/students 49
+1421356422286 Create http://128.111.179.151:8080/resources/students/814de4d5-a43e-4b6f-b252-5dee0b1730f2 32
+1421356422458 Get http://128.111.179.151:8080/resources/students/814de4d5-a43e-4b6f-b252-5dee0b1730f2 10
+1421356422656 Delete http://128.111.179.151:8080/resources/students/814de4d5-a43e-4b6f-b252-5dee0b1730f2 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356482893 GetAll http://128.111.179.151:8080/resources/students 104
+1421356482990 Create http://128.111.179.151:8080/resources/students/9a155bb9-1b95-404d-880b-79e4524335cf 34
+1421356483154 Get http://128.111.179.151:8080/resources/students/9a155bb9-1b95-404d-880b-79e4524335cf 8
+1421356483348 Delete http://128.111.179.151:8080/resources/students/9a155bb9-1b95-404d-880b-79e4524335cf 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356543527 GetAll http://128.111.179.151:8080/resources/students 55
+1421356543616 Create http://128.111.179.151:8080/resources/students/a1b6f75e-f141-48c5-9419-08a1ba3283d7 26
+1421356543781 Get http://128.111.179.151:8080/resources/students/a1b6f75e-f141-48c5-9419-08a1ba3283d7 9
+1421356543971 Delete http://128.111.179.151:8080/resources/students/a1b6f75e-f141-48c5-9419-08a1ba3283d7 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356604137 GetAll http://128.111.179.151:8080/resources/students 46
+1421356604219 Create http://128.111.179.151:8080/resources/students/09ab2b47-4ed9-43f5-a286-25ac56284c8b 32
+1421356604383 Get http://128.111.179.151:8080/resources/students/09ab2b47-4ed9-43f5-a286-25ac56284c8b 8
+1421356604570 Delete http://128.111.179.151:8080/resources/students/09ab2b47-4ed9-43f5-a286-25ac56284c8b 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356664772 GetAll http://128.111.179.151:8080/resources/students 58
+1421356664881 Create http://128.111.179.151:8080/resources/students/25ac31ce-8f33-425f-a56b-38ab72cebde6 40
+1421356665056 Get http://128.111.179.151:8080/resources/students/25ac31ce-8f33-425f-a56b-38ab72cebde6 13
+1421356665246 Delete http://128.111.179.151:8080/resources/students/25ac31ce-8f33-425f-a56b-38ab72cebde6 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356725423 GetAll http://128.111.179.151:8080/resources/students 52
+1421356725520 Create http://128.111.179.151:8080/resources/students/b6447b75-5fed-45ec-aefe-21ce6202d41a 38
+1421356725684 Get http://128.111.179.151:8080/resources/students/b6447b75-5fed-45ec-aefe-21ce6202d41a 9
+1421356725877 Delete http://128.111.179.151:8080/resources/students/b6447b75-5fed-45ec-aefe-21ce6202d41a 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356786083 GetAll http://128.111.179.151:8080/resources/students 52
+1421356786181 Create http://128.111.179.151:8080/resources/students/827ba78e-c672-4ac0-9a44-a0c22904b3ec 34
+1421356786364 Get http://128.111.179.151:8080/resources/students/827ba78e-c672-4ac0-9a44-a0c22904b3ec 9
+1421356786571 Delete http://128.111.179.151:8080/resources/students/827ba78e-c672-4ac0-9a44-a0c22904b3ec 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356846745 GetAll http://128.111.179.151:8080/resources/students 48
+1421356846830 Create http://128.111.179.151:8080/resources/students/457510d7-ee7e-4db5-aba5-b19aa5e9cb49 33
+1421356846994 Get http://128.111.179.151:8080/resources/students/457510d7-ee7e-4db5-aba5-b19aa5e9cb49 9
+1421356847195 Delete http://128.111.179.151:8080/resources/students/457510d7-ee7e-4db5-aba5-b19aa5e9cb49 43
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356907357 GetAll http://128.111.179.151:8080/resources/students 44
+1421356907450 Create http://128.111.179.151:8080/resources/students/199f0611-6aea-40df-ad7a-8c8cf64dde0e 30
+1421356907668 Get http://128.111.179.151:8080/resources/students/199f0611-6aea-40df-ad7a-8c8cf64dde0e 9
+1421356907882 Delete http://128.111.179.151:8080/resources/students/199f0611-6aea-40df-ad7a-8c8cf64dde0e 49
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421356968062 GetAll http://128.111.179.151:8080/resources/students 53
+1421356968152 Create http://128.111.179.151:8080/resources/students/854bd9c1-57e7-4ca1-9a65-5bc11db6022c 32
+1421356968320 Get http://128.111.179.151:8080/resources/students/854bd9c1-57e7-4ca1-9a65-5bc11db6022c 8
+1421356968509 Delete http://128.111.179.151:8080/resources/students/854bd9c1-57e7-4ca1-9a65-5bc11db6022c 34
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357028693 GetAll http://128.111.179.151:8080/resources/students 51
+1421357028777 Create http://128.111.179.151:8080/resources/students/08065b30-5d32-425e-8271-d6a5f39609a9 26
+1421357028971 Get http://128.111.179.151:8080/resources/students/08065b30-5d32-425e-8271-d6a5f39609a9 8
+1421357029167 Delete http://128.111.179.151:8080/resources/students/08065b30-5d32-425e-8271-d6a5f39609a9 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357089883 GetAll http://128.111.179.151:8080/resources/students 599
+1421357089971 Create http://128.111.179.151:8080/resources/students/860e7a44-d0b7-4821-995f-e8bbe7f33e39 31
+1421357090146 Get http://128.111.179.151:8080/resources/students/860e7a44-d0b7-4821-995f-e8bbe7f33e39 9
+1421357090342 Delete http://128.111.179.151:8080/resources/students/860e7a44-d0b7-4821-995f-e8bbe7f33e39 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357150513 GetAll http://128.111.179.151:8080/resources/students 47
+1421357150600 Create http://128.111.179.151:8080/resources/students/5a766d0f-70af-4c85-b458-a19dcae2fb0f 30
+1421357150771 Get http://128.111.179.151:8080/resources/students/5a766d0f-70af-4c85-b458-a19dcae2fb0f 13
+1421357151004 Delete http://128.111.179.151:8080/resources/students/5a766d0f-70af-4c85-b458-a19dcae2fb0f 54
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357211175 GetAll http://128.111.179.151:8080/resources/students 47
+1421357211264 Create http://128.111.179.151:8080/resources/students/570a2bd6-5b86-4ab7-8265-05f051a77ddb 29
+1421357211427 Get http://128.111.179.151:8080/resources/students/570a2bd6-5b86-4ab7-8265-05f051a77ddb 8
+1421357211621 Delete http://128.111.179.151:8080/resources/students/570a2bd6-5b86-4ab7-8265-05f051a77ddb 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357272365 GetAll http://128.111.179.151:8080/resources/students 600
+1421357272481 Create http://128.111.179.151:8080/resources/students/3b0e9dae-0fe6-4832-821c-5a67d9ba9d0b 41
+1421357272652 Get http://128.111.179.151:8080/resources/students/3b0e9dae-0fe6-4832-821c-5a67d9ba9d0b 14
+1421357272855 Delete http://128.111.179.151:8080/resources/students/3b0e9dae-0fe6-4832-821c-5a67d9ba9d0b 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357333028 GetAll http://128.111.179.151:8080/resources/students 49
+1421357333122 Create http://128.111.179.151:8080/resources/students/55c7c59e-7df5-42f9-836b-fa0a4b06ce63 34
+1421357333289 Get http://128.111.179.151:8080/resources/students/55c7c59e-7df5-42f9-836b-fa0a4b06ce63 9
+1421357333488 Delete http://128.111.179.151:8080/resources/students/55c7c59e-7df5-42f9-836b-fa0a4b06ce63 34
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357393669 GetAll http://128.111.179.151:8080/resources/students 50
+1421357393757 Create http://128.111.179.151:8080/resources/students/e4724e57-13eb-4e2f-b986-247a7a4b4e13 32
+1421357393923 Get http://128.111.179.151:8080/resources/students/e4724e57-13eb-4e2f-b986-247a7a4b4e13 8
+1421357394114 Delete http://128.111.179.151:8080/resources/students/e4724e57-13eb-4e2f-b986-247a7a4b4e13 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357454297 GetAll http://128.111.179.151:8080/resources/students 57
+1421357454461 Create http://128.111.179.151:8080/resources/students/375b0db6-d40f-44ef-89e0-77572be80dad 94
+1421357454632 Get http://128.111.179.151:8080/resources/students/375b0db6-d40f-44ef-89e0-77572be80dad 9
+1421357454832 Delete http://128.111.179.151:8080/resources/students/375b0db6-d40f-44ef-89e0-77572be80dad 47
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357515015 GetAll http://128.111.179.151:8080/resources/students 59
+1421357515094 Create http://128.111.179.151:8080/resources/students/8fa3466e-8a29-4c15-9e4c-87b2a23bbf56 30
+1421357515263 Get http://128.111.179.151:8080/resources/students/8fa3466e-8a29-4c15-9e4c-87b2a23bbf56 10
+1421357515453 Delete http://128.111.179.151:8080/resources/students/8fa3466e-8a29-4c15-9e4c-87b2a23bbf56 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357575628 GetAll http://128.111.179.151:8080/resources/students 45
+1421357575725 Create http://128.111.179.151:8080/resources/students/90bb402a-a7a3-4553-964e-e0728a3912bb 39
+1421357575892 Get http://128.111.179.151:8080/resources/students/90bb402a-a7a3-4553-964e-e0728a3912bb 9
+1421357576085 Delete http://128.111.179.151:8080/resources/students/90bb402a-a7a3-4553-964e-e0728a3912bb 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357636259 GetAll http://128.111.179.151:8080/resources/students 49
+1421357636347 Create http://128.111.179.151:8080/resources/students/c8c33fe3-0ca2-45b4-9701-9c0773bd6aee 31
+1421357636521 Get http://128.111.179.151:8080/resources/students/c8c33fe3-0ca2-45b4-9701-9c0773bd6aee 9
+1421357636730 Delete http://128.111.179.151:8080/resources/students/c8c33fe3-0ca2-45b4-9701-9c0773bd6aee 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357696909 GetAll http://128.111.179.151:8080/resources/students 56
+1421357696986 Create http://128.111.179.151:8080/resources/students/15905379-f91b-42a4-b81a-c13a1de34145 26
+1421357697151 Get http://128.111.179.151:8080/resources/students/15905379-f91b-42a4-b81a-c13a1de34145 8
+1421357697337 Delete http://128.111.179.151:8080/resources/students/15905379-f91b-42a4-b81a-c13a1de34145 32
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357757513 GetAll http://128.111.179.151:8080/resources/students 55
+1421357757603 Create http://128.111.179.151:8080/resources/students/2ad45bf7-ec8f-4846-bcf3-6341fc794077 33
+1421357757772 Get http://128.111.179.151:8080/resources/students/2ad45bf7-ec8f-4846-bcf3-6341fc794077 8
+1421357757983 Delete http://128.111.179.151:8080/resources/students/2ad45bf7-ec8f-4846-bcf3-6341fc794077 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357818157 GetAll http://128.111.179.151:8080/resources/students 49
+1421357818245 Create http://128.111.179.151:8080/resources/students/f815e03e-45ce-4440-86a1-bc56c7b3a253 30
+1421357818411 Get http://128.111.179.151:8080/resources/students/f815e03e-45ce-4440-86a1-bc56c7b3a253 9
+1421357818607 Delete http://128.111.179.151:8080/resources/students/f815e03e-45ce-4440-86a1-bc56c7b3a253 37
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357878772 GetAll http://128.111.179.151:8080/resources/students 44
+1421357878859 Create http://128.111.179.151:8080/resources/students/83c33904-1cc3-453a-915b-9d5e0077a968 29
+1421357879028 Get http://128.111.179.151:8080/resources/students/83c33904-1cc3-453a-915b-9d5e0077a968 8
+1421357879226 Delete http://128.111.179.151:8080/resources/students/83c33904-1cc3-453a-915b-9d5e0077a968 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421357939416 GetAll http://128.111.179.151:8080/resources/students 58
+1421357939500 Create http://128.111.179.151:8080/resources/students/ef22a7da-f3d5-4c80-927a-ebce26328085 29
+1421357939668 Get http://128.111.179.151:8080/resources/students/ef22a7da-f3d5-4c80-927a-ebce26328085 9
+1421357939863 Delete http://128.111.179.151:8080/resources/students/ef22a7da-f3d5-4c80-927a-ebce26328085 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358000039 GetAll http://128.111.179.151:8080/resources/students 51
+1421358000118 Create http://128.111.179.151:8080/resources/students/d474ae7e-991a-4015-a431-d99905159ea4 30
+1421358000282 Get http://128.111.179.151:8080/resources/students/d474ae7e-991a-4015-a431-d99905159ea4 8
+1421358000486 Delete http://128.111.179.151:8080/resources/students/d474ae7e-991a-4015-a431-d99905159ea4 55
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358060655 GetAll http://128.111.179.151:8080/resources/students 49
+1421358060745 Create http://128.111.179.151:8080/resources/students/e0b44cd3-5802-4b9b-a6fd-72d53065c812 30
+1421358060917 Get http://128.111.179.151:8080/resources/students/e0b44cd3-5802-4b9b-a6fd-72d53065c812 8
+1421358061113 Delete http://128.111.179.151:8080/resources/students/e0b44cd3-5802-4b9b-a6fd-72d53065c812 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358121289 GetAll http://128.111.179.151:8080/resources/students 51
+1421358121375 Create http://128.111.179.151:8080/resources/students/322b037f-f410-4f7c-94d7-b42b6e1778d3 30
+1421358121541 Get http://128.111.179.151:8080/resources/students/322b037f-f410-4f7c-94d7-b42b6e1778d3 9
+1421358121733 Delete http://128.111.179.151:8080/resources/students/322b037f-f410-4f7c-94d7-b42b6e1778d3 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358181911 GetAll http://128.111.179.151:8080/resources/students 52
+1421358182024 Create http://128.111.179.151:8080/resources/students/64c6cce4-a63b-4347-9c2c-4a91ebaf174d 37
+1421358182193 Get http://128.111.179.151:8080/resources/students/64c6cce4-a63b-4347-9c2c-4a91ebaf174d 9
+1421358182411 Delete http://128.111.179.151:8080/resources/students/64c6cce4-a63b-4347-9c2c-4a91ebaf174d 34
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358242580 GetAll http://128.111.179.151:8080/resources/students 46
+1421358242664 Create http://128.111.179.151:8080/resources/students/516f2d5b-3b1d-448d-bac4-8a90454ba95e 29
+1421358242826 Get http://128.111.179.151:8080/resources/students/516f2d5b-3b1d-448d-bac4-8a90454ba95e 9
+1421358243037 Delete http://128.111.179.151:8080/resources/students/516f2d5b-3b1d-448d-bac4-8a90454ba95e 45
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358303256 GetAll http://128.111.179.151:8080/resources/students 92
+1421358303348 Create http://128.111.179.151:8080/resources/students/3dbd38e9-e1bb-4b73-aac0-7ee3f761bd6a 33
+1421358303522 Get http://128.111.179.151:8080/resources/students/3dbd38e9-e1bb-4b73-aac0-7ee3f761bd6a 8
+1421358303722 Delete http://128.111.179.151:8080/resources/students/3dbd38e9-e1bb-4b73-aac0-7ee3f761bd6a 44
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358363904 GetAll http://128.111.179.151:8080/resources/students 49
+1421358363992 Create http://128.111.179.151:8080/resources/students/daa9595a-d3bc-4b35-a7c6-bfda6fd56749 29
+1421358364158 Get http://128.111.179.151:8080/resources/students/daa9595a-d3bc-4b35-a7c6-bfda6fd56749 9
+1421358364351 Delete http://128.111.179.151:8080/resources/students/daa9595a-d3bc-4b35-a7c6-bfda6fd56749 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358424528 GetAll http://128.111.179.151:8080/resources/students 61
+1421358424610 Create http://128.111.179.151:8080/resources/students/97e8b8d5-55ac-4200-819d-27496345d21e 27
+1421358424774 Get http://128.111.179.151:8080/resources/students/97e8b8d5-55ac-4200-819d-27496345d21e 8
+1421358424973 Delete http://128.111.179.151:8080/resources/students/97e8b8d5-55ac-4200-819d-27496345d21e 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358485139 GetAll http://128.111.179.151:8080/resources/students 42
+1421358485230 Create http://128.111.179.151:8080/resources/students/84a1bdb4-f25e-460a-a940-7f2786c09774 32
+1421358485397 Get http://128.111.179.151:8080/resources/students/84a1bdb4-f25e-460a-a940-7f2786c09774 13
+1421358485591 Delete http://128.111.179.151:8080/resources/students/84a1bdb4-f25e-460a-a940-7f2786c09774 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358545776 GetAll http://128.111.179.151:8080/resources/students 54
+1421358545865 Create http://128.111.179.151:8080/resources/students/d385c827-2d90-4cfc-80f0-7a1b5574d540 31
+1421358546032 Get http://128.111.179.151:8080/resources/students/d385c827-2d90-4cfc-80f0-7a1b5574d540 8
+1421358546223 Delete http://128.111.179.151:8080/resources/students/d385c827-2d90-4cfc-80f0-7a1b5574d540 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358606397 GetAll http://128.111.179.151:8080/resources/students 47
+1421358606502 Create http://128.111.179.151:8080/resources/students/09804138-16da-4522-b799-8c0becb01ef8 36
+1421358606675 Get http://128.111.179.151:8080/resources/students/09804138-16da-4522-b799-8c0becb01ef8 17
+1421358606869 Delete http://128.111.179.151:8080/resources/students/09804138-16da-4522-b799-8c0becb01ef8 33
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358667034 GetAll http://128.111.179.151:8080/resources/students 46
+1421358667114 Create http://128.111.179.151:8080/resources/students/1787365a-65a7-44b2-bffb-57b9b771d661 25
+1421358667271 Get http://128.111.179.151:8080/resources/students/1787365a-65a7-44b2-bffb-57b9b771d661 8
+1421358667468 Delete http://128.111.179.151:8080/resources/students/1787365a-65a7-44b2-bffb-57b9b771d661 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358727633 GetAll http://128.111.179.151:8080/resources/students 51
+1421358727724 Create http://128.111.179.151:8080/resources/students/e2664759-8be5-4ae8-b43d-8a053697b921 32
+1421358727893 Get http://128.111.179.151:8080/resources/students/e2664759-8be5-4ae8-b43d-8a053697b921 8
+1421358728093 Delete http://128.111.179.151:8080/resources/students/e2664759-8be5-4ae8-b43d-8a053697b921 48
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358788309 GetAll http://128.111.179.151:8080/resources/students 86
+1421358788405 Create http://128.111.179.151:8080/resources/students/143beb4b-d9da-4712-85e1-12db96c49571 32
+1421358788571 Get http://128.111.179.151:8080/resources/students/143beb4b-d9da-4712-85e1-12db96c49571 8
+1421358788780 Delete http://128.111.179.151:8080/resources/students/143beb4b-d9da-4712-85e1-12db96c49571 39
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358848970 GetAll http://128.111.179.151:8080/resources/students 65
+1421358849064 Create http://128.111.179.151:8080/resources/students/bf569610-9921-4896-bc0c-0a8c37c2018b 38
+1421358849229 Get http://128.111.179.151:8080/resources/students/bf569610-9921-4896-bc0c-0a8c37c2018b 7
+1421358849423 Delete http://128.111.179.151:8080/resources/students/bf569610-9921-4896-bc0c-0a8c37c2018b 40
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358909583 GetAll http://128.111.179.151:8080/resources/students 45
+1421358909673 Create http://128.111.179.151:8080/resources/students/5671a479-b6ff-4837-8bae-dade9a9bcb32 31
+1421358909843 Get http://128.111.179.151:8080/resources/students/5671a479-b6ff-4837-8bae-dade9a9bcb32 8
+1421358910052 Delete http://128.111.179.151:8080/resources/students/5671a479-b6ff-4837-8bae-dade9a9bcb32 49
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421358970742 GetAll http://128.111.179.151:8080/resources/students 571
+1421358970824 Create http://128.111.179.151:8080/resources/students/43eff3c4-b276-48e2-a324-1db52885c85b 30
+1421358970994 Get http://128.111.179.151:8080/resources/students/43eff3c4-b276-48e2-a324-1db52885c85b 14
+1421358971189 Delete http://128.111.179.151:8080/resources/students/43eff3c4-b276-48e2-a324-1db52885c85b 42
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359031375 GetAll http://128.111.179.151:8080/resources/students 62
+1421359031485 Create http://128.111.179.151:8080/resources/students/79edc29b-c7a2-4d0b-bf34-fa27ecec53e4 38
+1421359031661 Get http://128.111.179.151:8080/resources/students/79edc29b-c7a2-4d0b-bf34-fa27ecec53e4 9
+1421359031862 Delete http://128.111.179.151:8080/resources/students/79edc29b-c7a2-4d0b-bf34-fa27ecec53e4 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359092044 GetAll http://128.111.179.151:8080/resources/students 53
+1421359092136 Create http://128.111.179.151:8080/resources/students/54bdb257-b0bd-4a12-b605-bff9aab2a670 32
+1421359092300 Get http://128.111.179.151:8080/resources/students/54bdb257-b0bd-4a12-b605-bff9aab2a670 7
+1421359092489 Delete http://128.111.179.151:8080/resources/students/54bdb257-b0bd-4a12-b605-bff9aab2a670 35
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359153214 GetAll http://128.111.179.151:8080/resources/students 603
+1421359153298 Create http://128.111.179.151:8080/resources/students/1a5f6969-f391-40e2-8cbf-c3e19fc3fcff 28
+1421359153459 Get http://128.111.179.151:8080/resources/students/1a5f6969-f391-40e2-8cbf-c3e19fc3fcff 8
+1421359153650 Delete http://128.111.179.151:8080/resources/students/1a5f6969-f391-40e2-8cbf-c3e19fc3fcff 32
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359213829 GetAll http://128.111.179.151:8080/resources/students 57
+1421359213914 Create http://128.111.179.151:8080/resources/students/3eb86824-c0ce-46d3-b669-955ca3fd3f08 30
+1421359214079 Get http://128.111.179.151:8080/resources/students/3eb86824-c0ce-46d3-b669-955ca3fd3f08 9
+1421359214288 Delete http://128.111.179.151:8080/resources/students/3eb86824-c0ce-46d3-b669-955ca3fd3f08 53
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359274457 GetAll http://128.111.179.151:8080/resources/students 46
+1421359274555 Create http://128.111.179.151:8080/resources/students/183a8ce1-7d61-4050-8fde-44d1123a5c83 31
+1421359274722 Get http://128.111.179.151:8080/resources/students/183a8ce1-7d61-4050-8fde-44d1123a5c83 8
+1421359274933 Delete http://128.111.179.151:8080/resources/students/183a8ce1-7d61-4050-8fde-44d1123a5c83 47
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359335105 GetAll http://128.111.179.151:8080/resources/students 48
+1421359335196 Create http://128.111.179.151:8080/resources/students/e6beb23a-0a52-40a5-a158-714a5117d008 34
+1421359335361 Get http://128.111.179.151:8080/resources/students/e6beb23a-0a52-40a5-a158-714a5117d008 7
+1421359335601 Delete http://128.111.179.151:8080/resources/students/e6beb23a-0a52-40a5-a158-714a5117d008 61
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359395782 GetAll http://128.111.179.151:8080/resources/students 49
+1421359395887 Create http://128.111.179.151:8080/resources/students/7f282715-2908-485d-9f98-0c9670185ec7 35
+1421359396049 Get http://128.111.179.151:8080/resources/students/7f282715-2908-485d-9f98-0c9670185ec7 8
+1421359396239 Delete http://128.111.179.151:8080/resources/students/7f282715-2908-485d-9f98-0c9670185ec7 30
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359456965 GetAll http://128.111.179.151:8080/resources/students 576
+1421359457056 Create http://128.111.179.151:8080/resources/students/a1c79d76-e80f-453c-8be0-743f755666b7 30
+1421359457233 Get http://128.111.179.151:8080/resources/students/a1c79d76-e80f-453c-8be0-743f755666b7 16
+1421359457449 Delete http://128.111.179.151:8080/resources/students/a1c79d76-e80f-453c-8be0-743f755666b7 60
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359517628 GetAll http://128.111.179.151:8080/resources/students 53
+1421359517724 Create http://128.111.179.151:8080/resources/students/9f2b87fc-6e00-4d45-b564-fc635abd4a3d 29
+1421359517912 Get http://128.111.179.151:8080/resources/students/9f2b87fc-6e00-4d45-b564-fc635abd4a3d 10
+1421359518102 Delete http://128.111.179.151:8080/resources/students/9f2b87fc-6e00-4d45-b564-fc635abd4a3d 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359578274 GetAll http://128.111.179.151:8080/resources/students 48
+1421359578356 Create http://128.111.179.151:8080/resources/students/a847ff55-9190-4b3d-a95d-059e117cf7be 25
+1421359578538 Get http://128.111.179.151:8080/resources/students/a847ff55-9190-4b3d-a95d-059e117cf7be 9
+1421359578729 Delete http://128.111.179.151:8080/resources/students/a847ff55-9190-4b3d-a95d-059e117cf7be 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359638919 GetAll http://128.111.179.151:8080/resources/students 56
+1421359639005 Create http://128.111.179.151:8080/resources/students/6d847c71-42ee-44af-a34d-0182f073464d 32
+1421359639182 Get http://128.111.179.151:8080/resources/students/6d847c71-42ee-44af-a34d-0182f073464d 10
+1421359639374 Delete http://128.111.179.151:8080/resources/students/6d847c71-42ee-44af-a34d-0182f073464d 41
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359699550 GetAll http://128.111.179.151:8080/resources/students 54
+1421359699637 Create http://128.111.179.151:8080/resources/students/aebd8e41-111d-425b-abf5-5c65512ff5b8 31
+1421359699801 Get http://128.111.179.151:8080/resources/students/aebd8e41-111d-425b-abf5-5c65512ff5b8 8
+1421359699998 Delete http://128.111.179.151:8080/resources/students/aebd8e41-111d-425b-abf5-5c65512ff5b8 36
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359760175 GetAll http://128.111.179.151:8080/resources/students 51
+1421359760265 Create http://128.111.179.151:8080/resources/students/93175a3c-3919-4200-989c-f48e775a7b86 30
+1421359760431 Get http://128.111.179.151:8080/resources/students/93175a3c-3919-4200-989c-f48e775a7b86 9
+1421359760632 Delete http://128.111.179.151:8080/resources/students/93175a3c-3919-4200-989c-f48e775a7b86 38
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421359820799 GetAll http://128.111.179.151:8080/resources/students 48
+1421359820884 Create http://128.111.179.151:8080/resources/students/03a54773-e36c-4ec9-886d-865d966db85d 31
+1421359821045 Get http://128.111.179.151:8080/resources/students/03a54773-e36c-4ec9-886d-865d966db85d 8
+1421359821238 Delete http://128.111.179.151:8080/resources/students/03a54773-e36c-4ec9-886d-865d966db85d 41

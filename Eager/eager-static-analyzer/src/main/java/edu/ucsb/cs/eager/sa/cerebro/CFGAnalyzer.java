@@ -61,6 +61,7 @@ public class CFGAnalyzer {
         "com.google.appengine.api.datastore.DatastoreService#put()",
         "!com.google.appengine.api.datastore.DatastoreServiceFactory#getDatastoreService()",
         "!com.google.appengine.api.datastore.FetchOptions$Builder#withDefaults()",
+        "!com.google.appengine.api.datastore.FetchOptions$Builder#withChunkSize()",
         "!com.google.appengine.api.datastore.FetchOptions#limit()",
         "!com.google.appengine.api.datastore.FetchOptions#offset()",
         "!com.google.appengine.api.datastore.FetchOptions#prefetchSize()",
