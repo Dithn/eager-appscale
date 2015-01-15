@@ -107,10 +107,12 @@ public class DatastoreBenchmark extends APIBenchmark {
     }
 
     private int asListWithLimit(DatastoreService datastore, int limit) {
-        Query q = new Query(STUDENT_KIND);
+        Query q = new Query(STUDENT_KIND, root);
         PreparedQuery pq = datastore.prepare(q);
+        FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit).
+                chunkSize(1).prefetchSize(0);
         long start = System.currentTimeMillis();
-        List<Entity> list = pq.asList(FetchOptions.Builder.withLimit(limit));
+        List<Entity> list = pq.asList(fetchOptions);
         for (Entity student : list) {
         }
         return (int) (System.currentTimeMillis() - start);
