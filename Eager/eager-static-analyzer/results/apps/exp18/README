@@ -1,0 +1,4 @@
+Testing StudentInfo app on GAE with server-side instrumentation.
+Watchtower run simultaneously on the same cloud (using versioning support on GAE).
+Also measuring the time for getAllStudents operation (with 1000 student records).
+
