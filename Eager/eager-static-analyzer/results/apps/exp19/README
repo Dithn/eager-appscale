@@ -1,4 +1,4 @@
 Testing StudentInfo app (getStudents opreration) on AppScale (4-nodes) with server-side instrumentation.
 Watchtower run simultaneously on the same cloud.
-No entities in datastore (i.e. 0 iterations for asList)
+Varying the entity count in datastore from 0 to 1000.
 

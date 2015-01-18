@@ -1,0 +1,2874 @@
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536166883 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536227198 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536287585 GetAll http://128.111.179.151:8080/resources/students 263
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536347886 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536408217 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536468519 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536528840 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536589134 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536649438 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536709738 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536770069 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536830440 GetAll http://128.111.179.151:8080/resources/students 227
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536890749 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421536951067 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537011393 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537071694 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537131971 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537192274 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537252562 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537312904 GetAll http://128.111.179.151:8080/resources/students 221
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537373202 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537433523 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537493857 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537554147 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537614484 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537674850 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537735147 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537795450 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537855724 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537916022 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421537976326 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538036638 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538096948 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538157269 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538217588 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538277875 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538338166 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538398519 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538458839 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538519123 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538579445 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538639730 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538700066 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538760376 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538820690 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538881026 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421538941341 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539001655 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539061921 GetAll http://128.111.179.151:8080/resources/students 144
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539122214 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539182490 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539242774 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539303047 GetAll http://128.111.179.151:8080/resources/students 149
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539363903 GetAll http://128.111.179.151:8080/resources/students 705
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539424206 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539484501 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539544749 GetAll http://128.111.179.151:8080/resources/students 117
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539605063 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539665361 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539725655 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539785929 GetAll http://128.111.179.151:8080/resources/students 149
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539846249 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539906612 GetAll http://128.111.179.151:8080/resources/students 239
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421539966907 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540027195 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540087545 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540147851 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540208134 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540268390 GetAll http://128.111.179.151:8080/resources/students 136
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540328717 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540389032 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540449324 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540509574 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540569867 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540630164 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540690459 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540750743 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540811036 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540871314 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540931602 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421540991884 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541052185 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541112518 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541172833 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541233134 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541293426 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541353718 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541414024 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541474385 GetAll http://128.111.179.151:8080/resources/students 223
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541534692 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541594955 GetAll http://128.111.179.151:8080/resources/students 140
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541655254 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541715581 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541775864 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541836177 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541896465 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421541956797 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542017105 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542077425 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542137716 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542198017 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542258299 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542318561 GetAll http://128.111.179.151:8080/resources/students 137
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542378849 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542439161 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542499463 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542559751 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542620068 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542680359 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542740620 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542800905 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542861213 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542921549 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421542981904 GetAll http://128.111.179.151:8080/resources/students 220
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543042208 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543102597 GetAll http://128.111.179.151:8080/resources/students 240
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543162933 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543223243 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543283552 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543343845 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543404251 GetAll http://128.111.179.151:8080/resources/students 281
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543464509 GetAll http://128.111.179.151:8080/resources/students 123
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543524819 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543585109 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543645384 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543705664 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543765951 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543826227 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543886513 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421543946795 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544007104 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544067378 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544127666 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544187956 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544248272 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544308519 GetAll http://128.111.179.151:8080/resources/students 122
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544368832 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544429125 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544489411 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544549718 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544609953 GetAll http://128.111.179.151:8080/resources/students 118
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544670261 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544730504 GetAll http://128.111.179.151:8080/resources/students 122
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544790802 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544851094 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544911428 GetAll http://128.111.179.151:8080/resources/students 217
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421544971718 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545032024 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545092313 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545152623 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545212932 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545273217 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545333507 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545393892 GetAll http://128.111.179.151:8080/resources/students 252
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545454158 GetAll http://128.111.179.151:8080/resources/students 137
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545514438 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545574727 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545635028 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545695356 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545755613 GetAll http://128.111.179.151:8080/resources/students 131
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545815947 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545876251 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545936591 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421545996878 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546057144 GetAll http://128.111.179.151:8080/resources/students 148
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546117426 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546177744 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546238054 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546298356 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546358706 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546418994 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546479277 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546539598 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546599918 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546660233 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546720509 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546780813 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546841096 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546901380 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421546961666 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547021977 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547082262 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547142573 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547202859 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547263138 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547323431 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547383680 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547443963 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547504253 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547564532 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547624816 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547685154 GetAll http://128.111.179.151:8080/resources/students 217
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547745501 GetAll http://128.111.179.151:8080/resources/students 224
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547805782 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547866066 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547926343 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421547986605 GetAll http://128.111.179.151:8080/resources/students 137
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548046917 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548107193 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548167505 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548227772 GetAll http://128.111.179.151:8080/resources/students 125
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548288052 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548348331 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548408610 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548468886 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548529247 GetAll http://128.111.179.151:8080/resources/students 235
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548589530 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548649834 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548710124 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548770427 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548830720 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548891058 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421548951333 GetAll http://128.111.179.151:8080/resources/students 151
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549011600 GetAll http://128.111.179.151:8080/resources/students 144
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549071885 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549132160 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549192435 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549252725 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549312963 GetAll http://128.111.179.151:8080/resources/students 119
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549373277 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549433565 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549493870 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549554164 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549614455 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549674745 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549735147 GetAll http://128.111.179.151:8080/resources/students 281
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549795424 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549855690 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549915981 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421549976281 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550036583 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550096845 GetAll http://128.111.179.151:8080/resources/students 141
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550157122 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550217423 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550277730 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550338047 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550398366 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550458642 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550518892 GetAll http://128.111.179.151:8080/resources/students 117
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550579182 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550639485 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550699806 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550760100 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550820342 GetAll http://128.111.179.151:8080/resources/students 124
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550880635 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421550940924 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551001197 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551061493 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551121770 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551182067 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551242358 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551302684 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551363012 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551423295 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551483581 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551543865 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551604118 GetAll http://128.111.179.151:8080/resources/students 130
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551664414 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551724731 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551785048 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551845332 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551905571 GetAll http://128.111.179.151:8080/resources/students 121
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421551965865 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552026152 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552086468 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552146750 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552207070 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552267358 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552328184 GetAll http://128.111.179.151:8080/resources/students 693
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552388492 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552448780 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552509088 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552569378 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552629624 GetAll http://128.111.179.151:8080/resources/students 126
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552689942 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552750224 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552810518 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552870831 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552931139 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421552991454 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553051720 GetAll http://128.111.179.151:8080/resources/students 148
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553111996 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553172277 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553232556 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553292881 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553353148 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553413450 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553473756 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553534042 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553594364 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553654669 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553714976 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553775286 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553835577 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553895884 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421553956182 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554016464 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554076736 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554137035 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554197314 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554257603 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554317851 GetAll http://128.111.179.151:8080/resources/students 118
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554378147 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554438444 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554498720 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554559048 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554619340 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554679682 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554739927 GetAll http://128.111.179.151:8080/resources/students 123
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554800206 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554860528 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554920838 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421554981088 GetAll http://128.111.179.151:8080/resources/students 126
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555041411 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555101694 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555161986 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555222246 GetAll http://128.111.179.151:8080/resources/students 137
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555282582 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555342868 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555403170 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555463457 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555523804 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555584100 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555644370 GetAll http://128.111.179.151:8080/resources/students 149
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555704674 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555764939 GetAll http://128.111.179.151:8080/resources/students 145
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555825222 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555885502 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421555945813 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556006108 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556066409 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556126713 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556186957 GetAll http://128.111.179.151:8080/resources/students 126
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556247288 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556307567 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556367840 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556428128 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556488377 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556548664 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556608904 GetAll http://128.111.179.151:8080/resources/students 120
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556669205 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556729474 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556789811 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556850108 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556910403 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421556970716 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557030998 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557091291 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557151570 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557211843 GetAll http://128.111.179.151:8080/resources/students 148
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557272152 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557332415 GetAll http://128.111.179.151:8080/resources/students 144
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557392699 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557452983 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557513277 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557573572 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557633826 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557694107 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557754381 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557814681 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557874994 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557935247 GetAll http://128.111.179.151:8080/resources/students 131
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421557995569 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558055845 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558116131 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558176420 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558236703 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558296998 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558357293 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558417624 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558477960 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558538238 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558598539 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558658818 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558719133 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558779407 GetAll http://128.111.179.151:8080/resources/students 143
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558839723 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558900018 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421558960312 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559020643 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559080886 GetAll http://128.111.179.151:8080/resources/students 121
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559141215 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559201523 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559261821 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559322149 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559382429 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559442734 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559503026 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559563343 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559623641 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559683930 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559744232 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559804483 GetAll http://128.111.179.151:8080/resources/students 122
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559864800 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559925081 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421559985369 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560045690 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560105933 GetAll http://128.111.179.151:8080/resources/students 125
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560166212 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560226517 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560286839 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560347132 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560407426 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560467724 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560527968 GetAll http://128.111.179.151:8080/resources/students 126
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560588286 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560648592 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560708951 GetAll http://128.111.179.151:8080/resources/students 236
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560769248 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560829544 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560889860 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421560950134 GetAll http://128.111.179.151:8080/resources/students 151
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561010409 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561070766 GetAll http://128.111.179.151:8080/resources/students 228
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561131050 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561191364 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561251655 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561311946 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561372233 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561432687 GetAll http://128.111.179.151:8080/resources/students 296
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561492945 GetAll http://128.111.179.151:8080/resources/students 135
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561553217 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561613503 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561673813 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561734149 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561794431 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561854727 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561915038 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421561975323 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562035601 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562095885 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562156708 GetAll http://128.111.179.151:8080/resources/students 693
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562216990 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562277801 GetAll http://128.111.179.151:8080/resources/students 693
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562338075 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562398461 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562458748 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562519031 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562579302 GetAll http://128.111.179.151:8080/resources/students 141
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562639603 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562699890 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562760199 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562820494 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562880781 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421562941109 GetAll http://128.111.179.151:8080/resources/students 205
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563001382 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563061686 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563121983 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563182266 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563242535 GetAll http://128.111.179.151:8080/resources/students 151
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563302840 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563363141 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563423423 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563483710 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563543990 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563604261 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563664542 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563724844 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563785148 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563845414 GetAll http://128.111.179.151:8080/resources/students 140
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563905699 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421563966021 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564026307 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564086649 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564146924 GetAll http://128.111.179.151:8080/resources/students 146
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564207212 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564267512 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564327812 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564388086 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564448344 GetAll http://128.111.179.151:8080/resources/students 134
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564508658 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564568896 GetAll http://128.111.179.151:8080/resources/students 113
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564629209 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564689493 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564749765 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564810058 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564870360 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564931189 GetAll http://128.111.179.151:8080/resources/students 696
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421564991486 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565051777 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565112056 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565172298 GetAll http://128.111.179.151:8080/resources/students 119
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565232616 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565292921 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565353199 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565413489 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565473785 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565534084 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565594341 GetAll http://128.111.179.151:8080/resources/students 131
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565654622 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565714927 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565775227 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565835543 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565895865 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421565956173 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566016440 GetAll http://128.111.179.151:8080/resources/students 141
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566076735 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566137047 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566197366 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566257644 GetAll http://128.111.179.151:8080/resources/students 153
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566317892 GetAll http://128.111.179.151:8080/resources/students 121
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566378185 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566438469 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566498772 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566559045 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566619294 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566679664 GetAll http://128.111.179.151:8080/resources/students 220
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566739914 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566800207 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566860512 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566920793 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421566981149 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567041455 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567101753 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567162075 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567222460 GetAll http://128.111.179.151:8080/resources/students 255
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567282801 GetAll http://128.111.179.151:8080/resources/students 217
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567343123 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567403435 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567463736 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567524050 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567584358 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567644664 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567704956 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567765362 GetAll http://128.111.179.151:8080/resources/students 271
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567825645 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567885949 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421567946231 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568006566 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568066870 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568127236 GetAll http://128.111.179.151:8080/resources/students 248
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568187484 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568247792 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568308122 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568368422 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568428705 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568488956 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568549276 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568609611 GetAll http://128.111.179.151:8080/resources/students 217
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568669908 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568730239 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568790495 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568850795 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568911099 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421568971379 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569031698 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569092013 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569152327 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569212626 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569272930 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569333217 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569393506 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569453811 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569514144 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569574480 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569634790 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569695117 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569755468 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569815753 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569876016 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569936425 GetAll http://128.111.179.151:8080/resources/students 277
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421569996725 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570057030 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570117313 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570177626 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570237915 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570298216 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570358514 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570418831 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570479228 GetAll http://128.111.179.151:8080/resources/students 275
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570539486 GetAll http://128.111.179.151:8080/resources/students 135
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570599739 GetAll http://128.111.179.151:8080/resources/students 130
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570660071 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570720387 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570780676 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570841487 GetAll http://128.111.179.151:8080/resources/students 684
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570901794 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421570962077 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571022374 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571082696 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571143003 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571203329 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571263607 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571323860 GetAll http://128.111.179.151:8080/resources/students 136
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571384154 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571444453 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571504744 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571565096 GetAll http://128.111.179.151:8080/resources/students 219
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571625390 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571685718 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571746050 GetAll http://128.111.179.151:8080/resources/students 210
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571806343 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571866636 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571926946 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421571987240 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572047505 GetAll http://128.111.179.151:8080/resources/students 146
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572107822 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572168163 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572228478 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572288729 GetAll http://128.111.179.151:8080/resources/students 130
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572349030 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572409309 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572469608 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572529954 GetAll http://128.111.179.151:8080/resources/students 224
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572590285 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572650576 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572710878 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572771140 GetAll http://128.111.179.151:8080/resources/students 146
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572831462 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572891786 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421572952088 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573012332 GetAll http://128.111.179.151:8080/resources/students 124
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573072620 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573132931 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573193253 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573253572 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573313901 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573374259 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573434574 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573494821 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573555148 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573615472 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573675799 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573736082 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573796368 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573856658 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573917002 GetAll http://128.111.179.151:8080/resources/students 218
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421573977345 GetAll http://128.111.179.151:8080/resources/students 221
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574037679 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574097987 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574158311 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574218581 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574278871 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574339240 GetAll http://128.111.179.151:8080/resources/students 231
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574399540 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574459819 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574520126 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574580444 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574640750 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574701039 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574761340 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574821622 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574881926 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421574942176 GetAll http://128.111.179.151:8080/resources/students 126
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575002478 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575062791 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575123081 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575183361 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575243658 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575303991 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575364298 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575424610 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575484945 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575545193 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575605446 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575665718 GetAll http://128.111.179.151:8080/resources/students 155
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575726032 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575786342 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575846637 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575906938 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421575967250 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576027536 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576087827 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576148143 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576208443 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576268756 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576329024 GetAll http://128.111.179.151:8080/resources/students 148
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576389351 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576449668 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576510011 GetAll http://128.111.179.151:8080/resources/students 222
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576570293 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576630584 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576690828 GetAll http://128.111.179.151:8080/resources/students 123
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576751144 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576811427 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576871734 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576932037 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421576992329 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577052633 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577112907 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577173203 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577233506 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577293832 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577354087 GetAll http://128.111.179.151:8080/resources/students 133
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577414360 GetAll http://128.111.179.151:8080/resources/students 151
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577474698 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577534979 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577595279 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577655582 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577715919 GetAll http://128.111.179.151:8080/resources/students 217
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577776218 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577836512 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577896823 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421577957118 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578017425 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578077780 GetAll http://128.111.179.151:8080/resources/students 228
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578138071 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578198322 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578258628 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578318917 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578379247 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578439537 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578499879 GetAll http://128.111.179.151:8080/resources/students 211
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578560200 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578620499 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578680823 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578741151 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578801526 GetAll http://128.111.179.151:8080/resources/students 247
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578861858 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578922160 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421578982495 GetAll http://128.111.179.151:8080/resources/students 210
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579042823 GetAll http://128.111.179.151:8080/resources/students 205
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579103112 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579163472 GetAll http://128.111.179.151:8080/resources/students 233
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579223805 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579284115 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579344404 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579404663 GetAll http://128.111.179.151:8080/resources/students 137
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579464990 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579525285 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579585602 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579645886 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579706222 GetAll http://128.111.179.151:8080/resources/students 212
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579766532 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579826864 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579887151 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421579947464 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580007767 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580068051 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580128290 GetAll http://128.111.179.151:8080/resources/students 120
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580188655 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580248975 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580309321 GetAll http://128.111.179.151:8080/resources/students 221
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580369621 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580429920 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580490226 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580550526 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580610925 GetAll http://128.111.179.151:8080/resources/students 274
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580671298 GetAll http://128.111.179.151:8080/resources/students 245
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580731613 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580791911 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580852195 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580912495 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421580972805 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581033112 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581093391 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581153697 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581213988 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581274250 GetAll http://128.111.179.151:8080/resources/students 136
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581334585 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581394892 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581455183 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581515495 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581575808 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581636116 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581696438 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581756771 GetAll http://128.111.179.151:8080/resources/students 215
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581817065 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581877362 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581937693 GetAll http://128.111.179.151:8080/resources/students 210
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421581997985 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582058301 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582118602 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582178937 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582239255 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582299539 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582359832 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582420134 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582480456 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582540818 GetAll http://128.111.179.151:8080/resources/students 236
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582601122 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582661425 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582721713 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582781974 GetAll http://128.111.179.151:8080/resources/students 135
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582842241 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582902495 GetAll http://128.111.179.151:8080/resources/students 136
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421582962791 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583023100 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583083422 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583143717 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583204032 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583264324 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583324658 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583384969 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583445259 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583505501 GetAll http://128.111.179.151:8080/resources/students 122
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583565748 GetAll http://128.111.179.151:8080/resources/students 128
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583626042 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583686327 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583746671 GetAll http://128.111.179.151:8080/resources/students 215
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583806992 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583867299 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583927603 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421583987898 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584048187 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584108519 GetAll http://128.111.179.151:8080/resources/students 210
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584168828 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584229139 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584289399 GetAll http://128.111.179.151:8080/resources/students 131
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584349686 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584409980 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584470232 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584530549 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584590850 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584651148 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584711423 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584771733 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584832059 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584892348 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421584953164 GetAll http://128.111.179.151:8080/resources/students 683
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585013466 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585073750 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585134035 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585194360 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585254655 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585314994 GetAll http://128.111.179.151:8080/resources/students 212
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585375289 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585435566 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585495875 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585556198 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585616499 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585676826 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585737192 GetAll http://128.111.179.151:8080/resources/students 239
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585797493 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585857742 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585918039 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421585978327 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586038662 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586098940 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586159195 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586219494 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586279822 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586340146 GetAll http://128.111.179.151:8080/resources/students 205
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586400462 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586460779 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586521086 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586581404 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586641713 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586702023 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586762326 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586822675 GetAll http://128.111.179.151:8080/resources/students 221
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586882948 GetAll http://128.111.179.151:8080/resources/students 151
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421586943234 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587003540 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587063870 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587124185 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587184579 GetAll http://128.111.179.151:8080/resources/students 274
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587244892 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587305169 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587365466 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587425781 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587486070 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587546370 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587606671 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587666972 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587727268 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587787561 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587847871 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587908485 GetAll http://128.111.179.151:8080/resources/students 485
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421587968797 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588029087 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588089377 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588149695 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588210029 GetAll http://128.111.179.151:8080/resources/students 211
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588270355 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588330670 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588390935 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588451223 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588511480 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588571788 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588632103 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588692387 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588752693 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588813004 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588873322 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588933619 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421588993908 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589054200 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589114569 GetAll http://128.111.179.151:8080/resources/students 248
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589174920 GetAll http://128.111.179.151:8080/resources/students 219
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589235224 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589295535 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589355903 GetAll http://128.111.179.151:8080/resources/students 236
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589416221 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589476544 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589536853 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589597134 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589657446 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589717748 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589778085 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589838396 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589898703 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421589958990 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590019252 GetAll http://128.111.179.151:8080/resources/students 139
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590079537 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590139814 GetAll http://128.111.179.151:8080/resources/students 147
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590200121 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590260428 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590320760 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590381051 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590441362 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590501761 GetAll http://128.111.179.151:8080/resources/students 241
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590562093 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590622430 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590682774 GetAll http://128.111.179.151:8080/resources/students 219
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590743122 GetAll http://128.111.179.151:8080/resources/students 221
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590803413 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590863739 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590924079 GetAll http://128.111.179.151:8080/resources/students 222
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421590984363 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591044676 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591104974 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591165276 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591225646 GetAll http://128.111.179.151:8080/resources/students 246
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591285971 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591346290 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591406605 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591466899 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591527165 GetAll http://128.111.179.151:8080/resources/students 143
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591587981 GetAll http://128.111.179.151:8080/resources/students 685
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591648300 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591708588 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591768923 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591829213 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591889512 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421591949865 GetAll http://128.111.179.151:8080/resources/students 219
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592010153 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592070430 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592130781 GetAll http://128.111.179.151:8080/resources/students 220
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592191038 GetAll http://128.111.179.151:8080/resources/students 136
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592251306 GetAll http://128.111.179.151:8080/resources/students 145
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592311652 GetAll http://128.111.179.151:8080/resources/students 229
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592371971 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592432287 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592492568 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592552850 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592613154 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592673448 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592733757 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592794040 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592854331 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592914650 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421592974926 GetAll http://128.111.179.151:8080/resources/students 151
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593035187 GetAll http://128.111.179.151:8080/resources/students 138
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593095475 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593155793 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593216102 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593276390 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593336693 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593396995 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593457342 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593517629 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593577911 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593638166 GetAll http://128.111.179.151:8080/resources/students 136
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593698433 GetAll http://128.111.179.151:8080/resources/students 145
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593758758 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593819063 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593879360 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421593939695 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594000008 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594060308 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594120602 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594180889 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594241190 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594301492 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594361745 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594422015 GetAll http://128.111.179.151:8080/resources/students 144
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594482264 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594542567 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594602853 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594663219 GetAll http://128.111.179.151:8080/resources/students 241
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594723518 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594783806 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594844096 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594904480 GetAll http://128.111.179.151:8080/resources/students 266
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421594964764 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595025078 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595085321 GetAll http://128.111.179.151:8080/resources/students 122
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595145614 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595205868 GetAll http://128.111.179.151:8080/resources/students 133
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595266224 GetAll http://128.111.179.151:8080/resources/students 229
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595326509 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595386817 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595447148 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595507473 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595567743 GetAll http://128.111.179.151:8080/resources/students 150
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595628023 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595688342 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595748635 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595808979 GetAll http://128.111.179.151:8080/resources/students 215
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595869293 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595929604 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421595989867 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596050181 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596110461 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596170761 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596231080 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596291324 GetAll http://128.111.179.151:8080/resources/students 120
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596351613 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596411930 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596472273 GetAll http://128.111.179.151:8080/resources/students 215
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596532609 GetAll http://128.111.179.151:8080/resources/students 214
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596592895 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596653214 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596713474 GetAll http://128.111.179.151:8080/resources/students 135
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596773793 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596834081 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596894396 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421596954688 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597015011 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597075345 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597135646 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597195991 GetAll http://128.111.179.151:8080/resources/students 220
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597256318 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597316614 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597376940 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597437212 GetAll http://128.111.179.151:8080/resources/students 149
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597497469 GetAll http://128.111.179.151:8080/resources/students 139
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597557789 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597618087 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597678369 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597738683 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597799000 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597859334 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597919679 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421597979973 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598040325 GetAll http://128.111.179.151:8080/resources/students 213
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598100629 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598160915 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598221211 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598281513 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598341829 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598402112 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598462438 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598522767 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598583094 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598643449 GetAll http://128.111.179.151:8080/resources/students 224
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598703775 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598764088 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598824379 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598884627 GetAll http://128.111.179.151:8080/resources/students 130
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421598944934 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599005742 GetAll http://128.111.179.151:8080/resources/students 688
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599066115 GetAll http://128.111.179.151:8080/resources/students 253
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599126425 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599186712 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599247069 GetAll http://128.111.179.151:8080/resources/students 235
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599307362 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599367667 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599427941 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599488246 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599548519 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599608837 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599669132 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599729437 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599789766 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599850066 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599910347 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421599970630 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600030924 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600091248 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600151541 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600211813 GetAll http://128.111.179.151:8080/resources/students 148
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600272131 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600332429 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600392755 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600453054 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600513366 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600573698 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600633983 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600694332 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600754720 GetAll http://128.111.179.151:8080/resources/students 256
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600815030 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600875312 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600935601 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421600995858 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601056180 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601116460 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601176754 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601237047 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601297448 GetAll http://128.111.179.151:8080/resources/students 283
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601357745 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601418104 GetAll http://128.111.179.151:8080/resources/students 230
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601478406 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601538700 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601598973 GetAll http://128.111.179.151:8080/resources/students 149
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601659292 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601719586 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601779874 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601840215 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601900493 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421601960786 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602021105 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602081436 GetAll http://128.111.179.151:8080/resources/students 212
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602141767 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602202083 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602262423 GetAll http://128.111.179.151:8080/resources/students 214
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602322738 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602383580 GetAll http://128.111.179.151:8080/resources/students 701
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602443882 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602504275 GetAll http://128.111.179.151:8080/resources/students 270
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602564595 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602624881 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602685741 GetAll http://128.111.179.151:8080/resources/students 712
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602746035 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602806326 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602866628 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602926972 GetAll http://128.111.179.151:8080/resources/students 219
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421602987270 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603047556 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603107814 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603168078 GetAll http://128.111.179.151:8080/resources/students 146
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603228381 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603288673 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603349059 GetAll http://128.111.179.151:8080/resources/students 258
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603409357 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603469650 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603529948 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603590274 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603650571 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603710859 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603771158 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603831445 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603891747 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421603952063 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604012353 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604072682 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604132955 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604193223 GetAll http://128.111.179.151:8080/resources/students 148
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604253513 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604313813 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604374122 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604434407 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604494723 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604555021 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604615303 GetAll http://128.111.179.151:8080/resources/students 142
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604675610 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604735940 GetAll http://128.111.179.151:8080/resources/students 200
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604796257 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604856551 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604916865 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421604977153 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605037476 GetAll http://128.111.179.151:8080/resources/students 194
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605097810 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605158135 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605218405 GetAll http://128.111.179.151:8080/resources/students 152
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605278716 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605339030 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605399309 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605459634 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605519934 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605580217 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605640534 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605700831 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605761121 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605821403 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605881723 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421605942017 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606002310 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606062556 GetAll http://128.111.179.151:8080/resources/students 125
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606122879 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606183168 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606243455 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606303756 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606364054 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606424347 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606484642 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606544945 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606605255 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606665577 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606725910 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606786223 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606846511 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606906825 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421606967118 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607027499 GetAll http://128.111.179.151:8080/resources/students 251
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607087833 GetAll http://128.111.179.151:8080/resources/students 211
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607148151 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607208464 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607268745 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607329101 GetAll http://128.111.179.151:8080/resources/students 239
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607389491 GetAll http://128.111.179.151:8080/resources/students 269
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607449814 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607510129 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607570421 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607630726 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607691038 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607751363 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607811623 GetAll http://128.111.179.151:8080/resources/students 139
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607871954 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607932241 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421607992529 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608052853 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608113210 GetAll http://128.111.179.151:8080/resources/students 228
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608173528 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608233838 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608294133 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608354430 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608414693 GetAll http://128.111.179.151:8080/resources/students 141
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608475004 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608535255 GetAll http://128.111.179.151:8080/resources/students 134
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608595563 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608655930 GetAll http://128.111.179.151:8080/resources/students 246
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608716293 GetAll http://128.111.179.151:8080/resources/students 233
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608776654 GetAll http://128.111.179.151:8080/resources/students 236
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608836965 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608897273 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421608957556 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609017840 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609078152 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609138451 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609198725 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609259010 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609319324 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609379622 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609439909 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609500221 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609560504 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609620888 GetAll http://128.111.179.151:8080/resources/students 258
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609681191 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609741506 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609801786 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609862091 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609922389 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421609982649 GetAll http://128.111.179.151:8080/resources/students 141
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610042949 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610103200 GetAll http://128.111.179.151:8080/resources/students 129
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610163488 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610223820 GetAll http://128.111.179.151:8080/resources/students 205
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610284113 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610344403 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610404690 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610464997 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610525306 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610585618 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610645913 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610706164 GetAll http://128.111.179.151:8080/resources/students 130
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610766458 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610826765 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610887103 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421610947424 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611007736 GetAll http://128.111.179.151:8080/resources/students 191
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611068050 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611128417 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611188709 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611249548 GetAll http://128.111.179.151:8080/resources/students 706
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611309870 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611370172 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611430473 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611490823 GetAll http://128.111.179.151:8080/resources/students 229
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611551137 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611611478 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611671764 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611732053 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611792330 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611852630 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611912887 GetAll http://128.111.179.151:8080/resources/students 134
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421611973242 GetAll http://128.111.179.151:8080/resources/students 227
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612033538 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612093861 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612154155 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612214463 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612274732 GetAll http://128.111.179.151:8080/resources/students 145
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612335016 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612395298 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612455593 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612515898 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612576224 GetAll http://128.111.179.151:8080/resources/students 202
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612636552 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612696838 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612757148 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612817452 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612877794 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612938124 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421612998443 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613058703 GetAll http://128.111.179.151:8080/resources/students 139
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613119030 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613179322 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613239599 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613299909 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613360254 GetAll http://128.111.179.151:8080/resources/students 219
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613420539 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613480830 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613541144 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613601471 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613661747 GetAll http://128.111.179.151:8080/resources/students 147
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613722054 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613782350 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613842719 GetAll http://128.111.179.151:8080/resources/students 243
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613903039 GetAll http://128.111.179.151:8080/resources/students 193
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421613963351 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614023674 GetAll http://128.111.179.151:8080/resources/students 197
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614083983 GetAll http://128.111.179.151:8080/resources/students 188
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614144278 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614204590 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614264839 GetAll http://128.111.179.151:8080/resources/students 130
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614325128 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614385445 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614445800 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614506125 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614566423 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614626760 GetAll http://128.111.179.151:8080/resources/students 214
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614687087 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614747422 GetAll http://128.111.179.151:8080/resources/students 207
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614807763 GetAll http://128.111.179.151:8080/resources/students 205
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614868066 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614928379 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421614988655 GetAll http://128.111.179.151:8080/resources/students 146
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615048987 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615109272 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615169582 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615229892 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615290201 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615350497 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615410795 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615471086 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615531391 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615591694 GetAll http://128.111.179.151:8080/resources/students 167
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615652018 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615712332 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615772608 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615832917 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615893229 GetAll http://128.111.179.151:8080/resources/students 186
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421615953525 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616013810 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616074122 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616134480 GetAll http://128.111.179.151:8080/resources/students 237
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616194776 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616255084 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616315938 GetAll http://128.111.179.151:8080/resources/students 731
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616376237 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616436482 GetAll http://128.111.179.151:8080/resources/students 121
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616496771 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616557053 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616617358 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616677628 GetAll http://128.111.179.151:8080/resources/students 140
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616738006 GetAll http://128.111.179.151:8080/resources/students 254
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616798314 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616858624 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616918972 GetAll http://128.111.179.151:8080/resources/students 215
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421616979320 GetAll http://128.111.179.151:8080/resources/students 223
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617039609 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617099913 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617160229 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617220566 GetAll http://128.111.179.151:8080/resources/students 203
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617280911 GetAll http://128.111.179.151:8080/resources/students 218
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617341189 GetAll http://128.111.179.151:8080/resources/students 157
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617401545 GetAll http://128.111.179.151:8080/resources/students 220
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617461845 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617522125 GetAll http://128.111.179.151:8080/resources/students 162
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617582403 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617642690 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617703020 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617763306 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617823585 GetAll http://128.111.179.151:8080/resources/students 154
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617883910 GetAll http://128.111.179.151:8080/resources/students 195
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421617944222 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618004531 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618064814 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618125102 GetAll http://128.111.179.151:8080/resources/students 164
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618185406 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618245685 GetAll http://128.111.179.151:8080/resources/students 161
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618305965 GetAll http://128.111.179.151:8080/resources/students 150
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618366422 GetAll http://128.111.179.151:8080/resources/students 333
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618426725 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618487067 GetAll http://128.111.179.151:8080/resources/students 212
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618547319 GetAll http://128.111.179.151:8080/resources/students 126
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618607606 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618667910 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618728218 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618788549 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618848828 GetAll http://128.111.179.151:8080/resources/students 158
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618909153 GetAll http://128.111.179.151:8080/resources/students 190
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421618969441 GetAll http://128.111.179.151:8080/resources/students 160
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619029692 GetAll http://128.111.179.151:8080/resources/students 132
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619090010 GetAll http://128.111.179.151:8080/resources/students 192
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619150334 GetAll http://128.111.179.151:8080/resources/students 198
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619210685 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619270940 GetAll http://128.111.179.151:8080/resources/students 138
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619331209 GetAll http://128.111.179.151:8080/resources/students 150
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619391504 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619451829 GetAll http://128.111.179.151:8080/resources/students 199
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619512130 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619572435 GetAll http://128.111.179.151:8080/resources/students 177
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619632761 GetAll http://128.111.179.151:8080/resources/students 206
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619693061 GetAll http://128.111.179.151:8080/resources/students 180
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619753348 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619813639 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619873962 GetAll http://128.111.179.151:8080/resources/students 196
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619934276 GetAll http://128.111.179.151:8080/resources/students 182
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421619994567 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620054851 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620115158 GetAll http://128.111.179.151:8080/resources/students 187
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620175421 GetAll http://128.111.179.151:8080/resources/students 139
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620235747 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620296046 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620356379 GetAll http://128.111.179.151:8080/resources/students 208
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620416684 GetAll http://128.111.179.151:8080/resources/students 183
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620476988 GetAll http://128.111.179.151:8080/resources/students 175
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620537303 GetAll http://128.111.179.151:8080/resources/students 179
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620597606 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620657920 GetAll http://128.111.179.151:8080/resources/students 189
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620718211 GetAll http://128.111.179.151:8080/resources/students 170
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620778480 GetAll http://128.111.179.151:8080/resources/students 150
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620838778 GetAll http://128.111.179.151:8080/resources/students 173
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620899070 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421620959370 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621019618 GetAll http://128.111.179.151:8080/resources/students 127
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621079905 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621140195 GetAll http://128.111.179.151:8080/resources/students 169
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621200604 GetAll http://128.111.179.151:8080/resources/students 291
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621260898 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621321195 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621381479 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621441812 GetAll http://128.111.179.151:8080/resources/students 212
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621502133 GetAll http://128.111.179.151:8080/resources/students 185
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621562460 GetAll http://128.111.179.151:8080/resources/students 204
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621622759 GetAll http://128.111.179.151:8080/resources/students 181
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621683041 GetAll http://128.111.179.151:8080/resources/students 166
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621743345 GetAll http://128.111.179.151:8080/resources/students 178
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621803626 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621863907 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621924212 GetAll http://128.111.179.151:8080/resources/students 184
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421621984508 GetAll http://128.111.179.151:8080/resources/students 176
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622044843 GetAll http://128.111.179.151:8080/resources/students 209
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622105136 GetAll http://128.111.179.151:8080/resources/students 174
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622165456 GetAll http://128.111.179.151:8080/resources/students 201
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622225745 GetAll http://128.111.179.151:8080/resources/students 168
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622286035 GetAll http://128.111.179.151:8080/resources/students 165
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622346319 GetAll http://128.111.179.151:8080/resources/students 163
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622406658 GetAll http://128.111.179.151:8080/resources/students 216
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622466951 GetAll http://128.111.179.151:8080/resources/students 171
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622527233 GetAll http://128.111.179.151:8080/resources/students 156
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622587514 GetAll http://128.111.179.151:8080/resources/students 159
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622647782 GetAll http://128.111.179.151:8080/resources/students 146
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622708075 GetAll http://128.111.179.151:8080/resources/students 172
+Benchmarking URL: http://128.111.179.151:8080/resources/students
+1421622768363 GetAll http://128.111.179.151:8080/resources/students 171
