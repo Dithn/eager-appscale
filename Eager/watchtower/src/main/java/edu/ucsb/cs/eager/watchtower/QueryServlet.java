@@ -62,7 +62,7 @@ public class QueryServlet extends HttpServlet {
                 }
             }
         }
-        JSONUtils.serializeQueryResult(results, resp);
+        JSONUtils.serializeMap(results, resp);
     }
 
     private boolean addToResult(String key, String[] ops) {

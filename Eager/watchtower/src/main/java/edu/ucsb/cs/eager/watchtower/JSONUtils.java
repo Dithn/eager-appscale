@@ -19,35 +19,16 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class JSONUtils {
 
-    public static void serialize(Map<String,Map<String,Integer>> map,
-                                 HttpServletResponse response) throws IOException {
-        JSONObject json = new JSONObject(map);
-        setContentType(response);
-        response.getOutputStream().println(json.toString());
-    }
-
-    public static void serializeQueryResult(Map<String,List<Integer>> map,
-                                 HttpServletResponse response) throws IOException {
-        JSONObject json = new JSONObject(map);
-        setContentType(response);
-        response.getOutputStream().println(json.toString());
-    }
-
-    public static void serializeDump(Map<Long,Map<String,Integer>> map,
-                                      HttpServletResponse response) throws IOException {
+    public static void serializeMap(Map map, HttpServletResponse response) throws IOException {
         JSONObject json = new JSONObject(map);
         setContentType(response);
         response.getOutputStream().println(json.toString());

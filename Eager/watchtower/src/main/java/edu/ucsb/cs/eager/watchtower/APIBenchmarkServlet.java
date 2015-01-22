@@ -68,12 +68,12 @@ public class APIBenchmarkServlet extends HttpServlet {
             // This is almost always an outlier.
             context.setFirstRecord(false);
             if (context.save()) {
-                JSONUtils.serialize(results, resp);
+                JSONUtils.serializeMap(results, resp);
             } else {
                 resp.sendError(500, "Failed to save benchmark context");
             }
         } else if (p.save()) {
-            JSONUtils.serialize(results, resp);
+            JSONUtils.serializeMap(results, resp);
         } else {
             resp.sendError(500, "Failed to save benchmark data point");
         }

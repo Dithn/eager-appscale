@@ -40,7 +40,7 @@ public class BackupServlet extends HttpServlet {
         for (DataPoint p : DataPoint.getAll()) {
             results.put(p.getTimestamp(), p.getData());
         }
-        JSONUtils.serializeDump(results, resp);
+        JSONUtils.serializeMap(results, resp);
     }
 
     @Override
