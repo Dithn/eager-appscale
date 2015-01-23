@@ -16,6 +16,10 @@
         <servlet-name>DatastoreServlet</servlet-name>
         <servlet-class>edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmarkServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TimestampServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.eager.watchtower.TimestampServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>APIBenchmarkServlet</servlet-name>
@@ -32,5 +36,9 @@
     <servlet-mapping>
         <servlet-name>DatastoreServlet</servlet-name>
         <url-pattern>/datastore</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimestampServlet</servlet-name>
+        <url-pattern>/timestamp</url-pattern>
     </servlet-mapping>
 </web-app>

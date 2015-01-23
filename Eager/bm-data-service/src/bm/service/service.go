@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"strconv"
 	"sync"
 )
 
@@ -20,15 +21,15 @@ type timeSeriesReq struct {
 type customPredictionReq struct {
 	Data                 db.TimeSeries
 	Quantile, Confidence float64
-	Name string
+	Name                 string
 }
 
 func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		tsr := timeSeriesReq{
-			Start: -1,
-			End: -1,
+			Start:      -1,
+			End:        -1,
 			Quantile:   0.95,
 			Confidence: 0.05,
 		}
@@ -84,7 +85,7 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 		decoder := json.NewDecoder(r.Body)
 		tsr := timeSeriesReq{
 			Start: -1,
-			End: -1,
+			End:   -1,
 		}
 		if err := decoder.Decode(&tsr); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -107,13 +108,38 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 	}
 }
 
+func getTimestampHandler(d db.Database) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		limitString := r.FormValue("limit")
+		limit, err := strconv.ParseInt(limitString, 10, 64)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		result, err := d.GetTimestamp(limit)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		jsonString, err := json.Marshal(*result)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonString)
+	}
+}
+
 func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		cpr := customPredictionReq{
 			Quantile:   0.95,
 			Confidence: 0.05,
-			Name: "Unknown",
+			Name:       "Unknown",
 		}
 		if err := decoder.Decode(&cpr); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -170,5 +196,6 @@ func main() {
 	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
 	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler())
 	http.HandleFunc("/ts", getTimeSeriesHandler(d))
+	http.HandleFunc("/tsinfo", getTimestampHandler(d))
 	http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", *port), nil)
 }

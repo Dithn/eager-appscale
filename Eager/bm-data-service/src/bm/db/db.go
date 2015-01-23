@@ -16,10 +16,17 @@ import (
 // TimeSeries represents a sequence of time-ordered data
 type TimeSeries []int
 
+// TimestampInfo encapsulates the timestamp information of
+// a particular data point in a timeseries.
+type TimestampInfo struct {
+	Count, Latest int64
+}
+
 // Database interface defines what operations/queries should be supported
 // by a database implementation.
 type Database interface {
 	Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error)
+	GetTimestamp(limit int64) (*TimestampInfo, error)
 }
 
 // FSDatabase implements the Database interface using a set of data files
@@ -69,6 +76,10 @@ func (fsd *FSDatabase) Query(n int, ops []string, start, end int64) (map[string]
 		}
 	}
 	return result, nil
+}
+
+func (fsd *FSDatabase) GetTimestamp(limit int64) (*TimestampInfo, error) {
+	return nil, fmt.Errorf("not implemented")
 }
 
 func loadFile(root, child string) (string, TimeSeries, error) {
@@ -137,4 +148,24 @@ func (aed *AEDatabase) Query(n int, ops []string, start, end int64) (map[string]
 		}
 	}
 	return result, nil
+}
+
+func (aed *AEDatabase) GetTimestamp(limit int64) (*TimestampInfo, error) {
+	url := fmt.Sprintf("%s/timestamp?limit=%d", aed.BaseURL, limit)
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var tr TimestampInfo
+	if err := json.Unmarshal(body, &tr); err != nil {
+		return nil, err
+	}
+	return &tr, nil
 }
