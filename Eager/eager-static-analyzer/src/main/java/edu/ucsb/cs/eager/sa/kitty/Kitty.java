@@ -23,6 +23,7 @@ import edu.ucsb.cs.eager.sa.cerebro.CFGAnalyzer;
 import edu.ucsb.cs.eager.sa.cerebro.Cerebro;
 import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSTracingPredictor;
 import edu.ucsb.cs.eager.sa.kitty.qbets.SimpleQBETSPredictor;
+import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationBasedPredictor;
 import org.apache.commons.cli.*;
 import soot.SootMethod;
@@ -40,56 +41,17 @@ import java.util.*;
 public class Kitty {
 
     public static void main(String[] args) throws IOException {
-        Options options = new Options();
-        options.addOption("i", "input-file", true,
-                "Path to the Cerebro trace file");
-
-        options.addOption("ccp", "cerebro-classpath", true,
-                "Cerebro classpath");
-        options.addOption("c", "class", true,
-                "Class to be used as the starting point");
-        options.addOption("dnc", "disable-nec-classes", false,
-                "Disable loading of necessary classes");
-        options.addOption("wp", "whole-program", false,
-                "Enable whole program mode");
-        options.addOption("m", "methods", true,
-                "Methods that should be analyzed");
-
-        options.addOption("b", "benchmark-dir", true,
-                "Path to the directory containing seed benchmark results");
-        options.addOption("sn", "simulations", true,
-                "Number of times to simulate each path (default 100)");
-
-        options.addOption("s", "benchmark-svc", true,
-                "URL of the benchmark data service");
-        options.addOption("q", "quantile", true,
-                "Execution time quantile that should be predicted");
-        options.addOption("cn", "confidence", true,
-                "Upper confidence of the predicted execution time quantile");
-        options.addOption("a", "aggregate-ts", false,
-                "Aggregate multiple time series into a single time series");
-        options.addOption("sp", "simple", false,
-                "Use the simple QBETS predictor");
-
-        options.addOption("st", "start", true,
-                "Start timestamp for fetching time series data");
-        options.addOption("en", "end", true,
-                "End timestamp for fetching time series data");
-
-        options.addOption("me", "max-entities", true,
-                "Maximum entities that may exist in the datastore");
-
-        CommandLine cmd;
-        try {
-            CommandLineParser parser = new BasicParser();
-            cmd = parser.parse( options, args);
-        } catch (ParseException e) {
-            System.err.println("Error: " + e.getMessage() + "\n");
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("Kitty", options);
-            return;
+        Options options = getOptions();
+        CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args, "Kitty");
+        PredictionConfig config = getPredictionConfig(cmd);
+        if (config != null) {
+            Kitty k = new Kitty();
+            Collection<MethodInfo> methods = k.getMethods(config);
+            k.run(config, methods);
         }
+    }
 
+    public static PredictionConfig getPredictionConfig(CommandLine cmd) {
         PredictionConfig config = new PredictionConfig();
         config.setTraceFile(cmd.getOptionValue("i"));
         config.setCerebroClasspath(cmd.getOptionValue("ccp"));
@@ -137,34 +99,81 @@ public class Kitty {
             config.validate();
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return;
+            return null;
         }
-
-        Kitty k = new Kitty();
-        k.run(config);
+        return config;
     }
 
-    public void run(PredictionConfig config) throws IOException {
-        Collection<MethodInfo> methods;
+    public static Options getOptions() {
+        Options options = new Options();
+        PredictionUtils.addOption(options, "i", "input-file", true,
+                "Path to the Cerebro trace file");
+
+        PredictionUtils.addOption(options, "ccp", "cerebro-classpath", true,
+                "Cerebro classpath");
+        PredictionUtils.addOption(options, "c", "class", true,
+                "Class to be used as the starting point");
+        PredictionUtils.addOption(options, "dnc", "disable-nec-classes", false,
+                "Disable loading of necessary classes");
+        PredictionUtils.addOption(options, "wp", "whole-program", false,
+                "Enable whole program mode");
+        PredictionUtils.addOption(options, "m", "methods", true,
+                "Methods that should be analyzed");
+
+        PredictionUtils.addOption(options, "b", "benchmark-dir", true,
+                "Path to the directory containing seed benchmark results");
+        PredictionUtils.addOption(options, "sn", "simulations", true,
+                "Number of times to simulate each path (default 100)");
+
+        PredictionUtils.addOption(options, "s", "benchmark-svc", true,
+                "URL of the benchmark data service");
+        PredictionUtils.addOption(options, "q", "quantile", true,
+                "Execution time quantile that should be predicted");
+        PredictionUtils.addOption(options, "cn", "confidence", true,
+                "Upper confidence of the predicted execution time quantile");
+        PredictionUtils.addOption(options, "a", "aggregate-ts", false,
+                "Aggregate multiple time series into a single time series");
+        PredictionUtils.addOption(options, "sp", "simple", false,
+                "Use the simple QBETS predictor");
+
+        PredictionUtils.addOption(options, "st", "start", true,
+                "Start timestamp for fetching time series data");
+        PredictionUtils.addOption(options, "en", "end", true,
+                "End timestamp for fetching time series data");
+
+        PredictionUtils.addOption(options, "me", "max-entities", true,
+                "Maximum entities that may exist in the datastore");
+        return options;
+    }
+
+    private Map<MethodInfo,TraceAnalysisResult[]> summary;
+
+    public Collection<MethodInfo> getMethods(PredictionConfig config) throws IOException {
         if (config.getTraceFile() != null) {
             TraceLogParser parser = new TraceLogParser();
             parser.parseFile(config.getTraceFile());
-            methods = parser.getMethods();
+            return parser.getMethods();
         } else {
-            methods = getMethodsFromCerebro(config);
+            return getMethodsFromCerebro(config);
         }
+    }
 
+    public void run(PredictionConfig config, Collection<MethodInfo> methods) throws IOException {
         if (config.getBenchmarkDataDir() != null) {
             SimulationBasedPredictor.predict(config, methods);
         } else if (config.getBenchmarkDataSvc() != null) {
             if (config.isSimplePredictor()) {
                 SimpleQBETSPredictor.predict(config, methods);
             } else {
-                QBETSTracingPredictor.predict(config, methods);
+                summary = QBETSTracingPredictor.predict(config, methods);
             }
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public Map<MethodInfo, TraceAnalysisResult[]> getSummary() {
+        return summary;
     }
 
     private Collection<MethodInfo> getMethodsFromCerebro(PredictionConfig config) {

@@ -34,10 +34,10 @@ import java.util.*;
  */
 public class QBETSTracingPredictor {
 
-    public static void predict(PredictionConfig config,
+    public static Map<MethodInfo,TraceAnalysisResult[]> predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
         QBETSTracingPredictor predictor = new QBETSTracingPredictor(config, methods);
-        predictor.run();
+        return predictor.run();
     }
 
     private TimeSeriesDataCache cache;
@@ -49,7 +49,7 @@ public class QBETSTracingPredictor {
         this.methods = methods;
     }
 
-    public void run() throws IOException {
+    public Map<MethodInfo,TraceAnalysisResult[]> run() throws IOException {
         Set<String> ops = new HashSet<String>();
         for (MethodInfo m : methods) {
             if (config.isEnabledMethod(m.getName())) {
@@ -63,7 +63,7 @@ public class QBETSTracingPredictor {
 
         if (ops.isEmpty()) {
             System.out.println("No methods with API calls found.");
-            return;
+            return null;
         }
 
         System.out.println("\nRetrieving time series data for " + ops.size() + " API " +
@@ -74,19 +74,24 @@ public class QBETSTracingPredictor {
             System.out.println("Time range: " + config.getStart() + " - " + config.getEnd());
         }
 
+        Map<MethodInfo,TraceAnalysisResult[]> results = new HashMap<MethodInfo, TraceAnalysisResult[]>();
         for (MethodInfo m : methods) {
             if (config.isEnabledMethod(m.getName())) {
-                analyzeMethod(m);
+                TraceAnalysisResult[] methodResults = analyzeMethod(m);
+                if (methodResults != null) {
+                    results.put(m, methodResults);
+                }
             }
         }
+        return results;
     }
 
-    private void analyzeMethod(MethodInfo method) throws IOException {
+    private TraceAnalysisResult[] analyzeMethod(MethodInfo method) throws IOException {
         printTitle(method.getName(), '=');
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             System.out.println("No paths with API calls found.");
-            return;
+            return null;
         }
 
         System.out.println(pathsOfInterest.size() + PredictionUtils.pluralize(
@@ -110,12 +115,14 @@ public class QBETSTracingPredictor {
 
         System.out.println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
+        List<TraceAnalysisResult> results = new ArrayList<TraceAnalysisResult>();
         for (int i = 0; i < uniquePaths.size(); i++) {
-            analyzePath(method, uniquePaths.get(i), i);
+            results.add(analyzePath(method, uniquePaths.get(i), i));
         }
+        return results.toArray(new TraceAnalysisResult[results.size()]);
     }
 
-    private void analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
+    private TraceAnalysisResult analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
         printTitle("Path: " + pathIndex, '-');
         System.out.println("API Calls: " + path);
 
@@ -129,7 +136,7 @@ public class QBETSTracingPredictor {
         int dataPoints = tsLength - minIndex;
         if (dataPoints <= 0) {
             System.out.println("Insufficient data in time series...");
-            return;
+            return null;
         }
         System.out.println("Number of data points analyzed: " + dataPoints);
 
@@ -172,6 +179,8 @@ public class QBETSTracingPredictor {
                         r.sum, "N/A", "N/A");
             }
         }
+
+        return results[results.length - 1];
     }
 
     private int[] approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
@@ -279,14 +288,4 @@ public class QBETSTracingPredictor {
         System.out.println();
     }
 
-    private static class TraceAnalysisResult {
-        // run QBETS on individual time series and sum the results
-        private int approach1;
-
-        // aggregate the time series and run QBETS
-        private int approach2;
-
-        // current data point in the aggregate time series
-        private int sum;
-    }
 }

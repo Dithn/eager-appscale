@@ -19,6 +19,8 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import org.apache.commons.cli.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,5 +53,26 @@ public class PredictionUtils {
 
     public static String pluralize(int count, String singular) {
         return count == 1 ? singular : singular + "s";
+    }
+
+    public static CommandLine parseCommandLineArgs(Options options, String[] args, String cmd) {
+        try {
+            CommandLineParser parser = new BasicParser();
+            return parser.parse(options, args);
+        } catch (ParseException e) {
+            System.err.println("Error: " + e.getMessage() + "\n");
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp(cmd, options);
+            System.exit(1);
+            return null;
+        }
+    }
+
+    public static void addOption(Options options, String shortName, String longName,
+                                 boolean hasArg, String desc) {
+        if (options.getOption(shortName) != null || options.getOption(longName) != null) {
+            throw new IllegalArgumentException("Duplicate argument: " + shortName + ", " + longName);
+        }
+        options.addOption(shortName, longName, hasArg, desc);
     }
 }

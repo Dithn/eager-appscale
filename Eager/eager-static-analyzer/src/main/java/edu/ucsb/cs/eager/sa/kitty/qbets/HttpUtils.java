@@ -20,6 +20,7 @@
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -38,6 +39,28 @@ public class HttpUtils {
             StringEntity params = new StringEntity(msg.toString());
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
+
+            HttpResponse response = httpClient.execute(request);
+            InputStream in = response.getEntity().getContent();
+            StringBuilder sb = new StringBuilder();
+            byte[] data = new byte[1024];
+            int len;
+            while ((len = in.read(data)) != -1) {
+                sb.append(new String(data, 0, len));
+            }
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new IOException(sb.toString());
+            }
+            return new JSONObject(sb.toString());
+        } finally {
+            httpClient.close();
+        }
+    }
+
+    public static JSONObject doGet(String url) throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            HttpGet request = new HttpGet(url);
 
             HttpResponse response = httpClient.execute(request);
             InputStream in = response.getEntity().getContent();
