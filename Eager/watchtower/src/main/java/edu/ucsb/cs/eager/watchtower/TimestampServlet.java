@@ -46,6 +46,5 @@ public class TimestampServlet extends HttpServlet {
         results.put("count", (long) count);
         results.put("latest", latest);
         JSONUtils.serializeMap(results, resp);
-
     }
 }

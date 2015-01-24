@@ -121,10 +121,10 @@ public class KittyValidator {
             total++;
             if (entry.getValue() > prediction) {
                 totalViolations++;
+                consecutiveViolations++;
                 if (vi.firstViolation < 0) {
                     vi.firstViolation = entry.getKey();
                 }
-                consecutiveViolations++;
                 if (consecutiveViolations == 3 && vi.first3CViolations < 0) {
                     vi.first3CViolations = entry.getKey();
                 }
@@ -147,6 +147,7 @@ public class KittyValidator {
         int max = -1;
         for (TraceAnalysisResult r : results) {
             if (r.getApproach2() > max) {
+                // Only use the 2nd prediction (less conservative) for this analysis.
                 max = r.getApproach2();
             }
         }
