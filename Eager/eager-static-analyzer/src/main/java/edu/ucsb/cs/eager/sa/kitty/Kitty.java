@@ -172,8 +172,8 @@ public class Kitty {
         }
     }
 
-    public Map<MethodInfo, TraceAnalysisResult[]> getSummary() {
-        return summary;
+    public TraceAnalysisResult[] getSummary(MethodInfo m) {
+        return summary.get(m);
     }
 
     private Collection<MethodInfo> getMethodsFromCerebro(PredictionConfig config) {

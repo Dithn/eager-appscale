@@ -41,6 +41,9 @@ public class KittyValidator {
         PredictionConfig config = Kitty.getPredictionConfig(cmd);
         if (config == null) {
             return;
+        } else if (config.getMethods() == null || config.getMethods().length != 1) {
+            System.err.println("one method must be specified for analysis.");
+            return;
         }
 
         String benchmarkFile = cmd.getOptionValue("bf");
@@ -58,50 +61,59 @@ public class KittyValidator {
 
         Kitty kitty = new Kitty();
         Collection<MethodInfo> methods = kitty.getMethods(config);
+        MethodInfo method = null;
+        for (MethodInfo m : methods) {
+            if (config.isEnabledMethod(m.getName())) {
+                method = m;
+                break;
+            }
+        }
+        if (method == null) {
+            System.err.println("Failed to find the method: " + config.getMethods()[0]);
+            return;
+        }
         System.out.println();
 
-        Map<Long,Integer> benchmarkValues = parseBenchmarkFile(benchmarkFile);
         long last = 0;
+        Map<Long,Integer> benchmarkValues = parseBenchmarkFile(benchmarkFile);
+        System.out.println("[validate] timestamp prediction 1st 3c 5p");
         for (long ts : benchmarkValues.keySet()) {
             if (ts - last < 15 * 60 * 1000) {
                 // Jump ahead in approximately 15 min intervals
                 continue;
             }
             last = ts;
+
             TimestampInfo info = getTimestampInfo(config, ts);
-            if (info.count <= 1000) {
+            if (info.count < 1000) {
+                // We mandate that Watchtower at least have 1000 data points
+                // for this analysis to be useful.
                 System.out.println("Not enough data in Watchtower for validation.");
                 continue;
             }
+
             config.setEnd(info.timestamp);
             kitty.run(config, methods);
-            Map<MethodInfo,TraceAnalysisResult[]> summary = kitty.getSummary();
-            for (MethodInfo m : summary.keySet()) {
-                // TODO: we need to restrict this analysis to 1 method at a time
-                TraceAnalysisResult[] results = summary.get(m);
-                int max = findMax(results);
-                SLAViolationInfo vi = findSLAViolations(info.timestamp, max, benchmarkValues);
-                // TODO: Fix output format
-                System.out.printf("[validate] %d %d %f %f %f\n", info.timestamp, max,
-                        getTime(info.timestamp, vi.firstViolation),
-                        getTime(info.timestamp, vi.first3CViolations),
-                        getTime(info.timestamp, vi.first5PViolations));
-            }
+            int max = findMax(kitty.getSummary(method));
+            SLAViolationInfo vi = findSLAViolations(info.timestamp, max, benchmarkValues);
+            System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", info.timestamp, max,
+                    getTime(info.timestamp, vi.firstViolation),
+                    getTime(info.timestamp, vi.first3CViolations),
+                    getTime(info.timestamp, vi.first5PViolations));
         }
     }
 
-    private double getTime(long start, long end) {
+    private String getTime(long start, long end) {
         if (end < 0) {
-            return -1.0;
+            return "N/A";
         }
-        return (end - start) / 1000.0;
+        double duration = (end - start) / 1000.0;
+        return String.format("%.2f", duration);
     }
 
     private SLAViolationInfo findSLAViolations(long ts, int prediction, Map<Long,Integer> samples) {
+        int consecutiveViolations = 0, total = 0, totalViolations = 0;
         SLAViolationInfo vi = new SLAViolationInfo();
-        int consecutiveViolations = 0;
-        int total = 0;
-        int totalViolations = 0;
         for (Map.Entry<Long,Integer> entry : samples.entrySet()) {
             if (entry.getKey() < ts) {
                 continue;

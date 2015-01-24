@@ -286,18 +286,13 @@ public class QBETSTracingPredictor {
         }
     }
 
-    private void print(String msg) {
-        if (!config.isHideOutput()) {
-            System.out.print(msg);
-        }
-    }
-
     private void printTitle(String text, char underline) {
         println("\n" + text);
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
-            print(underline + "");
+            builder.append(underline);
         }
-        println("");
+        println(builder.toString());
     }
 
 }
