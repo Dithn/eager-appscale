@@ -62,16 +62,16 @@ public class QBETSTracingPredictor {
         }
 
         if (ops.isEmpty()) {
-            System.out.println("No methods with API calls found.");
+            println("No methods with API calls found.");
             return null;
         }
 
-        System.out.println("\nRetrieving time series data for " + ops.size() + " API " +
+        println("\nRetrieving time series data for " + ops.size() + " API " +
                 PredictionUtils.pluralize(ops.size(), "call") + "...");
         cache = new TimeSeriesDataCache(getTimeSeriesData(ops, config));
-        System.out.println("Retrieved time series length: " + cache.getTimeSeriesLength());
+        println("Retrieved time series length: " + cache.getTimeSeriesLength());
         if (config.getStart() != -1 || config.getEnd() != -1) {
-            System.out.println("Time range: " + config.getStart() + " - " + config.getEnd());
+            println("Time range: " + config.getStart() + " - " + config.getEnd());
         }
 
         Map<MethodInfo,TraceAnalysisResult[]> results = new HashMap<MethodInfo, TraceAnalysisResult[]>();
@@ -90,11 +90,11 @@ public class QBETSTracingPredictor {
         printTitle(method.getName(), '=');
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
-            System.out.println("No paths with API calls found.");
+            println("No paths with API calls found.");
             return null;
         }
 
-        System.out.println(pathsOfInterest.size() + PredictionUtils.pluralize(
+        println(pathsOfInterest.size() + PredictionUtils.pluralize(
                 pathsOfInterest.size(), " path") + " with API calls found.");
 
         List<Path> uniquePaths = new ArrayList<Path>();
@@ -113,7 +113,7 @@ public class QBETSTracingPredictor {
             }
         }
 
-        System.out.println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
+        println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
         List<TraceAnalysisResult> results = new ArrayList<TraceAnalysisResult>();
         for (int i = 0; i < uniquePaths.size(); i++) {
@@ -124,21 +124,21 @@ public class QBETSTracingPredictor {
 
     private TraceAnalysisResult analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
         printTitle("Path: " + pathIndex, '-');
-        System.out.println("API Calls: " + path);
+        println("API Calls: " + path);
 
         int tsLength = cache.getTimeSeriesLength();
         int pathLength = path.size();
         double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
 
         int minIndex = (int) (Math.log(config.getConfidence()) / Math.log(adjustedQuantile)) + 10;
-        System.out.println("Minimum acceptable time series length: " + (minIndex + 1));
+        println("Minimum acceptable time series length: " + (minIndex + 1));
 
         int dataPoints = tsLength - minIndex;
         if (dataPoints <= 0) {
-            System.out.println("Insufficient data in time series...");
+            println("Insufficient data in time series...");
             return null;
         }
-        System.out.println("Number of data points analyzed: " + dataPoints);
+        println("Number of data points analyzed: " + dataPoints);
 
         int[] actualSums = new int[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
@@ -159,9 +159,9 @@ public class QBETSTracingPredictor {
             results[i].sum = actualSums[i];
         }
 
-        System.out.println();
+        println("");
         int failures = 0;
-        System.out.printf("[trace][method][path] index p1 p2 current  success success_rate\n");
+        println("[trace][method][path] index p1 p2 current  success success_rate");
         for (int i = 0; i < results.length; i++) {
             TraceAnalysisResult r = results[i];
             if (i > 0) {
@@ -170,13 +170,13 @@ public class QBETSTracingPredictor {
                     failures++;
                 }
                 double successRate = ((double)(i - failures) / i) * 100.0;
-                System.out.printf("[trace][%s][%d] %4d %4d %4d %4d  %-5s %4.4f\n",
+                println(String.format("[trace][%s][%d] %4d %4d %4d %4d  %-5s %4.4f",
                         method.getName(), pathIndex, i + minIndex, r.approach1, r.approach2,
-                        r.sum, success, successRate);
+                        r.sum, success, successRate));
             } else {
-                System.out.printf("[trace][%s][%d] %4d %4d %4d %4d  %-5s %-7s\n",
+                println(String.format("[trace][%s][%d] %4d %4d %4d %4d  %-5s %-7s",
                         method.getName(), pathIndex, i + minIndex, r.approach1, r.approach2,
-                        r.sum, "N/A", "N/A");
+                        r.sum, "N/A", "N/A"));
             }
         }
 
@@ -186,7 +186,7 @@ public class QBETSTracingPredictor {
     private int[] approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
         for (APICall call : path.calls()) {
             if (!cache.containsQuantiles(call, path.size())) {
-                System.out.println("Calculating quantiles for: " + call.getId() +
+                println("Calculating quantiles for: " + call.getId() +
                         " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
                 int[] quantilePredictions = getQuantilePredictions(cache.getTimeSeries(call),
                         call.getId(), dataPoints, adjustedQuantile);
@@ -280,12 +280,24 @@ public class QBETSTracingPredictor {
         return data;
     }
 
-    private void printTitle(String text, char underline) {
-        System.out.println("\n" + text);
-        for (int i = 0; i < text.length(); i++) {
-            System.out.print(underline);
+    private void println(String msg) {
+        if (!config.isHideOutput()) {
+            System.out.println(msg);
         }
-        System.out.println();
+    }
+
+    private void print(String msg) {
+        if (!config.isHideOutput()) {
+            System.out.print(msg);
+        }
+    }
+
+    private void printTitle(String text, char underline) {
+        println("\n" + text);
+        for (int i = 0; i < text.length(); i++) {
+            print(underline + "");
+        }
+        println("");
     }
 
 }

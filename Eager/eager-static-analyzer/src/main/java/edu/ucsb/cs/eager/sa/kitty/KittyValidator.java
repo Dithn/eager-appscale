@@ -53,70 +53,82 @@ public class KittyValidator {
     }
 
     public void run(PredictionConfig config, String benchmarkFile) throws IOException {
+        config.setStart(-1L);
+        config.setHideOutput(true);
+
         Kitty kitty = new Kitty();
         Collection<MethodInfo> methods = kitty.getMethods(config);
+        System.out.println();
 
         Map<Long,Integer> benchmarkValues = parseBenchmarkFile(benchmarkFile);
+        long last = 0;
         for (long ts : benchmarkValues.keySet()) {
+            if (ts - last < 15 * 60 * 1000) {
+                // Jump ahead in approximately 15 min intervals
+                continue;
+            }
+            last = ts;
             TimestampInfo info = getTimestampInfo(config, ts);
             if (info.count <= 1000) {
                 System.out.println("Not enough data in Watchtower for validation.");
                 continue;
             }
-            System.out.println("Making predictions up to: " + info.timestamp);
-            config.setStart(-1L);
             config.setEnd(info.timestamp);
             kitty.run(config, methods);
             Map<MethodInfo,TraceAnalysisResult[]> summary = kitty.getSummary();
             for (MethodInfo m : summary.keySet()) {
+                // TODO: we need to restrict this analysis to 1 method at a time
                 TraceAnalysisResult[] results = summary.get(m);
-                System.out.println("\nPerforming validation for method: " + m.getName());
-                findSLAViolations(info.timestamp, findMax(results), benchmarkValues);
+                int max = findMax(results);
+                SLAViolationInfo vi = findSLAViolations(info.timestamp, max, benchmarkValues);
+                // TODO: Fix output format
+                System.out.printf("[validate] %d %d %f %f %f\n", info.timestamp, max,
+                        getTime(info.timestamp, vi.firstViolation),
+                        getTime(info.timestamp, vi.first3CViolations),
+                        getTime(info.timestamp, vi.first5PViolations));
             }
-
-            break;
         }
     }
 
-    private void findSLAViolations(long ts, int prediction, Map<Long,Integer> samples) {
-        System.out.println("Prediction at " + ts + ": " + prediction);
-        long firstViolation = -1L;
-        long first3CViolations = -1L;
-        long first5PViolations = -1L;
+    private double getTime(long start, long end) {
+        if (end < 0) {
+            return -1.0;
+        }
+        return (end - start) / 1000.0;
+    }
+
+    private SLAViolationInfo findSLAViolations(long ts, int prediction, Map<Long,Integer> samples) {
+        SLAViolationInfo vi = new SLAViolationInfo();
         int consecutiveViolations = 0;
         int total = 0;
         int totalViolations = 0;
         for (Map.Entry<Long,Integer> entry : samples.entrySet()) {
+            if (entry.getKey() < ts) {
+                continue;
+            }
             total++;
             if (entry.getValue() > prediction) {
                 totalViolations++;
-                if (firstViolation < 0) {
-                    firstViolation = entry.getKey();
-                    printTime("First violation", ts, firstViolation);
+                if (vi.firstViolation < 0) {
+                    vi.firstViolation = entry.getKey();
                 }
                 consecutiveViolations++;
-                if (consecutiveViolations == 3 && first3CViolations < 0) {
-                    first3CViolations = entry.getKey();
-                    printTime("First 3C violations", ts, first3CViolations);
+                if (consecutiveViolations == 3 && vi.first3CViolations < 0) {
+                    vi.first3CViolations = entry.getKey();
                 }
                 double percentage = ((double) totalViolations) / total;
-                if (percentage > 0.05 && first5PViolations < 0) {
-                    first5PViolations = entry.getKey();
-                    printTime("More than 5% violations", ts, first5PViolations);
+                if (percentage > 0.05 && vi.first5PViolations < 0) {
+                    vi.first5PViolations = entry.getKey();
                 }
             } else {
                 consecutiveViolations = 0;
             }
 
-            if (firstViolation > 0 && first3CViolations > 0 && first5PViolations > 0) {
+            if (vi.firstViolation > 0 && vi.first3CViolations > 0 && vi.first5PViolations > 0) {
                 break;
             }
         }
-    }
-
-    private void printTime(String title, long start, long ts) {
-        double duration = (ts - start)/1000.0;
-        System.out.println(title + " at: " + ts + "[" + duration + " seconds]");
+        return vi;
     }
 
     private int findMax(TraceAnalysisResult[] results) {
@@ -153,6 +165,12 @@ public class KittyValidator {
     private static class TimestampInfo {
         long count;
         long timestamp;
+    }
+
+    private static class SLAViolationInfo {
+        long firstViolation = -1L;
+        long first3CViolations = -1L;
+        long first5PViolations = -1L;
     }
 
 }

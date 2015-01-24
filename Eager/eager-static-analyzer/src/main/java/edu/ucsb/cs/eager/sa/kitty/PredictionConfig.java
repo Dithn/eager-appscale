@@ -79,6 +79,8 @@ public class PredictionConfig {
 
     private int maxEntities = 1000;
 
+    private boolean hideOutput;
+
     public String getBenchmarkDataDir() {
         return benchmarkDataDir;
     }
@@ -213,6 +215,14 @@ public class PredictionConfig {
 
     public void setMaxEntities(int maxEntities) {
         this.maxEntities = maxEntities;
+    }
+
+    public boolean isHideOutput() {
+        return hideOutput;
+    }
+
+    public void setHideOutput(boolean hideOutput) {
+        this.hideOutput = hideOutput;
     }
 
     public void validate() throws Exception {
