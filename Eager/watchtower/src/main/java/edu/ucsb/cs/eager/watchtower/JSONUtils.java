@@ -34,11 +34,25 @@ public class JSONUtils {
         response.getOutputStream().println(json.toString());
     }
 
+    public static void serializeQueryResult(QueryResult result,
+                                                 HttpServletResponse response) throws IOException {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("timestamps", result.getTimestamps());
+            json.put("benchmarkData", result.getBenchmarkData());
+            setContentType(response);
+            response.getOutputStream().println(json.toString());
+        } catch (JSONException e) {
+            throw new IOException(e);
+        }
+    }
+
     public static void serializeCollectionStatus(boolean collectionStopped,
                                                  HttpServletResponse response) throws IOException {
         try {
             JSONObject json = new JSONObject();
             json.put("collectionStopped", collectionStopped);
+            setContentType(response);
             response.getOutputStream().println(json.toString());
         } catch (JSONException e) {
             throw new IOException(e);
@@ -50,6 +64,7 @@ public class JSONUtils {
         try {
             JSONObject json = new JSONObject();
             json.put("message", message);
+            setContentType(response);
             response.getOutputStream().println(json.toString());
         } catch (JSONException e) {
             throw new IOException(e);

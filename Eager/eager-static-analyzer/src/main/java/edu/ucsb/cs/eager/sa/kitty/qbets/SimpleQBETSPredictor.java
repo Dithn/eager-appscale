@@ -88,8 +88,7 @@ public class SimpleQBETSPredictor {
             // If there are n API calls in the path, we need to compute the n-th root
             // quantile for each API call
             double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
-            Map<String,Integer> map = getQuantiles(config.getBenchmarkDataSvc(),
-                    adjustedQuantile, config.getConfidence(), reducedOps);
+            Map<String,Integer> map = getQuantiles(config, adjustedQuantile, reducedOps);
             for (Map.Entry<String,Integer> entry : map.entrySet()) {
                 cache.put(entry.getKey(), pathLength, entry.getValue());
             }
@@ -116,16 +115,17 @@ public class SimpleQBETSPredictor {
         return new Prediction(total);
     }
 
-    private static Map<String,Integer> getQuantiles(String bmDataSvc,
+    private static Map<String,Integer> getQuantiles(PredictionConfig config,
                                                     double quantile,
-                                                    double confidence,
                                                     Collection<String> ops) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("quantile", quantile);
-        msg.put("confidence", confidence);
+        msg.put("confidence", config.getConfidence());
         msg.put("operations", new JSONArray(ops));
+        msg.put("start", config.getStart());
+        msg.put("end", config.getEnd());
 
-        JSONObject resp = HttpUtils.doPost(bmDataSvc + "/predict", msg);
+        JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/predict", msg);
         Map<String,Integer> quantiles = new HashMap<String, Integer>();
         Iterator keys = resp.keys();
         while (keys.hasNext()) {

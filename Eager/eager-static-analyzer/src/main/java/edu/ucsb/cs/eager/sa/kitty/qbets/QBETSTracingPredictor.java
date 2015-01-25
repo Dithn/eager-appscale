@@ -144,19 +144,20 @@ public class QBETSTracingPredictor {
         for (int i = 0; i < dataPoints; i++) {
             for (APICall call : path.calls()) {
                 // Sum up the actual values from the original time series
-                actualSums[i] += cache.getTimeSeries(call)[i + minIndex];
+                actualSums[i] += cache.getTimeSeries(call).getByIndex(i + minIndex);
             }
         }
 
-        int[] quantileSums = approach1(path, adjustedQuantile, dataPoints);
-        int[] aggregateQuantiles = approach2(path, tsLength, dataPoints);
+        TimeSeries quantileSums = approach1(path, adjustedQuantile, dataPoints);
+        TimeSeries aggregateQuantiles = approach2(path, dataPoints);
 
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
             results[i] = new TraceAnalysisResult();
-            results[i].approach1 = quantileSums[i];
-            results[i].approach2 = aggregateQuantiles[i];
+            results[i].approach1 = quantileSums.getByIndex(i);
+            results[i].approach2 = aggregateQuantiles.getByIndex(i);
             results[i].sum = actualSums[i];
+            results[i].timestamp = quantileSums.getTimestampByIndex(i);
         }
 
         println("");
@@ -183,39 +184,37 @@ public class QBETSTracingPredictor {
         return results[results.length - 1];
     }
 
-    private int[] approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
-        for (APICall call : path.calls()) {
+    private TimeSeries approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
+        List<APICall> calls = path.calls();
+        for (APICall call : calls) {
             if (!cache.containsQuantiles(call, path.size())) {
                 println("Calculating quantiles for: " + call.getId() +
                         " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
-                int[] quantilePredictions = getQuantilePredictions(cache.getTimeSeries(call),
+                TimeSeries quantilePredictions = getQuantilePredictions(cache.getTimeSeries(call),
                         call.getId(), dataPoints, adjustedQuantile);
                 cache.putQuantiles(call, path.size(), quantilePredictions);
             }
         }
 
-        int[] quantileSums = new int[dataPoints];
-        for (int i = 0; i < dataPoints; i++) {
-            for (APICall call : path.calls()) {
-                // Sum up the adjusted quantiles
-                quantileSums[i] += cache.getQuantiles(call, path.size())[i];
-            }
+        // Sum up the adjusted quantiles
+        TimeSeries quantileSums = cache.getQuantiles(calls.get(0), path.size());
+        for (int i = 1; i < calls.size(); i++) {
+            quantileSums = quantileSums.aggregate(cache.getQuantiles(calls.get(i), path.size()));
         }
         return quantileSums;
     }
 
-    private int[] approach2(Path path, int tsLength, int dataPoints) throws IOException {
+    private TimeSeries approach2(Path path, int dataPoints) throws IOException {
         // create new aggregate time series
-        int[] aggregate = new int[tsLength];
-        for (int i = 0; i < tsLength; i++) {
-            for (APICall call : path.calls()) {
-                aggregate[i] += cache.getTimeSeries(call)[i];
-            }
+        List<APICall> calls = path.calls();
+        TimeSeries aggr = cache.getTimeSeries(calls.get(0));
+        for (int i = 1; i < path.calls().size(); i++) {
+            aggr = aggr.aggregate(cache.getTimeSeries(calls.get(i)));
         }
 
         // Approach 2
         if (!cache.containsQuantiles(path, path.size())) {
-            int[] quantilePredictions = getQuantilePredictions(aggregate, path.getId(),
+            TimeSeries quantilePredictions = getQuantilePredictions(aggr, path.getId(),
                     dataPoints, config.getQuantile());
             cache.putQuantiles(path, path.size(), quantilePredictions);
         }
@@ -229,28 +228,24 @@ public class QBETSTracingPredictor {
      * @param name A human readable name for the time series
      * @param len Length of the quantile trace to be returned
      * @param quantile Quantile to be calculated (e.g. 0.95)
-     * @return An array of quantiles
+     * @return A time series of predictions
      * @throws IOException on error
      */
-    private int[] getQuantilePredictions(int[] ts, String name, int len,
+    private TimeSeries getQuantilePredictions(TimeSeries ts, String name, int len,
                                       double quantile) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("quantile", quantile);
         msg.put("confidence", config.getConfidence());
-        msg.put("data", new JSONArray(ts));
+        msg.put("data", ts.toJSON());
         msg.put("name", name);
 
         JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/cpredict", msg);
         JSONArray array = resp.getJSONArray("Predictions");
-        int[] result = new int[len];
         // Just return the last len elements of the resulting array
-        for (int i = 0; i < len; i++) {
-            result[i] = array.getInt(array.length() - len + i);
-        }
-        return result;
+        return extractTimeSeries(array, len);
     }
 
-    private Map<String,int[]> getTimeSeriesData(Collection<String> ops,
+    private Map<String,TimeSeries> getTimeSeriesData(Collection<String> ops,
                                                 PredictionConfig config) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("operations", new JSONArray(ops));
@@ -262,22 +257,35 @@ public class QBETSTracingPredictor {
         }
 
         JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/ts", msg);
-        Map<String,int[]> data = new HashMap<String,int[]>();
+        Map<String,TimeSeries> data = new HashMap<String,TimeSeries>();
         Iterator keys = resp.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();
             JSONArray array = resp.getJSONArray(k);
-            int[] ts = new int[array.length()];
-            for (int i = 0; i < ts.length; i++) {
-                ts[i] = array.getInt(i);
-            }
-            data.put(k, ts);
+            data.put(k, extractTimeSeries(array, array.length()));
         }
 
         if (data.size() == 0) {
             throw new IllegalStateException("No time series data found");
         }
         return data;
+    }
+
+    /**
+     * Extract TimeSeries from the JSON payload. Only the last len elements in the JSON
+     * array would be included in the resulting TimeSeries.
+     *
+     * @param array A JSON array representing a time series
+     * @param len Last number of elements to be included in the result
+     * @return a TimeSeries with at most len elements
+     */
+    private TimeSeries extractTimeSeries(JSONArray array, int len) {
+        TimeSeries ts = new TimeSeries();
+        for (int i = 0; i < len; i++) {
+            JSONObject dataPoint = array.getJSONObject(array.length() - len + i);
+            ts.add(dataPoint.getLong("Timestamp"), dataPoint.getInt("Value"));
+        }
+        return ts;
     }
 
     private void println(String msg) {

@@ -38,12 +38,7 @@ public class AdvancedSimulatorTest extends TestCase {
         simulator.addUserPackage("net.eager.testing");
         simulator.addSpecialPackage("edu.ucsb.cs.eager.gae");
 
-        SootClass c = Scene.v().loadClassAndSupport("net.eager.testing.TestClass");
-        c.setApplicationClass();
-        SootMethod m = c.getMethodByName("main");
-        Body b = m.retrieveActiveBody();
-        UnitGraph g = new BriefUnitGraph(b);
-
+        UnitGraph g = getUnitGraph();
         SimulationManager manager = new SimulationManager(g, simulator);
         double result = manager.simulate(1000, false);
         System.out.println("Average performance (Random) = " + result);
@@ -55,12 +50,7 @@ public class AdvancedSimulatorTest extends TestCase {
         simulator.addUserPackage("net.eager.testing");
         simulator.addSpecialPackage("edu.ucsb.cs.eager.gae");
 
-        SootClass c = Scene.v().loadClassAndSupport("net.eager.testing.TestClass");
-        c.setApplicationClass();
-        SootMethod m = c.getMethodByName("main");
-        Body b = m.retrieveActiveBody();
-        UnitGraph g = new BriefUnitGraph(b);
-
+        UnitGraph g = getUnitGraph();
         SimulationManager manager = new SimulationManager(g, simulator);
         double result = manager.simulate(1000, false);
         System.out.println("Average performance (TLAT-Counter) = " + result);
@@ -72,15 +62,18 @@ public class AdvancedSimulatorTest extends TestCase {
         simulator.addUserPackage("net.eager.testing");
         simulator.addSpecialPackage("edu.ucsb.cs.eager.gae");
 
+        UnitGraph g = getUnitGraph();
+        SimulationManager manager = new SimulationManager(g, simulator);
+        double result = manager.simulate(1000, false);
+        System.out.println("Average performance (TLAT-TakeLast) = " + result);
+    }
+
+    private UnitGraph getUnitGraph() {
         SootClass c = Scene.v().loadClassAndSupport("net.eager.testing.TestClass");
         c.setApplicationClass();
         SootMethod m = c.getMethodByName("main");
         Body b = m.retrieveActiveBody();
-        UnitGraph g = new BriefUnitGraph(b);
-
-        SimulationManager manager = new SimulationManager(g, simulator);
-        double result = manager.simulate(1000, false);
-        System.out.println("Average performance (TLAT-TakeLast) = " + result);
+        return new BriefUnitGraph(b);
     }
 
 

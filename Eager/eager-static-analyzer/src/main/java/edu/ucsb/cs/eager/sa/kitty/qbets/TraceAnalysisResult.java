@@ -30,6 +30,8 @@ public class TraceAnalysisResult {
     // current data point in the aggregate time series
     int sum;
 
+    long timestamp;
+
     public int getApproach1() {
         return approach1;
     }
@@ -40,5 +42,9 @@ public class TraceAnalysisResult {
 
     public int getSum() {
         return sum;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
     }
 }

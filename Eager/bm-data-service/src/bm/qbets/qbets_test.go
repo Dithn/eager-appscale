@@ -9,11 +9,11 @@ import (
 )
 
 func TestPredictQuantile1(t *testing.T) {
-	slice := make([]int, 0, 1000)
+	var ts db.TimeSeries
 	for i := 0; i < 250; i++ {
-		slice = append(slice, i%100)
+		ts = append(ts, db.Datapoint{Timestamp: int64(i), Value: i%100})
 	}
-	q, err := PredictQuantile(db.TimeSeries(slice), 0.95, 0.05, false)
+	q, err := PredictQuantile(ts, 0.95, 0.05, false)
 	if err != nil {
 		t.Error(err)
 	}
@@ -27,7 +27,7 @@ func TestPredictQuantile2(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	q, err := PredictQuantile(db.TimeSeries(ts), 0.95, 0.05, false)
+	q, err := PredictQuantile(ts, 0.95, 0.05, false)
 	if err != nil {
 		t.Error(err)
 	}
@@ -59,22 +59,27 @@ func TestPredictQuantile2(t *testing.T) {
 	}
 }*/
 
-func loadTS(file string) ([]int, error) {
+func loadTS(file string) (db.TimeSeries, error) {
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
 	lines := strings.Split(string(data), "\n")
-	var ts []int
+	var ts db.TimeSeries
 	for _, l := range lines {
 		if l == "" {
 			continue
 		}
-		v, err := strconv.Atoi(l)
+		fields := strings.Fields(l)
+		t, err := strconv.ParseInt(fields[0], 10, 64)
 		if err != nil {
 			return nil, err
 		}
-		ts = append(ts, v)
+		v, err := strconv.Atoi(fields[1])
+		if err != nil {
+			return nil, err
+		}
+		ts = append(ts, db.Datapoint{Timestamp: t, Value: v})
 	}
 	return ts, nil
 }

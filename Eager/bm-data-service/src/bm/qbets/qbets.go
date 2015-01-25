@@ -33,7 +33,7 @@ func PredictQuantile(ts db.TimeSeries, q, c float64, debug bool) (int, error) {
 // PredictQuantileTrace runs QBETS on the given TimeSeries to predict its q-th
 // quantile with c upper-confidence at each data point. It returns the quantiles
 // calculated at each data point of the time series.
-func PredictQuantileTrace(ts db.TimeSeries, q, c float64, debug bool) ([]int, error) {
+func PredictQuantileTrace(ts db.TimeSeries, q, c float64, debug bool) (db.TimeSeries, error) {
 	file, err := ioutil.TempFile(os.TempDir(), "_qbets_")
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func PredictQuantileTrace(ts db.TimeSeries, q, c float64, debug bool) ([]int, er
 func runQBETS(ts db.TimeSeries, file string, q, c float64, debug bool) ([]byte, error) {
 	var buffer bytes.Buffer
 	for _, v := range ts {
-		buffer.WriteString(fmt.Sprintf("%d\n", v))
+		buffer.WriteString(fmt.Sprintf("%d %d\n", v.Timestamp, v.Value))
 	}
 	if err := ioutil.WriteFile(file, buffer.Bytes(), 0644); err != nil {
 		return nil, err
@@ -79,25 +79,29 @@ func getLastPrediction(ts db.TimeSeries, file string, q, c float64, debug bool) 
 	return int(p), nil
 }
 
-func getAllPredictions(ts db.TimeSeries, file string, q, c float64, debug bool) ([]int, error) {
+func getAllPredictions(ts db.TimeSeries, file string, q, c float64, debug bool) (db.TimeSeries, error) {
 	out, err := runQBETS(ts, file, q, c, debug)
 	if err != nil {
 		return nil, err
 	}
 
 	lines := strings.Split(string(out), "\n")
-	var p []int
+	var p db.TimeSeries
 	for _, l := range lines {
 		if debug {
 			fmt.Println(l)
 		}
 		if strings.HasPrefix(l, "time:") {
 			segments := strings.Fields(l)
+			t, err := strconv.ParseFloat(segments[1], 64)
+			if err != nil {
+				return nil, err
+			}
 			val, err := strconv.ParseFloat(segments[5], 64)
 			if err != nil {
 				return nil, err
 			}
-			p = append(p, int(val))
+			p = append(p, db.Datapoint{Timestamp: int64(t), Value: int(val)})
 		}
 	}
 	return p, nil

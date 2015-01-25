@@ -21,10 +21,7 @@ package edu.ucsb.cs.eager.watchtower;
 
 import com.google.appengine.api.datastore.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataPoint {
 
@@ -48,7 +45,7 @@ public class DataPoint {
     }
 
     public Map<String,Integer> getData() {
-        return this.data;
+        return Collections.unmodifiableMap(this.data);
     }
 
     private Entity toEntity() {

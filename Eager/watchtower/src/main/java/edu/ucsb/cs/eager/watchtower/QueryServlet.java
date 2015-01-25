@@ -51,18 +51,21 @@ public class QueryServlet extends HttpServlet {
             end = Long.parseLong(endParam);
         }
 
-        Map<String,List<Integer>> results = new HashMap<String, List<Integer>>();
+        QueryResult result = new QueryResult();
         for (DataPoint p : DataPoint.getAll()) {
             if (start <= p.getTimestamp() && p.getTimestamp() <= end) {
-                Map<String,Integer> data = p.getData();
-                for (Map.Entry<String,Integer> entry : data.entrySet()) {
+                Map<String,Integer> currentData = new HashMap<String, Integer>();
+                for (Map.Entry<String,Integer> entry : p.getData().entrySet()) {
                     if (addToResult(entry.getKey(), ops)) {
-                        addToMap(results, entry.getKey(), entry.getValue());
+                        currentData.put(entry.getKey(), entry.getValue());
                     }
+                }
+                if (currentData.size() > 0) {
+                    result.add(p.getTimestamp(), currentData);
                 }
             }
         }
-        JSONUtils.serializeMap(results, resp);
+        JSONUtils.serializeQueryResult(result, resp);
     }
 
     private boolean addToResult(String key, String[] ops) {
@@ -75,12 +78,5 @@ public class QueryServlet extends HttpServlet {
             return false;
         }
         return true;
-    }
-
-    private void addToMap(Map<String,List<Integer>> map, String key, int value) {
-        if (!map.containsKey(key)) {
-            map.put(key, new ArrayList<Integer>());
-        }
-        map.get(key).add(value);
     }
 }

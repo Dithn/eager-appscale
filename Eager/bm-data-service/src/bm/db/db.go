@@ -13,20 +13,19 @@ import (
 	"strings"
 )
 
-// TimeSeries represents a sequence of time-ordered data
-type TimeSeries []int
-
-// TimestampInfo encapsulates the timestamp information of
-// a particular data point in a timeseries.
-type TimestampInfo struct {
-	Count, Latest int64
+// Datapoint represents an individual member of a time series.
+type Datapoint struct {
+	Timestamp int64
+	Value     int
 }
+
+// TimeSeries represents a sequence of time-ordered data
+type TimeSeries []Datapoint
 
 // Database interface defines what operations/queries should be supported
 // by a database implementation.
 type Database interface {
 	Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error)
-	GetTimestamp(limit int64) (*TimestampInfo, error)
 }
 
 // FSDatabase implements the Database interface using a set of data files
@@ -78,10 +77,6 @@ func (fsd *FSDatabase) Query(n int, ops []string, start, end int64) (map[string]
 	return result, nil
 }
 
-func (fsd *FSDatabase) GetTimestamp(limit int64) (*TimestampInfo, error) {
-	return nil, fmt.Errorf("not implemented")
-}
-
 func loadFile(root, child string) (string, TimeSeries, error) {
 	fmt.Println("Loading data from", child)
 	lines, err := bmutil.ReadLines(path.Join(root, child))
@@ -95,11 +90,19 @@ func loadFile(root, child string) (string, TimeSeries, error) {
 		if name == "" {
 			name = line
 		} else {
-			val, err := strconv.Atoi(line)
+			fields := strings.Fields(line)
+			t, err := strconv.ParseInt(fields[0], 10, 64)
 			if err != nil {
 				return "", nil, err
 			}
-			ts = append(ts, val)
+			val, err := strconv.Atoi(fields[1])
+			if err != nil {
+				return "", nil, err
+			}
+			ts = append(ts, Datapoint{
+				Timestamp: t,
+				Value:     val,
+			})
 		}
 	}
 	return name, ts, nil
@@ -133,39 +136,25 @@ func (aed *AEDatabase) Query(n int, ops []string, start, end int64) (map[string]
 		return nil, err
 	}
 
-	type queryResult map[string][]int
+	type queryResult struct {
+		Timestamps    []int64
+		BenchmarkData map[string][]int
+	}
 	var qr queryResult
 	if err := json.Unmarshal(body, &qr); err != nil {
 		return nil, err
 	}
 
 	result := make(map[string]TimeSeries)
-	for k, v := range qr {
-		if n > 0 && n <= len(v) {
-			result[k] = TimeSeries(v[len(v)-n:])
-		} else {
-			result[k] = TimeSeries(v)
+	for op, values := range qr.BenchmarkData {
+		var ts TimeSeries
+		for index, value := range values {
+			ts = append(ts, Datapoint{
+				Timestamp: qr.Timestamps[index],
+				Value:     value,
+			})
 		}
+		result[op] = ts
 	}
 	return result, nil
-}
-
-func (aed *AEDatabase) GetTimestamp(limit int64) (*TimestampInfo, error) {
-	url := fmt.Sprintf("%s/timestamp?limit=%d", aed.BaseURL, limit)
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var tr TimestampInfo
-	if err := json.Unmarshal(body, &tr); err != nil {
-		return nil, err
-	}
-	return &tr, nil
 }

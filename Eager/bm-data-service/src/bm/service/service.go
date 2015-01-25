@@ -7,7 +7,6 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
-	"strconv"
 	"sync"
 )
 
@@ -108,31 +107,6 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 	}
 }
 
-func getTimestampHandler(d db.Database) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		limitString := r.FormValue("limit")
-		limit, err := strconv.ParseInt(limitString, 10, 64)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		result, err := d.GetTimestamp(limit)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		jsonString, err := json.Marshal(*result)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(jsonString)
-	}
-}
-
 func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
@@ -152,7 +126,7 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 			return
 		}
 		fmt.Printf("TracePrediction [%s] (q = %f, c = %f) => %d quantiles (%d data points)\n", cpr.Name, cpr.Quantile, cpr.Confidence, len(p), len(cpr.Data))
-		predictions := map[string][]int{
+		predictions := map[string]db.TimeSeries{
 			"Predictions": p,
 		}
 
@@ -196,6 +170,5 @@ func main() {
 	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
 	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler())
 	http.HandleFunc("/ts", getTimeSeriesHandler(d))
-	http.HandleFunc("/tsinfo", getTimestampHandler(d))
 	http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", *port), nil)
 }

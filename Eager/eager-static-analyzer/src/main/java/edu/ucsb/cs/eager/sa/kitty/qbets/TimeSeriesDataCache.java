@@ -26,22 +26,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TimeSeriesDataCache {
 
-    private Map<String,int[]> ts;
-    private Map<String,int[]> quantiles = new ConcurrentHashMap<String,int[]>();
+    private Map<String,TimeSeries> ts;
+    private Map<String,TimeSeries> quantiles = new ConcurrentHashMap<String,TimeSeries>();
 
-    public TimeSeriesDataCache(Map<String, int[]> ts) {
+    public TimeSeriesDataCache(Map<String,TimeSeries> ts) {
         this.ts = ts;
     }
 
-    public int[] getTimeSeries(Identifiable op) {
+    public TimeSeries getTimeSeries(Identifiable op) {
         return ts.get(op.getId());
     }
 
-    public void putQuantiles(Identifiable op, int pathLength, int[] value) {
+    public void putQuantiles(Identifiable op, int pathLength, TimeSeries value) {
         quantiles.put(key(op, pathLength), value);
     }
 
-    public int[] getQuantiles(Identifiable op, int pathLength) {
+    public TimeSeries getQuantiles(Identifiable op, int pathLength) {
         return quantiles.get(key(op, pathLength));
     }
 
@@ -55,9 +55,9 @@ public class TimeSeriesDataCache {
 
     public int getTimeSeriesLength() {
         int length = Integer.MAX_VALUE;
-        for (int[] data : ts.values()) {
-            if (data.length < length) {
-                length = data.length;
+        for (TimeSeries data : ts.values()) {
+            if (data.length() < length) {
+                length = data.length();
             }
         }
         return length;
