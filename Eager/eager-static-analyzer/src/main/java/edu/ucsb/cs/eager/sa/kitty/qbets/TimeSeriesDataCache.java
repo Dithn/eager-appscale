@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TimeSeriesDataCache {
 
     private Map<String,TimeSeries> ts;
-    private Map<String,TimeSeries> quantiles = new ConcurrentHashMap<String,TimeSeries>();
+    private Map<String,TimeSeries> quantiles = new ConcurrentHashMap<>();
 
     public TimeSeriesDataCache(Map<String,TimeSeries> ts) {
         this.ts = ts;

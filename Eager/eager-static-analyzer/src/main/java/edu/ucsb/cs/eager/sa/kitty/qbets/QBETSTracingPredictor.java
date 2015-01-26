@@ -242,7 +242,7 @@ public class QBETSTracingPredictor {
         JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/cpredict", msg);
         JSONArray array = resp.getJSONArray("Predictions");
         // Just return the last len elements of the resulting array
-        return extractTimeSeries(array, len);
+        return new TimeSeries(array, len);
     }
 
     private Map<String,TimeSeries> getTimeSeriesData(Collection<String> ops,
@@ -262,30 +262,13 @@ public class QBETSTracingPredictor {
         while (keys.hasNext()) {
             String k = (String) keys.next();
             JSONArray array = resp.getJSONArray(k);
-            data.put(k, extractTimeSeries(array, array.length()));
+            data.put(k, new TimeSeries(array, array.length()));
         }
 
         if (data.size() == 0) {
             throw new IllegalStateException("No time series data found");
         }
         return data;
-    }
-
-    /**
-     * Extract TimeSeries from the JSON payload. Only the last len elements in the JSON
-     * array would be included in the resulting TimeSeries.
-     *
-     * @param array A JSON array representing a time series
-     * @param len Last number of elements to be included in the result
-     * @return a TimeSeries with at most len elements
-     */
-    private TimeSeries extractTimeSeries(JSONArray array, int len) {
-        TimeSeries ts = new TimeSeries();
-        for (int i = 0; i < len; i++) {
-            JSONObject dataPoint = array.getJSONObject(array.length() - len + i);
-            ts.add(dataPoint.getLong("Timestamp"), dataPoint.getInt("Value"));
-        }
-        return ts;
     }
 
     private void println(String msg) {

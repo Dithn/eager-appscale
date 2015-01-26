@@ -35,7 +35,7 @@ import java.util.*;
  */
 public class Cerebro {
 
-    private Set<SootMethod> analyzedMethods = new HashSet<SootMethod>();
+    private Set<SootMethod> analyzedMethods = new HashSet<>();
     private boolean loadNecessaryClasses = true;
     private boolean wholeProgramMode = false;
     private boolean verbose = false;

@@ -62,8 +62,8 @@ public class SimpleQBETSPredictor {
             return new Prediction("------");
         }
 
-        Set<Integer> pathLengths = new HashSet<Integer>();
-        Set<String> uniqueOps = new HashSet<String>();
+        Set<Integer> pathLengths = new HashSet<>();
+        Set<String> uniqueOps = new HashSet<>();
         for (Path path : pathsOfInterest) {
             pathLengths.add(path.size());
             for (APICall call : path.calls()) {
@@ -73,7 +73,7 @@ public class SimpleQBETSPredictor {
 
         // Compute quantiles for each API call, under different API call counts
         for (Integer pathLength : pathLengths) {
-            Set<String> reducedOps = new HashSet<String>();
+            Set<String> reducedOps = new HashSet<>();
             for (String op : uniqueOps) {
                 // Only request combinations, that are not in the cache already
                 if (!cache.contains(op, pathLength)) {
@@ -126,7 +126,7 @@ public class SimpleQBETSPredictor {
         msg.put("end", config.getEnd());
 
         JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/predict", msg);
-        Map<String,Integer> quantiles = new HashMap<String, Integer>();
+        Map<String,Integer> quantiles = new HashMap<>();
         Iterator keys = resp.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();

@@ -32,8 +32,31 @@ import java.util.List;
  */
 public class TimeSeries {
 
-    private List<Long> timestamps = new ArrayList<Long>();
-    private List<Integer> values = new ArrayList<Integer>();
+    private static final String TIMESTAMP = "Timestamp";
+    private static final String VALUE = "Value";
+
+    private List<Long> timestamps = new ArrayList<>();
+    private List<Integer> values = new ArrayList<>();
+
+    /**
+     * Create an empty TimeSeries
+     */
+    public TimeSeries(){
+    }
+
+    /**
+     * Extract TimeSeries from a JSON payload. Only the last len elements in the JSON
+     * array would be included in the resulting TimeSeries.
+     *
+     * @param array A JSON array representing a time series
+     * @param len Last number of elements to be included in the result
+     */
+    public TimeSeries(JSONArray array, int len) {
+        for (int i = 0; i < len; i++) {
+            JSONObject dataPoint = array.getJSONObject(array.length() - len + i);
+            add(dataPoint.getLong(TIMESTAMP), dataPoint.getInt(VALUE));
+        }
+    }
 
     public void add(long time, int val) {
         int len = timestamps.size();
@@ -70,8 +93,8 @@ public class TimeSeries {
         JSONArray array = new JSONArray();
         for (int i = 0; i < timestamps.size(); i++) {
             JSONObject dp = new JSONObject();
-            dp.put("Timestamp", (long) timestamps.get(i));
-            dp.put("Value", (int) values.get(i));
+            dp.put(TIMESTAMP, (long) timestamps.get(i));
+            dp.put(VALUE, (int) values.get(i));
             array.put(dp);
         }
         return array;

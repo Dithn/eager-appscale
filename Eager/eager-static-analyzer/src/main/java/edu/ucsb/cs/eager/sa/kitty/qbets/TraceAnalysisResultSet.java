@@ -45,8 +45,7 @@ public class TraceAnalysisResultSet {
     public TraceAnalysisResult[] findLargest() {
         double max = 0.0;
         TraceAnalysisResult[] largest = null;
-        for (int i = 0; i < list.size(); i++) {
-            TraceAnalysisResult[] curr = list.get(i);
+        for (TraceAnalysisResult[] curr : list) {
             int sum = 0;
             for (TraceAnalysisResult r : curr) {
                 sum += r.approach2;
