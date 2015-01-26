@@ -155,6 +155,10 @@ public class QBETSTracingPredictor {
             results[i].sum = actualSums.getByTimestamp(ts);
         }
 
+        if (config.isHideOutput()) {
+            return results;
+        }
+
         println("");
         int failures = 0;
         println("[trace][method][path] index p1 p2 current  success success_rate");
