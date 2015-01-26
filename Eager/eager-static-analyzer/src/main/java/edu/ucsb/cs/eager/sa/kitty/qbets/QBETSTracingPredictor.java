@@ -141,24 +141,18 @@ public class QBETSTracingPredictor {
         }
         println("Number of data points analyzed: " + dataPoints);
 
-        int[] actualSums = new int[dataPoints];
-        for (int i = 0; i < dataPoints; i++) {
-            for (APICall call : path.calls()) {
-                // Sum up the actual values from the original time series
-                actualSums[i] += cache.getTimeSeries(call).getByIndex(i + minIndex);
-            }
-        }
-
+        TimeSeries actualSums = getAggregateTimeSeries(path.calls());
         TimeSeries quantileSums = approach1(path, adjustedQuantile, dataPoints);
-        TimeSeries aggregateQuantiles = approach2(path, dataPoints);
+        TimeSeries aggregateQuantiles = approach2(path, actualSums, dataPoints);
 
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
+            long ts = quantileSums.getTimestampByIndex(i);
             results[i] = new TraceAnalysisResult();
-            results[i].approach1 = quantileSums.getByIndex(i);
-            results[i].approach2 = aggregateQuantiles.getByIndex(i);
-            results[i].sum = actualSums[i];
-            results[i].timestamp = quantileSums.getTimestampByIndex(i);
+            results[i].timestamp = ts;
+            results[i].approach1 = quantileSums.getByTimestamp(ts);
+            results[i].approach2 = aggregateQuantiles.getByTimestamp(ts);
+            results[i].sum = actualSums.getByTimestamp(ts);
         }
 
         println("");
@@ -199,21 +193,14 @@ public class QBETSTracingPredictor {
         }
 
         // Sum up the adjusted quantiles
-        TimeSeries quantileSums = cache.getQuantiles(calls.get(0), path.size());
-        for (int i = 1; i < calls.size(); i++) {
-            quantileSums = quantileSums.aggregate(cache.getQuantiles(calls.get(i), path.size()));
+        List<TimeSeries> ts = new ArrayList<>();
+        for (APICall call : calls) {
+            ts.add(cache.getQuantiles(call, path.size()));
         }
-        return quantileSums;
+        return aggregate(ts);
     }
 
-    private TimeSeries approach2(Path path, int dataPoints) throws IOException {
-        // create new aggregate time series
-        List<APICall> calls = path.calls();
-        TimeSeries aggr = cache.getTimeSeries(calls.get(0));
-        for (int i = 1; i < path.calls().size(); i++) {
-            aggr = aggr.aggregate(cache.getTimeSeries(calls.get(i)));
-        }
-
+    private TimeSeries approach2(Path path, TimeSeries aggr, int dataPoints) throws IOException {
         // Approach 2
         if (!cache.containsQuantiles(path, path.size())) {
             TimeSeries quantilePredictions = getQuantilePredictions(aggr, path.getId(),
@@ -221,6 +208,22 @@ public class QBETSTracingPredictor {
             cache.putQuantiles(path, path.size(), quantilePredictions);
         }
         return cache.getQuantiles(path, path.size());
+    }
+
+    public TimeSeries getAggregateTimeSeries(List<APICall> ops) {
+        List<TimeSeries> ts = new ArrayList<>();
+        for (APICall call : ops) {
+            ts.add(cache.getTimeSeries(call));
+        }
+        return aggregate(ts);
+    }
+
+    private TimeSeries aggregate(List<TimeSeries> list) {
+        TimeSeries aggr = list.get(0);
+        for (int i = 1; i < list.size(); i++) {
+            aggr = aggr.aggregate(list.get(i));
+        }
+        return aggr;
     }
 
     /**

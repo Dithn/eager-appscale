@@ -62,6 +62,22 @@ public class TimeSeriesTest extends TestCase {
         }
     }
 
+    public void testTimeSeriesSearch() {
+        TimeSeries ts = new TimeSeries();
+        for (int i = 0; i < 1000; i++) {
+            ts.add(i * i, i);
+        }
+
+        for (int i = 0; i < 1000; i++) {
+            assertEquals(i, ts.getByTimestamp(i * i));
+        }
+        try {
+            ts.getTimestampByIndex(15);
+            fail("no error thrown for invalid timestamp");
+        } catch (Exception ignored) {
+        }
+    }
+
     public void testTimeSeriesJSON() {
         TimeSeries ts = new TimeSeries();
         for (int i = 0; i < 1000; i++) {

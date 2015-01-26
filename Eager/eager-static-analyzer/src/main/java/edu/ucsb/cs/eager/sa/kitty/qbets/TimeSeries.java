@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -77,6 +78,14 @@ public class TimeSeries {
 
     public long getTimestampByIndex(int index) {
         return timestamps.get(index);
+    }
+
+    public int getByTimestamp(long ts) {
+        int index = Collections.binarySearch(timestamps, ts);
+        if (index >= 0) {
+            return values.get(index);
+        }
+        throw new IllegalArgumentException("failed to find timestamp: " + ts);
     }
 
     public TimeSeries aggregate(TimeSeries other) {
