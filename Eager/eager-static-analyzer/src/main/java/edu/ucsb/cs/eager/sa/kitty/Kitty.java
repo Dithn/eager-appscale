@@ -23,7 +23,7 @@ import edu.ucsb.cs.eager.sa.cerebro.CFGAnalyzer;
 import edu.ucsb.cs.eager.sa.cerebro.Cerebro;
 import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSTracingPredictor;
 import edu.ucsb.cs.eager.sa.kitty.qbets.SimpleQBETSPredictor;
-import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
+import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResultSet;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationBasedPredictor;
 import org.apache.commons.cli.*;
 import soot.SootMethod;
@@ -146,7 +146,7 @@ public class Kitty {
         return options;
     }
 
-    private Map<MethodInfo,TraceAnalysisResult[]> summary;
+    private Map<MethodInfo,TraceAnalysisResultSet> summary;
 
     public Collection<MethodInfo> getMethods(PredictionConfig config) throws IOException {
         if (config.getTraceFile() != null) {
@@ -172,7 +172,7 @@ public class Kitty {
         }
     }
 
-    public TraceAnalysisResult[] getSummary(MethodInfo m) {
+    public TraceAnalysisResultSet getSummary(MethodInfo m) {
         return summary.get(m);
     }
 
@@ -182,7 +182,7 @@ public class Kitty {
         cerebro.setWholeProgramMode(config.isWholeProgramMode());
         try {
             Map<SootMethod,CFGAnalyzer> results = cerebro.analyze();
-            Set<MethodInfo> methods = new TreeSet<MethodInfo>(new MethodInfo.MethodInfoComparator());
+            Set<MethodInfo> methods = new TreeSet<>(new MethodInfo.MethodInfoComparator());
             for (Map.Entry<SootMethod,CFGAnalyzer> entry : results.entrySet()) {
                 MethodInfo mi = new MethodInfo(entry.getKey().getName());
                 for (List<SootMethod> path : entry.getValue().getPaths()) {

@@ -19,17 +19,14 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
-import edu.ucsb.cs.eager.sa.kitty.qbets.HttpUtils;
+import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
 import org.apache.commons.cli.*;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class KittyValidator {
 
@@ -56,7 +53,10 @@ public class KittyValidator {
     }
 
     public void run(PredictionConfig config, String benchmarkFile) throws IOException {
+        TimeSeries benchmarkValues = parseBenchmarkFile(benchmarkFile);
+        long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
         config.setStart(-1L);
+        config.setEnd(end);
         config.setHideOutput(true);
 
         Kitty kitty = new Kitty();
@@ -74,33 +74,32 @@ public class KittyValidator {
         }
         System.out.println();
 
-        long last = 0;
-        Map<Long,Integer> benchmarkValues = parseBenchmarkFile(benchmarkFile);
-        System.out.println("[validate] timestamp prediction 1st 3c 5p");
-        for (long ts : benchmarkValues.keySet()) {
-            if (ts - last < 15 * 60 * 1000) {
-                // Jump ahead in approximately 15 min intervals
-                continue;
-            }
-            last = ts;
-
-            TimestampInfo info = getTimestampInfo(config, ts);
-            if (info.count < 1000) {
-                // We mandate that Watchtower at least have 1000 data points
-                // for this analysis to be useful.
-                System.out.println("Not enough data in Watchtower for validation.");
-                continue;
-            }
-
-            config.setEnd(info.timestamp);
-            kitty.run(config, methods);
-            int max = findMax(kitty.getSummary(method));
-            SLAViolationInfo vi = findSLAViolations(info.timestamp, max, benchmarkValues);
-            System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", info.timestamp, max,
-                    getTime(info.timestamp, vi.firstViolation),
-                    getTime(info.timestamp, vi.first3CViolations),
-                    getTime(info.timestamp, vi.first5PViolations));
+        kitty.run(config, methods);
+        TraceAnalysisResult[] result = kitty.getSummary(method).findLargest();
+        int startIndex = findClosestIndex(benchmarkValues.getTimestampByIndex(0), result);
+        if (startIndex < 0) {
+            System.err.println("Prediction time-line do not overlap with benchmark time-line.");
+            return;
         }
+
+        System.out.println("[validate] timestamp prediction 1st 3c 5p");
+        for (int i = startIndex; i < result.length; i+=15) {
+            TraceAnalysisResult r = result[i];
+            SLAViolationInfo vi = findSLAViolations(r.getTimestamp(), r.getApproach2(), benchmarkValues);
+            System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", r.getTimestamp(), r.getApproach2(),
+                    getTime(r.getTimestamp(), vi.firstViolation),
+                    getTime(r.getTimestamp(), vi.first3CViolations),
+                    getTime(r.getTimestamp(), vi.first5PViolations));
+        }
+    }
+
+    private int findClosestIndex(long ts, TraceAnalysisResult[] result) {
+        for (int i = 0; i < result.length; i++) {
+            if (result[i].getTimestamp() >= ts) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private String getTime(long start, long end) {
@@ -111,26 +110,29 @@ public class KittyValidator {
         return String.format("%.2f", duration);
     }
 
-    private SLAViolationInfo findSLAViolations(long ts, int prediction, Map<Long,Integer> samples) {
+    private SLAViolationInfo findSLAViolations(long ts, int prediction, TimeSeries samples) {
         int consecutiveViolations = 0, total = 0, totalViolations = 0;
         SLAViolationInfo vi = new SLAViolationInfo();
-        for (Map.Entry<Long,Integer> entry : samples.entrySet()) {
-            if (entry.getKey() < ts) {
+        for (int i = 0; i < samples.length(); i++) {
+            long time = samples.getTimestampByIndex(i);
+            if (time < ts) {
                 continue;
             }
+
+            int value = samples.getByIndex(i);
             total++;
-            if (entry.getValue() > prediction) {
+            if (value > prediction) {
                 totalViolations++;
                 consecutiveViolations++;
                 if (vi.firstViolation < 0) {
-                    vi.firstViolation = entry.getKey();
+                    vi.firstViolation = time;
                 }
                 if (consecutiveViolations == 3 && vi.first3CViolations < 0) {
-                    vi.first3CViolations = entry.getKey();
+                    vi.first3CViolations = time;
                 }
                 double percentage = ((double) totalViolations) / total;
                 if (percentage > 0.05 && vi.first5PViolations < 0) {
-                    vi.first5PViolations = entry.getKey();
+                    vi.first5PViolations = time;
                 }
             } else {
                 consecutiveViolations = 0;
@@ -143,41 +145,16 @@ public class KittyValidator {
         return vi;
     }
 
-    private int findMax(TraceAnalysisResult[] results) {
-        int max = -1;
-        for (TraceAnalysisResult r : results) {
-            if (r.getApproach2() > max) {
-                // Only use the 2nd prediction (less conservative) for this analysis.
-                max = r.getApproach2();
-            }
-        }
-        return max;
-    }
-
-    private Map<Long,Integer> parseBenchmarkFile(String path) throws IOException {
-        Map<Long,Integer> benchmarkValues = new TreeMap<Long, Integer>();
+    private TimeSeries parseBenchmarkFile(String path) throws IOException {
+        TimeSeries timeSeries = new TimeSeries();
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String line;
         while ((line = reader.readLine()) != null) {
             String[] segments = line.split(" ");
-            benchmarkValues.put(Long.parseLong(segments[0]), Integer.parseInt(segments[1]));
+            timeSeries.add(Long.parseLong(segments[0]), Integer.parseInt(segments[1]));
         }
         reader.close();
-        return benchmarkValues;
-    }
-
-    private TimestampInfo getTimestampInfo(PredictionConfig config, long limit) throws IOException {
-        String url = config.getBenchmarkDataSvc() + "/tsinfo?limit=" + limit;
-        JSONObject resp = HttpUtils.doGet(url);
-        TimestampInfo info = new TimestampInfo();
-        info.count = resp.getLong("Count");
-        info.timestamp = resp.getLong("Latest");
-        return info;
-    }
-
-    private static class TimestampInfo {
-        long count;
-        long timestamp;
+        return timeSeries;
     }
 
     private static class SLAViolationInfo {

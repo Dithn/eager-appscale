@@ -34,7 +34,7 @@ import java.util.*;
  */
 public class QBETSTracingPredictor {
 
-    public static Map<MethodInfo,TraceAnalysisResult[]> predict(PredictionConfig config,
+    public static Map<MethodInfo,TraceAnalysisResultSet> predict(PredictionConfig config,
                                Collection<MethodInfo> methods) throws IOException {
         QBETSTracingPredictor predictor = new QBETSTracingPredictor(config, methods);
         return predictor.run();
@@ -49,8 +49,8 @@ public class QBETSTracingPredictor {
         this.methods = methods;
     }
 
-    public Map<MethodInfo,TraceAnalysisResult[]> run() throws IOException {
-        Set<String> ops = new HashSet<String>();
+    private Map<MethodInfo,TraceAnalysisResultSet> run() throws IOException {
+        Set<String> ops = new HashSet<>();
         for (MethodInfo m : methods) {
             if (config.isEnabledMethod(m.getName())) {
                 for (Path path : m.getPaths()) {
@@ -74,10 +74,10 @@ public class QBETSTracingPredictor {
             println("Time range: " + config.getStart() + " - " + config.getEnd());
         }
 
-        Map<MethodInfo,TraceAnalysisResult[]> results = new HashMap<MethodInfo, TraceAnalysisResult[]>();
+        Map<MethodInfo,TraceAnalysisResultSet> results = new HashMap<>();
         for (MethodInfo m : methods) {
             if (config.isEnabledMethod(m.getName())) {
-                TraceAnalysisResult[] methodResults = analyzeMethod(m);
+                TraceAnalysisResultSet methodResults = analyzeMethod(m);
                 if (methodResults != null) {
                     results.put(m, methodResults);
                 }
@@ -86,7 +86,7 @@ public class QBETSTracingPredictor {
         return results;
     }
 
-    private TraceAnalysisResult[] analyzeMethod(MethodInfo method) throws IOException {
+    private TraceAnalysisResultSet analyzeMethod(MethodInfo method) throws IOException {
         printTitle(method.getName(), '=');
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
@@ -97,7 +97,7 @@ public class QBETSTracingPredictor {
         println(pathsOfInterest.size() + PredictionUtils.pluralize(
                 pathsOfInterest.size(), " path") + " with API calls found.");
 
-        List<Path> uniquePaths = new ArrayList<Path>();
+        List<Path> uniquePaths = new ArrayList<>();
         uniquePaths.add(pathsOfInterest.get(0));
         for (int i = 1; i < pathsOfInterest.size(); i++) {
             Path current = pathsOfInterest.get(i);
@@ -115,14 +115,14 @@ public class QBETSTracingPredictor {
 
         println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
-        List<TraceAnalysisResult> results = new ArrayList<TraceAnalysisResult>();
+        TraceAnalysisResultSet resultSet = new TraceAnalysisResultSet();
         for (int i = 0; i < uniquePaths.size(); i++) {
-            results.add(analyzePath(method, uniquePaths.get(i), i));
+            resultSet.addResult(analyzePath(method, uniquePaths.get(i), i));
         }
-        return results.toArray(new TraceAnalysisResult[results.size()]);
+        return resultSet;
     }
 
-    private TraceAnalysisResult analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
+    private TraceAnalysisResult[] analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
         printTitle("Path: " + pathIndex, '-');
         println("API Calls: " + path);
 
@@ -181,7 +181,7 @@ public class QBETSTracingPredictor {
             }
         }
 
-        return results[results.length - 1];
+        return results;
     }
 
     private TimeSeries approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
@@ -257,7 +257,7 @@ public class QBETSTracingPredictor {
         }
 
         JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/ts", msg);
-        Map<String,TimeSeries> data = new HashMap<String,TimeSeries>();
+        Map<String,TimeSeries> data = new HashMap<>();
         Iterator keys = resp.keys();
         while (keys.hasNext()) {
             String k = (String) keys.next();
