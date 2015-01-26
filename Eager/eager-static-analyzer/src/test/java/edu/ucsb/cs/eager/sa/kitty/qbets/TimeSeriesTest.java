@@ -72,7 +72,7 @@ public class TimeSeriesTest extends TestCase {
             assertEquals(i, ts.getByTimestamp(i * i));
         }
         try {
-            ts.getTimestampByIndex(15);
+            ts.getByTimestamp(15);
             fail("no error thrown for invalid timestamp");
         } catch (Exception ignored) {
         }
