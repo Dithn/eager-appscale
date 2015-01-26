@@ -33,33 +33,33 @@ import java.io.InputStream;
 public class HttpUtils {
 
     public static JSONObject doPost(String url, JSONObject msg) throws IOException {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        try {
-            HttpPost request = new HttpPost(url);
-            StringEntity params = new StringEntity(msg.toString());
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
+            try {
+                HttpPost request = new HttpPost(url);
+                StringEntity params = new StringEntity(msg.toString());
+                request.addHeader("content-type", "application/json");
+                request.setEntity(params);
 
-            HttpResponse response = httpClient.execute(request);
-            InputStream in = response.getEntity().getContent();
-            StringBuilder sb = new StringBuilder();
-            byte[] data = new byte[1024];
-            int len;
-            while ((len = in.read(data)) != -1) {
-                sb.append(new String(data, 0, len));
+                HttpResponse response = httpClient.execute(request);
+                InputStream in = response.getEntity().getContent();
+                StringBuilder sb = new StringBuilder();
+                byte[] data = new byte[1024];
+                int len;
+                while ((len = in.read(data)) != -1) {
+                    sb.append(new String(data, 0, len));
+                }
+                if (response.getStatusLine().getStatusCode() != 200) {
+                    throw new IOException(sb.toString());
+                }
+                return new JSONObject(sb.toString());
+            } finally {
+                httpClient.close();
             }
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException(sb.toString());
-            }
-            return new JSONObject(sb.toString());
-        } finally {
-            httpClient.close();
         }
     }
 
     public static JSONObject doGet(String url) throws IOException {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        try {
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet(url);
 
             HttpResponse response = httpClient.execute(request);
@@ -74,8 +74,6 @@ public class HttpUtils {
                 throw new IOException(sb.toString());
             }
             return new JSONObject(sb.toString());
-        } finally {
-            httpClient.close();
         }
     }
 }

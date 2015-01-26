@@ -23,7 +23,7 @@ import java.util.*;
 
 public class Path implements Identifiable {
 
-    private List<APICall> calls = new ArrayList<APICall>();
+    private List<APICall> calls = new ArrayList<>();
 
     public void add(APICall call) {
         calls.add(call);
@@ -42,7 +42,7 @@ public class Path implements Identifiable {
             return false;
         }
 
-        Set<Integer> indexSet = new HashSet<Integer>();
+        Set<Integer> indexSet = new HashSet<>();
         for (APICall call : this.calls) {
             boolean matchFound = false;
             for (int i = 0; i < p.calls.size(); i++) {
@@ -62,7 +62,7 @@ public class Path implements Identifiable {
     }
 
     public String getId() {
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         for (APICall call : calls) {
             names.add(call.getId());
         }

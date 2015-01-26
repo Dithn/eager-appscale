@@ -28,16 +28,16 @@ public class PredictionUtils {
 
     public static Prediction max(Prediction[] predictions) {
         Prediction max = new Prediction(0.0);
-        for (int i = 0; i < predictions.length; i++) {
-            if (predictions[i].getValue() > max.getValue()) {
-                max = predictions[i];
+        for (Prediction prediction : predictions) {
+            if (prediction.getValue() > max.getValue()) {
+                max = prediction;
             }
         }
         return max;
     }
 
     public static List<Path> getPathsOfInterest(MethodInfo method) {
-        List<Path> pathsOfInterest = new ArrayList<Path>();
+        List<Path> pathsOfInterest = new ArrayList<>();
         for (Path p : method.getPaths()) {
             if (p.size() == 1 && p.calls().get(0).getName().equals("-- No API Calls --")) {
                 // this is for when the trace is loaded from a file

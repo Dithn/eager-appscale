@@ -33,7 +33,7 @@ public class MethodInfo {
      */
     private int explicitPathCount;
 
-    private List<Path> paths = new ArrayList<Path>();
+    private List<Path> paths = new ArrayList<>();
 
     public MethodInfo(String name) {
         this.name = name;

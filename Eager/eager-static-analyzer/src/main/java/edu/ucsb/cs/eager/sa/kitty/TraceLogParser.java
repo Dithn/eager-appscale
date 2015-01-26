@@ -35,7 +35,7 @@ public class TraceLogParser {
     private String currentPrefix;
     private Path currentPath;
 
-    private Set<MethodInfo> methods = new TreeSet<MethodInfo>(new MethodInfo.MethodInfoComparator());
+    private Set<MethodInfo> methods = new TreeSet<>(new MethodInfo.MethodInfoComparator());
 
     public void parseFile(String file) throws IOException {
         parse(new BufferedReader(new FileReader(file)));

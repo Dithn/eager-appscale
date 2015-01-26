@@ -122,7 +122,8 @@ public class QBETSTracingPredictor {
         return resultSet;
     }
 
-    private TraceAnalysisResult[] analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
+    private TraceAnalysisResult[] analyzePath(MethodInfo method, Path path,
+                                              int pathIndex) throws IOException {
         printTitle("Path: " + pathIndex, '-');
         println("API Calls: " + path);
 
@@ -184,7 +185,8 @@ public class QBETSTracingPredictor {
         return results;
     }
 
-    private TimeSeries approach1(Path path, double adjustedQuantile, int dataPoints) throws IOException {
+    private TimeSeries approach1(Path path, double adjustedQuantile,
+                                 int dataPoints) throws IOException {
         List<APICall> calls = path.calls();
         for (APICall call : calls) {
             if (!cache.containsQuantiles(call, path.size())) {
