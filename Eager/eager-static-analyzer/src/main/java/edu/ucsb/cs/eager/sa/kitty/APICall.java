@@ -49,6 +49,10 @@ public class APICall implements Identifiable {
                 id += "_" + iterations;
             }
             return id;
+        } else if (name.startsWith("edu.ucsb.cs.eager.gae.")) {
+            // For testing...
+            String op = name.substring(name.indexOf('#') + 1, name.indexOf('('));
+            return "bm_test_datastore_" + op;
         }
         throw new RuntimeException("Unsupported API call name: " + name);
     }

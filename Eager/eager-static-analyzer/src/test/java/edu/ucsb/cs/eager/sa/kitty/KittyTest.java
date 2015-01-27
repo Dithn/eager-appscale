@@ -19,32 +19,19 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
-import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSTracingPredictor;
+import junit.framework.TestCase;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
-public class KittyTest {
+public class KittyTest extends TestCase {
 
-    public static void main(String[] args) throws Exception {
-        List<MethodInfo> methods = new ArrayList<>();
-        int[] counts = new int[]{5,10,15,20,25,30,35};
-        for (int c : counts) {
-            methods.add(getMethod(c));
-        }
-
+    public void testGetMethods() throws Exception {
         PredictionConfig config = new PredictionConfig();
-        config.setBenchmarkDataSvc("http://localhost:8081");
-        QBETSTracingPredictor.predict(config, methods);
+        config.setClazz("net.eager.testing.TestClass3");
+        config.setWholeProgramMode(true);
+        Kitty kitty = new Kitty();
+        Collection<MethodInfo> methods = kitty.getMethods(config);
+        assertEquals(4, methods.size());
     }
 
-    private static MethodInfo getMethod(int apiCalls) {
-        MethodInfo m = new MethodInfo("testMethod_" + apiCalls);
-        Path p = new Path();
-        for (int i = 0; i < apiCalls; i++) {
-            p.add(new APICall("com.google.appengine.api.datastore.DatastoreService#get()"));
-        }
-        m.addPath(p);
-        return m;
-    }
 }
