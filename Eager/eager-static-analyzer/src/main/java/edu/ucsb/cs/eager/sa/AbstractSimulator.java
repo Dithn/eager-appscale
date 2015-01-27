@@ -32,10 +32,10 @@ import java.util.Set;
 
 public abstract class AbstractSimulator implements InstructionSimulator {
 
-    private Map<String,SimulationManager> cache = new HashMap<String,SimulationManager>();
+    private Map<String,SimulationManager> cache = new HashMap<>();
 
-    private Set<String> userPackages = new HashSet<String>();
-    private Set<String> specialPackages = new HashSet<String>();
+    private Set<String> userPackages = new HashSet<>();
+    private Set<String> specialPackages = new HashSet<>();
 
     private BranchSelector selector;
 

@@ -34,8 +34,8 @@ import java.util.Set;
 public class SimpleSlice {
 
     public static void slice(List<Unit> code, Set<Value> cvars) {
-        Set<Value> vars = new HashSet<Value>();
-        Set<Unit> ass = new HashSet<Unit>();
+        Set<Value> vars = new HashSet<>();
+        Set<Unit> ass = new HashSet<>();
 
         for (Unit line : code) {
             List<ValueBox> def = line.getDefBoxes();
@@ -49,7 +49,7 @@ public class SimpleSlice {
         }
 
         if (cvars == null || cvars.isEmpty()) {
-            cvars = new HashSet<Value>();
+            cvars = new HashSet<>();
             for (Unit line : code) {
                 if (line instanceof JIfStmt) {
                     List<ValueBox> use = line.getUseBoxes();
@@ -62,7 +62,7 @@ public class SimpleSlice {
             }
         }
 
-        Set<Unit> p = new HashSet<Unit>();
+        Set<Unit> p = new HashSet<>();
         int prev = 0;
         while (cvars.size() > prev) {
             prev = cvars.size();

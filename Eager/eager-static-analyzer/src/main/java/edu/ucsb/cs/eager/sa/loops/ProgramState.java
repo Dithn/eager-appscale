@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class ProgramState {
 
-    private Map<Value,IntegerInterval> variables = new HashMap<Value, IntegerInterval>();
+    private Map<Value,IntegerInterval> variables = new HashMap<>();
 
     public void updateState(Value variable, int upperBound, int lowerBound) {
         updateState(variable, new IntegerInterval(upperBound, lowerBound));

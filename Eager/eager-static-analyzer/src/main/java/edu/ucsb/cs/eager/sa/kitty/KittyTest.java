@@ -27,7 +27,7 @@ import java.util.List;
 public class KittyTest {
 
     public static void main(String[] args) throws Exception {
-        List<MethodInfo> methods = new ArrayList<MethodInfo>();
+        List<MethodInfo> methods = new ArrayList<>();
         int[] counts = new int[]{5,10,15,20,25,30,35};
         for (int c : counts) {
             methods.add(getMethod(c));

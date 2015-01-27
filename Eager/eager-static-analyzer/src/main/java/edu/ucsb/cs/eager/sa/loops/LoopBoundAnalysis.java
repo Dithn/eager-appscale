@@ -41,9 +41,9 @@ public class LoopBoundAnalysis {
     private boolean debug;
     private boolean done;
 
-    private Map<Edge,ProgramState> states = new LinkedHashMap<Edge, ProgramState>();
-    private Set<Value> variables = new HashSet<Value>();
-    private Map<Stmt,Set<Value>> loopInvariants = new HashMap<Stmt, Set<Value>>();
+    private Map<Edge,ProgramState> states = new LinkedHashMap<>();
+    private Set<Value> variables = new HashSet<>();
+    private Map<Stmt,Set<Value>> loopInvariants = new HashMap<>();
 
     public LoopBoundAnalysis(Body body, boolean debug) {
         this(body);
@@ -69,7 +69,7 @@ public class LoopBoundAnalysis {
 
         // invariant analysis
         for (Loop loop : loops) {
-            Set<Value> invariants = new HashSet<Value>(variables);
+            Set<Value> invariants = new HashSet<>(variables);
             for (Stmt stmt : loop.getLoopStatements()) {
                 for (ValueBox value : stmt.getDefBoxes()) {
                     Value v = value.getValue();
@@ -94,11 +94,11 @@ public class LoopBoundAnalysis {
         if (!done) {
             analyze();
         }
-        Map<Loop,Integer> bounds = new HashMap<Loop, Integer>();
+        Map<Loop,Integer> bounds = new HashMap<>();
         for (Loop loop : loops) {
             IfStmt head = (IfStmt) loop.getHead();
             Set<Value> invariants = loopInvariants.get(head);
-            Set<Value> loopControlVariables = new HashSet<Value>();
+            Set<Value> loopControlVariables = new HashSet<>();
             for (ValueBox value : head.getUseBoxes()) {
                 Value v = value.getValue();
                 if (v instanceof JimpleLocal && v.getType() instanceof IntType &&
@@ -132,7 +132,7 @@ public class LoopBoundAnalysis {
     private void computeStates() {
         while (true) {
             // Create a new state for this iteration
-            Map<Edge,ProgramState> newStates = new LinkedHashMap<Edge, ProgramState>();
+            Map<Edge,ProgramState> newStates = new LinkedHashMap<>();
             for (Map.Entry<Edge,ProgramState> entry : states.entrySet()) {
                 ProgramState temp = null;
                 if (entry.getValue() != null) {
@@ -302,7 +302,7 @@ public class LoopBoundAnalysis {
 
     private void findEdges(DirectedGraph<Stmt> graph) {
         states.clear();
-        Set<Stmt> visitedNodes = new HashSet<Stmt>();
+        Set<Stmt> visitedNodes = new HashSet<>();
         Stmt head = graph.getHeads().get(0);
         visit(head, graph, visitedNodes);
     }

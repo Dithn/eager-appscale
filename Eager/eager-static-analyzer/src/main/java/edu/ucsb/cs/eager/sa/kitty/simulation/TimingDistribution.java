@@ -30,20 +30,17 @@ import java.util.Random;
 public class TimingDistribution {
 
     private String apiCall;
-    private List<Double> values = new ArrayList<Double>();
+    private List<Double> values = new ArrayList<>();
     private Random rand = new Random();
 
     public TimingDistribution(File f) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(f));
-        try {
+        try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
             apiCall = reader.readLine();
             String line;
             while ((line = reader.readLine()) != null) {
                 values.add(Double.parseDouble(line));
             }
             System.out.println("Loaded benchmark data for: " + apiCall + " [" + values.size() + "]");
-        } finally {
-            reader.close();
         }
     }
 

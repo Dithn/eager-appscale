@@ -36,13 +36,13 @@ import java.util.*;
 public class CFGAnalyzer {
 
     private Collection<Loop> loops;
-    private Map<Loop,Integer> loopedApiCalls = new HashMap<Loop, Integer>();
-    private Map<Loop,Integer> loopNestingLevels = new HashMap<Loop, Integer>();
-    private List<Integer> pathApiCalls = new ArrayList<Integer>();
-    private List<List<SootMethod>> paths = new ArrayList<List<SootMethod>>();
-    private List<Integer> pathAllocations = new ArrayList<Integer>();
-    private Set<SootMethod> userMethodCalls = new LinkedHashSet<SootMethod>();
-    private Set<InvokeExpr> apiCalls = new LinkedHashSet<InvokeExpr>();
+    private Map<Loop,Integer> loopedApiCalls = new HashMap<>();
+    private Map<Loop,Integer> loopNestingLevels = new HashMap<>();
+    private List<Integer> pathApiCalls = new ArrayList<>();
+    private List<List<SootMethod>> paths = new ArrayList<>();
+    private List<Integer> pathAllocations = new ArrayList<>();
+    private Set<SootMethod> userMethodCalls = new LinkedHashSet<>();
+    private Set<InvokeExpr> apiCalls = new LinkedHashSet<>();
 
     private final UnitGraph graph;
     private final SootMethod method;
@@ -362,7 +362,7 @@ public class CFGAnalyzer {
             return;
         }
 
-        Set<Loop> nestedLoops = new HashSet<Loop>();
+        Set<Loop> nestedLoops = new HashSet<>();
         for (Stmt stmt : loop.getLoopStatements()) {
             Loop nestedLoop = findLoop(stmt);
             if (nestedLoop != null && !nestedLoop.equals(loop)) {
@@ -430,7 +430,7 @@ public class CFGAnalyzer {
         Loop loop = findLoop(stmt);
         if (loop != null) {
             analyzeLoop(loop, 1);
-            children = new HashSet<Unit>();
+            children = new HashSet<>();
             for (Stmt exit : loop.getLoopExits()) {
                 for (Stmt exitTarget : loop.targetsOfLoopExit(exit)) {
                     if (exitTarget instanceof JIdentityStmt) {
@@ -445,7 +445,7 @@ public class CFGAnalyzer {
 
         for (Unit child : children) {
             visit((Stmt) child, graph, apiCallCount, allocationCount,
-                    new ArrayList<SootMethod>(path));
+                    new ArrayList<>(path));
         }
         if (children.isEmpty()) {
             pathApiCalls.add(apiCallCount);

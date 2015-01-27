@@ -55,7 +55,7 @@ public class SimulationBasedPredictor {
                 return name.endsWith(".txt");
             }
         });
-        Map<String,TimingDistribution> benchmarkResults = new HashMap<String, TimingDistribution>();
+        Map<String,TimingDistribution> benchmarkResults = new HashMap<>();
         if (dataFiles.length > 0) {
             for (File f : dataFiles) {
                 TimingDistribution dist = new TimingDistribution(f);

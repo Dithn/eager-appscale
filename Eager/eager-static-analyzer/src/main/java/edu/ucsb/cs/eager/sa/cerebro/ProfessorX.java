@@ -81,7 +81,7 @@ public class ProfessorX {
             Element repo = (Element) repoList.item(i);
             String name = repo.getElementsByTagName("name").item(0).getTextContent();
             String classPath = repo.getElementsByTagName("classpath").item(0).getTextContent();
-            Set<String> classes = new LinkedHashSet<String>();
+            Set<String> classes = new LinkedHashSet<>();
             NodeList classesList = repo.getElementsByTagName("classes").item(0).getChildNodes();
             for (int j = 0; j < classesList.getLength(); j++) {
                 if (!(classesList.item(j) instanceof Element)) {
@@ -99,7 +99,7 @@ public class ProfessorX {
         System.out.println("----------------- PROJECT: " + name + " -----------------\n");
         File repoDir = new File(root, name);
         File classPathDir = new File(repoDir, classPath);
-        Set<String> analyzedMethods = new HashSet<String>();
+        Set<String> analyzedMethods = new HashSet<>();
         for (String className : classes) {
             Cerebro cerebro = new Cerebro(classPathDir.getAbsolutePath(), className);
             cerebro.setWholeProgramMode(true);

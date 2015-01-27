@@ -37,8 +37,8 @@ public class Register {
 
     public int toInt() {
         int n = 0;
-        for (int i = 0; i < register.length; ++i) {
-            n = (n << 1) + (register[i] ? 1 : 0);
+        for (boolean r : register) {
+            n = (n << 1) + (r ? 1 : 0);
         }
         return n;
     }

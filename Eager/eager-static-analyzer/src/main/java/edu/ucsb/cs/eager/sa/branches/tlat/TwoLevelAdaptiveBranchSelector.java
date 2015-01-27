@@ -38,8 +38,8 @@ public class TwoLevelAdaptiveBranchSelector implements BranchSelector {
 
     private static final Random rand = new Random();
 
-    private Map<Unit,Register> hrt = new HashMap<Unit,Register>();
-    private Map<Integer,BranchPattern> pt = new HashMap<Integer, BranchPattern>();
+    private Map<Unit,Register> hrt = new HashMap<>();
+    private Map<Integer,BranchPattern> pt = new HashMap<>();
 
     private BranchPatternFactory patternFactory;
 

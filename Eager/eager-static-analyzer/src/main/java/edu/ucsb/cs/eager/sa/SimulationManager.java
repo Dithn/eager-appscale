@@ -80,7 +80,7 @@ public class SimulationManager {
         if (currentInstruction == null) {
             return graph.getHeads().get(0);
         } else {
-            candidates = new ArrayList<Unit>();
+            candidates = new ArrayList<>();
             candidates.addAll(graph.getSuccsOf(currentInstruction));
             Loop loop = findLoop(currentInstruction);
             if (loop != null) {

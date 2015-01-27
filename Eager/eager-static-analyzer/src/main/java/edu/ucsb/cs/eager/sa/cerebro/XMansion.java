@@ -28,8 +28,8 @@ import java.util.*;
  */
 public class XMansion {
 
-    private final Map<SootMethod,CFGAnalyzer> cache = new HashMap<SootMethod,CFGAnalyzer>();
-    private final Set<SootMethod> calledMethods = new HashSet<SootMethod>();
+    private final Map<SootMethod,CFGAnalyzer> cache = new HashMap<>();
+    private final Set<SootMethod> calledMethods = new HashSet<>();
 
     public CFGAnalyzer getAnalyzer(SootMethod method) {
         if (cache.containsKey(method)) {
