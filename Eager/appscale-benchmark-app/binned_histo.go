@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"bufio"
 	"io"
+	"math"
 	"strconv"
 	"sort"
 )
@@ -26,6 +27,8 @@ func main() {
 	bf := bufio.NewReader(inputFile)
 	data := make(map[int]int)
 	na := 0
+	min := math.MaxFloat64
+	max := -1.0
 	for {
 		line, isPrefix, err := bf.ReadLine()
                 if err == io.EOF {
@@ -49,6 +52,13 @@ func main() {
 			return
 		}
 
+		if val > max {
+			max = val
+		}
+		if val < min {
+			min = val
+		}
+
 		key := int(val/3600.0)
 		data[key] = data[key] + 1
 	}
@@ -63,4 +73,7 @@ func main() {
 		fmt.Printf("%dh-%dh %d\n", k, (k+1), data[k])
 	}
 	fmt.Println("NotFound", na)
+	fmt.Println()
+	fmt.Println("Min:", min)
+	fmt.Println("Max:", max)
 }
