@@ -131,7 +131,7 @@ public class KittyValidator {
                     vi.first3CViolations = time;
                 }
                 double percentage = ((double) totalViolations) / total;
-                if (percentage > 0.05 && vi.first5PViolations < 0) {
+                if (percentage > 0.05 && vi.first5PViolations < 0 && total > 100) {
                     vi.first5PViolations = time;
                 }
             } else {
