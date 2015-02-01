@@ -21,6 +21,7 @@ package edu.ucsb.cs.eager.watchtower;
 
 import edu.ucsb.cs.eager.watchtower.benchmark.APIBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmark;
+import edu.ucsb.cs.eager.watchtower.benchmark.MemcacheBenchmark;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +35,7 @@ public class APIBenchmarkServlet extends HttpServlet {
 
     private static final APIBenchmark[] benchmarks = new APIBenchmark[]{
         new DatastoreBenchmark(),
+        new MemcacheBenchmark(),
     };
 
     @Override

@@ -41,8 +41,16 @@ public class Constants {
         public static final String GET = "bm_datastore_get";
         public static final String DELETE = "bm_datastore_delete";
 
+        public static final String AS_SINGLE_ENTITY = "bm_datastore_asSingleEntity";
+
         public static final String AS_LIST_10 = "bm_datastore_asList_10";
         public static final String AS_LIST_100 = "bm_datastore_asList_100";
         public static final String AS_LIST_1000 = "bm_datastore_asList_1000";
+    }
+
+    public class Memcache {
+        public static final String PUT = "bm_memcache_put";
+        public static final String GET = "bm_memcache_get";
+        public static final String DELETE = "bm_memcache_delete";
     }
 }

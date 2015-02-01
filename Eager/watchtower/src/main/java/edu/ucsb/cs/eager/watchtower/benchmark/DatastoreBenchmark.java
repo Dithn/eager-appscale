@@ -59,6 +59,10 @@ public class DatastoreBenchmark extends APIBenchmark {
         results.put(Constants.Datastore.GET, getEntity(datastore, projectId));
         sleep(100);
 
+        // get
+        results.put(Constants.Datastore.AS_SINGLE_ENTITY, asSingleEntity(datastore, projectId));
+        sleep(100);
+
         // delete
         results.put(Constants.Datastore.DELETE, deleteEntity(datastore, projectId));
         sleep(100);
@@ -97,6 +101,15 @@ public class DatastoreBenchmark extends APIBenchmark {
         } catch (EntityNotFoundException e) {
             throw new ServletException("Failed to locate object by key", e);
         }
+    }
+
+    private int asSingleEntity(DatastoreService datastore, String id) {
+        Key key = KeyFactory.createKey(PROJECT_KIND, id);
+        Query q = new Query(PROJECT_KIND, key);
+        PreparedQuery pq = datastore.prepare(q);
+        long start = System.currentTimeMillis();
+        pq.asSingleEntity();
+        return (int) (System.currentTimeMillis() - start);
     }
 
     private int deleteEntity(DatastoreService datastore, String id) {
