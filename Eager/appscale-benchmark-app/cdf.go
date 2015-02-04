@@ -26,7 +26,7 @@ func main() {
 	na := 0
 	var values []float64
 	for {
-		line, isPrefix, err := bf.ReadLine()
+		l, isPrefix, err := bf.ReadLine()
                 if err == io.EOF {
 			break
 		} else if err != nil {
@@ -37,12 +37,15 @@ func main() {
 			return
 		}
 
-		if string(line) == "N/A" {
+		line := string(l)
+		if line == "N/A" {
 			na++
+			continue
+		} else if line == "1st" || line == "3c" || line == "5p" {
 			continue
 		}
 
-		val, err := strconv.ParseFloat(string(line), 64)
+		val, err := strconv.ParseFloat(line, 64)
 		if err != nil {
 			fmt.Println("Error while parsing string", err)
 			return
