@@ -82,7 +82,7 @@ public class TimeSeriesTest extends TestCase {
     public void testTimeSeriesJSON() {
         TimeSeries ts = new TimeSeries();
         for (int i = 0; i < 1000; i++) {
-            ts.add(i * i, i);
+            ts.add(i * i, i, i);
         }
         JSONArray array = ts.toJSON();
         assertEquals(1000, array.length());
@@ -92,6 +92,7 @@ public class TimeSeriesTest extends TestCase {
         for (int i = 0; i < 1000; i++) {
             assertEquals(copy.getTimestampByIndex(i), i * i);
             assertEquals(copy.getValueByIndex(i), i);
+            assertEquals(copy.getCwrongByIndex(i), i);
         }
     }
 
