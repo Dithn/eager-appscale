@@ -148,11 +148,13 @@ public class QBETSTracingPredictor {
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
             long ts = quantileSums.getTimestampByIndex(i);
-            results[i] = new TraceAnalysisResult();
-            results[i].timestamp = ts;
-            results[i].approach1 = quantileSums.getByTimestamp(ts);
-            results[i].approach2 = aggregateQuantiles.getByTimestamp(ts);
-            results[i].sum = actualSums.getByTimestamp(ts);
+            TraceAnalysisResult r = new TraceAnalysisResult();
+            r.timestamp = ts;
+            r.approach1 = quantileSums.getByTimestamp(ts);
+            r.approach2 = aggregateQuantiles.getByTimestamp(ts);
+            r.cwrong = aggregateQuantiles.getCwrongByTimestamp(ts);
+            r.sum = actualSums.getByTimestamp(ts);
+            results[i] = r;
         }
 
         if (config.isHideOutput()) {

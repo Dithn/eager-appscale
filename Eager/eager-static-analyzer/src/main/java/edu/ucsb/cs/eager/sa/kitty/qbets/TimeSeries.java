@@ -20,6 +20,7 @@
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,9 +36,11 @@ public class TimeSeries {
 
     private static final String TIMESTAMP = "Timestamp";
     private static final String VALUE = "Value";
+    private static final String CWRONG = "Cwrong";
 
     private List<Long> timestamps = new ArrayList<>();
     private List<Integer> values = new ArrayList<>();
+    private List<Integer> cwrong = new ArrayList<>();
 
     /**
      * Create an empty TimeSeries
@@ -55,25 +58,40 @@ public class TimeSeries {
     public TimeSeries(JSONArray array, int len) {
         for (int i = 0; i < len; i++) {
             JSONObject dataPoint = array.getJSONObject(array.length() - len + i);
-            add(dataPoint.getLong(TIMESTAMP), dataPoint.getInt(VALUE));
+            int cw;
+            try {
+                cw = dataPoint.getInt(CWRONG);
+            } catch (JSONException e) {
+                cw = 0;
+            }
+            add(dataPoint.getLong(TIMESTAMP), dataPoint.getInt(VALUE), cw);
         }
     }
 
     public void add(long time, int val) {
+        add(time, val, 0);
+    }
+
+    void add(long time, int val, int cw) {
         int len = timestamps.size();
         if (len > 0 && timestamps.get(len - 1) >= time) {
             throw new IllegalStateException("time values not increasing monotonically");
         }
         timestamps.add(time);
         values.add(val);
+        cwrong.add(cw);
     }
 
     public int length() {
         return timestamps.size();
     }
 
-    public int getByIndex(int index) {
+    public int getValueByIndex(int index) {
         return values.get(index);
+    }
+
+    public int getCwrongByIndex(int index) {
+        return cwrong.get(index);
     }
 
     public long getTimestampByIndex(int index) {
@@ -84,6 +102,14 @@ public class TimeSeries {
         int index = Collections.binarySearch(timestamps, ts);
         if (index >= 0) {
             return values.get(index);
+        }
+        throw new IllegalArgumentException("failed to find timestamp: " + ts);
+    }
+
+    public int getCwrongByTimestamp(long ts) {
+        int index = Collections.binarySearch(timestamps, ts);
+        if (index >= 0) {
+            return cwrong.get(index);
         }
         throw new IllegalArgumentException("failed to find timestamp: " + ts);
     }
@@ -104,6 +130,7 @@ public class TimeSeries {
             JSONObject dp = new JSONObject();
             dp.put(TIMESTAMP, (long) timestamps.get(i));
             dp.put(VALUE, (int) values.get(i));
+            dp.put(CWRONG, (int) cwrong.get(i));
             array.put(dp);
         }
         return array;

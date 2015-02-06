@@ -33,7 +33,8 @@ public class TimeSeriesTest extends TestCase {
 
         for (int i = 0; i < 1000; i++) {
             assertEquals(ts.getTimestampByIndex(i), i * i);
-            assertEquals(ts.getByIndex(i), i);
+            assertEquals(ts.getValueByIndex(i), i);
+            assertEquals(ts.getCwrongByIndex(i), 0);
         }
 
         try {
@@ -58,7 +59,7 @@ public class TimeSeriesTest extends TestCase {
         assertEquals(1000, aggr.length());
         for (int i = 0; i < 1000; i++) {
             assertEquals(aggr.getTimestampByIndex(i), i * i);
-            assertEquals(aggr.getByIndex(i), 3 * i);
+            assertEquals(aggr.getValueByIndex(i), 3 * i);
         }
     }
 
@@ -90,7 +91,7 @@ public class TimeSeriesTest extends TestCase {
         assertEquals(1000, copy.length());
         for (int i = 0; i < 1000; i++) {
             assertEquals(copy.getTimestampByIndex(i), i * i);
-            assertEquals(copy.getByIndex(i), i);
+            assertEquals(copy.getValueByIndex(i), i);
         }
     }
 

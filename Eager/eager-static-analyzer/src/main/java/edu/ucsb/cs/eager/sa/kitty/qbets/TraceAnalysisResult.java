@@ -32,6 +32,9 @@ public class TraceAnalysisResult {
 
     long timestamp;
 
+    // number of consecutive violations (cwrong) for the approach2 prediction
+    int cwrong;
+
     public int getApproach1() {
         return approach1;
     }
@@ -46,5 +49,9 @@ public class TraceAnalysisResult {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public int getCwrong() {
+        return cwrong;
     }
 }

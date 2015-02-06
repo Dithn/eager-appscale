@@ -119,7 +119,7 @@ public class KittyValidator {
                 continue;
             }
 
-            int value = samples.getByIndex(i);
+            int value = samples.getValueByIndex(i);
             total++;
             if (value > prediction) {
                 totalViolations++;

@@ -17,6 +17,7 @@ import (
 type Datapoint struct {
 	Timestamp int64
 	Value     int
+	Cwrong    int
 }
 
 // TimeSeries represents a sequence of time-ordered data

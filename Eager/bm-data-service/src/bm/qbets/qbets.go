@@ -102,6 +102,13 @@ func getAllPredictions(ts db.TimeSeries, file string, q, c float64, debug bool) 
 				return nil, err
 			}
 			p = append(p, db.Datapoint{Timestamp: int64(t), Value: int(val)})
+		} else if strings.HasPrefix(l, "cwrong:") && len(p) > 0 {
+			segments := strings.Fields(l)
+			cw, err := strconv.ParseFloat(segments[2], 64)
+			if err != nil {
+				return nil, err
+			}
+			p[len(p)-1].Cwrong = int(cw)
 		}
 	}
 	return p, nil
