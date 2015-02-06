@@ -187,8 +187,9 @@ public class QBETSTracingPredictor {
 
     private TimeSeries approach1(Path path, double adjustedQuantile,
                                  int dataPoints) throws IOException {
-        List<APICall> calls = path.calls();
-        for (APICall call : calls) {
+        // Sum up the adjusted quantiles
+        List<TimeSeries> ts = new ArrayList<>();
+        for (APICall call : path.calls()) {
             if (!cache.containsQuantiles(call, path.size())) {
                 println("Calculating quantiles for: " + call.getId() +
                         " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
@@ -196,13 +197,9 @@ public class QBETSTracingPredictor {
                         call.getId(), dataPoints, adjustedQuantile);
                 cache.putQuantiles(call, path.size(), quantilePredictions);
             }
-        }
-
-        // Sum up the adjusted quantiles
-        List<TimeSeries> ts = new ArrayList<>();
-        for (APICall call : calls) {
             ts.add(cache.getQuantiles(call, path.size()));
         }
+
         return aggregate(ts);
     }
 

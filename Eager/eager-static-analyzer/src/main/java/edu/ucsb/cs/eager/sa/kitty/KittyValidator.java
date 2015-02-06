@@ -85,7 +85,7 @@ public class KittyValidator {
         System.out.println("[validate] timestamp prediction 1st 3c 5p");
         for (int i = startIndex; i < result.length; i+=15) {
             TraceAnalysisResult r = result[i];
-            SLAViolationInfo vi = findSLAViolations(r.getTimestamp(), r.getApproach2(), benchmarkValues);
+            SLAViolationInfo vi = findSLAViolations(r, benchmarkValues);
             System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", r.getTimestamp(), r.getApproach2(),
                     getTime(r.getTimestamp(), vi.firstViolation),
                     getTime(r.getTimestamp(), vi.first3CViolations),
@@ -110,7 +110,9 @@ public class KittyValidator {
         return String.format("%.2f", duration);
     }
 
-    private SLAViolationInfo findSLAViolations(long ts, int prediction, TimeSeries samples) {
+    private SLAViolationInfo findSLAViolations(TraceAnalysisResult r, TimeSeries samples) {
+        long ts = r.getTimestamp();
+        int prediction = r.getApproach2();
         int consecutiveViolations = 0, total = 0, totalViolations = 0;
         SLAViolationInfo vi = new SLAViolationInfo();
         for (int i = 0; i < samples.length(); i++) {
