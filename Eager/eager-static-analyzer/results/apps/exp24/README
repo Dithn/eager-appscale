@@ -1,2 +1,2 @@
-Benchmarked StudentInfo app on AppScale for 3 days straight. Watchtower run on the same setup in parallel.
+Benchmarked StudentInfo app on AppScale for 5 days straight. Watchtower run on the same setup in parallel.
 Using the gathered data to perform a prediction expiry time validation.
