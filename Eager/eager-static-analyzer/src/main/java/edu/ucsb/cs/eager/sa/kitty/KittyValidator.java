@@ -84,8 +84,8 @@ public class KittyValidator {
 
         System.out.println("[validate] timestamp prediction 1st 3c 5p");
         for (int i = startIndex; i < result.length; i+=15) {
+            SLAViolationInfo vi = findSLAViolations(result, i, benchmarkValues);
             TraceAnalysisResult r = result[i];
-            SLAViolationInfo vi = findSLAViolations(r, benchmarkValues);
             System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", r.getTimestamp(), r.getApproach2(),
                     getTime(r.getTimestamp(), vi.firstViolation),
                     getTime(r.getTimestamp(), vi.first3CViolations),
@@ -110,10 +110,13 @@ public class KittyValidator {
         return String.format("%.2f", duration);
     }
 
-    private SLAViolationInfo findSLAViolations(TraceAnalysisResult r, TimeSeries samples) {
+    private SLAViolationInfo findSLAViolations(TraceAnalysisResult[] results, int index,
+                                               TimeSeries samples) {
+        TraceAnalysisResult r = results[index];
         long ts = r.getTimestamp();
         int prediction = r.getApproach2();
-        int consecutiveViolations = 0, total = 0, totalViolations = 0;
+        int cwrong = r.getCwrong();
+        int consecutiveViolations = 0, consecutiveSamples = 0, total = 0, totalViolations = 0;
         SLAViolationInfo vi = new SLAViolationInfo();
         for (int i = 0; i < samples.length(); i++) {
             long time = samples.getTimestampByIndex(i);
@@ -123,13 +126,15 @@ public class KittyValidator {
 
             int value = samples.getValueByIndex(i);
             total++;
+            consecutiveSamples++;
+
             if (value > prediction) {
                 totalViolations++;
                 consecutiveViolations++;
                 if (vi.firstViolation < 0) {
                     vi.firstViolation = time;
                 }
-                if (consecutiveViolations == 3 && vi.first3CViolations < 0) {
+                if (consecutiveViolations == cwrong && vi.first3CViolations < 0) {
                     vi.first3CViolations = time;
                 }
                 double percentage = ((double) totalViolations) / total;
@@ -138,6 +143,16 @@ public class KittyValidator {
                 }
             } else {
                 consecutiveViolations = 0;
+            }
+
+            if (consecutiveSamples == cwrong) {
+                consecutiveSamples = 0;
+                consecutiveViolations = 0;
+                if (index + total < results.length) {
+                    cwrong = results[index + total].getCwrong();
+                } else {
+                    cwrong = results[results.length - 1].getCwrong();
+                }
             }
 
             if (vi.firstViolation > 0 && vi.first3CViolations > 0 && vi.first5PViolations > 0) {
