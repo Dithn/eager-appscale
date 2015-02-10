@@ -76,6 +76,7 @@ public class PredictionConfig {
     private boolean wholeProgramMode;
 
     private String[] methods;
+    private String[] excludedMethods;
 
     private int maxEntities = 1000;
 
@@ -178,6 +179,13 @@ public class PredictionConfig {
     }
 
     public boolean isEnabledMethod(String method) {
+        if (excludedMethods != null) {
+            for (String m : excludedMethods) {
+                if (m.equals(method)) {
+                    return false;
+                }
+            }
+        }
         if (methods == null || methods.length == 0) {
             return true;
         }
@@ -195,6 +203,14 @@ public class PredictionConfig {
 
     public void setMethods(String[] methods) {
         this.methods = methods;
+    }
+
+    public String[] getExcludedMethods() {
+        return excludedMethods;
+    }
+
+    public void setExcludedMethods(String[] excludedMethods) {
+        this.excludedMethods = excludedMethods;
     }
 
     public long getStart() {
@@ -248,6 +264,16 @@ public class PredictionConfig {
             throw new Exception("Class must be specified when Cerebro class path is provided.");
         } else if (end < start) {
             throw new Exception("End timestamp must be greater than or equal to start timestamp.");
+        }
+
+        if (methods != null && excludedMethods != null) {
+            for (String m : methods) {
+                for (String em : excludedMethods) {
+                    if (m.equals(em)) {
+                        throw new Exception("Included and excluded methods must not intersect");
+                    }
+                }
+            }
         }
     }
 }

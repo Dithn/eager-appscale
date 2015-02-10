@@ -64,6 +64,11 @@ public class Kitty {
             config.setMethods(methods.split(","));
         }
 
+        String excludedMethods = cmd.getOptionValue("ex");
+        if (excludedMethods != null) {
+            config.setExcludedMethods(excludedMethods.split(","));
+        }
+
         config.setBenchmarkDataDir(cmd.getOptionValue("b"));
         String sn = cmd.getOptionValue("sn");
         if (sn != null) {
@@ -119,6 +124,8 @@ public class Kitty {
                 "Enable whole program mode");
         PredictionUtils.addOption(options, "m", "methods", true,
                 "Methods that should be analyzed");
+        PredictionUtils.addOption(options, "ex", "excluded-methods", true,
+                "Methods that should be excluded from the analysis");
 
         PredictionUtils.addOption(options, "b", "benchmark-dir", true,
                 "Path to the directory containing seed benchmark results");
