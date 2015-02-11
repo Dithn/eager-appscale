@@ -69,9 +69,6 @@ public class APICall implements Identifiable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof APICall) {
-            return this.name.equals(((APICall) obj).name);
-        }
-        return false;
+        return (obj instanceof APICall) && this.name.equals(((APICall) obj).name);
     }
 }
