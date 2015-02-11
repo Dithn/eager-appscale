@@ -1,0 +1,4000 @@
+1423538814049
+{"apiCallTime" : 0, "otherTime" : 34}
+1423538874532
+{"apiCallTime" : 0, "otherTime" : 30}
+1423538935086
+{"apiCallTime" : 0, "otherTime" : 57}
+1423538995526
+{"apiCallTime" : 0, "otherTime" : 54}
+1423539055900
+{"apiCallTime" : 0, "otherTime" : 62}
+1423539116318
+{"apiCallTime" : 0, "otherTime" : 225}
+1423539176894
+{"apiCallTime" : 0, "otherTime" : 58}
+1423539237286
+{"apiCallTime" : 0, "otherTime" : 28}
+1423539297725
+{"apiCallTime" : 0, "otherTime" : 27}
+1423539358100
+{"apiCallTime" : 0, "otherTime" : 29}
+1423539418600
+{"apiCallTime" : 0, "otherTime" : 29}
+1423539478977
+{"apiCallTime" : 0, "otherTime" : 28}
+1423539539409
+{"apiCallTime" : 0, "otherTime" : 27}
+1423539599877
+{"apiCallTime" : 0, "otherTime" : 25}
+1423539660314
+{"apiCallTime" : 0, "otherTime" : 26}
+1423539720655
+{"apiCallTime" : 0, "otherTime" : 30}
+1423539781064
+{"apiCallTime" : 0, "otherTime" : 59}
+1423539841502
+{"apiCallTime" : 0, "otherTime" : 52}
+1423539901905
+{"apiCallTime" : 0, "otherTime" : 56}
+1423539962263
+{"apiCallTime" : 0, "otherTime" : 57}
+1423540022738
+{"apiCallTime" : 0, "otherTime" : 58}
+1423540083143
+{"apiCallTime" : 0, "otherTime" : 83}
+1423540143637
+{"apiCallTime" : 0, "otherTime" : 31}
+1423540204040
+{"apiCallTime" : 0, "otherTime" : 78}
+1423540264440
+{"apiCallTime" : 0, "otherTime" : 38}
+1423540324866
+{"apiCallTime" : 0, "otherTime" : 24}
+1423540385321
+{"apiCallTime" : 0, "otherTime" : 29}
+1423540445668
+{"apiCallTime" : 0, "otherTime" : 26}
+1423540506043
+{"apiCallTime" : 0, "otherTime" : 30}
+1423540566392
+{"apiCallTime" : 0, "otherTime" : 28}
+1423540626736
+{"apiCallTime" : 0, "otherTime" : 40}
+1423540687205
+{"apiCallTime" : 0, "otherTime" : 28}
+1423540747583
+{"apiCallTime" : 0, "otherTime" : 26}
+1423540807991
+{"apiCallTime" : 0, "otherTime" : 32}
+1423540868437
+{"apiCallTime" : 0, "otherTime" : 55}
+1423540928811
+{"apiCallTime" : 0, "otherTime" : 55}
+1423540989242
+{"apiCallTime" : 0, "otherTime" : 57}
+1423541049671
+{"apiCallTime" : 0, "otherTime" : 58}
+1423541110080
+{"apiCallTime" : 0, "otherTime" : 29}
+1423541170473
+{"apiCallTime" : 0, "otherTime" : 28}
+1423541230906
+{"apiCallTime" : 0, "otherTime" : 29}
+1423541291304
+{"apiCallTime" : 0, "otherTime" : 32}
+1423541351750
+{"apiCallTime" : 0, "otherTime" : 30}
+1423541412134
+{"apiCallTime" : 0, "otherTime" : 27}
+1423541472540
+{"apiCallTime" : 0, "otherTime" : 29}
+1423541532918
+{"apiCallTime" : 0, "otherTime" : 32}
+1423541593326
+{"apiCallTime" : 0, "otherTime" : 35}
+1423541653709
+{"apiCallTime" : 0, "otherTime" : 53}
+1423541714118
+{"apiCallTime" : 0, "otherTime" : 55}
+1423541774573
+{"apiCallTime" : 0, "otherTime" : 51}
+1423541834969
+{"apiCallTime" : 0, "otherTime" : 54}
+1423541895418
+{"apiCallTime" : 0, "otherTime" : 56}
+1423541955822
+{"apiCallTime" : 0, "otherTime" : 58}
+1423542016241
+{"apiCallTime" : 0, "otherTime" : 30}
+1423542076678
+{"apiCallTime" : 0, "otherTime" : 33}
+1423542137059
+{"apiCallTime" : 0, "otherTime" : 32}
+1423542197494
+{"apiCallTime" : 0, "otherTime" : 28}
+1423542257940
+{"apiCallTime" : 0, "otherTime" : 27}
+1423542318366
+{"apiCallTime" : 0, "otherTime" : 32}
+1423542378742
+{"apiCallTime" : 0, "otherTime" : 35}
+1423542439110
+{"apiCallTime" : 0, "otherTime" : 28}
+1423542499505
+{"apiCallTime" : 0, "otherTime" : 25}
+1423542559945
+{"apiCallTime" : 0, "otherTime" : 28}
+1423542620335
+{"apiCallTime" : 0, "otherTime" : 31}
+1423542680722
+{"apiCallTime" : 0, "otherTime" : 29}
+1423542741130
+{"apiCallTime" : 0, "otherTime" : 29}
+1423542801511
+{"apiCallTime" : 0, "otherTime" : 60}
+1423542861895
+{"apiCallTime" : 0, "otherTime" : 56}
+1423542922323
+{"apiCallTime" : 0, "otherTime" : 66}
+1423542982764
+{"apiCallTime" : 0, "otherTime" : 55}
+1423543043195
+{"apiCallTime" : 0, "otherTime" : 62}
+1423543103581
+{"apiCallTime" : 0, "otherTime" : 67}
+1423543164034
+{"apiCallTime" : 0, "otherTime" : 30}
+1423543224506
+{"apiCallTime" : 0, "otherTime" : 36}
+1423543284958
+{"apiCallTime" : 0, "otherTime" : 31}
+1423543345442
+{"apiCallTime" : 0, "otherTime" : 27}
+1423543405787
+{"apiCallTime" : 0, "otherTime" : 31}
+1423543466175
+{"apiCallTime" : 0, "otherTime" : 29}
+1423543526605
+{"apiCallTime" : 0, "otherTime" : 26}
+1423543586948
+{"apiCallTime" : 0, "otherTime" : 29}
+1423543647380
+{"apiCallTime" : 0, "otherTime" : 59}
+1423543707878
+{"apiCallTime" : 0, "otherTime" : 58}
+1423543768258
+{"apiCallTime" : 0, "otherTime" : 55}
+1423543828697
+{"apiCallTime" : 0, "otherTime" : 60}
+1423543889104
+{"apiCallTime" : 0, "otherTime" : 52}
+1423543949498
+{"apiCallTime" : 0, "otherTime" : 27}
+1423544009937
+{"apiCallTime" : 0, "otherTime" : 36}
+1423544070358
+{"apiCallTime" : 0, "otherTime" : 22}
+1423544130727
+{"apiCallTime" : 0, "otherTime" : 24}
+1423544191071
+{"apiCallTime" : 0, "otherTime" : 28}
+1423544251422
+{"apiCallTime" : 0, "otherTime" : 220}
+1423544312055
+{"apiCallTime" : 0, "otherTime" : 309}
+1423544372752
+{"apiCallTime" : 0, "otherTime" : 28}
+1423544433312
+{"apiCallTime" : 0, "otherTime" : 154}
+1423544493762
+{"apiCallTime" : 0, "otherTime" : 28}
+1423544554186
+{"apiCallTime" : 0, "otherTime" : 26}
+1423544614590
+{"apiCallTime" : 0, "otherTime" : 88}
+1423544675088
+{"apiCallTime" : 0, "otherTime" : 27}
+1423544735535
+{"apiCallTime" : 0, "otherTime" : 55}
+1423544795936
+{"apiCallTime" : 0, "otherTime" : 57}
+1423544856369
+{"apiCallTime" : 0, "otherTime" : 58}
+1423544916796
+{"apiCallTime" : 0, "otherTime" : 54}
+1423544977191
+{"apiCallTime" : 0, "otherTime" : 25}
+1423545037565
+{"apiCallTime" : 0, "otherTime" : 32}
+1423545097949
+{"apiCallTime" : 0, "otherTime" : 34}
+1423545158394
+{"apiCallTime" : 0, "otherTime" : 25}
+1423545218735
+{"apiCallTime" : 0, "otherTime" : 44}
+1423545279145
+{"apiCallTime" : 0, "otherTime" : 29}
+1423545339574
+{"apiCallTime" : 0, "otherTime" : 29}
+1423545400039
+{"apiCallTime" : 0, "otherTime" : 26}
+1423545460409
+{"apiCallTime" : 0, "otherTime" : 28}
+1423545520806
+{"apiCallTime" : 0, "otherTime" : 23}
+1423545581194
+{"apiCallTime" : 0, "otherTime" : 28}
+1423545641626
+{"apiCallTime" : 0, "otherTime" : 26}
+1423545702025
+{"apiCallTime" : 0, "otherTime" : 27}
+1423545762397
+{"apiCallTime" : 0, "otherTime" : 27}
+1423545822773
+{"apiCallTime" : 0, "otherTime" : 30}
+1423545883124
+{"apiCallTime" : 0, "otherTime" : 57}
+1423545943565
+{"apiCallTime" : 0, "otherTime" : 82}
+1423546004063
+{"apiCallTime" : 0, "otherTime" : 35}
+1423546064470
+{"apiCallTime" : 0, "otherTime" : 30}
+1423546124817
+{"apiCallTime" : 0, "otherTime" : 29}
+1423546185277
+{"apiCallTime" : 0, "otherTime" : 31}
+1423546245753
+{"apiCallTime" : 0, "otherTime" : 30}
+1423546306192
+{"apiCallTime" : 0, "otherTime" : 27}
+1423546366595
+{"apiCallTime" : 0, "otherTime" : 32}
+1423546427006
+{"apiCallTime" : 0, "otherTime" : 33}
+1423546487336
+{"apiCallTime" : 0, "otherTime" : 28}
+1423546547772
+{"apiCallTime" : 0, "otherTime" : 28}
+1423546608255
+{"apiCallTime" : 0, "otherTime" : 25}
+1423546668594
+{"apiCallTime" : 0, "otherTime" : 24}
+1423546728906
+{"apiCallTime" : 0, "otherTime" : 94}
+1423546789364
+{"apiCallTime" : 0, "otherTime" : 53}
+1423546849705
+{"apiCallTime" : 0, "otherTime" : 53}
+1423546910164
+{"apiCallTime" : 0, "otherTime" : 52}
+1423546970559
+{"apiCallTime" : 0, "otherTime" : 27}
+1423547030939
+{"apiCallTime" : 0, "otherTime" : 28}
+1423547091314
+{"apiCallTime" : 0, "otherTime" : 31}
+1423547151635
+{"apiCallTime" : 0, "otherTime" : 30}
+1423547212066
+{"apiCallTime" : 0, "otherTime" : 78}
+1423547272518
+{"apiCallTime" : 0, "otherTime" : 27}
+1423547332895
+{"apiCallTime" : 0, "otherTime" : 26}
+1423547393266
+{"apiCallTime" : 0, "otherTime" : 51}
+1423547453639
+{"apiCallTime" : 0, "otherTime" : 25}
+1423547513976
+{"apiCallTime" : 0, "otherTime" : 26}
+1423547574346
+{"apiCallTime" : 0, "otherTime" : 22}
+1423547634772
+{"apiCallTime" : 0, "otherTime" : 25}
+1423547695170
+{"apiCallTime" : 0, "otherTime" : 29}
+1423547755545
+{"apiCallTime" : 0, "otherTime" : 29}
+1423547815949
+{"apiCallTime" : 0, "otherTime" : 34}
+1423547876273
+{"apiCallTime" : 0, "otherTime" : 57}
+1423547936679
+{"apiCallTime" : 0, "otherTime" : 57}
+1423547997140
+{"apiCallTime" : 0, "otherTime" : 49}
+1423548057542
+{"apiCallTime" : 0, "otherTime" : 28}
+1423548117944
+{"apiCallTime" : 0, "otherTime" : 68}
+1423548178400
+{"apiCallTime" : 0, "otherTime" : 28}
+1423548239045
+{"apiCallTime" : 0, "otherTime" : 28}
+1423548299448
+{"apiCallTime" : 0, "otherTime" : 27}
+1423548359791
+{"apiCallTime" : 0, "otherTime" : 31}
+1423548420199
+{"apiCallTime" : 0, "otherTime" : 33}
+1423548480575
+{"apiCallTime" : 0, "otherTime" : 25}
+1423548540954
+{"apiCallTime" : 0, "otherTime" : 27}
+1423548601413
+{"apiCallTime" : 0, "otherTime" : 27}
+1423548661815
+{"apiCallTime" : 0, "otherTime" : 30}
+1423548722196
+{"apiCallTime" : 0, "otherTime" : 27}
+1423548782649
+{"apiCallTime" : 0, "otherTime" : 26}
+1423548842998
+{"apiCallTime" : 0, "otherTime" : 76}
+1423548903462
+{"apiCallTime" : 0, "otherTime" : 59}
+1423548963905
+{"apiCallTime" : 0, "otherTime" : 28}
+1423549024281
+{"apiCallTime" : 0, "otherTime" : 27}
+1423549084709
+{"apiCallTime" : 0, "otherTime" : 25}
+1423549145077
+{"apiCallTime" : 0, "otherTime" : 28}
+1423549205453
+{"apiCallTime" : 0, "otherTime" : 31}
+1423549265890
+{"apiCallTime" : 0, "otherTime" : 26}
+1423549326318
+{"apiCallTime" : 0, "otherTime" : 24}
+1423549386713
+{"apiCallTime" : 0, "otherTime" : 25}
+1423549447167
+{"apiCallTime" : 0, "otherTime" : 27}
+1423549507484
+{"apiCallTime" : 0, "otherTime" : 26}
+1423549567857
+{"apiCallTime" : 0, "otherTime" : 25}
+1423549628258
+{"apiCallTime" : 0, "otherTime" : 27}
+1423549688658
+{"apiCallTime" : 0, "otherTime" : 78}
+1423549749272
+{"apiCallTime" : 0, "otherTime" : 28}
+1423549809618
+{"apiCallTime" : 0, "otherTime" : 32}
+1423549870003
+{"apiCallTime" : 0, "otherTime" : 30}
+1423549930470
+{"apiCallTime" : 0, "otherTime" : 59}
+1423549990934
+{"apiCallTime" : 0, "otherTime" : 30}
+1423550051305
+{"apiCallTime" : 0, "otherTime" : 29}
+1423550111710
+{"apiCallTime" : 0, "otherTime" : 28}
+1423550172058
+{"apiCallTime" : 0, "otherTime" : 30}
+1423550232437
+{"apiCallTime" : 0, "otherTime" : 27}
+1423550292839
+{"apiCallTime" : 0, "otherTime" : 31}
+1423550353216
+{"apiCallTime" : 0, "otherTime" : 31}
+1423550413564
+{"apiCallTime" : 0, "otherTime" : 62}
+1423550474042
+{"apiCallTime" : 0, "otherTime" : 26}
+1423550534384
+{"apiCallTime" : 0, "otherTime" : 31}
+1423550594792
+{"apiCallTime" : 0, "otherTime" : 26}
+1423550655165
+{"apiCallTime" : 0, "otherTime" : 22}
+1423550715563
+{"apiCallTime" : 0, "otherTime" : 25}
+1423550775932
+{"apiCallTime" : 0, "otherTime" : 30}
+1423550836352
+{"apiCallTime" : 0, "otherTime" : 34}
+1423550896804
+{"apiCallTime" : 0, "otherTime" : 57}
+1423550957236
+{"apiCallTime" : 0, "otherTime" : 28}
+1423551017643
+{"apiCallTime" : 0, "otherTime" : 35}
+1423551078074
+{"apiCallTime" : 0, "otherTime" : 27}
+1423551138464
+{"apiCallTime" : 0, "otherTime" : 29}
+1423551198866
+{"apiCallTime" : 0, "otherTime" : 45}
+1423551259270
+{"apiCallTime" : 0, "otherTime" : 34}
+1423551319680
+{"apiCallTime" : 0, "otherTime" : 29}
+1423551380103
+{"apiCallTime" : 0, "otherTime" : 30}
+1423551440535
+{"apiCallTime" : 0, "otherTime" : 32}
+1423551500858
+{"apiCallTime" : 0, "otherTime" : 27}
+1423551561238
+{"apiCallTime" : 0, "otherTime" : 27}
+1423551621642
+{"apiCallTime" : 0, "otherTime" : 36}
+1423551682028
+{"apiCallTime" : 0, "otherTime" : 29}
+1423551742460
+{"apiCallTime" : 0, "otherTime" : 30}
+1423551802779
+{"apiCallTime" : 0, "otherTime" : 33}
+1423551863158
+{"apiCallTime" : 0, "otherTime" : 33}
+1423551923551
+{"apiCallTime" : 0, "otherTime" : 33}
+1423551983937
+{"apiCallTime" : 0, "otherTime" : 157}
+1423552044499
+{"apiCallTime" : 0, "otherTime" : 34}
+1423552104883
+{"apiCallTime" : 0, "otherTime" : 30}
+1423552165291
+{"apiCallTime" : 0, "otherTime" : 27}
+1423552225663
+{"apiCallTime" : 0, "otherTime" : 29}
+1423552286071
+{"apiCallTime" : 0, "otherTime" : 23}
+1423552346466
+{"apiCallTime" : 0, "otherTime" : 27}
+1423552406862
+{"apiCallTime" : 0, "otherTime" : 49}
+1423552467319
+{"apiCallTime" : 0, "otherTime" : 34}
+1423552527767
+{"apiCallTime" : 0, "otherTime" : 28}
+1423552588140
+{"apiCallTime" : 0, "otherTime" : 26}
+1423552648587
+{"apiCallTime" : 0, "otherTime" : 29}
+1423552708972
+{"apiCallTime" : 0, "otherTime" : 70}
+1423552769420
+{"apiCallTime" : 0, "otherTime" : 34}
+1423552829857
+{"apiCallTime" : 0, "otherTime" : 32}
+1423552890280
+{"apiCallTime" : 0, "otherTime" : 32}
+1423552950661
+{"apiCallTime" : 0, "otherTime" : 33}
+1423553011043
+{"apiCallTime" : 0, "otherTime" : 51}
+1423553071419
+{"apiCallTime" : 0, "otherTime" : 63}
+1423553131929
+{"apiCallTime" : 0, "otherTime" : 67}
+1423553192368
+{"apiCallTime" : 0, "otherTime" : 58}
+1423553252805
+{"apiCallTime" : 0, "otherTime" : 60}
+1423553313212
+{"apiCallTime" : 0, "otherTime" : 56}
+1423553373618
+{"apiCallTime" : 0, "otherTime" : 62}
+1423553434100
+{"apiCallTime" : 0, "otherTime" : 37}
+1423553494511
+{"apiCallTime" : 0, "otherTime" : 54}
+1423553554909
+{"apiCallTime" : 0, "otherTime" : 34}
+1423553615291
+{"apiCallTime" : 0, "otherTime" : 34}
+1423553675698
+{"apiCallTime" : 0, "otherTime" : 26}
+1423553736078
+{"apiCallTime" : 0, "otherTime" : 28}
+1423553796480
+{"apiCallTime" : 0, "otherTime" : 38}
+1423553856807
+{"apiCallTime" : 0, "otherTime" : 27}
+1423553917121
+{"apiCallTime" : 0, "otherTime" : 263}
+1423553977793
+{"apiCallTime" : 0, "otherTime" : 290}
+1423554038455
+{"apiCallTime" : 0, "otherTime" : 57}
+1423554098862
+{"apiCallTime" : 0, "otherTime" : 53}
+1423554159233
+{"apiCallTime" : 0, "otherTime" : 53}
+1423554219687
+{"apiCallTime" : 0, "otherTime" : 54}
+1423554280087
+{"apiCallTime" : 0, "otherTime" : 54}
+1423554340484
+{"apiCallTime" : 0, "otherTime" : 54}
+1423554400930
+{"apiCallTime" : 0, "otherTime" : 54}
+1423554461382
+{"apiCallTime" : 0, "otherTime" : 24}
+1423554521819
+{"apiCallTime" : 0, "otherTime" : 23}
+1423554582249
+{"apiCallTime" : 0, "otherTime" : 29}
+1423554642626
+{"apiCallTime" : 0, "otherTime" : 64}
+1423554703093
+{"apiCallTime" : 0, "otherTime" : 31}
+1423554763506
+{"apiCallTime" : 0, "otherTime" : 28}
+1423554823953
+{"apiCallTime" : 0, "otherTime" : 31}
+1423554884303
+{"apiCallTime" : 0, "otherTime" : 32}
+1423554944749
+{"apiCallTime" : 0, "otherTime" : 101}
+1423555005252
+{"apiCallTime" : 0, "otherTime" : 60}
+1423555065691
+{"apiCallTime" : 0, "otherTime" : 54}
+1423555126117
+{"apiCallTime" : 0, "otherTime" : 57}
+1423555186547
+{"apiCallTime" : 0, "otherTime" : 56}
+1423555246976
+{"apiCallTime" : 0, "otherTime" : 27}
+1423555307350
+{"apiCallTime" : 0, "otherTime" : 47}
+1423555367792
+{"apiCallTime" : 0, "otherTime" : 24}
+1423555428219
+{"apiCallTime" : 0, "otherTime" : 25}
+1423555488587
+{"apiCallTime" : 0, "otherTime" : 33}
+1423555549000
+{"apiCallTime" : 0, "otherTime" : 20}
+1423555609402
+{"apiCallTime" : 0, "otherTime" : 30}
+1423555669776
+{"apiCallTime" : 0, "otherTime" : 28}
+1423555730186
+{"apiCallTime" : 0, "otherTime" : 27}
+1423555790529
+{"apiCallTime" : 0, "otherTime" : 29}
+1423555850933
+{"apiCallTime" : 0, "otherTime" : 75}
+1423555911368
+{"apiCallTime" : 0, "otherTime" : 51}
+1423555971793
+{"apiCallTime" : 0, "otherTime" : 61}
+1423556032199
+{"apiCallTime" : 0, "otherTime" : 52}
+1423556092603
+{"apiCallTime" : 0, "otherTime" : 24}
+1423556152998
+{"apiCallTime" : 0, "otherTime" : 48}
+1423556213419
+{"apiCallTime" : 0, "otherTime" : 26}
+1423556273760
+{"apiCallTime" : 0, "otherTime" : 24}
+1423556334129
+{"apiCallTime" : 0, "otherTime" : 28}
+1423556394534
+{"apiCallTime" : 0, "otherTime" : 28}
+1423556454971
+{"apiCallTime" : 0, "otherTime" : 27}
+1423556515357
+{"apiCallTime" : 0, "otherTime" : 24}
+1423556575697
+{"apiCallTime" : 0, "otherTime" : 26}
+1423556636070
+{"apiCallTime" : 0, "otherTime" : 30}
+1423556696503
+{"apiCallTime" : 0, "otherTime" : 29}
+1423556756882
+{"apiCallTime" : 0, "otherTime" : 27}
+1423556817253
+{"apiCallTime" : 0, "otherTime" : 34}
+1423556877634
+{"apiCallTime" : 0, "otherTime" : 28}
+1423556938012
+{"apiCallTime" : 0, "otherTime" : 27}
+1423556998731
+{"apiCallTime" : 0, "otherTime" : 28}
+1423557059174
+{"apiCallTime" : 0, "otherTime" : 27}
+1423557119590
+{"apiCallTime" : 0, "otherTime" : 25}
+1423557179967
+{"apiCallTime" : 0, "otherTime" : 28}
+1423557240434
+{"apiCallTime" : 0, "otherTime" : 57}
+1423557300852
+{"apiCallTime" : 0, "otherTime" : 25}
+1423557361253
+{"apiCallTime" : 0, "otherTime" : 23}
+1423557421657
+{"apiCallTime" : 0, "otherTime" : 24}
+1423557482030
+{"apiCallTime" : 0, "otherTime" : 51}
+1423557542403
+{"apiCallTime" : 0, "otherTime" : 22}
+1423557602804
+{"apiCallTime" : 0, "otherTime" : 29}
+1423557663215
+{"apiCallTime" : 0, "otherTime" : 26}
+1423557723560
+{"apiCallTime" : 0, "otherTime" : 21}
+1423557783965
+{"apiCallTime" : 0, "otherTime" : 26}
+1423557844338
+{"apiCallTime" : 0, "otherTime" : 32}
+1423557904745
+{"apiCallTime" : 0, "otherTime" : 22}
+1423557965148
+{"apiCallTime" : 0, "otherTime" : 25}
+1423558025516
+{"apiCallTime" : 0, "otherTime" : 28}
+1423558085890
+{"apiCallTime" : 0, "otherTime" : 29}
+1423558146294
+{"apiCallTime" : 0, "otherTime" : 21}
+1423558206759
+{"apiCallTime" : 0, "otherTime" : 50}
+1423558267143
+{"apiCallTime" : 0, "otherTime" : 53}
+1423558327592
+{"apiCallTime" : 0, "otherTime" : 52}
+1423558388020
+{"apiCallTime" : 0, "otherTime" : 100}
+1423558448524
+{"apiCallTime" : 0, "otherTime" : 24}
+1423558508944
+{"apiCallTime" : 0, "otherTime" : 23}
+1423558569337
+{"apiCallTime" : 0, "otherTime" : 21}
+1423558629707
+{"apiCallTime" : 0, "otherTime" : 26}
+1423558690056
+{"apiCallTime" : 0, "otherTime" : 27}
+1423558750464
+{"apiCallTime" : 0, "otherTime" : 23}
+1423558810828
+{"apiCallTime" : 0, "otherTime" : 29}
+1423558871261
+{"apiCallTime" : 0, "otherTime" : 68}
+1423558931694
+{"apiCallTime" : 0, "otherTime" : 24}
+1423558992038
+{"apiCallTime" : 0, "otherTime" : 30}
+1423559052416
+{"apiCallTime" : 0, "otherTime" : 32}
+1423559112795
+{"apiCallTime" : 0, "otherTime" : 29}
+1423559173204
+{"apiCallTime" : 0, "otherTime" : 30}
+1423559233584
+{"apiCallTime" : 0, "otherTime" : 34}
+1423559293964
+{"apiCallTime" : 0, "otherTime" : 60}
+1423559354371
+{"apiCallTime" : 0, "otherTime" : 57}
+1423559414780
+{"apiCallTime" : 0, "otherTime" : 58}
+1423559475268
+{"apiCallTime" : 0, "otherTime" : 25}
+1423559535670
+{"apiCallTime" : 0, "otherTime" : 29}
+1423559596026
+{"apiCallTime" : 0, "otherTime" : 29}
+1423559656374
+{"apiCallTime" : 0, "otherTime" : 28}
+1423559716756
+{"apiCallTime" : 0, "otherTime" : 31}
+1423559777204
+{"apiCallTime" : 0, "otherTime" : 30}
+1423559837612
+{"apiCallTime" : 0, "otherTime" : 28}
+1423559897988
+{"apiCallTime" : 0, "otherTime" : 29}
+1423559958402
+{"apiCallTime" : 0, "otherTime" : 59}
+1423560018835
+{"apiCallTime" : 0, "otherTime" : 35}
+1423560079263
+{"apiCallTime" : 0, "otherTime" : 33}
+1423560139695
+{"apiCallTime" : 0, "otherTime" : 24}
+1423560200066
+{"apiCallTime" : 0, "otherTime" : 62}
+1423560260549
+{"apiCallTime" : 0, "otherTime" : 55}
+1423560320953
+{"apiCallTime" : 0, "otherTime" : 60}
+1423560381465
+{"apiCallTime" : 0, "otherTime" : 58}
+1423560441896
+{"apiCallTime" : 0, "otherTime" : 70}
+1423560502373
+{"apiCallTime" : 0, "otherTime" : 26}
+1423560562714
+{"apiCallTime" : 0, "otherTime" : 27}
+1423560623030
+{"apiCallTime" : 0, "otherTime" : 23}
+1423560683424
+{"apiCallTime" : 0, "otherTime" : 28}
+1423560743796
+{"apiCallTime" : 0, "otherTime" : 25}
+1423560804230
+{"apiCallTime" : 0, "otherTime" : 78}
+1423560864624
+{"apiCallTime" : 0, "otherTime" : 25}
+1423560925003
+{"apiCallTime" : 0, "otherTime" : 25}
+1423560985346
+{"apiCallTime" : 0, "otherTime" : 29}
+1423561046053
+{"apiCallTime" : 0, "otherTime" : 29}
+1423561106428
+{"apiCallTime" : 0, "otherTime" : 28}
+1423561166800
+{"apiCallTime" : 0, "otherTime" : 30}
+1423561227209
+{"apiCallTime" : 0, "otherTime" : 36}
+1423561287591
+{"apiCallTime" : 0, "otherTime" : 56}
+1423561347996
+{"apiCallTime" : 0, "otherTime" : 56}
+1423561408462
+{"apiCallTime" : 0, "otherTime" : 56}
+1423561468924
+{"apiCallTime" : 0, "otherTime" : 29}
+1423561529269
+{"apiCallTime" : 0, "otherTime" : 27}
+1423561589702
+{"apiCallTime" : 0, "otherTime" : 27}
+1423561650073
+{"apiCallTime" : 0, "otherTime" : 40}
+1423561710430
+{"apiCallTime" : 0, "otherTime" : 24}
+1423561770800
+{"apiCallTime" : 0, "otherTime" : 24}
+1423561831140
+{"apiCallTime" : 0, "otherTime" : 24}
+1423561891560
+{"apiCallTime" : 0, "otherTime" : 22}
+1423561951954
+{"apiCallTime" : 0, "otherTime" : 26}
+1423562012294
+{"apiCallTime" : 0, "otherTime" : 26}
+1423562072637
+{"apiCallTime" : 0, "otherTime" : 25}
+1423562133045
+{"apiCallTime" : 0, "otherTime" : 28}
+1423562193418
+{"apiCallTime" : 0, "otherTime" : 29}
+1423562253820
+{"apiCallTime" : 0, "otherTime" : 24}
+1423562314160
+{"apiCallTime" : 0, "otherTime" : 55}
+1423562374659
+{"apiCallTime" : 0, "otherTime" : 52}
+1423562435085
+{"apiCallTime" : 0, "otherTime" : 58}
+1423562495461
+{"apiCallTime" : 0, "otherTime" : 25}
+1423562555835
+{"apiCallTime" : 0, "otherTime" : 63}
+1423562616244
+{"apiCallTime" : 0, "otherTime" : 25}
+1423562676613
+{"apiCallTime" : 0, "otherTime" : 23}
+1423562736984
+{"apiCallTime" : 0, "otherTime" : 28}
+1423562797393
+{"apiCallTime" : 0, "otherTime" : 23}
+1423562857765
+{"apiCallTime" : 0, "otherTime" : 28}
+1423562918155
+{"apiCallTime" : 0, "otherTime" : 27}
+1423562978555
+{"apiCallTime" : 0, "otherTime" : 23}
+1423563038922
+{"apiCallTime" : 0, "otherTime" : 25}
+1423563099269
+{"apiCallTime" : 0, "otherTime" : 35}
+1423563159694
+{"apiCallTime" : 0, "otherTime" : 26}
+1423563220045
+{"apiCallTime" : 0, "otherTime" : 28}
+1423563280418
+{"apiCallTime" : 0, "otherTime" : 25}
+1423563340846
+{"apiCallTime" : 0, "otherTime" : 26}
+1423563401217
+{"apiCallTime" : 0, "otherTime" : 23}
+1423563461558
+{"apiCallTime" : 0, "otherTime" : 22}
+1423563521953
+{"apiCallTime" : 0, "otherTime" : 83}
+1423563582457
+{"apiCallTime" : 0, "otherTime" : 50}
+1423563642982
+{"apiCallTime" : 0, "otherTime" : 30}
+1423563703389
+{"apiCallTime" : 0, "otherTime" : 26}
+1423563763760
+{"apiCallTime" : 0, "otherTime" : 24}
+1423563824103
+{"apiCallTime" : 0, "otherTime" : 29}
+1423563884488
+{"apiCallTime" : 0, "otherTime" : 28}
+1423563944929
+{"apiCallTime" : 0, "otherTime" : 29}
+1423564005330
+{"apiCallTime" : 0, "otherTime" : 21}
+1423564065724
+{"apiCallTime" : 0, "otherTime" : 68}
+1423564126168
+{"apiCallTime" : 0, "otherTime" : 31}
+1423564186546
+{"apiCallTime" : 0, "otherTime" : 27}
+1423564246954
+{"apiCallTime" : 0, "otherTime" : 31}
+1423564307404
+{"apiCallTime" : 0, "otherTime" : 24}
+1423564367772
+{"apiCallTime" : 0, "otherTime" : 26}
+1423564428142
+{"apiCallTime" : 0, "otherTime" : 29}
+1423564488490
+{"apiCallTime" : 0, "otherTime" : 28}
+1423564548830
+{"apiCallTime" : 0, "otherTime" : 57}
+1423564609269
+{"apiCallTime" : 0, "otherTime" : 52}
+1423564669722
+{"apiCallTime" : 0, "otherTime" : 39}
+1423564730161
+{"apiCallTime" : 0, "otherTime" : 27}
+1423564790504
+{"apiCallTime" : 0, "otherTime" : 29}
+1423564850851
+{"apiCallTime" : 0, "otherTime" : 25}
+1423564911286
+{"apiCallTime" : 0, "otherTime" : 27}
+1423564971759
+{"apiCallTime" : 0, "otherTime" : 25}
+1423565032095
+{"apiCallTime" : 0, "otherTime" : 24}
+1423565092464
+{"apiCallTime" : 0, "otherTime" : 21}
+1423565152833
+{"apiCallTime" : 0, "otherTime" : 24}
+1423565213259
+{"apiCallTime" : 0, "otherTime" : 26}
+1423565273679
+{"apiCallTime" : 0, "otherTime" : 30}
+1423565334085
+{"apiCallTime" : 0, "otherTime" : 21}
+1423565394474
+{"apiCallTime" : 0, "otherTime" : 24}
+1423565454851
+{"apiCallTime" : 0, "otherTime" : 28}
+1423565515226
+{"apiCallTime" : 0, "otherTime" : 25}
+1423565575598
+{"apiCallTime" : 0, "otherTime" : 28}
+1423565635999
+{"apiCallTime" : 0, "otherTime" : 30}
+1423565696372
+{"apiCallTime" : 0, "otherTime" : 33}
+1423565756749
+{"apiCallTime" : 0, "otherTime" : 56}
+1423565817156
+{"apiCallTime" : 0, "otherTime" : 26}
+1423565877558
+{"apiCallTime" : 0, "otherTime" : 26}
+1423565937963
+{"apiCallTime" : 0, "otherTime" : 31}
+1423565998369
+{"apiCallTime" : 0, "otherTime" : 22}
+1423566058761
+{"apiCallTime" : 0, "otherTime" : 29}
+1423566119166
+{"apiCallTime" : 0, "otherTime" : 65}
+1423566179576
+{"apiCallTime" : 0, "otherTime" : 25}
+1423566239914
+{"apiCallTime" : 0, "otherTime" : 28}
+1423566300315
+{"apiCallTime" : 0, "otherTime" : 28}
+1423566360688
+{"apiCallTime" : 0, "otherTime" : 28}
+1423566421120
+{"apiCallTime" : 0, "otherTime" : 25}
+1423566481522
+{"apiCallTime" : 0, "otherTime" : 24}
+1423566541896
+{"apiCallTime" : 0, "otherTime" : 27}
+1423566602397
+{"apiCallTime" : 0, "otherTime" : 29}
+1423566662799
+{"apiCallTime" : 0, "otherTime" : 25}
+1423566723180
+{"apiCallTime" : 0, "otherTime" : 28}
+1423566783581
+{"apiCallTime" : 0, "otherTime" : 30}
+1423566843987
+{"apiCallTime" : 0, "otherTime" : 31}
+1423566904364
+{"apiCallTime" : 0, "otherTime" : 27}
+1423566964958
+{"apiCallTime" : 0, "otherTime" : 38}
+1423567025430
+{"apiCallTime" : 0, "otherTime" : 35}
+1423567085836
+{"apiCallTime" : 0, "otherTime" : 49}
+1423567146254
+{"apiCallTime" : 0, "otherTime" : 26}
+1423567206663
+{"apiCallTime" : 0, "otherTime" : 71}
+1423567267146
+{"apiCallTime" : 0, "otherTime" : 25}
+1423567327523
+{"apiCallTime" : 0, "otherTime" : 24}
+1423567387893
+{"apiCallTime" : 0, "otherTime" : 26}
+1423567448384
+{"apiCallTime" : 0, "otherTime" : 30}
+1423567508728
+{"apiCallTime" : 0, "otherTime" : 29}
+1423567569137
+{"apiCallTime" : 0, "otherTime" : 32}
+1423567629546
+{"apiCallTime" : 0, "otherTime" : 30}
+1423567689931
+{"apiCallTime" : 0, "otherTime" : 33}
+1423567750413
+{"apiCallTime" : 0, "otherTime" : 56}
+1423567810786
+{"apiCallTime" : 0, "otherTime" : 24}
+1423567871123
+{"apiCallTime" : 0, "otherTime" : 26}
+1423567931521
+{"apiCallTime" : 0, "otherTime" : 25}
+1423567991892
+{"apiCallTime" : 0, "otherTime" : 26}
+1423568052288
+{"apiCallTime" : 0, "otherTime" : 56}
+1423568112636
+{"apiCallTime" : 0, "otherTime" : 27}
+1423568173003
+{"apiCallTime" : 0, "otherTime" : 23}
+1423568233373
+{"apiCallTime" : 0, "otherTime" : 421}
+1423568294195
+{"apiCallTime" : 0, "otherTime" : 59}
+1423568354629
+{"apiCallTime" : 0, "otherTime" : 30}
+1423568415069
+{"apiCallTime" : 0, "otherTime" : 33}
+1423568475418
+{"apiCallTime" : 0, "otherTime" : 28}
+1423568535796
+{"apiCallTime" : 0, "otherTime" : 34}
+1423568596204
+{"apiCallTime" : 0, "otherTime" : 30}
+1423568656611
+{"apiCallTime" : 0, "otherTime" : 26}
+1423568716983
+{"apiCallTime" : 0, "otherTime" : 28}
+1423568777331
+{"apiCallTime" : 0, "otherTime" : 27}
+1423568837732
+{"apiCallTime" : 0, "otherTime" : 95}
+1423568898171
+{"apiCallTime" : 0, "otherTime" : 29}
+1423568958547
+{"apiCallTime" : 0, "otherTime" : 27}
+1423569018949
+{"apiCallTime" : 0, "otherTime" : 56}
+1423569079380
+{"apiCallTime" : 0, "otherTime" : 84}
+1423569139863
+{"apiCallTime" : 0, "otherTime" : 54}
+1423569200234
+{"apiCallTime" : 0, "otherTime" : 55}
+1423569260621
+{"apiCallTime" : 0, "otherTime" : 57}
+1423569321055
+{"apiCallTime" : 0, "otherTime" : 55}
+1423569381487
+{"apiCallTime" : 0, "otherTime" : 55}
+1423569441888
+{"apiCallTime" : 0, "otherTime" : 57}
+1423569502290
+{"apiCallTime" : 0, "otherTime" : 26}
+1423569562734
+{"apiCallTime" : 0, "otherTime" : 29}
+1423569623115
+{"apiCallTime" : 0, "otherTime" : 27}
+1423569683546
+{"apiCallTime" : 0, "otherTime" : 30}
+1423569743919
+{"apiCallTime" : 0, "otherTime" : 23}
+1423569804553
+{"apiCallTime" : 0, "otherTime" : 30}
+1423569864898
+{"apiCallTime" : 0, "otherTime" : 27}
+1423569925344
+{"apiCallTime" : 0, "otherTime" : 27}
+1423569985717
+{"apiCallTime" : 0, "otherTime" : 25}
+1423570046110
+{"apiCallTime" : 0, "otherTime" : 30}
+1423570106429
+{"apiCallTime" : 0, "otherTime" : 24}
+1423570166879
+{"apiCallTime" : 0, "otherTime" : 58}
+1423570227307
+{"apiCallTime" : 0, "otherTime" : 56}
+1423570287726
+{"apiCallTime" : 0, "otherTime" : 55}
+1423570348209
+{"apiCallTime" : 0, "otherTime" : 54}
+1423570408635
+{"apiCallTime" : 0, "otherTime" : 55}
+1423570469041
+{"apiCallTime" : 0, "otherTime" : 27}
+1423570529507
+{"apiCallTime" : 0, "otherTime" : 29}
+1423570589882
+{"apiCallTime" : 0, "otherTime" : 25}
+1423570650280
+{"apiCallTime" : 0, "otherTime" : 86}
+1423570710712
+{"apiCallTime" : 0, "otherTime" : 22}
+1423570771109
+{"apiCallTime" : 0, "otherTime" : 69}
+1423570831559
+{"apiCallTime" : 0, "otherTime" : 28}
+1423570891965
+{"apiCallTime" : 0, "otherTime" : 27}
+1423570952643
+{"apiCallTime" : 0, "otherTime" : 26}
+1423571013041
+{"apiCallTime" : 0, "otherTime" : 28}
+1423571104854
+{"apiCallTime" : 0, "otherTime" : 39}
+1423571165251
+{"apiCallTime" : 0, "otherTime" : 46}
+1423571225698
+{"apiCallTime" : 0, "otherTime" : 28}
+1423571286042
+{"apiCallTime" : 0, "otherTime" : 30}
+1423571346513
+{"apiCallTime" : 0, "otherTime" : 27}
+1423571406865
+{"apiCallTime" : 0, "otherTime" : 22}
+1423571467172
+{"apiCallTime" : 0, "otherTime" : 25}
+1423571527614
+{"apiCallTime" : 0, "otherTime" : 26}
+1423571588043
+{"apiCallTime" : 0, "otherTime" : 24}
+1423571648412
+{"apiCallTime" : 0, "otherTime" : 51}
+1423571708808
+{"apiCallTime" : 0, "otherTime" : 51}
+1423571769174
+{"apiCallTime" : 0, "otherTime" : 56}
+1423571829621
+{"apiCallTime" : 0, "otherTime" : 52}
+1423571890078
+{"apiCallTime" : 0, "otherTime" : 54}
+1423571950453
+{"apiCallTime" : 0, "otherTime" : 52}
+1423572010849
+{"apiCallTime" : 0, "otherTime" : 50}
+1423572071269
+{"apiCallTime" : 0, "otherTime" : 32}
+1423572131617
+{"apiCallTime" : 0, "otherTime" : 22}
+1423572191991
+{"apiCallTime" : 0, "otherTime" : 56}
+1423572252396
+{"apiCallTime" : 0, "otherTime" : 24}
+1423572312825
+{"apiCallTime" : 0, "otherTime" : 22}
+1423572373163
+{"apiCallTime" : 0, "otherTime" : 21}
+1423572433599
+{"apiCallTime" : 0, "otherTime" : 28}
+1423572494005
+{"apiCallTime" : 0, "otherTime" : 25}
+1423572554322
+{"apiCallTime" : 0, "otherTime" : 39}
+1423572614736
+{"apiCallTime" : 0, "otherTime" : 28}
+1423572675108
+{"apiCallTime" : 0, "otherTime" : 29}
+1423572735454
+{"apiCallTime" : 0, "otherTime" : 25}
+1423572795858
+{"apiCallTime" : 0, "otherTime" : 27}
+1423572856267
+{"apiCallTime" : 0, "otherTime" : 29}
+1423572916639
+{"apiCallTime" : 0, "otherTime" : 53}
+1423572976977
+{"apiCallTime" : 0, "otherTime" : 63}
+1423573037385
+{"apiCallTime" : 0, "otherTime" : 57}
+1423573097800
+{"apiCallTime" : 0, "otherTime" : 55}
+1423573158235
+{"apiCallTime" : 0, "otherTime" : 109}
+1423573218728
+{"apiCallTime" : 0, "otherTime" : 28}
+1423573279147
+{"apiCallTime" : 0, "otherTime" : 33}
+1423573339556
+{"apiCallTime" : 0, "otherTime" : 27}
+1423573399930
+{"apiCallTime" : 0, "otherTime" : 28}
+1423573460395
+{"apiCallTime" : 0, "otherTime" : 30}
+1423573520798
+{"apiCallTime" : 0, "otherTime" : 24}
+1423573581135
+{"apiCallTime" : 0, "otherTime" : 25}
+1423573641544
+{"apiCallTime" : 0, "otherTime" : 25}
+1423573701913
+{"apiCallTime" : 0, "otherTime" : 41}
+1423573762336
+{"apiCallTime" : 0, "otherTime" : 29}
+1423573822809
+{"apiCallTime" : 0, "otherTime" : 25}
+1423573883206
+{"apiCallTime" : 0, "otherTime" : 27}
+1423573943578
+{"apiCallTime" : 0, "otherTime" : 23}
+1423574003919
+{"apiCallTime" : 0, "otherTime" : 26}
+1423574064261
+{"apiCallTime" : 0, "otherTime" : 60}
+1423574124701
+{"apiCallTime" : 0, "otherTime" : 55}
+1423574185102
+{"apiCallTime" : 0, "otherTime" : 57}
+1423574245508
+{"apiCallTime" : 0, "otherTime" : 56}
+1423574305934
+{"apiCallTime" : 0, "otherTime" : 53}
+1423574366332
+{"apiCallTime" : 0, "otherTime" : 23}
+1423574426677
+{"apiCallTime" : 0, "otherTime" : 26}
+1423574487047
+{"apiCallTime" : 0, "otherTime" : 27}
+1423574547479
+{"apiCallTime" : 0, "otherTime" : 25}
+1423574607847
+{"apiCallTime" : 0, "otherTime" : 25}
+1423574668275
+{"apiCallTime" : 0, "otherTime" : 24}
+1423574728672
+{"apiCallTime" : 0, "otherTime" : 23}
+1423574789037
+{"apiCallTime" : 0, "otherTime" : 25}
+1423574849407
+{"apiCallTime" : 0, "otherTime" : 23}
+1423574909806
+{"apiCallTime" : 0, "otherTime" : 24}
+1423574970176
+{"apiCallTime" : 0, "otherTime" : 28}
+1423575030548
+{"apiCallTime" : 0, "otherTime" : 24}
+1423575090950
+{"apiCallTime" : 0, "otherTime" : 28}
+1423575151355
+{"apiCallTime" : 0, "otherTime" : 24}
+1423575211699
+{"apiCallTime" : 0, "otherTime" : 53}
+1423575272115
+{"apiCallTime" : 0, "otherTime" : 55}
+1423575332515
+{"apiCallTime" : 0, "otherTime" : 56}
+1423575392891
+{"apiCallTime" : 0, "otherTime" : 52}
+1423575453381
+{"apiCallTime" : 0, "otherTime" : 31}
+1423575513754
+{"apiCallTime" : 0, "otherTime" : 27}
+1423575574125
+{"apiCallTime" : 0, "otherTime" : 29}
+1423575634516
+{"apiCallTime" : 0, "otherTime" : 27}
+1423575694891
+{"apiCallTime" : 0, "otherTime" : 40}
+1423575755277
+{"apiCallTime" : 0, "otherTime" : 28}
+1423575815706
+{"apiCallTime" : 0, "otherTime" : 26}
+1423575876049
+{"apiCallTime" : 0, "otherTime" : 25}
+1423575936419
+{"apiCallTime" : 0, "otherTime" : 25}
+1423575996819
+{"apiCallTime" : 0, "otherTime" : 26}
+1423576057231
+{"apiCallTime" : 0, "otherTime" : 30}
+1423576117678
+{"apiCallTime" : 0, "otherTime" : 24}
+1423576178206
+{"apiCallTime" : 0, "otherTime" : 29}
+1423576238600
+{"apiCallTime" : 0, "otherTime" : 23}
+1423576298969
+{"apiCallTime" : 0, "otherTime" : 23}
+1423576359374
+{"apiCallTime" : 0, "otherTime" : 53}
+1423576419770
+{"apiCallTime" : 0, "otherTime" : 51}
+1423576480194
+{"apiCallTime" : 0, "otherTime" : 63}
+1423576540575
+{"apiCallTime" : 0, "otherTime" : 52}
+1423576601047
+{"apiCallTime" : 0, "otherTime" : 28}
+1423576661451
+{"apiCallTime" : 0, "otherTime" : 28}
+1423576721766
+{"apiCallTime" : 0, "otherTime" : 42}
+1423576782182
+{"apiCallTime" : 0, "otherTime" : 22}
+1423576842604
+{"apiCallTime" : 0, "otherTime" : 29}
+1423576903011
+{"apiCallTime" : 0, "otherTime" : 29}
+1423576963373
+{"apiCallTime" : 0, "otherTime" : 87}
+1423577023863
+{"apiCallTime" : 0, "otherTime" : 31}
+1423577084270
+{"apiCallTime" : 0, "otherTime" : 26}
+1423577144671
+{"apiCallTime" : 0, "otherTime" : 30}
+1423577205079
+{"apiCallTime" : 0, "otherTime" : 26}
+1423577265540
+{"apiCallTime" : 0, "otherTime" : 29}
+1423577325857
+{"apiCallTime" : 0, "otherTime" : 27}
+1423577386256
+{"apiCallTime" : 0, "otherTime" : 54}
+1423577446643
+{"apiCallTime" : 0, "otherTime" : 64}
+1423577507063
+{"apiCallTime" : 0, "otherTime" : 56}
+1423577567489
+{"apiCallTime" : 0, "otherTime" : 51}
+1423577627911
+{"apiCallTime" : 0, "otherTime" : 27}
+1423577688283
+{"apiCallTime" : 0, "otherTime" : 35}
+1423577748731
+{"apiCallTime" : 0, "otherTime" : 23}
+1423577809104
+{"apiCallTime" : 0, "otherTime" : 25}
+1423577869473
+{"apiCallTime" : 0, "otherTime" : 26}
+1423577929871
+{"apiCallTime" : 0, "otherTime" : 25}
+1423577990251
+{"apiCallTime" : 0, "otherTime" : 26}
+1423578050730
+{"apiCallTime" : 0, "otherTime" : 27}
+1423578111110
+{"apiCallTime" : 0, "otherTime" : 87}
+1423578171513
+{"apiCallTime" : 0, "otherTime" : 26}
+1423578231855
+{"apiCallTime" : 0, "otherTime" : 24}
+1423578292225
+{"apiCallTime" : 0, "otherTime" : 29}
+1423578352632
+{"apiCallTime" : 0, "otherTime" : 25}
+1423578413037
+{"apiCallTime" : 0, "otherTime" : 23}
+1423578473470
+{"apiCallTime" : 0, "otherTime" : 30}
+1423578533906
+{"apiCallTime" : 0, "otherTime" : 90}
+1423578594338
+{"apiCallTime" : 0, "otherTime" : 28}
+1423578654652
+{"apiCallTime" : 0, "otherTime" : 54}
+1423578715082
+{"apiCallTime" : 0, "otherTime" : 59}
+1423578775517
+{"apiCallTime" : 0, "otherTime" : 27}
+1423578835944
+{"apiCallTime" : 0, "otherTime" : 25}
+1423578896285
+{"apiCallTime" : 0, "otherTime" : 27}
+1423578956652
+{"apiCallTime" : 0, "otherTime" : 27}
+1423579017084
+{"apiCallTime" : 0, "otherTime" : 28}
+1423579077489
+{"apiCallTime" : 0, "otherTime" : 28}
+1423579137897
+{"apiCallTime" : 0, "otherTime" : 34}
+1423579198277
+{"apiCallTime" : 0, "otherTime" : 24}
+1423579258590
+{"apiCallTime" : 0, "otherTime" : 28}
+1423579319000
+{"apiCallTime" : 0, "otherTime" : 23}
+1423579379409
+{"apiCallTime" : 0, "otherTime" : 24}
+1423579439809
+{"apiCallTime" : 0, "otherTime" : 33}
+1423579500266
+{"apiCallTime" : 0, "otherTime" : 24}
+1423579560603
+{"apiCallTime" : 0, "otherTime" : 27}
+1423579620970
+{"apiCallTime" : 0, "otherTime" : 25}
+1423579681347
+{"apiCallTime" : 0, "otherTime" : 32}
+1423579741752
+{"apiCallTime" : 0, "otherTime" : 26}
+1423579802156
+{"apiCallTime" : 0, "otherTime" : 26}
+1423579862503
+{"apiCallTime" : 0, "otherTime" : 50}
+1423579922941
+{"apiCallTime" : 0, "otherTime" : 25}
+1423579983338
+{"apiCallTime" : 0, "otherTime" : 24}
+1423580043737
+{"apiCallTime" : 0, "otherTime" : 26}
+1423580104157
+{"apiCallTime" : 0, "otherTime" : 28}
+1423580164540
+{"apiCallTime" : 0, "otherTime" : 26}
+1423580224880
+{"apiCallTime" : 0, "otherTime" : 24}
+1423580285220
+{"apiCallTime" : 0, "otherTime" : 29}
+1423580345622
+{"apiCallTime" : 0, "otherTime" : 22}
+1423580405990
+{"apiCallTime" : 0, "otherTime" : 26}
+1423580466424
+{"apiCallTime" : 0, "otherTime" : 30}
+1423580526806
+{"apiCallTime" : 0, "otherTime" : 67}
+1423580587224
+{"apiCallTime" : 0, "otherTime" : 22}
+1423580647594
+{"apiCallTime" : 0, "otherTime" : 25}
+1423580708002
+{"apiCallTime" : 0, "otherTime" : 25}
+1423580768374
+{"apiCallTime" : 0, "otherTime" : 27}
+1423580828776
+{"apiCallTime" : 0, "otherTime" : 25}
+1423580889147
+{"apiCallTime" : 0, "otherTime" : 31}
+1423580949556
+{"apiCallTime" : 0, "otherTime" : 29}
+1423581009931
+{"apiCallTime" : 0, "otherTime" : 54}
+1423581070369
+{"apiCallTime" : 0, "otherTime" : 25}
+1423581130758
+{"apiCallTime" : 0, "otherTime" : 72}
+1423581191176
+{"apiCallTime" : 0, "otherTime" : 33}
+1423581251595
+{"apiCallTime" : 0, "otherTime" : 25}
+1423581311968
+{"apiCallTime" : 0, "otherTime" : 29}
+1423581372383
+{"apiCallTime" : 0, "otherTime" : 29}
+1423581432756
+{"apiCallTime" : 0, "otherTime" : 245}
+1423581493355
+{"apiCallTime" : 0, "otherTime" : 29}
+1423581553766
+{"apiCallTime" : 0, "otherTime" : 29}
+1423581614203
+{"apiCallTime" : 0, "otherTime" : 24}
+1423581674599
+{"apiCallTime" : 0, "otherTime" : 35}
+1423581734948
+{"apiCallTime" : 0, "otherTime" : 24}
+1423581795311
+{"apiCallTime" : 0, "otherTime" : 25}
+1423581855681
+{"apiCallTime" : 0, "otherTime" : 62}
+1423581916117
+{"apiCallTime" : 0, "otherTime" : 28}
+1423581976571
+{"apiCallTime" : 0, "otherTime" : 29}
+1423582036928
+{"apiCallTime" : 0, "otherTime" : 28}
+1423582097329
+{"apiCallTime" : 0, "otherTime" : 62}
+1423582157910
+{"apiCallTime" : 0, "otherTime" : 29}
+1423582218314
+{"apiCallTime" : 0, "otherTime" : 50}
+1423582278762
+{"apiCallTime" : 0, "otherTime" : 29}
+1423582339136
+{"apiCallTime" : 0, "otherTime" : 30}
+1423582399512
+{"apiCallTime" : 0, "otherTime" : 37}
+1423582459866
+{"apiCallTime" : 0, "otherTime" : 32}
+1423582520218
+{"apiCallTime" : 0, "otherTime" : 32}
+1423582580601
+{"apiCallTime" : 0, "otherTime" : 28}
+1423582640976
+{"apiCallTime" : 0, "otherTime" : 63}
+1423582701393
+{"apiCallTime" : 0, "otherTime" : 55}
+1423582761850
+{"apiCallTime" : 0, "otherTime" : 65}
+1423582822212
+{"apiCallTime" : 0, "otherTime" : 59}
+1423582882559
+{"apiCallTime" : 0, "otherTime" : 83}
+1423582943067
+{"apiCallTime" : 0, "otherTime" : 63}
+1423583003481
+{"apiCallTime" : 0, "otherTime" : 56}
+1423583063909
+{"apiCallTime" : 0, "otherTime" : 32}
+1423583124266
+{"apiCallTime" : 0, "otherTime" : 38}
+1423583184648
+{"apiCallTime" : 0, "otherTime" : 27}
+1423583245102
+{"apiCallTime" : 0, "otherTime" : 66}
+1423583305482
+{"apiCallTime" : 0, "otherTime" : 42}
+1423583365868
+{"apiCallTime" : 0, "otherTime" : 27}
+1423583426292
+{"apiCallTime" : 0, "otherTime" : 48}
+1423583486656
+{"apiCallTime" : 0, "otherTime" : 28}
+1423583547026
+{"apiCallTime" : 0, "otherTime" : 66}
+1423583607440
+{"apiCallTime" : 0, "otherTime" : 28}
+1423583667953
+{"apiCallTime" : 0, "otherTime" : 54}
+1423583728331
+{"apiCallTime" : 0, "otherTime" : 58}
+1423583788703
+{"apiCallTime" : 0, "otherTime" : 53}
+1423583849104
+{"apiCallTime" : 0, "otherTime" : 55}
+1423583909520
+{"apiCallTime" : 0, "otherTime" : 59}
+1423583969955
+{"apiCallTime" : 0, "otherTime" : 56}
+1423584030383
+{"apiCallTime" : 0, "otherTime" : 59}
+1423584090758
+{"apiCallTime" : 0, "otherTime" : 62}
+1423584151193
+{"apiCallTime" : 0, "otherTime" : 59}
+1423584211623
+{"apiCallTime" : 0, "otherTime" : 23}
+1423584271990
+{"apiCallTime" : 0, "otherTime" : 26}
+1423584332364
+{"apiCallTime" : 0, "otherTime" : 22}
+1423584392755
+{"apiCallTime" : 0, "otherTime" : 24}
+1423584453281
+{"apiCallTime" : 0, "otherTime" : 24}
+1423584513603
+{"apiCallTime" : 0, "otherTime" : 24}
+1423584573979
+{"apiCallTime" : 0, "otherTime" : 25}
+1423584634405
+{"apiCallTime" : 0, "otherTime" : 26}
+1423584694774
+{"apiCallTime" : 0, "otherTime" : 27}
+1423584755119
+{"apiCallTime" : 0, "otherTime" : 32}
+1423584815583
+{"apiCallTime" : 0, "otherTime" : 26}
+1423584876011
+{"apiCallTime" : 0, "otherTime" : 61}
+1423584936453
+{"apiCallTime" : 0, "otherTime" : 53}
+1423584996865
+{"apiCallTime" : 0, "otherTime" : 53}
+1423585057326
+{"apiCallTime" : 0, "otherTime" : 57}
+1423585117747
+{"apiCallTime" : 0, "otherTime" : 53}
+1423585178113
+{"apiCallTime" : 0, "otherTime" : 67}
+1423585238527
+{"apiCallTime" : 0, "otherTime" : 61}
+1423585298962
+{"apiCallTime" : 0, "otherTime" : 35}
+1423585359443
+{"apiCallTime" : 0, "otherTime" : 22}
+1423585419840
+{"apiCallTime" : 0, "otherTime" : 24}
+1423585480178
+{"apiCallTime" : 0, "otherTime" : 91}
+1423585540660
+{"apiCallTime" : 0, "otherTime" : 108}
+1423585601083
+{"apiCallTime" : 0, "otherTime" : 27}
+1423585661500
+{"apiCallTime" : 0, "otherTime" : 27}
+1423585721910
+{"apiCallTime" : 0, "otherTime" : 37}
+1423585782261
+{"apiCallTime" : 0, "otherTime" : 28}
+1423585842636
+{"apiCallTime" : 0, "otherTime" : 25}
+1423585903030
+{"apiCallTime" : 0, "otherTime" : 38}
+1423585963367
+{"apiCallTime" : 0, "otherTime" : 53}
+1423586023883
+{"apiCallTime" : 0, "otherTime" : 63}
+1423586084294
+{"apiCallTime" : 0, "otherTime" : 54}
+1423586144727
+{"apiCallTime" : 0, "otherTime" : 53}
+1423586205124
+{"apiCallTime" : 0, "otherTime" : 50}
+1423586265533
+{"apiCallTime" : 0, "otherTime" : 70}
+1423586325982
+{"apiCallTime" : 0, "otherTime" : 27}
+1423586386361
+{"apiCallTime" : 0, "otherTime" : 67}
+1423586446772
+{"apiCallTime" : 0, "otherTime" : 25}
+1423586507167
+{"apiCallTime" : 0, "otherTime" : 26}
+1423586567510
+{"apiCallTime" : 0, "otherTime" : 28}
+1423586627910
+{"apiCallTime" : 0, "otherTime" : 25}
+1423586688279
+{"apiCallTime" : 0, "otherTime" : 54}
+1423586748707
+{"apiCallTime" : 0, "otherTime" : 53}
+1423586809078
+{"apiCallTime" : 0, "otherTime" : 51}
+1423586869603
+{"apiCallTime" : 0, "otherTime" : 65}
+1423586930030
+{"apiCallTime" : 0, "otherTime" : 64}
+1423586990414
+{"apiCallTime" : 0, "otherTime" : 52}
+1423587050840
+{"apiCallTime" : 0, "otherTime" : 70}
+1423587111349
+{"apiCallTime" : 0, "otherTime" : 54}
+1423587171805
+{"apiCallTime" : 0, "otherTime" : 27}
+1423587232157
+{"apiCallTime" : 0, "otherTime" : 27}
+1423587292527
+{"apiCallTime" : 0, "otherTime" : 29}
+1423587352903
+{"apiCallTime" : 0, "otherTime" : 25}
+1423587413272
+{"apiCallTime" : 0, "otherTime" : 26}
+1423587473778
+{"apiCallTime" : 0, "otherTime" : 53}
+1423587534148
+{"apiCallTime" : 0, "otherTime" : 88}
+1423587594581
+{"apiCallTime" : 0, "otherTime" : 52}
+1423587655089
+{"apiCallTime" : 0, "otherTime" : 61}
+1423587715499
+{"apiCallTime" : 0, "otherTime" : 62}
+1423587775936
+{"apiCallTime" : 0, "otherTime" : 28}
+1423587836313
+{"apiCallTime" : 0, "otherTime" : 27}
+1423587896724
+{"apiCallTime" : 0, "otherTime" : 28}
+1423587957101
+{"apiCallTime" : 0, "otherTime" : 24}
+1423588017470
+{"apiCallTime" : 0, "otherTime" : 26}
+1423588077913
+{"apiCallTime" : 0, "otherTime" : 29}
+1423588138311
+{"apiCallTime" : 0, "otherTime" : 27}
+1423588198828
+{"apiCallTime" : 0, "otherTime" : 24}
+1423588259226
+{"apiCallTime" : 0, "otherTime" : 24}
+1423588319630
+{"apiCallTime" : 0, "otherTime" : 27}
+1423588380004
+{"apiCallTime" : 0, "otherTime" : 25}
+1423588440408
+{"apiCallTime" : 0, "otherTime" : 24}
+1423588500855
+{"apiCallTime" : 0, "otherTime" : 28}
+1423588561263
+{"apiCallTime" : 0, "otherTime" : 24}
+1423588621630
+{"apiCallTime" : 0, "otherTime" : 57}
+1423588682107
+{"apiCallTime" : 0, "otherTime" : 58}
+1423588742540
+{"apiCallTime" : 0, "otherTime" : 54}
+1423588803001
+{"apiCallTime" : 0, "otherTime" : 55}
+1423588863419
+{"apiCallTime" : 0, "otherTime" : 27}
+1423588923831
+{"apiCallTime" : 0, "otherTime" : 39}
+1423588984188
+{"apiCallTime" : 0, "otherTime" : 27}
+1423589044565
+{"apiCallTime" : 0, "otherTime" : 24}
+1423589104963
+{"apiCallTime" : 0, "otherTime" : 26}
+1423589165368
+{"apiCallTime" : 0, "otherTime" : 35}
+1423589225785
+{"apiCallTime" : 0, "otherTime" : 36}
+1423589286223
+{"apiCallTime" : 0, "otherTime" : 38}
+1423589346644
+{"apiCallTime" : 0, "otherTime" : 26}
+1423589407045
+{"apiCallTime" : 0, "otherTime" : 26}
+1423589467487
+{"apiCallTime" : 0, "otherTime" : 38}
+1423589527845
+{"apiCallTime" : 0, "otherTime" : 24}
+1423589588216
+{"apiCallTime" : 0, "otherTime" : 43}
+1423589648670
+{"apiCallTime" : 0, "otherTime" : 77}
+1423589709128
+{"apiCallTime" : 0, "otherTime" : 59}
+1423589769569
+{"apiCallTime" : 0, "otherTime" : 53}
+1423589830000
+{"apiCallTime" : 0, "otherTime" : 59}
+1423589890378
+{"apiCallTime" : 0, "otherTime" : 27}
+1423589950750
+{"apiCallTime" : 0, "otherTime" : 30}
+1423590011190
+{"apiCallTime" : 0, "otherTime" : 26}
+1423590071593
+{"apiCallTime" : 0, "otherTime" : 22}
+1423590132000
+{"apiCallTime" : 0, "otherTime" : 24}
+1423590192370
+{"apiCallTime" : 0, "otherTime" : 28}
+1423590252701
+{"apiCallTime" : 0, "otherTime" : 25}
+1423590313115
+{"apiCallTime" : 0, "otherTime" : 28}
+1423590373517
+{"apiCallTime" : 0, "otherTime" : 31}
+1423590433893
+{"apiCallTime" : 0, "otherTime" : 35}
+1423590494276
+{"apiCallTime" : 0, "otherTime" : 36}
+1423590554687
+{"apiCallTime" : 0, "otherTime" : 29}
+1423590615092
+{"apiCallTime" : 0, "otherTime" : 27}
+1423590675546
+{"apiCallTime" : 0, "otherTime" : 33}
+1423590735927
+{"apiCallTime" : 0, "otherTime" : 57}
+1423590796328
+{"apiCallTime" : 0, "otherTime" : 58}
+1423590856819
+{"apiCallTime" : 0, "otherTime" : 29}
+1423590917138
+{"apiCallTime" : 0, "otherTime" : 27}
+1423590977560
+{"apiCallTime" : 0, "otherTime" : 23}
+1423591037924
+{"apiCallTime" : 0, "otherTime" : 25}
+1423591098271
+{"apiCallTime" : 0, "otherTime" : 29}
+1423591158646
+{"apiCallTime" : 0, "otherTime" : 29}
+1423591219020
+{"apiCallTime" : 0, "otherTime" : 132}
+1423591279556
+{"apiCallTime" : 0, "otherTime" : 31}
+1423591339967
+{"apiCallTime" : 0, "otherTime" : 28}
+1423591400341
+{"apiCallTime" : 0, "otherTime" : 29}
+1423591460686
+{"apiCallTime" : 0, "otherTime" : 27}
+1423591521032
+{"apiCallTime" : 0, "otherTime" : 32}
+1423591581436
+{"apiCallTime" : 0, "otherTime" : 27}
+1423591641838
+{"apiCallTime" : 0, "otherTime" : 59}
+1423591702358
+{"apiCallTime" : 0, "otherTime" : 57}
+1423591762767
+{"apiCallTime" : 0, "otherTime" : 28}
+1423591823140
+{"apiCallTime" : 0, "otherTime" : 30}
+1423591883464
+{"apiCallTime" : 0, "otherTime" : 26}
+1423591943864
+{"apiCallTime" : 0, "otherTime" : 25}
+1423592004271
+{"apiCallTime" : 0, "otherTime" : 33}
+1423592064669
+{"apiCallTime" : 0, "otherTime" : 27}
+1423592125040
+{"apiCallTime" : 0, "otherTime" : 25}
+1423592185382
+{"apiCallTime" : 0, "otherTime" : 30}
+1423592245740
+{"apiCallTime" : 0, "otherTime" : 28}
+1423592306152
+{"apiCallTime" : 0, "otherTime" : 31}
+1423592366558
+{"apiCallTime" : 0, "otherTime" : 26}
+1423592426959
+{"apiCallTime" : 0, "otherTime" : 26}
+1423592487343
+{"apiCallTime" : 0, "otherTime" : 29}
+1423592547722
+{"apiCallTime" : 0, "otherTime" : 48}
+1423592608088
+{"apiCallTime" : 0, "otherTime" : 30}
+1423592668500
+{"apiCallTime" : 0, "otherTime" : 57}
+1423592728895
+{"apiCallTime" : 0, "otherTime" : 54}
+1423592789325
+{"apiCallTime" : 0, "otherTime" : 27}
+1423592849721
+{"apiCallTime" : 0, "otherTime" : 27}
+1423592910064
+{"apiCallTime" : 0, "otherTime" : 29}
+1423592970549
+{"apiCallTime" : 0, "otherTime" : 26}
+1423593030986
+{"apiCallTime" : 0, "otherTime" : 27}
+1423593091478
+{"apiCallTime" : 0, "otherTime" : 26}
+1423593151907
+{"apiCallTime" : 0, "otherTime" : 67}
+1423593212355
+{"apiCallTime" : 0, "otherTime" : 30}
+1423593272732
+{"apiCallTime" : 0, "otherTime" : 27}
+1423593333109
+{"apiCallTime" : 0, "otherTime" : 28}
+1423593393487
+{"apiCallTime" : 0, "otherTime" : 27}
+1423593453863
+{"apiCallTime" : 0, "otherTime" : 27}
+1423593514260
+{"apiCallTime" : 0, "otherTime" : 27}
+1423593574934
+{"apiCallTime" : 0, "otherTime" : 34}
+1423593635346
+{"apiCallTime" : 0, "otherTime" : 31}
+1423593695723
+{"apiCallTime" : 0, "otherTime" : 58}
+1423593756156
+{"apiCallTime" : 0, "otherTime" : 53}
+1423593816580
+{"apiCallTime" : 0, "otherTime" : 29}
+1423593876946
+{"apiCallTime" : 0, "otherTime" : 28}
+1423593937353
+{"apiCallTime" : 0, "otherTime" : 28}
+1423593997729
+{"apiCallTime" : 0, "otherTime" : 30}
+1423594058158
+{"apiCallTime" : 0, "otherTime" : 28}
+1423594118529
+{"apiCallTime" : 0, "otherTime" : 29}
+1423594178908
+{"apiCallTime" : 0, "otherTime" : 29}
+1423594239313
+{"apiCallTime" : 0, "otherTime" : 28}
+1423594299756
+{"apiCallTime" : 0, "otherTime" : 30}
+1423594360171
+{"apiCallTime" : 0, "otherTime" : 30}
+1423594420558
+{"apiCallTime" : 0, "otherTime" : 28}
+1423594480907
+{"apiCallTime" : 0, "otherTime" : 58}
+1423594541347
+{"apiCallTime" : 0, "otherTime" : 43}
+1423594601766
+{"apiCallTime" : 0, "otherTime" : 26}
+1423594662169
+{"apiCallTime" : 0, "otherTime" : 26}
+1423594722510
+{"apiCallTime" : 0, "otherTime" : 54}
+1423594783006
+{"apiCallTime" : 0, "otherTime" : 27}
+1423594843414
+{"apiCallTime" : 0, "otherTime" : 28}
+1423594903854
+{"apiCallTime" : 0, "otherTime" : 33}
+1423594964209
+{"apiCallTime" : 0, "otherTime" : 30}
+1423595024591
+{"apiCallTime" : 0, "otherTime" : 28}
+1423595084965
+{"apiCallTime" : 0, "otherTime" : 28}
+1423595145341
+{"apiCallTime" : 0, "otherTime" : 33}
+1423595205723
+{"apiCallTime" : 0, "otherTime" : 26}
+1423595266204
+{"apiCallTime" : 0, "otherTime" : 42}
+1423595326532
+{"apiCallTime" : 0, "otherTime" : 26}
+1423595386970
+{"apiCallTime" : 0, "otherTime" : 31}
+1423595447393
+{"apiCallTime" : 0, "otherTime" : 31}
+1423595507846
+{"apiCallTime" : 0, "otherTime" : 28}
+1423595568252
+{"apiCallTime" : 0, "otherTime" : 29}
+1423595628656
+{"apiCallTime" : 0, "otherTime" : 29}
+1423595689028
+{"apiCallTime" : 0, "otherTime" : 65}
+1423595749443
+{"apiCallTime" : 0, "otherTime" : 29}
+1423595809827
+{"apiCallTime" : 0, "otherTime" : 33}
+1423595870216
+{"apiCallTime" : 0, "otherTime" : 31}
+1423595930596
+{"apiCallTime" : 0, "otherTime" : 70}
+1423595991012
+{"apiCallTime" : 0, "otherTime" : 30}
+1423596051405
+{"apiCallTime" : 0, "otherTime" : 29}
+1423596111814
+{"apiCallTime" : 0, "otherTime" : 35}
+1423596172212
+{"apiCallTime" : 0, "otherTime" : 28}
+1423596232589
+{"apiCallTime" : 0, "otherTime" : 48}
+1423596293037
+{"apiCallTime" : 0, "otherTime" : 25}
+1423596353443
+{"apiCallTime" : 0, "otherTime" : 30}
+1423596413817
+{"apiCallTime" : 0, "otherTime" : 27}
+1423596474244
+{"apiCallTime" : 0, "otherTime" : 28}
+1423596534683
+{"apiCallTime" : 0, "otherTime" : 26}
+1423596595058
+{"apiCallTime" : 0, "otherTime" : 32}
+1423596655410
+{"apiCallTime" : 0, "otherTime" : 35}
+1423596715829
+{"apiCallTime" : 0, "otherTime" : 27}
+1423596776300
+{"apiCallTime" : 0, "otherTime" : 29}
+1423596836705
+{"apiCallTime" : 0, "otherTime" : 28}
+1423596897136
+{"apiCallTime" : 0, "otherTime" : 37}
+1423596957553
+{"apiCallTime" : 0, "otherTime" : 29}
+1423597017926
+{"apiCallTime" : 0, "otherTime" : 69}
+1423597078339
+{"apiCallTime" : 0, "otherTime" : 76}
+1423597138760
+{"apiCallTime" : 0, "otherTime" : 69}
+1423597199210
+{"apiCallTime" : 0, "otherTime" : 29}
+1423597259693
+{"apiCallTime" : 0, "otherTime" : 31}
+1423597320086
+{"apiCallTime" : 0, "otherTime" : 27}
+1423597380530
+{"apiCallTime" : 0, "otherTime" : 23}
+1423597440901
+{"apiCallTime" : 0, "otherTime" : 30}
+1423597501305
+{"apiCallTime" : 0, "otherTime" : 30}
+1423597561718
+{"apiCallTime" : 0, "otherTime" : 25}
+1423597622122
+{"apiCallTime" : 0, "otherTime" : 34}
+1423597682525
+{"apiCallTime" : 0, "otherTime" : 30}
+1423597742910
+{"apiCallTime" : 0, "otherTime" : 34}
+1423597803298
+{"apiCallTime" : 0, "otherTime" : 66}
+1423597863680
+{"apiCallTime" : 0, "otherTime" : 61}
+1423597924124
+{"apiCallTime" : 0, "otherTime" : 57}
+1423597984587
+{"apiCallTime" : 0, "otherTime" : 57}
+1423598045224
+{"apiCallTime" : 0, "otherTime" : 59}
+1423598105721
+{"apiCallTime" : 0, "otherTime" : 58}
+1423598166124
+{"apiCallTime" : 0, "otherTime" : 55}
+1423598226583
+{"apiCallTime" : 0, "otherTime" : 29}
+1423598286957
+{"apiCallTime" : 0, "otherTime" : 27}
+1423598347363
+{"apiCallTime" : 0, "otherTime" : 29}
+1423598407771
+{"apiCallTime" : 0, "otherTime" : 27}
+1423598468174
+{"apiCallTime" : 0, "otherTime" : 31}
+1423598528544
+{"apiCallTime" : 0, "otherTime" : 29}
+1423598588897
+{"apiCallTime" : 0, "otherTime" : 30}
+1423598649333
+{"apiCallTime" : 0, "otherTime" : 26}
+1423598709709
+{"apiCallTime" : 0, "otherTime" : 29}
+1423598770166
+{"apiCallTime" : 0, "otherTime" : 25}
+1423598830510
+{"apiCallTime" : 0, "otherTime" : 26}
+1423598890878
+{"apiCallTime" : 0, "otherTime" : 58}
+1423598951255
+{"apiCallTime" : 0, "otherTime" : 58}
+1423599011695
+{"apiCallTime" : 0, "otherTime" : 57}
+1423599072124
+{"apiCallTime" : 0, "otherTime" : 62}
+1423599132602
+{"apiCallTime" : 0, "otherTime" : 59}
+1423599193006
+{"apiCallTime" : 0, "otherTime" : 53}
+1423599253433
+{"apiCallTime" : 0, "otherTime" : 30}
+1423599313779
+{"apiCallTime" : 0, "otherTime" : 35}
+1423599374232
+{"apiCallTime" : 0, "otherTime" : 31}
+1423599434663
+{"apiCallTime" : 0, "otherTime" : 55}
+1423599495094
+{"apiCallTime" : 0, "otherTime" : 28}
+1423599555479
+{"apiCallTime" : 0, "otherTime" : 148}
+1423599615950
+{"apiCallTime" : 0, "otherTime" : 35}
+1423599676387
+{"apiCallTime" : 0, "otherTime" : 31}
+1423599736772
+{"apiCallTime" : 0, "otherTime" : 29}
+1423599797118
+{"apiCallTime" : 0, "otherTime" : 31}
+1423599857527
+{"apiCallTime" : 0, "otherTime" : 33}
+1423599917886
+{"apiCallTime" : 0, "otherTime" : 27}
+1423599978290
+{"apiCallTime" : 0, "otherTime" : 58}
+1423600038747
+{"apiCallTime" : 0, "otherTime" : 63}
+1423600099145
+{"apiCallTime" : 0, "otherTime" : 57}
+1423600159576
+{"apiCallTime" : 0, "otherTime" : 59}
+1423600220040
+{"apiCallTime" : 0, "otherTime" : 59}
+1423600280474
+{"apiCallTime" : 0, "otherTime" : 59}
+1423600340909
+{"apiCallTime" : 0, "otherTime" : 36}
+1423600401264
+{"apiCallTime" : 0, "otherTime" : 29}
+1423600461647
+{"apiCallTime" : 0, "otherTime" : 30}
+1423600521994
+{"apiCallTime" : 0, "otherTime" : 40}
+1423600582475
+{"apiCallTime" : 0, "otherTime" : 25}
+1423600642847
+{"apiCallTime" : 0, "otherTime" : 30}
+1423600703324
+{"apiCallTime" : 0, "otherTime" : 31}
+1423600763677
+{"apiCallTime" : 0, "otherTime" : 29}
+1423600824063
+{"apiCallTime" : 0, "otherTime" : 29}
+1423600884416
+{"apiCallTime" : 0, "otherTime" : 26}
+1423600944813
+{"apiCallTime" : 0, "otherTime" : 27}
+1423601005213
+{"apiCallTime" : 0, "otherTime" : 55}
+1423601065618
+{"apiCallTime" : 0, "otherTime" : 52}
+1423601126079
+{"apiCallTime" : 0, "otherTime" : 51}
+1423601186446
+{"apiCallTime" : 0, "otherTime" : 54}
+1423601246843
+{"apiCallTime" : 0, "otherTime" : 54}
+1423601307269
+{"apiCallTime" : 0, "otherTime" : 55}
+1423601367707
+{"apiCallTime" : 0, "otherTime" : 28}
+1423601428111
+{"apiCallTime" : 0, "otherTime" : 95}
+1423601488526
+{"apiCallTime" : 0, "otherTime" : 26}
+1423601548934
+{"apiCallTime" : 0, "otherTime" : 53}
+1423601609334
+{"apiCallTime" : 0, "otherTime" : 54}
+1423601669731
+{"apiCallTime" : 0, "otherTime" : 27}
+1423601730107
+{"apiCallTime" : 0, "otherTime" : 28}
+1423601790509
+{"apiCallTime" : 0, "otherTime" : 28}
+1423601850855
+{"apiCallTime" : 0, "otherTime" : 27}
+1423601911199
+{"apiCallTime" : 0, "otherTime" : 23}
+1423601971630
+{"apiCallTime" : 0, "otherTime" : 25}
+1423602032035
+{"apiCallTime" : 0, "otherTime" : 25}
+1423602092432
+{"apiCallTime" : 0, "otherTime" : 28}
+1423602152779
+{"apiCallTime" : 0, "otherTime" : 26}
+1423602213122
+{"apiCallTime" : 0, "otherTime" : 27}
+1423602273550
+{"apiCallTime" : 0, "otherTime" : 28}
+1423602333926
+{"apiCallTime" : 0, "otherTime" : 29}
+1423602394332
+{"apiCallTime" : 0, "otherTime" : 28}
+1423602454767
+{"apiCallTime" : 0, "otherTime" : 57}
+1423602515148
+{"apiCallTime" : 0, "otherTime" : 66}
+1423602575629
+{"apiCallTime" : 0, "otherTime" : 59}
+1423602636058
+{"apiCallTime" : 0, "otherTime" : 55}
+1423602696484
+{"apiCallTime" : 0, "otherTime" : 56}
+1423602757179
+{"apiCallTime" : 0, "otherTime" : 30}
+1423602817678
+{"apiCallTime" : 0, "otherTime" : 26}
+1423602878046
+{"apiCallTime" : 0, "otherTime" : 30}
+1423602938493
+{"apiCallTime" : 0, "otherTime" : 27}
+1423602998866
+{"apiCallTime" : 0, "otherTime" : 25}
+1423603059210
+{"apiCallTime" : 0, "otherTime" : 27}
+1423603119638
+{"apiCallTime" : 0, "otherTime" : 25}
+1423603179981
+{"apiCallTime" : 0, "otherTime" : 31}
+1423603240367
+{"apiCallTime" : 0, "otherTime" : 83}
+1423603300857
+{"apiCallTime" : 0, "otherTime" : 30}
+1423603361263
+{"apiCallTime" : 0, "otherTime" : 25}
+1423603421648
+{"apiCallTime" : 0, "otherTime" : 27}
+1423603481993
+{"apiCallTime" : 0, "otherTime" : 26}
+1423603542373
+{"apiCallTime" : 0, "otherTime" : 53}
+1423603602797
+{"apiCallTime" : 0, "otherTime" : 54}
+1423603663200
+{"apiCallTime" : 0, "otherTime" : 54}
+1423603723602
+{"apiCallTime" : 0, "otherTime" : 52}
+1423603784033
+{"apiCallTime" : 0, "otherTime" : 61}
+1423603844472
+{"apiCallTime" : 0, "otherTime" : 27}
+1423603904820
+{"apiCallTime" : 0, "otherTime" : 94}
+1423603965292
+{"apiCallTime" : 0, "otherTime" : 30}
+1423604025698
+{"apiCallTime" : 0, "otherTime" : 27}
+1423604086125
+{"apiCallTime" : 0, "otherTime" : 23}
+1423604146463
+{"apiCallTime" : 0, "otherTime" : 28}
+1423604206841
+{"apiCallTime" : 0, "otherTime" : 26}
+1423604267239
+{"apiCallTime" : 0, "otherTime" : 25}
+1423604327638
+{"apiCallTime" : 0, "otherTime" : 26}
+1423604388106
+{"apiCallTime" : 0, "otherTime" : 30}
+1423604448500
+{"apiCallTime" : 0, "otherTime" : 27}
+1423604508934
+{"apiCallTime" : 0, "otherTime" : 38}
+1423604569346
+{"apiCallTime" : 0, "otherTime" : 87}
+1423604629844
+{"apiCallTime" : 0, "otherTime" : 54}
+1423604690299
+{"apiCallTime" : 0, "otherTime" : 54}
+1423604750641
+{"apiCallTime" : 0, "otherTime" : 55}
+1423604811154
+{"apiCallTime" : 0, "otherTime" : 28}
+1423604871594
+{"apiCallTime" : 0, "otherTime" : 26}
+1423604931968
+{"apiCallTime" : 0, "otherTime" : 27}
+1423604992389
+{"apiCallTime" : 0, "otherTime" : 27}
+1423605052729
+{"apiCallTime" : 0, "otherTime" : 29}
+1423605113102
+{"apiCallTime" : 0, "otherTime" : 28}
+1423605173448
+{"apiCallTime" : 0, "otherTime" : 23}
+1423605233873
+{"apiCallTime" : 0, "otherTime" : 26}
+1423605294346
+{"apiCallTime" : 0, "otherTime" : 26}
+1423605354753
+{"apiCallTime" : 0, "otherTime" : 30}
+1423605415130
+{"apiCallTime" : 0, "otherTime" : 28}
+1423605475602
+{"apiCallTime" : 0, "otherTime" : 29}
+1423605536012
+{"apiCallTime" : 0, "otherTime" : 28}
+1423605596414
+{"apiCallTime" : 0, "otherTime" : 32}
+1423605656989
+{"apiCallTime" : 0, "otherTime" : 27}
+1423605717367
+{"apiCallTime" : 0, "otherTime" : 60}
+1423605777842
+{"apiCallTime" : 0, "otherTime" : 60}
+1423605838303
+{"apiCallTime" : 0, "otherTime" : 56}
+1423605898733
+{"apiCallTime" : 0, "otherTime" : 29}
+1423605959085
+{"apiCallTime" : 0, "otherTime" : 27}
+1423606019562
+{"apiCallTime" : 0, "otherTime" : 72}
+1423606080027
+{"apiCallTime" : 0, "otherTime" : 27}
+1423606140428
+{"apiCallTime" : 0, "otherTime" : 27}
+1423606200838
+{"apiCallTime" : 0, "otherTime" : 34}
+1423606261219
+{"apiCallTime" : 0, "otherTime" : 29}
+1423606321653
+{"apiCallTime" : 0, "otherTime" : 29}
+1423606382003
+{"apiCallTime" : 0, "otherTime" : 28}
+1423606442408
+{"apiCallTime" : 0, "otherTime" : 41}
+1423606502770
+{"apiCallTime" : 0, "otherTime" : 25}
+1423606563145
+{"apiCallTime" : 0, "otherTime" : 33}
+1423606623530
+{"apiCallTime" : 0, "otherTime" : 27}
+1423606683936
+{"apiCallTime" : 0, "otherTime" : 25}
+1423606744367
+{"apiCallTime" : 0, "otherTime" : 55}
+1423606804771
+{"apiCallTime" : 0, "otherTime" : 54}
+1423606865252
+{"apiCallTime" : 0, "otherTime" : 53}
+1423606925678
+{"apiCallTime" : 0, "otherTime" : 29}
+1423606986061
+{"apiCallTime" : 0, "otherTime" : 23}
+1423607046426
+{"apiCallTime" : 0, "otherTime" : 25}
+1423607106766
+{"apiCallTime" : 0, "otherTime" : 23}
+1423607167199
+{"apiCallTime" : 0, "otherTime" : 29}
+1423607227576
+{"apiCallTime" : 0, "otherTime" : 24}
+1423607287973
+{"apiCallTime" : 0, "otherTime" : 29}
+1423607348352
+{"apiCallTime" : 0, "otherTime" : 24}
+1423607408728
+{"apiCallTime" : 0, "otherTime" : 27}
+1423607469165
+{"apiCallTime" : 0, "otherTime" : 26}
+1423607529594
+{"apiCallTime" : 0, "otherTime" : 30}
+1423607590040
+{"apiCallTime" : 0, "otherTime" : 30}
+1423607650447
+{"apiCallTime" : 0, "otherTime" : 26}
+1423607710764
+{"apiCallTime" : 0, "otherTime" : 30}
+1423607771178
+{"apiCallTime" : 0, "otherTime" : 25}
+1423607831546
+{"apiCallTime" : 0, "otherTime" : 67}
+1423607891930
+{"apiCallTime" : 0, "otherTime" : 57}
+1423607952341
+{"apiCallTime" : 0, "otherTime" : 55}
+1423608012739
+{"apiCallTime" : 0, "otherTime" : 74}
+1423608073222
+{"apiCallTime" : 0, "otherTime" : 30}
+1423608133644
+{"apiCallTime" : 0, "otherTime" : 37}
+1423608194158
+{"apiCallTime" : 0, "otherTime" : 25}
+1423608254535
+{"apiCallTime" : 0, "otherTime" : 28}
+1423608314947
+{"apiCallTime" : 0, "otherTime" : 26}
+1423608375319
+{"apiCallTime" : 0, "otherTime" : 26}
+1423608435720
+{"apiCallTime" : 0, "otherTime" : 29}
+1423608496072
+{"apiCallTime" : 0, "otherTime" : 34}
+1423608556558
+{"apiCallTime" : 0, "otherTime" : 38}
+1423608616972
+{"apiCallTime" : 0, "otherTime" : 30}
+1423608677349
+{"apiCallTime" : 0, "otherTime" : 30}
+1423608737699
+{"apiCallTime" : 0, "otherTime" : 31}
+1423608798107
+{"apiCallTime" : 0, "otherTime" : 29}
+1423608858526
+{"apiCallTime" : 0, "otherTime" : 29}
+1423608918932
+{"apiCallTime" : 0, "otherTime" : 57}
+1423608979376
+{"apiCallTime" : 0, "otherTime" : 57}
+1423609039804
+{"apiCallTime" : 0, "otherTime" : 32}
+1423609100185
+{"apiCallTime" : 0, "otherTime" : 30}
+1423609160535
+{"apiCallTime" : 0, "otherTime" : 38}
+1423609220917
+{"apiCallTime" : 0, "otherTime" : 30}
+1423609281325
+{"apiCallTime" : 0, "otherTime" : 35}
+1423609341709
+{"apiCallTime" : 0, "otherTime" : 29}
+1423609402058
+{"apiCallTime" : 0, "otherTime" : 29}
+1423609462438
+{"apiCallTime" : 0, "otherTime" : 23}
+1423609522779
+{"apiCallTime" : 0, "otherTime" : 25}
+1423609583177
+{"apiCallTime" : 0, "otherTime" : 28}
+1423609643579
+{"apiCallTime" : 0, "otherTime" : 44}
+1423609704010
+{"apiCallTime" : 0, "otherTime" : 27}
+1423609764352
+{"apiCallTime" : 0, "otherTime" : 28}
+1423609824667
+{"apiCallTime" : 0, "otherTime" : 25}
+1423609885068
+{"apiCallTime" : 0, "otherTime" : 29}
+1423609945474
+{"apiCallTime" : 0, "otherTime" : 26}
+1423610005876
+{"apiCallTime" : 0, "otherTime" : 30}
+1423610066255
+{"apiCallTime" : 0, "otherTime" : 25}
+1423610126649
+{"apiCallTime" : 0, "otherTime" : 26}
+1423610186998
+{"apiCallTime" : 0, "otherTime" : 24}
+1423610247414
+{"apiCallTime" : 0, "otherTime" : 27}
+1423610307840
+{"apiCallTime" : 0, "otherTime" : 28}
+1423610368220
+{"apiCallTime" : 0, "otherTime" : 25}
+1423610428590
+{"apiCallTime" : 0, "otherTime" : 21}
+1423610488955
+{"apiCallTime" : 0, "otherTime" : 28}
+1423610549331
+{"apiCallTime" : 0, "otherTime" : 24}
+1423610609707
+{"apiCallTime" : 0, "otherTime" : 23}
+1423610670079
+{"apiCallTime" : 0, "otherTime" : 36}
+1423610730433
+{"apiCallTime" : 0, "otherTime" : 28}
+1423610790893
+{"apiCallTime" : 0, "otherTime" : 27}
+1423610851314
+{"apiCallTime" : 0, "otherTime" : 75}
+1423610911795
+{"apiCallTime" : 0, "otherTime" : 27}
+1423610972221
+{"apiCallTime" : 0, "otherTime" : 26}
+1423611032595
+{"apiCallTime" : 0, "otherTime" : 31}
+1423611092947
+{"apiCallTime" : 0, "otherTime" : 31}
+1423611153293
+{"apiCallTime" : 0, "otherTime" : 28}
+1423611213728
+{"apiCallTime" : 0, "otherTime" : 25}
+1423611274129
+{"apiCallTime" : 0, "otherTime" : 28}
+1423611334474
+{"apiCallTime" : 0, "otherTime" : 31}
+1423611394851
+{"apiCallTime" : 0, "otherTime" : 28}
+1423611455170
+{"apiCallTime" : 0, "otherTime" : 23}
+1423611515565
+{"apiCallTime" : 0, "otherTime" : 25}
+1423611575995
+{"apiCallTime" : 0, "otherTime" : 36}
+1423611636380
+{"apiCallTime" : 0, "otherTime" : 26}
+1423611696750
+{"apiCallTime" : 0, "otherTime" : 28}
+1423611757145
+{"apiCallTime" : 0, "otherTime" : 26}
+1423611817521
+{"apiCallTime" : 0, "otherTime" : 25}
+1423611877921
+{"apiCallTime" : 0, "otherTime" : 32}
+1423611938358
+{"apiCallTime" : 0, "otherTime" : 26}
+1423611998730
+{"apiCallTime" : 0, "otherTime" : 25}
+1423612059072
+{"apiCallTime" : 0, "otherTime" : 31}
+1423612119481
+{"apiCallTime" : 0, "otherTime" : 33}
+1423612179893
+{"apiCallTime" : 0, "otherTime" : 28}
+1423612240322
+{"apiCallTime" : 0, "otherTime" : 30}
+1423612300773
+{"apiCallTime" : 0, "otherTime" : 63}
+1423612361210
+{"apiCallTime" : 0, "otherTime" : 32}
+1423612421558
+{"apiCallTime" : 0, "otherTime" : 52}
+1423612481954
+{"apiCallTime" : 0, "otherTime" : 61}
+1423612542420
+{"apiCallTime" : 0, "otherTime" : 56}
+1423612602858
+{"apiCallTime" : 0, "otherTime" : 71}
+1423612663310
+{"apiCallTime" : 0, "otherTime" : 65}
+1423612723689
+{"apiCallTime" : 0, "otherTime" : 67}
+1423612784146
+{"apiCallTime" : 0, "otherTime" : 107}
+1423612844602
+{"apiCallTime" : 0, "otherTime" : 28}
+1423612904978
+{"apiCallTime" : 0, "otherTime" : 31}
+1423612965462
+{"apiCallTime" : 0, "otherTime" : 27}
+1423613025779
+{"apiCallTime" : 0, "otherTime" : 26}
+1423613086226
+{"apiCallTime" : 0, "otherTime" : 31}
+1423613146636
+{"apiCallTime" : 0, "otherTime" : 30}
+1423613207069
+{"apiCallTime" : 0, "otherTime" : 32}
+1423613267392
+{"apiCallTime" : 0, "otherTime" : 50}
+1423613327785
+{"apiCallTime" : 0, "otherTime" : 57}
+1423613388213
+{"apiCallTime" : 0, "otherTime" : 53}
+1423613448647
+{"apiCallTime" : 0, "otherTime" : 60}
+1423613509079
+{"apiCallTime" : 0, "otherTime" : 52}
+1423613569450
+{"apiCallTime" : 0, "otherTime" : 52}
+1423613629881
+{"apiCallTime" : 0, "otherTime" : 56}
+1423613690291
+{"apiCallTime" : 0, "otherTime" : 58}
+1423613750772
+{"apiCallTime" : 0, "otherTime" : 55}
+1423613811199
+{"apiCallTime" : 0, "otherTime" : 42}
+1423613871554
+{"apiCallTime" : 0, "otherTime" : 29}
+1423613931970
+{"apiCallTime" : 0, "otherTime" : 40}
+1423613992296
+{"apiCallTime" : 0, "otherTime" : 27}
+1423614052726
+{"apiCallTime" : 0, "otherTime" : 27}
+1423614113075
+{"apiCallTime" : 0, "otherTime" : 31}
+1423614173457
+{"apiCallTime" : 0, "otherTime" : 28}
+1423614233925
+{"apiCallTime" : 0, "otherTime" : 27}
+1423614294337
+{"apiCallTime" : 0, "otherTime" : 27}
+1423614354724
+{"apiCallTime" : 0, "otherTime" : 58}
+1423614415202
+{"apiCallTime" : 0, "otherTime" : 59}
+1423614475637
+{"apiCallTime" : 0, "otherTime" : 56}
+1423614536054
+{"apiCallTime" : 0, "otherTime" : 57}
+1423614596536
+{"apiCallTime" : 0, "otherTime" : 55}
+1423614656942
+{"apiCallTime" : 0, "otherTime" : 57}
+1423614717424
+{"apiCallTime" : 0, "otherTime" : 56}
+1423614777825
+{"apiCallTime" : 0, "otherTime" : 93}
+1423614838297
+{"apiCallTime" : 0, "otherTime" : 57}
+1423614898728
+{"apiCallTime" : 0, "otherTime" : 28}
+1423614959103
+{"apiCallTime" : 0, "otherTime" : 30}
+1423615019575
+{"apiCallTime" : 0, "otherTime" : 25}
+1423615079949
+{"apiCallTime" : 0, "otherTime" : 25}
+1423615140318
+{"apiCallTime" : 0, "otherTime" : 27}
+1423615200786
+{"apiCallTime" : 0, "otherTime" : 23}
+1423615261183
+{"apiCallTime" : 0, "otherTime" : 28}
+1423615321602
+{"apiCallTime" : 0, "otherTime" : 35}
+1423615381960
+{"apiCallTime" : 0, "otherTime" : 31}
+1423615442338
+{"apiCallTime" : 0, "otherTime" : 33}
+1423615502747
+{"apiCallTime" : 0, "otherTime" : 26}
+1423615563148
+{"apiCallTime" : 0, "otherTime" : 25}
+1423615623572
+{"apiCallTime" : 0, "otherTime" : 76}
+1423615684070
+{"apiCallTime" : 0, "otherTime" : 54}
+1423615744470
+{"apiCallTime" : 0, "otherTime" : 52}
+1423615804903
+{"apiCallTime" : 0, "otherTime" : 55}
+1423615865308
+{"apiCallTime" : 0, "otherTime" : 56}
+1423615925739
+{"apiCallTime" : 0, "otherTime" : 56}
+1423615986140
+{"apiCallTime" : 0, "otherTime" : 29}
+1423616046532
+{"apiCallTime" : 0, "otherTime" : 25}
+1423616106938
+{"apiCallTime" : 0, "otherTime" : 33}
+1423616167317
+{"apiCallTime" : 0, "otherTime" : 25}
+1423616227748
+{"apiCallTime" : 0, "otherTime" : 27}
+1423616288124
+{"apiCallTime" : 0, "otherTime" : 64}
+1423616348536
+{"apiCallTime" : 0, "otherTime" : 25}
+1423616408880
+{"apiCallTime" : 0, "otherTime" : 27}
+1423616469421
+{"apiCallTime" : 0, "otherTime" : 27}
+1423616529851
+{"apiCallTime" : 0, "otherTime" : 29}
+1423616590278
+{"apiCallTime" : 0, "otherTime" : 24}
+1423616650688
+{"apiCallTime" : 0, "otherTime" : 25}
+1423616711090
+{"apiCallTime" : 0, "otherTime" : 54}
+1423616771505
+{"apiCallTime" : 0, "otherTime" : 56}
+1423616831951
+{"apiCallTime" : 0, "otherTime" : 53}
+1423616892323
+{"apiCallTime" : 0, "otherTime" : 112}
+1423616952861
+{"apiCallTime" : 0, "otherTime" : 54}
+1423617013261
+{"apiCallTime" : 0, "otherTime" : 55}
+1423617073634
+{"apiCallTime" : 0, "otherTime" : 32}
+1423617134136
+{"apiCallTime" : 0, "otherTime" : 29}
+1423617194568
+{"apiCallTime" : 0, "otherTime" : 28}
+1423617254914
+{"apiCallTime" : 0, "otherTime" : 33}
+1423617315293
+{"apiCallTime" : 0, "otherTime" : 29}
+1423617375714
+{"apiCallTime" : 0, "otherTime" : 38}
+1423617436267
+{"apiCallTime" : 0, "otherTime" : 30}
+1423617496700
+{"apiCallTime" : 0, "otherTime" : 26}
+1423617557105
+{"apiCallTime" : 0, "otherTime" : 33}
+1423617617530
+{"apiCallTime" : 0, "otherTime" : 186}
+1423617678043
+{"apiCallTime" : 0, "otherTime" : 59}
+1423617738461
+{"apiCallTime" : 0, "otherTime" : 61}
+1423617798873
+{"apiCallTime" : 0, "otherTime" : 30}
+1423617859282
+{"apiCallTime" : 0, "otherTime" : 26}
+1423617919725
+{"apiCallTime" : 0, "otherTime" : 31}
+1423617980132
+{"apiCallTime" : 0, "otherTime" : 26}
+1423618040523
+{"apiCallTime" : 0, "otherTime" : 30}
+1423618100870
+{"apiCallTime" : 0, "otherTime" : 28}
+1423618161220
+{"apiCallTime" : 0, "otherTime" : 29}
+1423618221654
+{"apiCallTime" : 0, "otherTime" : 34}
+1423618282062
+{"apiCallTime" : 0, "otherTime" : 25}
+1423618342473
+{"apiCallTime" : 0, "otherTime" : 28}
+1423618402819
+{"apiCallTime" : 0, "otherTime" : 53}
+1423618463212
+{"apiCallTime" : 0, "otherTime" : 34}
+1423618523627
+{"apiCallTime" : 0, "otherTime" : 26}
+1423618583941
+{"apiCallTime" : 0, "otherTime" : 27}
+1423618644410
+{"apiCallTime" : 0, "otherTime" : 53}
+1423618704818
+{"apiCallTime" : 0, "otherTime" : 54}
+1423618765260
+{"apiCallTime" : 0, "otherTime" : 51}
+1423618825720
+{"apiCallTime" : 0, "otherTime" : 51}
+1423618886174
+{"apiCallTime" : 0, "otherTime" : 55}
+1423618946637
+{"apiCallTime" : 0, "otherTime" : 26}
+1423619007019
+{"apiCallTime" : 0, "otherTime" : 24}
+1423619067394
+{"apiCallTime" : 0, "otherTime" : 23}
+1423619127796
+{"apiCallTime" : 0, "otherTime" : 74}
+1423619188225
+{"apiCallTime" : 0, "otherTime" : 29}
+1423619248660
+{"apiCallTime" : 0, "otherTime" : 25}
+1423619309061
+{"apiCallTime" : 0, "otherTime" : 26}
+1423619369409
+{"apiCallTime" : 0, "otherTime" : 23}
+1423619429844
+{"apiCallTime" : 0, "otherTime" : 23}
+1423619490279
+{"apiCallTime" : 0, "otherTime" : 27}
+1423619550661
+{"apiCallTime" : 0, "otherTime" : 26}
+1423619611002
+{"apiCallTime" : 0, "otherTime" : 26}
+1423619671404
+{"apiCallTime" : 0, "otherTime" : 26}
+1423619731868
+{"apiCallTime" : 0, "otherTime" : 28}
+1423619792278
+{"apiCallTime" : 0, "otherTime" : 55}
+1423619852740
+{"apiCallTime" : 0, "otherTime" : 51}
+1423619913189
+{"apiCallTime" : 0, "otherTime" : 63}
+1423619973604
+{"apiCallTime" : 0, "otherTime" : 64}
+1423620034020
+{"apiCallTime" : 0, "otherTime" : 102}
+1423620094441
+{"apiCallTime" : 0, "otherTime" : 26}
+1423620154861
+{"apiCallTime" : 0, "otherTime" : 54}
+1423620215299
+{"apiCallTime" : 0, "otherTime" : 28}
+1423620275647
+{"apiCallTime" : 0, "otherTime" : 27}
+1423620336056
+{"apiCallTime" : 0, "otherTime" : 30}
+1423620396490
+{"apiCallTime" : 0, "otherTime" : 29}
+1423620456959
+{"apiCallTime" : 0, "otherTime" : 26}
+1423620517325
+{"apiCallTime" : 0, "otherTime" : 30}
+1423620577775
+{"apiCallTime" : 0, "otherTime" : 29}
+1423620638119
+{"apiCallTime" : 0, "otherTime" : 61}
+1423620698552
+{"apiCallTime" : 0, "otherTime" : 27}
+1423620758989
+{"apiCallTime" : 0, "otherTime" : 24}
+1423620819392
+{"apiCallTime" : 0, "otherTime" : 24}
+1423620879767
+{"apiCallTime" : 0, "otherTime" : 24}
+1423620940133
+{"apiCallTime" : 0, "otherTime" : 54}
+1423621000525
+{"apiCallTime" : 0, "otherTime" : 51}
+1423621060958
+{"apiCallTime" : 0, "otherTime" : 66}
+1423621121395
+{"apiCallTime" : 0, "otherTime" : 25}
+1423621181800
+{"apiCallTime" : 0, "otherTime" : 26}
+1423621242144
+{"apiCallTime" : 0, "otherTime" : 53}
+1423621302544
+{"apiCallTime" : 0, "otherTime" : 24}
+1423621362956
+{"apiCallTime" : 0, "otherTime" : 30}
+1423621423333
+{"apiCallTime" : 0, "otherTime" : 30}
+1423621483821
+{"apiCallTime" : 0, "otherTime" : 28}
+1423621544243
+{"apiCallTime" : 0, "otherTime" : 28}
+1423621604648
+{"apiCallTime" : 0, "otherTime" : 29}
+1423621664997
+{"apiCallTime" : 0, "otherTime" : 34}
+1423621725355
+{"apiCallTime" : 0, "otherTime" : 34}
+1423621785814
+{"apiCallTime" : 0, "otherTime" : 28}
+1423621846156
+{"apiCallTime" : 0, "otherTime" : 32}
+1423621906538
+{"apiCallTime" : 0, "otherTime" : 29}
+1423621966922
+{"apiCallTime" : 0, "otherTime" : 26}
+1423622027293
+{"apiCallTime" : 0, "otherTime" : 101}
+1423622087825
+{"apiCallTime" : 0, "otherTime" : 52}
+1423622148195
+{"apiCallTime" : 0, "otherTime" : 23}
+1423622208533
+{"apiCallTime" : 0, "otherTime" : 30}
+1423622269008
+{"apiCallTime" : 0, "otherTime" : 25}
+1423622329379
+{"apiCallTime" : 0, "otherTime" : 26}
+1423622389832
+{"apiCallTime" : 0, "otherTime" : 28}
+1423622450203
+{"apiCallTime" : 0, "otherTime" : 24}
+1423622510577
+{"apiCallTime" : 0, "otherTime" : 27}
+1423622570983
+{"apiCallTime" : 0, "otherTime" : 26}
+1423622631385
+{"apiCallTime" : 0, "otherTime" : 28}
+1423622691815
+{"apiCallTime" : 0, "otherTime" : 27}
+1423622752195
+{"apiCallTime" : 0, "otherTime" : 59}
+1423622812646
+{"apiCallTime" : 0, "otherTime" : 32}
+1423622872999
+{"apiCallTime" : 0, "otherTime" : 30}
+1423622933487
+{"apiCallTime" : 0, "otherTime" : 32}
+1423622993837
+{"apiCallTime" : 0, "otherTime" : 25}
+1423623054289
+{"apiCallTime" : 0, "otherTime" : 27}
+1423623114662
+{"apiCallTime" : 0, "otherTime" : 59}
+1423623175098
+{"apiCallTime" : 0, "otherTime" : 94}
+1423623235510
+{"apiCallTime" : 0, "otherTime" : 28}
+1423623295883
+{"apiCallTime" : 0, "otherTime" : 25}
+1423623356260
+{"apiCallTime" : 0, "otherTime" : 27}
+1423623416697
+{"apiCallTime" : 0, "otherTime" : 50}
+1423623477098
+{"apiCallTime" : 0, "otherTime" : 23}
+1423623537477
+{"apiCallTime" : 0, "otherTime" : 23}
+1423623597847
+{"apiCallTime" : 0, "otherTime" : 55}
+1423623658222
+{"apiCallTime" : 0, "otherTime" : 29}
+1423623718845
+{"apiCallTime" : 0, "otherTime" : 72}
+1423623779305
+{"apiCallTime" : 0, "otherTime" : 28}
+1423623839682
+{"apiCallTime" : 0, "otherTime" : 26}
+1423623900055
+{"apiCallTime" : 0, "otherTime" : 29}
+1423623960437
+{"apiCallTime" : 0, "otherTime" : 28}
+1423624020808
+{"apiCallTime" : 0, "otherTime" : 25}
+1423624081238
+{"apiCallTime" : 0, "otherTime" : 27}
+1423624141611
+{"apiCallTime" : 0, "otherTime" : 31}
+1423624201965
+{"apiCallTime" : 0, "otherTime" : 44}
+1423624262412
+{"apiCallTime" : 0, "otherTime" : 28}
+1423624322788
+{"apiCallTime" : 0, "otherTime" : 53}
+1423624383273
+{"apiCallTime" : 0, "otherTime" : 25}
+1423624443714
+{"apiCallTime" : 0, "otherTime" : 29}
+1423624504096
+{"apiCallTime" : 0, "otherTime" : 26}
+1423624564441
+{"apiCallTime" : 0, "otherTime" : 86}
+1423624624954
+{"apiCallTime" : 0, "otherTime" : 29}
+1423624685363
+{"apiCallTime" : 0, "otherTime" : 26}
+1423624745793
+{"apiCallTime" : 0, "otherTime" : 76}
+1423624806258
+{"apiCallTime" : 0, "otherTime" : 28}
+1423624866634
+{"apiCallTime" : 0, "otherTime" : 28}
+1423624927035
+{"apiCallTime" : 0, "otherTime" : 29}
+1423624987413
+{"apiCallTime" : 0, "otherTime" : 32}
+1423625047793
+{"apiCallTime" : 0, "otherTime" : 28}
+1423625108165
+{"apiCallTime" : 0, "otherTime" : 28}
+1423625168542
+{"apiCallTime" : 0, "otherTime" : 26}
+1423625228913
+{"apiCallTime" : 0, "otherTime" : 31}
+1423625289361
+{"apiCallTime" : 0, "otherTime" : 26}
+1423625349952
+{"apiCallTime" : 0, "otherTime" : 29}
+1423625410338
+{"apiCallTime" : 0, "otherTime" : 46}
+1423625470726
+{"apiCallTime" : 0, "otherTime" : 24}
+1423625531129
+{"apiCallTime" : 0, "otherTime" : 26}
+1423625591536
+{"apiCallTime" : 0, "otherTime" : 24}
+1423625651876
+{"apiCallTime" : 0, "otherTime" : 25}
+1423625712337
+{"apiCallTime" : 0, "otherTime" : 29}
+1423625772743
+{"apiCallTime" : 0, "otherTime" : 24}
+1423625833118
+{"apiCallTime" : 0, "otherTime" : 26}
+1423625893500
+{"apiCallTime" : 0, "otherTime" : 29}
+1423625953876
+{"apiCallTime" : 0, "otherTime" : 30}
+1423626014336
+{"apiCallTime" : 0, "otherTime" : 29}
+1423626074683
+{"apiCallTime" : 0, "otherTime" : 29}
+1423626135087
+{"apiCallTime" : 0, "otherTime" : 31}
+1423626195463
+{"apiCallTime" : 0, "otherTime" : 34}
+1423626255816
+{"apiCallTime" : 0, "otherTime" : 25}
+1423626316429
+{"apiCallTime" : 0, "otherTime" : 27}
+1423626376844
+{"apiCallTime" : 0, "otherTime" : 51}
+1423626437212
+{"apiCallTime" : 0, "otherTime" : 59}
+1423626497562
+{"apiCallTime" : 0, "otherTime" : 28}
+1423626558022
+{"apiCallTime" : 0, "otherTime" : 28}
+1423626618458
+{"apiCallTime" : 0, "otherTime" : 56}
+1423626678878
+{"apiCallTime" : 0, "otherTime" : 59}
+1423626739286
+{"apiCallTime" : 0, "otherTime" : 57}
+1423626799752
+{"apiCallTime" : 0, "otherTime" : 27}
+1423626860140
+{"apiCallTime" : 0, "otherTime" : 28}
+1423626920629
+{"apiCallTime" : 0, "otherTime" : 33}
+1423626981073
+{"apiCallTime" : 0, "otherTime" : 26}
+1423627041479
+{"apiCallTime" : 0, "otherTime" : 27}
+1423627101800
+{"apiCallTime" : 0, "otherTime" : 30}
+1423627162150
+{"apiCallTime" : 0, "otherTime" : 41}
+1423627222624
+{"apiCallTime" : 0, "otherTime" : 79}
+1423627283131
+{"apiCallTime" : 0, "otherTime" : 24}
+1423627343506
+{"apiCallTime" : 0, "otherTime" : 81}
+1423627403876
+{"apiCallTime" : 0, "otherTime" : 32}
+1423627464260
+{"apiCallTime" : 0, "otherTime" : 55}
+1423627524693
+{"apiCallTime" : 0, "otherTime" : 81}
+1423627585148
+{"apiCallTime" : 0, "otherTime" : 56}
+1423627645518
+{"apiCallTime" : 0, "otherTime" : 57}
+1423627706026
+{"apiCallTime" : 0, "otherTime" : 55}
+1423627766453
+{"apiCallTime" : 0, "otherTime" : 55}
+1423627826859
+{"apiCallTime" : 0, "otherTime" : 28}
+1423627887288
+{"apiCallTime" : 0, "otherTime" : 31}
+1423627947639
+{"apiCallTime" : 0, "otherTime" : 37}
+1423628008031
+{"apiCallTime" : 0, "otherTime" : 29}
+1423628068411
+{"apiCallTime" : 0, "otherTime" : 27}
+1423628128753
+{"apiCallTime" : 0, "otherTime" : 37}
+1423628189181
+{"apiCallTime" : 0, "otherTime" : 34}
+1423628249599
+{"apiCallTime" : 0, "otherTime" : 31}
+1423628309929
+{"apiCallTime" : 0, "otherTime" : 27}
+1423628370272
+{"apiCallTime" : 0, "otherTime" : 56}
+1423628430647
+{"apiCallTime" : 0, "otherTime" : 60}
+1423628491132
+{"apiCallTime" : 0, "otherTime" : 61}
+1423628551574
+{"apiCallTime" : 0, "otherTime" : 57}
+1423628611994
+{"apiCallTime" : 0, "otherTime" : 58}
+1423628672406
+{"apiCallTime" : 0, "otherTime" : 63}
+1423628732831
+{"apiCallTime" : 0, "otherTime" : 55}
+1423628793261
+{"apiCallTime" : 0, "otherTime" : 28}
+1423628853664
+{"apiCallTime" : 0, "otherTime" : 81}
+1423628914064
+{"apiCallTime" : 0, "otherTime" : 26}
+1423628974473
+{"apiCallTime" : 0, "otherTime" : 27}
+1423629034906
+{"apiCallTime" : 0, "otherTime" : 89}
+1423629095368
+{"apiCallTime" : 0, "otherTime" : 30}
+1423629155759
+{"apiCallTime" : 0, "otherTime" : 24}
+1423629216195
+{"apiCallTime" : 0, "otherTime" : 26}
+1423629276543
+{"apiCallTime" : 0, "otherTime" : 26}
+1423629336916
+{"apiCallTime" : 0, "otherTime" : 30}
+1423629397365
+{"apiCallTime" : 0, "otherTime" : 53}
+1423629457791
+{"apiCallTime" : 0, "otherTime" : 57}
+1423629518248
+{"apiCallTime" : 0, "otherTime" : 54}
+1423629578648
+{"apiCallTime" : 0, "otherTime" : 54}
+1423629639049
+{"apiCallTime" : 0, "otherTime" : 53}
+1423629699474
+{"apiCallTime" : 0, "otherTime" : 51}
+1423629759884
+{"apiCallTime" : 0, "otherTime" : 56}
+1423629820285
+{"apiCallTime" : 0, "otherTime" : 26}
+1423629880688
+{"apiCallTime" : 0, "otherTime" : 26}
+1423629941119
+{"apiCallTime" : 0, "otherTime" : 32}
+1423630001496
+{"apiCallTime" : 0, "otherTime" : 26}
+1423630061948
+{"apiCallTime" : 0, "otherTime" : 32}
+1423630122325
+{"apiCallTime" : 0, "otherTime" : 29}
+1423630182725
+{"apiCallTime" : 0, "otherTime" : 25}
+1423630243069
+{"apiCallTime" : 0, "otherTime" : 26}
+1423630303440
+{"apiCallTime" : 0, "otherTime" : 25}
+1423630363836
+{"apiCallTime" : 0, "otherTime" : 25}
+1423630424207
+{"apiCallTime" : 0, "otherTime" : 48}
+1423630484639
+{"apiCallTime" : 0, "otherTime" : 27}
+1423630545067
+{"apiCallTime" : 0, "otherTime" : 62}
+1423630605500
+{"apiCallTime" : 0, "otherTime" : 60}
+1423630665926
+{"apiCallTime" : 0, "otherTime" : 56}
+1423630726355
+{"apiCallTime" : 0, "otherTime" : 55}
+1423630786760
+{"apiCallTime" : 0, "otherTime" : 59}
+1423630847195
+{"apiCallTime" : 0, "otherTime" : 28}
+1423630907569
+{"apiCallTime" : 0, "otherTime" : 27}
+1423630967977
+{"apiCallTime" : 0, "otherTime" : 31}
+1423631028378
+{"apiCallTime" : 0, "otherTime" : 25}
+1423631088718
+{"apiCallTime" : 0, "otherTime" : 25}
+1423631149062
+{"apiCallTime" : 0, "otherTime" : 31}
+1423631209466
+{"apiCallTime" : 0, "otherTime" : 26}
+1423631269919
+{"apiCallTime" : 0, "otherTime" : 28}
+1423631330260
+{"apiCallTime" : 0, "otherTime" : 32}
+1423631390740
+{"apiCallTime" : 0, "otherTime" : 27}
+1423631451111
+{"apiCallTime" : 0, "otherTime" : 31}
+1423631511491
+{"apiCallTime" : 0, "otherTime" : 56}
+1423631571967
+{"apiCallTime" : 0, "otherTime" : 55}
+1423631632400
+{"apiCallTime" : 0, "otherTime" : 54}
+1423631692771
+{"apiCallTime" : 0, "otherTime" : 54}
+1423631753172
+{"apiCallTime" : 0, "otherTime" : 53}
+1423631813601
+{"apiCallTime" : 0, "otherTime" : 29}
+1423631874002
+{"apiCallTime" : 0, "otherTime" : 31}
+1423631934496
+{"apiCallTime" : 0, "otherTime" : 29}
+1423631994937
+{"apiCallTime" : 0, "otherTime" : 27}
+1423632055254
+{"apiCallTime" : 0, "otherTime" : 31}
+1423632115654
+{"apiCallTime" : 0, "otherTime" : 31}
+1423632176006
+{"apiCallTime" : 0, "otherTime" : 22}
+1423632236432
+{"apiCallTime" : 0, "otherTime" : 24}
+1423632296831
+{"apiCallTime" : 0, "otherTime" : 23}
+1423632357202
+{"apiCallTime" : 0, "otherTime" : 27}
+1423632417605
+{"apiCallTime" : 0, "otherTime" : 23}
+1423632477914
+{"apiCallTime" : 0, "otherTime" : 27}
+1423632538293
+{"apiCallTime" : 0, "otherTime" : 29}
+1423632598898
+{"apiCallTime" : 0, "otherTime" : 58}
+1423632659274
+{"apiCallTime" : 0, "otherTime" : 55}
+1423632719747
+{"apiCallTime" : 0, "otherTime" : 52}
+1423632780162
+{"apiCallTime" : 0, "otherTime" : 56}
+1423632840594
+{"apiCallTime" : 0, "otherTime" : 55}
+1423632900969
+{"apiCallTime" : 0, "otherTime" : 29}
+1423632961344
+{"apiCallTime" : 0, "otherTime" : 25}
+1423633021718
+{"apiCallTime" : 0, "otherTime" : 22}
+1423633082144
+{"apiCallTime" : 0, "otherTime" : 28}
+1423633142498
+{"apiCallTime" : 0, "otherTime" : 27}
+1423633202858
+{"apiCallTime" : 0, "otherTime" : 28}
+1423633263353
+{"apiCallTime" : 0, "otherTime" : 28}
+1423633323753
+{"apiCallTime" : 0, "otherTime" : 29}
+1423633384211
+{"apiCallTime" : 0, "otherTime" : 26}
+1423633444639
+{"apiCallTime" : 0, "otherTime" : 40}
+1423633504968
+{"apiCallTime" : 0, "otherTime" : 34}
+1423633565427
+{"apiCallTime" : 0, "otherTime" : 26}
+1423633625827
+{"apiCallTime" : 0, "otherTime" : 27}
+1423633686169
+{"apiCallTime" : 0, "otherTime" : 52}
+1423633746597
+{"apiCallTime" : 0, "otherTime" : 59}
+1423633807033
+{"apiCallTime" : 0, "otherTime" : 52}
+1423633867440
+{"apiCallTime" : 0, "otherTime" : 54}
+1423633927848
+{"apiCallTime" : 0, "otherTime" : 58}
+1423633988227
+{"apiCallTime" : 0, "otherTime" : 24}
+1423634048566
+{"apiCallTime" : 0, "otherTime" : 24}
+1423634108971
+{"apiCallTime" : 0, "otherTime" : 25}
+1423634169376
+{"apiCallTime" : 0, "otherTime" : 23}
+1423634229773
+{"apiCallTime" : 0, "otherTime" : 71}
+1423634290222
+{"apiCallTime" : 0, "otherTime" : 27}
+1423634350600
+{"apiCallTime" : 0, "otherTime" : 28}
+1423634410948
+{"apiCallTime" : 0, "otherTime" : 33}
+1423634471328
+{"apiCallTime" : 0, "otherTime" : 67}
+1423634531747
+{"apiCallTime" : 0, "otherTime" : 31}
+1423634592158
+{"apiCallTime" : 0, "otherTime" : 35}
+1423634652590
+{"apiCallTime" : 0, "otherTime" : 28}
+1423634713021
+{"apiCallTime" : 0, "otherTime" : 27}
+1423634773522
+{"apiCallTime" : 0, "otherTime" : 52}
+1423634833894
+{"apiCallTime" : 0, "otherTime" : 50}
+1423634894325
+{"apiCallTime" : 0, "otherTime" : 55}
+1423634954729
+{"apiCallTime" : 0, "otherTime" : 60}
+1423635015110
+{"apiCallTime" : 0, "otherTime" : 32}
+1423635075431
+{"apiCallTime" : 0, "otherTime" : 31}
+1423635135811
+{"apiCallTime" : 0, "otherTime" : 28}
+1423635196247
+{"apiCallTime" : 0, "otherTime" : 27}
+1423635256652
+{"apiCallTime" : 0, "otherTime" : 25}
+1423635317100
+{"apiCallTime" : 0, "otherTime" : 29}
+1423635377449
+{"apiCallTime" : 0, "otherTime" : 29}
+1423635437799
+{"apiCallTime" : 0, "otherTime" : 29}
+1423635498302
+{"apiCallTime" : 0, "otherTime" : 29}
+1423635558733
+{"apiCallTime" : 0, "otherTime" : 27}
+1423635619084
+{"apiCallTime" : 0, "otherTime" : 30}
+1423635679490
+{"apiCallTime" : 0, "otherTime" : 28}
+1423635739910
+{"apiCallTime" : 0, "otherTime" : 61}
+1423635800347
+{"apiCallTime" : 0, "otherTime" : 58}
+1423635860875
+{"apiCallTime" : 0, "otherTime" : 58}
+1423635921345
+{"apiCallTime" : 0, "otherTime" : 29}
+1423635981722
+{"apiCallTime" : 0, "otherTime" : 29}
+1423636042096
+{"apiCallTime" : 0, "otherTime" : 32}
+1423636102473
+{"apiCallTime" : 0, "otherTime" : 27}
+1423636162903
+{"apiCallTime" : 0, "otherTime" : 28}
+1423636223279
+{"apiCallTime" : 0, "otherTime" : 27}
+1423636283677
+{"apiCallTime" : 0, "otherTime" : 28}
+1423636344084
+{"apiCallTime" : 0, "otherTime" : 29}
+1423636404434
+{"apiCallTime" : 0, "otherTime" : 28}
+1423636464837
+{"apiCallTime" : 0, "otherTime" : 28}
+1423636525239
+{"apiCallTime" : 0, "otherTime" : 30}
+1423636585615
+{"apiCallTime" : 0, "otherTime" : 28}
+1423636645989
+{"apiCallTime" : 0, "otherTime" : 35}
+1423636706368
+{"apiCallTime" : 0, "otherTime" : 54}
+1423636766771
+{"apiCallTime" : 0, "otherTime" : 58}
+1423636827205
+{"apiCallTime" : 0, "otherTime" : 109}
+1423636887698
+{"apiCallTime" : 0, "otherTime" : 29}
+1423636948101
+{"apiCallTime" : 0, "otherTime" : 32}
+1423637008597
+{"apiCallTime" : 0, "otherTime" : 29}
+1423637068942
+{"apiCallTime" : 0, "otherTime" : 29}
+1423637129317
+{"apiCallTime" : 0, "otherTime" : 39}
+1423637189736
+{"apiCallTime" : 0, "otherTime" : 27}
+1423637250124
+{"apiCallTime" : 0, "otherTime" : 82}
+1423637310583
+{"apiCallTime" : 0, "otherTime" : 28}
+1423637370930
+{"apiCallTime" : 0, "otherTime" : 25}
+1423637431345
+{"apiCallTime" : 0, "otherTime" : 29}
+1423637491720
+{"apiCallTime" : 0, "otherTime" : 26}
+1423637552120
+{"apiCallTime" : 0, "otherTime" : 26}
+1423637612462
+{"apiCallTime" : 0, "otherTime" : 57}
+1423637672867
+{"apiCallTime" : 0, "otherTime" : 55}
+1423637733270
+{"apiCallTime" : 0, "otherTime" : 32}
+1423637793657
+{"apiCallTime" : 0, "otherTime" : 28}
+1423637854059
+{"apiCallTime" : 0, "otherTime" : 221}
+1423637914611
+{"apiCallTime" : 0, "otherTime" : 254}
+1423637975211
+{"apiCallTime" : 0, "otherTime" : 236}
+1423638035851
+{"apiCallTime" : 0, "otherTime" : 25}
+1423638096250
+{"apiCallTime" : 0, "otherTime" : 91}
+1423638156662
+{"apiCallTime" : 0, "otherTime" : 28}
+1423638217083
+{"apiCallTime" : 0, "otherTime" : 29}
+1423638277539
+{"apiCallTime" : 0, "otherTime" : 28}
+1423638337939
+{"apiCallTime" : 0, "otherTime" : 27}
+1423638398365
+{"apiCallTime" : 0, "otherTime" : 25}
+1423638458711
+{"apiCallTime" : 0, "otherTime" : 58}
+1423638519142
+{"apiCallTime" : 0, "otherTime" : 63}
+1423638579496
+{"apiCallTime" : 0, "otherTime" : 64}
+1423638639916
+{"apiCallTime" : 0, "otherTime" : 92}
+1423638700446
+{"apiCallTime" : 0, "otherTime" : 33}
+1423638760808
+{"apiCallTime" : 0, "otherTime" : 30}
+1423638821294
+{"apiCallTime" : 0, "otherTime" : 26}
+1423638881667
+{"apiCallTime" : 0, "otherTime" : 30}
+1423638942101
+{"apiCallTime" : 0, "otherTime" : 29}
+1423639002485
+{"apiCallTime" : 0, "otherTime" : 30}
+1423639062832
+{"apiCallTime" : 0, "otherTime" : 26}
+1423639123259
+{"apiCallTime" : 0, "otherTime" : 26}
+1423639183611
+{"apiCallTime" : 0, "otherTime" : 30}
+1423639244040
+{"apiCallTime" : 0, "otherTime" : 29}
+1423639304409
+{"apiCallTime" : 0, "otherTime" : 53}
+1423639364805
+{"apiCallTime" : 0, "otherTime" : 55}
+1423639425266
+{"apiCallTime" : 0, "otherTime" : 32}
+1423639485674
+{"apiCallTime" : 0, "otherTime" : 35}
+1423639546069
+{"apiCallTime" : 0, "otherTime" : 30}
+1423639606443
+{"apiCallTime" : 0, "otherTime" : 32}
+1423639666849
+{"apiCallTime" : 0, "otherTime" : 30}
+1423639727282
+{"apiCallTime" : 0, "otherTime" : 90}
+1423639787778
+{"apiCallTime" : 0, "otherTime" : 88}
+1423639848215
+{"apiCallTime" : 0, "otherTime" : 28}
+1423639908618
+{"apiCallTime" : 0, "otherTime" : 24}
+1423639968961
+{"apiCallTime" : 0, "otherTime" : 28}
+1423640029333
+{"apiCallTime" : 0, "otherTime" : 24}
+1423640089730
+{"apiCallTime" : 0, "otherTime" : 31}
+1423640150136
+{"apiCallTime" : 0, "otherTime" : 35}
+1423640210489
+{"apiCallTime" : 0, "otherTime" : 60}
+1423640270894
+{"apiCallTime" : 0, "otherTime" : 33}
+1423640331374
+{"apiCallTime" : 0, "otherTime" : 35}
+1423640391760
+{"apiCallTime" : 0, "otherTime" : 31}
+1423640452171
+{"apiCallTime" : 0, "otherTime" : 30}
+1423640512555
+{"apiCallTime" : 0, "otherTime" : 34}
+1423640572937
+{"apiCallTime" : 0, "otherTime" : 52}
+1423640633363
+{"apiCallTime" : 0, "otherTime" : 30}
+1423640693711
+{"apiCallTime" : 0, "otherTime" : 32}
+1423640754189
+{"apiCallTime" : 0, "otherTime" : 27}
+1423640814591
+{"apiCallTime" : 0, "otherTime" : 28}
+1423640874971
+{"apiCallTime" : 0, "otherTime" : 28}
+1423640935315
+{"apiCallTime" : 0, "otherTime" : 87}
+1423640995773
+{"apiCallTime" : 0, "otherTime" : 27}
+1423641056152
+{"apiCallTime" : 0, "otherTime" : 37}
+1423641116563
+{"apiCallTime" : 0, "otherTime" : 27}
+1423641176972
+{"apiCallTime" : 0, "otherTime" : 62}
+1423641237403
+{"apiCallTime" : 0, "otherTime" : 30}
+1423641297780
+{"apiCallTime" : 0, "otherTime" : 32}
+1423641358161
+{"apiCallTime" : 0, "otherTime" : 33}
+1423641418513
+{"apiCallTime" : 0, "otherTime" : 28}
+1423641478952
+{"apiCallTime" : 0, "otherTime" : 29}
+1423641539391
+{"apiCallTime" : 0, "otherTime" : 28}
+1423641599764
+{"apiCallTime" : 0, "otherTime" : 27}
+1423641660247
+{"apiCallTime" : 0, "otherTime" : 65}
+1423641720631
+{"apiCallTime" : 0, "otherTime" : 29}
+1423641781019
+{"apiCallTime" : 0, "otherTime" : 30}
+1423641841402
+{"apiCallTime" : 0, "otherTime" : 30}
+1423641901778
+{"apiCallTime" : 0, "otherTime" : 28}
+1423641962259
+{"apiCallTime" : 0, "otherTime" : 35}
+1423642022680
+{"apiCallTime" : 0, "otherTime" : 97}
+1423642083198
+{"apiCallTime" : 0, "otherTime" : 27}
+1423642143572
+{"apiCallTime" : 0, "otherTime" : 33}
+1423642203952
+{"apiCallTime" : 0, "otherTime" : 32}
+1423642264333
+{"apiCallTime" : 0, "otherTime" : 32}
+1423642324739
+{"apiCallTime" : 0, "otherTime" : 31}
+1423642385152
+{"apiCallTime" : 0, "otherTime" : 29}
+1423642445555
+{"apiCallTime" : 0, "otherTime" : 34}
+1423642505998
+{"apiCallTime" : 0, "otherTime" : 27}
+1423642566402
+{"apiCallTime" : 0, "otherTime" : 34}
+1423642626842
+{"apiCallTime" : 0, "otherTime" : 30}
+1423642687276
+{"apiCallTime" : 0, "otherTime" : 26}
+1423642747674
+{"apiCallTime" : 0, "otherTime" : 29}
+1423642808047
+{"apiCallTime" : 0, "otherTime" : 30}
+1423642868440
+{"apiCallTime" : 0, "otherTime" : 40}
+1423642928827
+{"apiCallTime" : 0, "otherTime" : 32}
+1423642991109
+{"apiCallTime" : 0, "otherTime" : 30}
+1423643055296
+{"apiCallTime" : 0, "otherTime" : 28}
+1423643118018
+{"apiCallTime" : 0, "otherTime" : 36}
+1423643179580
+{"apiCallTime" : 0, "otherTime" : 29}
+1423643240003
+{"apiCallTime" : 0, "otherTime" : 29}
+1423643300723
+{"apiCallTime" : 0, "otherTime" : 26}
+1423643361983
+{"apiCallTime" : 0, "otherTime" : 31}
+1423643422526
+{"apiCallTime" : 0, "otherTime" : 28}
+1423643484249
+{"apiCallTime" : 0, "otherTime" : 26}
+1423643547750
+{"apiCallTime" : 0, "otherTime" : 24}
+1423643609053
+{"apiCallTime" : 0, "otherTime" : 58}
+1423643670260
+{"apiCallTime" : 0, "otherTime" : 73}
+1423643731899
+{"apiCallTime" : 0, "otherTime" : 25}
+1423643792395
+{"apiCallTime" : 0, "otherTime" : 29}
+1423643852752
+{"apiCallTime" : 0, "otherTime" : 74}
+1423643913207
+{"apiCallTime" : 0, "otherTime" : 30}
+1423643974648
+{"apiCallTime" : 0, "otherTime" : 30}
+1423644036118
+{"apiCallTime" : 0, "otherTime" : 28}
+1423644097577
+{"apiCallTime" : 0, "otherTime" : 27}
+1423644159075
+{"apiCallTime" : 0, "otherTime" : 45}
+1423644219844
+{"apiCallTime" : 0, "otherTime" : 25}
+1423644280816
+{"apiCallTime" : 0, "otherTime" : 24}
+1423644342316
+{"apiCallTime" : 0, "otherTime" : 26}
+1423644404179
+{"apiCallTime" : 0, "otherTime" : 265}
+1423644465165
+{"apiCallTime" : 0, "otherTime" : 177}
+1423644525763
+{"apiCallTime" : 0, "otherTime" : 89}
+1423644586307
+{"apiCallTime" : 0, "otherTime" : 240}
+1423644646957
+{"apiCallTime" : 0, "otherTime" : 31}
+1423644707308
+{"apiCallTime" : 0, "otherTime" : 26}
+1423644767722
+{"apiCallTime" : 0, "otherTime" : 32}
+1423644828137
+{"apiCallTime" : 0, "otherTime" : 28}
+1423644888553
+{"apiCallTime" : 0, "otherTime" : 32}
+1423644948964
+{"apiCallTime" : 0, "otherTime" : 27}
+1423645009906
+{"apiCallTime" : 0, "otherTime" : 35}
+1423645070318
+{"apiCallTime" : 0, "otherTime" : 30}
+1423645131092
+{"apiCallTime" : 0, "otherTime" : 31}
+1423645192234
+{"apiCallTime" : 0, "otherTime" : 30}
+1423645253921
+{"apiCallTime" : 0, "otherTime" : 30}
+1423645314906
+{"apiCallTime" : 0, "otherTime" : 87}
+1423645375383
+{"apiCallTime" : 0, "otherTime" : 29}
+1423645436057
+{"apiCallTime" : 0, "otherTime" : 29}
+1423645497298
+{"apiCallTime" : 0, "otherTime" : 28}
+1423645559882
+{"apiCallTime" : 0, "otherTime" : 29}
+1423645620946
+{"apiCallTime" : 0, "otherTime" : 27}
+1423645684268
+{"apiCallTime" : 0, "otherTime" : 29}
+1423645747066
+{"apiCallTime" : 0, "otherTime" : 32}
+1423645810177
+{"apiCallTime" : 0, "otherTime" : 61}
+1423645875568
+{"apiCallTime" : 0, "otherTime" : 57}
+1423645936162
+{"apiCallTime" : 0, "otherTime" : 27}
+1423645996853
+{"apiCallTime" : 0, "otherTime" : 31}
+1423646058709
+{"apiCallTime" : 0, "otherTime" : 28}
+1423646120997
+{"apiCallTime" : 0, "otherTime" : 32}
+1423646181347
+{"apiCallTime" : 0, "otherTime" : 29}
+1423646241837
+{"apiCallTime" : 0, "otherTime" : 30}
+1423646302280
+{"apiCallTime" : 0, "otherTime" : 33}
+1423646362686
+{"apiCallTime" : 0, "otherTime" : 33}
+1423646423177
+{"apiCallTime" : 0, "otherTime" : 31}
+1423646483556
+{"apiCallTime" : 0, "otherTime" : 29}
+1423646543903
+{"apiCallTime" : 0, "otherTime" : 34}
+1423646604257
+{"apiCallTime" : 0, "otherTime" : 29}
+1423646664688
+{"apiCallTime" : 0, "otherTime" : 27}
+1423646725117
+{"apiCallTime" : 0, "otherTime" : 24}
+1423646785484
+{"apiCallTime" : 0, "otherTime" : 54}
+1423646845933
+{"apiCallTime" : 0, "otherTime" : 31}
+1423646906291
+{"apiCallTime" : 0, "otherTime" : 26}
+1423646966694
+{"apiCallTime" : 0, "otherTime" : 31}
+1423647027100
+{"apiCallTime" : 0, "otherTime" : 25}
+1423647087501
+{"apiCallTime" : 0, "otherTime" : 31}
+1423647147908
+{"apiCallTime" : 0, "otherTime" : 31}
+1423647208315
+{"apiCallTime" : 0, "otherTime" : 29}
+1423647268694
+{"apiCallTime" : 0, "otherTime" : 31}
+1423647329075
+{"apiCallTime" : 0, "otherTime" : 28}
+1423647389453
+{"apiCallTime" : 0, "otherTime" : 33}
+1423647449861
+{"apiCallTime" : 0, "otherTime" : 32}
+1423647510274
+{"apiCallTime" : 0, "otherTime" : 27}
+1423647570706
+{"apiCallTime" : 0, "otherTime" : 30}
+1423647631086
+{"apiCallTime" : 0, "otherTime" : 29}
+1423647691506
+{"apiCallTime" : 0, "otherTime" : 30}
+1423647751942
+{"apiCallTime" : 0, "otherTime" : 58}
+1423647812415
+{"apiCallTime" : 0, "otherTime" : 29}
+1423647872768
+{"apiCallTime" : 0, "otherTime" : 24}
+1423647933163
+{"apiCallTime" : 0, "otherTime" : 47}
+1423647993564
+{"apiCallTime" : 0, "otherTime" : 27}
+1423648054015
+{"apiCallTime" : 0, "otherTime" : 25}
+1423648114415
+{"apiCallTime" : 0, "otherTime" : 33}
+1423648174841
+{"apiCallTime" : 0, "otherTime" : 28}
+1423648235295
+{"apiCallTime" : 0, "otherTime" : 32}
+1423648295723
+{"apiCallTime" : 0, "otherTime" : 31}
+1423648356239
+{"apiCallTime" : 0, "otherTime" : 29}
+1423648416586
+{"apiCallTime" : 0, "otherTime" : 26}
+1423648476931
+{"apiCallTime" : 0, "otherTime" : 30}
+1423648537366
+{"apiCallTime" : 0, "otherTime" : 27}
+1423648597767
+{"apiCallTime" : 0, "otherTime" : 30}
+1423648658145
+{"apiCallTime" : 0, "otherTime" : 28}
+1423648718675
+{"apiCallTime" : 0, "otherTime" : 49}
+1423648779049
+{"apiCallTime" : 0, "otherTime" : 30}
+1423648839454
+{"apiCallTime" : 0, "otherTime" : 27}
+1423648899824
+{"apiCallTime" : 0, "otherTime" : 29}
+1423648960256
+{"apiCallTime" : 0, "otherTime" : 28}
+1423649020663
+{"apiCallTime" : 0, "otherTime" : 29}
+1423649081038
+{"apiCallTime" : 0, "otherTime" : 27}
+1423649141444
+{"apiCallTime" : 0, "otherTime" : 37}
+1423649201868
+{"apiCallTime" : 0, "otherTime" : 26}
+1423649262273
+{"apiCallTime" : 0, "otherTime" : 31}
+1423649322657
+{"apiCallTime" : 0, "otherTime" : 28}
+1423649383056
+{"apiCallTime" : 0, "otherTime" : 57}
+1423649443464
+{"apiCallTime" : 0, "otherTime" : 27}
+1423649503896
+{"apiCallTime" : 0, "otherTime" : 29}
+1423649564308
+{"apiCallTime" : 0, "otherTime" : 29}
+1423649624687
+{"apiCallTime" : 0, "otherTime" : 26}
+1423649685032
+{"apiCallTime" : 0, "otherTime" : 30}
+1423649745456
+{"apiCallTime" : 0, "otherTime" : 27}
+1423649805902
+{"apiCallTime" : 0, "otherTime" : 30}
+1423649866283
+{"apiCallTime" : 0, "otherTime" : 27}
+1423649926629
+{"apiCallTime" : 0, "otherTime" : 26}
+1423649987062
+{"apiCallTime" : 0, "otherTime" : 25}
+1423650047434
+{"apiCallTime" : 0, "otherTime" : 52}
+1423650107836
+{"apiCallTime" : 0, "otherTime" : 32}
+1423650168327
+{"apiCallTime" : 0, "otherTime" : 26}
+1423650228729
+{"apiCallTime" : 0, "otherTime" : 33}
+1423650289110
+{"apiCallTime" : 0, "otherTime" : 27}
+1423650349483
+{"apiCallTime" : 0, "otherTime" : 26}
+1423650409881
+{"apiCallTime" : 0, "otherTime" : 55}
+1423650470309
+{"apiCallTime" : 0, "otherTime" : 28}
+1423650530655
+{"apiCallTime" : 0, "otherTime" : 27}
+1423650591001
+{"apiCallTime" : 0, "otherTime" : 27}
+1423650651441
+{"apiCallTime" : 0, "otherTime" : 32}
+1423650711852
+{"apiCallTime" : 0, "otherTime" : 53}
+1423650772192
+{"apiCallTime" : 0, "otherTime" : 27}
+1423650832547
+{"apiCallTime" : 0, "otherTime" : 57}
+1423650892954
+{"apiCallTime" : 0, "otherTime" : 54}
+1423650953377
+{"apiCallTime" : 0, "otherTime" : 52}
+1423651013838
+{"apiCallTime" : 0, "otherTime" : 63}
+1423651074249
+{"apiCallTime" : 0, "otherTime" : 32}
+1423651134624
+{"apiCallTime" : 0, "otherTime" : 31}
+1423651195032
+{"apiCallTime" : 0, "otherTime" : 25}
+1423651255429
+{"apiCallTime" : 0, "otherTime" : 26}
+1423651315837
+{"apiCallTime" : 0, "otherTime" : 30}
+1423651376295
+{"apiCallTime" : 0, "otherTime" : 26}
+1423651436697
+{"apiCallTime" : 0, "otherTime" : 26}
+1423651497090
+{"apiCallTime" : 0, "otherTime" : 26}
+1423651557463
+{"apiCallTime" : 0, "otherTime" : 29}
+1423651617815
+{"apiCallTime" : 0, "otherTime" : 56}
+1423651678189
+{"apiCallTime" : 0, "otherTime" : 55}
+1423651738624
+{"apiCallTime" : 0, "otherTime" : 56}
+1423651799056
+{"apiCallTime" : 0, "otherTime" : 54}
+1423651859458
+{"apiCallTime" : 0, "otherTime" : 54}
+1423651919895
+{"apiCallTime" : 0, "otherTime" : 53}
+1423651980321
+{"apiCallTime" : 0, "otherTime" : 31}
+1423652040701
+{"apiCallTime" : 0, "otherTime" : 24}
+1423652101070
+{"apiCallTime" : 0, "otherTime" : 25}
+1423652161439
+{"apiCallTime" : 0, "otherTime" : 26}
+1423652221810
+{"apiCallTime" : 0, "otherTime" : 31}
+1423652282283
+{"apiCallTime" : 0, "otherTime" : 29}
+1423652342705
+{"apiCallTime" : 0, "otherTime" : 29}
+1423652403083
+{"apiCallTime" : 0, "otherTime" : 29}
+1423652463545
+{"apiCallTime" : 0, "otherTime" : 27}
+1423652523921
+{"apiCallTime" : 0, "otherTime" : 57}
+1423652584267
+{"apiCallTime" : 0, "otherTime" : 53}
+1423652644636
+{"apiCallTime" : 0, "otherTime" : 56}
+1423652705103
+{"apiCallTime" : 0, "otherTime" : 55}
+1423652765533
+{"apiCallTime" : 0, "otherTime" : 51}
+1423652825957
+{"apiCallTime" : 0, "otherTime" : 55}
+1423652886353
+{"apiCallTime" : 0, "otherTime" : 55}
+1423652946756
+{"apiCallTime" : 0, "otherTime" : 56}
+1423653007191
+{"apiCallTime" : 0, "otherTime" : 33}
+1423653067578
+{"apiCallTime" : 0, "otherTime" : 23}
+1423653127980
+{"apiCallTime" : 0, "otherTime" : 31}
+1423653188326
+{"apiCallTime" : 0, "otherTime" : 26}
+1423653248698
+{"apiCallTime" : 0, "otherTime" : 27}
+1423653309113
+{"apiCallTime" : 0, "otherTime" : 28}
+1423653369492
+{"apiCallTime" : 0, "otherTime" : 29}
+1423653429927
+{"apiCallTime" : 0, "otherTime" : 30}
+1423653490333
+{"apiCallTime" : 0, "otherTime" : 26}
+1423653550713
+{"apiCallTime" : 0, "otherTime" : 26}
+1423653611055
+{"apiCallTime" : 0, "otherTime" : 57}
+1423653671526
+{"apiCallTime" : 0, "otherTime" : 56}
+1423653732033
+{"apiCallTime" : 0, "otherTime" : 55}
+1423653792462
+{"apiCallTime" : 0, "otherTime" : 56}
+1423653852812
+{"apiCallTime" : 0, "otherTime" : 58}
+1423653913259
+{"apiCallTime" : 0, "otherTime" : 55}
+1423653973663
+{"apiCallTime" : 0, "otherTime" : 22}
+1423654034030
+{"apiCallTime" : 0, "otherTime" : 29}
+1423654094463
+{"apiCallTime" : 0, "otherTime" : 31}
+1423654154842
+{"apiCallTime" : 0, "otherTime" : 33}
+1423654215222
+{"apiCallTime" : 0, "otherTime" : 30}
+1423654275624
+{"apiCallTime" : 0, "otherTime" : 29}
+1423654335999
+{"apiCallTime" : 0, "otherTime" : 31}
+1423654396437
+{"apiCallTime" : 0, "otherTime" : 29}
+1423654456790
+{"apiCallTime" : 0, "otherTime" : 29}
+1423654517196
+{"apiCallTime" : 0, "otherTime" : 31}
+1423654577640
+{"apiCallTime" : 0, "otherTime" : 59}
+1423654638048
+{"apiCallTime" : 0, "otherTime" : 63}
+1423654698516
+{"apiCallTime" : 0, "otherTime" : 86}
+1423654758950
+{"apiCallTime" : 0, "otherTime" : 59}
+1423654819385
+{"apiCallTime" : 0, "otherTime" : 56}
+1423654879816
+{"apiCallTime" : 0, "otherTime" : 60}
+1423654940220
+{"apiCallTime" : 0, "otherTime" : 29}
+1423655000622
+{"apiCallTime" : 0, "otherTime" : 32}
+1423655061030
+{"apiCallTime" : 0, "otherTime" : 28}
+1423655121403
+{"apiCallTime" : 0, "otherTime" : 29}
+1423655181778
+{"apiCallTime" : 0, "otherTime" : 37}
+1423655242133
+{"apiCallTime" : 0, "otherTime" : 32}
+1423655302618
+{"apiCallTime" : 0, "otherTime" : 28}
+1423655363072
+{"apiCallTime" : 0, "otherTime" : 28}
+1423655423443
+{"apiCallTime" : 0, "otherTime" : 35}
+1423655483821
+{"apiCallTime" : 0, "otherTime" : 26}
+1423655544224
+{"apiCallTime" : 0, "otherTime" : 56}
+1423655604703
+{"apiCallTime" : 0, "otherTime" : 54}
+1423655665129
+{"apiCallTime" : 0, "otherTime" : 74}
+1423655725552
+{"apiCallTime" : 0, "otherTime" : 57}
+1423655786001
+{"apiCallTime" : 0, "otherTime" : 53}
+1423655846433
+{"apiCallTime" : 0, "otherTime" : 55}
+1423655906844
+{"apiCallTime" : 0, "otherTime" : 33}
+1423655967222
+{"apiCallTime" : 0, "otherTime" : 25}
+1423656027597
+{"apiCallTime" : 0, "otherTime" : 32}
+1423656088007
+{"apiCallTime" : 0, "otherTime" : 30}
+1423656148414
+{"apiCallTime" : 0, "otherTime" : 26}
+1423656208878
+{"apiCallTime" : 0, "otherTime" : 30}
+1423656269283
+{"apiCallTime" : 0, "otherTime" : 33}
+1423656329636
+{"apiCallTime" : 0, "otherTime" : 33}
+1423656390015
+{"apiCallTime" : 0, "otherTime" : 52}
+1423656450411
+{"apiCallTime" : 0, "otherTime" : 24}
+1423656510781
+{"apiCallTime" : 0, "otherTime" : 61}
+1423656571220
+{"apiCallTime" : 0, "otherTime" : 57}
+1423656631621
+{"apiCallTime" : 0, "otherTime" : 59}
+1423656692069
+{"apiCallTime" : 0, "otherTime" : 171}
+1423656752594
+{"apiCallTime" : 0, "otherTime" : 54}
+1423656812989
+{"apiCallTime" : 0, "otherTime" : 55}
+1423656873447
+{"apiCallTime" : 0, "otherTime" : 58}
+1423656933848
+{"apiCallTime" : 0, "otherTime" : 74}
+1423656994297
+{"apiCallTime" : 0, "otherTime" : 28}
+1423657054641
+{"apiCallTime" : 0, "otherTime" : 34}
+1423657115021
+{"apiCallTime" : 0, "otherTime" : 103}
+1423657175503
+{"apiCallTime" : 0, "otherTime" : 22}
+1423657235871
+{"apiCallTime" : 0, "otherTime" : 27}
+1423657296363
+{"apiCallTime" : 0, "otherTime" : 28}
+1423657356736
+{"apiCallTime" : 0, "otherTime" : 28}
+1423657417106
+{"apiCallTime" : 0, "otherTime" : 37}
+1423657477459
+{"apiCallTime" : 0, "otherTime" : 30}
+1423657537834
+{"apiCallTime" : 0, "otherTime" : 32}
+1423657598266
+{"apiCallTime" : 0, "otherTime" : 51}
+1423657658686
+{"apiCallTime" : 0, "otherTime" : 53}
+1423657719129
+{"apiCallTime" : 0, "otherTime" : 60}
+1423657779534
+{"apiCallTime" : 0, "otherTime" : 52}
+1423657839929
+{"apiCallTime" : 0, "otherTime" : 59}
+1423657900390
+{"apiCallTime" : 0, "otherTime" : 53}
+1423657960789
+{"apiCallTime" : 0, "otherTime" : 54}
+1423658021220
+{"apiCallTime" : 0, "otherTime" : 61}
+1423658081609
+{"apiCallTime" : 0, "otherTime" : 25}
+1423658141949
+{"apiCallTime" : 0, "otherTime" : 26}
+1423658202348
+{"apiCallTime" : 0, "otherTime" : 27}
+1423658262780
+{"apiCallTime" : 0, "otherTime" : 63}
+1423658323180
+{"apiCallTime" : 0, "otherTime" : 32}
+1423658383557
+{"apiCallTime" : 0, "otherTime" : 27}
+1423658443872
+{"apiCallTime" : 0, "otherTime" : 29}
+1423658504274
+{"apiCallTime" : 0, "otherTime" : 29}
+1423658564705
+{"apiCallTime" : 0, "otherTime" : 31}
+1423658625089
+{"apiCallTime" : 0, "otherTime" : 36}
+1423658685444
+{"apiCallTime" : 0, "otherTime" : 55}
+1423658745858
+{"apiCallTime" : 0, "otherTime" : 56}
+1423658806259
+{"apiCallTime" : 0, "otherTime" : 62}
+1423658866695
+{"apiCallTime" : 0, "otherTime" : 64}
+1423658927136
+{"apiCallTime" : 0, "otherTime" : 52}
+1423658987577
+{"apiCallTime" : 0, "otherTime" : 57}
+1423659047978
+{"apiCallTime" : 0, "otherTime" : 56}
+1423659108382
+{"apiCallTime" : 0, "otherTime" : 30}
+1423659168786
+{"apiCallTime" : 0, "otherTime" : 58}
+1423659229216
+{"apiCallTime" : 0, "otherTime" : 28}
+1423659289665
+{"apiCallTime" : 0, "otherTime" : 28}
+1423659350011
+{"apiCallTime" : 0, "otherTime" : 26}
+1423659410352
+{"apiCallTime" : 0, "otherTime" : 30}
+1423659470758
+{"apiCallTime" : 0, "otherTime" : 24}
+1423659531212
+{"apiCallTime" : 0, "otherTime" : 25}
+1423659591588
+{"apiCallTime" : 0, "otherTime" : 25}
+1423659651930
+{"apiCallTime" : 0, "otherTime" : 28}
