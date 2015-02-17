@@ -167,7 +167,7 @@ public class KittyValidator {
         BufferedReader reader = new BufferedReader(new FileReader(path));
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] segments = line.split(" ");
+            String[] segments = line.split("\\s+");
             timeSeries.add(Long.parseLong(segments[0]), Integer.parseInt(segments[1]));
         }
         reader.close();
