@@ -54,6 +54,7 @@ public class KittyValidator {
 
     public void run(PredictionConfig config, String benchmarkFile) throws IOException {
         TimeSeries benchmarkValues = parseBenchmarkFile(benchmarkFile);
+        // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
         long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
         config.setStart(start);
