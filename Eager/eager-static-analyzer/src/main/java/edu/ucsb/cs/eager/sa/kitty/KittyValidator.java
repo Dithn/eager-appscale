@@ -54,8 +54,9 @@ public class KittyValidator {
 
     public void run(PredictionConfig config, String benchmarkFile) throws IOException {
         TimeSeries benchmarkValues = parseBenchmarkFile(benchmarkFile);
+        long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
         long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
-        config.setStart(-1L);
+        config.setStart(start);
         config.setEnd(end);
         config.setHideOutput(true);
 
