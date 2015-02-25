@@ -36,9 +36,16 @@ public class BackupServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req,
                          HttpServletResponse resp) throws ServletException, IOException {
 
+        long start = -1L;
+        String startParam = req.getParameter("start");
+        if (startParam != null) {
+            start = Long.parseLong(startParam);
+        }
         Map<Long,Map<String,Integer>> results = new TreeMap<Long, Map<String, Integer>>();
         for (DataPoint p : DataPoint.getAll()) {
-            results.put(p.getTimestamp(), p.getData());
+            if (p.getTimestamp() > start) {
+                results.put(p.getTimestamp(), p.getData());
+            }
         }
         JSONUtils.serializeMap(results, resp);
     }
