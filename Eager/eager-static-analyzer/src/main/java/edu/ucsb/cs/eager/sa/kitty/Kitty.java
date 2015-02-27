@@ -100,6 +100,11 @@ public class Kitty {
             config.setMaxEntities(Integer.parseInt(maxEntities));
         }
 
+        String excludedAPIs = cmd.getOptionValue("ea");
+        if (excludedAPIs != null) {
+            config.setExcludedAPIPatterns(excludedAPIs.split(","));
+        }
+
         try {
             config.validate();
         } catch (Exception e) {
@@ -150,6 +155,8 @@ public class Kitty {
 
         PredictionUtils.addOption(options, "me", "max-entities", true,
                 "Maximum entities that may exist in the datastore");
+        PredictionUtils.addOption(options, "ea", "excluded-apis", true,
+                "GAE APIs that should be excluded from the analysis");
         return options;
     }
 
@@ -195,8 +202,12 @@ public class Kitty {
                 for (List<SootMethod> path : entry.getValue().getPaths()) {
                     Path callPath = new Path();
                     for (SootMethod sm : path) {
-                        APICall call = new APICall(sm.getDeclaringClass().getName() + "#" +
-                                sm.getName() + "()");
+                        String name = sm.getDeclaringClass().getName() + "#" + sm.getName() + "()";
+                        if (config.isExcludedAPI(name)) {
+                            continue;
+                        }
+
+                        APICall call = new APICall(name);
                         if (call.isLoop()) {
                             // Use the same entity count limit for all loops for now.
                             call.setIterations(config.getMaxEntities());

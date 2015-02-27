@@ -78,6 +78,8 @@ public class PredictionConfig {
     private String[] methods;
     private String[] excludedMethods;
 
+    private String[] excludedAPIPatterns;
+
     private int maxEntities = 1000;
 
     private boolean hideOutput;
@@ -205,10 +207,6 @@ public class PredictionConfig {
         this.methods = methods;
     }
 
-    public String[] getExcludedMethods() {
-        return excludedMethods;
-    }
-
     public void setExcludedMethods(String[] excludedMethods) {
         this.excludedMethods = excludedMethods;
     }
@@ -243,6 +241,21 @@ public class PredictionConfig {
 
     public void setHideOutput(boolean hideOutput) {
         this.hideOutput = hideOutput;
+    }
+
+    public boolean isExcludedAPI(String apiCall) {
+        if (excludedAPIPatterns != null) {
+            for (String pattern : excludedAPIPatterns) {
+                if (apiCall.contains(pattern)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void setExcludedAPIPatterns(String[] excludedAPIPatterns) {
+        this.excludedAPIPatterns = excludedAPIPatterns;
     }
 
     public void validate() throws Exception {
