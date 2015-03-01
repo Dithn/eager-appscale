@@ -1,0 +1,44 @@
+In this section we describe the experimental results we have obtained using Cerebro and the associated tools. We conduct
+tests using five sample applications. 
+
+\begin{description}
+\item[StudentInfo] A JAXRS application for managing students of a class. Provides APIs for
+adding/removing students, and listing the student information.
+\item[ServerHealth] An application that monitors a given web URL for server uptime. Provides an
+API for obtaining the uptime statistics computed by the application.
+\item[SocialMapper] A simple social networking application. Provides APIs for adding users,
+comments and other resources.
+\item[StockTrader] A stock trading application. Provides APIs for adding users, registering
+companies, buying and selling stocks among users.
+\item[Rooms] A hotel booking application. Provides APIs for registering hotels and looking up
+available rooms.
+\end{description}
+
+We instrument each of the above applications to measure the time taken by their web APIs to execute the
+enclosed code. This is done by adding some extra Java code to each of the web APIs exposed by the sample applications.
+We ensure that the instrumentation does not alter the original web API code by anyway (i.e. the original algorithms, control flow
+and data flow are not impacted by the instrumentation). Then for each application we also
+introduce a mechanism to output the measured execution times, so an external client can query and collect the execution
+times of the web APIs.
+
+We carry out each of our tests in two separate environments -- Google App Engine public cloud, and
+the AppScale private cloud. The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
+running on a private Eucalyptus cluster.
+
+In the first set of experiments, we benchmark each application for a period of 18 to 20 hours.
+During this time, we run an HTTP client on a separate machine that invokes the instrumented web APIs once every minute, 
+and collects the server-side execution times (as measured by the instrumentation code), and records them for later processing.
+At the same time, we also run the Watchtower application in the same target cloud environment as the test application to
+benchmark the individual cloud SDK operations. Therefore at the end of a benchmarking run, we have two sets of data at hand:
+
+\begin{itemize}
+\item Web API execution times collected by the benchmarking HTTP client
+\item Cloud SDK benchmarking data gathered by Watchtower
+\end{itemize}
+
+We now run Cerebro and make predictions about the web API execution time using the cloud SDK benchmarking data
+collected by Watchtower. We configure Cerebro to predict an upper bound for the 95th percentile of the web API
+execution time, with an upper confidence of 0.01. Cerebro generates a sequence of execution time predictions -- one 
+per minute. Then we compare these predictions against the actual web API execution times collected during the same
+time period. More specifically, we check whether each prediction is correct (i.e. prediction is equal to higher than the
+actual value), and compute a running tally of percentage accuracy.
