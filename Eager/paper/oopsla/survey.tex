@@ -21,15 +21,17 @@ the methods have 36 or less paths going through them. However, this CDF does hav
 up to 34992 (not shown in the figure -- the x-axis of the CDF has been truncated at 100 paths). Still, it is interesting to note that more
 than half the methods considered in the analysis, 65\% to be precise, have no more than exactly 1 path (i.e. no branches).
 This implies that roughly 65\% of the time, Cerebro has to only generate a single sequence of predictions. In cases
-where there are multiple branches, Cerebro's unique cloud SDK call path detection mechanism can help significantly 
+where there are multiple branches, Cerebro's unique path detection mechanism can help significantly 
 reduce the number of prediction traces that need to be generated.
 
 Next we look at the looping behavior of the 35 web applications used in the study. As it turns out 1286 of the methods (88\%)
-do not have any loops. Only 172 methods (12\%) have loops. A large majority of the loops (61\%) encountered in the analysis are
-preceded by a call to a batch read in the datastore cloud SDK of Google App Engine. The purpose of these loops is to simply iterate
-through the results returned by the read. We used this vital piece of information when designing the loop handling capability of
+considered in the study
+do not have any loops. Only 172 methods (12\%) consist of loops. Clearly the PaaS SDK and the associated coding restrictions
+are making loops a somewhat rare feature in the cloud applications. A large majority of the loops (61\%) encountered in our analysis are
+preceded by a call to a batch read operation in the datastore cloud SDK of Google App Engine. The purpose of these loops is to simply iterate
+through the results returned by the read. We use this vital piece of information when designing the loop handling capability of
 Cerebro. Whenever Cerebro encounters a loop, it checks whether the loop is preceded by a batch read to the datastore. Watchtower
-benchmarks this code pattern (batch read followed by a loop), so the Cerebro can use the gathered measurements to make
+benchmarks this code pattern (batch read followed by a loop), so that Cerebro can use the gathered measurements to make
 more accurate predictions regarding loops.
 
 \begin{figure}
@@ -52,7 +54,7 @@ Some of the other widely used interfaces include users, taskqueue and memcache.
 \end{figure}
 
 Finally we explore the number of cloud SDK calls made in different paths of execution in the web applications. For this study
-we considered all the paths of execution through the methods. This amounted to 64780 total paths. Figure~\ref{fig:sdk_call_count_cdf}
+we consider all the paths of execution through the methods. This amounted to 64780 total paths. Figure~\ref{fig:sdk_call_count_cdf}
 shows the number of cloud SDK calls in the paths, and the probability of finding a path with a given number of cloud SDK calls.
 According to that around 98\% of the paths have 1 or less cloud SDK call. The probability of finding an execution path with more than
 5 cloud SDK calls is smaller than 0.01. This implies in most cases Cerebro will make response time predictions without having to 
