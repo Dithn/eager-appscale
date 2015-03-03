@@ -1,0 +1,59 @@
+We start by statically analyzing a random sample of cloud applications to learn various properties related
+to branching, looping and usage of cloud SDK interfaces in the applications written for PaaS environments. 
+We scour the GitHub source code repository for open source Google App Engine applications written in Java,
+and randomly select a population of 35 applications. These applications are subjected to a thorough analysis
+using the Soot framework to study their code patterns. Our analysis detected 1458 different methods in all the
+applications. In this section we present a detailed overview of the observations made in this study. We note that
+our design and implementation of Cerebro, and the associated experiments have been influenced by 
+these observations in several ways.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{path_count_cdf}
+\caption{CDF of path counts through methods in web applications.}
+\label{fig:path_count_cdf}
+\end{figure}
+
+FIgure~\ref{fig:path_count_cdf} shows the number of paths through methods, and the probability of encountering
+a method with a given number of paths (in other words the branching behavior of methods). According to this CDF, 
+around 97\% of the methods considered in the analysis have 10 or less paths going through them. About 99\% of 
+the methods have 36 or less paths going through them. However, this CDF does have a very long tail, going all the way
+up to 34992 (not shown in the figure -- the x-axis of the CDF has been truncated at 100 paths). Still, it is interesting to note that more
+than half the methods considered in the analysis, 65\% to be precise, have no more than exactly 1 path (i.e. no branches).
+This implies that roughly 65\% of the time, Cerebro has to only generate a single sequence of predictions. In cases
+where there are multiple branches, Cerebro's unique cloud SDK call path detection mechanism can help significantly 
+reduce the number of prediction traces that need to be generated.
+
+Next we look at the looping behavior of the 35 web applications used in the study. As it turns out 1286 of the methods (88\%)
+do not have any loops. Only 172 methods (12\%) have loops. A large majority of the loops (61\%) encountered in the analysis are
+preceded by a call to a batch read in the datastore cloud SDK of Google App Engine. The purpose of these loops is to simply iterate
+through the results returned by the read. We used this vital piece of information when designing the loop handling capability of
+Cerebro. Whenever Cerebro encounters a loop, it checks whether the loop is preceded by a batch read to the datastore. Watchtower
+benchmarks this code pattern (batch read followed by a loop), so the Cerebro can use the gathered measurements to make
+more accurate predictions regarding loops.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{sdk_call_counts}
+\caption{Number of times different cloud SDK interfaces are called in web applications.}
+\label{fig:sdk_call_counts}
+\end{figure}
+
+Figure~\ref{fig:sdk_call_counts} illustrates the number of times each cloud SDK interface has been called in the sample of
+35 web applications. Clearly datastore is the most commonly used interface as far as Google App Engine applications are 
+concerned. This is because data storage and access is a fundamental capability required by most web applications. 
+Some of the other widely used interfaces include users, taskqueue and memcache. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{sdk_call_count_cdf}
+\caption{CDF of cloud SDK call counts in web applications.}
+\label{fig:sdk_call_count_cdf}
+\end{figure}
+
+Finally we explore the number of cloud SDK calls made in different paths of execution in the web applications. For this study
+we considered all the paths of execution through the methods. This amounted to 64780 total paths. Figure~\ref{fig:sdk_call_count_cdf}
+shows the number of cloud SDK calls in the paths, and the probability of finding a path with a given number of cloud SDK calls.
+According to that around 98\% of the paths have 1 or less cloud SDK call. The probability of finding an execution path with more than
+5 cloud SDK calls is smaller than 0.01. This implies in most cases Cerebro will make response time predictions without having to 
+aggregate multiple time series together.
