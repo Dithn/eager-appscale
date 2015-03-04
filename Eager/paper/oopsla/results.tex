@@ -140,7 +140,7 @@ generating more conservative predictions.
 \end{figure}
 
 Figure~\ref{fig:as_mean_diff} shows the prediction tightness results in the AppScale cloud platform. In this case nine out of the ten operations tested
-exhibit average differences less than 30ms. A closer look at the corresponding standard deviations of actual response times reveal that APIs deployed 
+exhibit average differences less than 45ms. A closer look at the corresponding standard deviations of actual response times reveal that APIs deployed 
 in the AppScale PaaS show much more stable performance characteristics (i.e. small standard deviation in API response times). This enables Cerebro
 to generate less conservative, or in other words more tight bounds with higher accuracy. The reason behind the stability of AppScale's performance
 over time is due to the fact that it's a private cloud platform, deployed on a set of closely controlled and monitored cluster of VMs. We have total control
