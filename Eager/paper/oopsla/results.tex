@@ -112,7 +112,7 @@ developers. For the predictions to be useful and even meaningful, they should be
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{gae_mean_diff}
-\caption{Average difference between predictions and actual response times in Google App Engine along with the range of actual response times.}
+\caption{Average difference between predictions and actual response times in Google App Engine along with the standard deviation of actual response times.}
 \label{fig:gae_mean_diff}
 \end{figure}
 
@@ -120,11 +120,30 @@ Figure~\ref{fig:gae_mean_diff} depicts the average difference between predicted 
 our sample web APIs when running in the Google App Engine cloud. These values 
 were computed considering a sequence of 1000 consecutive predictions (of 95th percentile) made by Cerebro. Within these sequences only the cases 
 where the predicted value was larger than the corresponding actual value was taken into account. Based on our previous results
-concerning the percentage accuracy, we know that this case occurs at least 95\% of the time. Figure also shows the size of the
-range (i.e the difference between min and max) of actual response times for each web API operation.
+concerning the percentage accuracy, we know that this case occurs at least 95\% of the time. Figure also shows the standard
+deviation of actual response times for each web API operation.
 
-According to figure~\ref{fig:gae_mean_diff}, five out of the ten web API operations considered have an average difference less than 65ms.
-However, operations whose range of actual response times is larger result in high average difference values. This is because when the 
-range of actual response times is large, the difference between any given value in that range and the 95th percentile can also become
-large. This is the case with operations like StudentInfo\#getAllStudents (the most time consuming operation in the lot), StockTrader\#buy
-(7 cloud SDK operations) and ServerHealth\#info (3 cloud SDK operations).
+According to figure~\ref{fig:gae_mean_diff}, five out of the ten web API operations considered in the tests have an average difference less than 65ms.
+However, operations whose standard deviation of actual response times is larger, result in high average difference values. This is because when the 
+standard deviation of actual response times is large, the difference between any given actual response time and the 95th percentile also becomes
+large (because a large standard deviation implies that values are more dispersed in a larger range). This is the case with operations like 
+StudentInfo\#getAllStudents (the most time consuming operation in the lot), StockTrader\#buy (7 cloud SDK operations) and 
+ServerHealth\#info (3 cloud SDK operations). Based on this we can conclude that Cerebro predicts very tight bounds for web APIs whose
+performance is more stable (i.e. less variation in the response time). For APIs with highly unstable performance traits, Cerebro compensates by
+generating more conservative predictions. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{as_mean_diff}
+\caption{Average difference between predictions and actual response times in AppScale along with the standard deviation of actual response times.}
+\label{fig:as_mean_diff}
+\end{figure}
+
+Figure~\ref{fig:as_mean_diff} shows the prediction tightness results in the AppScale cloud platform. In this case nine out of the ten operations tested
+exhibit average differences less than 30ms. A closer look at the corresponding standard deviations of actual response times reveal that APIs deployed 
+in the AppScale PaaS show much more stable performance characteristics (i.e. small standard deviation in API response times). This enables Cerebro
+to generate less conservative, or in other words more tight bounds with higher accuracy. The reason behind the stability of AppScale's performance
+over time is due to the fact that it's a private cloud platform, deployed on a set of closely controlled and monitored cluster of VMs. We have total control
+over how much resources are assigned to these VMs, and we ensure that they run in total isolation from other processes running on the underlying hardware.
+This is never the case when running our sample applications on Google App Engine, where we have no control over the underlying VMs, hardware and the
+scheduling mechanism.
