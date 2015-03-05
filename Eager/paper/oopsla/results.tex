@@ -203,38 +203,52 @@ highly scalable, may not be able to support tight performance SLAs. Their perfor
 performance guarantees. Small private cloud platforms on the other hand can provide much better, consistent and stable performance guarantees, albeit their
 poor scalability. From an organization's point of view this could be a strong motivator to adopt private cloud over public clouds.
 
-\subsection{Prediction Accuracy Over Time and Convergence}
+\subsection{Accuracy Over Time and Convergence}
+
+Earlier we looked at the percentage of measurements that are under predicted SLAs after a fixed amount of time has elapsed.
+In those experiments we made predictions for a fixed-size time period (1000 minutes), 
+and computed the percentage accuracy achieved by Cerebro at the end of the period.
+In this section we are going to analyze the percentage accuracy of Cerebro as a running tabulation. That is, instead of just
+computing the percentage accuracy at the end of 1000 minutes, we are going to compute it for each passing minute. This enables us to
+understand how the percentage accuracy regarding a single web API operation changes over time, and the convergence
+behavior of Cerebro.
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{gae_accuracy}
-\caption{Percentage accuracy of predictions made on Google App Engine.}
+\caption{Percentage accuracy of predictions made on Google App Engine for a period of 1000 minutes.}
 \label{fig:gae_accuracy}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{as_accuracy}
-\caption{Percentage accuracy of predictions made on AppScale.}
+\caption{Percentage accuracy of predictions made on AppScale for a period of 1000 minutes.}
 \label{fig:as_accuracy}
 \end{figure}
 
 Figure~\ref{fig:gae_accuracy} shows the percentage accuracy of the Cerebro predictions made in the Google App Engine 
-public cloud environment. Each of the curves correspond to a single web API operation in one of the sample applications. 
-The curves are labeled in the form of \textit{ApplicationName\#OperationName} (a convention we will continue to use
-in the rest of the paper). To maintain clarity in the figures we do not 
-illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
-web API operations covering all five sample applications. We note that other web API operations we tested also produce
-very similar results.
+public cloud environment for a period of 1000 minutes. Each of the curves correspond to a single web API operation in one of the 
+sample applications. 
 
-As expected QBETS takes some time to learn
+As expected, the machine learning technique used by Cerebro takes some time to learn
 from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. But
-once QBETS has converged it consistently produces highly accurate predictions regarding the 95th percentile of the web API
-response time. In the worst case QBETS takes up to 200 minutes to converge. This is the case with the
+once Cerebro has converged it consistently produces highly accurate predictions regarding the 95th percentile of the web API
+response time. In the worst case Cerebro takes up to 200 minutes to converge. This is the case with the
 StudentInfo\#getAllStudents operation. After 275 minutes, we see highly accurate predictions being made on all web API
 operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. Note that
 we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
 results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct and reliable.
 
 Figure~\ref{fig:as_accuracy} shows the same results calculated by running the sample applications and the Watchtower in the AppScale private cloud
-environment. [More content to Follow -- some experiments still in progress]
+environment. These results are very similar to the ones seen in Google App Engine, except for a somewhat faster convergence. In AppScale
+we can see that Cerebro converges to the preferred percentage accuracy level in about 150 minutes.
+
+Also note that the percentage accuracy over time is not a constant function. Once the percentages have converged, they keep fluctuating 
+around some median value. When the percentage accuracy starts to drop Cerebro shifts the predictions up, which increases
+the percentage accuracy. Similarly when the percentage accuracy increases, Cerebro shifts the predictions down. Due to this
+constant oscillation behavior, we might at times see percentage accuracy values slightly below 95\%. In fact this is exactly what is
+happening with respect to the StockTrader\#buy operation in the AppScale environment. Its percentage value converges to a median
+value of 95\% and keeps oscillating around it. Therefore if we take a snapshot of the percentage accuracy at any given time, it
+could be slightly above or below 95\%. But as long as this value stays close to 95\%, we can consider Cerebro predictions to
+be accurate.
