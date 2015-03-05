@@ -34,14 +34,30 @@ Cerebro. Whenever Cerebro encounters a loop, it checks whether the loop is prece
 benchmarks this code pattern (batch read followed by a loop), so that Cerebro can use the gathered measurements to make
 more accurate predictions regarding loops.
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.35]{sdk_call_counts}
+\begin{table}[htdp]
 \caption{Number of times different cloud SDK interfaces are called in web applications.}
-\label{fig:sdk_call_counts}
-\end{figure}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Cloud SDK Interface & No. of Invocations \\ \hline
+blobstore & 7 \\ \hline
+channel & 1 \\ \hline
+datastore & 735 \\ \hline
+files & 4 \\ \hline
+images & 3 \\ \hline
+memcache & 12 \\ \hline
+search & 6 \\ \hline
+taskqueue & 24 \\ \hline
+tools & 2 \\ \hline
+urlfetch & 8 \\ \hline
+users & 44 \\ \hline
+xmpp & 3 \\ \hline
+\end{tabular}
+\end{center}
+\label{tab:sdk_call_counts}
+\end{table}
 
-Figure~\ref{fig:sdk_call_counts} illustrates the number of times each cloud SDK interface has been called in the sample of
+Table~\ref{tab:sdk_call_counts} lists the number of times each cloud SDK interface has been called in the sample of
 35 web applications. Clearly datastore is the most commonly used interface as far as Google App Engine applications are 
 concerned. This is because data storage and access is a fundamental capability required by most web applications. 
 Some of the other widely used interfaces include users, taskqueue and memcache. 

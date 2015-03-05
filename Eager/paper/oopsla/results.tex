@@ -14,8 +14,8 @@ companies, buying and selling stocks among users.
 available rooms.
 \end{description}
 
-The above applications extensively use the datastore cloud SDK operations of Google App Engine. The Rooms application
-additionally uses the memcache cloud SDK operations.
+The above applications extensively use the datastore cloud SDK interface of Google App Engine. The Rooms application
+additionally uses the memcache interface.
 
 We instrument each of the five sample applications to measure the time taken by their web APIs to execute the
 enclosed code. This is done by adding some extra Java code to each of the web APIs exposed by the sample applications.
@@ -29,12 +29,12 @@ the AppScale private cloud. The AppScale private cloud used for testing was powe
 running on a private Eucalyptus cluster.
 
 In the first set of experiments, we benchmark each application for a period of 15 to 20 hours.
-During this time, we run an HTTP client on a separate machine that invokes the instrumented web APIs once every minute, 
+During this time we run an HTTP client on a separate machine that invokes the instrumented web APIs once every minute, 
 and collects the server-side execution times (as measured by the instrumentation code).
 At the same time, we also run Watchtower in the same target cloud environment as the sample application being tested to
 benchmark the individual cloud SDK operations. Recall that our sample applications use datastore and memcache
-cloud SDK operations. Hence
-we configure Watchtower to periodically benchmark the cloud SDK operations related to datastore and memcache. 
+cloud SDK interfaces. Hence
+we configure Watchtower to periodically benchmark the cloud SDK operations related to these two interfaces. 
 At the end of a benchmarking run, we have two sets of data at hand:
 
 \begin{itemize}
@@ -45,46 +45,41 @@ At the end of a benchmarking run, we have two sets of data at hand:
 We now run Cerebro to make predictions regarding the web API execution time using the cloud SDK benchmarking data
 collected by Watchtower. We configure Cerebro to predict an upper bound for the 95th percentile of the web API
 execution time, with an upper confidence of 0.01. Cerebro generates a sequence of execution time predictions -- one 
-per minute. Then we compare these predictions against the actual web API execution times collected during the same
+per minute. Then we compare these predictions against the actual web API execution times measured during the same
 time period. More specifically, we approximately align the sequence of predictions with the time series of actual execution
-times, and check whether each prediction is correct (i.e. prediction is equal to or higher than the
-corresponding actual value). We then use the results to compute a running tally of the percentage accuracy of Cerebro
-predictions over time.
+time measurements, and check whether each prediction is equal to or higher than the corresponding measurement. We consider a 
+sequence of 1000 consecutive predictions and 1000 consecutive API execution
+time measurements, and compute the percentage of measurements that are less than or equal to the predicted values.
+ 
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.35]{gae_accuracy}
-\caption{Percentage accuracy of predictions made on Google App Engine.}
-\label{fig:gae_accuracy}
+\includegraphics[scale=0.35]{accuracy_summary}
+\caption{Percentage of measurements under predicted upper bound in Google App Engine and AppScale cloud platforms.}
+\label{fig:accuracy_summary}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.35]{as_accuracy}
-\caption{Percentage accuracy of predictions made on AppScale.}
-\label{fig:as_accuracy}
-\end{figure}
-
-Figure~\ref{fig:gae_accuracy} shows the percentage accuracy of the Cerebro predictions made in the Google App Engine 
-public cloud environment. Each of the curves correspond to a single web API operation in one of the sample applications. 
-The curves are labeled in the form of \textit{ApplicationName\#OperationName}. To maintain clarity in the figures we do not 
+Figure~\ref{fig:accuracy_summary} shows the final results of the above experiment.
+Each of the columns in figure~\ref{fig:accuracy_summary} corresponds to a single web API operation in 
+one of the sample applications. The columns are labeled in the form of \textit{ApplicationName\#OperationName} (a convention 
+we will continue to use in the rest of the paper). To maintain clarity in the figures we do not 
 illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
 web API operations covering all five sample applications. We note that other web API operations we tested also produce
 very similar results.
 
-As expected QBETS takes some time to learn
-from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. But
-once QBETS has converged it consistently produces highly accurate predictions regarding the 95th percentile of the web API
-response time. In the worst case QBETS takes up to 200 minutes to converge. This is the case with the
-StudentInfo\#getAllStudents operation. After 275 minutes, we see highly accurate predictions being made on all web API
-operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. Note that
-we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
-results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct and reliable.
+Since we are using Cerebro to predict the 95th percentile of the API execution times, we expect around 95\% of the measured execution
+times to be under the predicted upper bounds. According to figure~\ref{fig:accuracy_summary}, Cerebro achieves this goal for all
+the cases considered in both Google App Engine and AppScale environments. The lowest percentage value observed
+in our tests is 94.6\% (in the case of StockTrader\#buy on AppScale), which is also very close to the target of 95\%. Such minor
+lapses below 95\% are acceptable anyway, since we expect this percentage value to be gently fluctuating around the
+95\% mark over time (a phenomenon that will be illustrated in our later results). Overall, this experimental result shows us that
+Cerebro produces highly accurate and reliable SLA predictions for a variety of applications running on two very
+different cloud platforms.
 
-The web API operations illustrated in figure~\ref{fig:gae_accuracy} cover a wide spectrum of scenarios that may be encountered
+The web API operations illustrated in figure~\ref{fig:accuracy_summary} cover a wide spectrum of scenarios that may be encountered
 when statically analyzing web application code. StudentInfo\#getStudent and StudentInfo\#addStudent are by far the simplest
-operations in the mix. They invoke a single cloud SDK operation each, and represent a simple database read scenario and a simple
-database write scenario respectively. As per our survey on the cloud applications, these alone cover a significant portion of the 
+operations in the mix. They invoke a single cloud SDK operation each, and represent a simple datastore read scenario and a simple
+datastore write scenario respectively. As per our survey on the cloud applications, these alone cover a significant portion of the 
 web APIs developed for the Google App Engine and AppScale cloud platforms (1 path through the code, and 1 cloud SDK call). 
 The StudentInfo\#deleteStudent operation makes two cloud SDK operations in sequence, whereas
 StudentInfo\#getAllStudents performs a batch read from the datastore followed by a data dependent loop to iterate through the results.
@@ -93,14 +88,13 @@ and Cerebro was configured to use a maximum entity count of 1000 when making pre
 
 ServerHealth\#info invokes the same cloud SDK operation three times in sequence. Both StockTrader\#buy and StockTrader\#sell have
 multiple paths through the code (due to branching), thus causing Cerebro to make multiple sequences of predictions -- one sequence
-per path. The results shown in figure~\ref{fig:gae_accuracy} are for the longest paths which consist of seven cloud SDK invocations each. According to
+per path. The results shown in figure~\ref{fig:accuracy_summary} are for the longest paths which consist of seven cloud SDK invocations each. According to
 our survey, 99.8\% of the execution paths found in Google App Engine applications have seven or less cloud SDK calls in them. Therefore we believe
-that the web API operations in StockTrader application represent an important upper bound case. Rooms\#getRoomByName
+that the web APIs in StockTrader application represent an important upper bound case. Rooms\#getRoomByName
 invokes two different cloud SDK interfaces, namely datastore and memcache. Rooms\#getAllRooms is another operation that consists of
-a loop. It is encouraging to see how Cerebro manages to produce highly accurate predictions for such a wide range of web API implementations.
-
-Figure 2 shows the same results calculated by running the sample applications and the Watchtower in the AppScale private cloud
-environment. [More content to Follow -- some experiments still in progress]
+a batch read and a loop. In this case, we had the datastore preloaded with 10 entities, and Cerebro was configured to use a maximum entity
+count of 10. It is indeed encouraging to see how Cerebro manages to produce highly accurate predictions for such a wide range 
+of web API implementations and runtime scenarios on two cloud platforms.
 
 \subsection{Tightness of Predictions}
 In this section we discuss the tightness of the predictions generated by Cerebro. Tightness is a measure of how closely the predictions
@@ -142,8 +136,49 @@ generating more conservative predictions.
 Figure~\ref{fig:as_mean_diff} shows the prediction tightness results in the AppScale cloud platform. In this case nine out of the ten operations tested
 exhibit average differences less than 45ms. A closer look at the corresponding standard deviations of actual response times reveal that APIs deployed 
 in the AppScale PaaS show much more stable performance characteristics (i.e. small standard deviation in API response times). This enables Cerebro
-to generate less conservative, or in other words more tight bounds with higher accuracy. The reason behind the stability of AppScale's performance
-over time is due to the fact that it's a private cloud platform, deployed on a set of closely controlled and monitored cluster of VMs. We have total control
-over how much resources are assigned to these VMs, and we ensure that they run in total isolation from other processes running on the underlying hardware.
+to generate less conservative, or in other words more tight bounds with higher accuracy. 
+
+The reason why AppScale's performance is so stable over time is because it's a private cloud platform, deployed on a set of closely controlled 
+and monitored cluster of VMs. We have total control
+over how much resources are assigned to these VMs, and we ensure that they run in total isolation from the other processes running on the underlying hardware.
 This is never the case when running our sample applications on Google App Engine, where we have no control over the underlying VMs, hardware and the
-scheduling mechanism.
+scheduling mechanism. Another related, but interesting outcome of these results is that large-scale public cloud platforms like Google App Engine, while
+highly scalable, may not be able to support tight performance SLAs. Their performance is subject to high variations making it difficult to always support attractive
+performance guarantees. Small private cloud platforms on the other hand can provide much better, consistent and stable performance guarantees, albeit their
+poor scalability. From an organization's point of view this could be a strong motivator to adopt private cloud over public clouds.
+
+\subsection{Prediction Accuracy Over Time}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{gae_accuracy}
+\caption{Percentage accuracy of predictions made on Google App Engine.}
+\label{fig:gae_accuracy}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{as_accuracy}
+\caption{Percentage accuracy of predictions made on AppScale.}
+\label{fig:as_accuracy}
+\end{figure}
+
+Figure~\ref{fig:gae_accuracy} shows the percentage accuracy of the Cerebro predictions made in the Google App Engine 
+public cloud environment. Each of the curves correspond to a single web API operation in one of the sample applications. 
+The curves are labeled in the form of \textit{ApplicationName\#OperationName} (a convention we will continue to use
+in the rest of the paper). To maintain clarity in the figures we do not 
+illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
+web API operations covering all five sample applications. We note that other web API operations we tested also produce
+very similar results.
+
+As expected QBETS takes some time to learn
+from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. But
+once QBETS has converged it consistently produces highly accurate predictions regarding the 95th percentile of the web API
+response time. In the worst case QBETS takes up to 200 minutes to converge. This is the case with the
+StudentInfo\#getAllStudents operation. After 275 minutes, we see highly accurate predictions being made on all web API
+operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. Note that
+we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
+results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct and reliable.
+
+Figure 2 shows the same results calculated by running the sample applications and the Watchtower in the AppScale private cloud
+environment. [More content to Follow -- some experiments still in progress]
