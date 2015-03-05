@@ -127,16 +127,9 @@ predictions appear to be somewhat too conservative or less tight:
 \end{itemize}
 
 To understand why Cerebro generates conservative predictions for some operations we need to 
-take a closer look at the actual execution times of those operations, and the SLA values predicted for them. We take StudentInfo\#getAllStudents
-operation on Google App Engine as a case study and analyze the results in more detail. Note that this is the case that results in the largest 
+take a closer look at the actual execution times of those operations. We take StudentInfo\#getAllStudents
+operation on Google App Engine as a case study and analyze the results in more detail. Note that this is the case which exhibits the largest 
 average difference between predicted and actual execution times.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.35]{get_all_students_detailed}
-\caption{Predicted and measured execution times of the StudentInfo\#getAllStudents operation on Google App Engine, over a period of 1000 minutes.}
-\label{fig:get_all_students_detailed}
-\end{figure}
 
 \begin{figure}
 \centering
@@ -145,12 +138,19 @@ average difference between predicted and actual execution times.
 \label{fig:get_all_students_cdf}
 \end{figure}
 
-Figure~\ref{fig:get_all_students_detailed} shows how the measured execution time of StudentInfo\#getAllStudents varies over a period of 1000
-minutes. It also indicates how the Cerebro predictions have changed during the same time frame. According to this graph, the measured 
-execution times are distributed over a wide range (1800ms to 5600ms). Also, while around half the values are concentrated in the 3000ms to 4200ms
-range, a significant portion of measurements lie outside this range. The CDF of the measured execution times makes
-this further evident (figure~\ref{fig:get_all_students_cdf}). About 90\% of the measurements are under 4500ms. But the distribution also contains
-values as high as 5553ms. In order to incorporate some of these highest outliers in the distribution,
+Figure~\ref{fig:get_all_students_cdf} shows the CDF of measured execution times for the StudentInfo\#getAllStudents on Google
+App Engine. This distribution was obtained by considering the benchmarking results gathered in a window of 1000 minutes. 
+The mean and median of this distribution are 3431.79ms and 3383ms respectively. We make following two observations from the
+CDF:
+
+\begin{itemize}
+\item About 50\% of the values in the distribution are higher than the mean
+\item About 10\% of the values are higher than 4500ms; more than 1000ms larger than the mean
+\end{itemize}
+
+These two observations imply a significant skew away from the mean, and the presence of many high outliers.
+Therefore it becomes evident that StudentInfo\#getAllStudents operation can result in very high execution times (i.e. high outliers) 
+regularly.  In order to incorporate some of these high outliers in the distribution,
 Cerebro must generate a large value as the prediction of the 95th percentile. This is necessary to make sure that 95\% or more of the measurements fall under the
 predicted value. However, as a consequence of this behavior the average distance between the measurements and the predictions is increased 
 significantly. Therefore even though the generated predictions are somewhat conservative, thus resulting in a high average distance between predictions
@@ -158,7 +158,22 @@ and actual values, it is necessary in order to compensate for the variability of
 
 Our analyses with other operations for which
 Cerebro generates conservative bounds have also shown similar results. That is, when the performance of the web API is highly variable and contains
-high outliers, Cerebro predictions tend to get less tight. In other words Cerebro is trading off tightness of the predictions for their accuracy. 
+many high outliers, Cerebro predictions get less tight. In other words Cerebro is trading off tightness of the predictions for their accuracy.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{get_student_cdf}
+\caption{CDF of measured executions times of the StudentInfo\#getStudent operation on AppScale.}
+\label{fig:get_student_cdf}
+\end{figure}
+
+To further reinforce this observation, we also take a close look at one of the web API operations that result in very tight predictions. 
+Figure~\ref{fig:get_student_cdf} shows the CDF of the measured execution times for the StudentInfo\#getStudent operation on
+AppScale cloud. Again we are considering a time frame of 1000 minutes to obtain this graph.
+This distribution has a mean of 9.19 and a median of 9. Given that only 19\% of the values are larger than the mean, and only 2\%
+of the values are larger than 18ms (twice the mean), 
+we can conclude that this distribution is much more stable and have very few high outliers. This enables Cerebro to generate much
+tighter predictions, without compromising the accuracy of the results.  
 
 The reason why AppScale's performance is so stable over time is because it's a private cloud platform, deployed on a set of closely controlled 
 and monitored cluster of VMs. We have total control
