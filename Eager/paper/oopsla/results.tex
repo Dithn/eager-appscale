@@ -240,15 +240,22 @@ operations considered in the tests. After this point, we consistently see percen
 we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
 results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct and reliable.
 
-Figure~\ref{fig:as_accuracy} shows the same results calculated by running the sample applications and the Watchtower in the AppScale private cloud
+Figure~\ref{fig:as_accuracy} shows the same results calculated by running Watchtower and the sample applications in the AppScale private cloud
 environment. These results are very similar to the ones seen in Google App Engine, except for a somewhat faster convergence. In AppScale
 we can see that Cerebro converges to the preferred percentage accuracy level in about 150 minutes.
 
-Also note that the percentage accuracy over time is not a constant function. Once the percentages have converged, they keep fluctuating 
-around some median value. When the percentage accuracy starts to drop Cerebro shifts the predictions up, which increases
+An interesting observation we can make regarding the percentage accuracy over time is that it is never a constant function. 
+Even after the percentage values have converged, they keep fluctuating 
+around some median value. When the percentage accuracy starts to drop, Cerebro shifts the predictions up thereby increasing
 the percentage accuracy. Similarly when the percentage accuracy increases, Cerebro shifts the predictions down. Due to this
-constant oscillation behavior, we might at times see percentage accuracy values slightly below 95\%. In fact this is exactly what is
-happening with respect to the StockTrader\#buy operation in the AppScale environment. Its percentage value converges to a median
-value of 95\% and keeps oscillating around it. Therefore if we take a snapshot of the percentage accuracy at any given time, it
-could be slightly above or below 95\%. But as long as this value stays close to 95\%, we can consider Cerebro predictions to
+continuous oscillation factor, we might encounter instantaneous percentage accuracy values that are slightly below 95\%. In fact this is exactly what is
+happening with respect to the StockTrader\#buy operation in the AppScale environment. Its percentage accuracy converges to a median
+value of 95\% and keeps oscillating around it. Therefore if we observe the instantaenous percentage accuracy of StockTrader\#buy at any given time, it
+could be slightly above or below 95\%. But as long as this value does not diverge too far from 95\% mark, we can consider Cerebro predictions to
 be accurate.
+
+The key take away from the above results is that Cerebro needs to see cloud SDK benchmarking data for several hours (up to 200 minutes in case of 
+Google App Engine), before it can start to produce stable and highly accurate SLA predictions. Therefore, it is a good idea to start Watchtower in the
+target cloud platform early, and let it run for several hours before allowing API developers to deploy their web APIs on the cloud. Since the
+required warm up period is in hours (as opposed to days or weeks), we believe this is a perfectly viable and reasonable solution to
+ensure that any predictions made by Cerebro are up to the expected standards.
