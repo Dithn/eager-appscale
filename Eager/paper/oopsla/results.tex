@@ -307,12 +307,13 @@ Hence for some $n$, if we observe
 the $n$-th consecutive violation at time $t^\prime$, we can consider the duration $t^\prime - t$ as the validity period of the prediction made 
 at time $t$. By the previous argument, the probability of this being an accurate approximation of validity period is $1 - (1-0.01p)^n$.
 
-Lets consider a concrete example to further clarify this model. Assume that for some web API at time $t$ Cerebro produces value $Q$ as the 
-prediction of the 95th percentile. Therefore after time $t$, the probability of the API violating this predicted SLA would be 0.05 (assuming $Q$ is
-a correct SLA). The probability of the API
-violating the SLA 3 times in a row is $0.05^3$ or 0.000125. At this point if we conclude that the predicted SLA is invalid, the probability of us
-being correct is $(1 - 0.000125)$ or 0.999875. If we want to be even more confident about detecting SLA invalidations, we can look for even higher
-number of consecutive SLA violations (i.e. higher $n$). This model enables cloud administrators to choose how certain they need to be about
+Lets consider a concrete example to further clarify this notion. Assume that for some web API at time $t$ Cerebro produces value $Q$ as the 
+prediction of the 95th percentile. Therefore after time $t$, the probability of the API violating this predicted SLA is 0.05, provided
+that $Q$ is a correct prediction. Similarly, if $Q$ is an accurate SLA prediction, the probability of the API
+violating the SLA 3 times in a row would be $0.05^3$ or 0.000125. Hence after observing 3 consecutive violations the probability of $Q$
+being an incorrect prediction is $(1 - 0.000125)$ or 0.999875. If we want to be even more confident about detecting SLA invalidations, 
+we can look for even higher
+number of consecutive SLA violations (i.e. higher $n$). This model enables cloud administrators to choose how certain they want to be about
 considering a predicted SLA as invalid. Based on the value they choose for $n$ the validity period of the predictions can be determined
 with a specific level of certainty.
 
