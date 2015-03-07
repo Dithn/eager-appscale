@@ -204,7 +204,6 @@ performance guarantees. Small private cloud platforms on the other hand can prov
 poor scalability. From an organization's point of view this could be a strong motivator to adopt private cloud over public clouds.
 
 \subsection{Accuracy Over Time and Convergence}
-
 Earlier we looked at the percentage of measurements that are under predicted SLAs after a fixed amount of time has elapsed.
 In those experiments we made predictions for a fixed-size time period (1000 minutes), 
 and computed the percentage accuracy achieved by Cerebro at the end of the period.
@@ -261,14 +260,14 @@ required warm up period is in hours (as opposed to days or weeks), we believe th
 ensure that any predictions made by Cerebro are up to the expected standards.
 
 \subsection{Prediction Validity Period}
-So far we have examined the accuracy and the tightness of the predictions produced by Cerebro. In this section we focus on the validity
-period of the Cerebro predictions.
+So far we have examined the accuracy, tightness and convergence behavior of the predictions produced by Cerebro. In this section we 
+focus on the validity period of the Cerebro predictions.
 
-Cloud platforms are highly dynamic environments. Some of the changes that may occur in such an environment are as follows:
+Cloud platforms are highly dynamic environments. Some of the changes that may occur in such an environment are:
 \begin{itemize}
-\item addition or removal of hardware resources/VMs/containers
-\item software updates and upgrades
-\item component failures
+\item addition or removal of hardware resources/VMs/containers,
+\item software updates and upgrades, and
+\item component failures.
 \end{itemize}
 
 When the platform is subject to such significant and frequent changes, any performance SLA predicted for a web API deployed on that
@@ -278,43 +277,48 @@ to know how long it would take before a predicted SLA value cannot be considered
 period of a prediction.
 
 Ideally we want the validity period of a Cerebro prediction to be infinity. That is once an SLA prediction has been made for a web API it
-is going to remain correct forever; the API performance never degrades to a level where it
-consistently exceeds the originally predicted execution time upper bound. But due to the dynamic nature of the cloud platforms this is
-never the case. From a practical standpoint, we can expect the prediction validity period to be some finite duration. We believe
-it is important that cloud administrators be informed about this validity period so that they can periodically reassess the web
+should remain correct forever. If that was the case, the API performance would never degrade to a level where it
+consistently exceeds the originally predicted execution time upper bound. But due to the dynamic nature of the cloud platforms such
+behavior is highly unlikely. From a practical standpoint, we can expect the prediction validity period to be some finite duration. 
+
+We believe
+it is important that cloud administrators be informed about the validity period of predictions so that they can periodically reassess the web
 API SLAs. For example they can run Cerebro periodically (before the prediction validity period expires) on the deployed web APIs to check
 if the predicted execution times have degraded to such a level where they no longer meet the organizational standards for API
 response times. If that is the case, the cloud administrators can take some remedial actions like committing more resources to the deployed APIs,
 replicating them (horizontal scaling of the services), or notifying the respective API developers about the impending performance issues. However,
 for this to be practical, the validity period of Cerebro predictions should at least be several hours. If the validity period is in the order of minutes,
-a lot of computing time and manpower need to be spent on recomputing Cerebro predictions and evaluating the results. Also given that
+a lot of computing time and manpower will be wasted recomputing Cerebro predictions and evaluating the results. Also, given that
 modern cloud platforms are used to host thousands of web APIs, such aggressive recomputation of Cerebro predictions may not be scalable.
 
-Before we can analyze the validity period of Cerebro, we need to develop a precise model for detecting when a predicted SLA
-has become invalid. Suppose that for a given web API at time $t$ Cerebro predicts an upper bound value of $P$ for the $q$-th percentile.
-This means, after time $t$, the probability of the web APIs execution time being less than or equal to $P$ is $q$. Alternatively, the probability
-of API execution time being higher than $P$, or the probability of API being in violation of the predicted SLA, is $(1-q)$. By the same logic, 
-after time $t$ the probability of API violating the predicted SLA $n$ times in a row is $(1-q)^n$. 
-Therefore, if we are to determine that the 
-predicted SLA has become invalid, after observing $n$ consecutive violations, the probability of us being wrong is $(1-q)^n$. 
-Notice that this value
-decreases with $n$. This implies that we can use consecutive SLA violations by the API as an indicator of the SLA becoming
-obsolete. Higher the number of consecutive violations we observe, more confident we can be about categorizing an SLA as invalid. 
+Before we can analyze the validity period of Cerebro predictions, we need to develop a precise model for detecting when a predicted SLA
+has become invalid. Suppose at time $t$ Cerebro predicts value $Q$ as the $p$-th percentile of some API's execution time.
+This means, if $Q$ is in fact a correct SLA prediction, the probability of API's execution time being less than or equal to $Q$ would be $0.01p$. 
+Alternatively, the probability
+of API's execution time being higher than $Q$, or the probability of API violating the predicted SLA is $(1-0.01p)$. By the same logic, 
+the probability of API violating the predicted SLA $n$ times in a row is $(1-0.01p)^n$, if $Q$ is a valid prediction. 
+Therefore, if we state that the 
+predicted SLA is invalid, after observing $n$ consecutive violations, the probability of us being correct would be $1 - (1-0.01p)^n$. 
+Notice that this value increases with $n$. 
+
+This implies that we can use consecutive SLA violations by the API as an indicator of the SLA becoming
+invalid. Larger the number of consecutive violations we observe, more confident we can be about categorizing the SLA as invalid. 
 Hence for some $n$, if we observe
 the $n$-th consecutive violation at time $t^\prime$, we can consider the duration $t^\prime - t$ as the validity period of the prediction made 
-at time $t$. By the previous logic, the probability of this being an accurate approximation of validity period is $1 - (1-q)^n$.
+at time $t$. By the previous argument, the probability of this being an accurate approximation of validity period is $1 - (1-0.01p)^n$.
 
-Lets consider a concrete example to further clarify this model. Assume that for some web API at time $t$ Cerebro produces value $P$ as the 
-prediction of the 95th percentile. Therefore after time $t$, the probability of the API violating this predicted SLA would be 0.05. The probability of the API
-violating the SLA 3 times in a row is $0.05^3$ or 0.000125. At this point if we conclude that the predicted SLA has become obsolete, the probability of us
-being correct is $(1 - 0.000125)$ or 0.999875. If we want to be even more confident about detecting SLA invalidations, we need to look for even higher
+Lets consider a concrete example to further clarify this model. Assume that for some web API at time $t$ Cerebro produces value $Q$ as the 
+prediction of the 95th percentile. Therefore after time $t$, the probability of the API violating this predicted SLA would be 0.05 (assuming $Q$ is
+a correct SLA). The probability of the API
+violating the SLA 3 times in a row is $0.05^3$ or 0.000125. At this point if we conclude that the predicted SLA is invalid, the probability of us
+being correct is $(1 - 0.000125)$ or 0.999875. If we want to be even more confident about detecting SLA invalidations, we can look for even higher
 number of consecutive SLA violations (i.e. higher $n$). This model enables cloud administrators to choose how certain they need to be about
-considering a predicted SLA as invalid, and based on the $n$ value they choose we can do some computations to assess the
-validity period of the predictions. 
+considering a predicted SLA as invalid. Based on the value they choose for $n$ the validity period of the predictions can be determined
+with a specific level of certainty.
 
-To evaluate the validity period of Cerebro predictions, we benchmark some of our sample applications for a period of 5-6 days on both
-Google App Engine and AppScale. We also run Watchtower on the same cloud platforms during the same period. We run Cerebro using
-the Watchtower data to make per-minute SLA predictions (95th percentile) for the entire duration of the test. Then we choose a sequence of predictions
+To evaluate the validity period of Cerebro predictions, we benchmark some of our sample applications for a period of 5 to 6 days on both
+Google App Engine and AppScale. We also run Watchtower on the same cloud platforms during this period. We run Cerebro using
+the Watchtower data to make per-minute SLA predictions (95th percentile) for the entire duration of the tests. Then we choose a sequence of predictions
 in 15 minute intervals. For each of the selected predictions we try to find the time until 3 consecutive violations by scanning ahead into the trace of
 actual execution times gathered by directly benchmarking the web APIs. This provides us with a distribution of times to 3 consecutive SLA violations.
 Interestingly, for some predictions we are not able to find to 3 consecutive violations in the traces of actual API execution times. We include
