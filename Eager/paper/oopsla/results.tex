@@ -263,23 +263,23 @@ ensure that any predictions made by Cerebro are up to the expected standards.
 So far we have examined the accuracy, tightness and convergence behavior of the predictions produced by Cerebro. In this section we 
 focus on the validity period of the Cerebro predictions.
 
-Cloud platforms are highly dynamic environments. Some of the changes that may occur in such an environment are:
+Cloud platforms are highly dynamic environments. Some of the changes that may occur in such an environment include:
 \begin{itemize}
 \item addition or removal of hardware resources/VMs/containers,
 \item software updates and upgrades, and
 \item component failures.
 \end{itemize}
 
-When the platform is subject to such significant and frequent changes, any performance SLA predicted for a web API deployed on that
-platform cannot hold correct forever. Given enough time, the APIs may start violating the predicted SLAs consistently. Therefore, for any
+When the platform is subject to such significant and frequent changes, performance SLAs predicted for the web APIs deployed on that
+platform cannot hold correct forever. Given enough time the APIs may start violating the predicted SLAs consistently. Therefore, for any
 given SLA prediction we need to have an approximate idea of how long that prediction is going to be valid for. In others words, we need
 to know how long it would take before a predicted SLA value cannot be considered correct. We refer to this time period as the validity
 period of a prediction.
 
-Ideally we want the validity period of a Cerebro prediction to be infinity. That is once an SLA prediction has been made for a web API it
+Ideally we want the validity period of a Cerebro prediction to be infinity. That is, once an SLA prediction has been made for a web API it
 should remain correct forever. If that was the case, the API performance would never degrade to a level where it
 consistently exceeds the originally predicted execution time upper bound. But due to the dynamic nature of the cloud platforms such
-behavior is highly unlikely. From a practical standpoint, we can expect the prediction validity period to be some finite duration. 
+behavior is highly unlikely. From a practical standpoint we can expect the prediction validity period to be some finite duration. 
 
 We believe
 it is important that cloud administrators be informed about the validity period of predictions so that they can periodically reassess the web
@@ -298,10 +298,10 @@ Alternatively, the probability
 of API's execution time being higher than $Q$, or the probability of API violating the predicted SLA is $(1-0.01p)$. By the same logic, 
 the probability of API violating the predicted SLA $n$ times in a row is $(1-0.01p)^n$, if $Q$ is a valid prediction. 
 Therefore, if we state that the 
-predicted SLA is invalid, after observing $n$ consecutive violations, the probability of us being correct would be $1 - (1-0.01p)^n$. 
+predicted SLA is invalid after observing $n$ consecutive violations, the probability of us being correct would be $1 - (1-0.01p)^n$. 
 Notice that this value increases with $n$. 
 
-This implies that we can use consecutive SLA violations by the API as an indicator of the SLA becoming
+This implies that we can use consecutive SLA violations made by the API as an indicator of the SLA becoming
 invalid. Larger the number of consecutive violations we observe, more confident we can be about categorizing the SLA as invalid. 
 Hence for some $n$, if we observe
 the $n$-th consecutive violation at time $t^\prime$, we can consider the duration $t^\prime - t$ as the validity period of the prediction made 
@@ -318,25 +318,35 @@ considering a predicted SLA as invalid. Based on the value they choose for $n$ t
 with a specific level of certainty.
 
 To evaluate the validity period of Cerebro predictions, we benchmark some of our sample applications for a period of 5 to 6 days on both
-Google App Engine and AppScale. We also run Watchtower on the same cloud platforms during this period. We run Cerebro using
-the Watchtower data to make per-minute SLA predictions (95th percentile) for the entire duration of the tests. Then we choose a sequence of predictions
-in 15 minute intervals. For each of the selected predictions we try to find the time until 3 consecutive violations by scanning ahead into the trace of
-actual execution times gathered by directly benchmarking the web APIs. This provides us with a distribution of times to 3 consecutive SLA violations.
-Interestingly, for some predictions we are not able to find to 3 consecutive violations in the traces of actual API execution times. We include
-such cases in the distribution by right censoring. That is we consider the end of trace as the time to 3 consecutive violations for such cases.
+Google App Engine and AppScale. We also run Watchtower on the same cloud platforms during this period. Then we run Cerebro using
+the Watchtower data to make per-minute SLA predictions (95th percentile; i.e $p=95$) for the entire duration of the tests. Next we choose a sequence of predictions
+in 15 minute intervals. For each of the selected predictions we try to find the time until 3 consecutive violations (i.e $n=3$) by scanning ahead into the trace of
+actual execution times gathered by directly benchmarking the web APIs. This provides us with a distribution of prediction validity periods where
+each validity period has a certainty level of 0.999875.
+However, for some predictions we are not able to find 3 consecutive violations in the traces of actual API execution times. We include
+such cases in the distribution by right censoring. That is, we consider the end of trace as the time to 3 consecutive violations for such cases.
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{gae_validity}
-\caption{Prediction validity period distributions of different operations in Google App Engine. The vertical lines indicate the range between the 5th and 95th percentiles of the 
-distributions. The green markers represent the means.}
+\caption{Prediction validity period distributions of different operations in Google App Engine. The vertical lines indicate the range between the 5th and 95th percentiles of the distributions. The green markers represent the means. Validity periods were computed by observing 3 consecutive SLA
+violations.}
 \label{fig:gae_validity}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{as_validity}
-\caption{Prediction validity period distributions of different operations in AppScale. The vertical lines indicate the range between the 5th and 95th percentiles of the 
-distributions. The green markers represent the means.}
+\caption{Prediction validity period distributions of different operations in AppScale. The vertical lines indicate the range between the 5th and 95th percentiles of the distributions. The green markers represent the means. Validity periods were computed by observing 3 consecutive SLA
+violations.}
 \label{fig:as_validity}
 \end{figure}
+
+Figure~\ref{fig:gae_validity} shows a summary of the validity period distributions in Google App Engine. The
+vertical lines represent the range from 5th to 95th percentiles. The square shaped markers on the lines indicate the means of the
+respective distributions. According to this result, the average validity periods for all 6 operations considered in Google App Engine are
+above 24 hours. The lowest average value observed is 26.8 hours, and that is for the StudentInfo\#addStudent operation. If we
+consider the 5th percentiles of the distributions, these values are also above 1 hour. The smallest 5th percentile value of 1.41 hours is 
+shown by the ServerHealth\#info operation. This indicates that if we use 3 consecutive violations as a cue for detecting SLA
+invalidation events, Cerebro predictions made on Google App Engine would be valid for 1.4 hours or more, at least 95\% of the time.
+In other words, Cerebro predictions on Google App Engine are good for 1.4 hours or more, a large majority of the time.
