@@ -312,10 +312,10 @@ number of consecutive SLA violations (i.e. higher $n$). This model enables cloud
 considering a predicted SLA as invalid, and based on the $n$ value they choose we can do some computations to assess the
 validity period of the predictions. 
 
-To evaluate the validity period of Cerebro predictions, we benchmark some of our sample applications for a period of 5 days on both
+To evaluate the validity period of Cerebro predictions, we benchmark some of our sample applications for a period of 5-6 days on both
 Google App Engine and AppScale. We also run Watchtower on the same cloud platforms during the same period. We run Cerebro using
-the Watchtower data to make per-minute SLA predictions (95th percentile) for the entire 5 day period of the test. Then we choose a sequence of predictions
-in 15 minute intervals. For each of the selected predictions we try to find the time until 3 consecutive violations by scanning ahead the trace of
-execution times gathered by directly benchmarking the web APIs. This provides us with a distribution of times to 3 consecutive SLA violations.
+the Watchtower data to make per-minute SLA predictions (95th percentile) for the entire duration of the test. Then we choose a sequence of predictions
+in 15 minute intervals. For each of the selected predictions we try to find the time until 3 consecutive violations by scanning ahead into the trace of
+actual execution times gathered by directly benchmarking the web APIs. This provides us with a distribution of times to 3 consecutive SLA violations.
 Interestingly, for some predictions we are not able to find to 3 consecutive violations in the traces of actual API execution times. We include
 such cases in the distribution by right censoring. That is we consider the end of trace as the time to 3 consecutive violations for such cases.
