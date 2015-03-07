@@ -319,3 +319,19 @@ in 15 minute intervals. For each of the selected predictions we try to find the 
 actual execution times gathered by directly benchmarking the web APIs. This provides us with a distribution of times to 3 consecutive SLA violations.
 Interestingly, for some predictions we are not able to find to 3 consecutive violations in the traces of actual API execution times. We include
 such cases in the distribution by right censoring. That is we consider the end of trace as the time to 3 consecutive violations for such cases.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{gae_validity}
+\caption{Prediction validity period distributions of different operations in Google App Engine. The vertical lines indicate the range between the 5th and 95th percentiles of the 
+distributions. The green markers represent the means.}
+\label{fig:gae_validity}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{as_validity}
+\caption{Prediction validity period distributions of different operations in AppScale. The vertical lines indicate the range between the 5th and 95th percentiles of the 
+distributions. The green markers represent the means.}
+\label{fig:as_validity}
+\end{figure}
