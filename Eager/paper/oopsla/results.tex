@@ -83,7 +83,7 @@ operations in the mix. They invoke a single cloud SDK operation each, and repres
 datastore write scenario respectively. As per our survey on the cloud applications, these alone cover a significant portion of the 
 web APIs developed for the Google App Engine and AppScale cloud platforms (1 path through the code, and 1 cloud SDK call). 
 The StudentInfo\#deleteStudent operation makes two cloud SDK operations in sequence, whereas
-StudentInfo\#getAllStudents performs a batch read from the datastore followed by a data dependent loop to iterate through the results.
+StudentInfo\#getAllStudents performs an iterative datastore read (i.e. a loop with a datastore read).
 In our experiment involving the StudentInfo\#getAllStudents operation, we had the datastore preloaded with 1000 student records, 
 and Cerebro was configured to use a maximum entity count of 1000 when making predictions.
 
@@ -93,7 +93,7 @@ per path. The results shown in figure~\ref{fig:accuracy_summary} are for the lon
 our survey, 99.8\% of the execution paths found in Google App Engine applications have seven or less cloud SDK calls in them. Therefore we believe
 that the web APIs in StockTrader application represent an important upper bound case. Rooms\#getRoomByName
 invokes two different cloud SDK interfaces, namely datastore and memcache. Rooms\#getAllRooms is another operation that consists of
-a batch read and a loop. In this case, we had the datastore preloaded with 10 entities, and Cerebro was configured to use a maximum entity
+a iterative datastore read. In this case, we had the datastore preloaded with 10 entities, and Cerebro was configured to use a maximum entity
 count of 10. It is indeed encouraging to see how Cerebro manages to produce highly accurate predictions for such a wide range 
 of web API implementations and runtime scenarios on two cloud platforms.
 
@@ -352,7 +352,7 @@ invalidation events, Cerebro predictions made on Google App Engine would be vali
 By comparing the distributions for different operations we can conclude that API operations that perform a single basic datastore or
 memcache read tend to get longer validity periods. In other words, those cloud SDK operations have fairly stable performance
 characteristics of Google App Engine. This fact is reflected in the 5th percentiles of StudentInfo\#getStudent and
-Rooms\#getRoomByName -- both operations have 5th percentiles greater than 7 hours. But operations that execute writes, batch
+Rooms\#getRoomByName -- both operations have 5th percentiles greater than 7 hours. But operations that execute writes, iterative
 reads or long sequences of cloud SDK operations have shorter prediction validity periods.
 
 Figure~\ref{fig:as_validity} illustrates the same prediction validity period distributions computed from the data gathered from
@@ -360,7 +360,7 @@ the AppScale private cloud. In this environment the smallest average validity pe
 Rooms\#getRoomsInCity operation. All other operations tested in AppScale have mean prediction validity periods greater
 than 54 hours. The lowest 5th percentile value in the distributions, which is 1.95 hours, is also shown by Rooms\#getRoomsInCity.
 Other operations have 5th percentile values greater than 6 hours. The relatively smaller validity period values computed for the
-Rooms\#getSoomsInCity operation indicates that the performance of datastore batch reads is subject to somewhat frequent changes 
+Rooms\#getSoomsInCity operation indicates that the performance of iterative datastore reads is subject to somewhat frequent changes 
 in AppScale.
 
 Comparatively, the validity periods recorded in the AppScale

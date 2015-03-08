@@ -27,12 +27,13 @@ reduce the number of prediction traces that need to be generated.
 Next we look at the looping behavior of the 35 web applications used in the study. As it turns out 1286 of the methods (88\%)
 considered in the study
 do not have any loops. Only 172 methods (12\%) consist of loops. Clearly the PaaS SDK and the associated coding restrictions
-are making loops a somewhat rare feature in the cloud applications. A large majority of the loops (61\%) encountered in our analysis are
-preceded by a call to a batch read operation in the datastore cloud SDK of Google App Engine. The purpose of these loops is to simply iterate
-through the results returned by the read. We use this vital piece of information when designing the loop handling capability of
-Cerebro. Whenever Cerebro encounters a loop, it checks whether the loop is preceded by a batch read to the datastore. Watchtower
-benchmarks this code pattern (batch read followed by a loop), so that Cerebro can use the gathered measurements to make
-more accurate predictions regarding loops.
+are making loops a somewhat rare feature in the cloud applications. Around 29\% of all the loops found in 
+the analyzed code do not contain any cloud SDK invocations. 
+A large majority of the loops (61\%), however, are
+used to stream a dataset from the datastore cloud SDK interface of Google App Engine (i.e iterating on the result set 
+returned by a datastore query). We refer to this particular type of loops as iterative datastore reads. 
+We use these vital pieces of information when designing the loop handling capability of
+Cerebro.
 
 \begin{table}[htdp]
 \caption{Number of times different cloud SDK interfaces are called in web applications.}
