@@ -346,7 +346,31 @@ Figure~\ref{fig:gae_validity} shows a summary of the validity period distributio
 vertical lines represent the range from 5th to 95th percentiles. The square shaped markers on the lines indicate the means of the
 respective distributions. According to this result, the average validity periods for all 6 operations considered in Google App Engine are
 above 24 hours. The lowest average value observed is 26.8 hours, and that is for the StudentInfo\#addStudent operation. If we
-consider the 5th percentiles of the distributions, these values are also above 1 hour. The smallest 5th percentile value of 1.41 hours is 
-shown by the ServerHealth\#info operation. This indicates that if we use 3 consecutive violations as a cue for detecting SLA
-invalidation events, Cerebro predictions made on Google App Engine would be valid for 1.4 hours or more, at least 95\% of the time.
-In other words, Cerebro predictions on Google App Engine are good for 1.4 hours or more, a large majority of the time.
+just consider the 5th percentiles of the distributions, they are also above 1 hour. The smallest 5th percentile value of 1.41 hours is 
+given by the ServerHealth\#info operation. This result implies that if we use 3 consecutive violations as a cue for detecting SLA
+invalidation events, Cerebro predictions made on Google App Engine would be valid for 1.41 hours or more, at least 95\% of the time.
+By comparing the distributions for different operations we can conclude that API operations that perform a single basic datastore or
+memcache read tend to get longer validity periods. In other words, those cloud SDK operations have fairly stable performance
+characteristics of Google App Engine. This fact is reflected in the 5th percentiles of StudentInfo\#getStudent and
+Rooms\#getRoomByName -- both operations have 5th percentiles greater than 7 hours. But operations that execute writes, batch
+reads or long sequences of cloud SDK operations have shorter prediction validity periods.
+
+Figure~\ref{fig:as_validity} illustrates the same prediction validity period distributions computed from the data gathered from
+the AppScale private cloud. In this environment the smallest average validity period of 33.77 hours is observed from the
+Rooms\#getRoomsInCity operation. All other operations tested in AppScale have mean prediction validity periods greater
+than 54 hours. The lowest 5th percentile value in the distributions, which is 1.95 hours, is also shown by Rooms\#getRoomsInCity.
+Other operations have 5th percentile values greater than 6 hours. The relatively smaller validity period values computed for the
+Rooms\#getSoomsInCity operation indicates that the performance of datastore batch reads is subject to somewhat frequent changes 
+in AppScale.
+
+Comparatively, the validity periods recorded in the AppScale
+cloud platform are much better than the ones seen in Google App Engine. This is because compared to Google App Engine our
+test AppScale private cloud is much less dynamic. Google App Engine is a very large PaaS cloud that is served by thousands of
+nodes possibly distributed over multiple data centers. It is comprised of many components that are not under our control,
+and the entire cloud platform is used by thousands of users worldwide to deploy applications. Such a large scale and
+shared system has to endure a myriad of changes in any given moment (e.g. autoscaling of hardware resources, 
+changing application load, component failures etc.). This behavior affects the performance of the cloud SDK operations, which
+in turns affects the performance SLAs of high-level user code. In contrast, our AppScale
+private cloud is small, deployed on a handful of nodes that are under our control, and during our testing phase it was dedicated
+to running Watchtower and other sample applications. Therefore it is a much more stable environment compared to Google 
+App Engine -- a fact that is reflected in the calculated prediction validity periods. 
