@@ -1,0 +1,40 @@
+In this section we provide details of Cerebro's design. We explain its major components, their interactions and how the 
+system works as a whole. Recall that the overall theme of our solution is to combine program
+static analysis data with cloud platform monitoring data to formulate an accurate performance model for the 
+web APIs developed for a given cloud platform. Therefore, at very least Cerebro requires the following two components:
+
+\begin{itemize}
+\item A program static analysis component that can extract the sequence of cloud SDK operations invoked by a web API
+code.
+\item A monitoring agent that runs in the target cloud platform to monitor the performance of its individual cloud SDK
+operations.
+\end{itemize}
+ 
+ \subsection{Program Static Analysis Component}
+ The static analysis component analyzes the source code (or some intermediate representation of it), to identify
+ the cloud SDK operations invoked by a given web API code. Since any given web API code can only make a finite
+ number of cloud SDK invocations, and since PaaS clouds only support a finite number of cloud
+ SDK operations it is possible to design an algorithm that
+ extracts all cloud SDK invocations from a given code. 
+ 
+ The basic idea behind Cerebro's static analysis is to construct and walk the
+ control flow graph (CFG) of the given code. Whenever the algorithm encounters a node that represents a function call,
+ it should check whether the function call corresponds to an cloud SDK operation. If so that entry needs to be recorded
+ so that it can be included in the output of the analysis. The algorithm outputs a list where members are ordered
+sequences of cloud SDK operations. Each sequence of cloud SDK operations corresponds to a path in the CFG
+(i.e. a path of execution through the code). 
+ 
+ Constructing the CFG from a given program
+ is a solved problem with many efficient algorithms and off-the-shelf implementations. Graph walk can be performed in depth first 
+ fashion to ensure that the algorithm walks each path of execution through the code to the end, before picking up on
+ a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph walk does not get stuck in loops.
+ 
+ Cerebro's static analysis is mostly comprised of existing and well established program analysis techniques.
+ Perhaps the only novel application here is the method used to check function call nodes for cloud SDK invocations.
+ In the worst case this check can be implemented via a table lookup. That is, we maintain a table of all possible cloud
+ SDK operations (which has a finite length as explained before), and check whether each function call
+ corresponds to an entry in the table. In real world implementations there are other more efficient methods that
+ can be employed to solve this problem. For instance some PaaS clouds use a special naming convention to label
+ their cloud SDK operations (e.g. In Google App Engine, all Java SDK operations are grouped under the package name of
+ com.google.appengine.apis). In such a scenario we can simply check whether the function calls in CFG nodes match the
+ desired pattern. 
