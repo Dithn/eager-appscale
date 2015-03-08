@@ -12,29 +12,77 @@ operations.
  
  \subsection{Program Static Analysis Component}
  The static analysis component analyzes the source code (or some intermediate representation of it), to identify
- the cloud SDK operations invoked by a given web API code. Since any given web API code can only make a finite
+ the cloud SDK operations invoked by a given web API code. Since a web API code can only make a finite
  number of cloud SDK invocations, and since PaaS clouds only support a finite number of cloud
  SDK operations it is possible to design an algorithm that
- extracts all cloud SDK invocations from a given code. 
+ extracts all cloud SDK invocations from any given web API code. 
  
- The basic idea behind Cerebro's static analysis is to construct and walk the
+The basic idea behind Cerebro's static analysis is to construct and walk the
  control flow graph (CFG) of the given code. Whenever the algorithm encounters a node that represents a function call,
- it should check whether the function call corresponds to an cloud SDK operation. If so that entry needs to be recorded
- so that it can be included in the output of the analysis. The algorithm outputs a list where members are ordered
-sequences of cloud SDK operations. Each sequence of cloud SDK operations corresponds to a path in the CFG
-(i.e. a path of execution through the code). 
+ it checks whether the function call corresponds to an cloud SDK operation. If so that entry needs to be recorded
+ and added to the output of the analysis. At the end of the analysis, the algorithm outputs a list whose members are ordered
+sequences of cloud SDK operations. Each sequence of cloud SDK operations corresponds to a
+path of execution through the code, and the entries within the sequence reflect the order in which they appear
+in the web API code.
+
+Listing 1 shows the outline of the basic program analysis algorithm used by Cerebro. 
+Constructing the CFG from a given program
+is a solved problem with many efficient algorithms and off-the-shelf implementations. Graph walk is performed in depth first 
+fashion to ensure that the algorithm walks each path of execution to the end of the program, before picking up on
+a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph walk does not get stuck in loops. 
+
+If the algorithm detects any function call nodes that correspond to functions in the user's code, the algorithm
+starts analyzing the code of the target functions recursively. Note that this makes our analysis an inter procedural
+CFG analysis. Results obtained from analyzing user-implemented functions can be cached to avoid
+having to analyze the same function more than once. Note that the algorithm simply appends the results of
+analyzing user-implemented functions to the current sequence of cloud SDK invocations. This ensures that the final output of the
+analysis contains cloud SDK invocation sequences spanning over all the relevant functions in the code. That is, the cloud SDK invocation sequences
+produced by the algorithm correspond to various paths through the user code from beginning to end, possibly
+going across function boundaries. Since any web API considered for analysis must have a finite amount of code, as long as
+we mark the visited nodes in the CFG, and keep track of the functions that we have already analyzed, this
+analysis is guaranteed to terminate with results.
+
+In Cerebro we do not recursively analyze any of the cloud
+SDK operations or any third party library calls. Statically analyzing cloud SDK operations may not be
+possible since PaaS cloud providers might not provide the source code of their SDK implementations.
+Even if that was possible, it is unnecessary since we intend to build a performance model for web APIs where
+the smallest units of operation are cloud SDK calls (we simply do not need to dig any deeper). As for third 
+party libraries, we assume they do not contain any cloud SDK invocations -- a reasonable assumption 
+in the case of general third party libraries that are intended to run on a variety of target runtimes. 
  
- Constructing the CFG from a given program
- is a solved problem with many efficient algorithms and off-the-shelf implementations. Graph walk can be performed in depth first 
- fashion to ensure that the algorithm walks each path of execution through the code to the end, before picking up on
- a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph walk does not get stuck in loops.
- 
- Cerebro's static analysis is mostly comprised of existing and well established program analysis techniques.
- Perhaps the only novel application here is the method used to check function call nodes for cloud SDK invocations.
- In the worst case this check can be implemented via a table lookup. That is, we maintain a table of all possible cloud
- SDK operations (which has a finite length as explained before), and check whether each function call
+Cerebro's static analysis is mostly comprised of well-understood, general program analysis techniques.
+ Perhaps the only application-specific element here is the method used to check function call nodes for cloud SDK invocations.
+ In the worst case this check can be implemented as a table lookup. That is, we maintain a table of all possible cloud
+ SDK operations, and check whether each function call
  corresponds to an entry in the table. In real world implementations there are other more efficient methods that
  can be employed to solve this problem. For instance some PaaS clouds use a special naming convention to label
- their cloud SDK operations (e.g. In Google App Engine, all Java SDK operations are grouped under the package name of
+ their cloud SDK operations (e.g. In Google App Engine, all Java SDK operations are grouped under the package name
  com.google.appengine.apis). In such a scenario we can simply check whether the function calls in CFG nodes match the
  desired pattern. 
+ 
+ \subsection{Handling Loops}
+The algorithm in listing 1 is only meant as an outline for a minimalistic program analysis that can be performed
+within Cerebro. If needed more sophisticated analyses can be incorporated into this algorithm to extract more
+useful information regarding the cloud SDK invocations. For example, we can perform a loop extraction on the
+CFG to identify the loops in the code, and tag the cloud SDK invocations in the output to indicate which of them
+are executed inside loops. In such an implementation, the output of the static analysis will not be a simple
+list of cloud SDK invocation sequences. Rather, it will be a list of \textit{annotated} cloud SDK invocation sequences.
+
+When there are cloud SDK invocations present inside loops, it would be useful to know how many times those loops
+are going to execute. Clearly, any performance model that considers cloud SDK calls made by a web API code,
+needs to account for the repeated execution of cloud SDK calls due to loops. If the 
+loops in question are data-independent (i.e. the iteration count does not depend on the size of the data processed 
+by the code), we can use an existing static loop bound estimator to determine how many times the loops are going to iterate.
+This can be done for each loop extracted during our CFG analysis, and the estimated loop bounds can be added to the
+analysis output as annotations.
+
+However, as indicated by our survey results, loops are fairly uncommon in web API codes developed for PaaS clouds. When
+they are present, they usually iterate over some dataset (i.e. data-dependent). Such loops cannot
+be accurately predicted using static analysis methods. But survey results also show us that
+most of the time cloud web API codes iterate over datasets loaded from the underlying database of the PaaS.
+We can use this as an heuristic to predict the bounds for data-dependent loops. Typically application developers
+have an approximate idea of how large their database will be once their application is in production. When we encounter a data-dependent
+loop in the CFG that we cannot accurately predict using a static loop bound estimator, we can simply
+prompt the developer to enter a reasonable upper bound for the size of the underlying database which we can
+use as an upper limit for the loop iteration count. These values can also be added to the final outcome of the
+static analysis as annotations.
