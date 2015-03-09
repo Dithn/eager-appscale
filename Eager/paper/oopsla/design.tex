@@ -86,3 +86,30 @@ prompt the developer to enter a reasonable maximum size for the underlying datab
 records/entities that may be returned from the datastore). We can
 use these developer-specified values as upper bounds for the loop iteration count. 
 This information can also be added to the final outcome of the static analysis as annotations.
+
+\subsection{Watchtower: Cloud Platform Monitoring Agent}
+Now we discuss Watchtower, the proposed monitoring agent for tracking the performance of individual
+cloud SDK operations over time. This component can be an integral part of the PaaS cloud that
+monitors cloud SDK operations from within, or it can be another application deployed on the PaaS
+that periodically benchmarks the cloud SDK operations from the outside. Regardless of how it is
+implemented, it must cater for two requirements:
+
+\begin{itemize}
+\item Watchtower should always be active, and collect data as long as the cloud platform is available for serving web API requests.
+\item Watchtower should periodically measure the time taken by individual cloud SDK operations, and arrange the gathered data into time series (one time series per cloud SDK operation).
+\end{itemize}
+
+In addition to the above requirements, Watchtower should also expose some web APIs of its own 
+so that other components in Cerebro can query the Watchtower to obtain the collected time series data. Also,
+it should keep the collected time series data in a persistence storage for durability. The most logical
+place to store this data would be the underlying datastore of the PaaS itself, since it is already designed
+for high scalability. To avoid unbounded accumulation of time series data, Watchtower can discard the old
+measurements, once a certain time threshold has been reached. For example, it can periodically clean up
+all data points that are more than a month old. It is fair to assume that the current performance of web APIs
+are not influenced by the performance of cloud SDK operations a month ago. 
+
+The frequency at which
+Watchtower collects data determines how often Cerebro can generate SLA predictions for web APIs. Practically
+speaking, it is sensible to benchmark the cloud SDK operations once every few minutes (e.g. 1-10 minutes). It does not make
+sense to collect data any more frequently than that, since we naturally expect each Cerebro predicted SLA to 
+hold correct for a time period longer than a few minutes.
