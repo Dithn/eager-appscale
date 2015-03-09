@@ -106,7 +106,7 @@ place to store this data would be the underlying datastore of the PaaS itself, s
 for high scalability. To avoid unbounded accumulation of time series data, Watchtower can discard the old
 measurements once a certain amount of time has elapsed. For example, it can periodically clean up
 all data points that are more than a month old. It is fair to assume that the current performance of web APIs
-is not influenced by how the cloud SDK operations behaved a month ago. 
+is not influenced by how the cloud SDK operations behaved a month ago.
 
 The frequency at which
 Watchtower collects data determines how often Cerebro can generate SLA predictions for web APIs. Practically
@@ -120,14 +120,15 @@ Watchtower executes a series of iterative datastore reads,
 while varying the result set size, to measure the time required to loop through different sized result sets. These
 measurements are also stored as time series data, where each result set size gets its own time series. 
 It is not necessary to benchmark all possible result set sizes. Rather, Watchtower should only benchmark a
-handful of result set sizes  (e.g. 1, 1000 and 1000000) that are representative of production workloads.
+handful of result set sizes  (e.g. 1, 1000 and 1000000 records) that are representative of common 
+production workloads.
 
 \subsection{Making SLA Predictions}
 So far we have explained our approach for statically analyzing the web API codes to extract the sequence
 of cloud SDK operations, and periodically benchmarking the performance of individual cloud SDK
 operations. Next step is to combine these two pieces of information and predict the execution of the
 web API code. For this purpose we employ a tried and tested machine learning technique called
-QBETS (Queue Bounds Estimation from Time Series). 
+QBETS (Queue Bounds Estimation from Time Series)~\cite{Nurmi:2007:QQB:1791551.1791556}. 
 
 QBETS is a non-parametric time series analysis method that looks at past time series data, and predicts
 an upper bound on a specific percentile at a fixed level of confidence. A QBETS analysis requires three inputs:
@@ -213,11 +214,48 @@ When the static analysis produces cloud SDK invocation sequences with informatio
 need to do some extra work. If some operation has been tagged as being inside a loop, where the loop
 bounds have been estimated, the time series data corresponding to that operation should be multiplied 
 by the loop bound estimate, before aggregating. In cases where the operation is inside a data-dependent
-loop (e.g. iterative datastore read), we can use the developer specified loop bound (maximum records
-in database), to fetch the most appropriate iterative cloud SDK operation benchmark data from Watchtower.
+loop, we can use the developer specified loop bound (e.g. maximum records
+in database), to fetch the most appropriate benchmark data from Watchtower.
 For example, if a sequence contains an iterative datastore read which has been annotated with a maximum
 record count of 1000, we can request Watchtower to provide time series data for the iterative datastore
 read operation with a result set size of 1000. When an exact match cannot be found, Watchtower can
 provide the results for the closest result set size that is larger than the requested limit.
 
+In order to make a trustworthy prediction, QBETS needs to see a sufficiently large number of data points
+in the input time series. In fact it can be proven that QBETS needs to see at least $log(c)/log(0.01p)$ data points
+before it can start making highly reliable predictions. This means, if we are interested in predicting the 95th percentile
+of the API execution time, with an upper confidence of 0.01, we should feed QBETS with a time series that
+contains at least 90 data points. Watchtower should take this into consideration, when garbage collecting old
+time series data. That is, it should always keep enough data points so that QBETS have enough data to analyze.
+
 \subsection{Overall Architecture and Workflow}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{cerebro_arch}
+\caption{Cerebro architecture and component interactions.}
+\label{fig:cerebro_arch}
+\end{figure}
+
+Figure~\ref{fig:cerebro_arch} illustrates all the components of Cerebro and how they interact with each other. 
+Cerebro can be called into action by the web API developers, either at the development time or when the
+API is ready to be deployed in the cloud. Developer submits the web API source code (or some intermediate
+representation of it) to Cerebro, which is then processed by the static analyzer component. The static
+analyzer extracts the sequences of cloud SDK invocations from the web API code, and hands them over
+to the SLA predictor. SLA predictor then contacts Watchtower to retrieve the relevant cloud SDK operation
+benchmark data (time series). Afterwards it aggregates the received time series data, and processes
+the resulting time series using QBETS. The percentile ($p$) and the upper confidence ($c$) values needed
+for the analysis can be configured into the SLA predictor permanently, or they can be passed in by the API
+developer when she invokes Cerebro. 
+
+The resulting Cerebro predictions can be used in many ways. In the simplest case they can be
+used to clearly document the API SLAs, so that API consumers can stay informed about what 
+type of performance to expect from the APIs they use. In a somewhat advanced context, Cerebro
+predictions can guide the API developers on how to program web APIs to support highly competitive
+SLAs. On the same note, the Cerebro predictions can provide cloud administrators with
+useful insights regarding potential issues and performance bottlenecks in the cloud platform. In an
+even more sophisticated environment, the Cerebro predictions can be used to enforce SLA-related
+policies on web APIs deployed in the cloud. For example, one may implement a policy engine which ensures
+that all APIs deployed in the cloud have execution times under some preferred limit. Such an implementation
+can run Cerebro on web APIs as they are submitted for deployment, and reject any APIs that do not
+support the required performance level.
