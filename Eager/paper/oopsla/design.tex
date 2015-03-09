@@ -169,3 +169,55 @@ them to be useful. Predictions made by QBETS meet these requirements well.
 simple, efficient and has been applied successfully to analyze a wide range of time series data in the past.
 More specifically, it has been tested with both autocorrelating and non-autocorrelating time series data.
 \end{itemize}
+
+Now we describe our exact algorithm for combining static analysis data with cloud platform monitoring 
+data through QBETS. Recall that our static analysis produces a list of cloud SDK invocation sequences.
+We start by pruning this list to eliminate duplicates. Duplicates can occur if a web API code has
+multiple paths of execution, where more than one path consists of the same exact sequence of cloud 
+SDK invocations. Then for each sequence of cloud SDK invocations present in the pruned list, we
+perform the following operations:
+
+\begin{enumerate}
+\item Retrieve benchmarking data from Watchtower for all operations in the sequence. Watchtower provides
+this information as ordered time series data (one time series per cloud SDK operation).
+\item Align the retrieved time series so that data points collected at the same time line up against each other.
+Add the time series data to form a single aggregate time series for the sequence of cloud SDK operations.
+\item Pass the aggregate time series to QBETS along with the desired $p$ and $c$ values to predict an
+upper bound for some percentile. 
+\end{enumerate}
+
+We shall present a concrete example to further clarify this process. Suppose our static analysis results in the
+cloud SDK invocation sequence $<op_{1},op_{2},op_{3}>$. Now lets assume Watchtower has the following
+time series data collected for the three operations in the sequence.
+
+\begin{itemize}
+\item $op_{1}$: $[t_{0}: 5, t_{1}: 4, t_{2}: 6, ...., t_{n}: 5]$
+\item $op_{1}$: $[t_{0}: 22, t_{1}: 20, t_{2}: 21, ...., t_{n}: 21]$
+\item $op_{1}$: $[t_{0}: 7, t_{1}: 7, t_{2}: 8, ...., t_{n}: 7]$
+\end{itemize}
+
+Here $t_{m}$ are timestamp values Watchtower has assigned to each data point. Now we align the three
+time series, so that values with the same timestamp are grouped together, and aggregate the results
+to form the following time series.
+
+$[t_{0}: 34, t_{1}: 31, t_{2}: 35, ...., t_{n}: 33]$
+
+Then we pass the aggregate time series to QBETS for analysis, and
+treat the QBETS prediction as an SLA for the web API code.
+If the QBETS predicted value is $Q$ milliseconds, we can form the SLA as ``the web API responds 
+under $Q$ milliseconds, $p$ percent of the time''. When the code has multiple paths of execution (and
+hence multiple sequences of cloud SDK operations), we can predict more than one SLA for the API. In
+such cases we can treat the SLA with highest predicted value as the final SLA.
+
+When the static analysis produces cloud SDK invocation sequences with information about loops, we 
+need to do some extra work. If some operation has been tagged as being inside a loop, where the loop
+bounds have been estimated, the time series data corresponding to that operation should be multiplied 
+by the loop bound estimate, before aggregating. In cases where the operation is inside a data-dependent
+loop (e.g. iterative datastore read), we can use the developer specified loop bound (maximum records
+in database), to fetch the most appropriate iterative cloud SDK operation benchmark data from Watchtower.
+For example, if a sequence contains an iterative datastore read which has been annotated with a maximum
+record count of 1000, we can request Watchtower to provide time series data for the iterative datastore
+read operation with a result set size of 1000. When an exact match cannot be found, Watchtower can
+provide the results for the closest result set size that is larger than the requested limit.
+
+\subsection{Overall Architecture and Workflow}
