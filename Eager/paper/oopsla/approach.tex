@@ -1,0 +1,111 @@
+In this section we outline our methodology for designing a system that can predict the execution
+time SLAs of web APIs developed for cloud platforms.
+
+We start by making several observations regarding PaaS clouds. First and foremost, 
+they require developers
+to implement applications using a predefined set of programming interfaces. When taken 
+together, we shall refer to these application programming interfaces as the cloud software development 
+kit or the ``cloud SDK''. We refer to the individual member interfaces of the cloud SDK
+as cloud SDK interfaces, and their constituent operations are referred to as cloud SDK operations.
+
+Lets further elaborate this notion by taking Google App Engine~\cite{gae}, one of the earliest and most widely
+used PaaS clouds, as a concrete example. Google App Engine provides several cloud SDKs, one for each
+programming language supported (Java, Python, Go, PHP etc). Each SDK consists of
+several cloud SDK interfaces. Table~\ref{tab:gae_cloud_sdk} lists some of them.
+Each individual interface is comprised of several cloud SDK operations. For instance, the 
+datastore interface of Google App Engine provides operations for saving an entity (a record),
+deleting an entity and querying the datastore to read one or more entities.
+
+\begin{table}[htdp]
+\caption{Google App Engine cloud SDK interfaces}
+\begin{center}
+\begin{tabular}{|c|p{5cm}|}
+\hline
+Cloud SDK Interface & Functionality \\ \hline
+datastore & Reading and writing data to a highly scalable database with some transaction support. \\ \hline
+memcache & In-memory caching of data for faster access.\\ \hline
+users & User session management (login and logout)\\ \hline
+blobstore & Reading and writing large chunks (blobs) of uninterpreted bytes.\\ \hline
+task queue & Scheduling periodic and background jobs.\\ \hline
+\end{tabular}
+\end{center}
+\label{tab:gae_cloud_sdk}
+\end{table}
+
+Since the cloud SDKs facilitate a wide range of useful application features (data management, 
+task scheduling, security etc), we can expect any web API developed for the cloud to
+contain some number of cloud SDK calls. That is, the web API codes contain one or more
+explicit invocations of cloud SDK operations. Since these invocations need to be handled by the
+underlying cloud platform, their overhead is generally higher than the locally executed operations.
+Therefore, we can expect cloud web APIs to spend most of their execution time on executing cloud
+SDK operations. 
+
+The above prospect is further supported by the fact that PaaS clouds do not allow 
+performing certain types of operations in the application code. Such restrictions are in place
+primarily due to scalability and security reasons. For example, Google App Engine
+does not provide access to the local file system. Since PaaS applications run on a shared cloud
+platform and not on dedicated machines, there is no notion of a local file system in such environments.
+Also file system operations are slow and do not scale well.
+Hence, the developers must use the datastore and blobstore cloud SDK interfaces on Google App
+Engine to implement functionality equivalent to file I/O. Similarly, Google App Engine provides cloud SDK
+interfaces like urlfetch, sockets, xmpp and mail that can replace a lot of network I/O code.
+
+The mandated use of cloud SDK operations in the applications, and their relatively high overhead 
+imply that we can use the cloud SDK
+invocations made by the web API implementations as an indicator of their performance. Intuitively, a web API
+code that makes a very large number of cloud SDK invocations can be expected to run slowly compared
+to an API that only makes one cloud SDK invocation. Based on this idea, we propose the following approach
+for designing a system that can estimate the execution time of cloud web APIs:
+
+\begin{itemize}
+\item We run a monitoring agent in the cloud platform to track the performance of
+cloud SDK operations over time. This agent should always execute in the cloud, collecting
+cloud SDK performance data in the background.
+\item Given a web API code, we statically analyze it to identify the set of cloud SDK operations
+invoked by the code. We assume that the type and the number of cloud SDK calls made by the API implementation
+are the only factors that decide how fast the web API can execute. We ignore all other local operations
+as not contributing to the API execution time.
+\item We combine the cloud SDK invocations extracted from the web API code with the historical
+performance data collected on those cloud SDK operations to estimate an upper bound for the
+execution time of web API code. By making the estimation somewhat conservative, we can offset 
+any differences in the actual execution time caused by the parts of the code that are ignored during
+static analysis. 
+\end{itemize}
+
+The proposed system allows us to estimate the execution time of web APIs without having to
+run the API code.
+In fact, we can run the static analysis and the subsequent execution time
+estimation before we even deploy the application to the cloud platform. 
+That is, we can predict the SLAs that can be supported by a given web API code
+without running an extensive amount of load testing on it. 
+Such a system would be very useful and
+easy to use for both API developers and cloud administrators. It enables API developers
+to advertise precise SLAs regarding the performance of their APIs, from day one. It enables
+cloud administrators to enforce performance-related policies and make sure that all deployed 
+web APIs adhere to a certain standard when it comes to their execution times.
+
+There are several attributes about PaaS
+clouds and applications developed for them, that make this solution feasible and even attractive.
+
+\begin{itemize}
+\item PaaS clouds do not facilitate codes that take too long to execute or do not terminate. For 
+example, in Google App Engine all codes must finish executing under 60 seconds.
+The platform forcefully terminates any thread that runs longer than the allowed time period. This
+implies that our approach does not need to take cases like codes with infinite loops into
+consideration. We can simply categorize those cases as irrelevant. Such exclusions make it
+easier to reason about the structure and flow of web API codes during static analysis.
+\item PaaS clouds enforce a very restricted thread model on the application code. Again, if we take
+Google App Engine as an example, it does not allow creating new threads in the user code. This
+makes it possible to understand the concurrent execution behavior of the code, which is a significant
+factor that contributes to the performance of web APIs.
+\item PaaS clouds do not support developing codes with arbitrary third party libraries. Instead they
+publish a whitelist of supported libraries, and developers are allowed to use only those libraries
+in their code. This also makes it easier to understand the form of web API codes.
+\end{itemize}
+
+To further understand the characteristics of cloud applications, and how we can use them to our
+advantage when designing the proposed system, we conduct a survey
+using a collection of real world PaaS applications. In the next section we present the major findings
+of this survey.
+In the sections that follow we describe how we designed and implemented the proposed system
+ for a real world cloud platform.
