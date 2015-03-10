@@ -18,15 +18,16 @@ operations.
  extracts all cloud SDK invocations from any given web API code. 
 
 The basic idea behind Cerebro's static analysis is to construct and walk the
- control flow graph (CFG) of the given code. Whenever the algorithm encounters a node that represents a function call,
+ control flow graph (CFG)~\cite{Allen:1970:CFA:800028.808479} of the given code. Whenever the algorithm encounters a node that represents a function call,
  it checks whether the function call corresponds to a cloud SDK operation. If so the algorithm
 adds it to the output of the analysis. At the end of the analysis, the algorithm outputs a list whose members are
 sequences of cloud SDK operations. Each sequence of operations corresponds to a different
 path of execution through the code.
 
 Listing 1 shows the outline of the basic program analysis algorithm used by Cerebro. 
-Constructing the CFG from a given program
-is a common problem with many efficient solutions. Graph traversal is performed in the depth-first 
+Constructing the CFG from a given program is a commonly occurring requirement
+in program analysis, and there are several well-understood mechanisms to implement it~\cite{Aho:1986:CPT:6448,Morgan:1998:BOC:288765,Muchnick:1998:ACD:286076}. 
+CFG traversal is performed in the depth-first 
 fashion to ensure that the algorithm walks each path of execution to the end of the program, before picking up on
 a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph traversal does not get stuck in loops. 
 
@@ -36,7 +37,7 @@ CFG analysis. Results obtained from analyzing user-implemented functions can be 
 having to analyze the same function more than once. Note that the algorithm simply appends the results of
 analyzing user-implemented functions to the current sequence of cloud SDK invocations. This ensures that the final output of the
 analysis contains cloud SDK invocation sequences spanning across all the relevant functions in the code. 
-In other words, the operation sequences in the final output may cross function boundaries.
+In other words, the sequences in the final output may cross function boundaries.
 Since any web API considered for analysis must have a finite amount of code, as long as
 we mark the visited nodes in the CFG, and keep track of the functions that we have already analyzed, this
 analysis is guaranteed to terminate with results.
@@ -71,7 +72,7 @@ When there are cloud SDK invocations present inside loops, it would be useful to
 are going to execute. Clearly, any performance model based on cloud SDK calls made by a web API code,
 needs to account for the repeated execution of cloud SDK calls inside loops. If the 
 loops in question are data-independent (i.e. the iteration count does not depend on the size of the data processed 
-by the code), we can use an static loop bound estimator to determine how many times the loops are going to iterate.
+by the code), we can use an static loop bound estimator to determine how many times the loops are going to iterate~\cite{bygde2010static,Gulwani:2009:CRP:1542476.1542518,Lokuciejewski:2009:FPS:1545006.1545064,Hunt:2006:PCL:1167999.1168026}.
 This can be done for each loop extracted during our CFG analysis, and the estimated loop bounds can be added to the
 analysis output as annotations.
 
