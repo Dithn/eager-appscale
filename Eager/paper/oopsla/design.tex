@@ -1,5 +1,6 @@
-In this section we provide details of Cerebro's design. We explain its major components, their interactions and how the 
-system works as a whole. Recall that the overarching theme of our solution is to combine program
+In this section we describe the design of Cerebro, our system for estimating web API execution times
+in the cloud. We explain its major components, their interactions and how the 
+system works as a whole. Recall that the overarching theme of our approach is to combine program
 static analysis data with cloud platform monitoring data to formulate an accurate performance model for the 
 web APIs developed for a given cloud platform. Therefore, at very least Cerebro requires the following two components:
 
@@ -60,7 +61,7 @@ Cerebro's static analysis is mostly comprised of well-understood, general purpos
  In such a scenario we can simply check whether the function calls in CFG nodes match the
  desired pattern. 
  
- \subsection{Handling Loops}
+ \subsubsection{Handling Loops}
 The algorithm in listing 1 is only meant as an outline for a minimalistic program analysis that can be performed
 within Cerebro. If needed more sophisticated analyses can be incorporated into this algorithm to extract more
 useful information regarding the cloud SDK invocations. For example, we can perform a loop extraction on the
