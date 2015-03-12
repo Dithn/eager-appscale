@@ -1,0 +1,48 @@
+Our research is strongly rooted in a number of mature research areas in computer 
+science and mathematics. These areas include static program analysis, cloud computing, time series analysis
+and SOA governance.
+
+The problem of predicting execution time SLAs of web APIs has a strong likeness to worst-case execution
+time (WCET) analysis~\cite{Wilhelm:2008:WEP:1347375.1347389}. The objective of WCET analysis is to determine the maximum execution time of a software component in a given hardware platform. It is 
+typically discussed in the context of real-time systems, where the developers should be able to document
+and enforce precise hard real-time constraints on the execution time of programs. In order to save time, 
+manpower and hardware resources, WCET analysis solutions are generally designed favoring static
+analysis methods over software testing. We share similar concerns with regard to cloud platforms,
+and strive to eliminate software testing in the favor of static analysis in our work. 
+
+Ermedahl et al designed and implemented SWEET~\cite{ermedahl2007loop}, a WCET analysis tool that make use of program slicing~\cite{Sandberg:2006:FWF:1134650.1134666},
+ abstract interpretation~\cite{Cousot:1977:AIU:512950.512973} and invariant analysis~\cite{Muchnick:1998:ACD:286076} to determine the loop bounds and worst-case execution time 
+ of a program. Program slicing helps to reduce the amount of code and program states that need to be 
+ analyzed by SWEET. This is somewhat similar to our idea of extracting just the cloud SDK invocations form 
+ a given web API code. SWEET uses abstract interpretation in interval and congruence domains to identify
+ the set of values that can be assigned to key control variables of a program. These sets are then
+ used to calculate exact loop bounds for most data-independent loops in the code. Invariant analysis  is
+ used to detect variables that do not change during the course of a loop iteration, and remove them from
+ the analysis thus further simplifying the loop bound estimation. Lokuceijewski et al proposes 
+ a similar WCET analysis using program slicing and abstract interpretation~\cite{Lokuciejewski:2009:FPS:1545006.1545064}. They additionally use a technique
+called polytope models to further speed up the analysis.
+ 
+The corpus of research that covers the use of static analysis methods to estimate the execution 
+time of software applications is massive. Gulwani, Jain and Koskinen used two techniques named control-flow
+ refinement and progress invariants to estimate the bounds for procedures with nested and multi-path loops~\cite{Gulwani:2009:CRP:1542476.1542518}.
+ Gulwani, Mehra and Chilimbi proposed SPEED~\cite{Gulwani:2009:SPE:1480881.1480898}, a system that computes symbolic bounds for programs. This
+ system makes use of user-defined quantitive functions to predict the bounds for loops iterating over
+data structures like lists, trees and vectors. Our idea of using user-defined values to bound
+ data-dependent loops (e.g. iterative datastore reads) is partly inspired from this concept.
+ Bygde~\cite{bygde2010static} proposed a set of algorithms for predicting data-independent loops using abstract interpretation
+ and element counting (a technique that was partly used in \cite{ermedahl2007loop}). We incorporated some
+ of these algorithms into our prototype of Cerebro, due to their simplicity. Frost et al developed TetaJ, a WCET
+ tool for Java byte code programs~\cite{Frost:2011:WAJ:2043910.2043916}.
+ 
+Cerebro has a strong resemblance to some of the execution time analysis systems discussed above.
+However, there are also several key differences. For instance, Cerebro is focused on solving the
+execution time prediction problem for cloud applications. As seen from our survey results, applications 
+developed for PaaS clouds have a set of unique properties, that can be used to greatly simply the
+static analysis on them. Also, Cerebro is designed to only work with web API codes. This makes designing 
+a solution much more simpler compared to having to design a system that analyzes arbitrary program codes.
+In order to handle the constantly changing and evolving nature of cloud platforms, we have designed
+Cerebro using a hybrid approach of static analysis and runtime monitoring of cloud SDK operations. This is
+a significant depart from the above systems, which are entirely based on static analysis methods. Finally,
+we use a time series analysis method to predict API execution time upper bounds with specific confidence
+levels, which makes it possible to use the results as precise SLAs.
+

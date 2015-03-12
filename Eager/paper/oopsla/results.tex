@@ -28,6 +28,7 @@ We carry out each of our tests in two separate environments -- Google App Engine
 the AppScale private cloud. The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
 running on a private Eucalyptus cluster.
 
+\subsection{Accuracy of Predictions}
 In the first set of experiments, we benchmark each application for a period of 15 to 20 hours.
 During this time we run an HTTP client on a separate machine that invokes the instrumented web APIs once every minute, 
 and collects the server-side execution times (as measured by the instrumentation code).
