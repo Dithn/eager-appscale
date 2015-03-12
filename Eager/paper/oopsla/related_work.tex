@@ -46,3 +46,21 @@ a significant depart from the above systems, which are entirely based on static 
 we use a time series analysis method to predict API execution time upper bounds with specific confidence
 levels, which makes it possible to use the results as precise SLAs.
 
+SLA management on service-oriented systems and cloud systems has also been throughly researched
+over the years. However, a lot of the existing work has focused on issues like SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MMS:1980822.1980832,Raimondi:2008:EOM:1453101.1453125,Bertolino:2007:SUS:1294904.1294914}, SLA negotiation~\cite{Mahbub:2011:PSN:2061042.2062022,Yaqub:2014:ONS:2680847.2681496,6546098}, and SLA modeling~\cite{Chau:2008:ASM:1463788.1463802,Stamou:2013:SGM:2516588.2516592,Skene:2004:PSL:998675.999422}. 
+Some work has also looked at incorporating a given SLA to the design of a system, and
+then monitoring it at the runtime to ensure SLA compliant behavior~\cite{He:2013:TSC:2532443.2532449}. 
+Our research takes a
+different approach from such works, whereby it attempts to predict the performance SLAs that can be 
+supported by a given web API implementation. To the best of our knowledge, Cerebro is the first system to predict performance SLAs for web APIs developed for PaaS clouds.
+
+A work that closely resembles ours have been proposed by Ardagna, Damiani and Sagbo~\cite{6649675}. They develop
+a system for early estimation of service performance based on simulations. Given a STS
+model (Symbolic Transitions System) of a service, their system is able to generate a simulation script, which
+can be used to assess the performance of the service. STS models are a type of finite state automata. 
+Further, they use probabilistic distributions with fixed parameters
+to represent the delays incurred by various operations in the service. Cerebro is easier to use than this
+system because we do not require API developers to construct any models of the web APIs. They only
+need to provide the source code of the API implementations. Also, instead of using probabilistic distributions
+with fixed parameters, Cerebro uses actual historical performance metrics of cloud SDK operations. This enables
+Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform better.
