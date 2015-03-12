@@ -64,3 +64,11 @@ system because we do not require API developers to construct any models of the w
 need to provide the source code of the API implementations. Also, instead of using probabilistic distributions
 with fixed parameters, Cerebro uses actual historical performance metrics of cloud SDK operations. This enables
 Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform better.
+
+There have been some prior work in the area of predicting SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
+These systems take an existing SLA and historical performance data of a service, and predict when the 
+service might violate the given SLA in the future. They employ some form of statistical analysis and/or machine learning to
+make such predictions. Cerebro's notion of prediction validity period has some relation to this line of research. However,
+Cerebro's main goal is to make SLA predictions for web APIs before they are deployed and executed. We believe that
+some of these existing SLA violation predictors can complement our work by providing API developers and cloud
+administrators insights on when a Cerebro predicted SLA will be violated.

@@ -1,0 +1,108 @@
+Web services and service oriented architecture (SOA) have
+revolutionized the way developers implement software applications.
+Instead of implementing all the functionality from the scratch, developers
+increasingly offload ({\em i.e.} as a ``mash-up'') as much application functionality 
+as possible to remote,
+web-accessible services, each of which exports its own application programming
+interface (API). Thus, a modern application often combines local program logic
+with calls to remote web APIs.
+This approach significantly reduces both the programming and
+the maintenance workload associated with the application.
+Moreover, by accessing common services via APIs, developers avoid ``re-inventing the
+wheel'' each time they need a commonly available service.
+
+As a result, web-accessible APIs and the software implementations to which
+they provide access to are rapidly proliferating.
+At the time of this writing, 
+ProgrammableWeb~\cite{pweb}, a popular web API index, lists more than $13,000$
+publicly available web APIs.
+These APIs increasingly employ the REST (Representational State Transfer) architectural style and 
+many of them target commerce-oriented applications (e.g. advertising, shopping, travel, etc.).
+However, several non-commercial entities have also recently published web 
+APIs, e.g. IEEE~\cite{ieeeapis}, UC Berkeley~\cite{ucbapis}, and the US White
+House~\cite{whitehouseapis}. 
+
+Web APIs are most useful when they are published with well defined service-level agreements (SLA). 
+An API's SLA clearly outlines the performance characteristics and other non-functional 
+properties of the API. It is a guarantee given by the API provider to the API consumer on what can be
+expected from a web API with regard to its performance and runtime behavior. An example SLA regarding
+the response time of an API could be ``API responds under 100ms, 95\% of the time''.
+Without a clear performance SLA it is difficult, if not impossible,
+to use a web API for developing a wide range of applications like real-time applications, interactive
+user-facing applications and mobile applications. Even in the case of implementing a generic desktop
+application, the developers would naturally like to be able to reason about
+the performance that can be expected from the application. If the web APIs invoked by the code do
+not come with clear SLAs, such reasoning becomes impossible. Therefore it is an absolute
+necessity that API providers always publish clear SLAs along with their web APIs. To
+facilitate this requirement, platforms used to deploy web APIs should enable API providers to 
+easily understand the performance SLAs that can be supported by the platform.
+
+On a somewhat different note, platform-as-a-service (PaaS) clouds continue to garner 
+popularity for their ability to simplify the process of developing web applications and
+hosting web APIs for external users and programs. These cloud platforms provide the
+programmers with two main benefits:
+
+\begin{description}
+\item[Reducing programming overhead] PaaS clouds provide a collection of powerful programming 
+libraries and utilities (aka cloud software development kit, or cloud SDK), that make developing new applications 
+and services easier.
+\item[Reducing management overhead] PaaS clouds provide managed and monitored application deployment
+environments, that guarantee scalable and high available operation of production applications under
+changing conditions.
+\end{description}
+
+For these benefits, developers increasingly choose PaaS clouds as development platforms
+and deployment targets for their applications and APIs. Consequently, the number of applications and 
+APIs hosted in PaaS clouds have skyrocketed as of late. Google App Engine, one of the earliest
+public PaaS cloud offerings, is the hosting platform for over a million applications. Some of the
+well known commercial applications served from Google App Engine include BestBuy, Snapchat, 
+and Sony Music. A lot of these applications also expose web APIs, so that other
+programs (especially mobile apps), can interact with them.
+
+Despite PaaS clouds being a preferred deployment target for web APIs, they do not assist the API
+developers in any way to understand the SLAs that can be supported on deployed APIs. That is,
+when a web API is deployed on a PaaS cloud, the cloud platform does not provide any feedback 
+to the developer on how the API will perform (throughput, latency etc.). Additionally,
+there are no tools that API developers can use at development time to assess the performance
+that can be expected from their API code, when deployed into the production cloud environment.
+This implies that API developers today have to roll out their API implementations into PaaS
+clouds without clear performance SLAs. If a clear SLA is needed, they must subject the API
+code to extensive load testing in the cloud platform, which takes time and financial resources
+(running load tests on a PaaS cloud can incur significant usage costs). Even then, the resulting
+performance SLAs may not be fully acuurate due to errors, limitations and oversights in the load tests
+carried out. Ideally, we should arm today's PaaS clouds with the ability to automatically assess and
+predict the performance SLAs that can be supported on deployed web APIs, without having to
+run any load tests. That would enable API providers to be informed about the performance
+SLAs of their API codes, even before they are deployed into production cloud. This means
+every API that goes into production can have a clear and accurate performance SLA from
+day one.
+
+To this end we propose Cerebro, a system that predicts the execution time SLAs of web APIs
+deployed in PaaS clouds. Cerebro uses static analysis to identify the expensive cloud SDK operations
+executed by web API codes. Then it analyzes historical performance data regarding cloud SDK
+operations to predict an upper bound for the execution time of the web API. All Cerebro predictions
+are associated with configurable levels of success probability and conservativeness. The level of 
+success probability is the fraction of API invocations whose execution times will be less than or equal to the
+predicted upper bound. The level of conservativeness is an indication of by how much Cerebro
+is overestimating the execution time upper bound. Such precision and completeness in the results
+imply that API developers can use the Cerebro predictions directly as performance SLAs for their
+API codes. Further to that, Cerebro is fully automated (i.e. no developer intervention necessary in
+the prediction making process), and requires absolutely no load testing on the API codes. It can be
+invoked while an API is being developed (at development-time), or just before an API is deployed
+into the production cloud platform (at deployment-time). 
+
+We note that Cerebro only predicts the
+execution times of API codes. To turn these values into proper response time SLAs, we need to
+add the network overhead within the API provider's network domain (time for request ingress
+and response egress). A lot of the time in cloud platforms, such network latency data are
+known and well-understood. Therefore we believe that given a Cerebro prediction, it is trivial
+for an API provider to turn it into an API response time SLA if necessary.
+
+We implemented Cerebro for two cloud platforms -- Google App Engine public cloud, and AppScale
+private cloud. Our experiments with Cerebro show that we are able to predict the execution time
+of a many different API implementations with a very high level of accuracy, on both cloud platforms. 
+Further, we note that
+Cerebro predictions are very tight in most of the cases. That is, the predicted values do not
+overestimate the actual execution times by much. It is only when the APIs have highly variable 
+performance characteristics, that Cerebro predicts conservative bounds 
+thus trading off prediction tightness for accuracy.
