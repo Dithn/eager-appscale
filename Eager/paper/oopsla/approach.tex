@@ -37,15 +37,14 @@ task scheduling and security. Therefore we can expect any web API developed for 
 contain some number of cloud SDK calls -- i.e.
 explicit invocations of cloud SDK operations. Since these invocations need to be handled by the
 underlying cloud platform, their overhead is generally higher than the locally executed operations.
-Hence, we can expect cloud web API codes to spend most of their running time on executing cloud
-SDK operations. 
+Hence, we can expect cloud web API codes to spend most of their execution time on cloud SDK operations. 
 
 The above prospect is further supported by the fact that PaaS clouds do not allow 
 certain types of operations in the application code. Such restrictions are in place
 due to scalability and security reasons of the cloud platform. For example, Google App Engine
 does not provide access to the local file system. Since PaaS applications run on a shared cloud
 platform and not on dedicated machines, there is no clear notion of a local file system in such environments.
-Also file system operations are slow and do not scale well.
+Also file system operations are slow and do not scale.
 Hence, the developers must use the datastore and blobstore cloud SDK interfaces on Google App
 Engine to implement functionality equivalent to file I/O. Similarly, Google App Engine provides cloud SDK
 interfaces like urlfetch, sockets, xmpp and mail that can replace a lot of network I/O code.
@@ -79,11 +78,11 @@ In fact, we can carry out the static analysis and the subsequent execution time
 estimation before we even deploy the application to the cloud. 
 This means we can predict the SLAs that can be supported by a given web API code
 without running an extensive amount of load testing on it. 
-Such a system would be very useful and
-easy to use for both API developers and cloud administrators. It enables API developers
-to advertise precise SLAs regarding the performance of their APIs, from day one. It enables
-cloud administrators to enforce performance-related policies and make sure that all deployed 
-web APIs adhere to certain standards when it comes to their execution times.
+%Such a system would be very useful and
+%easy to use for both API developers and cloud administrators. It enables API developers
+%to advertise precise SLAs regarding the performance of their APIs, from day one. It enables
+%cloud administrators to enforce performance-related policies and make sure that all deployed 
+%web APIs adhere to certain standards when it comes to their execution times.
 
 Web APIs developed for PaaS clouds have several qualities that make our proposal
 feasible and even attractive.
@@ -102,8 +101,8 @@ to identify.
 Google App Engine as an example, it does not allow creating new threads in the application code. This
 makes it possible to statically understand the concurrent execution behavior of the code, which is a significant
 factor that contributes to the performance of web APIs.
-\item PaaS clouds do not support developing codes with arbitrary third party libraries. Instead they
-publish a whitelist of supported libraries. This also makes it easier to statically analyze the form of web API codes.
+%\item PaaS clouds do not support developing codes with arbitrary third party libraries. Instead they
+%publish a whitelist of supported libraries. This also makes it easier to statically analyze the form of web API codes.
 \end{itemize}
 
 To further understand the characteristics of cloud applications, and how we can leverage them,
