@@ -22,7 +22,9 @@ prototype treats following classes as exposed web APIs:
 \end{itemize}
  
 Our prototype then proceeds to analyze each of the public methods in the web API classes
-using the algorithm described earlier. All cloud SDK operations supported by Google App Engine
+using the algorithm described earlier. Each public method is considered a separate operation
+in the web API, and hence given a separate execution time prediction.
+All cloud SDK operations supported by Google App Engine
 are grouped under the Java package name ``com.google.appengine.apis''. Whenever we detect
 a function call node in a CFG, we check whether the call target belongs to the above package.
 This way we can efficiently determine whether a particular function call is a cloud SDK invocation or
