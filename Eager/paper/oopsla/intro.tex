@@ -9,7 +9,7 @@ with calls to remote web APIs.
 This approach significantly reduces both the programming and
 the maintenance workload associated with the application.
 Moreover, by accessing common services via APIs, developers avoid ``re-inventing the
-wheel'' each time they need a commonly available service.
+wheel''.
 
 As a result, web-accessible APIs and the software implementations to which
 they provide access to are rapidly proliferating.
@@ -62,18 +62,19 @@ programs (especially mobile apps), can interact with them.
 Despite PaaS clouds being a preferred deployment target for web APIs, they do not assist the API
 developers in any way to understand the SLAs that can be supported on deployed APIs. That is,
 when a web API is deployed on a PaaS cloud, the cloud platform does not provide any feedback 
-to the developer on how the API will perform (throughput, latency etc.). Additionally,
-there are no tools that API developers can use at development time to assess the performance
-that can be expected from their API code, when deployed into the production cloud environment.
-This implies that API developers today have to roll out their API implementations into PaaS
-clouds without clear performance SLAs. If a clear SLA is needed, they must subject the API
+on how the API will perform (throughput, response time etc.). Additionally,
+there are no tools that API developers can use at development-time to assess the performance
+that can be expected from their API code when deployed into the production cloud environment.
+
+The above limitations mean that API developers today have to roll out their API implementations into PaaS
+clouds without clear performance SLAs. The only way to uncover this information is to subject the API
 code to extensive load testing in the cloud platform, which takes time and financial resources
 (running load tests on a PaaS cloud can incur significant usage costs). Even then, the resulting
-performance SLAs may not be fully acuurate due to errors, limitations and oversights in the load tests
-carried out. Ideally, we should arm today's PaaS clouds with the ability to automatically assess and
+performance SLAs may not be fully accurate due to errors, limitations and oversights in the load tests.
+To solve this issue, ideally we should arm today's PaaS clouds with the ability to automatically assess and
 predict the performance SLAs that can be supported on deployed web APIs, without having to
 run any load tests. That would enable API providers to be informed about the performance
-SLAs of their API codes, even before they are deployed into production cloud. This means
+SLAs of their API codes, before they are ever used by the API consumers. This means
 every API that goes into production can have a clear and accurate performance SLA from
 day one.
 
@@ -105,7 +106,7 @@ current and historical state of the underlying cloud platform.
 We note that Cerebro only predicts the
 execution times of API codes. To turn these values into proper response time SLAs, we need to
 add the network overhead within the API provider's network domain (time for request ingress
-and response egress). A lot of the time in cloud platforms, such network latency data are
+and response egress). In many cloud platforms, such network latency data are
 known and well-understood. Therefore we believe that given a Cerebro prediction, it is trivial
 for an API provider to turn it into an API response time SLA if necessary.
 
