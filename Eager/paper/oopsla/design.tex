@@ -1,8 +1,9 @@
 In this section we describe the design of Cerebro, our system for estimating web API execution times
 in the cloud. We explain its major components, their interactions and how the 
 system works as a whole. Recall that the overarching theme of our approach is to combine program
-static analysis data with cloud platform monitoring data to formulate an accurate performance model for the 
-web APIs developed for a given cloud platform. Therefore, at very least Cerebro requires the following two components:
+static analysis with cloud platform monitoring to formulate an accurate performance model for the 
+web APIs developed for a given cloud platform. Therefore, at very least Cerebro requires the following 
+two components:
 
 \begin{itemize}
 \item A program static analysis component that can extract the sequence of cloud SDK operations invoked by a web API
@@ -19,18 +20,20 @@ operations.
  extracts all cloud SDK invocations from any given web API code. 
 
 The basic idea behind Cerebro's static analysis is to construct and walk the
- control flow graph (CFG)~\cite{Allen:1970:CFA:800028.808479} of the given code. Whenever the algorithm encounters a node that represents a function call,
+ control flow graph (CFG)~\cite{Allen:1970:CFA:800028.808479} of the given code. Whenever the 
+ algorithm encounters a node that represents a function call,
  it checks whether the function call corresponds to a cloud SDK operation. If so the algorithm
 adds it to the output of the analysis. At the end of the analysis, the algorithm outputs a list whose members are
 sequences of cloud SDK operations. Each sequence of operations corresponds to a different
 path of execution through the code.
 
 Listing 1 shows the outline of the basic program analysis algorithm used by Cerebro. 
-Constructing the CFG from a given program is a commonly occurring requirement
+Constructing the CFG from a given program is a common requirement
 in program analysis, and there are several well-understood mechanisms to implement it~\cite{Aho:1986:CPT:6448,Morgan:1998:BOC:288765,Muchnick:1998:ACD:286076}. 
 CFG traversal is performed in the depth-first 
 fashion to ensure that the algorithm walks each path of execution to the end of the program, before picking up on
-a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph traversal does not get stuck in loops. 
+a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph traversal does not 
+get stuck in loops. 
 
 If the algorithm detects any function call nodes that correspond to functions in the user's code, the algorithm
 starts analyzing the code of the target functions recursively. This effectively turns our analysis into an inter procedural
@@ -39,15 +42,15 @@ having to analyze the same function more than once. Note that the algorithm simp
 analyzing user-implemented functions to the current sequence of cloud SDK invocations. This ensures that the final output of the
 analysis contains cloud SDK invocation sequences spanning across all the relevant functions in the code. 
 In other words, the sequences in the final output may cross function boundaries.
-Since any web API considered for analysis must have a finite amount of code, as long as
-we mark the visited nodes in the CFG, and keep track of the functions that we have already analyzed, this
-analysis is guaranteed to terminate with results.
+Since any web API implementation must have a finite amount of code, as long as
+we mark the visited nodes in the CFG (to handle loops), and keep track of the functions that we have 
+already analyzed or have begun to analyze (to handle recursion), this analysis is guaranteed to terminate with results.
 
 In Cerebro we do not recursively analyze any of the cloud
 SDK operations or any third party library calls. 
 Statically analyzing the internals of cloud SDK invocations is
 unnecessary since we intend to build a performance model for web APIs where
-the smallest unit of operation is a cloud SDK call (we simply do not need to dig any deeper). As for third 
+the smallest unit of operation is a cloud SDK call. As for third 
 party libraries, we assume they do not contain any cloud SDK invocations -- a reasonable assumption 
 regarding most third party libraries that are generic and intended to run on a variety of target runtimes. 
  
