@@ -26,16 +26,17 @@ times of the web APIs.
 
 We carry out each of our tests in two separate environments -- Google App Engine public cloud, and
 the AppScale private cloud. The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
-running on a private Eucalyptus cluster.
+running on a private Eucalyptus~\cite{eucalyptus09} cluster.
 
 \subsection{Accuracy of Predictions}
 In the first set of experiments, we benchmark each application for a period of 15 to 20 hours.
 During this time we run an HTTP client on a separate machine that invokes the instrumented web APIs once every minute, 
 and collects the server-side execution times (as measured by the instrumentation code).
-At the same time, we also run Watchtower in the same target cloud environment as the sample application being tested to
-benchmark the individual cloud SDK operations. Recall that our sample applications use datastore and memcache
-cloud SDK interfaces. Hence
-we configure Watchtower to periodically benchmark the cloud SDK operations related to these two interfaces. 
+At the same time, we also run Watchtower in the same target cloud environment to
+benchmark the individual cloud SDK operations. 
+%Recall that our sample applications use datastore and memcache
+%cloud SDK interfaces. Hence
+%we configure Watchtower to periodically benchmark the cloud SDK operations related to these two interfaces. 
 At the end of a benchmarking run, we have two sets of data at hand:
 
 \begin{itemize}
@@ -43,16 +44,16 @@ At the end of a benchmarking run, we have two sets of data at hand:
 \item Cloud SDK benchmarking data gathered by Watchtower
 \end{itemize}
 
-We now run Cerebro to make predictions regarding the web API execution time using the cloud SDK benchmarking data
+We now run Cerebro to predict the web API execution times using the cloud SDK benchmarking data
 collected by Watchtower. We configure Cerebro to predict an upper bound for the 95th percentile of the web API
-execution time, with an upper confidence of 0.01. Cerebro generates a sequence of execution time predictions -- one 
-per minute. Then we compare these predictions against the actual web API execution times measured during the same
+execution time, with an upper confidence of 0.01. Recall that for each operation our prototype generates not one, 
+but a sequence of SLA predictions -- one prediction per minute. 
+We compare these predictions against the actual web API execution times measured during the same
 time period. More specifically, we approximately align the sequence of predictions with the time series of actual execution
 time measurements, and check whether each prediction is equal to or higher than the corresponding measurement. We consider a 
 sequence of 1000 consecutive predictions and 1000 consecutive API execution
 time measurements, and compute the percentage of measurements that are less than or equal to the predicted values (a
-metric that we sometimes refer to as \textit{percentage accuracy}).
- 
+metric that we refer to as \textit{percentage accuracy}).
 
 \begin{figure}
 \centering
@@ -64,28 +65,28 @@ metric that we sometimes refer to as \textit{percentage accuracy}).
 Figure~\ref{fig:accuracy_summary} shows the final results of the above experiment.
 Each of the columns in figure~\ref{fig:accuracy_summary} corresponds to a single web API operation in 
 one of the sample applications. The columns are labeled in the form of \textit{ApplicationName\#OperationName} (a convention 
-we will continue to use in the rest of the paper). To maintain clarity in the figures we do not 
-illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
-web API operations covering all five sample applications. We note that other web API operations we tested also produce
-very similar results.
+we will continue to use in the rest of the paper). %To maintain clarity in the figures we do not 
+%illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
+%web API operations covering all five sample applications. We note that other web API operations we tested also produce
+%very similar results.
 
-Since we are using Cerebro to predict the 95th percentile of the API execution times, we expect approximately 95\% of the measured execution
+Since we are using Cerebro to predict the 95th percentile of the API execution times, we expect at least 95\% of the measured execution
 times to be under the predicted upper bounds. According to figure~\ref{fig:accuracy_summary}, Cerebro achieves this goal for all
-the cases considered in both Google App Engine and AppScale environments. The lowest percentage accuracy observed
+the applications in both cloud environments. The lowest percentage accuracy observed
 in our tests is 94.6\% (in the case of StockTrader\#buy on AppScale), which is also very close to the target of 95\%. Such minor
-lapses below 95\% are acceptable anyway, since we expect percentage accuracy value to be gently fluctuating around the
-95\% mark over time (a phenomenon that will be illustrated in our later results). Overall, this experimental result shows us that
-Cerebro produces highly accurate and reliable SLA predictions for a variety of applications running on two very
+lapses below 95\% are acceptable anyway, since we expect percentage accuracy value to be gently fluctuating around some
+average value over time (a phenomenon that will be explained in our later results). Overall, this result shows us that
+Cerebro produces highly accurate SLA predictions for a variety of applications running on two very
 different cloud platforms.
 
 The web API operations illustrated in figure~\ref{fig:accuracy_summary} cover a wide spectrum of scenarios that may be encountered
-when statically analyzing web application code. StudentInfo\#getStudent and StudentInfo\#addStudent are by far the simplest
-operations in the mix. They invoke a single cloud SDK operation each, and represent a simple datastore read scenario and a simple
-datastore write scenario respectively. As per our survey on the cloud applications, these alone cover a significant portion of the 
+in real world. StudentInfo\#getStudent and StudentInfo\#addStudent are by far the simplest
+operations in the mix. They invoke a single cloud SDK operation each, and perform a simple datastore read and a simple
+datastore write respectively. As per our survey results, these alone cover a significant portion of the 
 web APIs developed for the Google App Engine and AppScale cloud platforms (1 path through the code, and 1 cloud SDK call). 
 The StudentInfo\#deleteStudent operation makes two cloud SDK operations in sequence, whereas
-StudentInfo\#getAllStudents performs an iterative datastore read (i.e. a loop with a datastore read).
-In our experiment involving the StudentInfo\#getAllStudents operation, we had the datastore preloaded with 1000 student records, 
+StudentInfo\#getAllStudents performs an iterative datastore read.
+In our experiment with StudentInfo\#getAllStudents, we had the datastore preloaded with 1000 student records, 
 and Cerebro was configured to use a maximum entity count of 1000 when making predictions.
 
 ServerHealth\#info invokes the same cloud SDK operation three times in sequence. Both StockTrader\#buy and StockTrader\#sell have
@@ -94,17 +95,16 @@ per path. The results shown in figure~\ref{fig:accuracy_summary} are for the lon
 our survey, 99.8\% of the execution paths found in Google App Engine applications have seven or less cloud SDK calls in them. Therefore we believe
 that the web APIs in StockTrader application represent an important upper bound case. Rooms\#getRoomByName
 invokes two different cloud SDK interfaces, namely datastore and memcache. Rooms\#getAllRooms is another operation that consists of
-a iterative datastore read. In this case, we had the datastore preloaded with 10 entities, and Cerebro was configured to use a maximum entity
-count of 10. It is indeed encouraging to see how Cerebro manages to produce highly accurate predictions for such a wide range 
-of web API implementations and runtime scenarios on two cloud platforms.
+an iterative datastore read. In this case, we had the datastore preloaded with 10 entities, and Cerebro was configured to use a maximum entity
+count of 10. %It is indeed encouraging to see how Cerebro manages to produce highly accurate predictions for such a wide range 
+%of web API implementations and runtime scenarios on two cloud platforms.
 
 \subsection{Tightness of Predictions}
 In this section we discuss the tightness of the predictions generated by Cerebro. Tightness is a measure of how closely the predictions
 reflect the actual response times of web APIs. This parameter is just as important as the percentage of measurements that fall under
-the predicted SLA values (which 
-was discussed in the previous section). Note that Cerebro can achieve a very high percentage accuracy level by simply generating a 
-sequence of absurdly large predictions. But such results will obviously be of very little use to the cloud administrators and API
-developers. For the predictions to be useful and even meaningful, they should be very close to the actual response times of the web APIs.
+the predicted SLA values. Note that Cerebro can achieve a very high percentage accuracy level by simply generating a 
+sequence of absurdly large predictions. But such results will obviously be of very little use to the API
+developers. For the predictions to be useful and meaningful, they should be very close to the actual response times of the web APIs.
 
 \begin{figure}
 \centering
@@ -114,11 +114,11 @@ developers. For the predictions to be useful and even meaningful, they should be
 \end{figure}
 
 Figure~\ref{fig:diff_summary} depicts the average difference between predicted response times and actual response times for
-our sample web APIs when running in the Google App Engine and AppScale clouds. Note that the y-axis of the graph is
-in log scale. These results were obtained considering a sequence of 1000 consecutive predictions (of 95th percentile) made by Cerebro. 
+our sample web APIs when running in the Google App Engine and AppScale clouds. 
+These results were obtained considering a sequence of 1000 consecutive predictions (of 95th percentile) made by Cerebro. 
 Within these prediction sequences only the cases 
-where the predicted value was larger than the corresponding actual execution time was taken into account. Based on our previous results
-regarding the percentage accuracy, we know that this case occurs approximately 95\% of the time.
+where the predicted value was larger than the corresponding actual execution time was taken into account. Based on the results
+presented earlier, we know that this case occurs at least 95\% of the time.
 
 According to figure~\ref{fig:diff_summary}, Cerebro generates fairly tight SLA predictions for most web API operations considered in the tests. In fact,
 14 out of the 20 cases illustrated in the figure show average difference values less than 65ms. But for following scenarios Cerebro generated
@@ -131,7 +131,7 @@ predictions appear to be overly conservative:
 
 To understand why Cerebro generates conservative predictions for some operations we need to 
 take a closer look at the performance characteristics of those operations. We take StudentInfo\#getAllStudents
-operation on Google App Engine as a case study and analyze its execution time measurements in depth. 
+operation on Google App Engine as a case study, and analyze its execution time measurements in depth. 
 Note that this is the case which exhibits the largest average difference between predicted and actual execution times.
 
 \begin{figure}
@@ -180,18 +180,18 @@ This particular distribution has a mean of 9.19ms and a median of 9ms. Given tha
 and only 2\% of the values are larger than 18ms (twice the mean), 
 we see that this distribution is much more stable and have very few high outliers. This enables Cerebro to generate much
 tighter predictions, without compromising the accuracy of the results. Based on these outcomes we can conclude that Cerebro produces
-very tight upper bound predictions for web APIs whose performance is more stable over time. For APIs with highly variable performance
-traits resulting in many high outliers, Cerebro generates more conservative and less tight predictions.
+very tight upper bound predictions for web APIs whose performance is more stable over time. %For APIs with highly variable performance
+%traits resulting in many high outliers, Cerebro generates more conservative and less tight predictions.
 
-At this point it is worth reaffirming that Cerebro do not consider the actual execution time measurements of the web APIs when
+At this point it is worth reaffirming that Cerebro does not consider the actual execution time measurements of the web APIs when
 making SLA predictions for them. It only has access to the cloud SDK benchmarking data gathered by Watchtower. We consider
 Cerebro's ability to accurately determine the variability of a web API's performance by only looking at the cloud SDK
-benchmarking data, to be one of its strengths.
+benchmarking data, as one of its strengths.
 
-Another interesting observation we can make regarding the tightness of the predictions made on our sample applications is that 
-the predictions made in the AppScale cloud platform are significantly tighter than the ones made in the Google App Engine (figure~\ref{fig:diff_summary}). 
-Five out of the six scenarios in which Cerebro has generated conservative predictions are from Google App Engine. Further
-to that, for nine out of the ten operations tested, Cerebro has generated tighter predictions in the AppScale environment. This is 
+Another interesting observation we can make regarding the tightness of predictions is that 
+the predictions made in the AppScale cloud platform are significantly tighter than the ones made in Google App Engine (figure~\ref{fig:diff_summary}). 
+Five out of the six scenarios in which Cerebro has generated conservative predictions are from Google App Engine. Furthermore,
+for nine out of the ten operations tested, Cerebro has generated tighter predictions in the AppScale environment. This is 
 because web API performance on AppScale is far more stable and predictable thus resulting in fewer high outliers in the corresponding
 execution time distributions.
 
@@ -202,7 +202,7 @@ This is never the case when running our sample applications on Google App Engine
 scheduling mechanism. Another related, but interesting outcome of these results is that large-scale public cloud platforms like Google App Engine, while
 highly scalable, may not be able to support tight performance SLAs. Their performance is subject to high variations making it difficult to always support attractive
 performance guarantees. Small private cloud platforms on the other hand can provide much better, consistent and stable performance guarantees, albeit their
-poor scalability. From an organization's point of view this could be a strong motivator to adopt private cloud over public clouds.
+poor scalability. %From an organization's point of view this could be a strong motivator to adopt private cloud over public clouds.
 
 \subsection{Accuracy Over Time and Convergence}
 Earlier we looked at the percentage of measurements that are under predicted SLAs after a fixed amount of time has elapsed.
