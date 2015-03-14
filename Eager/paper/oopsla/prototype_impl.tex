@@ -1,6 +1,6 @@
 We implemented a prototype of Cerebro that works with Google App Engine and AppScale cloud platforms.
-The prototype analyzes web APIs implemented in Java, and makes SLA predictions for them.  In this
-section we present the details of our prototype.
+The prototype analyzes web APIs implemented in Java, and makes SLA predictions for them.
+%In this section we present the details of our prototype.
 
 \subsection{Static Analyzer}
 We implemented the static analyzer component of Cerebro using Soot~\cite{Vallee-Rai:2010:SJB:1925805.1925818}, a powerful
@@ -16,8 +16,8 @@ all the Java methods in the exposed web API classes. Currently, our
 prototype treats following classes as exposed web APIs:
 
 \begin{itemize}
-\item classes that extend the ``javax.servlet.HttpServlet'' class (i.e. Java servlet implementations)
-\item classes that bare the JAXRS @Path annotation (i.e. JAXRS API implementations)
+\item classes that extend the \textit{javax.servlet.HttpServlet} class (i.e. Java servlet implementations)
+\item classes that bare the JAXRS \textit{@Path} annotation (i.e. JAXRS API implementations)
 \item any other classes explicitly specified by the developer in a special configuration file
 \end{itemize}
  
@@ -25,23 +25,22 @@ Our prototype then proceeds to analyze each of the public methods in the web API
 using the algorithm described earlier. Each public method is considered a separate operation
 in the web API, and hence given a separate execution time prediction.
 All cloud SDK operations supported by Google App Engine
-are grouped under the Java package name ``com.google.appengine.apis''. Whenever we detect
+are grouped under the Java package name \textit{com.google.appengine.apis}. Whenever we detect
 a function call node in a CFG, we check whether the call target belongs to the above package.
-This way we can efficiently determine whether a particular function call is a cloud SDK invocation or
-not.
+This way we can efficiently identify the cloud SDK invocations in the code.
 
-We also use one of the built-in loop extractors provided by
-Soot to detect loops in the code. In cases where loops contain cloud SDK calls, we attempt to estimate
-the loop bounds using an existing loop bound prediction algorithm based on abstract interpretation~\cite{bygde2010static}. This
+We also use Soot's built-in loop extraction analysis
+to detect loops in the code. In cases where loops contain cloud SDK calls, we attempt to estimate
+the loop bounds using a loop bound prediction algorithm based on abstract interpretation~\cite{bygde2010static}. This
 approach yields successful results with regard to data-independent loops. In case of data-dependent
 loops (which is the more common case), we simply prompt the API developer to specify the loop iteration
 count. We also support a non-interactive mode, where the developer can provide the maximum number of
-records in the datastore as a parameter to Cerebro, in which case the static analyzer will simply use the
-provided input value to annotate the cloud SDK calls in data-dependent loops.
+records in the datastore (iterations) as a startup parameter to Cerebro.%, in which case the static analyzer will simply use the
+%provided input value to annotate the cloud SDK calls in data-dependent loops.
 
 \subsection{Watchtower}
 We implemented Watchtower as a Java web application that can be deployed on Google App Engine and
-AppScale cloud platforms. It is able to benchmark a wide range of cloud SDK operations
+AppScale. It is capable of benchmarking a wide range of cloud SDK operations
 -- primarily the ones related to datastore and memcache. All benchmarking results are timestamped and 
 saved in the datastore. Our implementation of Watchtower also benchmarks the iterative datastore read operation
 with result set sizes 10, 100 and 1000. 
@@ -64,8 +63,9 @@ Ideally Watchtower should be allowed to run for a several hours,
 so that it can collect enough time series data for the QBETS analysis. Then,
 an API developer who has implemented a web API for the cloud can build his/her code into a deployable
 artifact (typically a .war file), and submit it to the static analyzer of Cerebro, along with the desired percentile
-and upper confidence values (if not provided our prototype defaults to $p=95$ and $c=0.05$). 
-The static analyzer will extract
-the cloud SDK invocations from the web API code, and pass them along to the SLA predictor. The predictor
-will retrieve the time series data for cloud SDK operations from Watchtower, run QBETS and return the
-generated prediction values.
+and upper confidence values (if not provided our prototype defaults to $p=95$ and $c=0.05$). This kicks off
+the process for predicting SLAs for web API operations in the input web application.
+%The static analyzer will extract
+%the cloud SDK invocations from the web API code, and pass them along to the SLA predictor. The predictor
+%will retrieve the time series data for cloud SDK operations from Watchtower, run QBETS and return the
+%generated prediction values.
