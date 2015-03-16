@@ -33,6 +33,20 @@ task queue & Scheduling periodic and background jobs.\\ \hline
 \label{tab:gae_cloud_sdk}
 \end{table}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{cloud_app_model}
+\caption{Applications and APIs deployed in a PaaS cloud: (a) An external application invoking a web API hosted in the cloud. 
+(b) An application hosted in the PaaS cloud invoking a web API hosted in the same cloud.}
+\label{fig:cloud_app_model}
+\end{figure}
+
+Figure~\ref{fig:cloud_app_model} illustrates the application and API deployment model supported in PaaS clouds.
+Developers implement web applications using the cloud SDK. These web applications may contain zero or more
+web APIs. Web APIs themselves are comprised of executable code. 
+Developers then use these web APIs (over the network) to create new applications that are executed elsewhere or within the
+same cloud as the APIs.
+
 Cloud SDKs facilitate a wide range of useful application features like data management, 
 task scheduling and security. Therefore we can expect any web API developed for the cloud to
 contain some number of cloud SDK calls -- i.e.
