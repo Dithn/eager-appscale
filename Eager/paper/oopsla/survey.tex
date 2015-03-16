@@ -1,4 +1,4 @@
-We start by statically analyzing 35 open source App Engine applications written in Java to learn 
+We study 35 open source App Engine applications written in Java to learn 
 various properties related to their branching, looping and use of cloud SDK interfaces (the full list
 of applications is available on our project website). We focus on
 Java applications because it is the most widely used language for implementing
@@ -20,19 +20,19 @@ these observations in several ways.
 \end{figure}
 
 FIgure~\ref{fig:path_count_cdf} shows the number of paths through methods, and the probability of encountering
-a method with a given number of paths. According to this CDF, 
+a method with a given number of paths. According to this cumulative distribution function (CDF), 
 approximately 97\% of the methods considered in the analysis have 10 or fewer paths going through them. About 99\% of 
 the methods have 36 or fewer paths going through them. However, this CDF does have a very long tail, going all the way
 up to 34992 (not shown in the figure -- the x-axis of the CDF has been truncated at 100 paths). Still, it is interesting to note that more
-than half the methods considered in the analysis, 65\% to be precise, have no more than exactly 1 path (i.e. no branches).
-This implies that roughly 65\% of the time, Cerebro has to analyze only a single sequence of operations through a method. 
+than half the methods (65\%) considered in the analysis have no more than exactly 1 path (i.e. no branches).
+This implies that approximately 65\% of the time, Cerebro has to analyze only a single sequence of operations through a method. 
 %In cases where there are multiple branches, Cerebro's unique path detection mechanism can help significantly 
 %reduce the number of prediction traces that need to be generated.
 
 Next we look at the looping behavior of the 35 web applications used in the study. As it turns out 1286 of the methods (88\%)
 considered in the study
-do not have any loops. Only 172 methods (12\%) consist of loops. Clearly the PaaS SDK and the associated coding restrictions
-are making loops a somewhat rare feature in the cloud applications. Around 29\% of all the loops found in 
+do not have any loops. Only 172 methods (12\%) contain loops. Clearly the PaaS SDK and the associated coding restrictions
+are making loops an atypical feature in the cloud applications. Around 29\% of all the loops found in 
 the analyzed code do not contain any cloud SDK invocations. A large majority of the loops (61\%), however, are
 used to stream a dataset from the datastore cloud SDK interface of App Engine (i.e iterating on the result set 
 returned by a datastore query). We refer to this particular type of loops as \textit{iterative datastore reads}. 
@@ -64,7 +64,7 @@ xmpp & 3 \\ \hline
 Table~\ref{tab:sdk_call_counts} lists the number of times each cloud SDK interface has been called in the sample of
 35 web applications. Clearly datastore is the most commonly used interface as far as App Engine applications are 
 concerned. This is because data storage and access is a fundamental capability required by most web applications. 
-Some of the other widely used interfaces include users, taskqueue and memcache. 
+%Some of the other widely used interfaces include users, taskqueue and memcache. 
 
 \begin{figure}
 \centering

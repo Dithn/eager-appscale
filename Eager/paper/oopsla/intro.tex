@@ -1,7 +1,7 @@
 Web services and service oriented architecture (SOA) have
 revolutionized the way developers implement software applications.
 Instead of implementing all the functionality from the scratch, developers
-increasingly offload ({\em i.e.} as a ``mash-up'') as much application functionality 
+increasingly offload ({\em i.e.} as a ``mash-up'') as much functionality 
 as possible to remote,
 web-accessible services, each of which exports its own application programming
 interface (API). Thus, a modern application often combines local program logic
@@ -14,7 +14,7 @@ wheel''.
 As a result, web-accessible APIs and the software implementations to which
 they provide access to are rapidly proliferating.
 At the time of this writing, 
-ProgrammableWeb~\cite{pweb}, a popular web API index, lists more than $13,000$
+ProgrammableWeb~\cite{pweb}, a popular web API index, lists over $13,000$
 publicly available web APIs.
 These APIs increasingly employ the REST (Representational State Transfer) architectural style~\cite{Fielding:2000:ASD:932295} and 
 many of them target commerce-oriented applications (e.g. advertising, shopping, travel, etc.).
@@ -22,17 +22,17 @@ However, several non-commercial entities have also recently published web
 APIs, e.g. IEEE~\cite{ieeeapis}, UC Berkeley~\cite{ucbapis}, and the US White
 House~\cite{whitehouseapis}. 
 
-Web APIs are most useful when they are published with well defined service-level agreements (SLA). 
-An SLA clearly outlines the performance characteristics and other non-functional 
+Web APIs are most useful when they are published with well-defined service-level agreements (SLA). 
+An SLA specifies the performance characteristics and other non-functional 
 properties of an API. It is a guarantee given by the API provider to the API consumer on what can be
 expected from a web API with regard to its performance and runtime behavior. An example SLA regarding
 the response time of an API could be specified as: \textit{API responds under 100ms, at least 95\% of the time}.
 
 Without a clear performance SLA it is difficult, if not impossible,
-to use a web API for developing a wide range of applications like real-time applications, interactive
-user-facing applications and mobile applications. Even in the case of implementing a generic desktop
-application, the developers would naturally like to be able to reason about
-the performance that can be expected from the application. If the web APIs invoked by the code do
+to use a web API to develop a wide range of applications like real-time applications, interactive
+user-facing applications and mobile applications.
+Developers typically prefer to be able to reason about
+the performance of their programs. If the web APIs invoked by their code do
 not come with clear SLAs, such reasoning becomes impossible. Therefore it is an absolute
 necessity that API providers publish clear SLAs along with their web APIs. To
 facilitate this requirement, platforms used to deploy web APIs should enable API providers to 
@@ -44,8 +44,8 @@ PaaS clouds provide the programmers with two main benefits:
 
 \begin{description}
 \item[Reducing programming overhead] PaaS clouds provide a collection of powerful programming 
-libraries and utilities (aka cloud software development kit, or cloud SDK), that make developing new applications 
-and services easier.
+interfaces (aka cloud software development kit, or cloud SDK), that make developing new applications 
+easier.
 \item[Reducing management overhead] PaaS clouds provide managed and monitored application deployment
 environments, that guarantee scalable and high available operation of applications under changing conditions.
 \end{description}
@@ -57,7 +57,7 @@ public PaaS cloud offerings, hosts over four million applications. Some of the
 well known commercial applications served from App Engine include BestBuy, Snapchat, 
 and Sony Music. A lot of these applications also expose web APIs, so that other
 programs (especially mobile apps), can interact with them. AppScale~\cite{6488671}, an open source PaaS cloud that
-mimics Google App Engine, enables users to deploy any App Engine application in a private on-premise
+mimics App Engine, enables users to deploy any App Engine application in a private on-premise
 cloud environment, without changing application code.
 
 Despite PaaS clouds being a preferred deployment target for web APIs, they do not assist the API
@@ -82,8 +82,7 @@ ability to automatically assess and
 predict the performance SLAs that can be supported on deployed web APIs. 
 That would enable API providers to be informed about the performance
 SLAs of their API codes, before they are ever used by the API consumers. This means
-every web API can have a clear and accurate performance SLA throughout its
-lifecycle.
+every web API can have a clear performance SLA throughout its lifecycle.
 
 To this end we propose Cerebro, a system that predicts the execution time SLAs of web APIs
 deployed in PaaS clouds. Cerebro uses static analysis to identify the expensive cloud SDK operations
@@ -93,7 +92,7 @@ are associated with a configurable level of success probability and conservative
 success probability is the fraction of API invocations whose execution times will be less than or equal to the
 predicted upper bound. The level of conservativeness is an indication of by how much Cerebro
 is overestimating the execution time upper bound. Such precision and completeness of results
-enable API developers to directly use Cerebro predictions as performance SLAs for their
+enable API developers to directly use Cerebro predictions as performance SLAs of their
 API codes. 
 
 We design Cerebro to be fully automated (i.e. no developer intervention necessary in
@@ -103,7 +102,7 @@ into the production cloud platform (at deployment-time). It can also be invoked 
 web APIs (at run-time) to periodically re-evaluate and revise the performance SLAs.
 
 Cerebro's design is based on a hybrid approach that combines program static analysis with run-time
-monitoring of cloud platforms. Static analysis provides insight to the structure and control flow of web
+monitoring of cloud platforms. Static analysis provides insight to the control flow of web
 API codes. Through a survey involving a number
 of real world PaaS applications, we learn that codes developed for PaaS clouds have
 some unique properties, that make them amenable for execution time assessment via static 

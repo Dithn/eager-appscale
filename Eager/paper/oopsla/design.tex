@@ -1,5 +1,5 @@
-In this section we describe the design of Cerebro, our system for establishing response time SLAs for
-cloud APIs. We explain its major components, their interactions and how the 
+This section describes the design of Cerebro, our system for predicting response time SLAs for
+web APIs in the cloud. We explain its major components, their interactions and how the 
 system works as a whole. Recall that the overarching theme of our approach is to combine program
 static analysis with cloud platform monitoring to formulate an accurate performance model for the 
 web APIs developed for a given cloud platform. Therefore, at very least Cerebro requires the following 
@@ -13,49 +13,52 @@ operations.
 \end{itemize}
  
  \subsection{Program Static Analysis Component}
- The static analysis component analyzes the source code (or some intermediate representation of it), to identify
+ This component analyzes the source code (or some intermediate representation of it), to identify
  the cloud SDK operations invoked by a given web API code. Since a web API code can only make a finite
  number of cloud SDK invocations, and since PaaS clouds only support a finite number of cloud
  SDK operations, it is possible to design an algorithm that
  extracts all cloud SDK invocations from any given web API code. 
 
 The basic idea behind Cerebro's static analysis is to construct and walk the
- control flow graph (CFG)~\cite{Allen:1970:CFA:800028.808479} of the given code. Whenever the 
+ control flow graph (CFG)~\cite{Allen:1970:CFA:800028.808479,Aho:1986:CPT:6448,Morgan:1998:BOC:288765,Muchnick:1998:ACD:286076} of the given code. 
+Whenever the 
  algorithm encounters a node that represents a function call,
  it checks whether the function call corresponds to a cloud SDK operation. If so the algorithm
-adds it to the output of the analysis. At the end of the analysis, the algorithm outputs a list whose members are
-sequences of cloud SDK operations. Each sequence of operations corresponds to a different
-path of execution through the code.
+adds it to a list. Similarly we analyze all the paths through the code, which is done
+by traversing the CFG depth-first, and construct a separate list of cloud SDK operations
+for each path. At the end of the analysis, the algorithm outputs all the sequences of cloud SDK
+calls found in this manner.
 
-Listing 1 shows the outline of the basic program analysis algorithm used by Cerebro. 
-Constructing the CFG from a given program is a common requirement
-in program analysis, and there are several well-understood mechanisms to implement it~\cite{Aho:1986:CPT:6448,Morgan:1998:BOC:288765,Muchnick:1998:ACD:286076}. 
-CFG traversal is performed in the depth-first 
-fashion to ensure that the algorithm walks each path of execution to the end of the program, before picking up on
-a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph traversal does not 
-get stuck in loops. 
+%Listing 1 shows the outline of the basic program analysis algorithm used by Cerebro. 
+%Constructing the CFG from a given program is a common requirement
+%in program analysis, and there are several well-understood mechanisms to implement it~\cite{Aho:1986:CPT:6448,Morgan:1998:BOC:288765,Muchnick:1998:ACD:286076}. 
+%CFG traversal is performed in the depth-first 
+%fashion to ensure that the algorithm walks each path of execution to the end of the program, before picking up on
+%a new path. The algorithm marks the nodes in the CFG as it visits them to ensure that the graph traversal does not 
+%get stuck in loops. 
 
 If the algorithm detects any function call nodes that correspond to functions in the user's code, the algorithm
 starts analyzing the code of the target functions recursively. This effectively turns our analysis into an inter procedural
 CFG analysis. Results obtained from analyzing user-implemented functions can be cached to avoid
-having to analyze the same function more than once. Note that the algorithm simply appends the results of
-analyzing user-implemented functions to the current sequence of cloud SDK invocations. This ensures that the final output of the
+having to analyze the same function more than once. The algorithm simply appends the results of
+analyzing user-implemented functions to the sequence of cloud SDK invocations currently being constructed. 
+This ensures that the final output of the
 analysis contains cloud SDK invocation sequences spanning across all the relevant functions in the code. 
 In other words, the sequences in the final output may cross function boundaries.
 Since any web API implementation must have a finite amount of code, as long as
 we mark the visited nodes in the CFG (to handle loops), and keep track of the functions that we have 
-already analyzed or have begun to analyze (to handle recursion), this analysis is guaranteed to terminate with results.
+already begun to analyze (to handle recursion), this analysis is guaranteed to terminate with results.
 
-In Cerebro we do not recursively analyze any of the cloud
-SDK operations or any third party library calls. 
-Statically analyzing the internals of cloud SDK invocations is
-unnecessary since we intend to build a performance model for web APIs where
-the smallest unit of operation is a cloud SDK call. As for third 
-party libraries, we assume they do not contain any cloud SDK invocations -- a reasonable assumption 
-regarding most third party libraries that are generic and intended to run on a variety of target runtimes. 
+%In Cerebro we do not recursively analyze any of the cloud
+%SDK operations or any third party library calls. 
+%Statically analyzing the internals of cloud SDK invocations is
+%unnecessary since we intend to build a performance model for web APIs where
+%the smallest unit of operation is a cloud SDK call. As for third 
+%party libraries, we assume they do not contain any cloud SDK invocations -- a reasonable assumption 
+%regarding most third party libraries that are generic and intended to run on a variety of target runtimes. 
  
 %Cerebro's static analysis is mostly comprised of well-understood, general purpose program analysis techniques.
-Perhaps the only application-specific element in our algorithm is the method used to check function call nodes for cloud SDK invocations.
+The only cloud-specific element in our algorithm is the method used to check function call nodes for cloud SDK invocations.
  In the worst case this check can be implemented as a table lookup. That is, we maintain a table of all possible cloud
  SDK operations, and check whether each function call
  corresponds to an entry in the table. In real world implementations there are other more efficient methods that
@@ -64,7 +67,7 @@ Perhaps the only application-specific element in our algorithm is the method use
  In such a scenario we can simply check whether the function calls in CFG nodes match the
  desired pattern. 
  
-The algorithm in listing 1 is only meant as an outline for a minimalistic program analysis.
+The above algorithm provides an outline for a minimalistic program analysis.
 We incorporate more sophisticated analyses into this algorithm to extract more
 useful information regarding the cloud SDK invocations. For example, we perform a loop extraction on the
 CFG to identify the loops in the code, and tag the cloud SDK invocations in the output to indicate which of them
@@ -87,13 +90,13 @@ We use this as a heuristic to bound the iteration count of data-dependent loops.
 have an approximate idea of how large their database will be once their code is in production. When we encounter a data-dependent
 loop in the CFG that we cannot accurately predict using a static loop bound estimator, we simply
 prompt the developer to enter a reasonable maximum size for the underlying database (i.e. the maximum number of
-records/entities that may be returned from the datastore). We
-use these developer-specified values as upper bounds for the loop iteration count. 
+records/entities that may be returned from the datastore). 
+%We use these developer-specified values as upper bounds for the loop iteration count. 
 This information is also added to the final outcome of the static analysis as annotations.
 
 \subsection{Watchtower: Cloud Platform Monitoring Agent}
 Watchtower is the Cerebro component that tracks the performance of individual
-cloud SDK operations over time. This component can be an integral part of the PaaS cloud that
+cloud SDK operations. This component can be an integral part of the PaaS cloud that
 monitors cloud SDK operations from within, or it can be another application deployed on the PaaS
 that periodically benchmarks the cloud SDK operations from the outside. Regardless of how it is
 implemented, it must cater for two requirements:
@@ -103,7 +106,7 @@ implemented, it must cater for two requirements:
 \item Watchtower should periodically measure the time taken by individual cloud SDK operations, and arrange the gathered data into time series (one time series per cloud SDK operation).
 \end{itemize}
 
-In addition to the above requirements, Watchtower should also expose some web APIs of its own 
+Furthermore, Watchtower should expose some web APIs of its own 
 so that other components in Cerebro can query the Watchtower to retrieve the collected time series data. Also,
 it should keep the collected time series data in a persistence storage for durability. The most logical
 place to store this data would be the underlying datastore of the PaaS itself, since it is already designed
@@ -115,14 +118,14 @@ measurements once a certain amount of time has elapsed.
 
 The frequency at which
 Watchtower collects data determines how often Cerebro can generate SLA predictions for web APIs. Practically
-speaking, it is sensible to benchmark the cloud SDK operations once every few minutes (i.e. 1-10 minutes). It does not make
-sense to collect data any more frequently than that, since we naturally expect each predicted SLA to 
+speaking, it is sensible to benchmark the cloud SDK operations once every few minutes (i.e. 1-10 minutes). It is
+not necessary to collect data any more frequently than that, since we naturally expect each predicted SLA to 
 hold correct for a time period longer than a few minutes.
 
 In order to make SLA predictions regarding codes that include data-dependent loops, Watchtower
 benchmarks some common iterative cloud SDK operations. 
-Watchtower executes a series of iterative datastore reads,
-while varying the result set size, to measure the time required to loop through different sized result sets. These
+Watchtower executes a series of iterative datastore reads
+for a range of result set sizes to measure the time required to loop through different sized result sets. These
 measurements are also stored as time series data, where each result set size gets its own time series. 
 It is not necessary to benchmark all possible result set sizes. Rather, Watchtower should only benchmark a
 handful of result set sizes  (e.g. 1, 1000 and 1000000 records) that are representative of common 
@@ -140,8 +143,8 @@ a non-parametric time series analysis method.
 %QBETS looks at past time series data, and predicts
 %an upper bound on a specific percentile at a fixed level of confidence. 
 It was originally designed for
-predicting the scheduling delays on batch queue systems used in high performance computing (HPC) environments. 
-We adapt this technique for predicting the execution time of API codes.
+predicting the scheduling delays on batch queue systems used in high performance computing environments. 
+We adapt this technique to predict the execution time of API codes.
 
 A QBETS analysis requires three inputs:
 \begin{enumerate}
@@ -176,7 +179,7 @@ future outcomes of an experiment by looking at the past outcomes -- an idea that
 goal of predicting future API response times from past cloud SDK benchmarking data. 
 \item Response time
 SLAs of web APIs should be specified with exact correctness probabilities and confidence levels for
-them to be useful. Predictions made by QBETS meet these requirements well. 
+them to be useful. QBETS meet these requirements well. 
 \item QBETS is 
 simple, efficient and has been applied successfully to analyze a wide range of time series data in the past.
 %More specifically, it has been tested with both autocorrelating and non-autocorrelating time series data.
@@ -184,18 +187,18 @@ simple, efficient and has been applied successfully to analyze a wide range of t
 
 We now describe our exact algorithm for combining static analysis data with cloud platform monitoring 
 data through QBETS. Recall that our static analysis produces a list of cloud SDK invocation sequences.
-We start by pruning this list to eliminate duplicates. Duplicates can occur if a web API code has
-multiple paths of execution, where more than one path consists of the same exact sequence of cloud 
+We start by pruning this list to eliminate duplicates. Duplicates occur when a web API code has
+multiple paths of execution, where more than one path consists of the same sequence of cloud 
 SDK invocations. Then for each sequence of cloud SDK invocations present in the pruned list, we
 perform the following operations:
 
 \begin{enumerate}
 \item Retrieve benchmarking data from Watchtower for all operations in the sequence. Watchtower provides
 this information as ordered time series data (one time series per cloud SDK operation).
-\item Align the retrieved time series so that data points collected at the same time line up against each other.
+\item Align all retrieved time series so that data points collected at the same time line up against each other.
 Add the time series data to form a single aggregate time series for the sequence of cloud SDK operations.
 \item Pass the aggregate time series to QBETS along with the desired $p$ and $c$ values to predict an
-upper bound for some percentile. 
+upper bound. 
 \end{enumerate}
 
 We shall present a concrete example to further clarify this process. Suppose our static analysis results in the
@@ -209,7 +212,7 @@ time series data collected for the three operations in the sequence.
 \end{itemize}
 
 Here $t_{m}$ are timestamp values Watchtower has assigned to each data point. We align the three
-time series, so that values with the same timestamp are grouped together, and aggregate the results
+time series, so that values with the same timestamp line up together, and aggregate the results
 to obtain the following time series.
 
 $[t_{0}: 34, t_{1}: 31, t_{2}: 35, ...., t_{n}: 33]$
@@ -225,10 +228,10 @@ When the static analysis produces cloud SDK invocation sequences with informatio
 need to do some extra work. If some operation has been tagged as being inside a loop, where the loop
 bounds have been estimated, the time series data corresponding to that operation should be multiplied 
 by the loop bound estimate, before aggregating. In cases where the operation is inside a data-dependent
-loop, we can use the developer specified loop bound (e.g. maximum records
+loop, we can use the developer specified loop bound (e.g. maximum entities
 in database), to fetch the most appropriate benchmark data from Watchtower.
 For example, if a sequence contains an iterative datastore read which has been annotated with a maximum
-record count of 1000, we can request Watchtower to provide time series data for the iterative datastore
+entity count of 1000, we can request Watchtower to provide time series data for the iterative datastore
 read operation with a result set size of 1000. When an exact match cannot be found, Watchtower can
 provide the results for the closest result set size that is larger than the requested limit.
 
@@ -237,7 +240,7 @@ in the input time series. In fact it can be proven that QBETS needs to see at le
 before it can start making highly reliable predictions. This means, if we are interested in predicting the 95th percentile
 of the API execution time, with an upper confidence of 0.01, we should feed QBETS with a time series that
 contains at least 90 data points. Watchtower should take this into consideration, when garbage collecting old
-time series data. That is, it should always keep enough data points so that QBETS have enough data to analyze.
+time series data. %That is, it should always keep enough data points so that QBETS have enough data to analyze.
 
 \subsection{Overall Architecture and Workflow}
 
