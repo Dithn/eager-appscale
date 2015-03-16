@@ -1,7 +1,11 @@
-We start by statically analyzing a random sample of PaaS applications to learn various properties related
-to their branching, looping and use of cloud SDK interfaces. 
-We scour the GitHub~\cite{github} source code repository for open source Google App Engine~\cite{gae} applications written in Java,
-and randomly select a population of 35 applications. These applications are subjected to a thorough analysis
+We start by statically analyzing 35 open source App Engine applications written in Java to learn 
+various properties related to their branching, looping and use of cloud SDK interfaces (the full list
+of applications is available on our project website). We focus on
+Java applications because it is the most widely used language for implementing
+commercial App Engine applications. 
+%We scour the GitHub~\cite{github} source code repository for open source Google App Engine~\cite{gae} applications written in Java,
+%and randomly select a population of 35 applications. 
+We analyze the selected applications
 using the Soot framework~\cite{Vallee-Rai:2010:SJB:1925805.1925818} to study their code patterns. 
 Our analysis detected 1458 different methods in all the
 applications. In this section we present a detailed overview of the observations made in this study. We note that
@@ -17,8 +21,8 @@ these observations in several ways.
 
 FIgure~\ref{fig:path_count_cdf} shows the number of paths through methods, and the probability of encountering
 a method with a given number of paths. According to this CDF, 
-around 97\% of the methods considered in the analysis have 10 or less paths going through them. About 99\% of 
-the methods have 36 or less paths going through them. However, this CDF does have a very long tail, going all the way
+approximately 97\% of the methods considered in the analysis have 10 or fewer paths going through them. About 99\% of 
+the methods have 36 or fewer paths going through them. However, this CDF does have a very long tail, going all the way
 up to 34992 (not shown in the figure -- the x-axis of the CDF has been truncated at 100 paths). Still, it is interesting to note that more
 than half the methods considered in the analysis, 65\% to be precise, have no more than exactly 1 path (i.e. no branches).
 This implies that roughly 65\% of the time, Cerebro has to analyze only a single sequence of operations through a method. 
@@ -30,7 +34,7 @@ considered in the study
 do not have any loops. Only 172 methods (12\%) consist of loops. Clearly the PaaS SDK and the associated coding restrictions
 are making loops a somewhat rare feature in the cloud applications. Around 29\% of all the loops found in 
 the analyzed code do not contain any cloud SDK invocations. A large majority of the loops (61\%), however, are
-used to stream a dataset from the datastore cloud SDK interface of Google App Engine (i.e iterating on the result set 
+used to stream a dataset from the datastore cloud SDK interface of App Engine (i.e iterating on the result set 
 returned by a datastore query). We refer to this particular type of loops as \textit{iterative datastore reads}. 
 We use these heuristics when designing the loop handling capability of Cerebro.
 
@@ -58,7 +62,7 @@ xmpp & 3 \\ \hline
 \end{table}
 
 Table~\ref{tab:sdk_call_counts} lists the number of times each cloud SDK interface has been called in the sample of
-35 web applications. Clearly datastore is the most commonly used interface as far as Google App Engine applications are 
+35 web applications. Clearly datastore is the most commonly used interface as far as App Engine applications are 
 concerned. This is because data storage and access is a fundamental capability required by most web applications. 
 Some of the other widely used interfaces include users, taskqueue and memcache. 
 
@@ -72,6 +76,6 @@ Some of the other widely used interfaces include users, taskqueue and memcache.
 Finally we explore the number of cloud SDK calls made in different paths of execution in the web applications. For this study
 we consider all the paths of execution through the methods. This amounted to 64780 total paths. Figure~\ref{fig:sdk_call_count_cdf}
 shows the number of cloud SDK calls in the paths, and the probability of finding a path with a given number of cloud SDK calls.
-According to that around 98\% of the paths have 1 or less cloud SDK call. The probability of finding an execution path with more than
+According to that approximately 98\% of the paths have 1 or fewer cloud SDK calls. The probability of finding an execution path with more than
 5 cloud SDK calls is smaller than 0.01. This implies in most cases Cerebro will make response time predictions by analyzing the
 historical performance data of just one cloud SDK operation.

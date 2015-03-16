@@ -8,12 +8,13 @@ collection, we shall refer to these application programming interfaces as the cl
 kit or the \textit{cloud SDK}. We refer to the individual member interfaces of the cloud SDK
 as \textit{cloud SDK interfaces}, and their constituent operations are referred to as \textit{cloud SDK operations}.
 
-Lets further elaborate this notion by taking Google App Engine~\cite{gae}, one of the earliest and most widely
-used PaaS clouds, as a concrete example. Google App Engine provides several cloud SDKs, one for each
+%Lets further elaborate this notion by taking Google App Engine~\cite{gae}, one of the earliest and most widely
+%used PaaS clouds, as a concrete example. 
+Google App Engine, for example, provides several cloud SDKs; one for each
 programming language supported (Java, Python, Go etc). Each SDK consists of
 several cloud SDK interfaces. Table~\ref{tab:gae_cloud_sdk} lists some of them.
 Each individual interface is comprised of several cloud SDK operations. For instance, the 
-datastore interface of Google App Engine provides operations for saving an entity (a data object),
+datastore interface of App Engine provides operations for saving an entity (a data object),
 deleting an entity and querying the datastore to read one or more entities.
 
 \begin{table}[htdp]
@@ -41,12 +42,12 @@ Hence, we can expect cloud web API codes to spend most of their execution time o
 
 The above prospect is further supported by the fact that PaaS clouds do not allow 
 certain types of operations in the application code. Such restrictions are in place
-due to scalability and security reasons of the cloud platform. For example, Google App Engine
+to ensure scalability, stability and security of the cloud platform. For example, App Engine
 does not provide access to the local file system. Since PaaS applications run on a shared cloud
 platform and not on dedicated machines, there is no clear notion of a local file system in such environments.
 Also file system operations are slow and do not scale.
-Hence, the developers must use the datastore and blobstore cloud SDK interfaces on Google App
-Engine to implement functionality equivalent to file I/O. Similarly, Google App Engine provides cloud SDK
+Hence, the developers must use the datastore and blobstore cloud SDK interfaces on App
+Engine to implement functionality equivalent to file I/O. Similarly, App Engine provides cloud SDK
 interfaces like urlfetch, sockets, xmpp and mail that can replace a lot of network I/O code.
 
 The mandated use of cloud SDK operations in the applications, and their relatively high overhead 
@@ -89,7 +90,7 @@ feasible and even attractive.
 
 \begin{itemize}
 \item PaaS clouds do not support codes that take too long to execute or do not terminate. For 
-example, in Google App Engine all codes must finish executing under 60 seconds.
+example, in App Engine all codes must finish executing under 60 seconds.
 The platform forcefully terminates any thread that runs longer than the allowed time period.
 Therefore our static analysis does not need to bother about the termination of any given web API
 code. The hard deadline also means we have a worst-case SLA for all web APIs to begin with.
@@ -98,7 +99,7 @@ to fit the general model of $receive\_request \Rightarrow process \Rightarrow se
 other words, the codes we need to analyze have definite starting and finishing points that are easier
 to identify.
 \item PaaS clouds enforce a very restricted thread model on the application code. Again, if we take
-Google App Engine as an example, it does not allow creating new threads in the application code. This
+App Engine as an example, it does not allow creating new threads in the application code. This
 makes it possible to statically understand the concurrent execution behavior of the code, which is a significant
 factor that contributes to the performance of web APIs.
 %\item PaaS clouds do not support developing codes with arbitrary third party libraries. Instead they
