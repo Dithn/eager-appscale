@@ -1,0 +1,22 @@
+\begin{itemize}
+\item We tested Cerebro for prediction accuracy using a wide range of web applications. In these tests Cerebro was used to
+predict the 95th percentile of the API execution time. In all cases, Cerebro succeeded in achieving a percentage
+accuracy level close to or higher than 95\%. That is, the actual API execution times measured from the 
+applications were below the predicted 95th percentile values 95\% or more of the time.
+\item For most of the test APIs, Cerebro managed to make tight predictions (i.e the predictions are not too far
+from the actual values). In situations where the web APIs have highly variant performance characteristics with many high outliers,
+we saw that Cerebro trades off tightness for accuracy, by making conservative predictions.
+\item We observed that Cerebro takes some time to learn from the gathered time series data before it can make highly reliable
+predictions. In our tests this learning period took somewhere from 150 to 200 minutes. The percentage accuracy undergoes
+many large fluctuations during this period, but once Cerebro's prediction algorithm has converged, it produces highly
+accurate and reliable results consistently. Only very minor fluctuations in percentage accuracy can be observed after
+convergence.
+\item We introduced a theoretical model for determining when to treat a predicted SLA as invalid, and used that model
+to compute the prediction validity periods for Cerebro. We noticed that on average the prediction validity period
+can fall somewhere between 24 and 72 hours. Further, we observed that 95\% of the time the validity period is at least 1.41 hours
+on App Engine, and 1.95 hours on AppScale.
+\item When comparing the App Engine results to AppScale results we saw that Cerebro produces tighter and
+more long lasting SLA predictions on AppScale. We attributed this behavior to the fact that AppScale is a small and controlled
+environment that is much more stable over time. %In contrast Google App Engine is much larger, shared among many users
+%and provides no control over the underlying hardware resources.
+\end{itemize}
