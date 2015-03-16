@@ -160,7 +160,7 @@ QBETS does not determine the
 percentiles of the time series precisely, but only estimates them. 
 
 To further clarify what QBETS does, assume a continuous experiment that periodically measures the
-response time of a web API. This results in a time series of response time data. Now suppose at time $t$,
+response time of a web API. This results in a time series of response time data. Suppose at time $t$,
 we run QBETS on the time series data collected so far with $p=95$ and $c=0.01$. The prediction returned
 by QBETS has a 95\% chance of being greater than or equal to the next response time value measured
 by our experiment after time $t$. Since $c=0.01$, the predicted value has a 99\% chance of
@@ -182,7 +182,7 @@ simple, efficient and has been applied successfully to analyze a wide range of t
 %More specifically, it has been tested with both autocorrelating and non-autocorrelating time series data.
 \end{itemize}
 
-Now we describe our exact algorithm for combining static analysis data with cloud platform monitoring 
+We now describe our exact algorithm for combining static analysis data with cloud platform monitoring 
 data through QBETS. Recall that our static analysis produces a list of cloud SDK invocation sequences.
 We start by pruning this list to eliminate duplicates. Duplicates can occur if a web API code has
 multiple paths of execution, where more than one path consists of the same exact sequence of cloud 
@@ -199,7 +199,7 @@ upper bound for some percentile.
 \end{enumerate}
 
 We shall present a concrete example to further clarify this process. Suppose our static analysis results in the
-cloud SDK invocation sequence $<op_{1},op_{2},op_{3}>$. Now lets assume Watchtower has the following
+cloud SDK invocation sequence $<op_{1},op_{2},op_{3}>$. Lets assume Watchtower has the following
 time series data collected for the three operations in the sequence.
 
 \begin{itemize}
@@ -208,7 +208,7 @@ time series data collected for the three operations in the sequence.
 \item $op_{1}$: $[t_{0}: 7, t_{1}: 7, t_{2}: 8, ...., t_{n}: 7]$
 \end{itemize}
 
-Here $t_{m}$ are timestamp values Watchtower has assigned to each data point. Now we align the three
+Here $t_{m}$ are timestamp values Watchtower has assigned to each data point. We align the three
 time series, so that values with the same timestamp are grouped together, and aggregate the results
 to obtain the following time series.
 
