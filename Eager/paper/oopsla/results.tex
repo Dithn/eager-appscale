@@ -1,5 +1,7 @@
-In this section we describe the experimental results we have obtained using Cerebro and the associated tools. We conduct
-tests using five sample applications. 
+In this section we describe the experimental results we have obtained using Cerebro and the associated tools. 
+
+\subsection{Methodology}
+We conduct tests using five sample applications. 
 
 \begin{description}
 \item[StudentInfo] A JAXRS application for managing students of a class. Provides APIs for
@@ -144,28 +146,19 @@ This is the case which exhibits the largest average difference between predicted
 
 Figure~\ref{fig:get_all_students_cdf} shows the CDF of measured execution times for the StudentInfo\#getAllStudents on
 App Engine. This distribution was obtained by considering the benchmarking results gathered within a window of 1000 minutes. 
-The mean of this distribution are 3431.79ms. We make the following two observations from the
-CDF:
-
-\begin{itemize}
-\item About 50\% of the values in the distribution are higher than the mean.
-\item About 10\% of the values are higher than 4500ms; more than 1000ms higher than the mean.
-\end{itemize}
-
-These two facts indicate that the distribution of API execution times under consideration is significantly skewed away from its 
-mean, and it is comprised of many high outliers (values that are significantly larger than the mean).
+The mean of this distribution is 3431.79ms. But the CDF indicates a 95th percentile value of 4739ms; more
+than 1300ms higher than the mean.
 From this it becomes evident that StudentInfo\#getAllStudents operation records very high execution times frequently. 
 In order to incorporate such high outliers, Cerebro must be conservative and predict large values for
-the 95th percentile. This behavior is required to make sure that 95\% or more of the measurements fall under the
-predicted values. However, as a consequence of this conservativeness the average distance between the measurements and 
-the predictions is increased significantly. But all issues considered, the less tightness in the predictions made for StudentInfo\#getAllStudents
-is not a limitation of Cerebro, but a feature necessary to guarantee the correctness of the results.
+the 95th percentile. This is a required feature to ensure that 95\% or more API invocations have
+execution times under the predicted SLA. But as a consequence, the average distance between the 
+measurements and the predictions increases significantly.
 
 Our analyses with other operations for which
 Cerebro generates conservative bounds have also shown similar results. That is, when the performance of the web API is highly variable and
 when its execution time distribution contains
-many high outliers, Cerebro produces predictions that are less tight. In other words, Cerebro trades off tightness of the predictions 
-for their accuracy.
+many high outliers, Cerebro produces predictions that are less tight. In other words, 
+Cerebro trades off tightness of the predictions for their accuracy.
 
 \begin{figure}
 \centering
@@ -176,8 +169,8 @@ for their accuracy.
 
 To further reinforce this notion, we also investigate one of the web API operations that result in very tight predictions. 
 Figure~\ref{fig:get_student_cdf} shows the CDF of the measured execution times for the StudentInfo\#getStudent operation on
-AppScale cloud. Again we are considering a time frame of 1000 minutes when obtaining this graph.
-This particular distribution has a mean of 9.19ms and a median of 9ms. Given that only 19\% of the values are larger than the mean, 
+AppScale. Again we are considering a time frame of 1000 minutes when obtaining this graph.
+This particular distribution has a mean of 9.19ms. Given that only 19\% of the values are larger than the mean, 
 and only 2\% of the values are larger than 18ms (twice the mean), 
 we see that this distribution is much more stable and have very few high outliers. This enables Cerebro to generate much
 tighter predictions, without compromising the accuracy of the results. Based on these outcomes we can conclude that Cerebro produces
@@ -344,10 +337,10 @@ reads or long sequences of cloud SDK operations have shorter prediction validity
 Table~\ref{tab:as_validity} shows the validity period distributions computed from the data gathered from
 the AppScale private cloud. In this environment the smallest average validity period of 33.77 hours is observed from the
 Rooms\#getRoomsInCity operation. All other operations tested in AppScale have mean prediction validity periods greater
-than 54 hours. The lowest 5th percentile value in the distributions, which is 1.95 hours, is also shown by Rooms\#getRoomsInCity.
+than 54 hours. The lowest 5th percentile value in the distributions, which is 1.95 hours, is also shown by Rooms\#getRoomsInCity. This means, the SLAs predicted in AppScale would hold correct for 1.95 hours or more, at least 95\% of the time.
 %Other operations have 5th percentile values greater than 6 hours. 
 The relatively smaller validity period values computed for the
-Rooms\#getSoomsInCity operation indicates that the performance of iterative datastore reads is subject to somewhat frequent changes 
+Rooms\#getRoomsInCity operation indicates that the performance of iterative datastore reads is subject to somewhat frequent changes 
 in AppScale.
 
 Comparatively, the validity periods recorded in the AppScale
@@ -367,10 +360,14 @@ Earlier we investigated the percentage of measurements that are under predicted 
 after a fixed amount of time has elapsed.
 In those experiments we made predictions for a fixed-size time period (1000 minutes), 
 and computed the percentage accuracy achieved by Cerebro at the end of the period.
-In this section we are going to analyze the percentage accuracy of Cerebro as a running tabulation. That is, instead of just
-computing the percentage accuracy at the end of 1000 minutes, we are going to compute it for each passing minute. This enables us to
-understand how the percentage accuracy regarding a single web API operation changes over time, and the convergence
-behavior of Cerebro.
+In this section we are going to analyze the percentage accuracy of Cerebro as a running 
+tabulation. That is, instead of just
+computing the percentage accuracy at the end of 1000 minutes, we are going to compute it 
+for each passing minute. This enables us to
+understand how the percentage accuracy regarding a single web API operation changes over time, 
+and the convergence behavior of Cerebro. We define convergence as the event of Cerebro
+approaching the desired percentage accuracy level (95\% in
+our experiments), and staying close to or above that level consistently.
 
 \begin{figure}
 \centering
@@ -387,21 +384,25 @@ behavior of Cerebro.
 \end{figure}
 
 Figure~\ref{fig:gae_accuracy} shows the percentage accuracy of the Cerebro predictions made in App Engine 
-for a period of 1000 minutes. Each of the curves correspond to a single web API operation in one of the 
-sample applications. 
+for a period of 1000 minutes. For clarity we do not show results for all tested operations. Instead,
+we only show data for the operation that converges the fastest, and the operation that converges the slowest.
+Results for other operations fit somewhere between these two extremes.
 
-As expected, the time series analysis method used by Cerebro takes some time to learn
-from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. But
-once Cerebro has converged it consistently produces highly accurate predictions.
-In the worst case Cerebro takes up to 200 minutes to converge. This is the case with the
-StudentInfo\#getAllStudents operation. After 275 minutes, we see highly accurate predictions being made on all web API
-operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. Recall that
-we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
-results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct.
+As expected, the time series analysis method used by Cerebro (QBETS) takes some time to learn
+from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. 
+%But once Cerebro has converged it consistently produces highly accurate predictions.
+In the worst case Cerebro takes up to 200 minutes to converge in App Engine. This is the case with the
+StudentInfo\#getAllStudents operation. 
+%After 275 minutes, we see highly accurate predictions being made on all web API
+%operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. 
+%Recall that
+%we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
+%results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct.
 
 Figure~\ref{fig:as_accuracy} shows the same results calculated by running Watchtower and the sample applications on AppScale.
-These results are very similar to the ones seen in App Engine, except for a somewhat faster convergence. In AppScale
-we can see that Cerebro converges to the preferred percentage accuracy level in about 150 minutes.
+Again we include the results for fastest and slowest convergence only. 
+In AppScale
+we can see that Cerebro converges to the preferred percentage accuracy level in 40 minutes at the latest.
 
 An interesting observation we can make regarding the percentage accuracy over time is that it is not a constant function. 
 Even after the percentage values have converged, they keep fluctuating 
@@ -419,6 +420,7 @@ be accurate.
 The key take away from the above results is that Cerebro needs to see cloud SDK benchmarking data 
 for several hours (up to 200 minutes in case of 
 App Engine), before it can start producing stable and highly accurate SLA predictions. Therefore, it is a good idea to start Watchtower in the
-target cloud platform early, and let it run for several hours before allowing API developers to deploy their web APIs on the cloud. Since the
-required warm up period is in hours (as opposed to days or weeks), we believe this is a perfectly viable and reasonable solution to
-ensure that any predictions made by Cerebro are up to the expected standards. 
+target cloud platform early, and let it run for several hours before allowing API developers to deploy their web APIs on the cloud. 
+%Since the
+%required warm up period is in hours (as opposed to days or weeks), we believe this is a perfectly viable and reasonable solution to
+%ensure that any predictions made by Cerebro are up to the expected standards. 
