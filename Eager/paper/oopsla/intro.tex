@@ -34,12 +34,31 @@ user-facing applications and mobile applications.
 Developers typically prefer to be able to reason about
 the performance of their programs. If the web APIs invoked by their code do
 not come with clear SLAs, such reasoning becomes impossible. Therefore it is an absolute
-necessity that API providers publish clear SLAs along with their web APIs. To
-facilitate this requirement, platforms used to deploy web APIs should enable API providers to 
-easily understand the performance SLAs that can be supported by the platform.
+necessity that API developers publish clear SLAs along with their web APIs. 
 
-When considering the platforms used to deploy web APIs, we cannot ignore the
-growing popularity of platform-as-a-service (PaaS) clouds.
+Despite the need, technologies used to host web APIs in today's world do not assist the API
+developers in any way to understand the SLAs that can be supported on deployed APIs. That is,
+when a web API is deployed on some platform, the platform does not provide any feedback 
+on how the API will perform (throughput, response time etc.). Furthermore,
+there are no tools that API developers can use at development-time to assess the performance
+that can be expected from their API code when deployed into the production environment.
+These limitations force developers to release web APIs without performance SLAs.
+
+Some developers try to mitigate this problem by subjecting their API codes to 
+extensive load testing. Results obtained
+from such testing are used to draft SLAs for web APIs.
+But this approach requires time and manpower. Furthermore, the resulting SLAs
+may be erroneous due to various limitations and oversights in the testing process.
+A more efficient and reliable solution to this problem is to 
+arm the API deployment technologies with the ability to automatically assess and
+predict the performance SLAs that can be supported on deployed web APIs. 
+That would enable API providers to be informed about the performance
+SLAs of their API codes, before they are ever used by the API consumers. 
+%It allows every web API to have a clear performance SLA throughout its lifecycle.
+
+To this end we propose Cerebro, a system that predicts the execution time SLAs of web APIs
+deployed in platform-as-a-service (PaaS) clouds. We focus on PaaS clouds due to their
+growing popularity as a technology for deploying web applications and APIs.
 PaaS clouds provide the programmers with two main benefits:
 
 \begin{description}
@@ -58,34 +77,9 @@ well known commercial applications served from App Engine include BestBuy, Snapc
 and Sony Music. A lot of these applications also expose web APIs, so that other
 programs (especially mobile apps), can interact with them. AppScale~\cite{6488671}, an open source PaaS cloud that
 mimics App Engine, enables users to deploy any App Engine application in a private on-premise
-cloud environment, without changing application code.
+cloud environment, without changing application code. 
 
-Despite PaaS clouds being a preferred deployment target for web APIs, they do not assist the API
-developers in any way to understand the SLAs that can be supported on deployed APIs. That is,
-when a web API is deployed on a PaaS cloud, the cloud platform does not provide any feedback 
-on how the API will perform (throughput, response time etc.). Furthermore,
-there are no tools that API developers can use at development-time to assess the performance
-that can be expected from their API code when deployed into the production cloud environment.
-These limitations force developers to release web APIs into PaaS clouds without performance SLAs.
-
-%The above limitations mean that API developers today have to roll out their APIs into PaaS
-%clouds without clear performance SLAs. The only way to uncover this information is to subject the API
-%code to extensive load testing in the cloud platform, which requires time and financial resources
-%(running load tests on a PaaS cloud can incur significant usage costs). Even then, the resulting
-%performance SLAs may not be fully accurate due to errors, limitations and oversights in the load tests.
-Some developers mitigate this problem by subjecting their API codes to extensive load testing. Results obtained
-from such testing are used to draft SLAs for web APIs.
-But this approach requires time and financial resources (running load tests on a 
-PaaS cloud can incur significant usage costs).
-A more efficient and cost-effective solution to this problem is to arm today's PaaS clouds with the 
-ability to automatically assess and
-predict the performance SLAs that can be supported on deployed web APIs. 
-That would enable API providers to be informed about the performance
-SLAs of their API codes, before they are ever used by the API consumers. This means
-every web API can have a clear performance SLA throughout its lifecycle.
-
-To this end we propose Cerebro, a system that predicts the execution time SLAs of web APIs
-deployed in PaaS clouds. Cerebro uses static analysis to identify the expensive cloud SDK operations
+Cerebro uses static analysis to identify the expensive cloud SDK operations
 executed by web API codes. Then it analyzes historical performance data regarding cloud SDK
 operations to predict upper bounds for web API execution times. All Cerebro predictions
 are associated with a configurable level of success probability and conservativeness. The level of 
@@ -93,7 +87,7 @@ success probability is the fraction of API invocations whose execution times wil
 predicted upper bound. The level of conservativeness is an indication of by how much Cerebro
 is overestimating the execution time upper bound. Such precision and completeness of results
 enable API developers to directly use Cerebro predictions as performance SLAs of their
-API codes. 
+API codes.
 
 We design Cerebro to be fully automated (i.e. no developer intervention necessary in
 the prediction making process). It also does not require load testing on the API codes. Cerebro can be
