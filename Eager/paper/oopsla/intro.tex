@@ -37,27 +37,52 @@ to understand the performance impact on their web APIs
 that results from all of the services that they integrate.
 
 To address this need, we present Cerebro, a new approach that
-\textit{statically} predicts the execution performance of web APIs that 
-integrate services as part of their functionality.
-To enable this, we employ the notion of service-level agreement (SLA) from 
-public cloud computing systems such as Amazon Web Services (AWS)~\cite{amazon-aws-web} and 
-Google App Engine~\cite{gae}.  SLAs are policies that specify
-what a developer can expect from a service in terms of availability or error rate,
-typically before they receive a financial credit for paid
-use of the service~\cite{aws-ec2-sla,aws-s3-sla,aws-rds-sla,gae-sla,gcs-sla}.
-For example, AWS makes its Elastic Compute Cloud (EC2) and Elastic Block Store (EBS) 
-available with a monthly uptime percentage 
-of at least 99.95\%; Google makes Big Query and and App Engine services (e.g. the 
-Bigtable-based datastore) available with monthly uptime percentage of at least 
-99.95\% where downtime is determined by a 5\% and 10\% error rate, respectively.
-Cerebro extends this notion of SLA to the execution time (response time) 
-of web APIs that are deployed via (i.e. hosted by) PaaS
-technologies (e.g. App Engine, 
-AppScale~\cite{6488671}, Azure~\cite{azure-web}, etc.).
-For example, a Cerebro SLA says that an API operation will respond to a HTTP request
-within 100ms at least 95\% of the time.
+predicts bounds on 
+the response-time performance of web
+APIs exported by applications that are hosted by a PaaS platform.
+The goal of Cerebro is to allow 
+a PaaS administrator to determine what service-level agreement (SLA) can be
+fulfilled (in terms of response time) 
+by each API call exported by applications
+hosted on the PaaS.  
 
-We target cloud platforms (public and private) as our web API and Cerebro 
+SLAs typically specify a minimum service level and a
+probability (usually large) that the minimum service level will be
+maintained.  Cerebro uses a combination of static analysis and runtime
+monitoring of the PaaS platform (but not the applications) to determine what
+minimum response time ``guarantee'' can be made with a target probability
+specified by a PaaS administrator.  
+
+Currently, cloud computing systems such as Amazon Web Services
+(AWS)~\cite{amazon-aws-web} and
+Google App Engine~\cite{gae} offer reliability SLAs specifying the fraction of
+availability (over a fixed time period) for their services
+that users can expect when they contract to use a service.
+Cerebro predictions make it possible to determine response-time SLAs with
+probabilities specified by the cloud provider in a way
+that is scalable.
+
+%of 
+%integrate services as part of their functionality.
+%To enable this, we employ the notion of service-level agreement (SLA) from 
+%public cloud computing systems such as Amazon Web Services (AWS)~\cite{amazon-aws-web} and 
+%Google App Engine~\cite{gae}.  SLAs are policies that specify
+%what a developer can expect from a service in terms of availability or error rate,
+%typically before they receive a financial credit for paid
+%use of the service~\cite{aws-ec2-sla,aws-s3-sla,aws-rds-sla,gae-sla,gcs-sla}.
+%For example, AWS makes its Elastic Compute Cloud (EC2) and Elastic Block Store (EBS) 
+%available with a monthly uptime percentage 
+%of at least 99.95\%; Google makes Big Query and and App Engine services (e.g. the 
+%Bigtable-based datastore) available with monthly uptime percentage of at least 
+%99.95\% where downtime is determined by a 5\% and 10\% error rate, respectively.
+%Cerebro extends this notion of SLA to the execution time (response time) 
+%of web APIs that are deployed via (i.e. hosted by) PaaS
+%technologies (e.g. App Engine, 
+%AppScale~\cite{6488671}, Azure~\cite{azure-web}, etc.).
+%For example, a Cerebro SLA says that an API operation will respond to a HTTP request
+%within 100ms at least 95\% of the time.
+
+We target PaaS cloud platforms (public and private) as our web API and Cerebro 
 runtime system given their popularity and wide spread use~\cite{paas-growth}.
 For example, there are over four million active App Engine web APIs that 
 can execute on Google's public cloud or over AppScale (an open source, private 
@@ -71,19 +96,44 @@ of App Engine and AppScale
 include distributed NoSQL datastores, SQL databases, task management, 
 and data caching, among others. 
 
-Cerebro predicts execution time SLAs for a web API that integrates such services 
-by combining static analysis
-of the program with dynamic performance sampling of the platform services.
+Cerebro generates response-time SLAs for web API calls exported by an application
+that uses the services available within the PaaS.  For bevity, in this work
+we will use the
+term \textit{web API} to refer to a ``web-facing API exported by an
+application hosted on a PaaS platform.'' Further, 
+we will use the term \textit{cloud
+SDK} to refer to the APIs that are maintained as part of the PaaS and
+available to all hosted applications
+(to diffentiate them from APIs exported by the applications themselves).   
+For example, an application hosted in Google App Engine might export one or
+more web APIs to its users while leveraging the internal cloud SDK for the
+Google datastore that is available as part of the Google App Engine PaaS.
+
+% that integrates such services 
+%by combining static analysis
+%of the program with dynamic performance sampling of the platform services.
 Cerebro uses static analysis to identify the cloud SDK operations
-that dominate the execution time of web APIs.  Cerebro also integrates a nonparametric
-prediction tool called QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} that 
-we have developed in prior work for a completely different 
-purpose: batch queue prediction in high-performance computing 
-systems. Cerebro ``service-izes'' QBETS for use in a cloud platform and
-interacts with it
-dynamically to estimate an upper bound on the execution time of each service operation.
-Cerebro then combines this estimate with its static analysis to forecast an execution SLA 
-for the web API.
+that dominate the response time of web APIs.  Independently,
+Cerebro also maintains a running history of cloud SDK response-time 
+performance.  It uses
+QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} -- a forecasting methodology
+we have developed in prior work for predicting bounds on ``ill behaved''   
+univariate time series -- to predict response-time bounds on each SDK
+operation used by the application.  It combines these predictions dynamically
+along all call paths traversed by a specific web API operation
+and returns the ``worst case''
+upper bound (for a given target SLA probability) on the time necessary to 
+complete the operation.
+
+%Cerebro also integrates a nonparametric
+%prediction tool called QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} that 
+%we have developed in prior work for a completely different 
+%purpose: batch queue prediction in high-performance computing 
+%systems. Cerebro ``service-izes'' QBETS for use in a cloud platform and
+%interacts with it
+%dynamically to estimate an upper bound on the execution time of each service operation.
+%Cerebro then combines this estimate with its static analysis to forecast an execution SLA 
+%for the web API.
 
 Because platform behavior under load and service implementations change over time,
 Cerebro's predictions necessarily have a lifetime.  
@@ -100,17 +150,28 @@ we believe that Cerebro can be easily added to any PaaS system.
 We use our prototypes to evaluate the correctness and accuracy of Cerebro 
 as well as the tightness
 of the bounds it predicts (i.e. the difference between the prediction and 
-the actual API execution times) using open source App Engine web APIs.  
-We also investigate the duration over which 
-these predictions hold.  We find that Cerebro is able to meet its SLAs with 
-very high accuracy and that the predictions hold from 1.4 to over 24 hours.  
+the actual API execution times) using App Engine applications
+that are available
+as open source.  
+We also detail the duration over which 
+these predictions hold in both Google App Engine and also AppScale.  
+We find that Cerebro generates correct SLAs (ones that meet or exceed their
+probabilistic guarantees) and that these SLAs are valid over time periods ranging from
+from 1.4 hours to more than 24 hours.  
 We also find that the high variability of the public PaaS due to multitenency
 and massive scale requires that Cerebro be more conservative in its predictions
 (i.e. they are less tight than those for the AppScale private, single tenent cloud), 
-to achieve the same level of accuracy.  Finally, because Cerebro provides this 
-analysis statically wrt web API development, 
-it precludes the need for deployment, load testing, and
-instrumentation of the web APIs being analyzed.
+to achieve the same level of correctness.  Finally, because Cerebro provides this 
+analysis statically it imposes no run-time overhead on the applications
+themselves.  It requires no run-time instrumentation of application code and
+(because the PaaS is scalable and SDK minitoring data is shared across Cerebro
+predictions) generates no discernable load when monitoring
+the cloud SDKs.  Thus we believe Cerebro is suitable for highly scalable cloud
+settings.
+
+%web API development, 
+%it precludes the need for deployment, load testing, and
+%instrumentation of the web APIs being analyzed.
 
 In the sections that follow, we first characterize the domain of 
 PaaS-hosted web APIs for the App Engine and AppScale PaaS systems 
