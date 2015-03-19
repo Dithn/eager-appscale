@@ -70,7 +70,7 @@ and data caching, among others.
 
 Cerebro predicts execution time SLAs for a web API by combining static analysis
 of the program with dynamic performance sampling of the cloud services 
-in the platform that the web API uses, as depicted in Figure~\ref{fig:overview}.
+in the platform that the web API uses.
 Cerebro uses static analysis to identify the cloud SDK operations
 that dominate the execution time of web APIs.  Cerebro also integrates a nonparametric
 prediction tool that we have developed in prior work for a completely different 
@@ -107,11 +107,13 @@ analysis statically wrt web API development,
 it precludes the need for deployment, load testing, and
 instrumentation of the web APIs being analyzed.
 
-In the sections that follow, we first overview our approach and our assumptions 
-in Section~\ref{sec:approach}.   We then
-present the results of a performance analysis that we have performed which provides
-insight into the performance characteristics of PaaS 
-applications (Section~\ref{sec:survey}).  
+In the sections that follow, we first overview our approach, our assumptions,
+and analyze a number of real world App Engine web APIs
+in Section~\ref{sec:approach}.   
+%We then
+%present the results of a performance analysis that we have performed which provides
+%insight into the performance characteristics of PaaS 
+%applications (Section~\ref{sec:survey}).  
 In Section~\ref{sec:design}
 and Section~\ref{sec:prototype_impl}, we explain the architecture and 
 prototype of Cerebro, respectively.  We then 
