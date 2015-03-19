@@ -1,8 +1,10 @@
-Our research is strongly rooted in a number of mature research areas in computer 
-science and mathematics. These areas include static program analysis, cloud computing, time series analysis
+Our research leverages a number of mature research areas in computer 
+science and mathematics. These areas include static program analysis, 
+cloud computing, time series analysis,
 and SOA governance.
 
-The problem of predicting execution time SLAs of web APIs has a strong likeness to worst-case execution
+The problem of predicting execution time SLAs of web APIs 
+is similar to worst-case execution
 time (WCET) analysis~\cite{Wilhelm:2008:WEP:1347375.1347389}. The objective of WCET analysis is to determine the maximum execution time of a software component in a given hardware platform. It is 
 typically discussed in the context of real-time systems, where the developers should be able to document
 and enforce precise hard real-time constraints on the execution time of programs. In order to save time, 
@@ -36,18 +38,25 @@ data structures like lists, trees and vectors. Our idea of using user-defined va
  
 Cerebro has a strong resemblance to some of the execution time analysis systems discussed above.
 However, there are also several key differences. For instance, Cerebro is focused on solving the
-execution time prediction problem for cloud applications. As seen from our survey results, applications 
-developed for PaaS clouds have a set of unique properties, that can be used to greatly simply the
-static analysis on them. Also, Cerebro is designed to only work with web API codes. This makes designing 
-a solution much more simpler compared to having to design a system that analyzes arbitrary program codes.
-In order to handle the constantly changing and evolving nature of cloud platforms, we have designed
-Cerebro using a hybrid approach of static analysis and runtime monitoring of cloud SDK operations. This is
-a significant depart from the above systems, which are entirely based on static analysis methods. Finally,
-we use a time series analysis method~\cite{Nurmi:2007:QQB:1791551.1791556} to predict API execution time upper bounds with specific confidence
+execution time prediction problem for PaaS-hosted web APIs. 
+As we show in our characterization survey, such applications 
+have a set of unique properties, that can be used to greatly simplify static analysis.
+Also, Cerebro is designed to only work with web API codes. This makes designing 
+a solution much more simpler compared to having to design a system that analyzes 
+arbitrary program codes.
+In order to handle the constantly changing and evolving nature of 
+cloud platforms, we have designed
+Cerebro using a hybrid approach of static analysis and runtime 
+monitoring of cloud SDK operations. This is
+a significant departure from previous work based on similar methods. Finally,
+we use a time series analysis method~\cite{Nurmi:2007:QQB:1791551.1791556} 
+to predict API execution time upper bounds with specific confidence
 levels, which makes it possible to use the results as precise SLAs.
 
-SLA management on service-oriented systems and cloud systems has also been throughly researched
-over the years. However, a lot of the existing work has focused on issues like SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MMS:1980822.1980832,Raimondi:2008:EOM:1453101.1453125,Bertolino:2007:SUS:1294904.1294914}, SLA negotiation~\cite{Mahbub:2011:PSN:2061042.2062022,Yaqub:2014:ONS:2680847.2681496,6546098}, and SLA modeling~\cite{Chau:2008:ASM:1463788.1463802,Stamou:2013:SGM:2516588.2516592,Skene:2004:PSL:998675.999422}. 
+SLA management on service-oriented systems and cloud systems has also been 
+throughly researched
+over the years. However, a lot of the existing work has focused on issues 
+such as SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MMS:1980822.1980832,Raimondi:2008:EOM:1453101.1453125,Bertolino:2007:SUS:1294904.1294914}, SLA negotiation~\cite{Mahbub:2011:PSN:2061042.2062022,Yaqub:2014:ONS:2680847.2681496,6546098}, and SLA modeling~\cite{Chau:2008:ASM:1463788.1463802,Stamou:2013:SGM:2516588.2516592,Skene:2004:PSL:998675.999422}. 
 Some work has also looked at incorporating a given SLA to the design of a system, and
 then monitoring it at the runtime to ensure SLA compliant behavior~\cite{He:2013:TSC:2532443.2532449}. 
 Our research takes a
@@ -65,7 +74,8 @@ need to provide the source code of the API implementations. Also, instead of usi
 with fixed parameters, Cerebro uses actual historical performance metrics of cloud SDK operations. This enables
 Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform better.
 
-There have been some prior work in the area of predicting SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
+There has been prior work in the area of predicting 
+SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
 These systems take an existing SLA and historical performance data of a service, and predict when the 
 service might violate the given SLA in the future. They employ some form of statistical analysis and/or machine learning to
 make such predictions. Cerebro's notion of prediction validity period has some relation to this line of research. However,
