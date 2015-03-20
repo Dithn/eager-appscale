@@ -155,6 +155,7 @@ public class Cerebro {
 
         Collection<Integer> pathApiCalls = analyzer.getPathApiCalls();
         Collection<Integer> pathAllocations = analyzer.getPathAllocations();
+        System.out.println("Max statements through the code: " + analyzer.getMaxStatements());
         System.out.println("Distinct paths through the code: " + pathApiCalls.size());
         System.out.print("API calls in paths: [");
         for (int count : pathApiCalls) {

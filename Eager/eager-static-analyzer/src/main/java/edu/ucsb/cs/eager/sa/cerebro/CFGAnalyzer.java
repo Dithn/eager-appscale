@@ -43,6 +43,7 @@ public class CFGAnalyzer {
     private List<Integer> pathAllocations = new ArrayList<>();
     private Set<SootMethod> userMethodCalls = new LinkedHashSet<>();
     private Set<InvokeExpr> apiCalls = new LinkedHashSet<>();
+    private int maxStatements;
 
     private final UnitGraph graph;
     private final SootMethod method;
@@ -296,7 +297,7 @@ public class CFGAnalyzer {
         loops = loopFinder.loops();
 
         Stmt stmt = (Stmt) graph.getHeads().get(0);
-        visit(stmt, graph, 0, 0, new ArrayList<SootMethod>());
+        visit(stmt, graph, 0, 0, 0, new ArrayList<SootMethod>());
     }
 
     public Map<Loop, Integer> getLoopedApiCalls() {
@@ -325,6 +326,10 @@ public class CFGAnalyzer {
 
     public Collection<List<SootMethod>> getPaths() {
         return Collections.unmodifiableList(paths);
+    }
+
+    public int getMaxStatements() {
+        return maxStatements;
     }
 
     public int getMaxApiCalls() {
@@ -400,7 +405,7 @@ public class CFGAnalyzer {
     }
 
     private void visit(Stmt stmt, UnitGraph graph, int apiCallCount,
-                       int allocationCount, List<SootMethod> path) {
+                       int allocationCount, int statements, List<SootMethod> path) {
         if (stmt.containsInvokeExpr()) {
             InvokeExpr invocation = stmt.getInvokeExpr();
             if (isApiCall(invocation)) {
@@ -424,6 +429,7 @@ public class CFGAnalyzer {
                 allocationCount++;
             }
         }
+        statements++;
 
         Collection<Unit> children = graph.getSuccsOf(stmt);
 
@@ -445,12 +451,15 @@ public class CFGAnalyzer {
 
         for (Unit child : children) {
             visit((Stmt) child, graph, apiCallCount, allocationCount,
-                    new ArrayList<>(path));
+                    statements, new ArrayList<>(path));
         }
         if (children.isEmpty()) {
             pathApiCalls.add(apiCallCount);
             pathAllocations.add(allocationCount);
             paths.add(path);
+            if (statements > maxStatements) {
+                maxStatements = statements;
+            }
         }
     }
 
