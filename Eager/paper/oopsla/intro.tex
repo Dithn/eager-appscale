@@ -1,131 +1,186 @@
-Web services and service oriented architecture (SOA) have
-revolutionized the way developers implement software applications.
-Instead of implementing all the functionality from the scratch, developers
-increasingly offload ({\em i.e.} as a ``mash-up'') as much functionality 
-as possible to remote,
-web-accessible services, each of which exports its own application programming
-interface (API). Thus, a modern application often combines local program logic
-with calls to remote web APIs.
-This approach significantly reduces both the programming and
-the maintenance workload associated with the application.
-Moreover, by reusing common functionality via APIs, developers avoid ``re-inventing the
-wheel''.
+Web services, service oriented architectures, and cloud platforms together have
+revolutionized the way developers engineer and deploy software.
+Using the web service model, developers ``mash up'' content and functionality 
+from distributed, web-accessible services 
+exposed via application programming interfaces (APIs)
+to create new web-accessible services and applications (web APIs).  
+This development model expedites implementation since developers can leverage the 
+software engineering and maintenance of others.
+%, and increases programmer productivity. 
+Moreover, the advent of cloud platform as-a-service (PaaS) technologies 
+simplify and automate deployment and management
+of web APIs in both public (managed) and private settings.  
 
-As a result, web-accessible APIs and the software implementations to which
-they provide access to are rapidly proliferating.
-At the time of this writing, 
-ProgrammableWeb~\cite{pweb}, a popular web API index, lists over $13,000$
+As a result, web APIs are rapidly 
+proliferating.  At the time of this writing, 
+the ProgrammableWeb~\cite{pweb} indexes over $13,000$
 publicly available web APIs.
-These APIs increasingly employ the REST (Representational State Transfer) architectural style~\cite{Fielding:2000:ASD:932295} and 
-many of them target commerce-oriented applications (e.g. advertising, shopping, travel, etc.).
-However, several non-commercial entities have also recently published web 
-APIs, e.g. IEEE~\cite{ieeeapis}, UC Berkeley~\cite{ucbapis}, and the US White
-House~\cite{whitehouseapis}. 
+These APIs increasingly employ the REST (Representational State Transfer) 
+architectural style~\cite{Fielding:2000:ASD:932295}, and target both
+commercial (e.g. advertising, shopping, travel, etc.) and non-commercial
+(e.g. IEEE~\cite{ieeeapis}, UC Berkeley~\cite{ucbapis}, and the US White
+House~\cite{whitehouseapis}) application domains.
 
-Web APIs are most useful when they are published with well-defined service-level agreements (SLA). 
-An SLA specifies the performance characteristics and other non-functional 
-properties of an API. It is a guarantee given by the API provider to the API consumer on what can be
-expected from a web API with regard to its performance and runtime behavior. An example SLA regarding
-the response time of an API could be specified as: \textit{API responds under 100ms, at least 95\% of the time}.
+Despite the many benefits, reusing services that are provided and hosted
+by others, also has its costs.  
+In particular, new web APIs become dependent on the 
+services they compose.  These dependencies
+impact correctness, performance, and availability of the encapsulating 
+web APIs -- for which the developer becomes accountable.  
+Compounding the situation, the underlying services can and do change over time, typically
+unbeknownced to the developers that programmatically access them from their web APIs.
+Unfortunately, there is a dearth of tools that help developers reason about these 
+dependencies throughout an application's 
+lifecycle (i.e. development, deployment, and runtime).  Without such tools, 
+programmers must resort to extensive, continuous, and costly, testing and profiling 
+to understand the performance impact on their web APIs 
+that results from all of the services that they integrate.
 
-Without a clear performance SLA it is difficult, if not impossible,
-to use a web API to develop a wide range of applications like real-time applications, interactive
-user-facing applications and mobile applications.
-Developers typically prefer to be able to reason about
-the performance of their programs. If the web APIs invoked by their code do
-not come with clear SLAs, such reasoning becomes impossible. Therefore it is an absolute
-necessity that API developers publish clear SLAs along with their web APIs. 
+To address this need, we present Cerebro, a new approach that
+predicts bounds on 
+the response-time performance of web
+APIs exported by applications that are hosted by a PaaS platform.
+The goal of Cerebro is to allow 
+a PaaS administrator to determine what service-level agreement (SLA) can be
+fulfilled (in terms of response time) 
+by each API call exported by applications
+hosted on the PaaS.  
 
-Despite the need, technologies used to host web APIs in today's world do not assist the API
-developers in any way to understand the SLAs that can be supported on deployed APIs. That is,
-when a web API is deployed on some platform, the platform does not provide any feedback 
-on how the API will perform (throughput, response time etc.). Furthermore,
-there are no tools that API developers can use at development-time to assess the performance
-that can be expected from their API code when deployed into the production environment.
-These limitations force developers to release web APIs without performance SLAs.
+SLAs typically specify a minimum service level and a
+probability (usually large) that the minimum service level will be
+maintained.  Cerebro uses a combination of static analysis and runtime
+monitoring of the PaaS platform (but not the applications) to determine what
+minimum response time ``guarantee'' can be made with a target probability
+specified by a PaaS administrator.  
 
-Some developers try to mitigate this problem by subjecting their API codes to 
-extensive load testing. Results obtained
-from such testing are used to draft SLAs for web APIs.
-But this approach requires time and manpower. Furthermore, the resulting SLAs
-may be erroneous due to various limitations and oversights in the testing process.
-A more efficient and reliable solution to this problem is to 
-arm the API deployment technologies with the ability to automatically assess and
-predict the performance SLAs that can be supported on deployed web APIs. 
-That would enable API providers to be informed about the performance
-SLAs of their API codes, before they are ever used by the API consumers. 
-%It allows every web API to have a clear performance SLA throughout its lifecycle.
+Currently, cloud computing systems such as Amazon Web Services
+(AWS)~\cite{amazon-aws-web} and
+Google App Engine~\cite{gae} offer reliability SLAs specifying the fraction of
+availability (over a fixed time period) for their services
+that users can expect when they contract to use a service.
+Cerebro predictions make it possible to determine response-time SLAs with
+probabilities specified by the cloud provider in a way
+that is scalable.
 
-To this end we propose Cerebro, a system that predicts the execution time SLAs of web APIs
-deployed in platform-as-a-service (PaaS) clouds. We focus on PaaS clouds due to their
-growing popularity as a technology for deploying web applications and APIs.
-PaaS clouds provide the programmers with two main benefits:
+%of 
+%integrate services as part of their functionality.
+%To enable this, we employ the notion of service-level agreement (SLA) from 
+%public cloud computing systems such as Amazon Web Services (AWS)~\cite{amazon-aws-web} and 
+%Google App Engine~\cite{gae}.  SLAs are policies that specify
+%what a developer can expect from a service in terms of availability or error rate,
+%typically before they receive a financial credit for paid
+%use of the service~\cite{aws-ec2-sla,aws-s3-sla,aws-rds-sla,gae-sla,gcs-sla}.
+%For example, AWS makes its Elastic Compute Cloud (EC2) and Elastic Block Store (EBS) 
+%available with a monthly uptime percentage 
+%of at least 99.95\%; Google makes Big Query and and App Engine services (e.g. the 
+%Bigtable-based datastore) available with monthly uptime percentage of at least 
+%99.95\% where downtime is determined by a 5\% and 10\% error rate, respectively.
+%Cerebro extends this notion of SLA to the execution time (response time) 
+%of web APIs that are deployed via (i.e. hosted by) PaaS
+%technologies (e.g. App Engine, 
+%AppScale~\cite{6488671}, Azure~\cite{azure-web}, etc.).
+%For example, a Cerebro SLA says that an API operation will respond to a HTTP request
+%within 100ms at least 95\% of the time.
 
-\begin{description}
-\item[Reducing programming overhead] PaaS clouds provide a collection of powerful programming 
-interfaces (aka cloud software development kit, or cloud SDK), that make developing new applications 
-easier.
-\item[Reducing management overhead] PaaS clouds provide managed and monitored application deployment
-environments, that guarantee scalable and high available operation of applications under changing conditions.
-\end{description}
+We target PaaS cloud platforms (public and private) as our web API and Cerebro 
+runtime system given their popularity and wide spread use~\cite{paas-growth}.
+For example, there are over four million active App Engine web APIs that 
+can execute on Google's public cloud or over AppScale (an open source, private 
+cloud version of App Engine) running on any cluster system.
+A PaaS provides developers 
+with a collection of commonly used, scalable services,
+that the platform exports via APIs defined within a software 
+development kit (cloud SDK).  These services are fully managed and covered under 
+availability SLAs by the platform. For example, the services 
+of App Engine and AppScale 
+include distributed NoSQL datastores, SQL databases, task management, 
+and data caching, among others. 
 
-For these benefits, developers increasingly choose PaaS clouds as development platforms
-and deployment targets for their applications and APIs. Consequently, the number of applications and 
-APIs hosted on PaaS clouds has grown rapidly. Google App Engine (App Engine)~\cite{gae}, one of the earliest
-public PaaS cloud offerings, hosts over four million applications. Some of the
-well known commercial applications served from App Engine include BestBuy, Snapchat, 
-and Sony Music. A lot of these applications also expose web APIs, so that other
-programs (especially mobile apps), can interact with them. AppScale~\cite{6488671}, an open source PaaS cloud that
-mimics App Engine, enables users to deploy any App Engine application in a private on-premise
-cloud environment, without changing application code. 
+Cerebro generates response-time SLAs for web API calls exported by an application
+that uses the services available within the PaaS.  For bevity, in this work
+we will use the
+term \textit{web API} to refer to a ``web-facing API exported by an
+application hosted on a PaaS platform.'' Further, 
+we will use the term \textit{cloud
+SDK} to refer to the APIs that are maintained as part of the PaaS and
+available to all hosted applications
+(to diffentiate them from APIs exported by the applications themselves).   
+For example, an application hosted in Google App Engine might export one or
+more web APIs to its users while leveraging the internal cloud SDK for the
+Google datastore that is available as part of the Google App Engine PaaS.
 
-Cerebro uses static analysis to identify the expensive cloud SDK operations
-executed by web API codes. Then it analyzes historical performance data regarding cloud SDK
-operations to predict upper bounds for web API execution times. All Cerebro predictions
-are associated with a configurable level of success probability and conservativeness. The level of 
-success probability is the fraction of API invocations whose execution times will be less than or equal to the
-predicted upper bound. The level of conservativeness is an indication of by how much Cerebro
-is overestimating the execution time upper bound. Such precision and completeness of results
-enable API developers to directly use Cerebro predictions as performance SLAs of their
-API codes.
+% that integrates such services 
+%by combining static analysis
+%of the program with dynamic performance sampling of the platform services.
+Cerebro uses static analysis to identify the cloud SDK operations
+that dominate the response time of web APIs.  Independently,
+Cerebro also maintains a running history of cloud SDK response-time 
+performance.  It uses
+QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} -- a forecasting methodology
+we have developed in prior work for predicting bounds on ``ill behaved''   
+univariate time series -- to predict response-time bounds on each SDK
+operation used by the application.  It combines these predictions dynamically
+along all call paths traversed by a specific web API operation
+and returns the ``worst case''
+upper bound (for a given target SLA probability) on the time necessary to 
+complete the operation.
 
-We design Cerebro to be fully automated (i.e. no developer intervention necessary in
-the prediction making process). It also does not require load testing on the API codes. Cerebro can be
-invoked while an API is being developed (at development-time), or just before an API is deployed
-into the production cloud platform (at deployment-time). It can also be invoked on deployed
-web APIs (at run-time) to periodically re-evaluate and revise the performance SLAs.
+%Cerebro also integrates a nonparametric
+%prediction tool called QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} that 
+%we have developed in prior work for a completely different 
+%purpose: batch queue prediction in high-performance computing 
+%systems. Cerebro ``service-izes'' QBETS for use in a cloud platform and
+%interacts with it
+%dynamically to estimate an upper bound on the execution time of each service operation.
+%Cerebro then combines this estimate with its static analysis to forecast an execution SLA 
+%for the web API.
 
-Cerebro's design is based on a hybrid approach that combines program static analysis with run-time
-monitoring of cloud platforms. Static analysis provides insight to the control flow of web
-API codes. Through a survey involving a number
-of real world PaaS applications, we learn that codes developed for PaaS clouds have
-some unique properties, that make them amenable for execution time assessment via static 
-analysis. Periodic run-time monitoring of the cloud sheds light on how
-the cloud platform has performed over time. Combination of these two aspects enables
-us to construct an accurate and up-to-date performance model of the web API code. 
+Because platform behavior under load and service implementations change over time,
+Cerebro's predictions necessarily have a lifetime.  
+As part of this paper, we investigate
+the effective lifetime of these predictions.  When such changes occur,
+Cerebro can be reinvoked to establish new SLAs for any deployed web API.  Alternatively,
+the Cerebro sampling framework can be used to identify potential SLA violations
+so that they can be avoided via mechanisms such 
+as web API rate limiting and platform resource acquisition.
 
-%We note that Cerebro only predicts the
-%execution times of API codes. To turn these predictions into proper response time SLAs, we need to
-%add the network overhead within the API provider's network domain (time for request ingress
-%and response egress). In many cloud platforms, such details regarding network latency are
-%known and well-understood. Therefore we believe that given a Cerebro prediction, it is trivial
-%for an API provider to turn it into an API response time SLA if necessary.
+We have implemented Cerebro for both the App Engine public PaaS and 
+the AppScale private PaaS. Given its modular design and this experience, 
+we believe that Cerebro can be easily added to any PaaS system.
+We use our prototypes to evaluate the correctness and accuracy of Cerebro 
+as well as the tightness
+of the bounds it predicts (i.e. the difference between the prediction and 
+the actual API execution times) using App Engine applications
+that are available
+as open source.  
+We also detail the duration over which 
+these predictions hold in both Google App Engine and also AppScale.  
+We find that Cerebro generates correct SLAs (ones that meet or exceed their
+probabilistic guarantees) and that these SLAs are valid over time periods ranging from
+from 1.4 hours to more than 24 hours.  
+We also find that the high variability of the public PaaS due to multitenency
+and massive scale requires that Cerebro be more conservative in its predictions
+(i.e. they are less tight than those for the AppScale private, single tenent cloud), 
+to achieve the same level of correctness.  Finally, because Cerebro provides this 
+analysis statically it imposes no run-time overhead on the applications
+themselves.  It requires no run-time instrumentation of application code and
+(because the PaaS is scalable and SDK minitoring data is shared across Cerebro
+predictions) generates no discernable load when monitoring
+the cloud SDKs.  Thus we believe Cerebro is suitable for highly scalable cloud
+settings.
 
-We implemented Cerebro for App Engine and AppScale.
-Our experiments show that Cerebro is able to predict the execution time
-of many different API implementations with very high accuracy. 
-Further, we note that
-predictions generated by Cerebro are very tight in most cases. That is, the predicted values do not
-overestimate the actual API execution times by much. It is only when the APIs have highly variable 
-performance characteristics, that Cerebro predicts conservative bounds. We show that this feature 
-is necessary to ensure the desired accuracy levels in predictions.
-We also show that Cerebro predictions
-are valid for more than 24 hours on average, and for more than an hour at least 95\% of the time.
+%web API development, 
+%it precludes the need for deployment, load testing, and
+%instrumentation of the web APIs being analyzed.
 
-We organize the rest of the paper as follows. Section~\ref{sec:approach} outlines our approach towards
-a solution, and the assumptions made in the process. Section~\ref{sec:survey}
-presents the results of a survey that analyzes a collection of PaaS applications. Section~\ref{sec:design}
-and section~\ref{sec:prototype_impl} explain the architecture and the prototype implementation of Cerebro.
-Section~\ref{sec:results} presents the results we have obtained using Cerebro on two cloud platforms.
-Finally, section~\ref{sec:related_work} discusses some of the related work, and section~\ref{sec:conclusions}
-concludes the paper.
+In the sections that follow, we first characterize the domain of 
+PaaS-hosted web APIs for the App Engine and AppScale PaaS systems 
+in Section~\ref{sec:approach}.   
+We then present the design of Cerebro in Section~\ref{sec:design}
+and overview our software architecture and prototype implementation
+in Section~\ref{sec:prototype_impl}.
+Next, we
+present our empirical evaluation of Cerebro in 
+Section~\ref{sec:results}.
+Finally,  we discuss related work (Section~\ref{sec:related_work}) and 
+conclude (Section~\ref{sec:conclusions}).

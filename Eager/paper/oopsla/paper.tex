@@ -33,6 +33,8 @@
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.png,.jpg}
 \graphicspath{{./figures/}}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}  
 
 \begin{document}
 
@@ -40,10 +42,10 @@
 \setlength{\pdfpageheight}{\paperheight}
 \setlength{\pdfpagewidth}{\paperwidth}
 
-\conferenceinfo{CONF 'yy}{Month d--d, 20yy, City, ST, Country} 
-\copyrightyear{20yy} 
-\copyrightdata{978-1-nnnn-nnnn-n/yy/mm} 
-\doi{nnnnnnn.nnnnnnn}
+%\conferenceinfo{CONF 'yy}{Month d--d, 20yy, City, ST, Country} 
+%\copyrightyear{20yy} 
+%\copyrightdata{978-1-nnnn-nnnn-n/yy/mm} 
+%\doi{nnnnnnn.nnnnnnn}
 
 % Uncomment one of the following two, if you are not going for the 
 % traditional copyright transfer agreement.
@@ -55,14 +57,14 @@
                                   % (paid open-access papers, 
                                   % short abstracts)
 
-\titlebanner{banner above paper title}        % These are ignored unless
-\preprintfooter{short description of paper}   % 'preprint' option specified.
+%%%\titlebanner{banner above paper title}        % These are ignored unless
+%%%\preprintfooter{short description of paper}   % 'preprint' option specified.
 
-\title{Performance SLA Prediction for Web APIs in the Cloud}
+\title{Using Static Analysis of Cloud-Hosted Web Services to Predict Performance SLAs}
 
 \authorinfo{Hiranya Jayathilaka\and Chandra Krintz\and Rich Wolski}
            {UC Santa Barbara}
-           {\{hiranya,ckrintz,rich\}@cs.ucsb.edu}
+           {\{hiranya\}@cs.ucsb.edu}
 
 \maketitle
 
@@ -70,26 +72,25 @@
 This is the text of the abstract.
 \end{abstract}
 
-\category{CR-number}{subcategory}{third-level}
+%%%\category{CR-number}{subcategory}{third-level}
 
 % general terms are not compulsory anymore, 
 % you may leave them out
 %\terms
 %term1, term2
 
-\keywords
-Cloud computing, Web APIs, Performance, SLA
+%%%\keywords
+%%%Cloud computing, Web APIs, Performance, SLA
 
 \section{Introduction}
 \label{sec:intro}
 \input{intro}
 
-\section{Our Approach}
+\section{Domain Characteristics}
 \label{sec:approach}
 \input{approach}
-
-\section{Survey on Google App Engine Applications}
-\label{sec:survey}
+%\section{Survey on Google App Engine Applications}
+%\label{sec:survey}
 \input{survey}
 
 \section{Cerebro}
@@ -119,7 +120,8 @@ Cloud computing, Web APIs, Performance, SLA
 
 \acks
 
-Acknowledgments, if needed.
+This work was funded in part by NSF (CNS-0905237, CNS-1218808, and ACI-0751315) and NIH
+(1R01EB014877-01).
 
 % We recommend abbrvnat bibliography style.
 \bibliographystyle{abbrvnat}

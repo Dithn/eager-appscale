@@ -108,8 +108,27 @@
 @misc{gae,
    key = "Google App Engine",
    title = "App Engine - Run your applications on a fully managed PaaS",
-   note = {\url "https://cloud.google.com/appengine"},
+   note = {\url "https://cloud.google.com/appengine" [Accessed March 2015]},
    year={2015}
+}
+@misc{gae-sandbox,
+   key = "Google App Engine Java Sandbox",
+   title = "Google App Engine Java Sandbox",
+   note = {\url "https://cloud.google.com/appengine/docs/java/\#Java\_The\_sandbox" [Accessed March 2015]},
+   year={2015}
+}
+@misc{azure-web,
+   key = "Microsoft Windows Azure",
+   title = "Microsoft Windows Azure",
+   note = {\url "http://www.microsoft.com/windowsazure/"},
+    year = 2015
+}
+
+@misc{amazon-aws-web,
+    key = "amazon-aws",
+    title = {{Amazon Web Services} home page},
+    note  = {\url{http://aws.amazon.com/}},
+    year = 2015
 }
 
 @misc{github,
@@ -208,23 +227,6 @@
  address = {New York, NY, USA},
 } 
 
-@inproceedings{Lokuciejewski:2009:FPS:1545006.1545064,
- author = {Lokuciejewski, Paul and Cordes, Daniel and Falk, Heiko and Marwedel, Peter},
- title = {A Fast and Precise Static Loop Analysis Based on Abstract Interpretation, Program Slicing and Polytope Models},
- booktitle = {Proceedings of the 7th Annual IEEE/ACM International Symposium on Code Generation and Optimization},
- series = {CGO '09},
- year = {2009},
- isbn = {978-0-7695-3576-0},
- pages = {136--146},
- numpages = {11},
- url = {http://dx.doi.org/10.1109/CGO.2009.17},
- doi = {10.1109/CGO.2009.17},
- acmid = {1545064},
- publisher = {IEEE Computer Society},
- address = {Washington, DC, USA},
- keywords = {loop analysis, static program analysis, abstract interpretation, WCET analysis},
-} 
-
 @inproceedings{Gulwani:2009:SPE:1480881.1480898,
  author = {Gulwani, Sumit and Mehra, Krishna K. and Chilimbi, Trishul},
  title = {SPEED: Precise and Efficient Static Estimation of Program Computational Complexity},
@@ -241,24 +243,6 @@
  publisher = {ACM},
  address = {New York, NY, USA},
  keywords = {counter instrumentation, quantitative functions, symbolic complexity bounds, termination analysis},
-} 
-
-@inproceedings{Gulwani:2009:CRP:1542476.1542518,
- author = {Gulwani, Sumit and Jain, Sagar and Koskinen, Eric},
- title = {Control-flow Refinement and Progress Invariants for Bound Analysis},
- booktitle = {Proceedings of the 2009 ACM SIGPLAN Conference on Programming Language Design and Implementation},
- series = {PLDI '09},
- year = {2009},
- isbn = {978-1-60558-392-1},
- location = {Dublin, Ireland},
- pages = {375--385},
- numpages = {11},
- url = {http://doi.acm.org/10.1145/1542476.1542518},
- doi = {10.1145/1542476.1542518},
- acmid = {1542518},
- publisher = {ACM},
- address = {New York, NY, USA},
- keywords = {bound analysis, control-flow refinement, formal verification, program verification, progress invariants, termination},
 } 
 
 @inproceedings{Frost:2011:WAJ:2043910.2043916,
@@ -517,8 +501,9 @@ language={English}
 
 @misc{ieeeapis,
   key = "ieeeapis",
-  year = {2015},`
-  title = {{IEEE Xplore Search Gateway} -- \url{http://ieeexplore.ieee.org/gateway/}}
+  year = {2015},
+  title = {{IEEE Xplore Search Gateway}},
+  note="\url{http://ieeexplore.ieee.org/gateway/}"
 }
 
 @misc{pweb,
@@ -578,4 +563,56 @@ International Symposium on},
   pages={124--131},
   year={2009},
   organization={IEEE}
+}
+
+@misc{aws-ec2-sla,
+  key = "AWS EC2 SLA",
+  year = {2015},
+  note= "\url{http://aws.amazon.com/ec2/sla/} [Accessed March 2015]",
+}
+@misc{aws-s3-sla,
+  key = "AWS S3 SLA",
+  year = {2015},
+  note= "\url{http://aws.amazon.com/s3/sla/} [Accessed March 2015]",
+}
+@misc{aws-rds-sla,
+  key = "AWS RDS SLA",
+  year = {2015},
+  note= "\url{http://aws.amazon.com/rds/sla/} [Accessed March 2015]",
+}
+@misc{gae-sla,
+  key = "Google Cloud Platform App Engine SLA",
+  year = {2015},
+  note= "\url{https://cloud.google.com/appengine/sla} [Accessed March 2015]",
+}
+@misc{gcs-sla,
+  key = "Google Cloud Platform Cloud Storage SLA",
+  year = {2015},
+  note= "\url{https://cloud.google.com/storage/sla} [Accessed March 2015]",
+}
+@misc{bigquery-sla,
+  key = "Google Cloud Platform Big Query SLA",
+  year = {2015},
+  note= "\url{https://cloud.google.com/bigquery/sla} [Accessed March 2015]",
+}
+@misc{paas-growth,
+  author = "SearchCloudComputing",
+  key = "Experts Forecast the 2015 Cloud Computing Market",
+  year = {2015},
+  note= "\url{http://searchcloudcomputing.techtarget.com/feature/Experts-forecast-the-2015-cloud-computing-market} [Accessed March 2015]",
+}
+@misc{azure-limits,
+  key = "Microsoft Azure Cloud SDK Service Quotas and Limits",
+  year = {2015},
+  note= "\url{http://azure.microsoft.com/en-us/documentation/articles/azure-subscription-service-limits/\#cloud-service-limits} [Accessed March 2015]",
+}
+@misc{gae-limits,
+  key = "Google Cloud SDK Service Quotas and Limits",
+  year = {2015},
+  note= "\url{https://cloud.google.com/appengine/docs/quotas} [Accessed March 2015]",
+}
+@misc{gae-fetch-options,
+  key = "Google Datastore Fetch Options",
+  year = {2015},
+  note= "\url{https://cloud.google.com/appengine/docs/java/javadoc/com/google/appengine/api/datastore/FetchOptions} [Accessed March 2015]",
 }
