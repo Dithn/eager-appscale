@@ -1,50 +1,43 @@
-In this section we describe the experimental results we have obtained using Cerebro and the associated tools. 
-
-\subsection{Methodology}
-We conduct tests using five sample applications. 
-
-\begin{description}
-\item[StudentInfo] A JAXRS application for managing students of a class. Provides APIs for
-adding/removing students, and listing the student information.
-\item[ServerHealth] An application that monitors a given web URL for server uptime. Provides an
-API for obtaining the uptime statistics computed by the application.
-\item[SocialMapper] A simple social networking application. Provides APIs for adding users,
-comments and other resources.
-\item[StockTrader] A stock trading application. Provides APIs for adding users, registering
-companies, buying and selling stocks among users.
-\item[Rooms] A hotel booking application. Provides APIs for registering hotels and looking up
+We next describe our experimental evaluation of Cerebro.  
+We conduct tests using five open source, App Engine web APIs.
+\texttt{StudentInfo} REST-based (JAX-RS) application for managing students 
+of a class (adding, removing, and listing student information).
+\texttt{ServerHealth} monitors, computes, and reports statistics for server uptime
+for a given web URL.
+\texttt{SocialMapper} is as social networking application with. 
+\texttt{StockTrader} is a stock trading application that provides APIs for adding 
+users, registering companies, buying and selling stocks among users.
+\texttt{Rooms} is a hotel booking application with APIs for registering hotels and querying
 available rooms.
-\end{description}
-
-The above applications extensively use the datastore cloud SDK interface of App Engine. The Rooms application
-additionally uses the memcache interface.
-
-We instrument each of the five sample applications to measure the time taken by their web APIs to execute the
-enclosed code. This is done by adding some extra Java code to each of the web APIs exposed by the sample applications.
-We ensure that the instrumentation does not alter the original web API code in anyway (i.e. the original algorithms, control flow
-and data flow are not impacted by the instrumentation). Then for each application we also
-implement a mechanism to output the measured execution times, so an external client can query and collect the execution
-times of the web APIs.
-
-We carry out each of our tests in two separate environments -- Google App Engine public cloud, and
-the AppScale private cloud. The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
+These web APIs use the cloud SDK datastore interface extensively. The rooms web API
+also uses the memcache interface. We focus on these two interfaces exclusively in this study.
+We execute these applications in the Google App Engine public cloud and in an AppScale
+private cloud.  We instrument the programs to collect execution time statistics.
+The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
 running on a private Eucalyptus~\cite{eucalyptus09} cluster.
 
-\subsection{Accuracy of Predictions}
-In the first set of experiments, we benchmark each application for a period of 15 to 20 hours.
-During this time we run an HTTP client on a separate machine that invokes the instrumented web APIs once every minute, 
-and collects the server-side execution times (as measured by the instrumentation code).
-At the same time, we also run Watchtower in the same target cloud environment to
-benchmark the individual cloud SDK operations. 
-%Recall that our sample applications use datastore and memcache
-%cloud SDK interfaces. Hence
-%we configure Watchtower to periodically benchmark the cloud SDK operations related to these two interfaces. 
-At the end of a benchmarking run, we have two sets of data at hand:
+%We instrument each of the five sample applications to measure the 
+%time taken by their web APIs to execute the
+%enclosed code. This is done by adding some extra Java code to each of the web APIs exposed by the sample applications.
+%We ensure that the instrumentation does not alter the original web API code in anyway (i.e. the original algorithms, control flow
+%and data flow are not impacted by the instrumentation). Then for each application we also
+%implement a mechanism to output the measured execution times, so an external client can query and collect the execution
+%times of the web APIs.
 
-\begin{itemize}
-\item Web API execution times collected by the benchmarking HTTP client
-\item Cloud SDK benchmarking data gathered by Watchtower
-\end{itemize}
+%We carry out each of our tests in two separate environments -- Google App Engine public cloud, and
+%the AppScale private cloud. 
+%The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
+%running on a private Eucalyptus~\cite{eucalyptus09} cluster.
+
+\subsection{Accuracy of Predictions}
+We first evaluate the correctness and accuracy of Cerebro predictions. 
+We benchmark each web API 
+for a period of 15 to 20 hours.
+During this time we run a remote HTTP client that makes requests
+to the web APIs once every minute.  The instrumented web APIs measure 
+and record the execution time of the API operation for each request (server side).
+Concurrently and within the same PaaS system, we execute the Cerebro Watchtower which
+profiles cloud SDK operations independently every minute.
 
 Next we run Cerebro to predict the web API execution times using the cloud SDK benchmarking data
 collected by Watchtower. We configure Cerebro to predict an upper bound for the 95th percentile of the web API
