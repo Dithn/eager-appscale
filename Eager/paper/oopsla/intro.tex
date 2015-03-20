@@ -153,6 +153,7 @@ of the bounds it predicts (i.e. the difference between the prediction and
 the actual API execution times) using App Engine applications
 that are available
 as open source.  
+
 We also detail the duration over which 
 these predictions hold in both Google App Engine and also AppScale.  
 We find that Cerebro generates correct SLAs (ones that meet or exceed their
@@ -161,13 +162,33 @@ from 1.4 hours to more than 24 hours.
 We also find that the high variability of the public PaaS due to multitenency
 and massive scale requires that Cerebro be more conservative in its predictions
 (i.e. they are less tight than those for the AppScale private, single tenent cloud), 
-to achieve the same level of correctness.  Finally, because Cerebro provides this 
+to achieve the same level of correctness.  
+
+Because Cerebro provides this 
 analysis statically it imposes no run-time overhead on the applications
 themselves.  It requires no run-time instrumentation of application code and
 (because the PaaS is scalable and SDK minitoring data is shared across Cerebro
 predictions) generates no discernable load when monitoring
 the cloud SDKs.  Thus we believe Cerebro is suitable for highly scalable cloud
 settings.
+
+Finally, we have developed Cerebro for use with EAGER (\textbf{E}nfoced
+\textbf{A}pplication \textbf{G}overnance \textbf{E}ngine for
+\textbf{R}EST)~\cite{XXXeagerXXX} --
+an API governance service for PaaS platforms.  EAGER attempts to enforce
+governance policies set by the PaaS administration at deployment time.  PaaS
+platforms include a deployment phase during which the platform provisions
+resources for the application, installs the application components, and
+configures them to use the cloud SDKs.  EAGER injects a policy checking and
+enforcement step into the PaaS deployment workflow so that only web APIs that
+are compliant with respect to site-sepcific policies are successfully deployed. 
+
+Because Cerebro requires no application instrumentation and because the call
+path analysis takes place off-line, it can be used by EAGER to implement
+policies governing response-time SLAs.  That is, Cerebro allows
+PaaS administrators to define
+EAGER policies that allow an application to be deployed \textit{only} when its
+web APIs will meet a pre-determined (or pre-negotiated) SLA target.
 
 %web API development, 
 %it precludes the need for deployment, load testing, and
