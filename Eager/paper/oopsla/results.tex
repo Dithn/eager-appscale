@@ -427,7 +427,7 @@ durations for Cerebro predictions in Google App Engine and AppScale
 respectively.
 \begin{table}[htdp]
 \caption{Prediction validity period distributions of different operations in
-App Engine. Validity durations were computed by observing 3 consecutive SLA
+App Engine. Validity durations were computed by observing $3$ consecutive SLA
 violations. $5^{th}$ and $95^{th}$ columns represent the 5th and 95th 
 percentiles of the
 distributions respectively. All values are in hours.}
@@ -455,7 +455,7 @@ Rooms\#getRoomsInCity & 2.08 & 30.12 & 82.58 \\ \hline
 
 \begin{table}[htdp]
 \caption{Prediction validity period distributions of different operations in
-AppScale. Validity periods were computed by observing 3 consecutive SLA
+AppScale. Validity periods were computed by observing $3$ consecutive SLA
 violations. $5^{th}$ and $95^{th}$ 
 columns represent the 5th and 95th percentiles of the
 distributions respectively. All values are in hours.}
@@ -555,7 +555,7 @@ $1000$ minutes of operation (one prediction generated per minute).
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{gae_accuracy}
-\caption{Correctness Percentage for predictions made on Google App 
+\caption{Running tabulation of Correctness Percentage for predictions made on Google App 
 Engine for first $1000$ minutes, one prediction per minute.}
 \label{fig:gae_accuracy}
 \end{figure}
@@ -566,7 +566,8 @@ $1000$ minutes of operation (again, one prediction generated per minute).
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{as_accuracy}
-\caption{Percentage accuracy of predictions made on AppScale for a period of 1000 minutes.}
+\caption{Running tabulation of Correctness Percentage for predictions made on AppScale for a period
+of $1000$ minutes, one prediction per minute.}
 \label{fig:as_accuracy}
 \end{figure}
 
@@ -580,9 +581,10 @@ Results for other operations fall between these two extremes.
 %from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. 
 %But once Cerebro has converged it consistently produces highly accurate predictions.
 In the worst case Cerebro takes up to $200$ minutes to 
-reach stability in Google App Engine. This is the case with the
+achieve correctness percentage above $95\%$
+in Google App Engine. This is the case with the
 StudentInfo\#getAllStudents operation. 
-Alternatively, the longer time until Cerebro has ``learned'' the series in
+Alternatively, the longest time until Cerebro has ``learned'' the series in
 AppScale is approximately $40$ minutes.
 %After 275 minutes, we see highly accurate predictions being made on all web API
 %operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. 
@@ -616,11 +618,13 @@ AppScale is approximately $40$ minutes.
 %could be slightly above or below 95\%. 
 %But as long as this value does not diverge too far from 95\% mark, we can consider Cerebro predictions to
 %be accurate.
-Summarizing results shown above, 
-Cerebro needs to see cloud SDK benchmarking data 
-for several hours (up to $200$ minutes in case of 
+Summarizing these results, however,
+the leraning tie for Cerebro may be several
+several hours (up to $200$ minutes in case of 
 Google App Engine), before it produces trustworthy and correct 
-SLA predictions. 
+SLA predictions.  The predictions made during this learning period are not
+necessarily incorrect.  It is just not possible to gauge their correctness
+quantitatively before the series has been learned. 
 %Therefore, it is a good idea to start Watchtower in the
 %target cloud platform early, and let it run for several hours before allowing API developers to deploy their web APIs on the cloud. 
 %Since the
