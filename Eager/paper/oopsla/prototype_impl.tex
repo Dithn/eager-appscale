@@ -3,7 +3,8 @@ The prototype analyzes web APIs implemented in Java, and makes SLA predictions f
 %In this section we present the details of our prototype.
 
 \subsection{Static Analyzer}
-We implemented the static analyzer component of Cerebro using Soot~\cite{Vallee-Rai:2010:SJB:1925805.1925818}, a powerful
+We implemented the static analyzer component of Cerebro using 
+Soot~\cite{Vallee-Rai:2010:SJB:1925805.1925818}, a powerful
 static analysis and code manipulation framework for Java. It supports performing a wide range of analyses on both Java source
 code and byte code. Soot converts the input Java code into one of four intermediate representations (Baf, Jimple,
  Shimple and Grimp), and constructs the CFG for the code. It provides a number of common static
@@ -12,8 +13,10 @@ code and byte code. Soot converts the input Java code into one of four intermedi
  
 Our prototype static analyzer takes the compiled byte code of web applications as input. It uses the
 Soot framework to transform byte code into Jimple, and from that it constructs the CFGs for 
-all the Java methods in the exposed web API classes. Currently, our
-prototype treats following classes as exposed web APIs:
+all the Java methods in the exposed web API classes. 
+
+Currently, our
+prototype treats the following classes as exposed web APIs:
 
 \begin{itemize}
 \item classes that extend the \textit{javax.servlet.HttpServlet} class (i.e. Java servlet implementations)

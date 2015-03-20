@@ -1,77 +1,88 @@
 The goal of our work is to analyze a web API statically and from this analysis, 
 without deploying or running the web API, 
-to accurately estimate an upper bound on its execution time. With such a prediction,
-we can provide a performance SLA to the users (human or 
-programmatic) of the web API under development to help others reason its performance
-and use in their web APIs -- something that is not possible today.
+to accurately estimate an upper bound on its response time. With such a prediction,
+developers and cloud administrators can provide performance SLAs to the clients (human or 
+programmatic) on a per-operation basis, to help them reason about 
+the performance implications of their use -- something that is not possible today.
 For general purpose applications, such worst case execution time analysis has been shown
-by numerous researchers to be extremely complex and challenging to achieve for all but 
-very simple codes or very specific domains.
+by numerous researchers to be challenging to achieve for all but 
+simple programs or specific application domains.
+
 To overcome these challenges, we take inspiration from the latter and exploit 
-the development and deployment model of PaaS systems for web API execution to enable 
-our analysis and accurate performance predictions.
+the application domain (i.e. the development and deployment
+model) of PaaS-hosted web APIs to achive our goal.  
+In this paper, we focus on the popular Google App Engine (GAE) public PaaS 
+and AppScale private PaaS, both of which support the same App Engine applications, 
+development and deployment model, and platform services.
 
-First, PaaS systems require developers
-to implement web APIs using a predefined set of 
-programming interfaces. When considered as a
-collection, we shall refer to these programming interfaces as the cloud software development 
+The first characteristic of PaaS systems
+that we exploit is their predefined programming interfaces 
+from which they export platform services. 
+Herein we refer to these programming interfaces as the cloud software development 
 kit or the \textit{cloud SDK}. We refer to the individual member interfaces of the cloud SDK
-as \textit{cloud SDK interfaces}, and their constituent operations are referred to as \textit{cloud SDK operations}.
+as \textit{cloud SDK interfaces}, and to their constituent operations 
+as \textit{cloud SDK operations}.  These interfaces export scalable
+functionality that is commonly used for implementation of web APIs:  
+key-value datastores, databases,
+data caching, task and user management, security and authentication, etc.
+The App Engine and AppScale cloud SDK is detailed 
+in \url{https://cloud.google.com/appengine/docs/java/javadoc/}. 
 
-App Engine, for example, provides several cloud SDKs; one for each
-programming language supported (Java, Python, Go etc). Each SDK consists of
-several cloud SDK interfaces. Table~\ref{tab:gae_cloud_sdk} lists some of them.
-Each individual interface is comprised of several cloud SDK operations. For instance, the 
-datastore interface of App Engine provides operations for saving an entity (a data object),
-deleting an entity, and querying the datastore to read one or more entities.
+%App Engine, for example, provides several cloud SDKs; one for each
+%programming language supported (Java, Python, Go etc). Each SDK consists of
+%several cloud SDK interfaces. Table~\ref{tab:gae_cloud_sdk} lists some of them.
+%Each individual interface is comprised of several cloud SDK operations. For instance, the 
+%datastore interface of App Engine provides operations for saving an entity (a data object),
+%deleting an entity, and querying the datastore to read one or more entities.
 
-\begin{table}[htdp]
-\caption{Google App Engine cloud SDK interfaces}
-\begin{center}
-\begin{tabular}{|c|p{5cm}|}
-\hline
-Cloud SDK Interface & Functionality \\ \hline
-datastore & Reading and writing data to a highly scalable database with some transaction support. \\ \hline
-memcache & In-memory caching of data for faster access.\\ \hline
-users & User session management (login and logout)\\ \hline
-blobstore & Reading and writing large chunks (blobs) of uninterpreted bytes.\\ \hline
-task queue & Scheduling periodic and background jobs.\\ \hline
-\end{tabular}
-\end{center}
-\label{tab:gae_cloud_sdk}
-\end{table}
+%\begin{table}[htdp]
+%\caption{Google App Engine cloud SDK interfaces}
+%\begin{center}
+%\begin{tabular}{|c|p{5cm}|}
+%\hline
+%Cloud SDK Interface & Functionality \\ \hline
+%datastore & Reading and writing data to a highly scalable database with some transaction support. \\ \hline
+%memcache & In-memory caching of data for faster access.\\ \hline
+%users & User session management (login and logout)\\ \hline
+%blobstore & Reading and writing large chunks (blobs) of uninterpreted bytes.\\ \hline
+%task queue & Scheduling periodic and background jobs.\\ \hline
+%\end{tabular}
+%\end{center}
+%\label{tab:gae_cloud_sdk}
+%\end{table}
 
 \begin{figure}
 \centering
 %\includegraphics[scale=0.35]{cloud_app_model}
 \includegraphics[scale=0.35]{sdk}
-\caption{Web APIs deployed in a PaaS cloud: (a) An external client invoking 
-a PaaS-hosted web API;
-(b) A Paas-hosted web API invoking a web API hosted in the same cloud.}
+\caption{PaaS-hosted Web APIs: (a) An external client making requests
+to the API;
+(b) A Paas-hosted web API invoking another in the same cloud.
 \label{fig:cloud_app_model}
+}
+\vspace{-0.2in}
 \end{figure}
 
-Figure~\ref{fig:cloud_app_model} illustrates the PaaS deployment model for web APIs.
+Figure~\ref{fig:cloud_app_model} illustrates the PaaS development and deployment model.
 Developers implement their applications using a combination of operations
 from the cloud SDK and their own code.  The service implementations for the 
 cloud SDK are highly scalable, highly available (have SLAs associated with them),
-and automatically managed and connected to the web API by the platform.
-Web APIs that run in PaaS clouds can be accessed by external or co-located clients.
-Clients can be other web APIs, applications, and users via their browsers.
+and automatically managed and connected to the web API by the platform. Developers
+then upload their applications to the cloud at \textit{deployment time}.
+Once deployed, web APIs are accessed via HTTP/s requests by external or co-located clients.
 
-Typically, \textit{all} PaaS-hosted web APIS implement one or more
+Typically, PaaS-hosted web APIS implement one or more
 cloud SDK calls.  The reason for this is two-fold.  First, 
 cloud SDKs provide web APIs with much of the functionality that they require.
-Second, PaaS clouds ``sandbox'' web APIs to enforce quotas/billing
+Second, PaaS clouds ``sandbox'' web APIs to enforce quotas, to enable billing,
 and to restrict certain functionality
-(e.g. local file system access, direct memory access, use of certain libraries, multi-threading) that can lead to security holes, platform instability, or scaling issues~\cite{gae-sandbox}.
+(e.g. local file system access, direct memory access, use of certain libraries, unrestricted threading, etc.) that can lead to security holes, platform instability, or scaling issues~\cite{gae-sandbox}.
 
-The sandbox places other important restrictions on web APIs that additionally
-simplify our analysis.
-First, the only way to execute a PaaS-hosted web API is via HTTP/s (request-response 
-pattern).  As a result, 
-all web API operations start and end at well defined points in the program and 
-structure can be inferred from the pattern.  Second,
+In particular, the only way for a web API to execute is in response
+to an HTTP/s (request-response 
+pattern) or background task.  As a result, execution of
+all web API operations start and end at well defined program points and
+we are able to infer structure from common software patterns.  Second,
 concurrency is restricted by capping the number of threads
 and requiring that a thread cannot outlive the request
 that creates it.  Third, PaaS clouds enforce quotas and limits on service

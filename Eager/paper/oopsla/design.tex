@@ -3,16 +3,19 @@ to design a system that predicts response time SLAs for PaaS-hosted web APIs usi
 static information from the web API code itself.  To enable this, we design Cerebro
 with three primary components:
 \begin{itemize}
-\item A static analysis tool that extracts the longest sequence of cloud SDK operations invoked by a web API code across paths in a method (web API operation),
-\item A monitoring agent that runs in the target cloud platform that efficiently profiles the performance of the underlying cloud SDK operations (which we will call Watchtower), and
+\item A static analysis tool that extracts sequences of cloud SDK operations for 
+each path through a method (web API operation),
+\item A monitoring agent that runs in the target PaaS and efficiently monitors 
+the performance of the underlying cloud SDK operations (which we will call Watchtower), and
 \item A prediction mechanism that uses the outputs of these two components to accurately predict an upper bound on the execution time of the web API (which we call the SLA predictor).
 \end{itemize}
-In our prototype, we perform Cerebro analysis at deployment time of a web API.  That is,
-when a developer uploads their application to the cloud platform, Cerebro performs
-the static analysis on the web API and requests a prediction for the longest path (currently
-number and type of SDK operations) for each web API operation from the SLA predictor.
-The SLA predictor accesses the time series data from Watchtower to produce an 
-SLA prediction for each operation.
+In our prototype, we invoke Cerebro each time a 
+web API is deployed.
+%when a developer uploads their application to the cloud platform, Cerebro performs
+%the static analysis on the web API and requests a prediction for the longest path (currently
+%number and type of SDK operations) for each web API operation from the SLA predictor.
+%The SLA predictor accesses the time series data from Watchtower to produce an 
+%SLA prediction for each operation.
 
 %\begin{figure}
 %\centering
