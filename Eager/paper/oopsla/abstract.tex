@@ -1,0 +1,24 @@
+Cloud computing has proved to be a successful model for hosting web-facing
+applications that are invoked by their users as services.  While clouds
+currently offer Service Level Agreements (SLAs) containing guarantees of
+availability they currently do not provide the ability to make performance
+guarantees.
+
+In this work we present Cerebro -- a system for establishing statistical
+guarantees of application response time in cloud settings.  Cerebro combines
+off-line static analysis of application control structure with on-line cloud
+performance monitoring and statistical forecasting to predict bounds on the
+response time of web-facing application programming interfaces (APIs).
+Because Cerebro does not require application instrumentation or 
+per-application cloud benchmarking, it does not impose runtime overhead
+and hence is suitable for use at cloud scales.  Also, because the bounds are
+statistical, they are appopriate for use as the basis of SLAs between
+cloud-hosted applications and their users.
+
+We investigate the correctness of Cerebro predictions, the tightness of their
+bounds, and the duration over which the bounds persist in both Google App
+Engine and AppScale (public and private cloud platforms respectively).  
+We also detail the time necessary for the forecasting 
+methodology to ``learn'' response-time bounds in these cloud settings. 
+
+
