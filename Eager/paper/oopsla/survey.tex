@@ -1,10 +1,10 @@
+
 To understand the specific characteristics of PaaS-hosted web APIs and the potential
 of this restricted domain to facilitate efficient static analysis and response time 
 prediction,  we next summarize results from static analysis (using the Soot
 framework~\cite{Vallee-Rai:2010:SJB:1925805.1925818}) of 
-35 real world App Engine web APIs (taken from public 
-repositories). These web APIs are open 
-source and written in Java and run over Google App Engine or AppScale without modification.
+35 real world App Engine web APIs. These web APIs are open 
+source, written in Java, and run over Google App Engine or AppScale without modification.
 We plan to make these applications publicly available upon publication.  
 %We omit data graphs due to space constraints.
 
@@ -17,14 +17,14 @@ We plan to make these applications publicly available upon publication.
 \vspace{-0.2in}
 \end{figure}
 
-There are a total of 1458 methods (API operations) in these programs.
+Our analysis detected a total of 1458 Java methods in the analyzed codes.
 Figure~\ref{fig:path_count_cdf} shows the cumulative distribution of 
 static program paths in these methods.
 Approximately 97\% of the methods considered in the analysis have 10 or fewer 
 static program paths through them.  99\% of 
 the methods have 36 or fewer paths.
-However, the CDF is heavy tailed
-(truncated at 100 but grows to 34992). As such, 
+However, the CDF is heavy tailed --
+truncated at 100 but grows to 34992. As such, 
 a very small number of methods 
 contain large numbers of paths.
 Fortunately, over 65\% have exactly 1 path (i.e. there are no branches).
@@ -33,12 +33,12 @@ Next we consider the looping behavior of web APIs.  1286 of the methods (88\%)
 considered in the study
 do not have any loops. 172 methods (12\%) contain loops. 
 We believe that this characteristic is due to the fact that 
-the PaaS SDK and the platform restrictions (quotas and response time limits) 
-discourages looping.
+the PaaS SDK and the platform restrictions like quotas and response time limits 
+discourage looping.
 
 Approximately 29\% of all the loops in 
 the analyzed programs do not contain any cloud SDK invocations. 
-A large majority of the loops (61\%) that methods do contain are
+A large majority of the loops (61\%), however, are
 used to iterate over a dataset that is returned from the datastore cloud SDK interface 
 of App Engine (i.e iterating on the result set 
 returned by a datastore query). We refer to this particular type of 
@@ -76,7 +76,7 @@ The Datastore API is the most commonly used interface.
 This is because data storage and access is a fundamental 
 capability required by most web APIs and the PaaS
 disallows local filesystem
-access for scalability and portability (relocatability) reasons.
+access for scalability and portability reasons.
 
 \begin{figure}
 \centering
@@ -103,12 +103,13 @@ Finally, our experience with App Engine web APIs indicates that a significant
 portion of the total time of a method (web API operation) is spent in cloud SDK calls.
 Confirming this hypothesis requires careful instrumentation (i.e. difficult
 to automate) of the web API codes.  We performed such a test by hand on two 
-representative applications and found that the time spent in code other than cloudSDK code
-accounts for $0$-$6$\% of the total time (0-3ms for a 30ms web API operation).
+representative applications and found that the time spent in code other than cloud SDK calls
+accounts for $0$-$6$\% of the total time (0-3ms for a 30-50ms web API operation).
 Our hypothesis then is that we can efficiently analyze
 a web API statically, extract the number of cloud SDK calls,
-and then estimate the worst case time spent in each operation from that of the 
+and then estimate the worst-case time spent in each operation from that of the 
 time spent in cloud SDK calls.
+
 In the next section, we describe our design and implementation of Cerebro
-that takes advantage of these characteristics and assumptions to do so.
+that takes advantage of these characteristics and assumptions.
 We then use a Cerebro prototype to experimentally evaluate our hypothesis.

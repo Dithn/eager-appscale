@@ -4,20 +4,19 @@ to accurately estimate an upper bound on its response time. With such a predicti
 developers and cloud administrators can provide performance SLAs to the clients (human or 
 programmatic) on a per-operation basis, to help them reason about 
 the performance implications of their use -- something that is not possible today.
-For general purpose applications, such worst case execution time analysis has been shown
+For general purpose applications, such worst-case execution time analysis has been shown
 by numerous researchers to be challenging to achieve for all but 
 simple programs or specific application domains.
 
 To overcome these challenges, we take inspiration from the latter and exploit 
-the application domain (i.e. the development and deployment
-model) of PaaS-hosted web APIs to achive our goal.  
+the application domain of PaaS-hosted web APIs to achieve our goal.  
 In this paper, we focus on the popular Google App Engine (GAE) public PaaS 
-and AppScale private PaaS, both of which support the same App Engine applications, 
+and AppScale private PaaS, both of which support the same applications, 
 development and deployment model, and platform services.
 
 The first characteristic of PaaS systems
 that we exploit is their predefined programming interfaces 
-from which they export platform services. 
+through which they export various platform services. 
 Herein we refer to these programming interfaces as the cloud software development 
 kit or the \textit{cloud SDK}. We refer to the individual member interfaces of the cloud SDK
 as \textit{cloud SDK interfaces}, and to their constituent operations 
@@ -67,26 +66,30 @@ Figure~\ref{fig:cloud_app_model} illustrates the PaaS development and deployment
 Developers implement their applications using a combination of operations
 from the cloud SDK and their own code.  The service implementations for the 
 cloud SDK are highly scalable, highly available (have SLAs associated with them),
-and automatically managed and connected to the web API by the platform. Developers
-then upload their applications to the cloud at \textit{deployment time}.
-Once deployed, web APIs are accessed via HTTP/s requests by external or co-located clients.
+and automatically managed by the platform. Developers then
+upload their applications to the cloud.
+Once deployed, the applications and any web APIs exported by them can be accessed 
+via HTTP/s requests by external or co-located clients.
 
-Typically, PaaS-hosted web APIS implement one or more
+Typically, PaaS-hosted web APIs perform one or more
 cloud SDK calls.  The reason for this is two-fold.  First, 
 cloud SDKs provide web APIs with much of the functionality that they require.
 Second, PaaS clouds ``sandbox'' web APIs to enforce quotas, to enable billing,
 and to restrict certain functionality
-(e.g. local file system access, direct memory access, use of certain libraries, unrestricted threading, etc.) that can lead to security holes, platform instability, or scaling issues~\cite{gae-sandbox}.
+that can lead to security holes, platform instability, or scaling issues~\cite{gae-sandbox}.
+For example, GAE and AppScale cloud platforms restrict the application code
+from accessing the local file system, accessing shared memory, use of certain libraries
+and spawning new threads.
 
 In particular, the only way for a web API to execute is in response
-to an HTTP/s (request-response 
-pattern) or background task.  As a result, execution of
-all web API operations start and end at well defined program points and
-we are able to infer structure from common software patterns.  Second,
+to an HTTP/S request or as a background task.  Therefore, execution of
+all web API operations start and end at well defined program points, and
+we are able to infer this structure from common software patterns.  Second,
 concurrency is restricted by capping the number of threads
 and requiring that a thread cannot outlive the request
 that creates it.  Third, PaaS clouds enforce quotas and limits on service
 (cloud SDK) use~\cite{azure-limits,gae-limits,gae-sandbox}.
-App Engine for example, requires that all web API requests complete in 60 seconds (or they are terminated by the platform).  Such enforcement places a strict upper bound on the
-execution of a web API operation (request response).
-
+App Engine for example, requires that all web API requests complete in 60 seconds.
+Otherwise they are terminated by the platform. 
+Such enforcement places a strict upper bound on the
+execution of a web API operation.
