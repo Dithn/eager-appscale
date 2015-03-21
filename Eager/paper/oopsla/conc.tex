@@ -1,57 +1,75 @@
 Web services and service oriented architecture encourage developers to create new applications by
 composing existing services via their web APIs. But such integration of services makes it difficult to
-reason about the performance and other non-functional properties of composing applications. To
-facilitate such reasoning, web APIs should be exported with strong performance guarantees (SLAs),
-so that application developers are aware of what to expect from the web APIs they consume. 
+reason about the performance and other non-functional properties of 
+composite applications. To
+facilitate such reasoning, web APIs should be exported with strong performance 
+guarantees (SLAs), so that application developers are aware of 
+what to expect from the web APIs they consume. 
 
 To this end,
-we propose Cerebro, a system that predicts response time bounds for web APIs deployed in PaaS clouds. We
-choose PaaS clouds as the target environment of our research due to their rapidly growing popularity as a technology
-for hosting scalable web APIs, and their SDK-based, restricted application development model, 
+we propose Cerebro, a system that predicts response time 
+bounds for web APIs deployed in PaaS clouds. We
+choose PaaS clouds as the target environment of our 
+research due to their rapidly growing popularity as a technology
+for hosting scalable web APIs, and their SDK-based, restricted 
+application development model, 
 which makes it easier to analyze PaaS applications statically.
 
-Cerebro uses static analysis to extract the sequence of cloud SDK calls made by a given web API code. Then it
+Cerebro uses static analysis to extract the sequence of cloud SDK 
+calls made by a given web API code. Then it
 uses historical performance data of cloud SDK calls to predict the response time of the web
-API. The historical performance data of cloud SDK calls are gathered using a special monitoring agent
-executed in the PaaS cloud, that periodically benchmarks and records cloud SDK performance, independent
-of deployed applications.
-Cerebro also employs QBETS, a non-parametric time series analysis and forecasting method, to analyze
+API. The historical performance data of cloud SDK 
+calls are gathered using a special monitoring agent
+executed in the PaaS cloud, that periodically benchmarks and records 
+cloud SDK performance, independent of deployed applications and web APIs.
+Cerebro also employs QBETS, a non-parametric time series analysis and 
+forecasting method, to analyze
 cloud SDK performance data, and predict the response time SLAs with exact correctness
-probabilities. Cerebro can be invoked at both development and deployment phases of a web API, and 
-it does not require performance testing of the API code. Further, it does not interfere with the run-time operation
-of the APIs or the cloud platform, which makes it highly scalable.
+probabilities. Cerebro can be invoked at both development and 
+deployment phases of a web API, and 
+precludes the need for continuous performance testing of the API code. 
+Further, it does not interfere with the run-time operation
+of the APIs or the cloud platform, which makes it scalable.
 
-We implemented Cerebro for Google App Engine public PaaS, and AppScale private PaaS. We subjected this
-prototype to a myriad of tests to study the attributes such as correctness, tightness and validity duration of Cerebro
-predictions. We summarize our learnings as follows:
+We implemented Cerebro for Google App Engine public PaaS, 
+and AppScale private PaaS. We subjected this
+prototype to a myriad of tests to study its efficacy in terms of
+correctness, tightness of predictions, and duration of prediction 
+validity.  We summary, we evaluated Cerebro using a set of representative
+and open source web applications developed by others.  We used Cerebro to
+predict the 95th percentile of the API operation response time. 
+We find that
 \begin{itemize}
-\item We tested Cerebro for prediction correctness using a wide range of web applications. 
-In these tests Cerebro was used to
-predict the 95th percentile of the API execution time. In all cases, Cerebro succeeded in achieving a percentage
-correctness level close to or higher than 95\%. That is, the actual API execution times measured from the 
-applications were below the predicted 95th percentile values 95\% or more of the time.
-\item For most of the test APIs, Cerebro managed to make tight predictions (i.e the predictions are not too far
-from the actual values). In situations where the web APIs have highly variant performance characteristics with many high outliers,
-we saw that Cerebro trades off tightness for accuracy, by making conservative predictions.
-\item We observed that Cerebro takes some time to learn from the gathered time series data before it can make highly reliable
-predictions. In our tests this learning period took up to 200 minutes. The percentage accuracy undergoes
-many large fluctuations during this period, but once Cerebro's prediction algorithm has converged, it produces highly
-accurate and reliable results consistently. Only very minor fluctuations in percentage accuracy can be observed after
-convergence.
-\item We introduced a theoretical model for determining when to treat a predicted SLA as invalid, and used that model
-to compute the prediction validity durations for Cerebro. We noticed that on average the prediction validity duration
-can fall somewhere between 24 and 72 hours. Further, we observed that 95\% of the time the validity duration is at least 1.41 hours
-on App Engine, and 1.95 hours on AppScale.
-\item When comparing the App Engine results to AppScale results we saw that Cerebro produces tighter and
-more long lasting SLA predictions on AppScale. We attributed this behavior to the fact that AppScale is a small and controlled
-environment that is much more stable over time. %In contrast Google App Engine is much larger, shared among many users
-%and provides no control over the underlying hardware resources.
+\vspace{-0.05in}
+\item Cerebro achieves this goal for all the applications in both cloud environments.
+\vspace{-0.05in}
+\item Cerebro generates tight predictions (i.e.
+the predictions are similar to measured values) for most web APIs.  Because
+some operations and PaaS systems exhibit more variability in cloud SDK response
+time (i.e. the response time time series contains many outliers), 
+Cerebro must be conservative (and produce predictions that are less tight)
+to meet its correctness guarantees.  
+\vspace{-0.05in}
+\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems (with an integrated Cerebro monitoring agent) are designed to run continuously, this should not be an issue in practice. And
+\vspace{-0.05in}
+\item We can use a simple yet administratively useful model to identify when an 
+SLA becomes invalid to compute
+prediction validity durations for Cerebro.  The average duration of a valid
+Cerebro prediction is between 24 and 72 hours
+and 95\% of the time this duration is at least 
+1.41 hours for App Engine and 1.95 hours for AppScale.
+\vspace{-0.05in}
 \end{itemize}
 
-In the current design, Cerebro's cloud SDK monitoring agent only monitors a predefined set of cloud SDK
-operations. In our future work we wish to explore the possibiliy of making this component more dynamic,
-so that it learns what operations to benchmark from the web APIs deployed in the cloud. Further, we also
-wish to integrate Cerebro with EAGER, our API governance system and policy engine for PaaS clouds, so 
+In the current design, Cerebro's cloud SDK monitoring agent only monitors 
+a predefined set of cloud SDK operations. In our future work we wish 
+to explore the possibiliy of making this component more dynamic,
+so that it learns what operations to benchmark from the web APIs 
+deployed in the cloud. We also plan to investigate further how to better
+handle data dependent loops. Further, we plan
+to integrate Cerebro with EAGER, our API governance system 
+and policy engine for PaaS clouds, so 
 that PaaS administrators can enforce SLA-related policies on web APIs at deployment-time.
-Such a system will make it possible to prevent any API that does not adhere to the organizational performance
+Such a system will make it possible to prevent any API that 
+does not adhere to the organizational performance
 standards from being deployed in the production cloud environment.

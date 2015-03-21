@@ -22,34 +22,37 @@ Ermedahl et al designed and implemented SWEET~\cite{ermedahl2007loop}, a WCET an
  used to detect variables that do not change during the course of a loop iteration, and remove them from
  the analysis thus further simplifying the loop bound estimation. Lokuceijewski et al proposes 
  a similar WCET analysis using program slicing and abstract interpretation~\cite{Lokuciejewski:2009:FPS:1545006.1545064}. They additionally use a technique
-called polytope models to further speed up the analysis.
+called polytope models to further speed up the analysis.  Frost et al developed TetaJ, a WCET
+ tool for Java byte code programs~\cite{Frost:2011:WAJ:2043910.2043916}.
  
-The corpus of research that covers the use of static analysis methods to estimate the execution 
-time of software applications is massive. Gulwani, Jain and Koskinen used two techniques named control-flow
+The corpus of research that covers the use of static analysis methods 
+to estimate the execution time of software applications is 
+extensive. Gulwani, Jain and Koskinen used two techniques named control-flow
  refinement and progress invariants to estimate the bounds for procedures with nested and multi-path loops~\cite{Gulwani:2009:CRP:1542476.1542518}.
  Gulwani, Mehra and Chilimbi proposed SPEED~\cite{Gulwani:2009:SPE:1480881.1480898}, a system that computes symbolic bounds for programs. This
  system makes use of user-defined quantitive functions to predict the bounds for loops iterating over
 data structures like lists, trees and vectors. Our idea of using user-defined values to bound
  data-dependent loops (e.g. iterative datastore reads) is partly inspired from this concept.
  Bygde~\cite{bygde2010static} proposed a set of algorithms for predicting data-independent loops using abstract interpretation
- and element counting (a technique that was partly used in \cite{ermedahl2007loop}). We incorporated some
- of these algorithms into our prototype of Cerebro, due to their simplicity. Frost et al developed TetaJ, a WCET
- tool for Java byte code programs~\cite{Frost:2011:WAJ:2043910.2043916}.
+ and element counting (a technique that was partly used in \cite{ermedahl2007loop}). 
+Cerebro incorporates minor variations of these algorithms successfully due to their
+simplicity.  
  
-Cerebro has a strong resemblance to some of the execution time analysis systems discussed above.
-However, there are also several key differences. For instance, Cerebro is focused on solving the
+Cerebro makes us of and is similar to many of the execution time analysis 
+systems discussed above.  However, there are also several key differences. 
+For instance, Cerebro is focused on solving the
 execution time prediction problem for PaaS-hosted web APIs. 
 As we show in our characterization survey, such applications 
 have a set of unique properties, that can be used to greatly simplify static analysis.
 Also, Cerebro is designed to only work with web API codes. This makes designing 
-a solution much more simpler compared to having to design a system that analyzes 
+a solution much more simpler but less general compared those that analyze
 arbitrary program codes.
-In order to handle the constantly changing and evolving nature of 
-cloud platforms, we have designed
-Cerebro using a hybrid approach of static analysis and runtime 
-monitoring of cloud SDK operations. This is
-a significant departure from previous work based on similar methods. Finally,
-we use a time series analysis method~\cite{Nurmi:2007:QQB:1791551.1791556} 
+To handle the highly variable and evolving nature of
+cloud platforms and applications, Cerebro combines this static analysis with runtime
+monitoring of cloud platforms at the level of SDK operations.  No other such 
+system provides such a hybrid approach to the best of our knowledge. 
+Finally,
+we use time series analysis~\cite{Nurmi:2007:QQB:1791551.1791556} 
 to predict API execution time upper bounds with specific confidence
 levels, which makes it possible to use the results as precise SLAs.
 
@@ -74,11 +77,13 @@ need to provide the source code of the API implementations. Also, instead of usi
 with fixed parameters, Cerebro uses actual historical performance metrics of cloud SDK operations. This enables
 Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform better.
 
-There has been prior work in the area of predicting 
+There has also been prior work in the area of predicting 
 SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
 These systems take an existing SLA and historical performance data of a service, and predict when the 
 service might violate the given SLA in the future. They employ some form of statistical analysis and/or machine learning to
 make such predictions. Cerebro's notion of prediction validity period has some relation to this line of research. However,
-Cerebro's main goal is to make SLA predictions for web APIs before they are deployed and executed. We believe that
-some of these existing SLA violation predictors can complement our work by providing API developers and cloud
+Cerebro's main goal is to make SLA predictions for web APIs \textit{before} 
+they are deployed and executed. We believe that
+some of these existing SLA violation predictors can complement our 
+work by providing API developers and cloud
 administrators insights on when a Cerebro predicted SLA will be violated.
