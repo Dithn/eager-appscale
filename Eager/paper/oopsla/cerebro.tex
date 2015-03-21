@@ -32,7 +32,8 @@ The algorithm extracts all cloud SDK operations along
 each path through the methods. Cerebro analyzes calls to other functions
 that the method calls, recursively.  Cerebro caches cloud SDK details for each function 
 once analyzed so that it can be reused efficiently for other call sites to the same
-function. Cerebro does not analyze third-party library calls, if any. Cerebro encodes
+function. Cerebro does not analyze third-party library calls, if any 
+(which in our experience typically do not contain cloud SDK calls). Cerebro encodes
 each cloud SDK call sequence for each path in a lookup table. We identify
 cloud SDK calls by their Java package name (e.g. \texttt{com.google.appengine.apis}).
 
@@ -45,12 +46,12 @@ based on abstract interpretation~\cite{bygde2010static}.
 
 As shown in the previous section, loops in these programs 
 are rare and, when they do occur, they are
-used to iterate over a dataset returned from a database.
+used to iterate over a data set returned from a database.
 For such data dependent loops, we estimate the bounds if specified 
 in the cloud SDK call (e.g. the maximum number of 
 entities to return~\cite{gae-fetch-options}).
 If our analysis is unable to estimate the bounds for these loops, Cerebro prompts
-the developer for an estimate of the likely dataset size and/or loop bounds.
+the developer for an estimate of the likely data set size and/or loop bounds.
 
 \subsection{PaaS Monitoring Agent}
 Cerebro monitors and records the response time of individual
@@ -59,19 +60,21 @@ implemented as a PaaS-native feature or as
 a PaaS application (web API); we use the latter in our prototype.
 The monitoring agent runs in the background with, but separate from, 
 other PaaS-hosted web APIs.
-The agent invokes cloud SDK operations periodically on synthetic datasets and 
+The agent invokes cloud SDK operations periodically on synthetic data sets and 
 records timestamped response times in the PaaS datastore for each cloud SDK
 operation.
 Finally, the agent periodically reclaims old measurement data
 to eliminate unnecessary storage. The Cerebro monitoring and reclamation 
 rates are configurable and monitoring benchmarks can be added and customized
-easily to capture common PaaS-hosted web API patterns coding.
+easily to capture common PaaS-hosted web API coding patterns.
 
 In our prototype, the agent monitors the datastore and memcache services
 every 60 seconds. In addition, it 
 benchmarks loop iteration over datastore entities to capture
 the performance of iterative datastore reads for datastore result set sizes 
-of 10, 100, and 1000.
+of 10, 100, and 1000. We limit ourselves to these values because the PaaS requires
+that all operations complete (respond) within 60 seconds -- so the data
+sizes returned are typically small.
 
 \subsection{Making SLA Predictions}
 \label{sec:qbets}
@@ -92,7 +95,7 @@ A QBETS analysis requires three inputs:
 \end{enumerate}
 
 QBETS uses this information to predict an upper bound for 
-the $p^{th}$ percentile of the time series.  It does so by treating easch
+the $p^{th}$ percentile of the time series.  It does so by treating each
 observation as a Bernoulli trial with probability $0.01p$ of succeess.  Let $q
 = 0.01p$.  Then if there are $n$ observations, the probability of there being
 exactly $k$ successes is described by a Binomial distribution (assuming
@@ -117,7 +120,8 @@ ergodic so that, in the long run, the confidence bounds are accurate.
 
 QBETS also attempts to detect change points in the time series of observations 
 so that it can apply this inference technique to only the most recent 
-segment of the series that appears to be stationary.  To do so, it compares
+segment of the series that appears to be stationary.  
+To do so, it compares
 percentile bounds predictions with observations throughout the series and
 determines where thes series is likely to have undergone a change.  It then
 discards observations from the series prior to this change point and
@@ -175,7 +179,7 @@ least $90$ observations.
 We use this information to control 
 reclamation of monitoring data in the cloud SDK monitoring agent.
 
-\subsection{Cerebro Workflow}
+\subsection{Example Cerebro Workflow}
 
 \begin{figure}
 \centering
@@ -198,8 +202,8 @@ Duplicates occur when a web API operation has
 multiple program paths with the same sequence of cloud SDK invocations.
 Next, for each pruned list Cerebro performs the following operations:
 \begin{enumerate}
-\item Retrieve benchmarking data from the monitoring agent 
-for all SDK operations in the sequence. The agent returns
+\item Retrieve (possibly compressed) benchmarking data from the monitoring agent 
+for all SDK operations in each sequence. The agent returns
 ordered time series data (one time series per cloud SDK operation).
 \item Align retrieved time series across operations in time, and sum the aligned
 values
@@ -208,6 +212,8 @@ sequence of cloud SDK operations.
 \item Run QBETS on the aggregate time series with the 
 desired $p$ and $c$ values to predict an upper bound. 
 \end{enumerate}
+Cerebro uses largest predicted value (across path sequences and operations) 
+as its SLA prediction for the web API.
 This process (SLA prediction) can be implemented
 as a co-located service in the PaaS cloud or as a standalone utility.  We do 
 the latter in our prototype.
@@ -215,25 +221,24 @@ the latter in our prototype.
 As an example, suppose that the static analysis results in the
 cloud SDK invocation sequence $<op_{1},op_{2},op_{3}>$ for
 some operation in a web API. 
-Assume that the monitoring agent has the following
-time series data collected for the three SDK operations.
+Assume that the monitoring agent has collected the following
+time series for the three SDK operations:
 \begin{itemize}
 \item $op_{1}$: $[t_{0}: 5, t_{1}: 4, t_{2}: 6, ...., t_{n}: 5]$
 \item $op_{2}$: $[t_{0}: 22, t_{1}: 20, t_{2}: 21, ...., t_{n}: 21]$
 \item $op_{3}$: $[t_{0}: 7, t_{1}: 7, t_{2}: 8, ...., t_{n}: 7]$
 \end{itemize}
 
-Here $t_{m}$ are timestamp values the monitoring agent has assigned to 
-each data point. Cerebro aligns the three
-time series according to timestamps, 
+Here $t_{m}$ is the time at which the $m^{th}$ measurement is taken.
+Cerebro aligns the three time series according to timestamps, 
 and sums the results
 to obtain the following joint time series:
 $[t_{0}: 34, t_{1}: 31, t_{2}: 35, ...., t_{n}: 33]$
 
 If any operation is tagged as being inside a loop, where the loop
-bounds have been estimated, the time series data corresponding to that 
-operation should be multiplied 
-by the loop bound estimate, before aggregating. In cases where the operation 
+bounds have been estimated, Cerebro multiplies
+the time series data corresponding to that 
+operation by the loop bound estimate before aggregating. In cases where the operation 
 is inside a data dependent loop, we request the time series data from 
 the monitoring agent for its iterative datastore read benchmark 
 for a number of entities that is equal to or larger than the annotation
@@ -243,7 +248,7 @@ Cerebro passes the final joint
 time series for each sequence of operations to QBETS, 
 which returns the worst-case upper bound response time it predicts.
 If the QBETS predicted value is $Q$ milliseconds, 
-Cerbro forms the SLA as ``the web API will respond  in
+Cerebro forms the SLA as ``the web API will respond  in
 under $Q$ milliseconds, $p$\% of the time''. 
 When the web API has multiple operations, Cerebro estimates multiple 
 SLAs for the API. 

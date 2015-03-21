@@ -14,7 +14,7 @@ We plan to make these applications publicly available upon publication.
 \caption{CDF of the number of static paths through methods in the surveyed web APIs.
 \label{fig:path_count_cdf}
 }
-\vspace{-0.2in}
+\vspace{-0.1in}
 \end{figure}
 
 Our analysis detected a total of 1458 Java methods in the analyzed codes.
@@ -45,7 +45,8 @@ returned by a datastore query). We refer to this particular type of
 loop as \textit{iterative datastore reads}. 
 %We use these heuristics when designing the loop handling capability of Cerebro.
 
-\begin{table}[htdp]
+%\begin{table}[htdp]
+\begin{table}
 \caption{Static cloud SDK calls in surveyed web APIs
 \label{tab:sdk_call_counts}
 }
@@ -84,7 +85,7 @@ for scalability and portability reasons.
 \caption{CDF of cloud SDK call counts in paths of execution.
 \label{fig:sdk_call_count_cdf}
 }
-\vspace{-0.2in}
+\vspace{-0.1in}
 \end{figure}
 
 Next, we explore the number of cloud SDK calls made along 
@@ -117,6 +118,6 @@ of the time spent executing these operations results from cloud SDK invocations.
 In the next section, we describe our design and implementation of Cerebro
 that takes advantage of these characteristics and assumptions.
 We then use a Cerebro prototype to experimentally evaluate its effacacy
-for estimating the worst case response time for the operations of 
+for estimating the worst case response time for 
 applications from this domain.
 

@@ -5,7 +5,8 @@ and SOA governance.
 
 The problem of predicting execution time SLAs of web APIs 
 is similar to worst-case execution
-time (WCET) analysis~\cite{Wilhelm:2008:WEP:1347375.1347389}. The objective of WCET analysis is to determine the maximum execution time of a software component in a given hardware platform. It is 
+time (WCET) analysis~\cite{Wilhelm:2008:WEP:1347375.1347389,ermedahl2007loop,Sandberg:2006:FWF:1134650.1134666,Muchnick:1998:ACD:286076,Frost:2011:WAJ:2043910.2043916}. 
+The objective of WCET analysis is to determine the maximum execution time of a software component in a given hardware platform. It is 
 typically discussed in the context of real-time systems, where the developers should be able to document
 and enforce precise hard real-time constraints on the execution time of programs. In order to save time, 
 manpower and hardware resources, WCET analysis solutions are generally designed favoring static
@@ -15,15 +16,16 @@ and strive to eliminate software testing in the favor of static analysis in our 
 Ermedahl et al designed and implemented SWEET~\cite{ermedahl2007loop}, a WCET analysis tool that make use of program slicing~\cite{Sandberg:2006:FWF:1134650.1134666},
  abstract interpretation~\cite{Cousot:1977:AIU:512950.512973} and invariant analysis~\cite{Muchnick:1998:ACD:286076} to determine the loop bounds and worst-case execution time 
  of a program. Program slicing helps to reduce the amount of code and program states that need to be 
- analyzed by SWEET. This is somewhat similar to our idea of extracting just the cloud SDK invocations form 
+ analyzed by SWEET. This is similar to our idea of extracting just the cloud SDK invocations form 
  a given web API code. SWEET uses abstract interpretation in interval and congruence domains to identify
  the set of values that can be assigned to key control variables of a program. These sets are then
  used to calculate exact loop bounds for most data-independent loops in the code. Invariant analysis  is
  used to detect variables that do not change during the course of a loop iteration, and remove them from
  the analysis thus further simplifying the loop bound estimation. Lokuceijewski et al proposes 
  a similar WCET analysis using program slicing and abstract interpretation~\cite{Lokuciejewski:2009:FPS:1545006.1545064}. They additionally use a technique
-called polytope models to further speed up the analysis.  Frost et al developed TetaJ, a WCET
- tool for Java byte code programs~\cite{Frost:2011:WAJ:2043910.2043916}.
+called polytope models to speed up the analysis.  
+%Frost et al have developed TetaJ, a WCET
+ %tool for Java byte code programs~\cite{Frost:2011:WAJ:2043910.2043916}.
  
 The corpus of research that covers the use of static analysis methods 
 to estimate the execution time of software applications is 

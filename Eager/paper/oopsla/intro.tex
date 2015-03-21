@@ -25,7 +25,7 @@ House~\cite{whitehouseapis}) application domains.
 Despite the many benefits, reusing existing services also has its costs.  
 In particular, new applications become dependent on the 
 services they compose.  These dependencies
-impact correctness, performance, and availability of the encapsulating 
+impact correctness, performance, and availability of the composite 
 applications -- for which the ``top level'' developer is often held accountable.  
 Compounding the situation, the underlying services can and do change over time
 while their APIs remain stable,
@@ -160,11 +160,11 @@ we believe that Cerebro can be easily integrated into any PaaS system.
 We use our prototypes to evaluate the accuracy of Cerebro 
 as well as the tightness
 of the bounds it predicts (i.e. the difference between the prediction and 
-the actual API execution times). To this end, we carry out a range of tests
+the actual API execution times). To this end, we carry out a range of experiments
  using App Engine applications that are available as open source.  
 
 We also detail the duration over which 
-these predictions hold valid in both GAE and AppScale.  
+these predictions hold in both GAE and AppScale.  
 We find that Cerebro generates correct SLAs (ones that meet or exceed their
 probabilistic guarantees), and that these SLAs are valid over time periods ranging from
 from 1.4 hours to more than 24 hours.  

@@ -139,8 +139,8 @@ Figure~\ref{fig:accuracy_summary} are for the longest paths which consist of
 seven cloud SDK invocations each. According to our survey, $99.8\%$ of the
 execution paths found in Google App Engine applications have seven or 
 fewer cloud SDK
-calls in them. Therefore we believe that the web APIs in StockTrader
-application represent an important upper bound case. 
+calls in them. Therefore we believe that the StockTrader web API
+represents an important upper bound case. 
 
 Rooms\#getRoomByName
 invokes two different cloud SDK interfaces, namely datastore and memcache.
@@ -173,7 +173,7 @@ however, such an extreme upper bound is not useful as the basis for an SLA.
 \caption{Average difference between predictions and actual response times in
 Google App Engine and AppScale. The y-axis is in log scale.}
 \label{fig:diff_summary}
-\vspace{-0.1in}
+\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:diff_summary} depicts the average difference between predicted
@@ -192,10 +192,12 @@ SLA predictions for most web API operations considered in the experiments. In fa
 $14$ out of the $20$ cases illustrated in the figure show average difference
 values less than $65$ms. In a few cases, however, the bounds differ from the
 average measurement substantially:
-
 \begin{itemize}
+\vspace{-0.05in}
 \item StudentInfo\#getAllStudents on both cloud platforms
+\vspace{-0.05in}
 \item ServerHealth\#info, SocialMapper\#addComment, StockTrader\#buy and StockTrader\#sell on App Engine
+\vspace{-0.05in}
 \end{itemize}
 
 %To understand why Cerebro generates conservative predictions for some operations we further 
@@ -385,6 +387,7 @@ For example, using the $95^{th}$ percentile, the probability of seeing $3$
 values in a row larger than the actual percentile is $(0.05)^3 = 0.00012$
 or about $1$ in $8333$.
 
+
 This calculation is conservative with respect to autocorrelation. That is, if
 the series is stationary but autocorrelated, then the number of consecutive 
 values above the $95^{th}$ percentile that correspond to a probability of
@@ -395,17 +398,63 @@ we observed that $5$ consecutive values above the $95^{th}$ percentile
 occurred with probability $0.00012$ when the first autocorrelation was $0.5$
 and $14$ when the first autocorrelation was $0.85$.  Thus using an independence
 assumption for the series to determine the number of consecutive values above
-$Q$ that constitute a ``rare event'' (thereby indicating a possible change in
+$Q$ that constitute a ``rare event'' (indicating a possible change in
 conditions) is conservative.
 
 In particular, for the $95^{th}$ percentile, we measure the time from when
 Cerebro makes a bounds prediction until we observe $n=3$ consecutive
 measurement values above that prediction as being the time duration over which
 the prediction is valid. We refer to this duration as the \textit{validity duration}.  
-Tables~\ref{tab:gae_validity} and~\ref{tab:as_validity} summarize 
-the distribution of validity 
-durations for Cerebro predictions in Google App Engine and AppScale
+Tables~\ref{tab:gae_validity} and~\ref{tab:as_validity} present these durations
+for Cerebro predictions in Google App Engine and AppScale
 respectively.
+
+%\begin{table}[tdp]
+\begin{table}
+\caption{Prediction validity period distributions of different operations in
+App Engine. Validity durations were computed by observing $3$ consecutive SLA
+violations. $5^{th}$ and $95^{th}$ columns represent the 5th and 95th 
+percentiles of the
+distributions respectively. All values are in hours.
+\label{tab:gae_validity}
+}
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Operation & $5^{th}$ & Average & $95^{th}$ \\ \hline
+StudentInfo\#getStudent & 7.15 & 70.72 & 134.43 \\ \hline
+StudentInfo\#deleteStudent & 2.55 & 37.97 & 94.37 \\ \hline
+StudentInfo\#addStudent & 1.45 & 26.8 & 64.78 \\ \hline
+ServerHealth\#info & 1.41 & 39.22 & 117.71 \\ \hline
+Rooms\#getRoomByName & 7.24 & 70.47 & 133.36 \\ \hline
+Rooms\#getRoomsInCity & 2.08 & 30.12 & 82.58 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{-0.1in}
+\end{table}
+
+\begin{table}
+\caption{Prediction validity period distributions of different operations in
+AppScale. Validity periods were computed by observing $3$ consecutive SLA
+violations. $5^{th}$ and $95^{th}$ 
+columns represent the 5th and 95th percentiles of the
+distributions respectively. All values are in hours.
+\label{tab:as_validity}
+}
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Operation & $5^{th}$ & Average & $95^{th}$ \\ \hline
+StudentInfo\#getStudent & 6.1 & 60.67 & 115.24 \\ \hline
+StudentInfo\#deleteStudent & 6.08 & 60.21 & 114.32 \\ \hline
+StudentInfo\#addStudent & 6.1 & 60.67 & 115.24 \\ \hline
+ServerHealth\#info & 6.29 & 54.53 & 108.14 \\ \hline
+Rooms\#getRoomByName & 6.07 & 59.18 & 112.28 \\ \hline
+Rooms\#getRoomsInCity & 1.95 & 33.77 & 84.63 \\ \hline
+\end{tabular}
+\end{center}
+\vspace{-0.2in}
+\end{table}
 
 %Next we shall assume that individual SLA
 %violations are independent events; i.e. one SLA violation does not depend on
@@ -449,28 +498,6 @@ respectively.
 %\label{fig:gae_validity}
 %\end{figure}
 
-\begin{table}[htdp]
-\caption{Prediction validity period distributions of different operations in
-App Engine. Validity durations were computed by observing $3$ consecutive SLA
-violations. $5^{th}$ and $95^{th}$ columns represent the 5th and 95th 
-percentiles of the
-distributions respectively. All values are in hours.
-\label{tab:gae_validity}
-}
-\begin{center}
-\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
-\hline
-Operation & $5^{th}$ & Average & $95^{th}$ \\ \hline
-StudentInfo\#getStudent & 7.15 & 70.72 & 134.43 \\ \hline
-StudentInfo\#deleteStudent & 2.55 & 37.97 & 94.37 \\ \hline
-StudentInfo\#addStudent & 1.45 & 26.8 & 64.78 \\ \hline
-ServerHealth\#info & 1.41 & 39.22 & 117.71 \\ \hline
-Rooms\#getRoomByName & 7.24 & 70.47 & 133.36 \\ \hline
-Rooms\#getRoomsInCity & 2.08 & 30.12 & 82.58 \\ \hline
-\end{tabular}
-\end{center}
-\vspace{-0.2in}
-\end{table}
 
 %\begin{figure}
 %\centering
@@ -478,29 +505,6 @@ Rooms\#getRoomsInCity & 2.08 & 30.12 & 82.58 \\ \hline
 %\caption{Prediction validity period distributions of different operations in AppScale. The vertical lines indicate the range between the 5th and 95th percentiles of the distributions. The green markers represent the means. Validity periods were computed by observing 3 consecutive SLA violations.}
 %\label{fig:as_validity}
 %\end{figure}
-
-\begin{table}[htdp]
-\caption{Prediction validity period distributions of different operations in
-AppScale. Validity periods were computed by observing $3$ consecutive SLA
-violations. $5^{th}$ and $95^{th}$ 
-columns represent the 5th and 95th percentiles of the
-distributions respectively. All values are in hours.
-\label{tab:as_validity}
-}
-\begin{center}
-\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
-\hline
-Operation & $5^{th}$ & Average & $95^{th}$ \\ \hline
-StudentInfo\#getStudent & 6.1 & 60.67 & 115.24 \\ \hline
-StudentInfo\#deleteStudent & 6.08 & 60.21 & 114.32 \\ \hline
-StudentInfo\#addStudent & 6.1 & 60.67 & 115.24 \\ \hline
-ServerHealth\#info & 6.29 & 54.53 & 108.14 \\ \hline
-Rooms\#getRoomByName & 6.07 & 59.18 & 112.28 \\ \hline
-Rooms\#getRoomsInCity & 1.95 & 33.77 & 84.63 \\ \hline
-\end{tabular}
-\end{center}
-\vspace{-0.2in}
-\end{table}
 
 %Table~\ref{tab:gae_validity} shows a summary of the validity period distributions in App Engine. 
 %The
@@ -614,10 +618,9 @@ Results for other operations fall between these two extremes.
 %As expected, the time series analysis method used by Cerebro (QBETS) takes some time to learn
 %from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. 
 %But once Cerebro has converged it consistently produces highly accurate predictions.
-In the worst case Cerebro takes up to $200$ minutes to 
+In the worst case, Cerebro takes up to $200$ minutes to 
 achieve correctness percentage above $95\%$
-in Google App Engine. This is the case for the
-StudentInfo\#getAllStudents operation. 
+in Google App Engine (for StudentInfo\#getAllStudents).
 Alternatively, the longest time until Cerebro has ``learned'' the series in
 AppScale is approximately $40$ minutes.
 %After 275 minutes, we see highly accurate predictions being made on all web API
