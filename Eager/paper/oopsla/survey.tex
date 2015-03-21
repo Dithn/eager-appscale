@@ -5,27 +5,28 @@ framework~\cite{Vallee-Rai:2010:SJB:1925805.1925818}) of
 35 real world App Engine web APIs (taken from public 
 repositories). These web APIs are open 
 source and written in Java and run over Google App Engine or AppScale without modification.
-We plan to make these applications publicly available upon publication.  We omit data graphs due to space constraints.
+We plan to make these applications publicly available upon publication.  
+%We omit data graphs due to space constraints.
 
-%\begin{figure}
-%\centering
-%\includegraphics[scale=0.35]{path_count_cdf}
-%\caption{CDF of the number of static paths through methods in the surveyed web APIs.
-%\label{fig:path_count_cdf}
-%}
-%\vspace{-0.2in}
-%\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{path_count_cdf}
+\caption{CDF of the number of static paths through methods in the surveyed web APIs.
+\label{fig:path_count_cdf}
+}
+\vspace{-0.2in}
+\end{figure}
 
 There are a total of 1458 methods (API operations) in these programs.
-%Figure~\ref{fig:path_count_cdf} shows the cumulative distribution of 
-%static program paths in these methods.
+Figure~\ref{fig:path_count_cdf} shows the cumulative distribution of 
+static program paths in these methods.
 Approximately 97\% of the methods considered in the analysis have 10 or fewer 
 static program paths through them.  99\% of 
-the methods have 36 or fewer paths, although the distibution is heavy-tailed meaning
-that a small number of methods 
-%However, the CDF is heavy tailed
-%(truncated at 100 but grows to 34992). As such, 
-contain very large numbers of paths (i.e. there are 34992 in one method).
+the methods have 36 or fewer paths.
+However, the CDF is heavy tailed
+(truncated at 100 but grows to 34992). As such, 
+a very small number of methods 
+contain large numbers of paths.
 Fortunately, over 65\% have exactly 1 path (i.e. there are no branches).
 
 Next we consider the looping behavior of web APIs.  1286 of the methods (88\%)
@@ -77,20 +78,20 @@ capability required by most web APIs and the PaaS
 disallows local filesystem
 access for scalability and portability (relocatability) reasons.
 
-%\begin{figure}
-%\centering
-%\includegraphics[scale=0.35]{sdk_call_count_cdf}
-%\caption{CDF of cloud SDK call counts in paths of execution.
-%\label{fig:sdk_call_count_cdf}
-%}
-%\vspace{-0.2in}
-%\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{sdk_call_count_cdf}
+\caption{CDF of cloud SDK call counts in paths of execution.
+\label{fig:sdk_call_count_cdf}
+}
+\vspace{-0.2in}
+\end{figure}
 
 Next, we explore the number of cloud SDK calls made along 
 different paths of execution in the web APIs. For this study
 we consider all paths of execution through the methods (64780 total paths). 
-%Figure~\ref{fig:sdk_call_count_cdf}
-%shows the cumulative distribution of the number of SDK calls within paths.
+Figure~\ref{fig:sdk_call_count_cdf}
+shows the cumulative distribution of the number of SDK calls within paths.
 Approximately 98\% of the paths have 0 or 1 cloud SDK calls. 
 The probability of finding an execution path with more than
 5 cloud SDK calls is smaller than 1\%.
@@ -104,8 +105,10 @@ Confirming this hypothesis requires careful instrumentation (i.e. difficult
 to automate) of the web API codes.  We performed such a test by hand on two 
 representative applications and found that the time spent in code other than cloudSDK code
 accounts for $0$-$6$\% of the total time (0-3ms for a 30ms web API operation).
-Our hypothesis then is that if we are able to estimate the worst case time spent 
-in cloud SDK calls, then we can estimate the worst case response time of an operation.
+Our hypothesis then is that we can efficiently analyze
+a web API statically, extract the number of cloud SDK calls,
+and then estimate the worst case time spent in each operation from that of the 
+time spent in cloud SDK calls.
 In the next section, we describe our design and implementation of Cerebro
-that takes advantage of these characteristics and assumptions to make
-predictions of upper bounds on response times of web API operations.
+that takes advantage of these characteristics and assumptions to do so.
+We then use a Cerebro prototype to experimentally evaluate our hypothesis.
