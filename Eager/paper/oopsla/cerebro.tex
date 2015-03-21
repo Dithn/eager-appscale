@@ -83,9 +83,16 @@ Queue Bounds Estimation from Time Series (QBETS)~\cite{Nurmi:2007:QQB:1791551.17
 a non-parametric time series analysis method that we developed in prior work.
 We originally designed QBETS for
 predicting the scheduling delays for the batch queue systems 
-used in high performance computing environments. 
-We adapt it herein for use ``as-a-service'' in PaaS systems 
-to predict the execution time of web APIs.
+used in high performance computing environments but it has proved effective
+in other settings where forecasts from arbitrary times series are
+needed~\cite{uptime-bootstrap,quant-est,euca-power-tr-14}.  In 
+particular, it is both
+non-parametric and it automatically
+adapts to changes in the underlying time series dynamics making it useful in
+settings where forecasts are required from arbitrary data with widely varying
+characteristics. 
+%We adapt it herein for use ``as-a-service'' in PaaS systems 
+%to predict the execution time of web APIs.
 
 A QBETS analysis requires three inputs:
 \begin{enumerate}
