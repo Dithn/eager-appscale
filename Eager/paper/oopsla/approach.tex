@@ -15,7 +15,8 @@ and AppScale private PaaS, both of which support the same applications,
 development and deployment model, and platform services.
 
 The first characteristic of PaaS systems
-that we exploit is their predefined programming interfaces 
+that we exploit to faciliate our analysis 
+is their predefined programming interfaces 
 through which they export various platform services. 
 Herein we refer to these programming interfaces as the cloud software development 
 kit or the \textit{cloud SDK}. We refer to the individual member interfaces of the cloud SDK
@@ -78,8 +79,8 @@ Second, PaaS clouds ``sandbox'' web APIs to enforce quotas, to enable billing,
 and to restrict certain functionality
 that can lead to security holes, platform instability, or scaling issues~\cite{gae-sandbox}.
 For example, GAE and AppScale cloud platforms restrict the application code
-from accessing the local file system, accessing shared memory, use of certain libraries
-and spawning new threads.
+from accessing the local file system, accessing shared memory, using certain libraries,
+and arbitrarily spawning threads.
 
 In particular, the only way for a web API to execute is in response
 to an HTTP/S request or as a background task.  Therefore, execution of

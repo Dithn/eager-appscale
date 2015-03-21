@@ -24,9 +24,9 @@ Approximately 97\% of the methods considered in the analysis have 10 or fewer
 static program paths through them.  99\% of 
 the methods have 36 or fewer paths.
 However, the CDF is heavy tailed --
-truncated at 100 but grows to 34992. As such, 
+we truncate the graph at 100 for clarity but it grows to 34992. As such, 
 a very small number of methods 
-contain large numbers of paths.
+each contain a large number of paths.
 Fortunately, over 65\% have exactly 1 path (i.e. there are no branches).
 
 Next we consider the looping behavior of web APIs.  1286 of the methods (88\%)
@@ -38,7 +38,7 @@ discourage looping.
 
 Approximately 29\% of all the loops in 
 the analyzed programs do not contain any cloud SDK invocations. 
-A large majority of the loops (61\%), however, are
+A majority of the loops (61\%) however, are
 used to iterate over a dataset that is returned from the datastore cloud SDK interface 
 of App Engine (i.e iterating on the result set 
 returned by a datastore query). We refer to this particular type of 
@@ -71,12 +71,12 @@ xmpp & 3 \\ \hline
 \end{table}
 
 Table~\ref{tab:sdk_call_counts} lists the number of times each cloud 
-SDK interface is called across all paths and methods.
+SDK interface is called across all paths and methods in the analyzed programs.
 The Datastore API is the most commonly used interface.
-This is because data storage and access is a fundamental 
-capability required by most web APIs and the PaaS
-disallows local filesystem
-access for scalability and portability reasons.
+This is because data management is fundamental 
+to most web APIs and the PaaS
+disallows using the local filesystem to do so,
+for scalability and portability reasons.
 
 \begin{figure}
 \centering
@@ -105,11 +105,18 @@ Confirming this hypothesis requires careful instrumentation (i.e. difficult
 to automate) of the web API codes.  We performed such a test by hand on two 
 representative applications and found that the time spent in code other than cloud SDK calls
 accounts for $0$-$6$\% of the total time (0-3ms for a 30-50ms web API operation).
-Our hypothesis then is that we can efficiently analyze
-a web API statically, extract the number of cloud SDK calls,
-and then estimate the worst-case time spent in each operation from that of the 
-time spent in cloud SDK calls.
 
+This study of various characteristics typical of 
+PaaS-hosted web APIs indicates that there may be 
+opportunities to exploit the specific aspects of this
+application domain to simplify analysis and to facilitate
+performance prediction.  In particular, operations in these applications
+are short, have a small number of paths to analyze, implement few
+loops, and invoke a small number of cloud SDK calls. Moreover, most
+of the time spent executing these operations results from cloud SDK invocations.
 In the next section, we describe our design and implementation of Cerebro
 that takes advantage of these characteristics and assumptions.
-We then use a Cerebro prototype to experimentally evaluate our hypothesis.
+We then use a Cerebro prototype to experimentally evaluate its effacacy
+for estimating the worst case response time for the operations of 
+applications from this domain.
+
