@@ -382,10 +382,10 @@ some API's execution time.  If $Q$ is a correct and tight prediction,
 the probability of API's next measured response time being greater than 
 $Q$ is $1-(0.01p)$.  If the time series consists of independent
 measurements then the probability of seeing $n$ consecutive values greater
-than $Q$ (and there being no change in the underlying series) is $(1-0.01p)^n$. 
+than $Q$ (due to random chance) is $(1-0.01p)^n$. 
 For example, using the $95^{th}$ percentile, the probability of seeing $3$
-values in a row larger than the actual percentile is $(0.05)^3 = 0.00012$
-or about $1$ in $8333$.
+values in a row larger than the actual percentile (pursely due to random chance)
+is $(0.05)^3 = 0.00012$ or about $1$ in $8333$.
 
 
 This calculation is conservative with respect to autocorrelation. That is, if
