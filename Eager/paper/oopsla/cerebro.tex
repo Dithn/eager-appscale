@@ -104,16 +104,16 @@ A QBETS analysis requires three inputs:
 QBETS uses this information to predict an upper bound for 
 the $p^{th}$ percentile of the time series.  It does so by treating each
 observation as a Bernoulli trial with probability $0.01p$ of succeess.  Let $q
-= 0.01p$.  Then if there are $n$ observations, the probability of there being
+= 0.01p$.  If there are $n$ observations, the probability of there being
 exactly $k$ successes is described by a Binomial distribution (assuming
-independence of the observations)
+observation independence)
 having parameters $n$ and $q$.  If $Q$ is the $p^{th}$ percentile of the
 distribution from which the observations have been drawn, the equation 
 \vspace{-0.1in}
 \begin{equation}\label{sumformula}
 1 - \sum_{j=0}^k { n \choose j } \cdot (1-q)^{j} \cdot q^{n-j}
 \end{equation}
-gives the probability that more that $k$ obervations are greater than $Q$.
+gives the probability that more than $k$ obervations are greater than $Q$.
 As a result, the $k^{th}$ largest value in a sorted list of $n$ observations
 gives an upper $c$ confidence bound on $Q$ when $k$ is the smallest integer
 value for which Equation~\ref{sumformula} is larger than $c$.
@@ -133,8 +133,8 @@ percentile bounds predictions with observations throughout the series and
 determines where thes series is likely to have undergone a change.  It then
 discards observations from the series prior to this change point and
 continues.  As a result, when QBETS starts, it must ``learn'' the series by
-scanning it in time series order to determine the change points.  We discuss
-the learning time for the data we have gathered in this study in
+scanning it in time series order to determine the change points.  We report
+Cerebro learning time in our empirical evaluation in
 Subsection~\ref{sec:learning}.
 
 %The predicted value has a probability of $0.01p$ of 
@@ -153,8 +153,7 @@ which makes the QBETS
 bound estimates conservative.  That is, the value returned by QBETS as a bound
 prediction is larger than the true $p^{th}$ percentile with probability $1-c$
 under the assumptions of the QBETS model. 
-In this study, we use the $95^{th}$ percentile and $c = 0.01$ unless
-otherwise stated. 
+In this study, we use the $95^{th}$ percentile and $c = 0.01$.
 
 Note that the algorithm itself can be implemented efficiently so that it is
 suitable for on-line use.  Details of this implementation as well as a fuller
@@ -184,7 +183,7 @@ For example, predicting the $95^{th}$ percentile
 of the API execution time, with an upper confidence of $0.01$ requires at
 least $90$ observations.
 We use this information to control 
-reclamation of monitoring data in the cloud SDK monitoring agent.
+reclamation of monitoring data by the monitoring agent.
 
 \subsection{Example Cerebro Workflow}
 
