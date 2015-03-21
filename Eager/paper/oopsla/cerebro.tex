@@ -1,8 +1,7 @@
-Given the restricted application domain of PaaS-hosted web APIs, 
-we believe that it is possible
-to design a system that predicts response time SLAs for them using only
-static information from the web API code itself.  To enable this, we design Cerebro
-with three primary components:
+Given the restricted application domain of PaaS-hosted web APIs, we believe
+that it is possible to design a system that predicts response time SLAs for
+them using only static information from the web API code itself.  To enable
+this, we design Cerebro with three primary components:
 \begin{itemize}
 \item A static analysis tool that extracts sequences of cloud SDK operations for 
 each path through a method (web API operation),
@@ -75,6 +74,7 @@ the performance of iterative datastore reads for datastore result set sizes
 of 10, 100, and 1000.
 
 \subsection{Making SLA Predictions}
+\label{sec:qbets}
 To make SLA predictions, Cerebro uses 
 Queue Bounds Estimation from Time Series (QBETS)~\cite{Nurmi:2007:QQB:1791551.1791556},
 a non-parametric time series analysis method that we developed in prior work.
@@ -92,39 +92,87 @@ A QBETS analysis requires three inputs:
 \end{enumerate}
 
 QBETS uses this information to predict an upper bound for 
-the $p$-th percentile of the time series.
-The predicted value has a probability of $0.01p$ of 
-being greater than or equal to the next data point that
-will be added to the time series by the continuous experiment. 
-The upper confidence level $c$ serves as a conservative
-bound on the predictions. That is, predictions made with an upper confidence 
-level of $c$ will overestimate
-the true percentile with a probability of $1-c$. This confidence guarantee 
-is necessary because QBETS does not determine the 
-percentiles of the time series precisely, but only estimates them. 
-If not provided as part of Cerebro invocation, our prototype 
-defaults to $p=95$ and $c=0.05$. 
+the $p^{th}$ percentile of the time series.  It does so by treating easch
+observation as a Bernoulli trial with probability $0.01p$ of succeess.  Let $q
+= 0.01p$.  Then if there are $n$ observations, the probability of there being
+exactly $k$ successes is described by a Binomial distribution (assuming
+independence of the observations)
+having parameters $n$ and $q$.  If $Q$ is the $p^{th}$ percentile of the
+distribution from which the observations have been drawn, the equation 
+\vspace{-0.1in}
+\begin{equation}\label{sumformula}
+1 - \sum_{j=0}^k { n \choose j } \cdot (1-q)^{j} \cdot q^{n-j}
+\end{equation}
+gives the probability that more that $k$ obervations are greater than $Q$.
+As a result, the $k^{th}$ largest value in a sorted list of $n$ observations
+gives an upper $c$ confidence bound on $Q$ when $k$ is the smallest integer
+value for which Equation~\ref{sumformula} is larger than $c$.
 
-For example, assume a continuous experiment 
-in which we periodically measure the
-response time of a web API. Doing so results in a time series of 
-response time data. Suppose at time $t$,
-we run QBETS on the time series data collected so far 
-with $p=95$ and $c=0.01$. The prediction returned
-by QBETS has a 95\% chance of being greater than or equal 
-to the next response time value measured
-by our experiment after time $t$. Since $c=0.01$, the predicted value has a 99\% chance of
-overestimating the true 95th percentile of the time series.
+More succinctly, QBETS sorts the observations in a history of observations,
+and computes the value of $k$ that constitutes an index into 
+this sorted list of the observation that is the upper $c$ confidence bound on
+the $p^{th}$ percentile. The methodology assumes that the time series of 
+observations is 
+ergodic so that, in the long run, the confidence bounds are accurate.  
+
+QBETS also attempts to detect change points in the time series of observations 
+so that it can apply this inference technique to only the most recent 
+segment of the series that appears to be stationary.  To do so, it compares
+percentile bounds predictions with observations throughout the series and
+determines where thes series is likely to have undergone a change.  It then
+discards observations from the series prior to this change point and
+continues.  As a result, when QBETS starts, it must ``learn'' the series by
+scanning it in time series order to determine the change points.  We discuss
+the learning time for the data we have gathered in this study in
+Subsection~\ref{sec:learning}.
+
+%The predicted value has a probability of $0.01p$ of 
+%being greater than or equal to the next data point that
+%will be added to the time series by the continuous experiment. 
+%The upper confidence level $c$ serves as a conservative
+%bound on the predictions. That is, predictions made with an upper confidence 
+%level of $c$ will overestimate
+%the true percentile with a probability of $1-c$. This confidence guarantee 
+%is necessary because QBETS does not determine the 
+%percentiles of the time series precisely, but only estimates them. 
+%If not provided as part of Cerebro invocation, our prototype 
+
+Note that $c$ is an upper confidence level on $p^{th}$ percentile
+which makes the QBETS
+bound estimates conservative.  That is, the value returned by QBETS as a bound
+prediction is larger than the true $p^{th}$ percentile with probability $1-c$
+under the assumptions of the QBETS model. 
+In this study, we use the $95^{th}$ percentile and $c = 0.01$ unless
+otherwise stated. 
+
+Note that the algorithm itself can be implemented efficiently so that it is
+suitable for on-line use.  Details of this implementation as well as a fuller
+accounting of the statistical properties and assumptions are available
+in~\cite{Nurmi:2007:QQB:1791551.1791556,uptime-bootstrap,quant-est,ckpt-sched}.
+
+%defaults to $p=95$ and $c=0.05$. 
+
+%For example, assume a continuous experiment 
+%in which we periodically measure the
+%response time of a web API. Doing so results in a time series of 
+%response time data. Suppose at time $t$,
+%we run QBETS on the time series data collected so far 
+%with $p=95$ and $c=0.01$. The prediction returned
+%by QBETS has a 95\% chance of being greater than or equal 
+%to the next response time value measured
+%by our experiment after time $t$. Since $c=0.01$, the predicted value has a 99\% chance of
+%overestimating the true 95th percentile of the time series.
 
 QBETS requires a sufficiently large number of data points
 in the input time series before it can make an accurate prediction. 
-Specifically, we have proved that QBETS must see 
-at least $log(c)/log(0.01p)$ data points
-before it can start making reliable predictions. 
-This means, if we are interested in predicting the 95th percentile
-of the API execution time, with an upper confidence of 0.01, 
-Cerebro must feed QBETS with a time series that
-contains at least 90 data points. We use this information to control 
+Specifically, the largest value in a sorted list of $n$ observations is
+greater than the $p^{th}$ percentile with confidence $c$ when $n >=
+log(c)/log(0.01p)$.
+
+For example, predicting the $95^{th}$ percentile
+of the API execution time, with an upper confidence of $0.01$ requires at
+least $90$ observations.
+We use this information to control 
 reclamation of monitoring data in the cloud SDK monitoring agent.
 
 \subsection{Cerebro Workflow}
@@ -153,8 +201,10 @@ Next, for each pruned list Cerebro performs the following operations:
 \item Retrieve benchmarking data from the monitoring agent 
 for all SDK operations in the sequence. The agent returns
 ordered time series data (one time series per cloud SDK operation).
-\item Align retrieved time series across operations, and aggregate
-to form a single time series for the sequence of cloud SDK operations.
+\item Align retrieved time series across operations in time, and sum the aligned
+values
+to form a single \textit{joint} time series of the summed values for the 
+sequence of cloud SDK operations.
 \item Run QBETS on the aggregate time series with the 
 desired $p$ and $c$ values to predict an upper bound. 
 \end{enumerate}
@@ -165,7 +215,7 @@ the latter in our prototype.
 As an example, suppose that the static analysis results in the
 cloud SDK invocation sequence $<op_{1},op_{2},op_{3}>$ for
 some operation in a web API. 
-Lets assume that the monitoring agent has the following
+Assume that the monitoring agent has the following
 time series data collected for the three SDK operations.
 \begin{itemize}
 \item $op_{1}$: $[t_{0}: 5, t_{1}: 4, t_{2}: 6, ...., t_{n}: 5]$
@@ -176,8 +226,8 @@ time series data collected for the three SDK operations.
 Here $t_{m}$ are timestamp values the monitoring agent has assigned to 
 each data point. Cerebro aligns the three
 time series according to timestamps, 
-and aggregates the results
-to obtain the following time series:
+and sums the results
+to obtain the following joint time series:
 $[t_{0}: 34, t_{1}: 31, t_{2}: 35, ...., t_{n}: 33]$
 
 If any operation is tagged as being inside a loop, where the loop
@@ -187,15 +237,18 @@ by the loop bound estimate, before aggregating. In cases where the operation
 is inside a data dependent loop, we request the time series data from 
 the monitoring agent for its iterative datastore read benchmark 
 for a number of entities that is equal to or larger than the annotation
-and include it in the aggregated time series.
+and include it in the joint time series.
 
-Cerebro passes the final aggregated time series for each operation to QBETS, 
+Cerebro passes the final joint
+time series for each sequence of operations to QBETS, 
 which returns the worst-case upper bound response time it predicts.
 If the QBETS predicted value is $Q$ milliseconds, 
 Cerbro forms the SLA as ``the web API will respond  in
 under $Q$ milliseconds, $p$\% of the time''. 
 When the web API has multiple operations, Cerebro estimates multiple 
-SLAs for the API. In such cases we treat the SLA with highest 
+SLAs for the API. 
+If a single value is needed for the entire API regardless of operation,
+Cerebro returns the largest 
 predicted value as the final SLA (i.e. the worst case SLA for the API).
 
 %Cerebro allows PaaS administrators to define API governance policies that 
