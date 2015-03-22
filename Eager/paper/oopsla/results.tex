@@ -22,9 +22,9 @@ study. We execute these applications in the Google App Engine public cloud
 (SDK v1.9.17)
 and in an AppScale (v2.0) private cloud.  We instrument the programs to collect
 execution time statistics for verification purposes only 
-(the instrumentation data is not used to define
+(the instrumentation data is not used to predict
 the SLAs).  The AppScale private cloud used for testing was
-hosted in four ``m3.2xlarge'' virtual machines running on a private
+hosted using four ``m3.2xlarge'' virtual machines running on a private
 Eucalyptus~\cite{eucalyptus09} cloud.
 
 %We instrument each of the five sample applications to measure the 
@@ -41,16 +41,16 @@ Eucalyptus~\cite{eucalyptus09} cloud.
 %running on a private Eucalyptus~\cite{eucalyptus09} cluster.
 
 We report that the average time taken by Cerebro to analyze and make predictions for the above
-test applications is 10.00 seconds. The longest running time of
-14.25 seconds was recorded when analyzing the StudentInfo application.
+test applications is $10.00$ seconds. The longest running time of
+$14.25$ seconds was recorded when analyzing the StudentInfo application.
 These execution times include the time taken
 by the static analyzer to analyze all the web API operations,
-and the time taken by QBETS to make predictions. Length of the time series stored in cloud SDK
-monitor was 1528 during these initial tests (25.5 hours of monitoring data). Since the QBETS
+and the time taken by QBETS to make predictions. Length of the time series collected by PaaS
+monitoring agent was $1528$ during these initial tests ($25.5$ hours of monitoring data). Since the QBETS
 analysis time depends on the length of the input time series, we also conducted a test where
-we ran Cerebro on StudentInfo with 19322 data points in the cloud SDK
-monitor (nearly 2 weeks of monitoring data). Even in this case, Cerebro took only 574.05 seconds 
-(9.6 minutes).
+we ran Cerebro on StudentInfo with $19322$ data points in the PaaS monitoring
+agent (nearly 2 weeks of monitoring data). Even in this case, Cerebro took only $574.05$ seconds 
+($9.6$ minutes) to execute.
 
 \subsection{Correctness of Predictions}
 \label{sec:correctness}
@@ -69,8 +69,8 @@ run a remote HTTP client that makes requests to the web APIs once every
 minute.  The application instrumentation measures and records the response
 time of the API operation for each request (i.e. within the application).
 Concurrently and within the same PaaS system, we execute the Cerebro
-cloud SDK monitor which is an independently hosted application within the
-PaaS that benchmarks each cloud SDK operation once every minute.
+PaaS monitoring agent which is an independently hosted application within the
+cloud that benchmarks each SDK operation once every minute.
 
 Cerebro predicts the web API execution times using only the cloud SDK
 benchmarking data collected by Cerebro's PaaS monitoring agent. 
@@ -78,7 +78,7 @@ We configure Cerebro to predict an
 upper bound for the $95^{th}$ percentile of the web API response time, with an
 upper confidence of $0.01$. 
 
-QBETS generates a prediction for \textit{every} value in the time series 
+QBETS generates a prediction for \textit{every} value in the input time series 
 (one per minute).  Cerebro reports the last one as the SLA prediction to the
 user or PaaS administrator in production.  However, having per-minute predictions 
 enables us to compare these predictions against actual web API execution
@@ -231,7 +231,7 @@ StudentInfo\#getAllStudents on
 Google App Engine (one of the extreme cases). 
 This distribution was obtained by considering the application instrumentation 
 results gathered within a window of $1000$ minutes. 
-The average of this sample is $3431.79$ms, and the $0.95$ quantile
+The average of this sample is $3431.79$ms, and the $95^{th}$ percentile
 from the CDF is $4739$ms.  Thus, taken as a distribution, the ``spread''
 between the average and the $95^{th}$ percentile is more
 than $1300$ms.  
@@ -250,7 +250,7 @@ From this it becomes evident that StudentInfo\#getAll\-Students
 records very high execution times frequently. 
 In order to incorporate such high outliers, Cerebro must be conservative 
 and predict large values for
-the 95th percentile. This is a required feature to ensure that 95\% or more 
+the $95^{th}$ percentile. This is a required feature to ensure that 95\% or more 
 API invocations have
 execution times under the predicted SLA. But as a consequence, the average 
 distance between the 
@@ -359,7 +359,7 @@ violated.  In particular, SLAs must remain correct for at least the time
 necessary to allow human responses to changing conditions such as
 the commitment of more resources to web APIs that are in violation or alerts
 to support staff that customers may be calling to claim SLA breach.  Ideally,
-each prediction will persist as correct for several hours or more to match
+each prediction should persist as correct for several hours or more to match
 staff response time to potential SLA violations.
 
 %If that is the case, the cloud administrators can take some remedial actions like 
@@ -369,7 +369,7 @@ staff response time to potential SLA violations.
 %a lot of computing time and manpower will be wasted recomputing Cerebro predictions and evaluating the results. Also, given that
 %modern cloud platforms are used to host thousands of web APIs, such aggressive re-computation of predictions may not be scalable.
 
-However, determining when a Cerebro-determined SLA becomes invalid is
+However, determining when a Cerebro-predicted SLA becomes invalid is
 potentially complex. For example, given the definition of correctness
 described in Subsection~\ref{sec:correctness}, it is possible to report an SLA violation
 when the running tabulation of correctness percentage falls below the target
@@ -396,18 +396,17 @@ $Q$ is $1-(0.01p)$.  If the time series consists of independent
 measurements then the probability of seeing $n$ consecutive values greater
 than $Q$ (due to random chance) is $(1-0.01p)^n$. 
 For example, using the $95^{th}$ percentile, the probability of seeing $3$
-values in a row larger than the actual percentile (pursely due to random chance)
+values in a row larger than the actual percentile (purely due to random chance)
 is $(0.05)^3 = 0.00012$ or about $1$ in $8333$.
 
-
 This calculation is conservative with respect to autocorrelation. That is, if
-the series is stationary but autocorrelated, then the number of consecutive 
+the time series is stationary but autocorrelated, then the number of consecutive 
 values above the $95^{th}$ percentile that correspond to a probability of
 $0.0012$ is larger than $3$.  For example, in previous
 work~\cite{Nurmi:2007:QQB:1791551.1791556} 
 using an artificially generated AR(1) series, 
 we observed that $5$ consecutive values above the $95^{th}$ percentile
-occurred with probability $0.00012$ when the first autocorrelation was $0.5$
+occurred with probability $0.00012$ when the first autocorrelation was $0.5$,
 and $14$ when the first autocorrelation was $0.85$.  Thus using an independence
 assumption for the series to determine the number of consecutive values above
 $Q$ that constitute a ``rare event'' (indicating a possible change in
@@ -607,7 +606,7 @@ $1000$ minutes of operation (again, one prediction generated per minute).
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{gae_accuracy}
-\caption{Running tabulation of Correctness Percentage for predictions made on Google App 
+\caption{Running tabulation of correctness percentage for predictions made on Google App 
 Engine for first $1000$ minutes, one prediction per minute.}
 \label{fig:gae_accuracy}
 \vspace{-0.2in}
@@ -616,7 +615,7 @@ Engine for first $1000$ minutes, one prediction per minute.}
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{as_accuracy}
-\caption{Running tabulation of Correctness Percentage for predictions made on AppScale for a period
+\caption{Running tabulation of correctness percentage for predictions made on AppScale for a period
 of $1000$ minutes, one prediction per minute.}
 \label{fig:as_accuracy}
 \vspace{-0.2in}

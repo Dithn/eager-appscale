@@ -120,16 +120,16 @@ Google datastore that is available as part of the Google App Engine PaaS.
 % that integrates such services 
 %by combining static analysis
 %of the program with dynamic performance sampling of the platform services.
-Cerebro uses static analysis to identify the cloud SDK operations
+Cerebro uses static analysis to identify the cloud SDK invocations
 that dominate the response time of web APIs.  Independently,
 Cerebro also maintains a running history of cloud SDK response time 
 performance.  It uses
 QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} -- a forecasting methodology
 we have developed in prior work for predicting bounds on ``ill behaved''   
-univariate time series -- to predict response time bounds on each SDK
-operation used by the application.  It combines these predictions dynamically
+univariate time series -- to predict response time bounds on each cloud SDK
+invocation made by the application.  It combines these predictions dynamically
 for each static program path through a web API operation,
-and returns the ``worst case''
+and returns the ``worst-case''
 upper bound on the time necessary to 
 complete the operation.
 
@@ -154,18 +154,18 @@ Cerebro can be reinvoked to establish new SLAs for any deployed web API.  %Alter
 %so that they can be avoided via mechanisms such 
 %as web API rate limiting and platform resource acquisition.
 
-We have implemented Cerebro for both the Google App Engine public PaaS and 
+We have implemented Cerebro for both the Google App Engine public PaaS, and 
 the AppScale private PaaS. Given its modular design and this experience, 
 we believe that Cerebro can be easily integrated into any PaaS system.
 We use our prototypes to evaluate the accuracy of Cerebro 
 as well as the tightness
-of the bounds it predicts (i.e. the difference between the prediction and 
+of the bounds it predicts (i.e. the difference between the predictions and 
 the actual API execution times). To this end, we carry out a range of experiments
  using App Engine applications that are available as open source.  
 
 We also detail the duration over which 
 these predictions hold in both GAE and AppScale.  
-We find that Cerebro generates correct SLAs (ones that meet or exceed their
+We find that Cerebro generates correct SLAs (predictions that meet or exceed their
 probabilistic guarantees), and that these SLAs are valid over time periods ranging from
 from 1.4 hours to more than 24 hours.  
 We also find that the high variability of performance in public PaaS clouds due to their multitenancy

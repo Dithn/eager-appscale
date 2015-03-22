@@ -42,7 +42,7 @@ A majority of the loops (61\%) however, are
 used to iterate over a dataset that is returned from the datastore cloud SDK interface 
 of App Engine (i.e iterating on the result set 
 returned by a datastore query). We refer to this particular type of 
-loop as \textit{iterative datastore reads}. 
+loops as \textit{iterative datastore reads}. 
 %We use these heuristics when designing the loop handling capability of Cerebro.
 
 %\begin{table}[htdp]
@@ -117,7 +117,6 @@ loops, and invoke a small number of cloud SDK calls. Moreover, most
 of the time spent executing these operations results from cloud SDK invocations.
 In the next section, we describe our design and implementation of Cerebro
 that takes advantage of these characteristics and assumptions.
-We then use a Cerebro prototype to experimentally evaluate its effacacy
-for estimating the worst case response time for 
+We then use a Cerebro prototype to experimentally evaluate its efficacy
+for estimating the worst-case response time for 
 applications from this domain.
-

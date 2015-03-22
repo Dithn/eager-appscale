@@ -40,18 +40,18 @@ data structures like lists, trees and vectors. Our idea of using user-defined va
 Cerebro incorporates minor variations of these algorithms successfully due to their
 simplicity.  
  
-Cerebro makes us of and is similar to many of the execution time analysis 
+Cerebro makes use of and is similar to many of the execution time analysis 
 systems discussed above.  However, there are also several key differences. 
 For instance, Cerebro is focused on solving the
 execution time prediction problem for PaaS-hosted web APIs. 
 As we show in our characterization survey, such applications 
 have a set of unique properties, that can be used to greatly simplify static analysis.
 Also, Cerebro is designed to only work with web API codes. This makes designing 
-a solution much more simpler but less general compared those that analyze
+a solution much more simpler but less general compared to those that analyze
 arbitrary program codes.
 To handle the highly variable and evolving nature of
 cloud platforms and applications, Cerebro combines this static analysis with runtime
-monitoring of cloud platforms at the level of SDK operations.  No other such 
+monitoring of cloud platforms at the level of SDK operations. No other 
 system provides such a hybrid approach to the best of our knowledge. 
 Finally,
 we use time series analysis~\cite{Nurmi:2007:QQB:1791551.1791556} 
@@ -88,4 +88,4 @@ Cerebro's main goal is to make SLA predictions for web APIs \textit{before}
 they are deployed and executed. We believe that
 some of these existing SLA violation predictors can complement our 
 work by providing API developers and cloud
-administrators insights on when a Cerebro predicted SLA will be violated.
+administrators insights on when a Cerebro-predicted SLA will be violated.
