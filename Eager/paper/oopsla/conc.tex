@@ -31,12 +31,12 @@ precludes the need for continuous performance testing of the API code.
 Further, it does not interfere with the run-time operation
 of the APIs or the cloud platform, which makes it scalable.
 
-We implemented Cerebro for Google App Engine public PaaS, 
-and AppScale private PaaS. We subjected this
-prototype to a myriad of tests to study its efficacy in terms of
+We have implemented Cerebro for Google App Engine public PaaS, 
+and AppScale private PaaS. We have subjected these
+prototypes to a myriad of tests to study its efficacy in terms of
 correctness, tightness of predictions, and duration of prediction 
-validity.  We evaluated Cerebro using a set of representative
-and open source web applications developed by others.  We used Cerebro to
+validity.  We evaluate Cerebro using a set of representative
+and open source web applications developed by others.  And we use Cerebro to
 predict the 95th percentile of the API operation response time. 
 We find that:
 \begin{itemize}
@@ -50,7 +50,7 @@ time (i.e. the response time distribution contains many outliers),
 Cerebro must be conservative, and produce predictions that are less tight
 to meet its correctness guarantees.  
 %\vspace{-0.05in}
-\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems (with an integrated Cerebro monitoring agent) are designed to run continuously, this is not an issue in practice. And
+\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems (with an integrated Cerebro monitoring agent) are designed to run continuously, this is not an issue in practice. 
 %\vspace{-0.05in}
 \item We can use a simple yet administratively useful model to identify when an 
 SLA becomes invalid to compute

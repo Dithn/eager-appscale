@@ -7,7 +7,7 @@ this, we design Cerebro with three primary components:
 each path through a method (web API operation),
 \item A monitoring agent that runs in the target PaaS, and efficiently monitors 
 the performance of the underlying cloud SDK operations, and
-\item A prediction mechanism that uses the outputs of these two components to accurately predict an upper bound on the execution time of the web API.
+\item An SLA predictor that uses the outputs of these two components to accurately predict an upper bound on the response time of the web API.
 \end{itemize}
 We overview each of these components in the subsections that follow, and then 
 discuss the Cerebro workflow with an example.

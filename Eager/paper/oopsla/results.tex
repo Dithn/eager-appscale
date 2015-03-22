@@ -40,17 +40,16 @@ Eucalyptus~\cite{eucalyptus09} cloud.
 %The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
 %running on a private Eucalyptus~\cite{eucalyptus09} cluster.
 
-We report that the average time taken by Cerebro to analyze and make predictions for the above
-test applications is $10.00$ seconds. The longest running time of
-$14.25$ seconds was recorded when analyzing the StudentInfo application.
-These execution times include the time taken
-by the static analyzer to analyze all the web API operations,
-and the time taken by QBETS to make predictions. Length of the time series collected by PaaS
-monitoring agent was $1528$ during these initial tests ($25.5$ hours of monitoring data). Since the QBETS
-analysis time depends on the length of the input time series, we also conducted a test where
-we ran Cerebro on StudentInfo with $19322$ data points in the PaaS monitoring
-agent (nearly 2 weeks of monitoring data). Even in this case, Cerebro took only $574.05$ seconds 
-($9.6$ minutes) to execute.
+We first report the time required for Cerebro to perform its analysis and SLA prediction.
+Across web APIs, Cerebro takes $10.00$ seconds on average, with a 
+maximum time of $14.25$ seconds for StudentInfo.
+These times include that taken
+by the static analyzer to analyze all the web API operations
+and the time taken by QBETS to make predictions. For these results, the length of 
+the time series collected by PaaS monitoring agent is $1528$ data points ($25.5$ hours of monitoring data). Since the QBETS analysis time depends on the length of the input time series, 
+we also measured the time for 2 weeks of monitoring data ($19322$ data points) to provide
+some insight into the overhead of SLA prediction.  Even in this case, Cerebro
+requires only $574.05$ seconds ($9.6$ minutes).
 
 \subsection{Correctness of Predictions}
 \label{sec:correctness}

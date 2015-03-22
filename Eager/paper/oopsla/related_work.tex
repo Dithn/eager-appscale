@@ -32,7 +32,7 @@ to estimate the execution time of software applications is
 extensive. Gulwani, Jain and Koskinen used two techniques named control-flow
  refinement and progress invariants to estimate the bounds for procedures with nested and multi-path loops~\cite{Gulwani:2009:CRP:1542476.1542518}.
  Gulwani, Mehra and Chilimbi proposed SPEED~\cite{Gulwani:2009:SPE:1480881.1480898}, a system that computes symbolic bounds for programs. This
- system makes use of user-defined quantitive functions to predict the bounds for loops iterating over
+ system makes use of user-defined quantitative functions to predict the bounds for loops iterating over
 data structures like lists, trees and vectors. Our idea of using user-defined values to bound
  data-dependent loops (e.g. iterative datastore reads) is partly inspired from this concept.
  Bygde~\cite{bygde2010static} proposed a set of algorithms for predicting data-independent loops using abstract interpretation
@@ -68,7 +68,8 @@ Our research takes a
 different approach from such works, whereby it attempts to predict the performance SLAs that can be 
 supported by a given web API implementation. To the best of our knowledge, Cerebro is the first system to predict performance SLAs for web APIs developed for PaaS clouds.
 
-A work that closely resembles ours have been proposed by Ardagna, Damiani and Sagbo~\cite{6649675}. They develop
+A work that is similar to ours that that by Ardagna, Damiani and Sagbo in~\cite{6649675}. 
+The authors develop
 a system for early estimation of service performance based on simulations. Given a STS
 model (Symbolic Transitions System) of a service, their system is able to generate a simulation script, which
 can be used to assess the performance of the service. STS models are a type of finite state automata. 
