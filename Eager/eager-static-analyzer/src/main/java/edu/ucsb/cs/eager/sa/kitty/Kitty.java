@@ -46,8 +46,11 @@ public class Kitty {
         PredictionConfig config = getPredictionConfig(cmd);
         if (config != null) {
             Kitty k = new Kitty();
+            long start = System.currentTimeMillis();
             Collection<MethodInfo> methods = k.getMethods(config);
             k.run(config, methods);
+            long end = System.currentTimeMillis();
+            System.out.println("\nTime elapsed: " + (end - start)/1000.0 + " seconds");
         }
     }
 
