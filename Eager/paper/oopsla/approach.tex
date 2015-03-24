@@ -94,7 +94,7 @@ concurrency is restricted by capping the number of threads
 and requiring that a thread cannot outlive the request
 that creates it.  Finally, PaaS clouds enforce quotas and limits on service
 (cloud SDK) use~\cite{azure-limits,gae-limits,gae-sandbox}.
-App Engine for example, requires that all web API requests complete under 60 seconds.
+App Engine, for example, requires that all web API requests complete under 60 seconds.
 Otherwise they are terminated by the platform. 
 Such enforcement places a strict upper bound on the
 execution of a web API operation.

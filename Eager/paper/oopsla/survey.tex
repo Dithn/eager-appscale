@@ -1,5 +1,5 @@
 
-To understand the specific characteristics of PaaS-hosted web APIs and the potential
+To understand the specific characteristics of PaaS-hosted web APIs, and the potential
 of this restricted domain to facilitate efficient static analysis and response time 
 prediction,  we next summarize results from static analysis (using the Soot
 framework~\cite{Vallee-Rai:2010:SJB:1925805.1925818}) of 
@@ -23,13 +23,13 @@ static program paths in these methods.
 Approximately 97\% of the methods considered in the analysis have 10 or fewer 
 static program paths through them.  99\% of 
 the methods have 36 or fewer paths.
-However, the CDF is heavy tailed --
-we truncate the graph at 100 for clarity but it grows to 34992. As such, 
-a very small number of methods 
-each contain a large number of paths.
-Fortunately, over 65\% have exactly 1 path (i.e. there are no branches).
+However, the CDF is heavy tailed, and grows to 34992.
+We truncate the graph at 100 paths for clarity. As such, 
+only a very small number of methods 
+each contains a large number of paths.
+Fortunately, over 65\% of the methods have exactly 1 path (i.e. there are no branches).
 
-Next we consider the looping behavior of web APIs.  1286 of the methods (88\%)
+Next, we consider the looping behavior of web APIs.  1286 of the methods (88\%)
 considered in the study
 do not have any loops. 172 methods (12\%) contain loops. 
 We believe that this characteristic is due to the fact that 
@@ -93,7 +93,7 @@ different paths of execution in the web APIs. For this study
 we consider all paths of execution through the methods (64780 total paths). 
 Figure~\ref{fig:sdk_call_count_cdf}
 shows the cumulative distribution of the number of SDK calls within paths.
-Approximately 98\% of the paths have 0 or 1 cloud SDK calls. 
+Approximately 98\% of the paths have 1 cloud SDK call or fewer. 
 The probability of finding an execution path with more than
 5 cloud SDK calls is smaller than 1\%.
 %This implies in most cases Cerebro will likely be able to make response 

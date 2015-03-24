@@ -51,7 +51,7 @@ SLAs typically specify a minimum service level, and a
 probability (usually large) that the minimum service level will be
 maintained. Cerebro uses a combination of static analysis of the hosted web APIs, 
 and runtime monitoring of the PaaS cloud (\textit{not} the web APIs themselves) 
-to determine what minimum response time ``guarantee'' can be made 
+to determine what minimum response time guarantee can be made 
 with a target probability specified by a PaaS administrator. These calculated
 SLAs enable developers to
 reason about the performance of the applications that consume the cloud-hosted
@@ -60,8 +60,8 @@ web APIs.
 Currently, cloud computing systems such as Amazon Web Services
 (AWS)~\cite{amazon-aws-web} and
 Google App Engine (GAE)~\cite{gae} offer reliability SLAs specifying the fraction of
-availability (over a fixed time period) for their services
-that users can expect when they contract to use a service. However, they do not provide SLAs
+availability over a fixed time period for their services
+that users can expect, when they contract to use a service. However, they do not provide SLAs
 guaranteeing minimum levels of performance.
 In contrast, Cerebro predictions make it possible to determine response time SLAs with
 probabilities specified by the cloud provider in a way that is scalable.
@@ -106,8 +106,8 @@ Cerebro generates response time SLAs for API calls exported by a web
 application
 developed using the services available within the PaaS.  For brevity, in this work
 we will use the
-term \textit{web API} to refer to a ``web-accessible API exported by an
-application hosted on a PaaS platform''. Further, 
+term \textit{web API} to refer to a web-accessible API exported by an
+application hosted on a PaaS platform. Further, 
 we will use the term \textit{cloud
 SDK} to refer to the APIs that are maintained as part of the PaaS and
 available to all hosted applications. This enables us to
@@ -157,7 +157,7 @@ Cerebro can be reinvoked to establish new SLAs for any deployed web API.  %Alter
 We have implemented Cerebro for both the Google App Engine public PaaS, and 
 the AppScale private PaaS. Given its modular design and this experience, 
 we believe that Cerebro can be easily integrated into any PaaS system.
-We use our prototypes to evaluate the accuracy of Cerebro 
+We use our prototype implementation to evaluate the accuracy of Cerebro 
 as well as the tightness
 of the bounds it predicts (i.e. the difference between the predictions and 
 the actual API execution times). To this end, we carry out a range of experiments
