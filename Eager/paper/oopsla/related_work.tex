@@ -21,7 +21,7 @@ Ermedahl et al designed and implemented SWEET~\cite{ermedahl2007loop}, a WCET an
  the set of values that can be assigned to key control variables of a program. These sets are then
  used to calculate exact loop bounds for most data-independent loops in the code. Invariant analysis  is
  used to detect variables that do not change during the course of a loop iteration, and remove them from
- the analysis thus further simplifying the loop bound estimation. Lokuceijewski et al proposes 
+ the analysis thus further simplifying the loop bound estimation. Lokuceijewski et al propose 
  a similar WCET analysis using program slicing and abstract interpretation~\cite{Lokuciejewski:2009:FPS:1545006.1545064}. They additionally use a technique
 called polytope models to speed up the analysis.  
 %Frost et al have developed TetaJ, a WCET
@@ -34,7 +34,7 @@ extensive. Gulwani, Jain and Koskinen used two techniques named control-flow
  Gulwani, Mehra and Chilimbi proposed SPEED~\cite{Gulwani:2009:SPE:1480881.1480898}, a system that computes symbolic bounds for programs. This
  system makes use of user-defined quantitative functions to predict the bounds for loops iterating over
 data structures like lists, trees and vectors. Our idea of using user-defined values to bound
- data-dependent loops (e.g. iterative datastore reads) is partly inspired from this concept.
+ data-dependent loops (e.g. iterative datastore reads) is partly inspired by this concept.
  Bygde~\cite{bygde2010static} proposed a set of algorithms for predicting data-independent loops using abstract interpretation
  and element counting (a technique that was partly used in \cite{ermedahl2007loop}). 
 Cerebro incorporates minor variations of these algorithms successfully due to their

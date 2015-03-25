@@ -228,7 +228,7 @@ Figure~\ref{fig:get_all_students_cdf} shows the empirical cumulative
 distribution function (CDF) of measured execution times for the 
 StudentInfo\#getAllStudents on
 Google App Engine (one of the extreme cases). 
-This distribution was obtained by considering the application instrumentation 
+This distribution was obtained by considering the application's instrumentation 
 results gathered within a window of $1000$ minutes. 
 The average of this sample is $3431.79$ms, and the $95^{th}$ percentile
 from the CDF is $4739$ms.  Thus, taken as a distribution, the ``spread''
@@ -245,7 +245,7 @@ than $1300$ms.
 %for the StudentInfo\#getAllStudents web API when the application is
 %running in Google App Engine. 
 
-From this it becomes evident that StudentInfo\#getAll\-Students 
+From this, it becomes evident that StudentInfo\#getAll\-Students 
 records very high execution times frequently. 
 In order to incorporate such high outliers, Cerebro must be conservative 
 and predict large values for
@@ -605,8 +605,8 @@ $1000$ minutes of operation (again, one prediction generated per minute).
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{gae_accuracy}
-\caption{Running tabulation of correctness percentage for predictions made on Google App 
-Engine for first $1000$ minutes, one prediction per minute.}
+\caption{Running tabulation of correctness percentage for predictions made on App Engine for a period
+of $1000$ minutes, one prediction per minute.}
 \label{fig:gae_accuracy}
 \vspace{-0.2in}
 \end{figure}
@@ -666,7 +666,7 @@ AppScale is approximately $40$ minutes.
 %But as long as this value does not diverge too far from 95\% mark, we can consider Cerebro predictions to
 %be accurate.
 Summarizing these results, 
-the learning time for Cerebro may be several
+the learning time for Cerebro may be
 several hours (up to $200$ minutes in case of 
 Google App Engine), before it produces trustworthy and correct 
 SLA predictions.  The predictions made during this learning period are not
