@@ -2,11 +2,11 @@ package main
 
 import (
 	"bm/db"
-	"bm/qbets"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"net/http"
+	"bm/analysis"
 	"sync"
 )
 
@@ -23,7 +23,7 @@ type customPredictionReq struct {
 	Name                 string
 }
 
-func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
+func getTimeSeriesPredictionHandler(d db.Database, pred analysis.Predictor) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		tsr := timeSeriesReq{
@@ -53,7 +53,7 @@ func getTimeSeriesPredictionHandler(d db.Database) http.HandlerFunc {
 			go func(key string, data db.TimeSeries) {
 				defer func() { <-c }()
 				defer wg.Done()
-				p, err := qbets.PredictQuantile(data, tsr.Quantile, tsr.Confidence, false)
+				p, err := pred.PredictQuantile(data, tsr.Quantile, tsr.Confidence, false)
 				if err != nil {
 					perr = err
 					return
@@ -107,7 +107,7 @@ func getTimeSeriesHandler(d db.Database) http.HandlerFunc {
 	}
 }
 
-func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
+func getCustomTimeSeriesPredictionHandler(pred analysis.Predictor) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		cpr := customPredictionReq{
@@ -120,7 +120,7 @@ func getCustomTimeSeriesPredictionHandler() http.HandlerFunc {
 			return
 		}
 
-		p, err := qbets.PredictQuantileTrace(cpr.Data, cpr.Quantile, cpr.Confidence, false)
+		p, err := pred.PredictQuantileTrace(cpr.Data, cpr.Quantile, cpr.Confidence, false)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -167,8 +167,10 @@ func main() {
 	}
 	fmt.Println("Loading TimeSeries data from", *url)
 
-	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d))
-	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler())
+	pred := &analysis.QbetsPredictor{}
+
+	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d, pred))
+	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler(pred))
 	http.HandleFunc("/ts", getTimeSeriesHandler(d))
 	http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", *port), nil)
 }
