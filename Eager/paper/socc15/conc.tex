@@ -3,8 +3,8 @@ composing existing services via their web APIs. But such integration of services
 reason about the performance and other non-functional properties of 
 composite applications. To
 facilitate such reasoning, web APIs should be exported with strong performance 
-guarantees (SLAs), so that application developers are aware of 
-what to expect from the web APIs they consume. 
+guarantees (SLAs).%, so that application developers are aware of 
+%what to expect from the web APIs they consume. 
 
 To this end,
 we propose Cerebro, a system that predicts response time 
@@ -18,11 +18,12 @@ which makes it easier to analyze PaaS applications statically.
 Cerebro uses static analysis to extract the sequence of cloud SDK 
 calls made by a given web API code. Then it
 uses historical performance data of cloud SDK calls to predict the response time of the web
-API. The historical performance data of cloud SDK 
-calls are gathered using a special monitoring agent
-executed in the PaaS cloud, that periodically benchmarks and records 
-cloud SDK performance, independent of deployed applications and web APIs.
-Cerebro also employs QBETS, a non-parametric time series analysis and 
+API. 
+%The historical performance data of cloud SDK 
+%calls are gathered using a special monitoring agent
+%executed in the PaaS cloud, that periodically benchmarks and records 
+%cloud SDK performance, independent of deployed applications and web APIs.
+Cerebro employs QBETS, a non-parametric time series analysis and 
 forecasting method, to analyze
 cloud SDK performance data, and predict the response time SLAs with exact correctness
 probabilities. Cerebro can be invoked at both development and 
@@ -32,8 +33,8 @@ Further, it does not interfere with the run-time operation
 of the APIs or the cloud platform, which makes it scalable.
 
 We have implemented Cerebro for Google App Engine public PaaS, 
-and AppScale private PaaS. We have subjected these
-prototypes to a myriad of tests to study its efficacy in terms of
+and AppScale private PaaS. We have subjected our
+prototype to a myriad of tests to study its efficacy in terms of
 correctness, tightness of predictions, and duration of prediction 
 validity.  We evaluate Cerebro using a set of representative
 and open source web applications developed by others.  And we use Cerebro to
@@ -46,11 +47,11 @@ We find that:
 \item Cerebro generates tight predictions (i.e.
 the predictions are similar to measured values) for most web APIs.  Because
 some operations and PaaS systems exhibit more variability in cloud SDK response
-time (i.e. the response time distribution contains many outliers), 
+time, 
 Cerebro must be conservative in some cases, and produce predictions that are less tight
 to meet its correctness guarantees.  
 %\vspace{-0.05in}
-\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems (with an integrated Cerebro monitoring agent) are designed to run continuously, this is not an issue in practice. 
+\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems are designed to run continuously, this is not an issue in practice. 
 %\vspace{-0.05in}
 \item We can use a simple yet administratively useful model to identify when an 
 SLA becomes invalid to compute
@@ -71,6 +72,6 @@ Further, we plan
 to integrate Cerebro with EAGER, our API governance system 
 and policy engine for PaaS clouds, so 
 that PaaS administrators can enforce SLA-related policies on web APIs at deployment-time.
-Such a system will make it possible to prevent any API that 
-does not adhere to the organizational performance
-standards from being deployed in the production cloud environment.
+%Such a system will make it possible to prevent any API that 
+%does not adhere to the organizational performance
+%standards from being deployed in the production cloud environment.

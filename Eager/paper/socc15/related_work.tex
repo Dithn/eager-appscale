@@ -11,7 +11,7 @@ typically discussed in the context of real-time systems, where the developers sh
 and enforce precise hard real-time constraints on the execution time of programs. In order to save time, 
 manpower and hardware resources, WCET analysis solutions are generally designed favoring static
 analysis methods over software testing. We share similar concerns with regard to cloud platforms,
-and strive to eliminate software testing in the favor of static analysis in our work. 
+and strive to eliminate software testing in the favor of static analysis. 
 
 Ermedahl et al designed and implemented SWEET~\cite{ermedahl2007loop}, a WCET analysis tool that make use of program slicing~\cite{Sandberg:2006:FWF:1134650.1134666},
  abstract interpretation~\cite{Cousot:1977:AIU:512950.512973} and invariant analysis~\cite{Muchnick:1998:ACD:286076} to determine the loop bounds and worst-case execution time 
@@ -47,16 +47,15 @@ execution time prediction problem for PaaS-hosted web APIs.
 As we show in our characterization survey, such applications 
 have a set of unique properties, that can be used to greatly simplify static analysis.
 Also, Cerebro is designed to only work with web API codes. This makes designing 
-a solution much more simpler but less general compared to those that analyze
-arbitrary program codes.
+a solution much more simpler but less general.
 To handle the highly variable and evolving nature of
-cloud platforms and applications, Cerebro combines this static analysis with runtime
+cloud platforms, Cerebro combines static analysis with runtime
 monitoring of cloud platforms at the level of SDK operations. No other 
 system provides such a hybrid approach to the best of our knowledge. 
 Finally,
 we use time series analysis~\cite{Nurmi:2007:QQB:1791551.1791556} 
 to predict API execution time upper bounds with specific confidence
-levels, which makes it possible to use the results as precise SLAs.
+levels.
 
 SLA management on service-oriented systems and cloud systems has also been 
 throughly researched
@@ -65,8 +64,8 @@ such as SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MM
 Some work has also looked at incorporating a given SLA to the design of a system, and
 then monitoring it at the runtime to ensure SLA compliant behavior~\cite{He:2013:TSC:2532443.2532449}. 
 Our research takes a
-different approach from such works, whereby it attempts to predict the performance SLAs that can be 
-supported by a given web API implementation. To the best of our knowledge, Cerebro is the first system to predict performance SLAs for web APIs developed for PaaS clouds.
+different approach from such works, whereby it attempts to predict the performance SLAs for a
+given web API implementation. To the best of our knowledge, Cerebro is the first system to predict performance SLAs for web APIs developed for PaaS clouds.
 
 A work that is similar to ours has been proposed by Ardagna, Damiani and Sagbo in~\cite{6649675}. 
 The authors develop
@@ -75,10 +74,11 @@ model (Symbolic Transitions System) of a service, their system is able to genera
 can be used to assess the performance of the service. STS models are a type of finite state automata. 
 Further, they use probabilistic distributions with fixed parameters
 to represent the delays incurred by various operations in the service. Cerebro is easier to use than this
-system because we do not require API developers to construct any models of the web APIs. They only
-need to provide the source code of the API implementations. Also, instead of using probabilistic distributions
+system because we do not require API developers to construct any models of the web APIs. 
+%They only need to provide the source code of the API implementations. 
+Also, instead of using probabilistic distributions
 with fixed parameters, Cerebro uses actual historical performance metrics of cloud SDK operations. This enables
-Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform better.
+Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform.
 
 There has also been prior work in the area of predicting 
 SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
