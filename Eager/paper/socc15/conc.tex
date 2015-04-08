@@ -41,25 +41,25 @@ and open source web applications developed by others.  And we use Cerebro to
 predict the 95th percentile of the API operation response time. 
 We find that:
 \begin{itemize}
-%\vspace{-0.05in}
+\vspace{-0.05in}
 \item Cerebro achieves the desired correctness goal of 95\% for all the applications in both cloud environments.
-%\vspace{-0.05in}
+\vspace{-0.05in}
 \item Cerebro generates tight predictions (i.e.
 the predictions are similar to measured values) for most web APIs.  Because
 some operations and PaaS systems exhibit more variability in cloud SDK response
 time, 
 Cerebro must be conservative in some cases, and produce predictions that are less tight
 to meet its correctness guarantees.  
-%\vspace{-0.05in}
+\vspace{-0.05in}
 \item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems are designed to run continuously, this is not an issue in practice. 
-%\vspace{-0.05in}
+\vspace{-0.05in}
 \item We can use a simple yet administratively useful model to identify when an 
 SLA becomes invalid to compute
 prediction validity durations for Cerebro.  The average duration of a valid
 Cerebro prediction is between 24 and 72 hours,
 and 95\% of the time this duration is at least 
 1.41 hours for App Engine and 1.95 hours for AppScale.
-%\vspace{-0.05in}
+\vspace{-0.05in}
 \end{itemize}
 
 In the current design, Cerebro's cloud SDK monitoring agent only monitors 

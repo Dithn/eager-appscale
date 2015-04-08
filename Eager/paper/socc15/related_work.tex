@@ -57,15 +57,15 @@ we use time series analysis~\cite{Nurmi:2007:QQB:1791551.1791556}
 to predict API execution time upper bounds with specific confidence
 levels.
 
-SLA management on service-oriented systems and cloud systems has also been 
+SLA management on service-oriented systems and cloud systems has been 
 throughly researched
 over the years. However, a lot of the existing work has focused on issues 
 such as SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MMS:1980822.1980832,Raimondi:2008:EOM:1453101.1453125,Bertolino:2007:SUS:1294904.1294914}, SLA negotiation~\cite{Mahbub:2011:PSN:2061042.2062022,Yaqub:2014:ONS:2680847.2681496,6546098}, and SLA modeling~\cite{Chau:2008:ASM:1463788.1463802,Stamou:2013:SGM:2516588.2516592,Skene:2004:PSL:998675.999422}. 
-Some work has also looked at incorporating a given SLA to the design of a system, and
+Some work has looked at incorporating a given SLA to the design of a system, and
 then monitoring it at the runtime to ensure SLA compliant behavior~\cite{He:2013:TSC:2532443.2532449}. 
 Our research takes a
 different approach from such works, whereby it attempts to predict the performance SLAs for a
-given web API implementation. To the best of our knowledge, Cerebro is the first system to predict performance SLAs for web APIs developed for PaaS clouds.
+given web API. To the best of our knowledge, Cerebro is the first system to predict performance SLAs for web APIs developed for PaaS clouds.
 
 A work that is similar to ours has been proposed by Ardagna, Damiani and Sagbo in~\cite{6649675}. 
 The authors develop
@@ -83,8 +83,9 @@ Cerebro to generate more accurate results, that reflect the dynamic nature of th
 There has also been prior work in the area of predicting 
 SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
 These systems take an existing SLA and historical performance data of a service, and predict when the 
-service might violate the given SLA in the future. They employ some form of statistical analysis and/or machine learning to
-make such predictions. Cerebro's notion of prediction validity period has some relation to this line of research. However,
+service might violate the given SLA in the future. 
+%They employ some form of statistical analysis and/or machine learning to make such predictions. 
+Cerebro's notion of prediction validity period has some relation to this line of research. However,
 Cerebro's main goal is to make SLA predictions for web APIs \textit{before} 
 they are deployed and executed. We believe that
 some of these existing SLA violation predictors can complement our 
