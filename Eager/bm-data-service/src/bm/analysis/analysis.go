@@ -34,12 +34,7 @@ func (pred *QbetsPredictor) PredictQuantile(ts db.TimeSeries, q, c float64, debu
 type SimplePredictor struct {}
 
 func (pred *SimplePredictor) PredictQuantileTrace(ts db.TimeSeries, q, c float64, debug bool) (db.TimeSeries,error) {
-	data := make([]int, len(ts))
-	for i,v := range ts {
-		data[i] = v.Value
-	}
-	sort.Ints(data)
-
+	data := sortData(ts)
 	var err error
 	result := make(db.TimeSeries, len(ts))
 	for i := len(ts) - 1; i >= 0; i-- {
@@ -54,7 +49,17 @@ func (pred *SimplePredictor) PredictQuantileTrace(ts db.TimeSeries, q, c float64
 }
 
 func (pred *SimplePredictor) PredictQuantile(ts db.TimeSeries, q, c float64, debug bool) (int,error) {
-	return qbets.PredictQuantile(ts, q, c, debug)
+	data := sortData(ts)
+	return quantile(data, q), nil
+}
+
+func sortData(ts db.TimeSeries) []int {
+	data := make([]int, len(ts))
+	for i,v := range ts {
+		data[i] = v.Value
+	}
+	sort.Ints(data)
+	return data
 }
 
 func quantile(data []int, q float64) int {

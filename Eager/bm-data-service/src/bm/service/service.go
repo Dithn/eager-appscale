@@ -144,6 +144,7 @@ func main() {
 	url := flag.String("u", "", "URL/Path of the data files")
 	dbType := flag.String("d", "ae", "Type of database to use")
 	port := flag.Int("p", 8080, "Port of the data service")
+	simplePred := flag.Bool("s", false, "Use simple predictor instead of QBETS")
 	flag.Parse()
 	if *url == "" {
 		fmt.Println("URL/Path of the data files not specified.")
@@ -167,7 +168,14 @@ func main() {
 	}
 	fmt.Println("Loading TimeSeries data from", *url)
 
-	pred := &analysis.QbetsPredictor{}
+	var pred analysis.Predictor
+	if *simplePred {
+		fmt.Println("Using simple predictor (no QBETS)")
+		pred = &analysis.SimplePredictor{}
+	} else {
+		fmt.Println("Using QBETS-based predictor")
+		pred = &analysis.QbetsPredictor{}
+	}
 
 	http.HandleFunc("/predict", getTimeSeriesPredictionHandler(d, pred))
 	http.HandleFunc("/cpredict", getCustomTimeSeriesPredictionHandler(pred))
