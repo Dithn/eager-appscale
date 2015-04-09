@@ -3,7 +3,7 @@ package main
 import (
 	"bm/bmutil"
 	"bm/db"
-	"bm/qbets"
+	"bm/analysis"
 	"flag"
 	"fmt"
 	"math"
@@ -42,12 +42,13 @@ func main() {
 	}
 	fmt.Println("Loaded", len(ts), "data points from file")
 
+	pred := analysis.DefaultQbetsPredictor()
 	if *tr {
-		analyzeTrace(ts, *q, *c)
+		analyzeTrace(ts, *q, *c, pred)
 		fmt.Println()
 	}
 
-	pred, err := qbets.PredictQuantile(ts, *q, *c, false)
+	pred, err := pred.PredictQuantile(ts, *q, *c, false)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -59,7 +60,7 @@ func main() {
 	fmt.Println("Actual Quantile: ", ts[index-1], "(element =", index, ")")
 }
 
-func analyzeTrace(ts []int, q, c float64) {
+func analyzeTrace(ts []int, q, c float64, pred analysis.Predictor) {
 	minIndex := int(math.Log(c)/math.Log(q)) + 10
 	fmt.Println("Min index: ", minIndex)
 	if len(ts) < minIndex+1 {
@@ -67,7 +68,7 @@ func analyzeTrace(ts []int, q, c float64) {
 		return
 	}
 
-	results, err := qbets.PredictQuantileTrace(ts, q, c, false)
+	results, err := pred.PredictQuantileTrace(ts, q, c, false)
 	if err != nil {
 		fmt.Println(err)
 		return

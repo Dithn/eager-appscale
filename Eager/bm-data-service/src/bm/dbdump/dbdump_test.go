@@ -2,6 +2,7 @@ package main
 
 import (
 	"bm/db"
+	"bm/analysis"
 	"testing"
 )
 
@@ -10,7 +11,7 @@ func TestDBDump(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	p, err := getQuantile(d, 0.95, 0.05, "Test1()", -1)
+	p, err := getQuantile(d, 0.95, 0.05, "Test1()", -1, analysis.DefaultQbetsPredictor())
 	if err != nil {
 		t.Fatal(err)
 	}

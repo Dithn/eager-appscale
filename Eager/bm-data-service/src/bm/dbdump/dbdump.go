@@ -2,7 +2,7 @@ package main
 
 import (
 	"bm/db"
-	"bm/qbets"
+	"bm/analysis"
 	"flag"
 	"fmt"
 )
@@ -34,7 +34,7 @@ func main() {
 			fmt.Println(err)
 		}
 	} else {
-		p, err := getQuantile(d, *q, *c, *op, *l)
+		p, err := getQuantile(d, *q, *c, *op, *l, analysis.DefaultQbetsPredictor())
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -59,7 +59,7 @@ func dump(d db.Database, op string, l int) error {
 	return nil
 }
 
-func getQuantile(d db.Database, q, c float64, op string, l int) (int,error) {
+func getQuantile(d db.Database, q, c float64, op string, l int, pred analysis.Predictor) (int,error) {
 	result, err := d.Query(-1, []string{op}, -1, -1)
 	if err != nil {
 		return -1, err
@@ -69,5 +69,5 @@ func getQuantile(d db.Database, q, c float64, op string, l int) (int,error) {
 	if l > 0 {
 		ts = ts[0:l]
 	}
-	return qbets.PredictQuantile(ts, q, c, true)
+	return pred.PredictQuantile(ts, q, c, true)
 }
