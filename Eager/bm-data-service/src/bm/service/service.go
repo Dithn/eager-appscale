@@ -1,12 +1,12 @@
 package main
 
 import (
+	"bm/analysis"
 	"bm/db"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"net/http"
-	"bm/analysis"
 	"sync"
 )
 
