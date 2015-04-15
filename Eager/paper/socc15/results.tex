@@ -97,7 +97,7 @@ from a sample of $1000$ prediction-measurement pairs.
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{accuracy_summary}
-\caption{Cerebro Correctness Percentage in Google App Engine and AppScale cloud platforms.}
+\caption{Cerebro correctness percentage in Google App Engine and AppScale cloud platforms.}
 \label{fig:accuracy_summary}
 \vspace{-0.2in}
 \end{figure}
@@ -570,112 +570,119 @@ in AppScale.
 %to running Watchtower and other sample applications. Therefore it is a much more stable environment compared to 
 %App Engine -- a fact that is reflected in the calculated prediction validity periods.
 
-\subsection{Learning Duration}
+\subsection{Effectiveness and Learning Duration of QBETS}
 \label{sec:learning}
 
+In order to gauge the effectiveness of QBETS, we implement
+another SLA predictor, which we refer to as the \textit{simple predictor}. This implementation
+predicts the $p$-th percentile of a time series by simply calculating the actual $p$-th percentile of the
+time series in the conventional manner. 
+We keep rest of Cerebro unchanged, and swap QBETS out for the simple predictor. We have
+implemented our prototype in a modular fashion that makes such alterations trivial. Then we make
+$95^{th}$ percentile
+SLA predictions for our five test applications using the simple predictor, and compute the percentage of
+API response time measurements that are below the predicted SLAs within a time span of
+1000 minutes. Results of this experiment are summarized in Figure~\ref{fig:simple_pred_accuracy}. For this test we
+reuse the same cloud SDK monitoring data and application benchmarking data that was used in Subsection~\ref{sec:correctness}. Therefore results in Figure~\ref{fig:simple_pred_accuracy} are directly comparable to
+Figure~\ref{fig:accuracy_summary}.  
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{simple_pred_accuracy_summary}
+\caption{Cerebro correctness percentage in Google App Engine and AppScale cloud platforms, resulting from
+the simple predictor (without QBETS).}
+\label{fig:simple_pred_accuracy}
+\vspace{-0.2in}
+\end{figure}
+
+Figure~\ref{fig:simple_pred_accuracy} shows lower percentages compared to Figure~\ref{fig:accuracy_summary}.
+Also in several cases, the simple predictor falls well short of the desired correctness goal of $95\%$.
+This indicates that QBETS is a superior approach, albeit conservativeness,
+for making SLA predictions than simply
+calculating the percentiles on cloud SDK monitoring data.
+
+To understand why the simple predictor fails to meet the desired accuracy level, we take the
+Rooms\#getRoomsInCity operation on Google App Engine (the case that shows lowest accuracy level), 
+and compare its predicted SLAs
+and actual response times within a period of 1000 minutes. The resulting plot is shown in
+Figure~\ref{fig:get_rooms_in_city}. According to this, there is a significant number of response
+time measurements that violate the SLA given by simple predictor, but are below the QBETS
+predicted SLA. Thus, the extra conservativeness of QBETS enables it to predict more accurate SLAs.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{get_rooms_in_city}
+\caption{Comparison of predicted and actual response times of Rooms\#getRoomsInCity on Google App Engine.}
+\label{fig:get_rooms_in_city}
+\vspace{-0.2in}
+\end{figure}
+
 As described in Subsection~\ref{sec:qbets},
-QBETS uses a form of supervised learning internally to determine each of its
-bound predictions.  Each time a new prediction is presented, it updates its
-internal state with respect to autocorrelation and change-point detection.  As
-a result, the correctness percentage may require some number of state updates
-to converge to a stable value.
-
-%Earlier we investigated the percentage of measurements that are under predicted SLAs 
-%after a fixed amount of time has elapsed.
-%In those experiments we made predictions for a fixed-size time period (1000 minutes), 
-%and computed the percentage accuracy achieved by Cerebro at the end of the period.
-%In this section we are going to analyze the percentage accuracy of Cerebro as a running 
-%tabulation. That is, instead of just
-%computing the percentage accuracy at the end of 1000 minutes, we are going to compute it 
-%for each passing minute. This enables us to
-%understand how the percentage accuracy regarding a single web API operation changes over time, 
-%and the convergence behavior of Cerebro. We define convergence as the event of Cerebro
-%approaching the desired percentage accuracy level (95\% in
-%our experiments), and staying close to or above that level consistently.
-
-Figure~\ref{fig:gae_accuracy} shows a running tabulation of
-correctness percentage for Cerebro
-predictions made in Google App Engine during the first 
-$1000$ minutes of operation (one prediction is generated each minute). 
-Similarly, in Figure~\ref{fig:as_accuracy} we show a running tabulation of
-correctness percentage for Cerebro
-predictions made in AppScale during the first 
-$1000$ minutes of operation (again, one prediction generated per minute). 
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.35]{gae_accuracy}
-\caption{Running tabulation of correctness percentage for predictions made on App Engine for a period
-of $1000$ minutes, one prediction per minute.}
-\label{fig:gae_accuracy}
-\vspace{-0.2in}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.35]{as_accuracy}
-\caption{Running tabulation of correctness percentage for predictions made on AppScale for a period
-of $1000$ minutes, one prediction per minute.}
-\label{fig:as_accuracy}
-\vspace{-0.2in}
-\end{figure}
-
-For clarity we do not show results for all tested operations. Instead,
-we only show data for the operation that reaches stability in the shortest
-amount of time, and the operation that takes the longest to converge.
-Results for other operations fall between these two extremes.
-
-%As expected, the time series analysis method used by Cerebro (QBETS) takes some time to learn
-%from the time series data captured by Watchtower. This is when we see large fluctuations in the percentage accuracy. 
-%But once Cerebro has converged it consistently produces highly accurate predictions.
-In the worst case, Cerebro takes up to $200$ minutes to 
+QBETS uses a form of supervised learning to determine each of its
+bound predictions.  
+As a result, the correctness percentage requires some number of state updates
+to converge to a stable value. We have observed that in the worst case, QBETS takes up to $200$ minutes to 
 achieve correctness percentage above $95\%$
-in Google App Engine (for StudentInfo\#getAllStudents).
-Alternatively, the longest time until Cerebro has ``learned'' the series in
-AppScale is approximately $40$ minutes.
-%After 275 minutes, we see highly accurate predictions being made on all web API
-%operations considered in the tests. After this point, we consistently see percentage accuracy values higher than 96\%. 
-%Recall that
-%we had configured Cerebro to predict the 95th percentile of the web API executions time. Therefore as long as Cerebro produces
-%results with a percentage accuracy close to or higher than 95\%, we can consider the predictions to be correct.
-%Figure~\ref{fig:as_accuracy} shows the same results calculated by running Watchtower and the sample applications on AppScale.
-%Again we include the results for fastest and slowest convergence only. 
-%we can see that Cerebro converges to the preferred percentage accuracy level in 40 minutes at the latest.
+in Google App Engine.
+Alternatively, the longest time until QBETS has ``learned'' the series in
+AppScale is approximately $40$ minutes. Once this learning period has elapsed, QBETS
+generates predictions while consistently maintaining its accuracy level above 95\%. But other
+approaches such as the simple predictor fails to meet this goal even after 1000 minutes has elapsed.
 
-%Note that due to the presence of autocorrelation in the series, the
-%correctness percentage may drop below its target for some time after it has
-%converged.  Especially when the bound is tight, the running tabulation of
-%correctness may osscilate slightly above and below the target probability.
-%QBETS attempts to adjust for autocorrelation internally but the instantaneous
-%correctness percentage at any given moment may be slightly below the target
-%value once QBETS has learned the series.  This observation gives further
-%credence to the notion that simply observing a correctness percentage below
-%the target set for an SLA is not sufficient to determine whether the SLA has
-%been violated.
+%\subsection{Learning Duration}
+%\label{sec:learning}
 
-%An interesting observation we can make regarding correctness percentage
-%Even after the percentage values have converged, they keep fluctuating 
-%around some median value. When the percentage accuracy starts to drop, Cerebro shifts the predictions up thereby increasing
-%the percentage accuracy. Similarly when the percentage accuracy increases, Cerebro shifts the predictions down. Due to this
-%continuous oscillation, we might encounter instantaneous percentage accuracy values that are slightly 
-%below 95\%. This is what is
-%happening with respect to the StockTrader\#buy operation in the AppScale environment. Its percentage accuracy converges to a median
-%value of 95\% and keeps fluctuating around it. Therefore if we observe the instantaneous percentage accuracy of 
-%StockTrader\#buy at any given time, it
-%could be slightly above or below 95\%. 
-%But as long as this value does not diverge too far from 95\% mark, we can consider Cerebro predictions to
-%be accurate.
-Summarizing these results, 
-the learning time for Cerebro may be
-several hours (up to $200$ minutes in case of 
-Google App Engine), before it produces trustworthy and correct 
-SLA predictions.  The predictions made during this learning period are not
-necessarily incorrect.  It is just not possible to gauge their correctness
-quantitatively before the series has been learned.  We envision Cerebro as a
-continuous monitoring process in PaaS clouds for which ``startup time'' is not 
-an issue.
-%Therefore, it is a good idea to start Watchtower in the
-%target cloud platform early, and let it run for several hours before allowing API developers to deploy their web APIs on the cloud. 
-%Since the
-%required warm up period is in hours (as opposed to days or weeks), we believe this is a perfectly viable and reasonable solution to
-%ensure that any predictions made by Cerebro are up to the expected standards. 
+%As described in Subsection~\ref{sec:qbets},
+%QBETS uses a form of supervised learning internally to determine each of its
+%bound predictions.  Each time a new prediction is presented, it updates its
+%internal state with respect to autocorrelation and change-point detection.  As
+%a result, the correctness percentage may require some number of state updates
+%to converge to a stable value.
+
+%Figure~\ref{fig:gae_accuracy} shows a running tabulation of
+%correctness percentage for Cerebro
+%predictions made in Google App Engine during the first 
+%$1000$ minutes of operation (one prediction is generated each minute). 
+%Similarly, in Figure~\ref{fig:as_accuracy} we show a running tabulation of
+%correctness percentage for Cerebro
+%predictions made in AppScale during the first 
+%$1000$ minutes of operation (again, one prediction generated per minute). 
+
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.35]{gae_accuracy}
+%\caption{Running tabulation of correctness percentage for predictions made on App Engine for a period
+%of $1000$ minutes, one prediction per minute.}
+%\label{fig:gae_accuracy}
+%\vspace{-0.2in}
+%\end{figure}
+
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.35]{as_accuracy}
+%\caption{Running tabulation of correctness percentage for predictions made on AppScale for a period
+%of $1000$ minutes, one prediction per minute.}
+%\label{fig:as_accuracy}
+%\vspace{-0.2in}
+%\end{figure}
+
+%For clarity we do not show results for all tested operations. Instead,
+%we only show data for the operation that reaches stability in the shortest
+%amount of time, and the operation that takes the longest to converge.
+%Results for other operations fall between these two extremes.
+
+%In the worst case, Cerebro takes up to $200$ minutes to 
+%achieve correctness percentage above $95\%$
+%in Google App Engine (for StudentInfo\#getAllStudents).
+%Alternatively, the longest time until Cerebro has ``learned'' the series in
+%AppScale is approximately $40$ minutes.
+
+%Summarizing these results, 
+%the learning time for Cerebro may be
+%several hours (up to $200$ minutes in case of 
+%Google App Engine), before it produces trustworthy and correct 
+%SLA predictions.  The predictions made during this learning period are not
+%necessarily incorrect.  It is just not possible to gauge their correctness
+%quantitatively before the series has been learned.  We envision Cerebro as a
+%continuous monitoring process in PaaS clouds for which ``startup time'' is not 
+%an issue.
