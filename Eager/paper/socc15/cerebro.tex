@@ -118,12 +118,11 @@ As a result, the $k^{th}$ largest value in a sorted list of $n$ observations
 gives an upper $c$ confidence bound on $Q$ when $k$ is the smallest integer
 value for which Equation~\ref{sumformula} is larger than $c$.
 
-More succinctly, QBETS sorts the observations in a history of observations,
+More succinctly, QBETS sorts observations in a history of observations,
 and computes the value of $k$ that constitutes an index into 
-this sorted list of the observation that is the upper $c$ confidence bound on
+this sorted list that is the upper $c$ confidence bound on
 the $p^{th}$ percentile. The methodology assumes that the time series of 
-observations is 
-ergodic so that, in the long run, the confidence bounds are accurate.  
+observations is ergodic so that, in the long run, the confidence bounds are accurate.  
 
 QBETS also attempts to detect change points in the time series of observations 
 so that it can apply this inference technique to only the most recent 
@@ -181,9 +180,8 @@ log(c)/log(0.01p)$.
 
 For example, predicting the $95^{th}$ percentile
 of the API execution time, with an upper confidence of $0.01$ requires at
-least $90$ observations.
-We use this information to control 
-reclamation of monitoring data by the PaaS monitoring agent.
+least $90$ observations.  We use this information to control 
+reclamation of monitoring data by PaaS agent.
 
 \subsection{Example Cerebro Workflow}
 

@@ -579,23 +579,24 @@ as a prediction.
 This \textit{simple predictor} retains a sorted list of previous observations
 and
 predicts the $p$-th percentile to be the value that is larger than $p\%$ of
-the values in the observation history.  When ever a new observation is
+the values in the observation history.  Whenever a new observation is
 available, it is added to the history and each prediction uses the full
 history.  
 
 Figure~\ref{fig:simple_pred_accuracy} shows the correctness measurements for
 the simple predictor using the same cloud SDK monitoring data and application
 benchmarking data that was used in Subsection~\ref{sec:correctness}. 
-That is, we keept rest of Cerebro unchanged, swaped QBETS out for the simple
-predictor, and ran the same set of experiments using the logged observations. 
+That is, we keep the rest of Cerebro unchanged, swap QBETS out for the simple
+predictor, and run the same set of experiments using the logged observations. 
 %Then we make
 %$95^{th}$ percentile
 %SLA predictions for our five test applications using the simple predictor, and compute the percentage of
 %API response time measurements that are below the predicted SLAs within a time span of
 %1000 minutes. Results of this experiment are summarized in Figure~\ref{fig:simple_pred_accuracy}. For this test we
 %reuse the same cloud SDK monitoring data and application benchmarking data that was used in Subsection~\ref{sec:correctness}. 
-Thus the results in Figure~\ref{fig:simple_pred_accuracy} are directly comparable to
-Figure~\ref{fig:accuracy_summary} where Cerebro used QBETS as a forecaster.  
+Thus the results in 
+Figure~\ref{fig:simple_pred_accuracy} are directly comparable to
+Figure~\ref{fig:accuracy_summary} where Cerebro uses QBETS as a forecaster.  
 
 \begin{figure}
 \centering
@@ -605,7 +606,7 @@ Figure~\ref{fig:accuracy_summary} where Cerebro used QBETS as a forecaster.
 \vspace{-0.2in}
 \end{figure}
 
-For the simple prdictor, Figure~\ref{fig:simple_pred_accuracy} shows lower 
+For the simple predictor, Figure~\ref{fig:simple_pred_accuracy} shows lower 
 correctness percentages compared to Figure~\ref{fig:accuracy_summary} for
 QBETS (i.e. the simple predictor is less conservative).
 However, in several cases the simple predictor falls well short of the target 
@@ -618,7 +619,8 @@ SLA in all of the test cases.
 
 To illustrate why the simple predictor fails to meet the desired correctness 
 level, Figure~\ref{fig:get_rooms_in_city} shows the time series of observations, simple predictor forecasts,
-and QBETS forecasts for the Rooms\#getRoomsInCity operation on Google App
+and QBETS forecasts for the 
+Rooms\#getRoomsInCity operation on Google App
 Engine (the case in Figure~\ref{fig:simple_pred_accuracy} that shows 
 lowest correctness percentage).
 % the
@@ -646,9 +648,8 @@ simple predictor shows the $95^{th}$ percentile to be approximately $40ms$,
 the QBETS predictions vary between $42ms$ and $48ms$ (except at the beginning
 where QBETS is ``learning'' the series).  This difference in prediction,
 however, results in a large difference in correctness percentage.  For QBETS,
-the correctness percentage is $97.3\%$ (c.f. Figure~\ref{fig:accuracy_summary}) compared to
-$75.1\%$ for the simple predictor (from
-Figure~\ref{fig:simple_pred_accuracy}).
+the correctness percentage is $97.3\%$ (Figure~\ref{fig:accuracy_summary}) compared to
+$75.1\%$ for the simple predictor (Figure~\ref{fig:simple_pred_accuracy}).
 %Thus, while QBETS is more conservative, it is able to make predictions that
 %can be used as an SLA in this case (and in all of the cases we tested)
 %where the simple predictor fails.
