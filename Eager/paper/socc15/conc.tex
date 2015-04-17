@@ -2,7 +2,8 @@ Web services and service oriented architecture encourage developers to create ne
 composing existing services via their web APIs. But such integration of services makes it difficult to
 reason about the performance and other non-functional properties of 
 composite applications. To
-facilitate such reasoning, web APIs should be exported with strong performance 
+facilitate such reasoning, web APIs should be exported for use
+by applications with strong performance 
 guarantees (SLAs).%, so that application developers are aware of 
 %what to expect from the web APIs they consume. 
 
@@ -16,58 +17,68 @@ application development model,
 which makes it easier to analyze PaaS applications statically.
 
 Cerebro uses static analysis to extract the sequence of cloud SDK 
-calls made by a given web API code. Then it
-uses historical performance data of cloud SDK calls to predict the response time of the web
+calls made by a given web API code combined with
+historical performance measurements of cloud SDK calls to predict 
+the response time of the web
 API. 
 %The historical performance data of cloud SDK 
 %calls are gathered using a special monitoring agent
 %executed in the PaaS cloud, that periodically benchmarks and records 
 %cloud SDK performance, independent of deployed applications and web APIs.
-Cerebro employs QBETS, a non-parametric time series analysis and 
+It employs QBETS, a non-parametric time series analysis and 
 forecasting method, to analyze
-cloud SDK performance data, and predict the response time SLAs with exact correctness
-probabilities. Cerebro can be invoked at both development and 
+cloud SDK performance data, and predict bounds
+on response time that can be used as statistical ``guarantees'' with
+associated guarantee probabilities.
+Cerebro is intended for use both during development and 
 deployment phases of a web API, and 
 precludes the need for continuous performance testing of the API code. 
-Further, it does not interfere with the run-time operation
-of the APIs or the cloud platform, which makes it scalable.
+Further, it does not interfere with the run-time operation (i.e. it requires
+no application instrumentation at runtime) which makes it scalable.
 
-We have implemented Cerebro for Google App Engine public PaaS, 
-and AppScale private PaaS. We have subjected our
-prototype to a myriad of tests to study its efficacy in terms of
-correctness, tightness of predictions, and duration of prediction 
-validity.  We evaluate Cerebro using a set of representative
-and open source web applications developed by others.  And we use Cerebro to
-predict the 95th percentile of the API operation response time. 
-We find that:
-\vspace{-0.05in}
-\begin{itemize}
-\vspace{-0.05in}
-\item Cerebro achieves the desired correctness goal of 95\% for all the applications in both cloud environments.
-\vspace{-0.05in}
-\item Cerebro generates tight predictions (i.e.
-the predictions are similar to measured values) for most web APIs.  Because
-some operations and PaaS systems exhibit more variability in cloud SDK response
-time, 
-Cerebro must be conservative in some cases, and produce predictions that are less tight
-to meet its correctness guarantees.  
-\vspace{-0.05in}
-\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems are designed to run continuously, this is not an issue in practice. 
-\vspace{-0.05in}
-\item We can use a simple yet administratively useful model to identify when an 
-SLA becomes invalid to compute
-prediction validity durations for Cerebro.  The average duration of a valid
-Cerebro prediction is between 24 and 72 hours,
-and 95\% of the time this duration is at least 
-1.41 hours for App Engine and 1.95 hours for AppScale.
-\vspace{-0.05in}
-\end{itemize}
-\vspace{-0.05in}
+We have implemented a prototype of Cerebro for Google App Engine public PaaS
+and AppScale private PaaS
+%We have subjected our
+%prototype to a myriad of tests to study its efficacy in terms of
+%correctness, tightness of predictions, and duration of prediction 
+%validity.  
+and evaluate it using a set of representative
+and open source web applications developed by others.  
+Our findings indicate that the prototype can determine response time levels
+that correspond to specific target SLAs.  These predictions are also durable,
+with average validity times varying between one and three days.
+
+%And we use Cerebro to
+%predict the 95th percentile of the API operation response time. 
+%We find that:
+%\vspace{-0.05in}
+%\begin{itemize}
+%\vspace{-0.05in}
+%\item Cerebro achieves the desired correctness goal of 95\% for all the applications in both cloud environments.
+%\vspace{-0.05in}
+%\item Cerebro generates tight predictions (i.e.
+%the predictions are similar to measured values) for most web APIs.  Because
+%some operations and PaaS systems exhibit more variability in cloud SDK response
+%time, 
+%Cerebro must be conservative in some cases, and produce predictions that are less tight
+%to meet its correctness guarantees.  
+%\vspace{-0.05in}
+%\item Cerebro requires a ``warm up'' period of up to 200 minutes to produce trustworthy predictions. Since PaaS systems are designed to run continuously, this is not an issue in practice. 
+%\vspace{-0.05in}
+%\item We can use a simple yet administratively useful model to identify when an 
+%SLA becomes invalid to compute
+%prediction validity durations for Cerebro.  The average duration of a valid
+%Cerebro prediction is between 24 and 72 hours,
+%and 95\% of the time this duration is at least 
+%1.41 hours for App Engine and 1.95 hours for AppScale.
+%\vspace{-0.05in}
+%\end{itemize}
+%\vspace{-0.05in}
 
 In the current design, Cerebro's cloud SDK monitoring agent only monitors 
 a predefined set of cloud SDK operations. In our future work we wish 
 to explore the possibility of making this component more dynamic,
-so that it learns what operations to benchmark from the web APIs 
+so that it automatically learns what operations to benchmark from the web APIs 
 deployed in the cloud. We also plan to investigate further how to better
 handle data-dependent loops (iterative datastore reads) for different workloads. 
 Further, we plan
