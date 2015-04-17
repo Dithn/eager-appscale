@@ -573,8 +573,8 @@ in AppScale.
 \subsection{Effectiveness of QBETS}
 \label{sec:learning}
 
-In order to gauge the effectiveness of QBETS, we compare it to a ``naive''
-approach that simply uses the a running tabulation of the empirical percentile
+In order to gauge the effectiveness of QBETS, we compare it to a ``na\"{\i}ve''
+approach that simply uses the running tabulation of the empirical percentile
 as a prediction.
 This \textit{simple predictor} retains a sorted list of previous observations
 and
@@ -641,15 +641,15 @@ In this experiment, there are a significant number of response
 time measurements that violate the SLA given by simple predictor (i.e. are
 larger than the predicted percentile), but are below the corresponding QBETS
 prediction made for the same observation.
-Notice also that while QBETS is more conservative, (its predictions are
+Notice also that while QBETS is more conservative (its predictions are
 generally larger than those made by the simple predictor), in this case the
 predictions are typically only $10\%$ larger.  That is, while the 
 simple predictor shows the $95^{th}$ percentile to be approximately $40ms$,
-the QBETS predictions vary between $42ms$ and $48ms$ (except at the beginning
-where QBETS is ``learning'' the series).  This difference in prediction,
+the QBETS predictions vary between $42ms$ and $48ms$, except at the beginning
+where QBETS is ``learning'' the series. This difference in prediction,
 however, results in a large difference in correctness percentage.  For QBETS,
-the correctness percentage is $97.3\%$ (Figure~\ref{fig:accuracy_summary}) compared to
-$75.1\%$ for the simple predictor (Figure~\ref{fig:simple_pred_accuracy}).
+the correctness percentage is $97.4\%$ (Figure~\ref{fig:accuracy_summary}) compared to
+$75.5\%$ for the simple predictor (Figure~\ref{fig:simple_pred_accuracy}).
 %Thus, while QBETS is more conservative, it is able to make predictions that
 %can be used as an SLA in this case (and in all of the cases we tested)
 %where the simple predictor fails.
