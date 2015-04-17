@@ -19,8 +19,12 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
 import org.apache.commons.cli.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,5 +78,17 @@ public class PredictionUtils {
             throw new IllegalArgumentException("Duplicate argument: " + shortName + ", " + longName);
         }
         options.addOption(shortName, longName, hasArg, desc);
+    }
+
+    public static TimeSeries parseBenchmarkFile(String path) throws IOException {
+        TimeSeries timeSeries = new TimeSeries();
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] segments = line.split("\\s+");
+            timeSeries.add(Long.parseLong(segments[0]), Integer.parseInt(segments[1]));
+        }
+        reader.close();
+        return timeSeries;
     }
 }

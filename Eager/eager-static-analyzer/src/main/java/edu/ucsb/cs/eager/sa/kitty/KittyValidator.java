@@ -53,7 +53,7 @@ public class KittyValidator {
     }
 
     public void run(PredictionConfig config, String benchmarkFile) throws IOException {
-        TimeSeries benchmarkValues = parseBenchmarkFile(benchmarkFile);
+        TimeSeries benchmarkValues = PredictionUtils.parseBenchmarkFile(benchmarkFile);
         // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
         long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
@@ -162,18 +162,6 @@ public class KittyValidator {
             }
         }
         return vi;
-    }
-
-    private TimeSeries parseBenchmarkFile(String path) throws IOException {
-        TimeSeries timeSeries = new TimeSeries();
-        BufferedReader reader = new BufferedReader(new FileReader(path));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] segments = line.split("\\s+");
-            timeSeries.add(Long.parseLong(segments[0]), Integer.parseInt(segments[1]));
-        }
-        reader.close();
-        return timeSeries;
     }
 
     private static class SLAViolationInfo {
