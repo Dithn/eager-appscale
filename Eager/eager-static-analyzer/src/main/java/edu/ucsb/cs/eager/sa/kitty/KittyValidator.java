@@ -23,10 +23,7 @@ import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
 import org.apache.commons.cli.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
 
 public class KittyValidator {
 
@@ -57,28 +54,15 @@ public class KittyValidator {
         // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
         long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
-        config.setStart(start);
-        config.setEnd(end);
-        config.setHideOutput(true);
 
-        Kitty kitty = new Kitty();
-        Collection<MethodInfo> methods = kitty.getMethods(config);
-        MethodInfo method = null;
-        for (MethodInfo m : methods) {
-            if (config.isEnabledMethod(m.getName())) {
-                method = m;
-                break;
-            }
-        }
-        if (method == null) {
+        TraceAnalysisResult[] result = PredictionUtils.makePredictions(config, start, end);
+        if (result == null) {
             System.err.println("Failed to find the method: " + config.getMethods()[0]);
             return;
         }
         System.out.println();
 
-        kitty.run(config, methods);
-        TraceAnalysisResult[] result = kitty.getSummary(method).findLargest();
-        int startIndex = findClosestIndex(benchmarkValues.getTimestampByIndex(0), result);
+        int startIndex = PredictionUtils.findClosestIndex(benchmarkValues.getTimestampByIndex(0), result);
         if (startIndex < 0) {
             System.err.println("Prediction time-line do not overlap with benchmark time-line.");
             return;
@@ -89,27 +73,10 @@ public class KittyValidator {
             SLAViolationInfo vi = findSLAViolations(result, i, benchmarkValues);
             TraceAnalysisResult r = result[i];
             System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", r.getTimestamp(), r.getApproach2(),
-                    getTime(r.getTimestamp(), vi.firstViolation),
-                    getTime(r.getTimestamp(), vi.first3CViolations),
-                    getTime(r.getTimestamp(), vi.first5PViolations));
+                    PredictionUtils.getTime(r.getTimestamp(), vi.firstViolation),
+                    PredictionUtils.getTime(r.getTimestamp(), vi.first3CViolations),
+                    PredictionUtils.getTime(r.getTimestamp(), vi.first5PViolations));
         }
-    }
-
-    private int findClosestIndex(long ts, TraceAnalysisResult[] result) {
-        for (int i = 0; i < result.length; i++) {
-            if (result[i].getTimestamp() >= ts) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private String getTime(long start, long end) {
-        if (end < 0) {
-            return "N/A";
-        }
-        double duration = (end - start) / 1000.0;
-        return String.format("%.2f", duration);
     }
 
     private SLAViolationInfo findSLAViolations(TraceAnalysisResult[] results, int index,
@@ -136,7 +103,7 @@ public class KittyValidator {
                 if (vi.firstViolation < 0) {
                     vi.firstViolation = time;
                 }
-                if (consecutiveViolations == cwrong && vi.first3CViolations < 0) {
+                if (consecutiveViolations == 3 && vi.first3CViolations < 0) {
                     vi.first3CViolations = time;
                 }
                 double percentage = ((double) totalViolations) / total;

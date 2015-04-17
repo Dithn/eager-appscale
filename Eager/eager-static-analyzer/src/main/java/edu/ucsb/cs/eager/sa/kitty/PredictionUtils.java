@@ -20,12 +20,14 @@
 package edu.ucsb.cs.eager.sa.kitty;
 
 import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
+import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
 import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PredictionUtils {
@@ -90,5 +92,53 @@ public class PredictionUtils {
         }
         reader.close();
         return timeSeries;
+    }
+
+    public static int findClosestIndex(long ts, TraceAnalysisResult[] result) {
+        for (int i = 0; i < result.length; i++) {
+            if (result[i].getTimestamp() >= ts) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static TraceAnalysisResult[] makePredictions(PredictionConfig config,
+                                                        long start, long end) throws IOException {
+        config.setStart(start);
+        config.setEnd(end);
+        config.setHideOutput(true);
+
+        Kitty kitty = new Kitty();
+        Collection<MethodInfo> methods = kitty.getMethods(config);
+        MethodInfo method = null;
+        for (MethodInfo m : methods) {
+            if (config.isEnabledMethod(m.getName())) {
+                method = m;
+                break;
+            }
+        }
+        if (method == null) {
+            return null;
+        }
+
+        kitty.run(config, methods);
+        return kitty.getSummary(method).findLargest();
+    }
+
+    public static String getTime(long start, long end) {
+        if (end < 0) {
+            return "N/A";
+        }
+        double duration = (end - start) / 1000.0;
+        return String.format("%.2f", duration);
+    }
+
+    public static String getTimeInHours(long start, long end) {
+        if (end < 0) {
+            return "N/A";
+        }
+        double duration = (end - start) / 1000.0 / 3600.0;
+        return String.format("%.2f", duration);
     }
 }
