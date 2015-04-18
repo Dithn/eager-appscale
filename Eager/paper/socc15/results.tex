@@ -406,14 +406,22 @@ work~\cite{Nurmi:2007:QQB:1791551.1791556}
 using an artificially generated AR(1) series, 
 we observed that $5$ consecutive values above the $95^{th}$ percentile
 occurred with probability $0.00012$ when the first autocorrelation was $0.5$,
-and $14$ when the first autocorrelation was $0.85$.  Thus using an independence
-assumption for the series to determine the number of consecutive values above
-$Q$ that constitute a ``rare event'' (indicating a possible change in
-conditions) is conservative.
+and $14$ when the first autocorrelation was $0.85$.  QBETS uses a look-up
+table of these values to
+determine the number of consecutive measurements above
+$Q$ that constitute a ``rare event'' 
+indicating a possible change in
+conditions.
 
-In particular, for the $95^{th}$ percentile, we measure the time from when
-Cerebro makes a bounds prediction until we observe $n=3$ consecutive
-measurement values above that prediction as being the time duration over which
+Each time Cerebro makes a new prediction, it computes the current
+autocorrelation and uses the QBETS rare-event look-up table to determine $n$:
+the number of
+consecutive values that constitute a rare event.
+We 
+measure the time from when
+Cerebro makes the prediction until we observe $n$ 
+consecutive measurement values above that prediction 
+as being the time duration over which
 the prediction is valid. We refer to this duration as the \textit{validity duration}.  
 Tables~\ref{tab:gae_validity} and~\ref{tab:as_validity} present these durations
 for Cerebro predictions in Google App Engine and AppScale
