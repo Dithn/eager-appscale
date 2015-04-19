@@ -31,12 +31,12 @@ import java.util.List;
 
 public class KittySLAEvolutionAnalyzer {
 
-    private static final int CONSECUTIVE_VIOLATIONS = 3;
-
     public static void main(String[] args) throws IOException {
         Options options = Kitty.getOptions();
         PredictionUtils.addOption(options, "bf", "benchmark-file", true,
                 "File containing benchmark data");
+        PredictionUtils.addOption(options, "ai", "adaptive-intervals", false,
+                "Enable adaptive interval analysis");
         CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args, "KittySLAEvolutionAnalyzer");
         PredictionConfig config = Kitty.getPredictionConfig(cmd);
         if (config == null) {
@@ -51,11 +51,14 @@ public class KittySLAEvolutionAnalyzer {
             System.err.println("benchmark file must be specified.");
             return;
         }
+        boolean adaptiveIntervals = cmd.hasOption("ai");
+
         KittySLAEvolutionAnalyzer analyzer = new KittySLAEvolutionAnalyzer();
-        analyzer.run(config, benchmarkFile);
+        analyzer.run(config, benchmarkFile, adaptiveIntervals);
     }
 
-    public void run(PredictionConfig config, String benchmarkFile) throws IOException {
+    public void run(PredictionConfig config, String benchmarkFile,
+                    boolean adaptiveIntervals) throws IOException {
         TimeSeries benchmarkValues = PredictionUtils.parseBenchmarkFile(benchmarkFile);
         // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
@@ -74,7 +77,11 @@ public class KittySLAEvolutionAnalyzer {
             return;
         }
 
-        fixedIntervalAnalysis(benchmarkValues, result, startIndex);
+        if (adaptiveIntervals) {
+            adaptiveIntervalAnalysis(benchmarkValues, result, startIndex);
+        } else {
+            fixedIntervalAnalysis(benchmarkValues, result, startIndex);
+        }
     }
 
     private void adaptiveIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
@@ -83,7 +90,7 @@ public class KittySLAEvolutionAnalyzer {
         System.out.println("[sla] timestamp prediction timeToViolation(h)");
         while (currentIndex > 0 && currentIndex < result.length - 1) {
             TraceAnalysisResult currentPrediction = result[currentIndex];
-            int violation = findViolation(benchmarkValues, currentPrediction, CONSECUTIVE_VIOLATIONS);
+            int violation = findViolation(benchmarkValues, result, currentIndex);
             long violationTime = benchmarkValues.getTimestampByIndex(violation);
             System.out.printf("[sla] %d %5d %-8s\n", currentPrediction.getTimestamp(),
                     currentPrediction.getApproach2(),
@@ -95,21 +102,14 @@ public class KittySLAEvolutionAnalyzer {
     private void fixedIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
                                           int startIndex) {
 
-        List<Long> violationTimes = new ArrayList<>();
-        for (int i = startIndex; i < result.length; i+=15) {
-            int violation = findViolation(benchmarkValues, result[i], CONSECUTIVE_VIOLATIONS);
-            violationTimes.add(benchmarkValues.getTimestampByIndex(violation) - result[i].getTimestamp());
-        }
-        Collections.sort(violationTimes);
-        int fifthPercentileIndex = (int) Math.ceil(0.05 * violationTimes.size());
-        long interval = violationTimes.get(fifthPercentileIndex);
+        long interval = getInterval(benchmarkValues, result, startIndex);
         System.out.println("Calculated interval: " + interval/1000.0/3600.0 + " hours\n");
 
         int currentIndex = startIndex;
         System.out.println("[sla] timestamp prediction timeToViolation(h)");
         while (currentIndex > 0 && currentIndex < result.length - 1) {
             TraceAnalysisResult currentPrediction = result[currentIndex];
-            int violation = findViolation(benchmarkValues, currentPrediction, CONSECUTIVE_VIOLATIONS);
+            int violation = findViolation(benchmarkValues, result, currentIndex);
             long violationTime = benchmarkValues.getTimestampByIndex(violation);
             System.out.printf("[sla] %d %5d %-8s\n", currentPrediction.getTimestamp(),
                     currentPrediction.getApproach2(),
@@ -119,22 +119,48 @@ public class KittySLAEvolutionAnalyzer {
         }
     }
 
-    private int findViolation(TimeSeries benchmarkValues, TraceAnalysisResult prediction,
-                               int violationThreshold) {
-        int consecutiveViolations = 0;
+    private long getInterval(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
+                             int startIndex) {
+        List<Long> violationTimes = new ArrayList<>();
+        for (int i = startIndex; i < result.length; i+=15) {
+            int violation = findViolation(benchmarkValues, result, i);
+            violationTimes.add(benchmarkValues.getTimestampByIndex(violation) - result[i].getTimestamp());
+        }
+        Collections.sort(violationTimes);
+        int fifthPercentileIndex = (int) Math.ceil(0.05 * violationTimes.size());
+        return violationTimes.get(fifthPercentileIndex);
+    }
+
+    private int findViolation(TimeSeries benchmarkValues, TraceAnalysisResult[] results, int index) {
+        int consecutiveViolations = 0, consecutiveSamples = 0, total = 0;
+        TraceAnalysisResult r = results[index];
+        long ts = r.getTimestamp();
+        int sla = r.getApproach2();
+        int cwrong = r.getCwrong();
         for (int i = 0; i < benchmarkValues.length(); i++) {
-            if (benchmarkValues.getTimestampByIndex(i) < prediction.getTimestamp()) {
+            if (benchmarkValues.getTimestampByIndex(i) < ts) {
                 continue;
             }
 
-            if (benchmarkValues.getValueByIndex(i) > prediction.getApproach2()) {
+            total++;
+            consecutiveSamples++;
+            if (benchmarkValues.getValueByIndex(i) > sla) {
                 consecutiveViolations++;
+                if (consecutiveViolations == cwrong) {
+                    return i;
+                }
             } else {
                 consecutiveViolations = 0;
             }
 
-            if (consecutiveViolations == violationThreshold) {
-                return i;
+            if (consecutiveSamples == cwrong) {
+                consecutiveSamples = 0;
+                consecutiveViolations = 0;
+                if (index + total < results.length) {
+                    cwrong = results[index + total].getCwrong();
+                } else {
+                    cwrong = results[results.length - 1].getCwrong();
+                }
             }
         }
 

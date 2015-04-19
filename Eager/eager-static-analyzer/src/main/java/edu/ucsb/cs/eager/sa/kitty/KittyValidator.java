@@ -103,7 +103,7 @@ public class KittyValidator {
                 if (vi.firstViolation < 0) {
                     vi.firstViolation = time;
                 }
-                if (consecutiveViolations == 3 && vi.first3CViolations < 0) {
+                if (consecutiveViolations == cwrong && vi.first3CViolations < 0) {
                     vi.first3CViolations = time;
                 }
                 double percentage = ((double) totalViolations) / total;
