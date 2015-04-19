@@ -1,0 +1,76 @@
+/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/bin/java -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:50894,suspend=y,server=n -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/javafx-doclet.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/htmlconverter.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/eager-static-analyzer/target/classes:/Users/hiranya/.m2/repository/javax/mail/mail/1.4.3/mail-1.4.3.jar:/Users/hiranya/.m2/repository/javax/activation/activation/1.1.1/activation-1.1.1.jar:/Users/hiranya/.m2/repository/org/apache/httpcomponents/httpclient/4.3.5/httpclient-4.3.5.jar:/Users/hiranya/.m2/repository/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2.jar:/Users/hiranya/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:/Users/hiranya/.m2/repository/commons-codec/commons-codec/1.6/commons-codec-1.6.jar:/Users/hiranya/.m2/repository/junit/junit/3.8/junit-3.8.jar:/Users/hiranya/.m2/repository/soot/soot/2.5.0/soot-2.5.0.jar:/Users/hiranya/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:/Users/hiranya/.m2/repository/org/json/json/20140107/json-20140107.jar:/Applications/IntelliJ IDEA 12.app/lib/idea_rt.jar" edu.ucsb.cs.eager.sa.kitty.KittySLAEvolutionAnalyzer -ccp /Users/hiranya/Projects/eager/impl/eager-appscale/Eager/student-info/target/student-info-1.0-SNAPSHOT/WEB-INF/classes -c edu.ucsb.cs.StudentResource -m deleteStudent -me 10 -s http://localhost:8081 -wp -q 0.95 -bf /Users/hiranya/Projects/eager/impl/eager-appscale/Eager/eager-static-analyzer/results/apps/exp23/delete.txt
+Connected to the target VM, address: '127.0.0.1:50894', transport: 'socket'
+Warning: com.google.appengine.api.datastore.Entity is a phantom class!
+Warning: javax.ws.rs.GET is a phantom class!
+Warning: com.google.appengine.api.datastore.FetchOptions is a phantom class!
+Warning: javax.ws.rs.POST is a phantom class!
+Warning: com.google.appengine.api.datastore.Key is a phantom class!
+Warning: com.google.appengine.api.datastore.PreparedQuery is a phantom class!
+Warning: com.google.appengine.api.datastore.EntityNotFoundException is a phantom class!
+Warning: javax.ws.rs.Produces is a phantom class!
+Warning: javax.ws.rs.DELETE is a phantom class!
+Warning: javax.ws.rs.core.Response is a phantom class!
+Warning: javax.ws.rs.Path is a phantom class!
+Warning: javax.ws.rs.PathParam is a phantom class!
+Warning: com.google.appengine.api.datastore.DatastoreService is a phantom class!
+Warning: com.google.appengine.api.datastore.FetchOptions$Builder is a phantom class!
+Warning: com.google.appengine.api.datastore.KeyFactory is a phantom class!
+Warning: javax.ws.rs.FormParam is a phantom class!
+Warning: com.google.appengine.api.datastore.Query is a phantom class!
+Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom class!
+Warning: javax.ws.rs.core.Response$ResponseBuilder is a phantom class!
+Warning: java.dyn.InvokeDynamic is a phantom class!
+
+Calculated interval: 3.0967055555555554 hours
+
+[sla] timestamp prediction timeToViolation(h)
+[sla] 1422135471972   121 45.54   
+[sla] 1422146678833   116 42.41   
+[sla] 1422157845329   114 39.35   
+[sla] 1422169058768   114 36.20   
+[sla] 1422180241065   113 129.06  
+[sla] 1422191433531   113 30.00   
+[sla] 1422202585739   111 122.86  
+[sla] 1422213734773   111 23.82   
+[sla] 1422224942939   111 20.69   
+[sla] 1422236118044   110 17.59   
+[sla] 1422247289341   110 14.47   
+[sla] 1422258466508   109 11.38   
+[sla] 1422269625548   108 8.26    
+[sla] 1422280800161   108 5.19    
+[sla] 1422291971391   107 2.05    
+[sla] 1422303168140   108 94.92   
+[sla] 1422314343462   108 11.03   
+[sla] 1422325494655   107 88.71   
+[sla] 1422336683328   107 85.61   
+[sla] 1422347895761   107 82.49   
+[sla] 1422359102231   108 79.38   
+[sla] 1422370273186   107 76.28   
+[sla] 1422381440801   107 73.17   
+[sla] 1422392618323   107 70.07   
+[sla] 1422403832175   107 66.95   
+[sla] 1422415004664   107 63.85   
+[sla] 1422426183825   106 60.74   
+[sla] 1422437377876   152 57.64   
+[sla] 1422448550018   139 54.53   
+[sla] 1422459761478   122 51.42   
+[sla] 1422470922304   114 48.32   
+[sla] 1422482116571   111 45.21   
+[sla] 1422493264983   110 42.11   
+[sla] 1422504454526   109 39.00   
+[sla] 1422515618448   108 35.90   
+[sla] 1422526816555   108 32.79   
+[sla] 1422538003305   107 29.68   
+[sla] 1422549190229   105 26.58   
+[sla] 1422560391597   105 23.46   
+[sla] 1422571587427   104 20.35   
+[sla] 1422582773498   104 17.25   
+[sla] 1422593944931   104 14.14   
+[sla] 1422605117504   101 11.04   
+[sla] 1422616301123   100 7.93    
+[sla] 1422627492407   171 4.83    
+[sla] 1422638682511   133 1.72    
+Disconnected from the target VM, address: '127.0.0.1:50894', transport: 'socket'
+
+Process finished with exit code 0
+

@@ -1,0 +1,104 @@
+/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/bin/java -Didea.launcher.port=7535 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA 12.app/bin" -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/javafx-doclet.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/htmlconverter.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/eager-static-analyzer/target/classes:/Users/hiranya/.m2/repository/javax/mail/mail/1.4.3/mail-1.4.3.jar:/Users/hiranya/.m2/repository/javax/activation/activation/1.1.1/activation-1.1.1.jar:/Users/hiranya/.m2/repository/org/apache/httpcomponents/httpclient/4.3.5/httpclient-4.3.5.jar:/Users/hiranya/.m2/repository/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2.jar:/Users/hiranya/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:/Users/hiranya/.m2/repository/commons-codec/commons-codec/1.6/commons-codec-1.6.jar:/Users/hiranya/.m2/repository/junit/junit/3.8/junit-3.8.jar:/Users/hiranya/.m2/repository/soot/soot/2.5.0/soot-2.5.0.jar:/Users/hiranya/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:/Users/hiranya/.m2/repository/org/json/json/20140107/json-20140107.jar:/Applications/IntelliJ IDEA 12.app/lib/idea_rt.jar" com.intellij.rt.execution.application.AppMain edu.ucsb.cs.eager.sa.kitty.KittySLAEvolutionAnalyzer -ccp /Users/hiranya/Projects/eager/impl/eager-appscale/Eager/student-info/target/student-info-1.0-SNAPSHOT/WEB-INF/classes -c edu.ucsb.cs.StudentResource -m addStudent -me 10 -s http://localhost:8081 -wp -q 0.95 -bf /Users/hiranya/Projects/eager/impl/eager-appscale/Eager/eager-static-analyzer/results/apps/exp23/create.txt
+Warning: com.google.appengine.api.datastore.Entity is a phantom class!
+Warning: javax.ws.rs.GET is a phantom class!
+Warning: com.google.appengine.api.datastore.FetchOptions is a phantom class!
+Warning: javax.ws.rs.POST is a phantom class!
+Warning: com.google.appengine.api.datastore.Key is a phantom class!
+Warning: com.google.appengine.api.datastore.PreparedQuery is a phantom class!
+Warning: com.google.appengine.api.datastore.EntityNotFoundException is a phantom class!
+Warning: javax.ws.rs.Produces is a phantom class!
+Warning: javax.ws.rs.DELETE is a phantom class!
+Warning: javax.ws.rs.core.Response is a phantom class!
+Warning: javax.ws.rs.Path is a phantom class!
+Warning: javax.ws.rs.PathParam is a phantom class!
+Warning: com.google.appengine.api.datastore.DatastoreService is a phantom class!
+Warning: com.google.appengine.api.datastore.FetchOptions$Builder is a phantom class!
+Warning: com.google.appengine.api.datastore.KeyFactory is a phantom class!
+Warning: javax.ws.rs.FormParam is a phantom class!
+Warning: com.google.appengine.api.datastore.Query is a phantom class!
+Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom class!
+Warning: javax.ws.rs.core.Response$ResponseBuilder is a phantom class!
+Warning: java.dyn.InvokeDynamic is a phantom class!
+
+Calculated interval: 1.8683594444444445 hours
+
+[sla] timestamp prediction timeToViolation(h)
+[sla] 1422135471972   132 60.83   
+[sla] 1422142248302   131 6.00    
+[sla] 1422149024108   128 4.12    
+[sla] 1422155756021   127 2.25    
+[sla] 1422162494939   126 0.38    
+[sla] 1422169258095   153 132.11  
+[sla] 1422176031523   133 60.85   
+[sla] 1422182805216   131 47.68   
+[sla] 1422189591300   125 45.80   
+[sla] 1422196346403   117 55.23   
+[sla] 1422203113294   115 53.33   
+[sla] 1422209876477   110 40.16   
+[sla] 1422216624591   110 38.29   
+[sla] 1422223395410   110 47.70   
+[sla] 1422230140374   108 34.53   
+[sla] 1422236909329   106 16.74   
+[sla] 1422243677122   102 42.06   
+[sla] 1422250431269   101 13.00   
+[sla] 1422257218646   101 11.10   
+[sla] 1422263972142   101 9.26    
+[sla] 1422270744888   101 7.34    
+[sla] 1422277511911    99 5.46    
+[sla] 1422284284676    96 3.58    
+[sla] 1422291046740    95 1.70    
+[sla] 1422297792327   131 27.07   
+[sla] 1422304548815   133 25.17   
+[sla] 1422311310322   126 11.99   
+[sla] 1422318092041   119 10.10   
+[sla] 1422324834274   106 8.23    
+[sla] 1422331600598   104 6.35    
+[sla] 1422338390260   104 15.73   
+[sla] 1422345143376   103 13.88   
+[sla] 1422351890535   103 11.98   
+[sla] 1422358644824   104 10.13   
+[sla] 1422365412506   104 8.25    
+[sla] 1422372177059   103 6.37    
+[sla] 1422378945170   102 4.47    
+[sla] 1422385713519   102 2.59    
+[sla] 1422392486023   102 0.71    
+[sla] 1422399245430   146 62.05   
+[sla] 1422405989109   131 49.39   
+[sla] 1422412720711   116 47.52   
+[sla] 1422419448362   116 45.65   
+[sla] 1422426183825   109 60.74   
+[sla] 1422432922593   101 41.93   
+[sla] 1422439679054   106 40.03   
+[sla] 1422446451030   106 38.15   
+[sla] 1422453204893   137 53.24   
+[sla] 1422459957948   117 34.42   
+[sla] 1422466726640   100 32.54   
+[sla] 1422473478355   101 30.65   
+[sla] 1422480223688   101 45.73   
+[sla] 1422486993591   100 43.85   
+[sla] 1422493722557    99 25.04   
+[sla] 1422500456726    99 23.15   
+[sla] 1422507204687    97 38.24   
+[sla] 1422513985301    96 36.35   
+[sla] 1422520723799    95 17.54   
+[sla] 1422527470222    96 11.41   
+[sla] 1422534206547    95 26.83   
+[sla] 1422540949487    95 11.92   
+[sla] 1422547686748    95 10.05   
+[sla] 1422554425347    95 6.51    
+[sla] 1422561175197    95 19.34   
+[sla] 1422567919055    93 0.18    
+[sla] 1422574678798    94 13.32   
+[sla] 1422581407321    95 13.72   
+[sla] 1422588192663   207 15.74   
+[sla] 1422594921519   164 13.87   
+[sla] 1422601654361   145 12.00   
+[sla] 1422608392905   134 10.13   
+[sla] 1422615127560   110 8.26    
+[sla] 1422621863790   107 0.21    
+[sla] 1422628608234   110 4.52    
+[sla] 1422635347820   116 2.64    
+[sla] 1422642077420   110 0.77    
+
+Process finished with exit code 0
+

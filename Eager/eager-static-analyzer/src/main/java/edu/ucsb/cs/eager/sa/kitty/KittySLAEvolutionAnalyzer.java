@@ -107,7 +107,7 @@ public class KittySLAEvolutionAnalyzer {
 
         int currentIndex = startIndex;
         System.out.println("[sla] timestamp prediction timeToViolation(h)");
-        while (currentIndex > 0 && currentIndex < result.length - 1) {
+        while (currentIndex >= 0 && currentIndex < result.length - 1) {
             TraceAnalysisResult currentPrediction = result[currentIndex];
             int violation = findViolation(benchmarkValues, result, currentIndex);
             long violationTime = benchmarkValues.getTimestampByIndex(violation);
