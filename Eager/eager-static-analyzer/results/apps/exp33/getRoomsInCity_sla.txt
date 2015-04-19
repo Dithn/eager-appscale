@@ -1,0 +1,99 @@
+/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/bin/java -Didea.launcher.port=7534 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA 12.app/bin" -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/javafx-doclet.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/htmlconverter.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/hiranya/Projects/eager/impl/eager-appscale/Eager/eager-static-analyzer/target/classes:/Users/hiranya/.m2/repository/javax/mail/mail/1.4.3/mail-1.4.3.jar:/Users/hiranya/.m2/repository/javax/activation/activation/1.1.1/activation-1.1.1.jar:/Users/hiranya/.m2/repository/org/apache/httpcomponents/httpclient/4.3.5/httpclient-4.3.5.jar:/Users/hiranya/.m2/repository/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2.jar:/Users/hiranya/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:/Users/hiranya/.m2/repository/commons-codec/commons-codec/1.6/commons-codec-1.6.jar:/Users/hiranya/.m2/repository/junit/junit/3.8/junit-3.8.jar:/Users/hiranya/.m2/repository/soot/soot/2.5.0/soot-2.5.0.jar:/Users/hiranya/.m2/repository/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:/Users/hiranya/.m2/repository/org/json/json/20140107/json-20140107.jar:/Applications/IntelliJ IDEA 12.app/lib/idea_rt.jar" com.intellij.rt.execution.application.AppMain edu.ucsb.cs.eager.sa.kitty.KittySLAEvolutionAnalyzer -ccp /Users/hiranya/Projects/eager/sandbox/cs263/adabra/target/classes -c cs263project.cs263project.RoomRestApi -m getRoomsInCity -me 10 -s http://localhost:8081 -wp -q 0.95 -bf /Users/hiranya/Projects/eager/impl/eager-appscale/Eager/eager-static-analyzer/results/apps/exp33/getRoomsInCity.txt
+Warning: com.google.appengine.api.datastore.Entity is a phantom class!
+Warning: javax.ws.rs.GET is a phantom class!
+Warning: com.google.appengine.api.datastore.FetchOptions is a phantom class!
+Warning: javax.ws.rs.POST is a phantom class!
+Warning: com.google.appengine.api.datastore.Key is a phantom class!
+Warning: com.google.appengine.api.memcache.ErrorHandlers is a phantom class!
+Warning: com.google.gson.JsonSyntaxException is a phantom class!
+Warning: com.google.appengine.api.taskqueue.QueueFactory is a phantom class!
+Warning: com.google.appengine.api.datastore.PreparedQuery is a phantom class!
+Warning: com.google.appengine.api.taskqueue.TaskHandle is a phantom class!
+Warning: com.google.gson.Gson is a phantom class!
+Warning: com.google.appengine.api.datastore.EntityNotFoundException is a phantom class!
+Warning: com.google.appengine.api.memcache.MemcacheService is a phantom class!
+Warning: com.google.appengine.api.memcache.MemcacheServiceFactory is a phantom class!
+Warning: com.google.appengine.api.taskqueue.Queue is a phantom class!
+Warning: javax.ws.rs.Produces is a phantom class!
+Warning: com.google.appengine.api.memcache.LogAndContinueErrorHandler is a phantom class!
+Warning: com.google.appengine.api.taskqueue.TaskOptions$Builder is a phantom class!
+Warning: javax.ws.rs.core.Response is a phantom class!
+Warning: com.google.appengine.api.datastore.KeyFactory$Builder is a phantom class!
+Warning: javax.ws.rs.Path is a phantom class!
+Warning: javax.ws.rs.PathParam is a phantom class!
+Warning: com.google.appengine.api.datastore.FetchOptions$Builder is a phantom class!
+Warning: com.google.appengine.api.datastore.DatastoreService is a phantom class!
+Warning: com.google.appengine.api.memcache.ErrorHandler is a phantom class!
+Warning: com.google.appengine.api.taskqueue.TaskOptions is a phantom class!
+Warning: com.google.appengine.api.datastore.KeyFactory is a phantom class!
+Warning: javax.ws.rs.core.Response$Status is a phantom class!
+Warning: com.google.appengine.api.datastore.Query is a phantom class!
+Warning: com.google.appengine.api.datastore.GeoPt is a phantom class!
+Warning: com.google.appengine.api.datastore.DatastoreServiceFactory is a phantom class!
+Warning: javax.ws.rs.Consumes is a phantom class!
+Warning: javax.ws.rs.core.Response$ResponseBuilder is a phantom class!
+Warning: java.dyn.InvokeDynamic is a phantom class!
+
+Calculated interval: 2.4820472222222225 hours
+
+[sla] timestamp prediction timeToViolation(h)
+[sla] 1424480753919    65 140.33  
+[sla] 1424489727725    65 46.12   
+[sla] 1424498675569    65 43.65   
+[sla] 1424507626387    65 16.00   
+[sla] 1424516594879    95 130.38  
+[sla] 1424525565033    82 127.88  
+[sla] 1424534554671    69 33.68   
+[sla] 1424543521236    69 31.16   
+[sla] 1424552465487    68 28.71   
+[sla] 1424561403788    70 26.19   
+[sla] 1424570351193    56 23.72   
+[sla] 1424579299912    59 21.26   
+[sla] 1424588248718    59 18.74   
+[sla] 1424597189646    56 16.27   
+[sla] 1424606175189    61 13.79   
+[sla] 1424615110868    60 11.27   
+[sla] 1424624049581    56 8.81    
+[sla] 1424632999454    53 6.34    
+[sla] 1424641954917    52 17.80   
+[sla] 1424650923814    50 1.33    
+[sla] 1424659914348    50 12.81   
+[sla] 1424668881130    49 59.34   
+[sla] 1424677840600    50 7.84    
+[sla] 1424686804514    50 83.09   
+[sla] 1424695768687    51 2.86    
+[sla] 1424704726977    51 78.12   
+[sla] 1424713725499    53 75.62   
+[sla] 1424722707122    56 73.12   
+[sla] 1424731697754    57 70.62   
+[sla] 1424740673068    56 68.13   
+[sla] 1424749634706    56 36.89   
+[sla] 1424758590272    55 34.42   
+[sla] 1424767580640    54 60.66   
+[sla] 1424776554694    55 58.16   
+[sla] 1424785535347    54 55.67   
+[sla] 1424794484190    54 53.18   
+[sla] 1424803438645    54 21.96   
+[sla] 1424812382665    55 19.46   
+[sla] 1424821334779    55 45.73   
+[sla] 1424830312184    55 43.23   
+[sla] 1424839279953    55 40.74   
+[sla] 1424848225645    55 9.52    
+[sla] 1424857163475    54 7.02    
+[sla] 1424866135380    54 33.28   
+[sla] 1424875074004    54 2.04    
+[sla] 1424884068987    54 28.30   
+[sla] 1424893046606    76 25.81   
+[sla] 1424902017627    80 23.31   
+[sla] 1424910984245    76 20.82   
+[sla] 1424919967284    76 18.33   
+[sla] 1424928935274    72 15.84   
+[sla] 1424937879757    71 13.35   
+[sla] 1424946855965    71 10.86   
+[sla] 1424955835973    72 8.36    
+[sla] 1424964782619    72 5.88    
+[sla] 1424973783197    70 3.38    
+[sla] 1424982734171    70 0.89    
+
+Process finished with exit code 0
+
