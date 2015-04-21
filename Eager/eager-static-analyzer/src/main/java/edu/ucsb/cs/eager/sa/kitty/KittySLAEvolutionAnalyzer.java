@@ -86,16 +86,19 @@ public class KittySLAEvolutionAnalyzer {
 
     private void adaptiveIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
                                           int startIndex) {
-        int currentIndex = startIndex;
-        System.out.println("[sla] timestamp prediction timeToViolation(h)");
-        while (currentIndex > 0 && currentIndex < result.length - 1) {
-            TraceAnalysisResult currentPrediction = result[currentIndex];
-            int violation = findViolation(benchmarkValues, result, currentIndex);
-            long violationTime = benchmarkValues.getTimestampByIndex(violation);
-            System.out.printf("[sla] %d %5d %-8s\n", currentPrediction.getTimestamp(),
-                    currentPrediction.getApproach2(),
-                    PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(), violationTime));
-            currentIndex = PredictionUtils.findClosestIndex(violationTime, result);
+        System.out.println("[sla][offset] timestamp prediction timeToViolation(h)");
+        for (int i = 0; i < result.length - 1 - startIndex; i++) {
+            int currentIndex = startIndex + i;
+            while (currentIndex > 0 && currentIndex < result.length - 1) {
+                TraceAnalysisResult currentPrediction = result[currentIndex];
+                int violation = findViolation(benchmarkValues, result, currentIndex);
+                long violationTime = benchmarkValues.getTimestampByIndex(violation);
+                System.out.printf("[sla] %d %d %5d %-8s\n", i,
+                        currentPrediction.getTimestamp(),
+                        currentPrediction.getApproach2(),
+                        PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(), violationTime));
+                currentIndex = PredictionUtils.findClosestIndex(violationTime, result);
+            }
         }
     }
 
