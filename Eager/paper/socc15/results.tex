@@ -42,14 +42,14 @@ Eucalyptus~\cite{eucalyptus09} cloud.
 
 We first report the time required for Cerebro to perform its analysis and SLA prediction.
 Across web APIs, Cerebro takes $10.00$ seconds on average, with a 
-maximum time of $14.25$ seconds for StudentInfo.
+maximum time of $14.25$ seconds for StudentInfo application.
 These times include the time taken
 by the static analyzer to analyze all the web API operations
 and the time taken by QBETS to make predictions. For these results, the length of 
 the time series collected by PaaS monitoring agent is $1528$ data points ($25.5$ hours of monitoring data). Since the QBETS analysis time depends on the length of the input time series, 
 we also measured the time for 2 weeks of monitoring data ($19322$ data points) to provide
 some insight into the overhead of SLA prediction.  Even in this case, Cerebro
-requires only $574.05$ seconds ($9.6$ minutes).
+requires only $574.05$ seconds ($9.6$ minutes) on average.
 
 \subsection{Correctness of Predictions}
 \label{sec:correctness}
@@ -534,8 +534,8 @@ and that is for the StudentInfo\#addStudent operation. If we
 just consider the $5^{th}$ percentiles of the distributions, they are 
 also longer than $1$ hour. The smallest $5^{th}$ percentile value of 
 $1.41$ hours is 
-given by the ServerHealth\#info operation. This result implies that if we use 
-$3$ consecutive violations as a cue for detecting invalid SLAs,
+given by the ServerHealth\#info operation. This result implies that, based on
+our conservative model for detecting SLA violations,
 Cerebro predictions made on Google App Engine would be valid for at least
 $1.41$ hours or more, at least 95\% of the time.
 
@@ -582,8 +582,8 @@ in AppScale.
 \label{sec:learning}
 
 In order to gauge the effectiveness of QBETS, we compare it to a ``na\"{\i}ve''
-approach that simply uses the running tabulation of the empirical percentile
-as a prediction.
+approach that simply uses the running empirical percentile tabulation
+of a given joint time series as a prediction.
 This \textit{simple predictor} retains a sorted list of previous observations
 and
 predicts the $p$-th percentile to be the value that is larger than $p\%$ of
