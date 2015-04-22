@@ -37,7 +37,8 @@ public class KittySLAEvolutionAnalyzer {
                 "File containing benchmark data");
         PredictionUtils.addOption(options, "ai", "adaptive-intervals", false,
                 "Enable adaptive interval analysis");
-        CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args, "KittySLAEvolutionAnalyzer");
+        CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args,
+                "KittySLAEvolutionAnalyzer");
         PredictionConfig config = Kitty.getPredictionConfig(cmd);
         if (config == null) {
             return;
@@ -71,7 +72,8 @@ public class KittySLAEvolutionAnalyzer {
         }
         System.out.println();
 
-        int startIndex = PredictionUtils.findClosestIndex(benchmarkValues.getTimestampByIndex(0), result);
+        int startIndex = PredictionUtils.findClosestIndex(
+                benchmarkValues.getTimestampByIndex(0), result);
         if (startIndex < 0) {
             System.err.println("Prediction time-line do not overlap with benchmark time-line.");
             return;
@@ -91,13 +93,13 @@ public class KittySLAEvolutionAnalyzer {
             int currentIndex = startIndex + i;
             while (currentIndex > 0 && currentIndex < result.length - 1) {
                 TraceAnalysisResult currentPrediction = result[currentIndex];
-                int violation = findViolation(benchmarkValues, result, currentIndex);
-                long violationTime = benchmarkValues.getTimestampByIndex(violation);
+                Violation violation = findViolation(benchmarkValues, result, currentIndex);
                 System.out.printf("[sla] %d %d %5d %-8s\n", i,
                         currentPrediction.getTimestamp(),
                         currentPrediction.getApproach2(),
-                        PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(), violationTime));
-                currentIndex = PredictionUtils.findClosestIndex(violationTime, result);
+                        PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(),
+                                violation.timestamp));
+                currentIndex = PredictionUtils.findClosestIndex(violation.timestamp, result);
             }
         }
     }
@@ -112,11 +114,11 @@ public class KittySLAEvolutionAnalyzer {
         System.out.println("[sla] timestamp prediction timeToViolation(h)");
         while (currentIndex >= 0 && currentIndex < result.length - 1) {
             TraceAnalysisResult currentPrediction = result[currentIndex];
-            int violation = findViolation(benchmarkValues, result, currentIndex);
-            long violationTime = benchmarkValues.getTimestampByIndex(violation);
+            Violation violation = findViolation(benchmarkValues, result, currentIndex);
             System.out.printf("[sla] %d %5d %-8s\n", currentPrediction.getTimestamp(),
                     currentPrediction.getApproach2(),
-                    PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(), violationTime));
+                    PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(),
+                            violation.timestamp));
             currentIndex = PredictionUtils.findClosestIndex(
                     currentPrediction.getTimestamp() + interval, result);
         }
@@ -126,39 +128,47 @@ public class KittySLAEvolutionAnalyzer {
                              int startIndex) {
         List<Long> violationTimes = new ArrayList<>();
         for (int i = startIndex; i < result.length; i+=15) {
-            int violation = findViolation(benchmarkValues, result, i);
-            violationTimes.add(benchmarkValues.getTimestampByIndex(violation) - result[i].getTimestamp());
+            Violation violation = findViolation(benchmarkValues, result, i);
+            violationTimes.add(violation.timestamp - result[i].getTimestamp());
         }
         Collections.sort(violationTimes);
         int fifthPercentileIndex = (int) Math.ceil(0.05 * violationTimes.size());
         return violationTimes.get(fifthPercentileIndex);
     }
 
-    private int findViolation(TimeSeries benchmarkValues, TraceAnalysisResult[] results, int index) {
+    private Violation findViolation(TimeSeries benchmarkValues, TraceAnalysisResult[] results,
+                                    int index) {
         int consecutiveViolations = 0, consecutiveSamples = 0, total = 0;
         TraceAnalysisResult r = results[index];
         long ts = r.getTimestamp();
         int sla = r.getApproach2();
         int cwrong = r.getCwrong();
+        List<Integer> violationValues = new ArrayList<>();
+
         for (int i = 0; i < benchmarkValues.length(); i++) {
-            if (benchmarkValues.getTimestampByIndex(i) < ts) {
+            long currentTime = benchmarkValues.getTimestampByIndex(i);
+            if (currentTime < ts) {
                 continue;
             }
 
             total++;
             consecutiveSamples++;
-            if (benchmarkValues.getValueByIndex(i) > sla) {
+            int currentValue = benchmarkValues.getValueByIndex(i);
+            if (currentValue > sla) {
                 consecutiveViolations++;
+                violationValues.add(currentValue);
                 if (consecutiveViolations == cwrong) {
-                    return i;
+                    return new Violation(i, currentTime, violationValues);
                 }
             } else {
                 consecutiveViolations = 0;
+                violationValues.clear();
             }
 
             if (consecutiveSamples == cwrong) {
                 consecutiveSamples = 0;
                 consecutiveViolations = 0;
+                violationValues.clear();
                 if (index + total < results.length) {
                     cwrong = results[index + total].getCwrong();
                 } else {
@@ -168,6 +178,24 @@ public class KittySLAEvolutionAnalyzer {
         }
 
         // If no violation found, return the last index (right trimming)
-        return benchmarkValues.length() - 1;
+        int lastIndex = benchmarkValues.length() - 1;
+        return new Violation(lastIndex, benchmarkValues.getTimestampByIndex(lastIndex), null);
+    }
+
+    private static class Violation {
+        int index;
+        long timestamp;
+        int[] values;
+
+        Violation(int index, long timestamp, List<Integer> vals) {
+            this.index = index;
+            this.timestamp = timestamp;
+            if (vals != null) {
+                this.values = new int[vals.size()];
+                for (int i = 0; i < vals.size(); i++) {
+                    this.values[i] = vals.get(i);
+                }
+            }
+        }
     }
 }
