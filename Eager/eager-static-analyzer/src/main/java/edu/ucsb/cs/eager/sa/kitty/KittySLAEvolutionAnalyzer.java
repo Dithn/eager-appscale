@@ -37,6 +37,8 @@ public class KittySLAEvolutionAnalyzer {
                 "File containing benchmark data");
         PredictionUtils.addOption(options, "ai", "adaptive-intervals", false,
                 "Enable adaptive interval analysis");
+        PredictionUtils.addOption(options, "mv", "max-violation", false,
+                "Output only the max SLA violations");
         CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args,
                 "KittySLAEvolutionAnalyzer");
         PredictionConfig config = Kitty.getPredictionConfig(cmd);
@@ -53,13 +55,14 @@ public class KittySLAEvolutionAnalyzer {
             return;
         }
         boolean adaptiveIntervals = cmd.hasOption("ai");
+        boolean maxViolationOnly = cmd.hasOption("mv");
 
         KittySLAEvolutionAnalyzer analyzer = new KittySLAEvolutionAnalyzer();
-        analyzer.run(config, benchmarkFile, adaptiveIntervals);
+        analyzer.run(config, benchmarkFile, adaptiveIntervals, maxViolationOnly);
     }
 
     public void run(PredictionConfig config, String benchmarkFile,
-                    boolean adaptiveIntervals) throws IOException {
+                    boolean adaptiveIntervals, boolean maxViolationOnly) throws IOException {
         TimeSeries benchmarkValues = PredictionUtils.parseBenchmarkFile(benchmarkFile);
         // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
@@ -80,26 +83,28 @@ public class KittySLAEvolutionAnalyzer {
         }
 
         if (adaptiveIntervals) {
-            adaptiveIntervalAnalysis(benchmarkValues, result, startIndex);
+            adaptiveIntervalAnalysis(benchmarkValues, result, startIndex, maxViolationOnly);
         } else {
             fixedIntervalAnalysis(benchmarkValues, result, startIndex);
         }
     }
 
     private void adaptiveIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
-                                          int startIndex) {
+                                          int startIndex, boolean maxViolationOnly) {
         System.out.println("[sla][offset] timestamp prediction timeToViolation(h) violationDelta");
         for (int i = 0; i < result.length - 1 - startIndex; i++) {
             int currentIndex = startIndex + i;
             while (currentIndex > 0 && currentIndex < result.length - 1) {
                 TraceAnalysisResult currentPrediction = result[currentIndex];
                 Violation violation = findViolation(benchmarkValues, result, currentIndex);
+                String violationDiff = maxViolationOnly ? violation.getMaxValueString() :
+                        violation.getValueString();
                 System.out.printf("[sla] %d %d %5d %-8s %s\n", i,
                         currentPrediction.getTimestamp(),
                         currentPrediction.getApproach2(),
                         PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(),
                                 violation.timestamp),
-                        violation.getValueString());
+                        violationDiff);
                 currentIndex = PredictionUtils.findClosestIndex(violation.timestamp, result);
             }
         }
@@ -199,6 +204,20 @@ public class KittySLAEvolutionAnalyzer {
                     this.values[i] = vals.get(i);
                 }
             }
+        }
+
+        String getMaxValueString() {
+            if (values == null) {
+                return "";
+            }
+
+            int max = -1;
+            for (int value : values) {
+                if (value > max) {
+                    max = value;
+                }
+            }
+            return "d=" + max;
         }
 
         String getValueString() {
