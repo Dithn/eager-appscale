@@ -28,6 +28,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class PredictionUtils {
@@ -149,5 +150,29 @@ public class PredictionUtils {
         }
         double duration = (end - start) / 1000.0 / 3600.0;
         return String.format("%.2f", duration);
+    }
+
+    public static double mean(Collection<Integer> values) {
+        if (values.size() == 0) {
+            return 0.0;
+        }
+
+        double total = 0.0;
+        for (Integer i : values) {
+            total += i;
+        }
+        return total / values.size();
+    }
+
+    public static double stdDev(Collection<Integer> values, double mean) {
+        if (values.size() == 0) {
+            return 0.0;
+        }
+
+        double ssTotal = 0.0;
+        for (Integer i : values) {
+            ssTotal += (i - mean)*(i - mean);
+        }
+        return Math.sqrt(ssTotal / values.size());
     }
 }

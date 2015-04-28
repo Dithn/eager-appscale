@@ -25,9 +25,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class KittySLAEvolutionAnalyzer {
 
@@ -39,6 +37,8 @@ public class KittySLAEvolutionAnalyzer {
                 "Enable adaptive interval analysis");
         PredictionUtils.addOption(options, "mv", "max-violation", false,
                 "Output only the max SLA violations");
+        PredictionUtils.addOption(options, "ec", "event-counter", false,
+                "Enable event counting mode");
         PredictionUtils.addOption(options, "vt", "violation-threshold", true,
                 "Threshold value used to detect SLA violations");
         CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args,
@@ -58,6 +58,7 @@ public class KittySLAEvolutionAnalyzer {
         }
         boolean adaptiveIntervals = cmd.hasOption("ai");
         boolean maxViolationOnly = cmd.hasOption("mv");
+        boolean eventCounting = cmd.hasOption("ec");
 
         double threshold = 0.0;
         String thresholdString = cmd.getOptionValue("vt");
@@ -68,11 +69,13 @@ public class KittySLAEvolutionAnalyzer {
         KittySLAEvolutionAnalyzer analyzer = new KittySLAEvolutionAnalyzer();
         analyzer.adaptiveIntervals = adaptiveIntervals;
         analyzer.maxViolationOnly = maxViolationOnly;
+        analyzer.eventCounting = eventCounting;
         analyzer.threshold = threshold;
         analyzer.run(config, benchmarkFile);
     }
 
     private boolean adaptiveIntervals;
+    private boolean eventCounting;
     private boolean maxViolationOnly;
     private double threshold;
 
@@ -97,10 +100,57 @@ public class KittySLAEvolutionAnalyzer {
         }
 
         if (adaptiveIntervals) {
-            adaptiveIntervalAnalysis(benchmarkValues, result, startIndex);
+            if (eventCounting) {
+                adaptiveIntervalEventAnalysis(benchmarkValues, result, startIndex);
+            } else {
+                adaptiveIntervalAnalysis(benchmarkValues, result, startIndex);
+            }
         } else {
             fixedIntervalAnalysis(benchmarkValues, result, startIndex);
         }
+    }
+
+    private void adaptiveIntervalEventAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
+                                          int startIndex) {
+        Map<Long,List<ViolationEvent>> events = new TreeMap<>();
+        List<ViolationEvent> endOfTrace = new ArrayList<>();
+        for (int i = 0; i < result.length - 1 - startIndex; i++) {
+            int currentIndex = startIndex + i;
+            while (currentIndex > 0 && currentIndex < result.length - 1) {
+                Violation violation = findViolation(benchmarkValues, result, currentIndex, threshold);
+                int nextIndex = PredictionUtils.findNextIndex(violation.timestamp, result);
+                int nextSla = nextIndex > 0 ? result[nextIndex].getApproach2() : -1;
+                ViolationEvent event = new ViolationEvent(violation, nextSla);
+                if (nextIndex > 0) {
+                    List<ViolationEvent> list = events.get(event.timestamp);
+                    if (list == null) {
+                        list = new ArrayList<>();
+                        events.put(event.timestamp, list);
+                    }
+                    list.add(event);
+                } else {
+                    endOfTrace.add(event);
+                }
+                currentIndex = nextIndex;
+            }
+        }
+
+        System.out.println("[ev] timestamp deltaMean deltaStdDev events");
+        for (Map.Entry<Long,List<ViolationEvent>> entry : events.entrySet()) {
+            List<Integer> deltas = new ArrayList<>();
+            for (ViolationEvent event : entry.getValue()) {
+                deltas.add(event.newSla - event.oldSla);
+            }
+            double mean = PredictionUtils.mean(deltas);
+            double stdDev = PredictionUtils.stdDev(deltas, mean);
+            System.out.printf("[violation] %d %7.2f %7.2f %5d\n", entry.getKey(), mean,
+                    stdDev, deltas.size());
+        }
+
+        int lastIndex = benchmarkValues.length() - 1;
+        System.out.printf("[eot] %d --- --- %5d\n", benchmarkValues.getTimestampByIndex(
+                lastIndex), endOfTrace.size());
+
     }
 
     private void adaptiveIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
@@ -109,10 +159,10 @@ public class KittySLAEvolutionAnalyzer {
         for (int i = 0; i < result.length - 1 - startIndex; i++) {
             int currentIndex = startIndex + i;
             while (currentIndex > 0 && currentIndex < result.length - 1) {
-                TraceAnalysisResult currentPrediction = result[currentIndex];
                 Violation violation = findViolation(benchmarkValues, result, currentIndex, threshold);
                 String violationDiff = maxViolationOnly ? violation.getMaxValueString() :
                         violation.getValueString();
+                TraceAnalysisResult currentPrediction = result[currentIndex];
                 System.out.printf("[sla] %d %d %5d %-8s %s\n", i,
                         currentPrediction.getTimestamp(),
                         currentPrediction.getApproach2(),
@@ -200,6 +250,19 @@ public class KittySLAEvolutionAnalyzer {
         // If no violation found, return the last index (right trimming)
         int lastIndex = benchmarkValues.length() - 1;
         return new Violation(lastIndex, sla, benchmarkValues.getTimestampByIndex(lastIndex), null);
+    }
+
+    private static class ViolationEvent {
+        int oldSla, newSla;
+        long timestamp;
+        int[] values;
+
+        ViolationEvent(Violation v, int newSla) {
+            oldSla = v.sla;
+            timestamp = v.timestamp;
+            values = v.values;
+            this.newSla = newSla;
+        }
     }
 
     private static class Violation {
