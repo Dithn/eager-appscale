@@ -103,6 +103,15 @@ public class PredictionUtils {
         return -1;
     }
 
+    public static int findNextIndex(long ts, TraceAnalysisResult[] result) {
+        for (int i = 0; i < result.length; i++) {
+            if (result[i].getTimestamp() > ts) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static TraceAnalysisResult[] makePredictions(PredictionConfig config,
                                                         long start, long end) throws IOException {
         config.setStart(start);

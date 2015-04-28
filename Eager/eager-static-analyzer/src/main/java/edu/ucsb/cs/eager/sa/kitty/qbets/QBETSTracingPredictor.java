@@ -172,13 +172,13 @@ public class QBETSTracingPredictor {
                     failures++;
                 }
                 double successRate = ((double)(i - failures) / i) * 100.0;
-                println(String.format("[trace][%s][%d] %4d %4d %4d %4d  %-5s %4.4f",
-                        method.getName(), pathIndex, i + minIndex, r.approach1, r.approach2,
-                        r.sum, success, successRate));
+                println(String.format("[trace][%s][%d] %4d %d %4d %4d %4d  %-5s %4.4f",
+                        method.getName(), pathIndex, i + minIndex, r.timestamp,
+                        r.approach1, r.approach2, r.sum, success, successRate));
             } else {
-                println(String.format("[trace][%s][%d] %4d %4d %4d %4d  %-5s %-7s",
-                        method.getName(), pathIndex, i + minIndex, r.approach1, r.approach2,
-                        r.sum, "N/A", "N/A"));
+                println(String.format("[trace][%s][%d] %4d %d %4d %4d %4d  %-5s %-7s",
+                        method.getName(), pathIndex, i + minIndex, r.timestamp,
+                        r.approach1, r.approach2, r.sum, "N/A", "N/A"));
             }
         }
 
