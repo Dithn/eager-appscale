@@ -135,7 +135,7 @@ public class KittySLAEvolutionAnalyzer {
             }
         }
 
-        System.out.println("[ev] timestamp deltaMean deltaStdDev events");
+        System.out.println("[violation] timestamp deltaMean deltaStdDev events");
         for (Map.Entry<Long,List<ViolationEvent>> entry : events.entrySet()) {
             List<Integer> deltas = new ArrayList<>();
             for (ViolationEvent event : entry.getValue()) {
