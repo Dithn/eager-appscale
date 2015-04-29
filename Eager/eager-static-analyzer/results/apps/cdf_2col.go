@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"sort"
 	"strings"
@@ -23,21 +22,10 @@ func main() {
 	}
 
 	defer inputFile.Close()
-	bf := bufio.NewReader(inputFile)
+	scanner := bufio.NewScanner(inputFile)
 	data := make(map[float64]int)
-	for {
-		l, isPrefix, err := bf.ReadLine()
-                if err == io.EOF {
-			break
-		} else if err != nil {
-			fmt.Println("Error while reading line", err)
-			return
-		} else if isPrefix {
-			fmt.Println("Unexpected long line", err)
-			return
-		}
-
-		fields := strings.Fields(string(l))
+	for scanner.Scan() {
+		fields := strings.Fields(scanner.Text())
 		var key float64
 		if fields[0] == "---" {
 			key = 0.0
@@ -55,6 +43,10 @@ func main() {
 			return
 		}
 		data[key] += val
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error while reading from input file", err)
+		return
 	}
 
 	var keys []float64
