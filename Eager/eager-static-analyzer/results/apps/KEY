@@ -1,3 +1,15 @@
 BM - actual (raw) benchmark data from app
 TR - processed benchmark data from the trace analyzer
 PR - Prediction data for the app
+
+Prediction Validity Period
+==========================
+GAE
+ StudentInfo  23
+ ServerHealth 34
+ Rooms        33
+
+AppScale
+ StudentInfo  24
+ ServerHealth 31
+ Rooms        32

@@ -151,6 +151,27 @@ public class KittySLAEvolutionAnalyzer {
         System.out.printf("[eot] %d --- --- %5d\n", benchmarkValues.getTimestampByIndex(
                 lastIndex), endOfTrace.size());
 
+        System.out.println("\n");
+        for (Map.Entry<Long,List<ViolationEvent>> entry : events.entrySet()) {
+            System.out.printf("\n---- Change Point %d ----\n", entry.getKey());
+            Map<Integer,Integer> diffCounts = new TreeMap<>();
+            for (ViolationEvent event : entry.getValue()) {
+                int diff = event.newSla - event.oldSla;
+                System.out.printf("[cp][%d] %d --> %d (diff: %d)\n", entry.getKey(), event.oldSla,
+                        event.newSla, diff);
+                if (diffCounts.containsKey(diff)) {
+                    diffCounts.put(diff, diffCounts.get(diff) + 1);
+                } else {
+                    diffCounts.put(diff, 1);
+                }
+            }
+
+            System.out.println();
+            for (Map.Entry<Integer,Integer> de : diffCounts.entrySet()) {
+                System.out.printf("[cpsummary][%d] %d %d\n", entry.getKey(),
+                        de.getKey(), de.getValue());
+            }
+        }
     }
 
     private void adaptiveIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
