@@ -20,6 +20,9 @@ Warning: javax.ws.rs.core.Response$ResponseBuilder is a phantom class!
 Warning: java.dyn.InvokeDynamic is a phantom class!
 
 [sla][offset] timestamp prediction timeToViolation(h) violationDelta
+[sla] 0 1421390596497   113 44.96    d=11 d=17 d=16
+[sla] 0 1421552520803   130 41.46    d=227 d=228 d=180
+[sla] 0 1421701854651   357 555.86   
 [sla] 1 1421390659293   113 44.94    d=11 d=17 d=16
 [sla] 1 1421552520803   130 41.46    d=227 d=228 d=180
 [sla] 1 1421701854651   357 555.86   

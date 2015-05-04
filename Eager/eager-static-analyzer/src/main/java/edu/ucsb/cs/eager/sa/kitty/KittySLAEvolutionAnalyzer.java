@@ -179,7 +179,7 @@ public class KittySLAEvolutionAnalyzer {
         System.out.println("[sla][offset] timestamp prediction timeToViolation(h) violationDelta");
         for (int i = 0; i < result.length - 1 - startIndex; i++) {
             int currentIndex = startIndex + i;
-            while (currentIndex > 0 && currentIndex < result.length - 1) {
+            while (currentIndex >= 0 && currentIndex < result.length - 1) {
                 Violation violation = findViolation(benchmarkValues, result, currentIndex, threshold);
                 String violationDiff = maxViolationOnly ? violation.getMaxValueString() :
                         violation.getValueString();
