@@ -80,20 +80,8 @@ public class DataPoint {
         Transaction txn = datastore.beginTransaction();
         try {
             PreparedQuery pq = datastore.prepare(txn, q);
-            List<DataPoint> data = new ArrayList<DataPoint>();
-            for (Entity entity : pq.asIterable(FetchOptions.Builder.withChunkSize(100))) {
-                DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
-                Map<String,Object> props = entity.getProperties();
-                for (Map.Entry<String,Object> entry : props.entrySet()) {
-                    if (entry.getKey().startsWith("bm_")) {
-                        // AppEngine turns integers into longs.
-                        // So the value returned here would be a Long.
-                        long value = (Long) entry.getValue();
-                        p.put(entry.getKey(), (int) value);
-                    }
-                }
-                data.add(p);
-            }
+            Iterable<Entity> entities = pq.asIterable(FetchOptions.Builder.withChunkSize(100));
+            List<DataPoint> data = toList(entities);
             txn.commit();
             return data;
         } finally {
@@ -101,6 +89,47 @@ public class DataPoint {
                 txn.rollback();
             }
         }
+    }
+
+    public static List<DataPoint> getRange(long start, int limit) {
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Query q = new Query(Constants.DATA_POINT_KIND, Constants.DATA_POINT_PARENT).
+                addSort(Constants.DATA_POINT_TIMESTAMP, Query.SortDirection.ASCENDING);
+        if (start != -1L) {
+            q.setFilter(new Query.FilterPredicate(Constants.DATA_POINT_TIMESTAMP,
+                    Query.FilterOperator.GREATER_THAN, start));
+        }
+        Transaction txn = datastore.beginTransaction();
+        try {
+            PreparedQuery pq = datastore.prepare(txn, q);
+            Iterable<Entity> entities = pq.asIterable(FetchOptions.Builder.withChunkSize(100).
+                    limit(limit));
+            List<DataPoint> data = toList(entities);
+            txn.commit();
+            return data;
+        } finally {
+            if (txn.isActive()) {
+                txn.rollback();
+            }
+        }
+    }
+
+    private static List<DataPoint> toList(Iterable<Entity> entities) {
+        List<DataPoint> list = new ArrayList<DataPoint>();
+        for (Entity entity : entities) {
+            DataPoint p = new DataPoint((Long) entity.getProperty(Constants.DATA_POINT_TIMESTAMP));
+            Map<String,Object> props = entity.getProperties();
+            for (Map.Entry<String,Object> entry : props.entrySet()) {
+                if (entry.getKey().startsWith("bm_")) {
+                    // AppEngine turns integers into longs.
+                    // So the value returned here would be a Long.
+                    long value = (Long) entry.getValue();
+                    p.put(entry.getKey(), (int) value);
+                }
+            }
+            list.add(p);
+        }
+        return list;
     }
 
     public static boolean restore(List<DataPoint> dataPoints) {

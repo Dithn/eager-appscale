@@ -37,12 +37,24 @@ public class BackupServlet extends HttpServlet {
                          HttpServletResponse resp) throws ServletException, IOException {
 
         long start = -1L;
+        int limit = -1;
         String startParam = req.getParameter("start");
         if (startParam != null) {
             start = Long.parseLong(startParam);
         }
+        String limitParam = req.getParameter("limit");
+        if (limitParam != null) {
+            limit = Integer.parseInt(limitParam);
+        }
+
         Map<Long,Map<String,Integer>> results = new TreeMap<Long, Map<String, Integer>>();
-        for (DataPoint p : DataPoint.getAll()) {
+        Collection<DataPoint> dataPoints;
+        if (limit > 0) {
+            dataPoints = DataPoint.getRange(start, limit);
+        } else {
+            dataPoints = DataPoint.getAll();
+        }
+        for (DataPoint p : dataPoints) {
             if (p.getTimestamp() > start) {
                 results.put(p.getTimestamp(), p.getData());
             }
