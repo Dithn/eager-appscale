@@ -1,3 +1,9 @@
+# This script downloads Watchtower data iteratively from a remote endpoint.
+# In each iteration it downloads a batch of data points (up to 10000), and
+# saves them to a separate file. This enables downloading large data sets
+# from Watchtower, without getting the Watchtower to run out of memory or
+# timeout due to large queries.
+
 import json
 import os
 import sys
