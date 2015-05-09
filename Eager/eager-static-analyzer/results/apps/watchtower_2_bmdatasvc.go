@@ -1,3 +1,5 @@
+// This program converts Watchtower backup files (JSON) into database files (space 
+// separated text) that can be loaded into bm-data-service. 
 package main
 
 import (
