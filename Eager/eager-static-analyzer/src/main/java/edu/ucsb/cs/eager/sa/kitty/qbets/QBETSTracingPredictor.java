@@ -147,10 +147,14 @@ public class QBETSTracingPredictor {
 
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
-            long ts = quantileSums.getTimestampByIndex(i);
+            long ts = aggregateQuantiles.getTimestampByIndex(i);
             TraceAnalysisResult r = new TraceAnalysisResult();
             r.timestamp = ts;
-            r.approach1 = quantileSums.getByTimestamp(ts);
+            if (quantileSums != null) {
+                r.approach1 = quantileSums.getByTimestamp(ts);
+            } else {
+                r.approach1 = 0;
+            }
             r.approach2 = aggregateQuantiles.getByTimestamp(ts);
             r.cwrong = aggregateQuantiles.getCwrongByTimestamp(ts);
             r.sum = actualSums.getByTimestamp(ts);
@@ -187,6 +191,10 @@ public class QBETSTracingPredictor {
 
     private TimeSeries approach1(Path path, double adjustedQuantile,
                                  int dataPoints) throws IOException {
+        if (config.isDisableApproach1()) {
+            return null;
+        }
+
         // Sum up the adjusted quantiles
         List<TimeSeries> ts = new ArrayList<>();
         for (APICall call : path.calls()) {

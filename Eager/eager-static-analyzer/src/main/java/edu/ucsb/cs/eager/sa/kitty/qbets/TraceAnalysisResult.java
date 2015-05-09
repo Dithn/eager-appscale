@@ -35,16 +35,8 @@ public class TraceAnalysisResult {
     // number of consecutive violations (cwrong) for the approach2 prediction
     int cwrong;
 
-    public int getApproach1() {
-        return approach1;
-    }
-
     public int getApproach2() {
         return approach2;
-    }
-
-    public int getSum() {
-        return sum;
     }
 
     public long getTimestamp() {

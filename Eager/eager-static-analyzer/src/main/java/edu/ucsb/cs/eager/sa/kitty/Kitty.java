@@ -108,6 +108,8 @@ public class Kitty {
             config.setExcludedAPIPatterns(excludedAPIs.split(","));
         }
 
+        config.setDisableApproach1(cmd.hasOption("d1"));
+
         try {
             config.validate();
         } catch (Exception e) {
@@ -160,6 +162,9 @@ public class Kitty {
                 "Maximum entities that may exist in the datastore");
         PredictionUtils.addOption(options, "ea", "excluded-apis", true,
                 "GAE APIs that should be excluded from the analysis");
+
+        PredictionUtils.addOption(options, "d1", "disable-approach1", false,
+                "Disable computing approach1 predictions");
         return options;
     }
 

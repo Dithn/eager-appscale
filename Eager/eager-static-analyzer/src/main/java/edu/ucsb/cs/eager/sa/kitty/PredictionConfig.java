@@ -84,6 +84,8 @@ public class PredictionConfig {
 
     private boolean hideOutput;
 
+    private boolean disableApproach1;
+
     public String getBenchmarkDataDir() {
         return benchmarkDataDir;
     }
@@ -256,6 +258,14 @@ public class PredictionConfig {
 
     public void setExcludedAPIPatterns(String[] excludedAPIPatterns) {
         this.excludedAPIPatterns = excludedAPIPatterns;
+    }
+
+    public boolean isDisableApproach1() {
+        return disableApproach1;
+    }
+
+    public void setDisableApproach1(boolean disableApproach1) {
+        this.disableApproach1 = disableApproach1;
     }
 
     public void validate() throws Exception {
