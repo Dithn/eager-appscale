@@ -38,11 +38,11 @@ import java.util.*;
 public class Kitty {
 
     public static void main(String[] args) throws IOException {
-        PredictionConfigMaker configMaker = new PredictionConfigMaker();
-        PredictionConfig config;
+        ConfigMaker configMaker = new ConfigMaker();
+        Config config;
         try {
             config = configMaker.construct(args, "Kitty");
-        } catch (PredictionConfigException e) {
+        } catch (ConfigException e) {
             System.err.println(e.getMessage());
             return;
         }
@@ -55,7 +55,7 @@ public class Kitty {
         System.out.println("\nTime elapsed: " + (end - start)/1000.0 + " seconds");
     }
 
-    public Collection<MethodInfo> getMethods(PredictionConfig config) throws IOException {
+    public Collection<MethodInfo> getMethods(Config config) throws IOException {
         Collection<MethodInfo> allMethods;
         if (config.getTraceFile() != null) {
             TraceLogParser parser = new TraceLogParser();
@@ -74,8 +74,8 @@ public class Kitty {
         return methods;
     }
 
-    public static PathResult makePredictions(PredictionConfig config,
-                                             long start, long end) throws IOException {
+    public static PathResult makePredictions(Config config, long start,
+                                             long end) throws IOException {
         config.getQbetsConfig().setStart(start);
         config.getQbetsConfig().setEnd(end);
         config.setHideOutput(true);
@@ -93,12 +93,12 @@ public class Kitty {
             return null;
         }
 
-        QBETSTracingPredictionOutput output = (QBETSTracingPredictionOutput) kitty.run(config, methods);
+        QBETSTracingPredictionOutput output =
+                (QBETSTracingPredictionOutput) kitty.run(config, methods);
         return output.get(method).findLargest();
     }
 
-    public PredictionOutput run(PredictionConfig config,
-                                Collection<MethodInfo> methods) throws IOException {
+    public PredictionOutput run(Config config, Collection<MethodInfo> methods) throws IOException {
         Predictor predictor;
         if (config.getSimulationConfig() != null) {
             predictor = new SimulationBasedPredictor(config.getSimulationConfig());
@@ -119,7 +119,7 @@ public class Kitty {
         return output;
     }
 
-    private Collection<MethodInfo> getMethodsFromCerebro(PredictionConfig config) {
+    private Collection<MethodInfo> getMethodsFromCerebro(Config config) {
         Cerebro cerebro = new Cerebro(config.getCerebroClasspath(), config.getClazz());
         cerebro.setLoadNecessaryClasses(config.isLoadNecessaryClasses());
         cerebro.setWholeProgramMode(config.isWholeProgramMode());

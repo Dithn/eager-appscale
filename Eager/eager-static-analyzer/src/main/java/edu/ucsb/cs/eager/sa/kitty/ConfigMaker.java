@@ -23,22 +23,56 @@ import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSConfig;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationConfig;
 import org.apache.commons.cli.*;
 
-public class PredictionConfigMaker {
+/**
+ * ConfigMaker handles parsing command-line arguments, and constructing a
+ * Config instance. The resulting Config instance can be passed into Kitty
+ * or other related tools such as KittyValidator and KittySLAEvolutionAnalyzer.
+ * This class can be overridden to inject more command initialization and
+ * validation logic into the Config construction lifecycle.
+ */
+public class ConfigMaker {
 
     private CommandLine cmd;
 
+    /**
+     * Override this method to initialize more command line arguments/options,
+     * that should be handled by the ConfigMaker. Use the addOption method
+     * to setup the necessary additional options.
+     *
+     * @param options An Options instance from Commons-CLI library
+     */
     protected void preConstruction(Options options) {
     }
 
-    protected void postConstruction(PredictionConfig config) throws PredictionConfigException {
+    /**
+     * Override this method to inject any custom validation logic that should
+     * be executed on the Config instance, just after its construction. Any
+     * validation errors should throw a ConfigException.
+     *
+     * @param config The newly constructed Config instance
+     * @throws ConfigException If a validation error is encountered
+     */
+    protected void postConstruction(Config config) throws ConfigException {
     }
 
-    final public PredictionConfig construct(String[] args,
-                                            String command) throws PredictionConfigException {
+    /**
+     * Initiate the Config construction process. This will setup a default
+     * Options instance with basic command-line arguments for Kitty, pass it
+     * through preConstruction, and then perform the actual parsing of command-line
+     * arguments. The resulting Config instance will be validated through the
+     * postConstruction method, and if no errors were found, will be returned.
+     *
+     * @param args An array of String command-line arguments
+     * @param command Name of the program/binary for which the arguments are related
+     * @return A Config instance
+     * @throws ConfigException If a configuration validation error occurs
+     */
+    final public Config construct(String[] args,
+                                            String command) throws ConfigException {
         Options options = getOptions();
         preConstruction(options);
         cmd = parseCommandLineArgs(options, args, command);
-        PredictionConfig config = getPredictionConfig(cmd);
+        Config config = getPredictionConfig(cmd);
         postConstruction(config);
         return config;
     }
@@ -90,8 +124,8 @@ public class PredictionConfigMaker {
         return options;
     }
 
-    private PredictionConfig getPredictionConfig(CommandLine cmd) throws PredictionConfigException {
-        PredictionConfig config = new PredictionConfig();
+    private Config getPredictionConfig(CommandLine cmd) throws ConfigException {
+        Config config = new Config();
         config.setTraceFile(cmd.getOptionValue("i"));
         config.setCerebroClasspath(cmd.getOptionValue("ccp"));
         config.setClazz(cmd.getOptionValue("c"));
@@ -161,7 +195,7 @@ public class PredictionConfigMaker {
         return config;
     }
 
-    public static void addOption(Options options, String shortName, String longName,
+    protected void addOption(Options options, String shortName, String longName,
                                  boolean hasArg, String desc) {
         if (options.getOption(shortName) != null || options.getOption(longName) != null) {
             throw new IllegalArgumentException("Duplicate argument: " + shortName + ", " + longName);

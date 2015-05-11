@@ -27,14 +27,22 @@ import org.apache.commons.cli.Options;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * KittySLAEvolutionAnalyzer performs an analysis similar to KittyValidator, but
+ * focuses on the 3c violation category (see KittyValidator API docs for more
+ * information on violation category). In addition to the time-to-violation, it
+ * also provides insight to how the exact SLA predictions change on violation
+ * points, and when the SLA violations occur, by exactly how much the actual API
+ * benchmark value exceeds the predicted SLA.
+ */
 public class KittySLAEvolutionAnalyzer {
 
     public static void main(String[] args) throws IOException {
         SLAEvolutionAnalyzerConfig configMaker = new SLAEvolutionAnalyzerConfig();
-        PredictionConfig config;
+        Config config;
         try {
             config = configMaker.construct(args, "KittySLAEvolutionAnalyzer");
-        } catch (PredictionConfigException e) {
+        } catch (ConfigException e) {
             System.err.println(e.getMessage());
             return;
         }
@@ -67,7 +75,7 @@ public class KittySLAEvolutionAnalyzer {
     private boolean maxViolationOnly;
     private double threshold;
 
-    public void run(PredictionConfig config, String benchmarkFile) throws IOException {
+    public void run(Config config, String benchmarkFile) throws IOException {
         TimeSeries benchmarkValues = PredictionUtils.parseBenchmarkFile(benchmarkFile);
         // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
@@ -99,8 +107,8 @@ public class KittySLAEvolutionAnalyzer {
         }
     }
 
-    private void adaptiveIntervalEventAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
-                                          int startIndex) {
+    private void adaptiveIntervalEventAnalysis(TimeSeries benchmarkValues,
+                                               TraceAnalysisResult[] result, int startIndex) {
         Map<Long,List<ViolationEvent>> events = new TreeMap<>();
         List<ViolationEvent> endOfTrace = new ArrayList<>();
         for (int i = 0; i < result.length - 1 - startIndex; i++) {
@@ -262,25 +270,20 @@ public class KittySLAEvolutionAnalyzer {
         return new Violation(lastIndex, sla, benchmarkValues.getTimestampByIndex(lastIndex), null);
     }
 
-    private static class SLAEvolutionAnalyzerConfig extends PredictionConfigMaker {
+    private static class SLAEvolutionAnalyzerConfig extends ConfigMaker {
         @Override
         protected void preConstruction(Options options) {
-            PredictionConfigMaker.addOption(options, "bf", "benchmark-file", true,
-                    "File containing benchmark data");
-            PredictionConfigMaker.addOption(options, "ai", "adaptive-intervals", false,
-                    "Enable adaptive interval analysis");
-            PredictionConfigMaker.addOption(options, "mv", "max-violation", false,
-                    "Output only the max SLA violations");
-            PredictionConfigMaker.addOption(options, "ec", "event-counter", false,
-                    "Enable event counting mode");
-            PredictionConfigMaker.addOption(options, "vt", "violation-threshold", true,
-                    "Threshold value used to detect SLA violations");
+            addOption(options, "bf", "benchmark-file", true, "File containing benchmark data");
+            addOption(options, "ai", "adaptive-intervals", false, "Enable adaptive interval analysis");
+            addOption(options, "mv", "max-violation", false, "Output only the max SLA violations");
+            addOption(options, "ec", "event-counter", false, "Enable event counting mode");
+            addOption(options, "vt", "violation-threshold", true, "Threshold value used to detect SLA violations");
         }
 
         @Override
-        protected void postConstruction(PredictionConfig config) throws PredictionConfigException {
+        protected void postConstruction(Config config) throws ConfigException {
             if (config.getMethods() == null || config.getMethods().length != 1) {
-                throw new PredictionConfigException("one method must be specified for analysis.");
+                throw new ConfigException("one method must be specified for analysis.");
             }
         }
     }

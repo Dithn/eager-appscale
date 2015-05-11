@@ -19,13 +19,10 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
-public class PredictionConfigException extends Exception {
+public class ConfigException extends Exception {
 
-    public PredictionConfigException(String message) {
+    public ConfigException(String message) {
         super(message);
     }
 
-    public PredictionConfigException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

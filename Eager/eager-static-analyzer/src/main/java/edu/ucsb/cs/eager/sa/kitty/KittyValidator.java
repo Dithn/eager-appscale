@@ -26,14 +26,24 @@ import org.apache.commons.cli.*;
 
 import java.io.IOException;
 
+/**
+ * KittyValidator takes a trace of API benchmarking data, and compares it
+ * against a sequence of Kitty predictions made during the same time frame.
+ * It computes the time until each SLA prediction is violated in the actual
+ * API benchmarking data trace. Three kind of time-to-violation values are
+ * computed by this tool -- 1st: Time until first SLA violation; 3c: Time
+ * until 'cwrong' number of consecutive violations are found (cwrong provided
+ * by QBETS as a part of the prediction); 5p: More than 5% violations are
+ * detected.
+ */
 public class KittyValidator {
 
     public static void main(String[] args) throws IOException {
         KittyValidatorConfig configMaker = new KittyValidatorConfig();
-        PredictionConfig config;
+        Config config;
         try {
             config = configMaker.construct(args, "KittyValidator");
-        } catch (PredictionConfigException e) {
+        } catch (ConfigException e) {
             System.err.println(e.getMessage());
             return;
         }
@@ -47,7 +57,7 @@ public class KittyValidator {
         validator.run(config, benchmarkFile);
     }
 
-    public void run(PredictionConfig config, String benchmarkFile) throws IOException {
+    public void run(Config config, String benchmarkFile) throws IOException {
         TimeSeries benchmarkValues = PredictionUtils.parseBenchmarkFile(benchmarkFile);
         // Pull data from 1 day back at most. Otherwise the analysis is going to take forever.
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
@@ -61,7 +71,8 @@ public class KittyValidator {
         System.out.println();
 
         TraceAnalysisResult[] result = pathResult.getResults();
-        int startIndex = PredictionUtils.findClosestIndex(benchmarkValues.getTimestampByIndex(0), result);
+        int startIndex = PredictionUtils.findClosestIndex(
+                benchmarkValues.getTimestampByIndex(0), result);
         if (startIndex < 0) {
             System.err.println("Prediction time-line do not overlap with benchmark time-line.");
             return;
@@ -71,7 +82,9 @@ public class KittyValidator {
         for (int i = startIndex; i < result.length; i+=15) {
             SLAViolationInfo vi = findSLAViolations(result, i, benchmarkValues);
             TraceAnalysisResult r = result[i];
-            System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n", r.getTimestamp(), r.getApproach2(),
+            System.out.printf("[validate] %d %5d %-8s %-8s %-8s\n",
+                    r.getTimestamp(),
+                    r.getApproach2(),
                     PredictionUtils.getTime(r.getTimestamp(), vi.firstViolation),
                     PredictionUtils.getTime(r.getTimestamp(), vi.first3CViolations),
                     PredictionUtils.getTime(r.getTimestamp(), vi.first5PViolations));
@@ -130,17 +143,16 @@ public class KittyValidator {
         return vi;
     }
 
-    private static class KittyValidatorConfig extends PredictionConfigMaker {
+    private static class KittyValidatorConfig extends ConfigMaker {
         @Override
         protected void preConstruction(Options options) {
-            PredictionConfigMaker.addOption(options, "bf", "benchmark-file", true,
-                    "File containing benchmark data");
+            addOption(options, "bf", "benchmark-file", true, "File containing benchmark data");
         }
 
         @Override
-        protected void postConstruction(PredictionConfig config) throws PredictionConfigException {
+        protected void postConstruction(Config config) throws ConfigException {
             if (config.getMethods() == null || config.getMethods().length != 1) {
-                throw new PredictionConfigException("one method must be specified for analysis.");
+                throw new ConfigException("one method must be specified for analysis.");
             }
         }
     }

@@ -19,7 +19,7 @@
 
 package edu.ucsb.cs.eager.sa.kitty.qbets;
 
-import edu.ucsb.cs.eager.sa.kitty.PredictionConfigException;
+import edu.ucsb.cs.eager.sa.kitty.ConfigException;
 
 public class QBETSConfig {
 
@@ -76,13 +76,13 @@ public class QBETSConfig {
         this.disableApproach1 = disableApproach1;
     }
 
-    public void validate() throws PredictionConfigException {
+    public void validate() throws ConfigException {
         if (quantile < 0 || quantile > 1) {
-            throw new PredictionConfigException("Quantile must be in the interval [0,1]");
+            throw new ConfigException("Quantile must be in the interval [0,1]");
         } else if (confidence < 0 || confidence > 1) {
-            throw new PredictionConfigException("Confidence must be in the interval [0,1]");
+            throw new ConfigException("Confidence must be in the interval [0,1]");
         } else if (end < start) {
-            throw new PredictionConfigException("End timestamp must be greater than or equal" +
+            throw new ConfigException("End timestamp must be greater than or equal" +
                     " to start timestamp.");
         }
     }

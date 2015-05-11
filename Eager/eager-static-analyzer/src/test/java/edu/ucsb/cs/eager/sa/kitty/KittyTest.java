@@ -28,7 +28,7 @@ import java.util.Collection;
 public class KittyTest extends TestCase {
 
     public void testGetMethods() throws Exception {
-        PredictionConfig config = new PredictionConfig();
+        Config config = new Config();
         config.setClazz("net.eager.testing.TestClass3");
         config.setWholeProgramMode(true);
         Kitty kitty = new Kitty();
@@ -41,7 +41,7 @@ public class KittyTest extends TestCase {
     }
 
     public void testPredictionConfig1() throws Exception {
-        PredictionConfig config = getConfig(new String[]{
+        Config config = getConfig(new String[]{
                 "-ccp", "/test/classpath",
                 "-c", "edu.ucsb.cs.StudentResource",
                 "-s", "http://localhost:8081",
@@ -72,7 +72,7 @@ public class KittyTest extends TestCase {
     }
 
     public void testPredictionConfig2() throws Exception {
-        PredictionConfig config = getConfig(new String[]{
+        Config config = getConfig(new String[]{
                 "-ccp", "/test/classpath",
                 "-c", "edu.ucsb.cs.StudentResource",
                 "-b", "test/path",
@@ -96,12 +96,12 @@ public class KittyTest extends TestCase {
                     "-wp",
             });
             fail("no validation error thrown");
-        } catch (PredictionConfigException ignore) {
+        } catch (ConfigException ignore) {
         }
     }
 
-    private PredictionConfig getConfig(String[] args) throws PredictionConfigException {
-        PredictionConfigMaker configMaker = new PredictionConfigMaker();
+    private Config getConfig(String[] args) throws ConfigException {
+        ConfigMaker configMaker = new ConfigMaker();
         return configMaker.construct(args, "TestBinary");
     }
 

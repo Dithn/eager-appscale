@@ -22,7 +22,7 @@ package edu.ucsb.cs.eager.sa.kitty;
 import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSConfig;
 import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationConfig;
 
-public class PredictionConfig {
+public class Config {
 
     private SimulationConfig simulationConfig = null;
 
@@ -180,21 +180,21 @@ public class PredictionConfig {
         this.qbetsConfig = qbetsConfig;
     }
 
-    public void validate() throws PredictionConfigException {
+    public void validate() throws ConfigException {
         if (simulationConfig == null && qbetsConfig == null) {
-            throw new PredictionConfigException("Either a simulation config or a QBETS config " +
+            throw new ConfigException("Either a simulation config or a QBETS config " +
                     "must be specified.");
         } else if (simulationConfig != null && qbetsConfig != null) {
-            throw new PredictionConfigException("Both simulation config and QBETS config should " +
+            throw new ConfigException("Both simulation config and QBETS config should " +
                     "not be specified.");
         } else if (traceFile == null && cerebroClasspath == null) {
-            throw new PredictionConfigException("One of trace file path and Cerebro class path " +
+            throw new ConfigException("One of trace file path and Cerebro class path " +
                     "must be specified.");
         } else if (traceFile != null && cerebroClasspath != null) {
-            throw new PredictionConfigException("Trace file and Cerebro class path should not " +
+            throw new ConfigException("Trace file and Cerebro class path should not " +
                     "specified together.");
         } else if (cerebroClasspath != null && clazz == null) {
-            throw new PredictionConfigException("Class must be specified when Cerebro class " +
+            throw new ConfigException("Class must be specified when Cerebro class " +
                     "path is provided.");
         } else if (qbetsConfig != null) {
             qbetsConfig.validate();
@@ -204,7 +204,7 @@ public class PredictionConfig {
             for (String m : methods) {
                 for (String em : excludedMethods) {
                     if (m.equals(em)) {
-                        throw new PredictionConfigException("Included and excluded methods " +
+                        throw new ConfigException("Included and excluded methods " +
                                 "must not intersect");
                     }
                 }
