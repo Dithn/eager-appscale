@@ -127,30 +127,36 @@ public class Kitty {
             Map<SootMethod,CFGAnalyzer> results = cerebro.analyze();
             Set<MethodInfo> methods = new TreeSet<>(new MethodInfo.MethodInfoComparator());
             for (Map.Entry<SootMethod,CFGAnalyzer> entry : results.entrySet()) {
-                MethodInfo mi = new MethodInfo(entry.getKey().getName());
-                for (List<SootMethod> path : entry.getValue().getPaths()) {
-                    Path callPath = new Path();
-                    for (SootMethod sm : path) {
-                        String name = sm.getDeclaringClass().getName() + "#" + sm.getName() + "()";
-                        if (config.isExcludedAPI(name)) {
-                            continue;
-                        }
-
-                        APICall call = new APICall(name);
-                        if (call.isLoop()) {
-                            // Use the same entity count limit for all loops for now.
-                            call.setIterations(config.getMaxEntities());
-                        }
-                        callPath.add(call);
-                    }
-                    mi.addPath(callPath);
-                }
-                methods.add(mi);
+                methods.add(processMethod(config, entry.getKey().getName(),
+                        entry.getValue().getPaths())) ;
             }
             return methods;
         } finally {
             cerebro.cleanup();
         }
+    }
+
+    private MethodInfo processMethod(Config config, String methodName,
+                                     Collection<List<SootMethod>> paths) {
+        MethodInfo mi = new MethodInfo(methodName);
+        for (List<SootMethod> path : paths) {
+            Path callPath = new Path();
+            for (SootMethod sm : path) {
+                String name = sm.getDeclaringClass().getName() + "#" + sm.getName() + "()";
+                if (config.isExcludedAPI(name)) {
+                    continue;
+                }
+
+                APICall call = new APICall(name);
+                if (call.isLoop()) {
+                    // Use the same entity count limit for all loops for now.
+                    call.setIterations(config.getMaxEntities());
+                }
+                callPath.add(call);
+            }
+            mi.addPath(callPath);
+        }
+        return mi;
     }
 
 }
