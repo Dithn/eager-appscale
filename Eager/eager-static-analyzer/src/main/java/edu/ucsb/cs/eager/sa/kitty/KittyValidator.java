@@ -19,6 +19,7 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.kitty.qbets.PathResult;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
 import org.apache.commons.cli.*;
@@ -28,19 +29,16 @@ import java.io.IOException;
 public class KittyValidator {
 
     public static void main(String[] args) throws IOException {
-        Options options = Kitty.getOptions();
-        PredictionUtils.addOption(options, "bf", "benchmark-file", true,
-                "File containing benchmark data");
-        CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args, "KittyValidator");
-        PredictionConfig config = Kitty.getPredictionConfig(cmd);
-        if (config == null) {
-            return;
-        } else if (config.getMethods() == null || config.getMethods().length != 1) {
-            System.err.println("one method must be specified for analysis.");
+        KittyValidatorConfig configMaker = new KittyValidatorConfig();
+        PredictionConfig config;
+        try {
+            config = configMaker.construct(args, "KittyValidator");
+        } catch (PredictionConfigException e) {
+            System.err.println(e.getMessage());
             return;
         }
 
-        String benchmarkFile = cmd.getOptionValue("bf");
+        String benchmarkFile = configMaker.getOptionValue("bf");
         if (benchmarkFile == null) {
             System.err.println("benchmark file must be specified.");
             return;
@@ -55,13 +53,14 @@ public class KittyValidator {
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
         long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
 
-        TraceAnalysisResult[] result = PredictionUtils.makePredictions(config, start, end);
-        if (result == null) {
+        PathResult pathResult = Kitty.makePredictions(config, start, end);
+        if (pathResult == null) {
             System.err.println("Failed to find the method: " + config.getMethods()[0]);
             return;
         }
         System.out.println();
 
+        TraceAnalysisResult[] result = pathResult.getResults();
         int startIndex = PredictionUtils.findClosestIndex(benchmarkValues.getTimestampByIndex(0), result);
         if (startIndex < 0) {
             System.err.println("Prediction time-line do not overlap with benchmark time-line.");
@@ -130,6 +129,22 @@ public class KittyValidator {
         }
         return vi;
     }
+
+    private static class KittyValidatorConfig extends PredictionConfigMaker {
+        @Override
+        protected void preConstruction(Options options) {
+            PredictionConfigMaker.addOption(options, "bf", "benchmark-file", true,
+                    "File containing benchmark data");
+        }
+
+        @Override
+        protected void postConstruction(PredictionConfig config) throws PredictionConfigException {
+            if (config.getMethods() == null || config.getMethods().length != 1) {
+                throw new PredictionConfigException("one method must be specified for analysis.");
+            }
+        }
+    }
+
 
     private static class SLAViolationInfo {
         long firstViolation = -1L;

@@ -19,9 +19,9 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.kitty.qbets.PathResult;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
-import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
 import java.io.IOException;
@@ -30,38 +30,26 @@ import java.util.*;
 public class KittySLAEvolutionAnalyzer {
 
     public static void main(String[] args) throws IOException {
-        Options options = Kitty.getOptions();
-        PredictionUtils.addOption(options, "bf", "benchmark-file", true,
-                "File containing benchmark data");
-        PredictionUtils.addOption(options, "ai", "adaptive-intervals", false,
-                "Enable adaptive interval analysis");
-        PredictionUtils.addOption(options, "mv", "max-violation", false,
-                "Output only the max SLA violations");
-        PredictionUtils.addOption(options, "ec", "event-counter", false,
-                "Enable event counting mode");
-        PredictionUtils.addOption(options, "vt", "violation-threshold", true,
-                "Threshold value used to detect SLA violations");
-        CommandLine cmd = PredictionUtils.parseCommandLineArgs(options, args,
-                "KittySLAEvolutionAnalyzer");
-        PredictionConfig config = Kitty.getPredictionConfig(cmd);
-        if (config == null) {
-            return;
-        } else if (config.getMethods() == null || config.getMethods().length != 1) {
-            System.err.println("one method must be specified for analysis.");
+        SLAEvolutionAnalyzerConfig configMaker = new SLAEvolutionAnalyzerConfig();
+        PredictionConfig config;
+        try {
+            config = configMaker.construct(args, "KittySLAEvolutionAnalyzer");
+        } catch (PredictionConfigException e) {
+            System.err.println(e.getMessage());
             return;
         }
 
-        String benchmarkFile = cmd.getOptionValue("bf");
+        String benchmarkFile = configMaker.getOptionValue("bf");
         if (benchmarkFile == null) {
             System.err.println("benchmark file must be specified.");
             return;
         }
-        boolean adaptiveIntervals = cmd.hasOption("ai");
-        boolean maxViolationOnly = cmd.hasOption("mv");
-        boolean eventCounting = cmd.hasOption("ec");
+        boolean adaptiveIntervals = configMaker.hasOption("ai");
+        boolean maxViolationOnly = configMaker.hasOption("mv");
+        boolean eventCounting = configMaker.hasOption("ec");
 
         double threshold = 0.0;
-        String thresholdString = cmd.getOptionValue("vt");
+        String thresholdString = configMaker.getOptionValue("vt");
         if (thresholdString != null) {
             threshold = Double.parseDouble(thresholdString);
         }
@@ -85,13 +73,14 @@ public class KittySLAEvolutionAnalyzer {
         long start = benchmarkValues.getTimestampByIndex(0) - 3600 * 24 * 1000;
         long end = benchmarkValues.getTimestampByIndex(benchmarkValues.length() - 1);
 
-        TraceAnalysisResult[] result = PredictionUtils.makePredictions(config, start, end);
-        if (result == null) {
+        PathResult pathResult = Kitty.makePredictions(config, start, end);
+        if (pathResult == null) {
             System.err.println("Failed to find the method: " + config.getMethods()[0]);
             return;
         }
         System.out.println();
 
+        TraceAnalysisResult[] result = pathResult.getResults();
         int startIndex = PredictionUtils.findClosestIndex(
                 benchmarkValues.getTimestampByIndex(0), result);
         if (startIndex < 0) {
@@ -273,6 +262,29 @@ public class KittySLAEvolutionAnalyzer {
         return new Violation(lastIndex, sla, benchmarkValues.getTimestampByIndex(lastIndex), null);
     }
 
+    private static class SLAEvolutionAnalyzerConfig extends PredictionConfigMaker {
+        @Override
+        protected void preConstruction(Options options) {
+            PredictionConfigMaker.addOption(options, "bf", "benchmark-file", true,
+                    "File containing benchmark data");
+            PredictionConfigMaker.addOption(options, "ai", "adaptive-intervals", false,
+                    "Enable adaptive interval analysis");
+            PredictionConfigMaker.addOption(options, "mv", "max-violation", false,
+                    "Output only the max SLA violations");
+            PredictionConfigMaker.addOption(options, "ec", "event-counter", false,
+                    "Enable event counting mode");
+            PredictionConfigMaker.addOption(options, "vt", "violation-threshold", true,
+                    "Threshold value used to detect SLA violations");
+        }
+
+        @Override
+        protected void postConstruction(PredictionConfig config) throws PredictionConfigException {
+            if (config.getMethods() == null || config.getMethods().length != 1) {
+                throw new PredictionConfigException("one method must be specified for analysis.");
+            }
+        }
+    }
+
     private static class ViolationEvent {
         int oldSla, newSla;
         long timestamp;
@@ -292,14 +304,14 @@ public class KittySLAEvolutionAnalyzer {
         long timestamp;
         int[] values;
 
-        Violation(int index, int sla, long timestamp, List<Integer> vals) {
+        Violation(int index, int sla, long timestamp, List<Integer> values) {
             this.index = index;
             this.sla = sla;
             this.timestamp = timestamp;
-            if (vals != null) {
-                this.values = new int[vals.size()];
-                for (int i = 0; i < vals.size(); i++) {
-                    this.values[i] = vals.get(i);
+            if (values != null) {
+                this.values = new int[values.size()];
+                for (int i = 0; i < values.size(); i++) {
+                    this.values[i] = values.get(i);
                 }
             }
         }

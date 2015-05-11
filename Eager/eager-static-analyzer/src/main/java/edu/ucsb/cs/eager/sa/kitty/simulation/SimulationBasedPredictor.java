@@ -26,27 +26,28 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.*;
 
-public class SimulationBasedPredictor {
+public class SimulationBasedPredictor implements Predictor {
 
-    public static void predict(PredictionConfig config, Collection<MethodInfo> methods) throws IOException {
+    private SimulationConfig config;
+
+    public SimulationBasedPredictor(SimulationConfig config) {
+        this.config = config;
+    }
+
+    @Override
+    public PredictionOutput run(Collection<MethodInfo> methods) throws IOException {
         Map<String,TimingDistribution> benchmarkResults = loadBenchmarkDataFromDir(
                 config.getBenchmarkDataDir());
         System.out.println("Running " + config.getSimulations() + " simulations...\n");
 
+        SimulationBasedPredictionOutput output = new SimulationBasedPredictionOutput();
         for (MethodInfo m : methods) {
-            System.out.println(m.getName());
-            for (int i = 0; i < m.getName().length(); i++) {
-                System.out.print("=");
-            }
-            System.out.println();
-            System.out.println("Total paths: " + m.getPaths().size());
-            System.out.println("Worst-case exec time: " + predictExecTime(m,
-                    benchmarkResults, config.getSimulations()));
-            System.out.println();
+            output.add(m, predictExecTime(m, benchmarkResults, config.getSimulations()));
         }
+        return output;
     }
 
-    private static Map<String,TimingDistribution> loadBenchmarkDataFromDir(
+    private Map<String,TimingDistribution> loadBenchmarkDataFromDir(
             String benchmarkDir) throws IOException {
         File dir = new File(benchmarkDir);
         File[] dataFiles = dir.listFiles(new FilenameFilter() {
@@ -66,7 +67,7 @@ public class SimulationBasedPredictor {
         return benchmarkResults;
     }
 
-    private static Prediction predictExecTime(MethodInfo method, Map<String,TimingDistribution> bm,
+    private Prediction predictExecTime(MethodInfo method, Map<String,TimingDistribution> bm,
                                        int simulations) {
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
@@ -82,7 +83,7 @@ public class SimulationBasedPredictor {
         return PredictionUtils.max(predictions);
     }
 
-    private static Prediction simulatePath(Path path, Map<String,TimingDistribution> bm,
+    private Prediction simulatePath(Path path, Map<String,TimingDistribution> bm,
                                     int simulations) {
         double[] results = new double[simulations];
         for (int i = 0; i < simulations; i++) {

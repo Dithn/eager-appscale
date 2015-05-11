@@ -23,39 +23,29 @@ import edu.ucsb.cs.eager.sa.kitty.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
 import java.util.*;
 
-public class SimpleQBETSPredictor {
+public class SimpleQBETSPredictor implements Predictor {
 
-    public static void predict(PredictionConfig config,
-                               Collection<MethodInfo> methods) throws IOException {
-        if (config.isAggregateTimeSeries()) {
-            throw new NotImplementedException();
-        }
+    private QBETSConfig config;
 
-        System.out.printf("\nQuantile: %.4f\nConfidence: %.4f\nClass: %s\n\n",
-                config.getQuantile(), config.getConfidence(), config.getClazz());
-        QuantileCache cache = new QuantileCache();
-        int maxLength = 0;
-        for (MethodInfo m : methods) {
-            if (m.getName().length() > maxLength) {
-                maxLength = m.getName().length();
-            }
-        }
-        for (MethodInfo m : methods) {
-            if (config.isEnabledMethod(m.getName())) {
-                Prediction prediction = predictExecTime(m, config, cache);
-                System.out.format("%-" + maxLength + "s%5d%15s\n", m.getName(), m.getPaths().size(),
-                        prediction.toString());
-            }
-        }
+    public SimpleQBETSPredictor(QBETSConfig config) {
+        this.config = config;
     }
 
-    private static Prediction predictExecTime(MethodInfo method, PredictionConfig config,
-                                              QuantileCache cache) throws IOException {
+    @Override
+    public PredictionOutput run(Collection<MethodInfo> methods) throws IOException {
+        QuantileCache cache = new QuantileCache();
+        SimpleQBETSPredictionOutput output = new SimpleQBETSPredictionOutput();
+        for (MethodInfo m : methods) {
+            output.add(m, predictExecTime(m, cache));
+        }
+        return output;
+    }
+
+    private Prediction predictExecTime(MethodInfo method, QuantileCache cache) throws IOException {
 
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
@@ -88,7 +78,7 @@ public class SimpleQBETSPredictor {
             // If there are n API calls in the path, we need to compute the n-th root
             // quantile for each API call
             double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
-            Map<String,Integer> map = getQuantiles(config, adjustedQuantile, reducedOps);
+            Map<String,Integer> map = getQuantiles(adjustedQuantile, reducedOps);
             for (Map.Entry<String,Integer> entry : map.entrySet()) {
                 cache.put(entry.getKey(), pathLength, entry.getValue());
             }
@@ -107,7 +97,7 @@ public class SimpleQBETSPredictor {
         return PredictionUtils.max(predictions);
     }
 
-    private static Prediction analyzePath(Path path, QuantileCache cache) {
+    private Prediction analyzePath(Path path, QuantileCache cache) {
         double total = 0.0;
         for (APICall call : path.calls()) {
             total += cache.get(call.getId(), path.size());
@@ -115,9 +105,8 @@ public class SimpleQBETSPredictor {
         return new Prediction(total);
     }
 
-    private static Map<String,Integer> getQuantiles(PredictionConfig config,
-                                                    double quantile,
-                                                    Collection<String> ops) throws IOException {
+    private Map<String,Integer> getQuantiles(double quantile,
+                                             Collection<String> ops) throws IOException {
         JSONObject msg = new JSONObject();
         msg.put("quantile", quantile);
         msg.put("confidence", config.getConfidence());

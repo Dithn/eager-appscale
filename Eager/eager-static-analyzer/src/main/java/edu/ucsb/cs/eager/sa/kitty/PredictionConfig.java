@@ -19,50 +19,20 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSConfig;
+import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationConfig;
+
 public class PredictionConfig {
 
-    /**
-     * Path to a directory containing API benchmark results.
-     */
-    private String benchmarkDataDir;
-    /**
-     * Number of simulations to run.
-     */
-    private int simulations = 100;
+    private SimulationConfig simulationConfig = null;
 
-    /**
-     * URL of the benchmark data service.
-     */
-    private String benchmarkDataSvc;
-    /**
-     * Execution time quantile that should be predicted.
-     */
-    private double quantile = 0.95;
-    /**
-     * Upper confidence of the predicted time quantile.
-     */
-    private double confidence = 0.05;
-    /**
-     * Whether the predictions should be made by aggregating
-     * multiple time series data into a single time series.
-     */
-    private boolean aggregateTimeSeries;
+    private QBETSConfig qbetsConfig = null;
 
     /**
      * Path to an existing Cerebro trace file, from which the
      * program execution paths can be extracted.
      */
     private String traceFile;
-
-    /**
-     * Start timestamp to use when fetching time series data.
-     */
-    private long start = -1L;
-
-    /**
-     * End timestamp to use when fetching time series data.
-     */
-    private long end = -1L;
 
     /**
      * Use the simple QBETS predictor, instead of the trace-based
@@ -83,56 +53,6 @@ public class PredictionConfig {
     private int maxEntities = 1000;
 
     private boolean hideOutput;
-
-    private boolean disableApproach1;
-
-    public String getBenchmarkDataDir() {
-        return benchmarkDataDir;
-    }
-
-    public void setBenchmarkDataDir(String benchmarkDataDir) {
-        this.benchmarkDataDir = benchmarkDataDir;
-    }
-
-    public int getSimulations() {
-        return simulations;
-    }
-
-    public void setSimulations(int simulations) {
-        this.simulations = simulations;
-    }
-
-    public String getBenchmarkDataSvc() {
-        return benchmarkDataSvc;
-    }
-
-    public void setBenchmarkDataSvc(String benchmarkDataSvc) {
-        this.benchmarkDataSvc = benchmarkDataSvc;
-    }
-
-    public boolean isAggregateTimeSeries() {
-        return aggregateTimeSeries;
-    }
-
-    public double getQuantile() {
-        return quantile;
-    }
-
-    public void setQuantile(double quantile) {
-        this.quantile = quantile;
-    }
-
-    public double getConfidence() {
-        return confidence;
-    }
-
-    public void setConfidence(double confidence) {
-        this.confidence = confidence;
-    }
-
-    public void setAggregateTimeSeries(boolean aggregateTimeSeries) {
-        this.aggregateTimeSeries = aggregateTimeSeries;
-    }
 
     public String getTraceFile() {
         return traceFile;
@@ -213,22 +133,6 @@ public class PredictionConfig {
         this.excludedMethods = excludedMethods;
     }
 
-    public long getStart() {
-        return start;
-    }
-
-    public void setStart(long start) {
-        this.start = start;
-    }
-
-    public long getEnd() {
-        return end;
-    }
-
-    public void setEnd(long end) {
-        this.end = end;
-    }
-
     public int getMaxEntities() {
         return maxEntities;
     }
@@ -260,40 +164,48 @@ public class PredictionConfig {
         this.excludedAPIPatterns = excludedAPIPatterns;
     }
 
-    public boolean isDisableApproach1() {
-        return disableApproach1;
+    public SimulationConfig getSimulationConfig() {
+        return simulationConfig;
     }
 
-    public void setDisableApproach1(boolean disableApproach1) {
-        this.disableApproach1 = disableApproach1;
+    public void setSimulationConfig(SimulationConfig simulationConfig) {
+        this.simulationConfig = simulationConfig;
     }
 
-    public void validate() throws Exception {
-        if (benchmarkDataDir == null && benchmarkDataSvc == null) {
-            throw new Exception("One of benchmark data directory and benchmark data service" +
-                    " must be specified.");
-        } else if (benchmarkDataDir != null && benchmarkDataSvc != null) {
-            throw new Exception("Both benchmark data directory and benchmark data service" +
-                    " should not be specified.");
+    public QBETSConfig getQbetsConfig() {
+        return qbetsConfig;
+    }
+
+    public void setQbetsConfig(QBETSConfig qbetsConfig) {
+        this.qbetsConfig = qbetsConfig;
+    }
+
+    public void validate() throws PredictionConfigException {
+        if (simulationConfig == null && qbetsConfig == null) {
+            throw new PredictionConfigException("Either a simulation config or a QBETS config " +
+                    "must be specified.");
+        } else if (simulationConfig != null && qbetsConfig != null) {
+            throw new PredictionConfigException("Both simulation config and QBETS config should " +
+                    "not be specified.");
         } else if (traceFile == null && cerebroClasspath == null) {
-            throw new Exception("One of trace file path and Cerebro class path must be specified.");
-        } else if (quantile < 0 || quantile > 1) {
-            throw new Exception("Quantile must be in the interval [0,1]");
-        } else if (confidence < 0 || confidence > 1) {
-            throw new Exception("Confidence must be in the interval [0,1]");
+            throw new PredictionConfigException("One of trace file path and Cerebro class path " +
+                    "must be specified.");
         } else if (traceFile != null && cerebroClasspath != null) {
-            throw new Exception("Trace file and Cerebro class path should not specified together.");
+            throw new PredictionConfigException("Trace file and Cerebro class path should not " +
+                    "specified together.");
         } else if (cerebroClasspath != null && clazz == null) {
-            throw new Exception("Class must be specified when Cerebro class path is provided.");
-        } else if (end < start) {
-            throw new Exception("End timestamp must be greater than or equal to start timestamp.");
+            throw new PredictionConfigException("Class must be specified when Cerebro class " +
+                    "path is provided.");
+        } else if (qbetsConfig != null) {
+            qbetsConfig.validate();
         }
 
         if (methods != null && excludedMethods != null) {
             for (String m : methods) {
                 for (String em : excludedMethods) {
                     if (m.equals(em)) {
-                        throw new Exception("Included and excluded methods must not intersect");
+                        throw new PredictionConfigException("Included and excluded methods " +
+                                "must not intersect");
                     }
                 }
             }

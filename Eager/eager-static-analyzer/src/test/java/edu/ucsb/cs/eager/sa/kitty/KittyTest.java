@@ -19,6 +19,8 @@
 
 package edu.ucsb.cs.eager.sa.kitty;
 
+import edu.ucsb.cs.eager.sa.kitty.qbets.QBETSConfig;
+import edu.ucsb.cs.eager.sa.kitty.simulation.SimulationConfig;
 import junit.framework.TestCase;
 
 import java.util.Collection;
@@ -31,7 +33,76 @@ public class KittyTest extends TestCase {
         config.setWholeProgramMode(true);
         Kitty kitty = new Kitty();
         Collection<MethodInfo> methods = kitty.getMethods(config);
-        assertEquals(4, methods.size());
+        assertEquals(4, methods.size()); // <init>, main, doQuery, test.method1
+
+        config.setMethods(new String[]{"doQuery"});
+        methods = kitty.getMethods(config);
+        assertEquals(1, methods.size());
+    }
+
+    public void testPredictionConfig1() throws Exception {
+        PredictionConfig config = getConfig(new String[]{
+                "-ccp", "/test/classpath",
+                "-c", "edu.ucsb.cs.StudentResource",
+                "-s", "http://localhost:8081",
+                "-wp",
+                "-q", "0.96",
+                "-cn", "0.01",
+                "-st", "100",
+                "-en", "200",
+                "-me", "1000",
+                "-d1",
+        });
+
+        QBETSConfig qc = config.getQbetsConfig();
+        assertNotNull(qc);
+        assertEquals(100L, qc.getStart());
+        assertEquals(200L, qc.getEnd());
+        assertEquals(0.96, qc.getQuantile());
+        assertEquals(0.01, qc.getConfidence());
+        assertEquals("http://localhost:8081", qc.getBenchmarkDataSvc());
+        assertTrue(qc.isDisableApproach1());
+
+        assertNull(config.getSimulationConfig());
+        assertFalse(config.isSimplePredictor());
+        assertTrue(config.isWholeProgramMode());
+        assertEquals("/test/classpath", config.getCerebroClasspath());
+        assertEquals("edu.ucsb.cs.StudentResource", config.getClazz());
+        assertEquals(1000, config.getMaxEntities());
+    }
+
+    public void testPredictionConfig2() throws Exception {
+        PredictionConfig config = getConfig(new String[]{
+                "-ccp", "/test/classpath",
+                "-c", "edu.ucsb.cs.StudentResource",
+                "-b", "test/path",
+                "-wp",
+                "-sn", "155",
+        });
+
+        SimulationConfig sc = config.getSimulationConfig();
+        assertNotNull(sc);
+        assertEquals("test/path", sc.getBenchmarkDataDir());
+        assertEquals(155, sc.getSimulations());
+
+        assertNull(config.getQbetsConfig());
+    }
+
+    public void testPredictionConfig3() throws Exception {
+        try {
+            getConfig(new String[]{
+                    "-ccp", "/test/classpath",
+                    "-c", "edu.ucsb.cs.StudentResource",
+                    "-wp",
+            });
+            fail("no validation error thrown");
+        } catch (PredictionConfigException ignore) {
+        }
+    }
+
+    private PredictionConfig getConfig(String[] args) throws PredictionConfigException {
+        PredictionConfigMaker configMaker = new PredictionConfigMaker();
+        return configMaker.construct(args, "TestBinary");
     }
 
 }

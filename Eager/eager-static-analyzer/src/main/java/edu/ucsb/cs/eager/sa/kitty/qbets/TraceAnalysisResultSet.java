@@ -28,9 +28,9 @@ import java.util.List;
  */
 public class TraceAnalysisResultSet {
 
-    private List<TraceAnalysisResult[]> list = new ArrayList<>();
+    private List<PathResult> list = new ArrayList<>();
 
-    public void addResult(TraceAnalysisResult[] result) {
+    public void addResult(PathResult result) {
         list.add(result);
     }
 
@@ -38,19 +38,19 @@ public class TraceAnalysisResultSet {
         return list.size();
     }
 
-    public TraceAnalysisResult[] get(int index) {
+    public PathResult get(int index) {
         return list.get(index);
     }
 
-    public TraceAnalysisResult[] findLargest() {
+    public PathResult findLargest() {
         double max = 0.0;
-        TraceAnalysisResult[] largest = null;
-        for (TraceAnalysisResult[] curr : list) {
+        PathResult largest = null;
+        for (PathResult curr : list) {
             int sum = 0;
-            for (TraceAnalysisResult r : curr) {
+            for (TraceAnalysisResult r : curr.getResults()) {
                 sum += r.approach2;
             }
-            double average = ((double) sum) / curr.length;
+            double average = ((double) sum) / curr.getResults().length;
             if (average > max) {
                 max = average;
                 largest = curr;

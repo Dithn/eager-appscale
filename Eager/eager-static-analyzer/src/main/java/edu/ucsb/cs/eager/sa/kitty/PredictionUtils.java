@@ -21,7 +21,6 @@ package edu.ucsb.cs.eager.sa.kitty;
 
 import edu.ucsb.cs.eager.sa.kitty.qbets.TimeSeries;
 import edu.ucsb.cs.eager.sa.kitty.qbets.TraceAnalysisResult;
-import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -61,27 +60,6 @@ public class PredictionUtils {
         return count == 1 ? singular : singular + "s";
     }
 
-    public static CommandLine parseCommandLineArgs(Options options, String[] args, String cmd) {
-        try {
-            CommandLineParser parser = new BasicParser();
-            return parser.parse(options, args);
-        } catch (ParseException e) {
-            System.err.println("Error: " + e.getMessage() + "\n");
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp(cmd, options);
-            System.exit(1);
-            return null;
-        }
-    }
-
-    public static void addOption(Options options, String shortName, String longName,
-                                 boolean hasArg, String desc) {
-        if (options.getOption(shortName) != null || options.getOption(longName) != null) {
-            throw new IllegalArgumentException("Duplicate argument: " + shortName + ", " + longName);
-        }
-        options.addOption(shortName, longName, hasArg, desc);
-    }
-
     public static TimeSeries parseBenchmarkFile(String path) throws IOException {
         TimeSeries timeSeries = new TimeSeries();
         BufferedReader reader = new BufferedReader(new FileReader(path));
@@ -110,29 +88,6 @@ public class PredictionUtils {
             }
         }
         return -1;
-    }
-
-    public static TraceAnalysisResult[] makePredictions(PredictionConfig config,
-                                                        long start, long end) throws IOException {
-        config.setStart(start);
-        config.setEnd(end);
-        config.setHideOutput(true);
-
-        Kitty kitty = new Kitty();
-        Collection<MethodInfo> methods = kitty.getMethods(config);
-        MethodInfo method = null;
-        for (MethodInfo m : methods) {
-            if (config.isEnabledMethod(m.getName())) {
-                method = m;
-                break;
-            }
-        }
-        if (method == null) {
-            return null;
-        }
-
-        kitty.run(config, methods);
-        return kitty.getSummary(method).findLargest();
     }
 
     public static String getTime(long start, long end) {
