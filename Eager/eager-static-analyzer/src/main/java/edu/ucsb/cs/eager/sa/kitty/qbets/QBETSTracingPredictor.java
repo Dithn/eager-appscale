@@ -77,11 +77,11 @@ public class QBETSTracingPredictor implements Predictor {
     private TraceAnalysisResultSet analyzeMethod(MethodInfo method) throws IOException {
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
-            System.out.println("No paths with API calls found.");
+            log(method, -1, "No paths with API calls found.");
             return null;
         }
 
-        System.out.println(pathsOfInterest.size() + PredictionUtils.pluralize(
+        log(method, -1, pathsOfInterest.size() + PredictionUtils.pluralize(
                 pathsOfInterest.size(), " path") + " with API calls found.");
 
         List<Path> uniquePaths = new ArrayList<>();
@@ -100,33 +100,33 @@ public class QBETSTracingPredictor implements Predictor {
             }
         }
 
-        System.out.println(uniquePaths.size() + " unique " + PredictionUtils.pluralize(
+        log(method, -1, uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
         TraceAnalysisResultSet resultSet = new TraceAnalysisResultSet();
-        for (Path uniquePath : uniquePaths) {
-            resultSet.addResult(analyzePath(uniquePath));
+        for (int i = 0; i < uniquePaths.size(); i++) {
+            resultSet.addResult(analyzePath(method, uniquePaths.get(i), i));
         }
         return resultSet;
     }
 
-    private PathResult analyzePath(Path path) throws IOException {
+    private PathResult analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
         int tsLength = cache.getTimeSeriesLength();
         int pathLength = path.size();
         double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
 
         int minIndex = (int) (Math.log(config.getConfidence()) / Math.log(adjustedQuantile)) + 10;
-        System.out.println("Minimum acceptable time series length: " + (minIndex + 1));
+        log(method, pathIndex, "Minimum acceptable time series length: " + (minIndex + 1));
 
         int dataPoints = tsLength - minIndex;
         if (dataPoints <= 0) {
-            System.out.println("Insufficient data in time series...");
+            log(method, pathIndex, "Insufficient data in time series...");
             return null;
         }
-        System.out.println("Number of data points analyzed: " + dataPoints);
+        log(method, pathIndex, "Number of data points analyzed: " + dataPoints);
 
         TimeSeries actualSums = getAggregateTimeSeries(path.calls());
-        TimeSeries quantileSums = approach1(path, adjustedQuantile, dataPoints);
-        TimeSeries aggregateQuantiles = approach2(path, actualSums, dataPoints);
+        TimeSeries quantileSums = approach1(method, path, pathIndex, adjustedQuantile, dataPoints);
+        TimeSeries aggregateQuantiles = approach2(method, path, pathIndex, actualSums, dataPoints);
 
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
@@ -147,8 +147,8 @@ public class QBETSTracingPredictor implements Predictor {
         return new PathResult(path, minIndex, results);
     }
 
-    private TimeSeries approach1(Path path, double adjustedQuantile,
-                                 int dataPoints) throws IOException {
+    private TimeSeries approach1(MethodInfo method, Path path, int pathIndex,
+                                 double adjustedQuantile, int dataPoints) throws IOException {
         if (config.isDisableApproach1()) {
             return null;
         }
@@ -157,7 +157,7 @@ public class QBETSTracingPredictor implements Predictor {
         List<TimeSeries> ts = new ArrayList<>();
         for (APICall call : path.calls()) {
             if (!cache.containsQuantiles(call, path.size())) {
-                System.out.println("Calculating quantiles for: " + call.getId() +
+                log(method, pathIndex, "Calculating quantiles for: " + call.getId() +
                         " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
                 TimeSeries quantilePredictions = getQuantilePredictions(cache.getTimeSeries(call),
                         call.getId(), dataPoints, adjustedQuantile);
@@ -169,9 +169,12 @@ public class QBETSTracingPredictor implements Predictor {
         return aggregate(ts);
     }
 
-    private TimeSeries approach2(Path path, TimeSeries aggr, int dataPoints) throws IOException {
+    private TimeSeries approach2(MethodInfo method, Path path, int pathIndex,
+                                 TimeSeries aggr, int dataPoints) throws IOException {
         // Approach 2
         if (!cache.containsQuantiles(path, path.size())) {
+            log(method, pathIndex, "Calculating quantiles for: " + path.getId() +
+                    " (q = " + config.getQuantile() + "; c = " + config.getConfidence() + ")");
             TimeSeries quantilePredictions = getQuantilePredictions(aggr, path.getId(),
                     dataPoints, config.getQuantile());
             cache.putQuantiles(path, path.size(), quantilePredictions);
@@ -243,5 +246,13 @@ public class QBETSTracingPredictor implements Predictor {
             throw new IllegalStateException("No time series data found");
         }
         return data;
+    }
+
+    private void log(MethodInfo method, int pathIndex, String msg) {
+        if (pathIndex < 0) {
+            System.out.printf("log: {%s}{-} %s\n", method.getName(), msg);
+        } else {
+            System.out.printf("log: {%s}{%d} %s\n", method.getName(), pathIndex, msg);
+        }
     }
 }
