@@ -194,7 +194,7 @@ public class KittySLAEvolutionAnalyzer {
                 int nextIndex = PredictionUtils.findNextIndex(violation.timestamp, result);
                 double slaDiff;
                 if (nextIndex >= 0) {
-                    slaDiff = (result[nextIndex].getApproach2() - sla) / (double) sla;
+                    slaDiff = Math.abs((result[nextIndex].getApproach2() - sla) / (double) sla);
                 } else {
                     // End of trace -- must print this event
                     slaDiff = 1.0;
