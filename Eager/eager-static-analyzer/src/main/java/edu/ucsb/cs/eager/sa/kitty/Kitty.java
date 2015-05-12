@@ -74,10 +74,26 @@ public class Kitty {
         return methods;
     }
 
+    /**
+     * Make SLA predictions for the specified time frame using the given
+     * Config instance. Disable approach1 predictions (for performance
+     * reasons), and also the console output while performing the
+     * analysis. This method assumes that the Config instance is
+     * populated with just a single method. Once the predictions are made,
+     * it will return the prediction trace for the most expensive path
+     * in that method.
+     *
+     * @param config A Config instance with a single method configuration
+     * @param start starting timestamp
+     * @param end ending timestamp
+     * @return A PathResult instance corresponding to the most expensive path in the method
+     * @throws IOException on error
+     */
     public static PathResult makePredictions(Config config, long start,
                                              long end) throws IOException {
         config.getQbetsConfig().setStart(start);
         config.getQbetsConfig().setEnd(end);
+        config.getQbetsConfig().setDisableApproach1(true);
         config.setHideOutput(true);
 
         Kitty kitty = new Kitty();

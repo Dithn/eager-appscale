@@ -33,6 +33,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * CacheUpdater is responsible for contacting the benchmark-data-service
+ * and retrieving the quantile predictions for various timestamps. It
+ * employs a fix-sized thread pool for initiating multiple requests
+ * in parallel. It also attempts to eliminate repeated work, by obtaining
+ * locks on individual APICall and Path identifiers.
+ */
 public class CacheUpdater {
 
     private TimeSeriesDataCache cache;
@@ -55,6 +62,7 @@ public class CacheUpdater {
                                        double quantile, int dataPoints) throws IOException {
         List<Future> futures = new ArrayList<>();
         for (APICall call : path.calls()) {
+            // For each API call not already in the cache, fire off requests
             if (!cache.containsQuantiles(call, path.size())) {
                 CacheUpdateWorker worker = new CacheUpdateWorker(call, path.size(), method,
                         pathIndex, quantile, dataPoints, cache.getTimeSeries(call));
@@ -62,6 +70,7 @@ public class CacheUpdater {
             }
         }
 
+        // Wait for any initiated requests to finish
         for (Future f : futures) {
             try {
                 f.get();
@@ -110,6 +119,9 @@ public class CacheUpdater {
         @Override
         public void run() {
             String key = obj.getId() + "_" + size;
+            // Obtain lock on the <Path ID,Path Length> pair before initiating
+            // the request. This will ensure that the same calculation is not
+            // performed multiple times at the benchmark-data-service.
             synchronized (key.intern()) {
                 if (!cache.containsQuantiles(obj, size)) {
                     log(method, pathIndex, "Calculating quantiles for: " + obj.getId() +
