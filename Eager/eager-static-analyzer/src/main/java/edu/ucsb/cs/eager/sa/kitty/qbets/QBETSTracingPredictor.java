@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * QBETSTracingPredictor obtains time series data for different API calls,
@@ -36,6 +37,8 @@ public class QBETSTracingPredictor implements Predictor {
 
     private TimeSeriesDataCache cache;
     private QBETSConfig config;
+    private CacheUpdater cacheUpdater;
+    private ExecutorService methodWorkerPool;
 
     public QBETSTracingPredictor(QBETSConfig config) {
         this.config = config;
@@ -64,14 +67,38 @@ public class QBETSTracingPredictor implements Predictor {
             System.out.println("Time range: " + config.getStart() + " - " + config.getEnd());
         }
 
-        QBETSTracingPredictionOutput output = new QBETSTracingPredictionOutput();
-        for (MethodInfo m : methods) {
-            TraceAnalysisResultSet methodResults = analyzeMethod(m);
-            if (methodResults != null) {
-                output.add(m, methodResults);
+        methodWorkerPool = Executors.newCachedThreadPool();
+        cacheUpdater = new CacheUpdater(cache, config);
+
+        try {
+            final QBETSTracingPredictionOutput output = new QBETSTracingPredictionOutput();
+            Map<MethodInfo,Future<TraceAnalysisResultSet>> methodFutures = new HashMap<>();
+            for (final MethodInfo m : methods) {
+                Callable<TraceAnalysisResultSet> methodWorker = new Callable<TraceAnalysisResultSet>() {
+                    @Override
+                    public TraceAnalysisResultSet call() throws Exception {
+                        return analyzeMethod(m);
+                    }
+                };
+                methodFutures.put(m, methodWorkerPool.submit(methodWorker));
             }
+
+            for (MethodInfo m : methods) {
+                try {
+                    TraceAnalysisResultSet r = methodFutures.get(m).get();
+                    if (r != null) {
+                        output.add(m, r);
+                    }
+                } catch (Exception e) {
+                    throw new IOException(e);
+                }
+            }
+            return output;
+
+        } finally {
+            methodWorkerPool.shutdownNow();
+            cacheUpdater.close();
         }
-        return output;
     }
 
     private TraceAnalysisResultSet analyzeMethod(MethodInfo method) throws IOException {
@@ -109,24 +136,48 @@ public class QBETSTracingPredictor implements Predictor {
         return resultSet;
     }
 
-    private PathResult analyzePath(MethodInfo method, Path path, int pathIndex) throws IOException {
+    private PathResult analyzePath(final MethodInfo method, final Path path,
+                                   final int pathIndex) throws IOException {
         int tsLength = cache.getTimeSeriesLength();
         int pathLength = path.size();
-        double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
+        final double adjustedQuantile = Math.pow(config.getQuantile(), 1.0/pathLength);
 
         int minIndex = (int) (Math.log(config.getConfidence()) / Math.log(adjustedQuantile)) + 10;
         log(method, pathIndex, "Minimum acceptable time series length: " + (minIndex + 1));
 
-        int dataPoints = tsLength - minIndex;
+        final int dataPoints = tsLength - minIndex;
         if (dataPoints <= 0) {
             log(method, pathIndex, "Insufficient data in time series...");
             return null;
         }
         log(method, pathIndex, "Number of data points analyzed: " + dataPoints);
 
-        TimeSeries actualSums = getAggregateTimeSeries(path.calls());
-        TimeSeries quantileSums = approach1(method, path, pathIndex, adjustedQuantile, dataPoints);
-        TimeSeries aggregateQuantiles = approach2(method, path, pathIndex, actualSums, dataPoints);
+        final TimeSeries actualSums = getAggregateTimeSeries(path.calls());
+        TimeSeries quantileSums, aggregateQuantiles;
+        if (path.size() > 1) {
+            Future<TimeSeries> approach1 = methodWorkerPool.submit(new Callable<TimeSeries>() {
+                @Override
+                public TimeSeries call() throws Exception {
+                    return approach1(method, path, pathIndex, adjustedQuantile, dataPoints);
+                }
+            });
+            Future<TimeSeries> approach2 = methodWorkerPool.submit(new Callable<TimeSeries>() {
+                @Override
+                public TimeSeries call() throws Exception {
+                    return approach2(method, path, pathIndex, actualSums, dataPoints);
+                }
+            });
+            try {
+                quantileSums = approach1.get();
+                aggregateQuantiles = approach2.get();
+            } catch (Exception e) {
+                throw new IOException(e);
+            }
+        } else {
+            quantileSums = approach1(method, path, pathIndex, adjustedQuantile, dataPoints);
+            aggregateQuantiles = approach2(method, path, pathIndex, actualSums, dataPoints);
+        }
+
 
         TraceAnalysisResult[] results = new TraceAnalysisResult[dataPoints];
         for (int i = 0; i < dataPoints; i++) {
@@ -152,33 +203,21 @@ public class QBETSTracingPredictor implements Predictor {
         if (config.isDisableApproach1()) {
             return null;
         }
+        cacheUpdater.updateCacheForAPICalls(path, method, pathIndex, adjustedQuantile, dataPoints);
 
         // Sum up the adjusted quantiles
         List<TimeSeries> ts = new ArrayList<>();
         for (APICall call : path.calls()) {
-            if (!cache.containsQuantiles(call, path.size())) {
-                log(method, pathIndex, "Calculating quantiles for: " + call.getId() +
-                        " (q = " + adjustedQuantile + "; c = " + config.getConfidence() + ")");
-                TimeSeries quantilePredictions = getQuantilePredictions(cache.getTimeSeries(call),
-                        call.getId(), dataPoints, adjustedQuantile);
-                cache.putQuantiles(call, path.size(), quantilePredictions);
-            }
             ts.add(cache.getQuantiles(call, path.size()));
         }
-
         return aggregate(ts);
     }
 
     private TimeSeries approach2(MethodInfo method, Path path, int pathIndex,
                                  TimeSeries aggr, int dataPoints) throws IOException {
         // Approach 2
-        if (!cache.containsQuantiles(path, path.size())) {
-            log(method, pathIndex, "Calculating quantiles for: " + path.getId() +
-                    " (q = " + config.getQuantile() + "; c = " + config.getConfidence() + ")");
-            TimeSeries quantilePredictions = getQuantilePredictions(aggr, path.getId(),
-                    dataPoints, config.getQuantile());
-            cache.putQuantiles(path, path.size(), quantilePredictions);
-        }
+        cacheUpdater.updateCacheForPath(path, method, pathIndex, config.getQuantile(),
+                dataPoints, aggr);
         return cache.getQuantiles(path, path.size());
     }
 
@@ -196,30 +235,6 @@ public class QBETSTracingPredictor implements Predictor {
             aggr = aggr.aggregate(list.get(i));
         }
         return aggr;
-    }
-
-    /**
-     * Obtain a trace of quantiles for a time series
-     *
-     * @param ts Time series to be analyzed
-     * @param name A human readable name for the time series
-     * @param len Length of the quantile trace to be returned
-     * @param quantile Quantile to be calculated (e.g. 0.95)
-     * @return A time series of predictions
-     * @throws IOException on error
-     */
-    private TimeSeries getQuantilePredictions(TimeSeries ts, String name, int len,
-                                      double quantile) throws IOException {
-        JSONObject msg = new JSONObject();
-        msg.put("quantile", quantile);
-        msg.put("confidence", config.getConfidence());
-        msg.put("data", ts.toJSON());
-        msg.put("name", name);
-
-        JSONObject resp = HttpUtils.doPost(config.getBenchmarkDataSvc() + "/cpredict", msg);
-        JSONArray array = resp.getJSONArray("Predictions");
-        // Just return the last len elements of the resulting array
-        return new TimeSeries(array, len);
     }
 
     private Map<String,TimeSeries> getTimeSeriesData(Collection<String> ops,
@@ -249,10 +264,11 @@ public class QBETSTracingPredictor implements Predictor {
     }
 
     private void log(MethodInfo method, int pathIndex, String msg) {
+        String thread = Thread.currentThread().getName();
         if (pathIndex < 0) {
-            System.out.printf("log: {%s}{-} %s\n", method.getName(), msg);
+            System.out.printf("log: {%s}{%s}{-} %s\n", thread, method.getName(), msg);
         } else {
-            System.out.printf("log: {%s}{%d} %s\n", method.getName(), pathIndex, msg);
+            System.out.printf("log: {%s}{%s}{%d} %s\n", thread, method.getName(), pathIndex, msg);
         }
     }
 }
