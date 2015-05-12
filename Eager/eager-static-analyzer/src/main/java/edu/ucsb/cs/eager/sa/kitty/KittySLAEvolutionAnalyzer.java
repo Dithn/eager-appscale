@@ -62,11 +62,18 @@ public class KittySLAEvolutionAnalyzer {
             threshold = Double.parseDouble(thresholdString);
         }
 
+        double slaDiffThreshold = 0.0;
+        String slaDiffThresholdString = configMaker.getOptionValue("sd");
+        if (slaDiffThresholdString != null) {
+            slaDiffThreshold = Double.parseDouble(slaDiffThresholdString);
+        }
+
         KittySLAEvolutionAnalyzer analyzer = new KittySLAEvolutionAnalyzer();
         analyzer.adaptiveIntervals = adaptiveIntervals;
         analyzer.maxViolationOnly = maxViolationOnly;
         analyzer.eventCounting = eventCounting;
         analyzer.threshold = threshold;
+        analyzer.slaDiffThreshold = slaDiffThreshold;
         analyzer.run(config, benchmarkFile);
     }
 
@@ -74,6 +81,7 @@ public class KittySLAEvolutionAnalyzer {
     private boolean eventCounting;
     private boolean maxViolationOnly;
     private double threshold;
+    private double slaDiffThreshold;
 
     public void run(Config config, String benchmarkFile) throws IOException {
         TimeSeries benchmarkValues = PredictionUtils.parseBenchmarkFile(benchmarkFile);
@@ -100,7 +108,7 @@ public class KittySLAEvolutionAnalyzer {
             if (eventCounting) {
                 adaptiveIntervalEventAnalysis(benchmarkValues, result, startIndex);
             } else {
-                adaptiveIntervalAnalysis(benchmarkValues, result, startIndex);
+                adaptiveIntervalAnalysis(benchmarkValues, result, startIndex, slaDiffThreshold);
             }
         } else {
             fixedIntervalAnalysis(benchmarkValues, result, startIndex);
@@ -114,7 +122,8 @@ public class KittySLAEvolutionAnalyzer {
         for (int i = 0; i < result.length - 1 - startIndex; i++) {
             int currentIndex = startIndex + i;
             while (currentIndex > 0 && currentIndex < result.length - 1) {
-                Violation violation = findViolation(benchmarkValues, result, currentIndex, threshold);
+                Violation violation = findViolation(benchmarkValues, result, currentIndex,
+                        result[currentIndex].getApproach2(), threshold);
                 int nextIndex = PredictionUtils.findNextIndex(violation.timestamp, result);
                 int nextSla = nextIndex > 0 ? result[nextIndex].getApproach2() : -1;
                 ViolationEvent event = new ViolationEvent(violation, nextSla);
@@ -172,22 +181,37 @@ public class KittySLAEvolutionAnalyzer {
     }
 
     private void adaptiveIntervalAnalysis(TimeSeries benchmarkValues, TraceAnalysisResult[] result,
-                                          int startIndex) {
+                                          int startIndex, double slaDiffThreshold) {
         System.out.println("[sla][offset] timestamp prediction timeToViolation(h) violationDelta");
         for (int i = 0; i < result.length - 1 - startIndex; i++) {
             int currentIndex = startIndex + i;
+            int sla = result[currentIndex].getApproach2();
+            long ts = result[currentIndex].getTimestamp();
+
             while (currentIndex >= 0 && currentIndex < result.length - 1) {
-                Violation violation = findViolation(benchmarkValues, result, currentIndex, threshold);
-                String violationDiff = maxViolationOnly ? violation.getMaxValueString() :
-                        violation.getValueString();
-                TraceAnalysisResult currentPrediction = result[currentIndex];
-                System.out.printf("[sla] %d %d %5d %-8s %s\n", i,
-                        currentPrediction.getTimestamp(),
-                        currentPrediction.getApproach2(),
-                        PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(),
-                                violation.timestamp),
-                        violationDiff);
-                currentIndex = PredictionUtils.findNextIndex(violation.timestamp, result);
+                Violation violation = findViolation(benchmarkValues, result, currentIndex,
+                        sla, threshold);
+                int nextIndex = PredictionUtils.findNextIndex(violation.timestamp, result);
+                double slaDiff;
+                if (nextIndex >= 0) {
+                    slaDiff = (result[nextIndex].getApproach2() - sla) / (double) sla;
+                } else {
+                    // End of trace -- must print this event
+                    slaDiff = 1.0;
+                }
+
+                if (slaDiff >= slaDiffThreshold) {
+                    String violationDiff = maxViolationOnly ? violation.getMaxValueString() :
+                            violation.getValueString();
+                    System.out.printf("[sla] %d %d %5d %-8s %s\n", i, ts, sla,
+                            PredictionUtils.getTimeInHours(ts, violation.timestamp),
+                            violationDiff);
+                    if (nextIndex >= 0) {
+                        ts = result[nextIndex].getTimestamp();
+                        sla = result[nextIndex].getApproach2();
+                    }
+                }
+                currentIndex = nextIndex;
             }
         }
     }
@@ -202,7 +226,8 @@ public class KittySLAEvolutionAnalyzer {
         System.out.println("[sla] timestamp prediction timeToViolation(h)");
         while (currentIndex >= 0 && currentIndex < result.length - 1) {
             TraceAnalysisResult currentPrediction = result[currentIndex];
-            Violation violation = findViolation(benchmarkValues, result, currentIndex, threshold);
+            Violation violation = findViolation(benchmarkValues, result, currentIndex,
+                    currentPrediction.getApproach2(), threshold);
             System.out.printf("[sla] %d %5d %-8s\n", currentPrediction.getTimestamp(),
                     currentPrediction.getApproach2(),
                     PredictionUtils.getTimeInHours(currentPrediction.getTimestamp(),
@@ -216,7 +241,8 @@ public class KittySLAEvolutionAnalyzer {
                              int startIndex, double threshold) {
         List<Long> violationTimes = new ArrayList<>();
         for (int i = startIndex; i < result.length; i+=15) {
-            Violation violation = findViolation(benchmarkValues, result, i, threshold);
+            Violation violation = findViolation(benchmarkValues, result, i,
+                    result[i].getApproach2(), threshold);
             violationTimes.add(violation.timestamp - result[i].getTimestamp());
         }
         Collections.sort(violationTimes);
@@ -225,17 +251,15 @@ public class KittySLAEvolutionAnalyzer {
     }
 
     private Violation findViolation(TimeSeries benchmarkValues, TraceAnalysisResult[] results,
-                                    int index, double threshold) {
+                                    int index, int sla, double threshold) {
         int consecutiveViolations = 0, consecutiveSamples = 0, total = 0;
         TraceAnalysisResult r = results[index];
-        long ts = r.getTimestamp();
-        int sla = r.getApproach2();
         int cwrong = r.getCwrong();
         List<Integer> violationValues = new ArrayList<>();
 
         for (int i = 0; i < benchmarkValues.length(); i++) {
             long currentTime = benchmarkValues.getTimestampByIndex(i);
-            if (currentTime < ts) {
+            if (currentTime < r.getTimestamp()) {
                 continue;
             }
 
@@ -278,6 +302,7 @@ public class KittySLAEvolutionAnalyzer {
             addOption(options, "mv", "max-violation", false, "Output only the max SLA violations");
             addOption(options, "ec", "event-counter", false, "Enable event counting mode");
             addOption(options, "vt", "violation-threshold", true, "Threshold value used to detect SLA violations");
+            addOption(options, "sd", "sla-diff-threshold", true, "Threshold diff value between two SLAs to detect a change point");
         }
 
         @Override
