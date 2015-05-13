@@ -101,7 +101,7 @@ public class QBETSTracingPredictor implements Predictor {
         }
     }
 
-    private TraceAnalysisResultSet analyzeMethod(MethodInfo method) throws IOException {
+    private TraceAnalysisResultSet analyzeMethod(final MethodInfo method) throws IOException {
         List<Path> pathsOfInterest = PredictionUtils.getPathsOfInterest(method);
         if (pathsOfInterest.size() == 0) {
             log(method, -1, "No paths with API calls found.");
@@ -111,7 +111,7 @@ public class QBETSTracingPredictor implements Predictor {
         log(method, -1, pathsOfInterest.size() + PredictionUtils.pluralize(
                 pathsOfInterest.size(), " path") + " with API calls found.");
 
-        List<Path> uniquePaths = new ArrayList<>();
+        final List<Path> uniquePaths = new ArrayList<>();
         uniquePaths.add(pathsOfInterest.get(0));
         for (int i = 1; i < pathsOfInterest.size(); i++) {
             Path current = pathsOfInterest.get(i);
@@ -130,8 +130,24 @@ public class QBETSTracingPredictor implements Predictor {
         log(method, -1, uniquePaths.size() + " unique " + PredictionUtils.pluralize(
                 uniquePaths.size(), "path") + " with API calls found.");
         TraceAnalysisResultSet resultSet = new TraceAnalysisResultSet();
+        List<Future<PathResult>> futures = new ArrayList<>();
         for (int i = 0; i < uniquePaths.size(); i++) {
-            resultSet.addResult(analyzePath(method, uniquePaths.get(i), i));
+            final int pathIndex = i;
+            Future<PathResult> f = methodWorkerPool.submit(new Callable<PathResult>() {
+                @Override
+                public PathResult call() throws Exception {
+                    return analyzePath(method, uniquePaths.get(pathIndex), pathIndex);
+                }
+            });
+            futures.add(f);
+        }
+
+        for (Future<PathResult> f : futures) {
+            try {
+                resultSet.addResult(f.get());
+            } catch (Exception e) {
+                throw new IOException(e);
+            }
         }
         return resultSet;
     }
