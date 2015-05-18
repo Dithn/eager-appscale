@@ -51,6 +51,9 @@ public class CacheUpdater {
         this.config = config;
         int workers = Runtime.getRuntime().availableProcessors() - 1;
         System.out.println("Using pool with " + workers + " threads for quantile computation");
+        // Calls to bm-data-service fires off QBETS jobs at bm-data-service.
+        // Since these jobs are highly CPU-bound, we should limit the number
+        // of tasks by using a fix-sized thread pool.
         this.exec = Executors.newFixedThreadPool(workers);
     }
 
@@ -58,6 +61,16 @@ public class CacheUpdater {
         exec.shutdownNow();
     }
 
+    /**
+     * Retrieve quantiles for each API call in the given path.
+     *
+     * @param path Path consisting of one or more API calls.
+     * @param method MethodInfo to which the path belongs
+     * @param pathIndex A unique ID associated with the path
+     * @param quantile Quantile to be computed for each API call
+     * @param dataPoints Number of data points to retain in the calculated time series
+     * @throws IOException on error
+     */
     public void updateCacheForAPICalls(Path path, MethodInfo method, int pathIndex,
                                        double quantile, int dataPoints) throws IOException {
         List<Future> futures = new ArrayList<>();
@@ -80,6 +93,17 @@ public class CacheUpdater {
         }
     }
 
+    /**
+     * Retrieve quantiles for the given path (aggregate all API calls in the path into a
+     * single entity).
+     *
+     * @param path Path consisting of one or more API calls.
+     * @param method MethodInfo to which the path belongs
+     * @param pathIndex A unique ID associated with the path
+     * @param quantile Quantile to be computed for each API call
+     * @param dataPoints Number of data points to retain in the calculated time series
+     * @throws IOException on error
+     */
     public void updateCacheForPath(Path path, MethodInfo method, int pathIndex,
                                    double quantile, int dataPoints, TimeSeries aggr) throws IOException {
 
