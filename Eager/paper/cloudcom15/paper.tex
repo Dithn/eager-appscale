@@ -1,4 +1,10 @@
-\documentclass[compsoc]{IEEEtran}
+\documentclass[conference,compsoc]{IEEEtran}
+
+\usepackage{amsmath}
+\usepackage{mathptmx}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.png,.jpg}
+
 \hyphenation{op-tical net-works semi-conduc-tor}
 
 \begin{document}
@@ -11,8 +17,8 @@
 % use a multiple column layout for up to three different
 % affiliations
 \author{
-\IEEEauthorblockN{Hiranya Jayathilaka, Chandra Krintz, Rich Wolski}\\
-\IEEEauthorblockA{Department of Computer Science
+\IEEEauthorblockN{Hiranya Jayathilaka, Chandra Krintz and Rich Wolski}
+\IEEEauthorblockA{Department of Computer Science\\
 UC Santa Barbara\\
 Santa Barbara, CA, USA\\
 Email: \{hiranya,ckrintz,rich\}@cs.ucsb.edu}
@@ -35,6 +41,9 @@ IEEEtran.cls version 1.7 and later.
 % (should never be an issue)
 I wish you the best of success.
 
+\section{Results}
+\label{sec:results}
+\input{results}
 
 \section{Conclusion}
 The conclusion goes here.
