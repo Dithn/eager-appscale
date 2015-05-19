@@ -39,12 +39,8 @@ func main() {
 				return
 			}
 			if index != prev {
-				if count > 1 {
-					// Do not count clients with just 1 SLA change (this is the end-of-trace event).
-					// For clients with more than 1 SLA change, count one less to account for the 
-					// end-of-change event.
-					results[count - 1] += 1
-				}
+				// Count one less to account for the end-of-change event.
+				results[count - 1] += 1
 				count = 0
 			}
 			count += 1

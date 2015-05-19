@@ -2,19 +2,53 @@ Now we present the results obtained from the experiment described in the previou
 analyze the number of SLA renegotiations performed by each API consumer during the 112 day
 period of the experiment, and calculate a set of cumulative distribution functions (CDF). These
 CDFs describe the probability of finding an API consumer that experienced a given number of
-renegotiation events. Figure 1 illustrates the resulting CDFs.
+renegotiation events. Figure~\ref{fig:renegotiation_cdf} illustrates the resulting CDFs.
 
-According to Figure 1, the largest number of SLA renegotiations experienced by any user is 6. This is
-with regard to the StudentInfo\#addStudent operation. In all web APIs, at least 95\% of the API
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{renegotiation_cdf}
+\caption{CDF of the number of renegotiation events faced by API consumers..}
+\label{fig:renegotiation_cdf}
+\vspace{-0.2in}
+\end{figure}
+
+According to Figure~\ref{fig:renegotiation_cdf}, the largest number of SLA renegotiations experienced by 
+any user is 6. This is
+with regard to the StudentInfo\#addStudent operation. Across all web APIs, at least 96\% of the API
 consumers experience no more than 4 renegotiation events during the period of 112 days. Further,
-at least 75\% of the API consumers see no more than 3 SLA renegotiations. These statistics
+at least 76\% of the API consumers see no more than 3 SLA renegotiations, and at least 18\% of
+the API consumers observe no more than 1. These statistics
 indicate that SLAs predicted by Cerebro for the Google App Engine environment are fairly
 stable over time, and renegotiation is required only rarely. From an API consumer's perspective
 this is a highly desirable property, since it reduces the frequency and the overhead of SLA renegotiation.
 
 Next we analyze the time duration between SLA renegotiation events. For this we combine the SLA validity
 periods computed for each API consumer into a single statistical distribution. 
-Table 1 shows the 5th percentile, mean and 95th percentile of these combined distributions. The smallest
+Table~\ref{tab:validity_periods} shows the 5th percentile, mean and 95th percentile of these combined distributions. 
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Operation & $5^{th}$ & Mean & $95^{th}$ \\ \hline
+StudentInfo\#getStudent & 12.97 & 631.24 & 1911.19 \\ \hline
+StudentInfo\#deleteStudent & 7.65 & 472.07 & 2031.59 \\ \hline
+StudentInfo\#addStudent & 0.05 & 458.24 & 1711.08 \\ \hline
+ServerHealth\#info & 12.96 & 630.01 & 1911.19 \\ \hline
+Rooms\#getRoomByName & 8.48 & 345.13 & 1096.53 \\ \hline
+Rooms\#getRoomsInCity & 20.56 & 296.44 & 1143.45 \\ \hline
+Stocks\#buy & 8.46 & 411.75 & 815.5 \\ \hline
+\end{tabular}
+\end{center}
+\caption{Prediction validity period distributions of different operations in
+Google App Engine. $5^{th}$ and $95^{th}$ 
+columns represent the 5th and 95th percentiles of the
+distributions respectively. All values are in hours.
+\label{tab:validity_periods}
+}
+\end{table}
+
+The smallest
 mean SLA validity period observed in our experiments is 296.44 hours (12.35 days). This value is given by the
 Rooms\#getRoomsInCity operation. 
 This implies that on average, API consumers do not have to renegotiate Cerebro-predicted SLAs
