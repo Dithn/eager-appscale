@@ -1,0 +1,89 @@
+In this section we describe the experimental methodology we employed to evaluate Cerebro's SLA
+changes. Our experiments are aimed at estimating the regularity at
+which Cerebro requires API consumers to renegotiate the auto-generated performance SLAs. That is,
+we plan to assess the number of times an API consumer will be prompted to renegotiate a
+SLA due to the dynamic performance changes that occur in the cloud platform, and the time duration
+between these renegotiation events.
+
+We deploy Cerebro's cloud SDK monitoring agent in the Google App Engine cloud, and let it benchmark
+the cloud SDK operations every 60 seconds for a long period (~112 days). Then we use Cerebro
+to make 95th percentile SLA predictions for the following group of five open source web applications. 
+
+\begin{description}
+\item[StudentInfo] RESTful (JAX-RS) application for managing
+students of a class (adding, removing, and listing student information).
+\item[ServerHealth] Monitors, computes, and reports statistics for server
+uptime for a given web URL.
+\item[SocialMapper] A simple social networking application with APIs for
+adding users and comments.
+\item[StockTrader] A stock trading application that
+provides APIs for adding users, registering companies, buying and selling
+stocks among users. 
+\item[Rooms] A hotel booking application with APIs
+for registering hotels and querying available rooms.
+\end{description}
+
+Cerebro analyzes the benchmarking results collected
+by the cloud SDK monitor, and generates sequences of SLA predictions for the web APIs in the above
+applications. Each prediction sequence
+is a time series that spans the duration in which the cloud SDK monitor was active
+in the cloud. Each prediction is timestamped. Therefore given any timestamp that falls within the
+112 day period of the experiment, we can find a SLA prediction that is close to it. Further, each prediction
+is associated with an integer value which indicates the consecutive number of SLA violations that should be
+observed, before we may consider the prediction as obsolete.
+
+We also compute the actual web API response times for the above five applications. This is done
+by simply summing up the benchmarking data gathered by the cloud SDK monitor. For example,
+consider a web API that executes the cloud SDK operations $O_{1}$, $O_{2}$ and $O_{1}$ in that order. 
+Now suppose the cloud SDK monitor has gathered following benchmarking results for $O_{1}$ and
+$O_{2}$:
+
+\begin{itemize}
+\item $O_{1}$: [$t_{1}:x_{1}$, $t_{2}:x_{2}$, $t_{3}:x_{3}$...]
+\item $O_{2}$: [$t_{1}:y_{1}$, $t_{2}:y_{2}$, $t_{3}:y_{3}$...]
+\end{itemize}
+
+Here $t_{i}$ are timestamps at which the benchmark operations were performed. $x_{i}$ and $y_{i}$ are
+execution times of the two SDK operations measured in milliseconds. Given this benchmarking data,
+we can calculate the time series of actual response time of the API as follows:
+
+[$t_{1}:2x_{1}+y_{1}$, $t_{2}:2x_{2}+y_{2}$, $t_{3}:2x_{3}+y_{3}$...]
+
+The coefficient $2$ that appears with each $x_{i}$ term accounts for the fact that our web API
+invokes $O_{1}$ twice. In this manner, we can combine the static analysis
+results of Cerebro with the cloud SDK benchmarking data to obtain a time series of estimated
+actual response times for all web APIs in our sample applications.
+
+Having obtained a time series of SLA predictions ($T_{p}$) and a time series of actual response 
+times ($T_{a}$) for each web API, we perform the following computation. From $T_{p}$ we pick a
+pair $<s_{0},t_{0}>$, where $s_{0}$ is a predicted SLA value and $t_{0}$ is the timestamp associated with it. 
+Then starting from $t_{0}$, we scan the time series $T_{a}$ to detect the earliest point in time
+at which we can consider the predicted SLA value $s_{0}$ as invalid. This is done by comparing $s_{0}$
+against each entry in $T_{a}$ that has a timestamp greater than or equal to $t_{0}$ , until we see $C_{w}$ 
+consecutive entries that are larger than $s_{0}$. Here $C_{w}$ is the rare event threshold 
+computed by Cerebro when making SLA predictions. Having found such an SLA invalidation
+event at time $t^{\prime}$, we record the duration $t^{\prime} - t_{0}$ (i.e. the SLA validity period) and 
+increment the counter $invalidations$, 
+which starts from $0$. Then we pick the pair $<s_{1},t_{1}>$ from $T_{p}$ where $t_{1}$ is the smallest
+timestamp greater than or equal to $t^{\prime}$, and $s_{1}$ is the predicted SLA value at that timestamp.
+Then we scan $T_{a}$ starting from $t_{1}$, until we detect the next SLA invalidation (for $s_{1})$. 
+We repeat this process
+until we exhaust either $T_{p}$ or $T_{a}$. At the end of this computation we have a distribution of SLA
+validity periods, and the counter $invalidations$ indicates the number of SLA invalidations we encountered
+in the process.
+
+This experimental procedure simulates the process by which a single API consumer would
+negotiate and renegotiate an API SLA. Selecting the first pair of values $<s_{0},t_{0}>$ represents
+the API consumer negotiating the SLA for the first time. When this SLA becomes invalid, the API consumer
+renegotiates for a new SLA, which is represented by the selection of the pair $<s_{1},t_{1}>$. 
+Therefore, when the simulation reaches the end of the time series, we can determine how many times the
+API consumer had to renegotiate the SLA (given by $invalidations$). The
+recorded SLA validity periods give an indication of the time between these renegotiation events.
+
+For a given web API we perform the above simulation many times, using each entry in $T_{p}$ as
+a starting point. That is, in each run we change our selection of $<s_{0},t_{0}>$ to be a different
+entry in $T_{p}$. This way for a time series comprising of $n$ entries, we can run the simulation 
+$n-1$ times, discarding the last entry. We can assume that each simulation represents a different API
+consumer. Therefore, at the end of a complete execution of the experiment we have the SLA
+renegotiation counts for many different API consumers, and the empirical SLA validity period distributions 
+for each of them.
