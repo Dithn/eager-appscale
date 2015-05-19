@@ -1,0 +1,27 @@
+Now we present the results obtained from the experiment described in the previous section. We 
+analyze the number of SLA renegotiations performed by each API consumer during the 112 day
+period of the experiment, and calculate a set of cumulative distribution functions (CDF). These
+CDFs describe the probability of finding an API consumer that experienced a given number of
+renegotiation events. Figure 1 illustrates the resulting CDFs.
+
+According to Figure 1, the largest number of SLA renegotiations experienced by any user is 6. This is
+with regard to the StudentInfo\#addStudent operation. In all web APIs, at least 95\% of the API
+consumers experience no more than 4 renegotiation events during the period of 112 days. Further,
+at least 75\% of the API consumers see no more than 3 SLA renegotiations. These statistics
+indicate that SLAs predicted by Cerebro for the Google App Engine environment are fairly
+stable over time, and renegotiation is required only rarely. From an API consumer's perspective
+this is a highly desirable property, since it reduces the frequency and the overhead of SLA renegotiation.
+
+Next we analyze the time duration between SLA renegotiation events. For this we combine the SLA validity
+periods computed for each API consumer into a single statistical distribution. 
+Table 1 shows the 5th percentile, mean and 95th percentile of these combined distributions. The smallest
+mean SLA validity period observed in our experiments is 296.44 hours (12.35 days). This value is given by the
+Rooms\#getRoomsInCity operation. 
+This implies that on average, API consumers do not have to renegotiate Cerebro-predicted SLAs
+for at least 12.35 days.
+The smallest 5th percentile value of 0.05 hours is shown by
+the StudentInfo\#addStudent operation, but this appears to be a special case compared to the other web API
+operations. The second smallest 5th percentile value of 7.65 hours is shown by the 
+StudentInfo\#deleteStudent operation. Therefore, ignoring the StudentInfo\#addStudent operation, API
+consumers observe SLA validity periods longer than 7.65 hours at least 95\% of the time. That is, the time
+between SLA renegotiations is greater than 7.65 hours at least 95\% of the time.
