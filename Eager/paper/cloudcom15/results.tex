@@ -7,7 +7,7 @@ renegotiation events. Figure~\ref{fig:renegotiation_cdf} illustrates the resulti
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{renegotiation_cdf}
-\caption{CDF of the number of renegotiation events faced by API consumers..}
+\caption{CDF of the number of renegotiation events faced by API consumers.}
 \label{fig:renegotiation_cdf}
 \vspace{-0.2in}
 \end{figure}
@@ -59,3 +59,33 @@ operations. The second smallest 5th percentile value of 7.65 hours is shown by t
 StudentInfo\#deleteStudent operation. Therefore, ignoring the StudentInfo\#addStudent operation, API
 consumers observe SLA validity periods longer than 7.65 hours at least 95\% of the time. That is, the time
 between SLA renegotiations is greater than 7.65 hours at least 95\% of the time.
+
+So far we have simulated the API consumer behavior, assuming that they will be willing to renegotiate the
+SLA every time an SLA invalidation occurs in Cerebro. But if the new SLA predicted by Cerebro is very
+close to the SLA value that became invalid, the API consumer may not be willing to pay the overhead of
+SLA renegotiation. Rather, they would be content to proceed with the old SLA for some more time. In order
+to incorporate this behavior of API consumers into our simulation process, we introduce a new parameter 
+\textit{sla\_delta\_threshold} into our calculations. This parameter takes on a percentage value which
+represents the minimum acceptable percentage difference between the old and new SLA values at renegotiation.
+If the percentage difference between the two SLA values is below this threshold, we do not record the
+SLA validity period, nor increment the count of the SLA invalidations. In other words, we do not consider
+it a renegotiation event at all. We simply carry on with the
+old SLA value until we come across an invalidation event, where the new SLA prediction is off from the
+old SLA by at least \textit{sla\_delta\_threshold} percent. Note that we can consider our previous experiment
+as a special case where \textit{sla\_delta\_threshold} was set to 0.
+
+Next we repeat our simulations with different values for \textit{sla\_delta\_threshold}. Figure~\ref{fig:renegotiation_cdf_sd10}
+shows the resulting per-user renegotiation count CDFs when the threshold is set to 10\%. That is, we 
+do not prompt the API consumer to renegotiate an SLA, unless the new SLA is at least 10\% off from the old one.
+Here we can immediately see that the maximum number of renegotiation events experienced by the API
+consumers have dropped to 5 (from 6). Also most of the probabilities have shifted slightly upwards. For instance,
+now more than 82\% of the users see 3 or less renegotiation events. Therefore, the introduction of the
+\textit{sla\_delta\_threshold} has made renegotiations even more scarce.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{renegotiation_cdf_sd10}
+\caption{CDF of the number of renegotiation events faced by API consumers, when  \textit{sla\_delta\_threshold} = 10\%}
+\label{fig:renegotiation_cdf_sd10}
+\vspace{-0.2in}
+\end{figure}
