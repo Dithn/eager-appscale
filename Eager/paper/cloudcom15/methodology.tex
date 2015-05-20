@@ -7,15 +7,13 @@ between these renegotiation events.
 
 We deploy Cerebro's cloud SDK monitoring agent in the Google App Engine cloud, and let it benchmark
 the cloud SDK operations every 60 seconds for a long period (~112 days). Then we use Cerebro
-to make 95th percentile SLA predictions for the following group of five open source web applications. 
+to make 95th percentile SLA predictions for the following group of four open source web applications. 
 
 \begin{description}
 \item[StudentInfo] RESTful (JAX-RS) application for managing
 students of a class (adding, removing, and listing student information).
 \item[ServerHealth] Monitors, computes, and reports statistics for server
 uptime for a given web URL.
-\item[SocialMapper] A simple social networking application with APIs for
-adding users and comments.
 \item[StockTrader] A stock trading application that
 provides APIs for adding users, registering companies, buying and selling
 stocks among users. 

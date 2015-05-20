@@ -93,3 +93,42 @@ introduction of the \textit{sla\_delta\_threshold} has made renegotiations even 
 We also ran simulations with \textit{sla\_delta\_threshold} set to 20\%. This introduced some marginal 
 shifts to the probability values in the CDFs (more than 84\% of the users see 3 or less renegotiations), 
 but the maximum number of renegotiations remained at 5.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Operation & $5^{th}$ & Mean & $95^{th}$ \\ \hline
+StudentInfo\#getStudent & 19.93 & 644.58 & 1911.19 \\ \hline
+StudentInfo\#deleteStudent & 7.93 & 512.52 & 2031.59 \\ \hline
+StudentInfo\#addStudent & 0.05 & 491.68 & 1711.08 \\ \hline
+ServerHealth\#info & 19.91 & 643.33 & 1911.19 \\ \hline
+Rooms\#getRoomByName & 8.48 & 392.01 & 1096.53 \\ \hline
+Rooms\#getRoomsInCity & 21.82 & 304.97 & 1143.45 \\ \hline
+Stocks\#buy & 7.41 & 510.31 & 1277.7 \\ \hline
+\end{tabular}
+\end{center}
+\caption{Prediction validity period distributions of different operations in
+Google App Engine when \textit{sla\_delta\_threshold} = 10\%. $5^{th}$ and $95^{th}$ 
+columns represent the 5th and 95th percentiles of the
+distributions respectively. All values are in hours.
+\label{tab:validity_periods_sd10}
+}
+\end{table}
+
+Table~\ref{tab:validity_periods_sd10} shows the SLA validity period distributions computed
+when  \textit{sla\_delta\_threshold} was set to 10\%. Here, as expected  most of the mean and 5th
+percentile values have increased slightly from their original values. The smallest mean value
+recorded in the table is 304.97 hours. We observed some more subtle shifts in the values
+when the threshold was set to 20\%.
+
+Based on the above results we can conclude that the performance SLAs predicted by Cerebro 
+for the Google App Engine cloud environment are stable over time. That is, the predictions are 
+valid for long periods of time, and API consumers do not have to renegotiate the SLAs very 
+often. In our experiment spanning over a period of 112
+days, the maximum number of renegotiations a user had to undergo was 6. More than 76\% of
+the users experienced only 3 or less renegotiations. We can further reduce the number of 
+SLA renegotiations per API consumer by introducing a threshold for the minimum applicable
+percentage SLA change. This helps to eliminate the cases where an old SLA has been marked as invalid
+by our statistical model for detecting SLA invalidations, but the new SLA predicted by Cerebro is not
+very different from the old one.
