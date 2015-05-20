@@ -75,12 +75,12 @@ old SLA by at least \textit{sla\_delta\_threshold} percent. Note that we can con
 as a special case where \textit{sla\_delta\_threshold} was set to 0.
 
 Next we repeat our simulations with different values for \textit{sla\_delta\_threshold}. Figure~\ref{fig:renegotiation_cdf_sd10}
-shows the resulting per-user renegotiation count CDFs when the threshold is set to 10\%. That is, we 
+shows the resulting CDFs of per-user renegotiation count when the threshold is set to 10\%. That is, we 
 do not prompt the API consumer to renegotiate an SLA, unless the new SLA is at least 10\% off from the old one.
 Here we can immediately see that the maximum number of renegotiation events experienced by the API
-consumers have dropped to 5 (from 6). Also most of the probabilities have shifted slightly upwards. For instance,
-now more than 82\% of the users see 3 or less renegotiation events. Therefore, the introduction of the
-\textit{sla\_delta\_threshold} has made renegotiations even more scarce.
+consumers have dropped from 6 to 5. Also most of the probabilities have shifted slightly upwards. For instance,
+now more than 82\% of the users see 3 or less renegotiation events (as opposed to 76\%). Therefore, the 
+introduction of the \textit{sla\_delta\_threshold} has made renegotiations even more scarce.
 
 \begin{figure}
 \centering
@@ -89,3 +89,7 @@ now more than 82\% of the users see 3 or less renegotiation events. Therefore, t
 \label{fig:renegotiation_cdf_sd10}
 \vspace{-0.2in}
 \end{figure}
+
+We also ran simulations with \textit{sla\_delta\_threshold} set to 20\%. This introduced some marginal 
+shifts to the probability values in the CDFs (more than 84\% of the users see 3 or less renegotiations), 
+but the maximum number of renegotiations remained at 5.
