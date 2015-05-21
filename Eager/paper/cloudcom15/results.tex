@@ -23,7 +23,7 @@ stable over time, and renegotiation is required only rarely. From an API consume
 this is a highly desirable property, since it reduces the frequency and the overhead of SLA renegotiation.
 
 Next we analyze the time duration between SLA renegotiation events. For this we combine the SLA validity
-periods computed for each API consumer into a single statistical distribution. 
+periods computed for different API consumers into a single statistical distribution. 
 Table~\ref{tab:validity_periods} shows the 5th percentile, mean and 95th percentile of these combined distributions. 
 
 \begin{table}
@@ -45,6 +45,28 @@ Google App Engine. $5^{th}$ and $95^{th}$
 columns represent the 5th and 95th percentiles of the
 distributions respectively. All values are in hours.
 \label{tab:validity_periods}
+}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Operation & $5^{th}$ & Mean & $95^{th}$ \\ \hline
+StudentInfo\#getStudent & 19.93 & 644.58 & 1911.19 \\ \hline
+StudentInfo\#deleteStudent & 7.93 & 512.52 & 2031.59 \\ \hline
+StudentInfo\#addStudent & 0.05 & 491.68 & 1711.08 \\ \hline
+ServerHealth\#info & 19.91 & 643.33 & 1911.19 \\ \hline
+Rooms\#getRoomByName & 8.48 & 392.01 & 1096.53 \\ \hline
+Rooms\#getRoomsInCity & 21.82 & 304.97 & 1143.45 \\ \hline
+Stocks\#buy & 7.41 & 510.31 & 1277.7 \\ \hline
+\end{tabular}
+\end{center}
+\caption{Prediction validity period distributions of different operations in
+Google App Engine when \textit{sla\_delta\_threshold} = 10\%. $5^{th}$ and $95^{th}$ 
+columns represent the 5th and 95th percentiles of the
+distributions respectively. All values are in hours.
+\label{tab:validity_periods_sd10}
 }
 \end{table}
 
@@ -94,28 +116,6 @@ We also ran simulations with \textit{sla\_delta\_threshold} set to 20\%. This in
 shifts to the probability values in the CDFs (more than 84\% of the users see 3 or less renegotiations), 
 but the maximum number of renegotiations remained at 5.
 
-\begin{table}
-\begin{center}
-\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
-\hline
-Operation & $5^{th}$ & Mean & $95^{th}$ \\ \hline
-StudentInfo\#getStudent & 19.93 & 644.58 & 1911.19 \\ \hline
-StudentInfo\#deleteStudent & 7.93 & 512.52 & 2031.59 \\ \hline
-StudentInfo\#addStudent & 0.05 & 491.68 & 1711.08 \\ \hline
-ServerHealth\#info & 19.91 & 643.33 & 1911.19 \\ \hline
-Rooms\#getRoomByName & 8.48 & 392.01 & 1096.53 \\ \hline
-Rooms\#getRoomsInCity & 21.82 & 304.97 & 1143.45 \\ \hline
-Stocks\#buy & 7.41 & 510.31 & 1277.7 \\ \hline
-\end{tabular}
-\end{center}
-\caption{Prediction validity period distributions of different operations in
-Google App Engine when \textit{sla\_delta\_threshold} = 10\%. $5^{th}$ and $95^{th}$ 
-columns represent the 5th and 95th percentiles of the
-distributions respectively. All values are in hours.
-\label{tab:validity_periods_sd10}
-}
-\end{table}
-
 Table~\ref{tab:validity_periods_sd10} shows the SLA validity period distributions computed
 when  \textit{sla\_delta\_threshold} was set to 10\%. Here, as expected  most of the mean and 5th
 percentile values have increased slightly from their original values. The smallest mean value
@@ -131,4 +131,6 @@ the users experienced only 3 or less renegotiations. We can further reduce the n
 SLA renegotiations per API consumer by introducing a threshold for the minimum applicable
 percentage SLA change. This helps to eliminate the cases where an old SLA has been marked as invalid
 by our statistical model for detecting SLA invalidations, but the new SLA predicted by Cerebro is not
-very different from the old one.
+very different from the old one. However, the effect of this parameter starts to diminish as we
+increase its value. In our experiments, we observed the best results when the threshold was
+set to 10\%. Setting it to 20\% did not achieve significantly better results.
