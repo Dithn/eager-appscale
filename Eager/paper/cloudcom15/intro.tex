@@ -1,13 +1,13 @@
-Over the years web services have become a foundational technology that enables implementing
-complex applications in a simple and modular fashion. Many web applications, cloud services and mobile
+Over the years web services have become an essential technology for implementing
+complex distributed applications in a simple and modular fashion. Many web applications, cloud services and mobile
 applications in popular use today, depend on one or more remote web services. More specifically, such
 applications heavily rely on the web application programming interfaces (web APIs) through
 which the remote web services are exposed to the Internet.
 
 Developing applications using existing web services (and APIs) has several benefits. From an
-architect's point of view, web APIs promote modularity, loose coupling and separation of concerns. From
-a programmer's point of view, they expedite development sprints, reduce code duplication and simplify
-long term maintenance. These benefits have propelled web APIs to high popularity,
+architectural point of view, web APIs promote modularity, loose coupling and separation of concerns. From
+an implementation point of view, they expedite development sprints, reduce code duplication and simplify
+long term maintenance. These benefits have propelled web APIs to extreme popularity,
 as evidenced by the explosive growth of web APIs on the Internet. 
 
 However, reusing existing services also poses several challenges. In particular, web services
@@ -15,7 +15,33 @@ impact the correctness, performance, and availability of the
 applications that depend on them. Also, web services change over time while their APIs remain 
 stable, unbeknownst to the developers that use them (an artifact of loose coupling).
 Unfortunately, up until now there has been a shortage of tools to help developers 
-reason about these dependencies throughout an application's 
+reason about web API dependencies throughout an application's 
 lifecycle (i.e. development, deployment, and runtime).  Without such tools, 
 programmers had to resort to extensive testing and profiling 
 to understand the performance impact of web APIs on their applications.
+
+To address these issues, we have developed Cerebro, a new approach that
+predicts the response time of web APIs hosted in Platform-as-a-Service (PaaS) clouds.
+Cerebro enables the PaaS administrator to determine what response time service level 
+agreement (SLA) can be fulfilled by each web API operation exported by the applications
+hosted in the PaaS. 
+
+Applications developed for PaaS clouds rely on a collection of
+scalable services offered by the underlying cloud platform. These services are exposed to
+the application through a cloud-specific software development kit (cloud SDK). Cerebro
+employs static analysis to extract the sequence of cloud SDK operations invoked by a
+given PaaS-hosted application, and combines that information with monitoring
+data pertaining to those cloud SDK operations to predict an upper bound for the response
+time of the application. This approach is fast, does not require any testing or profiling
+of the application, and can be used to predict performance SLAs for a web API before
+it is even deployed in the target PaaS cloud.
+
+Our previous work has shown that the response time SLAs predicted by Cerebro are
+\begin{itemize}
+\item Accurate: Predicted upper bounds exceed the actual response time of the APIs
+with a specific, configurable success rate.
+\item Tight: Predicted upper bounds do not exceed the actual response time of the APIs by
+a large margin (i.e. the predicted values are sufficiently close to the actual values).
+\item Durable: Predicted SLAs remain valid for a sufficiently long period, before they
+become obsolete due to the changes that occur in the cloud platform.
+\end{itemize}
