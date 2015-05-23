@@ -1,6 +1,6 @@
 Over the years web services have become an essential technology for implementing
 complex distributed applications in a simple and modular fashion. Many web applications, cloud services and mobile
-applications in popular use today, depend on one or more remote web services. More specifically, such
+applications today, depend on one or more remote web services. More specifically, such
 applications heavily rely on the web application programming interfaces (web APIs) through
 which the remote web services are exposed to the Internet.
 
@@ -45,3 +45,30 @@ a large margin (i.e. the predicted values are sufficiently close to the actual v
 \item Durable: Predicted SLAs remain valid for a sufficiently long period, before they
 become obsolete due to the changes that occur in the cloud platform.
 \end{itemize}
+
+In this work we further investigate the durability of the SLAs predicted by Cerebro, 
+as it applies to the developers who create applications using the cloud-hosted web APIs.
+We shall refer to such application developers as API consumers. We
+assume a simple model, where Cerebro gives each API consumer an initial response
+time SLA, when he/she first subscribes to an API. A monitoring agent built into
+Cerebro then keeps
+track of the performance changes that occur in the cloud. When it detects that the cloud
+can no longer support the previously negotiated SLA (i.e. the SLA has been
+violated or become obsolete), it prompts the API consumer, and renegotiates for a new
+SLA.
+
+We use a combination of empirical testing and simulations to analyze how the SLA values
+predicted by Cerebro change over time, and how they impact API consumers. We
+conduct all our experiments in the Google App Engine public cloud environment 
+using a set of open source Java web applications. Our results indicate that on average, the
+SLAs predicted by Cerebro do not require renegotiation for at least 12 days. We also find that
+over a period of 112 days, the maximum number of times any API consumer have to
+renegotiate a given SLA is only 6. 
+
+Sometimes when Cerebro prompts an API consumer to
+renegotiate an SLA, the predicted new SLA value is very close to the obsolete old SLA value. 
+Such renegotiations are not useful, and only serve to increase the renegotiation overhead
+for API consumers. We
+propose a threshold-based mechanism to keep such instances to a minimum, and show that
+with this optimization in place, we can further elongate the SLA validity periods, and reduce
+the maximum number of per API consumer renegotiations to 5. 
