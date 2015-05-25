@@ -69,9 +69,9 @@ value $Q$ can be used to form a response time SLA of the form ``the web API oper
 under $Q$ milliseconds at least $p$ percent of the time''.
 
 The primary use of Cerebro is as a mechanism for predicting the response time SLAs for web APIs,
-whenever a new web API is deployed to the cloud. However, our design also facilitates using
+at deployment-time. However, our design also facilitates using
 Cerebro as a development-time tool. That is, API developers can submit their work-in-progress
-code to Cerebro in order to gain a preliminary set of SLA predictions. Further, we can use
+API code to Cerebro in order to gain a preliminary set of SLA predictions. Further, we can use
 Cerebro as a runtime tool, where it periodically re-evaluates the response time SLAs for 
 APIs already deployed in the cloud.
 
@@ -120,3 +120,32 @@ generates tight predictions. That is, predictions are sufficiently close to the 
 values. Finally, we have shown that Cerebro predictions stay valid for a sufficiently long period.  
 
 \subsection{SLA Negotiation Model}
+Now we present a model by which API consumers can negotiate response time SLAs with Cerebro.
+When an API consumer starts using some web API for the first time, Cerebro offers an initial response
+time SLA for it. This initial offer can be made when the API consumer first subscribes to the API, and 
+obtains the API keys. Cerebro also records the tuple $<API\ Consumer, API, Timestamp, SLA\ Value>$
+at this point. 
+
+Afterwards, Cerebro periodically recomputes the SLA for the API. QBETS supports fast,
+online prediction of time series percentiles as more SDK benchmarking data become available, which
+facilitates efficient re-evaluation of web API SLAs. If at any point Cerebro detects that the latest SLA value
+is larger than some previously established SLA (i.e. a previously established SLA can no longer be
+fulfilled), then Cerebro notifies the affected API consumer, and establishes a new SLA. We refer to such on the fly
+SLA changes as SLA renegotiations. Cerebro also updates the $Timestamp$ and $SLA\ Value$
+entries in the appropriate data tuple for future reference.
+
+There is another type of SLA renegotiations possible in this model.
+During periodic re-evaluation, Cerebro might also come across situations where the latest SLA is smaller
+than some previously established SLA (i.e. a tighter SLA is available). Cerebro can notify the 
+API consumer about this prospect, but wait for authorization from the API consumer before 
+establishing the SLA. If the API consumer consents to the SLA change, Cerebro may update the
+data tuple, and treat the SLA as established.
+
+We leave a more detailed discussion regarding implementing this model for our future work. That 
+discussion will address how API consumer and SLA records are maintained (data tuples), and
+how the communication between API consumer and Cerebro takes place. Also, an SLA negotiation
+model such as this is bound to have many interesting economic aspects. These include how the
+API price rates are adjusted dynamically when the SLAs change, and how the API provider is penalized
+when a previously established SLA becomes invalid. We leave that also to our future work. In this work
+we use empirical testing and simulations to explore the feasibility of the proposed SLA negotiation model,
+and how it would impact the API consumers over time.
