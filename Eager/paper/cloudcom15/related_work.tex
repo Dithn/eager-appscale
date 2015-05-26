@@ -1,0 +1,17 @@
+SLA management on service-oriented systems and cloud systems has been 
+throughly researched over the years. However, a lot of the existing work has focused on issues 
+such as SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MMS:1980822.1980832,Raimondi:2008:EOM:1453101.1453125,Bertolino:2007:SUS:1294904.1294914} and SLA modeling~\cite{Chau:2008:ASM:1463788.1463802,Stamou:2013:SGM:2516588.2516592,Skene:2004:PSL:998675.999422}. 
+
+In our work, we predict the SLAs that can be supported on a given web API by using a combination of
+static analysis, cloud platform monitoring and time series analysis. Cerebro continuously monitors the cloud platform,
+and periodically re-evaluates the response time SLAs of web APIs -- an idea that has a lot in common with existing SLA
+monitoring techniques. Upon detecting an SLA violation, we prompt the API consumer, and negotiate a new
+SLA. Cerebro can use existing SLA negotiation methods~\cite{Mahbub:2011:PSN:2061042.2062022,Yaqub:2014:ONS:2680847.2681496,6546098} to carry out the actual communication between the cloud platform and the API consumer. 
+
+There has also been prior work in the area of predicting 
+SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
+These systems take an existing SLA and historical performance data of a service, and predict when the 
+service might violate the given SLA in the future. 
+Cerebro's notion of prediction validity period has some commonalities with this concept. In fact, Cerebro
+can make use of such a method to determine the frequency at which it should re-evaluate the predicted
+SLAs.
