@@ -14,7 +14,8 @@ all the required application components and APIs, as the use of third party serv
 restricted within the cloud platform. 
 
 Similarly, PaaS clouds may impose restrictions on performing
-certain types of I/O operations, and executing long running tasks. For example, Google App Engine
+certain types of I/O operations, and executing long running tasks~\cite{gae-limits,azure-limits,gae-sandbox}. 
+For example, Google App Engine
 denies applications access to the local file system (i.e. no file I/O). Furthermore, it forces the
 developer to implement all application tasks as request-response interactions of a web service
 where all requests must be processed
@@ -50,8 +51,8 @@ Cerebro's static analyzer is designed to extract the sequence of cloud SDK opera
 web API operation in a given application. When the application code contains branches, it
 extracts multiple sequences of cloud SDK operations -- one sequence per code path. The static
 analyzer also looks for loops, and if any cloud SDK invocations are embedded within a loop, it attempts to
-estimate loop bounds using existing loop bound analysis methods. If it fails, Cerebro prompts the 
-application developer to provide a reasonable upper
+estimate loop bounds using existing loop bound analysis methods~\cite{bygde2010static}. 
+If it fails, Cerebro prompts the application developer to provide a reasonable upper
 bound for the loop count. Our survey results show that most of the time when loops are present in
 a PaaS application, they simply iterate through a dataset loaded from the cloud datastore. 
 Therefore, determining the bounds of such data-dependent loops is equivalent to establishing an 
@@ -62,7 +63,7 @@ The SLA predictor contacts the cloud SDK monitor to retrieve the gathered benchm
 pertaining to the cloud SDK operations used in the application. The predictor aggregates
 this data according to the order and frequency of cloud SDK invocations in the application code, and forms a single
 time series of benchmark results. This aggregate time series is then processed using QBETS (Queue
-Bounds Estimation from Time Series), a 
+Bounds Estimation from Time Series)~\cite{Nurmi:2007:QQB:1791551.1791556}, a 
 non-parametric time series analysis and forecasting technique. QBETS analyzes the given time 
 series, and predicts an upper bound for its $p$-th percentile, where $p$ is configurable. The predicted
 value $Q$ can be used to form a response time SLA of the form ``the web API operation responds 
