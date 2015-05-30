@@ -1,74 +1,76 @@
-Over the years web services have become an essential technology for implementing
-complex distributed applications in a simple and modular fashion. Many web applications, cloud services and mobile
-applications today, depend on one or more remote web services. More specifically, such
-applications heavily rely on the web application programming interfaces (web APIs) through
-which the remote web services are exposed to the Internet.
+Web services today are an essential technology for implementing
+complex distributed applications.  To promote modularity and reuse, 
+and to leverage the testing, deployment and scaling support, and maintenance 
+provided by others, developers increasingly integrate remote, Internet-accessible web services 
+via web application programming interfaces (web APIs)
+into their web, cloud, and mobile applications.  
+The benefits to programmer productivity that such development practices
+permit have resulted in the explosive growth of web API availability~\cite{pweb}.
 
-Developing applications using existing web services (and APIs) has several benefits. From an
-architectural point of view, web APIs promote modularity, loose coupling and separation of concerns. From
-an implementation point of view, they expedite development sprints, reduce code duplication and simplify
-long term maintenance. These benefits have propelled web APIs to extreme popularity,
-as evidenced by the explosive growth of web APIs on the Internet~\cite{pweb}. 
-
-However, reusing existing services also poses several challenges. In particular, web services
-impact the correctness, performance, and availability of the
-applications that depend on them. Also, web services change over time while their APIs remain 
-stable, unbeknownst to the developers that use them (an artifact of loose coupling).
-Unfortunately, up until now there has been a shortage of tools to help developers 
+However, reusing existing services also poses several challenges. In particular, 
+web APIs can impact the performance, behavior, and reliability of the applications
+that integrate them.  Moreover, web service functionality can change over time 
+(even when the API remains the same), unbeknownst to the developers that use them.
+Unfortunately, there is a shortage of tools that help developers 
 reason about web API dependencies throughout an application's 
 lifecycle (i.e. development, deployment, and runtime).  Without such tools, 
-programmers had to resort to extensive testing and profiling 
-to understand the performance impact of web APIs on their applications.
+programmers must resort to extensive and continuous testing and profiling 
+to understand the impact of their use of web APIs on the performance and behavior
+of their applications.
 
-To address these issues, we have developed Cerebro, a new approach that
-predicts the response time of web APIs hosted in Platform-as-a-Service (PaaS) clouds.
+Toward this then, we investigate a new approach to understand the response time 
+of web APIs called Cerebro.  Cerebro is a cloud platform-as-a-service (PaaS) technology that
+predicts the response time of web APIs hosted by the PaaS.
 Cerebro enables the PaaS administrator to determine what response time service level 
-agreement (SLA) can be fulfilled by each web API operation exported by the applications
-hosted in the PaaS. 
+agreement (SLA) can be fulfilled by each web API operation of the 
+PaaS-hosted applications.
+To enable this, Cerebro combines static analysis of web APIs and dynamic analysis
+of the cloud platform services they use for their implementation 
+(e.g. for persistent storage, data mangement, caching, etc.) to estimate
+the response time of each.  Since in the PaaS systems we have studied, a majority 
+of the time spent it executing a web API operation results from accessing 
+PaaS services, Cerebro is able to accurately estimate operation response times.
+Cerebro does so by first extracting sequences of calls to PaaS services (which are
+typically exposed via a cloud-specific software development kit or SDK) and identifying
+the longest sequence through an operation.  Cerebro then combines this with statistical
+distributions of PaaS service performance that it collects via lightweight but direct
+monitoring (outside of application execution) of the platform.
+Doing so enable Cerebro to predict an upper bound for the response
+time of the application. Our approach is fast, does not require any modification,
+testing, or profiling of the application itself, 
+and can be used to predict performance SLAs for a web API at \textit{deployment time}
+into a PaaS cloud.
 
-Applications developed for PaaS clouds rely on a collection of
-scalable services offered by the underlying cloud platform. These services are exposed to
-the application through a cloud-specific software development kit (cloud SDK). Cerebro
-employs static analysis to extract the sequence of cloud SDK operations invoked by a
-given PaaS-hosted application, and combines that information with monitoring
-data pertaining to those cloud SDK operations to predict an upper bound for the response
-time of the application. This approach is fast, does not require any testing or profiling
-of the application, and can be used to predict performance SLAs for a web API before
-it is even deployed in the target PaaS cloud.
+In our previous work, we showed that the response time SLAs predicted by Cerebro are
+(i) Accurate: Predicted upper bounds exceed the actual response time of the APIs
+with a specific, configurable success rate and (ii)
+Tight: Predicted upper bounds do not exceed the actual response time of the APIs by
+a large margin (i.e. the predicted values are sufficiently close to the actual values). 
+In this paper, we focus on the \textit{duration} of Cerebro predictions, i.e. the period
+of time that predicted response time SLAs remain valid.  Predictions are invalidated
+when changes occur in the platform.  Such changes can result from
+congestion (multitenency), resource availability, and modifications to the implementations
+of PaaS services (abstracted by the cloud SDK calls). Invalidations require that 
+SLAs be renegotiated and thus impose overhead on developers.  
 
-Our previous work has shown that the response time SLAs predicted by Cerebro are
-\begin{itemize}
-\item Accurate: Predicted upper bounds exceed the actual response time of the APIs
-with a specific, configurable success rate.
-\item Tight: Predicted upper bounds do not exceed the actual response time of the APIs by
-a large margin (i.e. the predicted values are sufficiently close to the actual values).
-\item Durable: Predicted SLAs remain valid for a sufficiently long period, before they
-become obsolete due to the changes that occur in the cloud platform.
-\end{itemize}
-
-In this work we further investigate the durability of the SLAs predicted by Cerebro, 
-as it applies to the developers who create applications using the cloud-hosted web APIs.
-We shall refer to such application developers as API consumers. We
-assume a simple model, where Cerebro gives each API consumer an initial response
-time SLA, when he/she first subscribes to an API. A monitoring agent built into
-Cerebro then keeps
-track of the performance changes that occur in the cloud. When it detects that the cloud
-can no longer support the previously negotiated SLA (i.e. the SLA has been
-violated or become obsolete), it prompts the API consumer, and renegotiates for a new
-SLA.
+We refer to such developers as API consumers.  In our system, Cerebro
+gives each API consumer an initial response
+time SLA, when he/she first subscribes to an API. The Cerebro monitoring agent 
+then tracks of the performance changes that occur in the cloud. When Cerebro detects that the 
+cloud can no longer guarantee the previously negotiated SLA (i.e. the SLA has been
+violated or has become obsolete), Cerebro prompts the API consumer and renegotiates a new
+SLA for his/her application.
 
 We use a combination of empirical testing and simulations to analyze how the SLA values
 predicted by Cerebro change over time, and how they impact API consumers. We
-conduct all our experiments in the Google App Engine~\cite{gae} public cloud environment 
+conduct our experiments using the Google App Engine~\cite{gae} public cloud PaaS 
 using a set of open source Java web applications. Our results indicate that on average, the
 SLAs predicted by Cerebro do not require renegotiation for at least 12 days. We also find that
-over a period of 112 days, the maximum number of times any API consumer have to
-renegotiate a given SLA is only 6. 
-
-Sometimes when Cerebro prompts an API consumer to
-renegotiate an SLA, the predicted new SLA value is very close to the obsolete old SLA value. 
-Such renegotiations are not useful, and only serve to increase the renegotiation overhead
-for API consumers. We
-propose a threshold-based mechanism to keep such instances to a minimum, and show that
-with this optimization in place, we can further elongate the SLA validity periods, and reduce
-the maximum number of per API consumer renegotiations to 5. 
+over a period of 112 days, the maximum number of times any API consumer must renegotiate
+their SLA is six.
+We also find that occasionally Cerebro prompts an API consumer to
+renegotiate an SLA when the predicted new SLA value is very close to the obsolete old SLA value. 
+Such renegotiations are not useful and only serve to increase the renegotiation overhead
+for API consumers. We thus also
+propose a threshold-based mechanism to minimize such cases.  We show that doing so
+further elongates SLA validity periods and reduces the number of renegotiations.
