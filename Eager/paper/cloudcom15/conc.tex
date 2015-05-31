@@ -1,0 +1,18 @@
+Web APIs impact the correctness and performance of the applications that depend on them.
+However, most web APIs do not provide SLAs with regard to such properties, making it
+difficult to reason about the performance of the applications that use web APIs. Cerebro attempts
+to solve this problem for web APIs developed for PaaS clouds, by automatically predicting
+response-time SLAs for them. Our prior work has shown that Cerebro predicted SLAs are
+both accurate and tight.
+
+In this work we analyze the validity period of the SLAs predicted by Cerebro. We present a simple
+SLA negotiation model, and a conservative statistical approach for detecting when a predicted SLA has become
+invalid. We evaluate our methods on the Google App Engine public cloud using empirical testing
+and simulations. We find that on App Engine, Cerebro predictions are valid for at least 12 days
+on average. We also find that API consumers do not have to renegotiate SLAs often, and the maximum
+number of times an API consumer must renegotiate an SLA over a period of 112 days is six. We
+also present and evaluate a threshold-based mechanism to eliminate the SLA renegotiations where
+the old and new SLA values are very close to each other. This optimization further increases
+the average SLA validity period, and reduces the number of SLA renegotiations per API consumer.
+Overall, this work shows that automatic prediction of response-time SLAs for web APIs is practically
+viable in real world cloud settings, and API consumer timeframes. 

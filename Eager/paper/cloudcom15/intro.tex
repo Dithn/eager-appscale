@@ -47,15 +47,15 @@ and modifications to the implementations of the underlying PaaS services. Invali
 require that SLAs be renegotiated and thus impose overhead on developers that use the 
 web APIs exported by applications hosted by the PaaS.
 
-We refer to such developers as AIP consumers.  Cerebro gives each API consumer an initial 
+We refer to such developers as API consumers.  Cerebro gives each API consumer an initial 
 response time SLA when they register for an API key to use an application exported by the PaaS.
-As mentioned above, a Cerebro monitoring agent tracks of performance of the PaaS services 
+As mentioned above, a Cerebro monitoring agent tracks the performance of the PaaS services 
 continuously.  When Cerebro detects that a change has occurred in the PaaS that
-violates a previously negotiated SLA, Cerebro contacts the API consumer of hosted application
+violates a previously negotiated SLA, Cerebro contacts the API consumer
 for which the SLA is violated and renegotiates a new SLA.
 
 To analyze how SLA values predicted by Cerebro change over time and how API consumers are 
-impacted by such changes, we perform extensive testing and emprical evaluation
+impacted by such changes, we perform extensive testing and empirical evaluation
 of Google's public PaaS cloud App Engine and a set of open source Java web applications.  
 We also use simulation to explore different options for SLA renegotiation.
 Our results indicate that on average, the minimum duration for which Cerebro SLAs 
