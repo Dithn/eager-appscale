@@ -17,12 +17,12 @@ dynamic change)
 throughout an application's 
 lifecycle (i.e. development, deployment, and runtime).  
 
-In this paper we study the use of on-line monitoring and statistical
+In this paper, we study the use of on-line monitoring and statistical
 forecasting of future API runtime performance as a means of providing each
-client a guaranteed minimum performance (e.g. as the basis for a Service Level
+client with a guaranteed minimum performance (e.g. as the basis for a Service Level
 Agreement).  Most cloud platforms today offer probablistic
 Service Level Agreements (SLAs) for service reliability but not response time. 
-Our work focuses on response time SLAs for APIs that are supported as the
+Our work focuses on response time SLAs for APIs that are supported at the
 platform level (i.e. as part of ``Platform as a Service'' or \textit{PaaS}).
 
 %Without such tools, 
@@ -32,7 +32,7 @@ platform level (i.e. as part of ``Platform as a Service'' or \textit{PaaS}).
 %and behavior
 %of their applications.
 
-To address this need, we have developed Cerebro~\cite{cerebro-soccsub15},
+To enable this, we have developed Cerebro~\cite{cerebro-soccsub15},
 a cloud platform-as-a-service (PaaS) technology that
 predicts the response time of web APIs hosted by the PaaS.  Cerebro is able to
 determine automatically the bounds on API response time that are 
@@ -41,9 +41,9 @@ Our previous work~\cite{cerebro-soccsub15} describes the effectiveness of
 Cerebro SLAs for Google's PaaS platform (Google
 App Engine) and also for the AppScale~\cite{6488671} private on-premeses PaaS.  
 
-In this paper, we
+In this work, we
 explore the use of Cerebro predictions as the basis of SLAs between an API
-consumer or client
+consumer, or client,
 and a service hosted by the PaaS.  Specifically, we detail the duration
 over which SLAs offered to clients of applications running in Google App
 Engine persist.  The SLA duratiion is important because PaaS API consumers
@@ -104,5 +104,4 @@ Such renegotiations are not useful in practice and only serve to increase the re
 for API consumers. We thus also present a threshold-based mechanism that both reduces 
 the number of required renegotiations and extends SLA validity duration
 significantly.  To our knowledge, no other research or system is able to offer
-durable SLA performance guarantees for a public PaaS such as Google App
-Engine.
+durable SLA performance guarantees for a public PaaS such as Google App Engine.
