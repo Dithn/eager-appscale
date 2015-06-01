@@ -46,8 +46,16 @@ must occur with probability $0.00012$ or lower due to random chance.
 %values in a row larger than the predicted percentile due to random chance
 %is $(0.05)^3 = 0.00012$.
 
-We also compute the actual web API response times for the above four applications. This is done
-by simply summing up the benchmarking data gathered by the cloud SDK monitor. For example,
+The web API's response time for each of the four applications is computed as
+the sum of the response time of cloud SDK operations along the longest path
+through the application (the time devoted to the operations executed by the
+application is negigible by
+comparison). 
+%We also compute the actual web API response times for the above four applications. 
+The SDK response times come from the cloud SDK monitor.
+%This is done
+%by simply summing up the benchmarking data gathered by the cloud SDK monitor. 
+For example,
 consider a web API that executes the cloud SDK operations $O_{1}$, $O_{2}$ and $O_{1}$ in that order. 
 Now suppose the cloud SDK monitor has gathered following benchmarking results for $O_{1}$ and
 $O_{2}$:

@@ -1,18 +1,24 @@
 SLA management on service-oriented systems and cloud systems has been 
-throughly researched over the years. However, a lot of the existing work has focused on issues 
+studied in some depth previously.
+Much of this existing work has focused on issues 
 such as SLA monitoring~\cite{Michlmayr:2009:CQM:1657755.1657756,Tripathy:2011:MMS:1980822.1980832,Raimondi:2008:EOM:1453101.1453125,Bertolino:2007:SUS:1294904.1294914} and SLA modeling~\cite{Chau:2008:ASM:1463788.1463802,Stamou:2013:SGM:2516588.2516592,Skene:2004:PSL:998675.999422}. 
-In our work, we predict the SLAs that can be supported on a given web API by using a combination of
+In our work, we automatically identify the SLAs that can be defined and
+maintained 
+for a given web API by using a combination of
 static analysis, cloud platform monitoring and time series analysis.  
-In~\cite{cerebro-soccsub15}, we introduce Cerebro and its prediction methodology, and evaluate the
-accuracy and tightness of its response time predictions.
+%In~\cite{cerebro-soccsub15}, we introduce Cerebro and its prediction methodology, and evaluate the
+%accuracy and tightness of its response time predictions.
 
 In PROSDIN~\cite{Mahbub:2011:PSN:2061042.2062022}, a proactive service discovery and negotiation
 framework, the SLA negotiation occurs during the service discovery phase. This is similar to how
 Cerebro establishes an initial SLA with an API consumer, when the consumer subscribes to an API. PROSDIN also
 establishes a fixed SLA validity period upon negotiation, and triggers an SLA renegotiation when this time period has 
 elapsed. Cerebro on the other hand continuously monitors the cloud platform,
-and periodically re-evaluates the response time SLAs of web APIs -- an idea that draws inspiration from existing SLA
-monitoring techniques. Upon detecting an SLA violation, we prompt the API consumer, and renegotiate the SLA.
+and periodically re-evaluates the response time SLAs of web APIs 
+to determine when a re-negotiation is needed,
+%-- an idea that draws inspiration from existing SLA
+%monitoring techniques. 
+%Upon detecting an SLA violation, we prompt the API consumer, and renegotiate the SLA.
 Similarly, researchers have investigated the notions of SLA brokering~\cite{6546098}, and the automatic SLA negotiation
 between intelligent agents~\cite{Yaqub:2014:ONS:2680847.2681496}, ideas that can complement the
 simple SLA negotiation model of Cerebro to make it more powerful and flexible.
@@ -20,7 +26,9 @@ simple SLA negotiation model of Cerebro to make it more powerful and flexible.
 Meryn~\cite{Dib:2013:MOS:2465823.2465825} is an SLA-driven PaaS system that attempts to maximize cloud
 provider profit, while providing the best possible quality of service to the cloud users. It supports
 SLA negotiation at application deployment, and SLA monitoring to detect
-violations. However, it does not address SLA renegotiation, and employs a policy-based mechanism coupled
+violations. However, it does not automatically determine what SLAs are
+feasible or address SLA renegotiation, 
+and employs a policy-based mechanism coupled
 with a penalty cost charged against the cloud provider to
 handle SLA violations. Also, Meryn formulates SLAs in terms of the computing resources (CPU, memory,
 storage etc.) allocated to applications. It assumes a batch processing environment where the
