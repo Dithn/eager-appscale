@@ -46,8 +46,10 @@ each other. Cerebro runs a cloud SDK monitor in the PaaS cloud, that periodicall
 the execution time of each cloud SDK (PaaS service) operation.
 This component executes continuously and separately from all other cloud-hosted applications.
 
-When an application developer deploys a new
-application to the cloud platform, Cerebro intercepts this process and statically analyzes the 
+When an application developer \textit{deploys} a new
+application to the cloud platform (i.e. before the application begins
+executing),
+Cerebro automatically intercepts this process and statically analyzes the 
 application.  The analyzer extracts the sequence of cloud SDK operations invoked by each
 web API operation in a given application. When the application code contains branches, it
 extracts multiple sequences of cloud SDK operations -- one sequence per code path. The static
@@ -72,22 +74,27 @@ series, and predicts an upper bound for its $p$-th percentile, where $p$ is conf
 value $Q$ can be used to form a response time SLA of the form ``the web API operation responds 
 under $Q$ milliseconds at least $p$ percent of the time''.
 
-We primarily use Cerebro for predicting response time SLAs for web APIs
-at deployment-time. However, our design also facilitates using
-Cerebro as a development-time tool. That is, API developers can submit their work-in-progress
-API code to Cerebro in order to gain a preliminary set of SLA predictions. Further, we can use
-Cerebro as a runtime tool, where it periodically re-evaluates the response time SLAs for 
-APIs already deployed in the cloud.
+Cerebro determines an initial response time SLA
+at deployment-time.  It also consults an on-line API benckmarking
+service to continuously re-evaluate the response time SLAs it has
+issued to determine if and when they have been violated.
+ 
+%However, our design also facilitates using
+%Cerebro as a development-time tool. That is, API developers can submit their work-in-progress
+%API code to Cerebro in order to gain a preliminary set of SLA predictions. Further, we can use
+%Cerebro as a runtime tool, where it periodically re-evaluates the response time SLAs for 
+%APIs already deployed in the cloud.
 
-Periodic re-evaluation of SLAs is important because changes in the PaaS can occur
-that invalidate Cerebro's response time predictions such that previously negotiated SLAs are violated.
-Cerebro must detect when such changes occur so that API consumers can be notified and 
-SLAs renegotiated.  SLA violations
-can occur when conditions in the the PaaS change in non-random ways that impact 
-the performance of PaaS services.  Such changes can result from congestion (multitenency), 
-resource availability, and modifications to the implementations of the underlying PaaS services. 
+This periodic re-evaluation of SLAs is important because changes in the PaaS
+can occur that invalidate Cerebro's response time predictions such that
+previously negotiated SLAs are no longer valid.  Cerebro must detect when such
+changes occur so that API consumers can be notified and SLAs renegotiated.
+SLA violations can occur when conditions in the the PaaS change
+ways that impact the performance of PaaS services.  Such changes can result
+from congestion (multitenency), resource availability, and modifications to
+the implementations of the underlying PaaS services. 
 
-To detect SLA invalidations occur, we extend Cerebro with a 
+To determine SLA durability, we extend Cerebro with a 
 statistical model for detecting when a Cerebro-generated SLA becomes invalid. 
 Suppose at time $t$ Cerebro predicts value $Q$ as the $p$-th percentile of
 some API's execution time.  If $Q$ is a correct prediction,

@@ -9,60 +9,100 @@ permit have resulted in a vast number and diversity of available web APIs~\cite{
 
 Unfortunately, reusing existing services has its drawbacks. In particular, 
 web APIs can impact the performance, behavior, and reliability of the applications
-that integrate them.  Moreover, web service functionality and performance can change over time 
+that integrate them.  Web service functionality and performance can change over time 
 (even when the API remains the same) without notice.
 Moreover, there is a shortage of tools that help developers 
-reason about the impact of web API dependencies throughout an application's 
-lifecycle (i.e. development, deployment, and runtime).  Without such tools, 
-programmers must resort to extensive and continuous testing and profiling 
-to understand the impact of their use of web APIs on the performance and behavior
-of their applications.
+reason about the impact of web API dependencies (and their potential for
+dynamic change)
+throughout an application's 
+lifecycle (i.e. development, deployment, and runtime).  
 
-To address this need, we have developed Cerebro~\cite{cerebro-soccsub15}.
-Cerebro is a cloud platform-as-a-service (PaaS) technology that
-predicts the response time of web APIs hosted by the PaaS.
-Cerebro enables the PaaS administrator to determine response time service level 
-agreements (SLAs) that applications hosted in the PaaS can guarantee.  Cerebro is able to 
-do so since PaaS applications spend a majority of their time accessing PaaS services
-(e.g. for persistent storage, data mangement, caching, etc.). Specifically, 
-Cerebro uses static analysis to extract the series of calls to PaaS services
-in an operation and uses them to estimate an upper bound on the execution time of 
-an operation.  Cerebro does so via statistical distributions of the performance of PaaS services
-in the platform that it collects via lightweight, application-independent monitoring.
-In this prior work, we find that Cerebro is fast, does not require modification,
-testing, or profiling of the applications themselves, and can be used to predict 
-performance SLAs for web APIs at \textit{deployment time}.
-We also show that Cerebro response time SLAs 
-(i) are accurate -- they predict upper bounds that exceed the actual response time of the APIs
-with a specific, configurable success rate, and (ii)
-they are tight -- they predict upper bounds that do not exceed the actual 
-response time of the APIs by a large 
-margin (i.e. the predicted values are sufficiently close to the actual values). 
+In this paper we study the use of on-line monitoring and statistical
+forecasting of future API runtime performance as a means of providing each
+client a guaranteed minimum performance (e.g. as the basis for a Service Level
+Agreement).  Most cloud platforms today offer probablistic
+Service Level Agreements (SLAs) for service reliability but not response time. 
+Our work focuses on response time SLAs for APIs that are supported as the
+platform level (i.e. as part of ``Platform as a Service'' or \textit{PaaS}).
 
-In this paper, we focus on the \textit{duration} that Cerebro predictions hold, i.e. the period
-of time that predicted response time SLAs remain valid.  Predictions are invalidated
-when conditions in the the platform change in ways that violate the SLA (beyond random
-chance).  Such changes can result from congestion (multitenency), resource availability, 
-and modifications to the implementations of the underlying PaaS services. Invalidations 
-require that SLAs be renegotiated and thus impose overhead on developers that use the 
-web APIs exported by applications hosted by the PaaS.
+%Without such tools, 
+%programmers must resort to extensive and continuous testing and 
+%profiling 
+%to understand the impact of their use of web APIs on the performance 
+%and behavior
+%of their applications.
 
-We refer to such developers as API consumers.  Cerebro gives each API consumer an initial 
-response time SLA when they register for an API key to use an application exported by the PaaS.
-As mentioned above, a Cerebro monitoring agent tracks the performance of the PaaS services 
-continuously.  When Cerebro detects that a change has occurred in the PaaS that
-violates a previously negotiated SLA, Cerebro contacts the API consumer
-for which the SLA is violated and renegotiates a new SLA.
+To address this need, we have developed Cerebro~\cite{cerebro-soccsub15},
+a cloud platform-as-a-service (PaaS) technology that
+predicts the response time of web APIs hosted by the PaaS.  Cerebro is able to
+determine automatically the bounds on API response time that are 
+associated with a specific SLA guarantee (expressed as a probability).
+Our previous work~\cite{cerebro-soccsub15} describes the effectiveness of
+Cerebro SLAs for Google's PaaS platform (Google
+App Engine) and also for the AppScale~\cite{6488671} private on-premeses PaaS.  
 
-To analyze how SLA values predicted by Cerebro change over time and how API consumers are 
-impacted by such changes, we perform extensive testing and empirical evaluation
+In this paper, we
+explore the use of Cerebro predictions as the basis of SLAs between an API
+consumer or client
+and a service hosted by the PaaS.  Specifically, we detail the duration
+over which SLAs offered to clients of applications running in Google App
+Engine persist.  The SLA duratiion is important because PaaS API consumers
+often
+wish to contract for specific minimum guaranteed service levels and must
+renegotiate when those guarantees expire or can no longer be sustained.  
+This work demonstrates that, using a combination of on-line API benchmarking
+and static program analysis, Cerebro can generate SLAs that are
+\textit{durable} over long periods.  That is, using Cerebro it is possible for
+a user of Google App Engine or AppScale to offer statistically
+reliable response time SLAs as the basis of a contract with his or her clients
+that persist over reasonably long periods (and thus do not require frequent
+renegotiation).
+
+%Cerebro enables the PaaS administrator to determine response time service level 
+%agreements (SLAs) that applications hosted in the PaaS can guarantee.  Cerebro is able to 
+%do so since PaaS applications spend a majority of their time accessing PaaS services
+%(e.g. for persistent storage, data mangement, caching, etc.). Specifically, 
+%Cerebro uses static analysis to extract the series of calls to PaaS services
+%in an operation and uses them to estimate an upper bound on the execution time of 
+%an operation.  Cerebro does so via statistical distributions of the performance of PaaS services
+%in the platform that it collects via lightweight, application-independent monitoring.
+%In this prior work, we find that Cerebro is fast, does not require modification,
+%testing, or profiling of the applications themselves, and can be used to predict 
+%performance SLAs for web APIs at \textit{deployment time}.
+%We also show that Cerebro response time SLAs 
+%(i) are accurate -- they predict upper bounds that exceed the actual response time of the APIs
+%with a specific, configurable success rate, and (ii)
+%they are tight -- they predict upper bounds that do not exceed the actual 
+%response time of the APIs by a large 
+%margin (i.e. the predicted values are sufficiently close to the actual values). 
+%In this paper, we focus on the \textit{duration} that Cerebro predictions hold, i.e. the period
+%of time that predicted response time SLAs remain valid.  Predictions are invalidated
+%when conditions in the the platform change in ways that violate the SLA (beyond random
+%chance).  Such changes can result from congestion (multitenency), resource availability, 
+%and modifications to the implementations of the underlying PaaS services. Invalidations 
+%require that SLAs be renegotiated and thus impose overhead on developers that use the 
+%web APIs exported by applications hosted by the PaaS.
+
+%We refer to such developers as API consumers.  
+%Specifically, Cerebro gives each API consumer an initial 
+%response time SLA when they register for an API key to use an application exported by the PaaS.
+%As mentioned above, a Cerebro monitoring agent tracks the performance of the PaaS services 
+%continuously.  When Cerebro detects that a change has occurred in the PaaS that
+%violates a previously negotiated SLA, Cerebro contacts the API consumer
+%for which the SLA is violated and renegotiates a new SLA.
+
+To analyze SLA durability how API consumers are 
+impacted by it, we perform extensive testing and empirical evaluation
 of Google's public PaaS cloud App Engine and a set of open source Java web applications.  
 We also use simulation to explore different options for SLA renegotiation.
 Our results indicate that on average, the minimum duration for which Cerebro SLAs 
 remain valid for this PaaS is 12 days.  We also find that
 over a period of 112 days, the maximum number of times that any API consumer must renegotiate
-their SLA is six.  We also find that in some cases Cerebro prompts an API consumer to
+their SLA is 6.  We also find that in some cases Cerebro prompts an API consumer to
 renegotiate an SLA when the predicted new SLA value is very close to the invalidated SLA value. 
 Such renegotiations are not useful in practice and only serve to increase the renegotiation overhead
 for API consumers. We thus also present a threshold-based mechanism that both reduces 
-the number of required renegotiations and extends SLA validity duration significantly.
+the number of required renegotiations and extends SLA validity duration
+significantly.  To our knowledge, no other research or system is able to offer
+durable SLA performance guarantees for a public PaaS such as Google App
+Engine.
