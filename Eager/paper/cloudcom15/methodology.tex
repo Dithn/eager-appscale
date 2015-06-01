@@ -12,17 +12,17 @@ to make SLA predictions (95th percentile) for the following set of open source w
 
 \begin{itemize}
 \vspace{-0.05in}
-\item StudentInfo: RESTful (JAX-RS) application for managing
+\item \textit{StudentInfo}: RESTful (JAX-RS) application for managing
 students of a class (adding, removing, and listing student information).
 \vspace{-0.05in}
-\item ServerHealth: Monitors, computes, and reports statistics for server
+\item \textit{ServerHealth}: Monitors, computes, and reports statistics for server
 uptime for a given web URL.
 \vspace{-0.05in}
-\item StockTrader: A stock trading application that
+\item \textit{StockTrader}: A stock trading application that
 provides APIs for adding users, registering companies, buying and selling
 stocks among users. 
 \vspace{-0.05in}
-\item Rooms: A hotel booking application with APIs
+\item \textit{Rooms}: A hotel booking application with APIs
 for registering hotels and querying available rooms.
 \vspace{-0.05in}
 \end{itemize}
@@ -35,11 +35,16 @@ in the cloud. Each prediction is timestamped. Therefore given any timestamp that
 112 day period of the experiment, we can find a SLA prediction that is closest to it. 
 Further, we associate each prediction with an integer value which indicates the consecutive 
 number of SLA violations that should be
-observed, before we may consider the prediction to be invalid. In this work we consider three
-consecutive violations to indicate a platform change. That is,
-using the $95^{th}$ percentile, the probability of seeing $3$
-values in a row larger than the predicted percentile due to random chance
-is $(0.05)^3 = 0.00012$.
+observed, before we may consider the prediction to be invalid. In this work we 
+use a probability of $0.00012$ to determine a rare event.  That is,
+consecutive measurements above the predicted bounds $C_{w}$
+must occur with probability $0.00012$ or lower due to random chance.
+
+%consider three
+%consecutive violations to indicate a platform change. That is,
+%using the $95^{th}$ percentile, the probability of seeing $3$
+%values in a row larger than the predicted percentile due to random chance
+%is $(0.05)^3 = 0.00012$.
 
 We also compute the actual web API response times for the above four applications. This is done
 by simply summing up the benchmarking data gathered by the cloud SDK monitor. For example,
