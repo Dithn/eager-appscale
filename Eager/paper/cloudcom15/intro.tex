@@ -1,8 +1,8 @@
-Web services today are an essential technology for implementing
-complex distributed applications.  To promote modularity and reuse, 
-and to leverage the testing, deployment and scaling support, and maintenance 
-provided by others, developers increasingly integrate remote, Internet-accessible web services 
-via web application programming interfaces (web APIs)
+Today, web services are an essential technology for implementing
+complex distributed applications. They promote modularity and software reuse,
+while leveraging the scalability features and maintenance 
+provided by others. For these reasons developers increasingly integrate remote, 
+Internet-accessible web services via web application programming interfaces (web APIs)
 into their web, cloud, and mobile applications.  
 The benefits to programmer productivity that such development practices
 permit have resulted in a vast number and diversity of available web APIs~\cite{pweb}.
@@ -10,20 +10,21 @@ permit have resulted in a vast number and diversity of available web APIs~\cite{
 Unfortunately, reusing existing services has its drawbacks. In particular, 
 web APIs can impact the performance, behavior, and reliability of the applications
 that integrate them.  Web service functionality and performance can change over time 
-(even when the API remains the same) without notice.
+without prior notice, even when the API remains the same.
 Moreover, there is a shortage of tools that help developers 
-reason about the impact of web API dependencies (and their potential for
-dynamic change)
-throughout an application's 
+reason about the impact of web API dependencies, and their potential for
+dynamic change throughout an application's 
 lifecycle (i.e. development, deployment, and runtime).  
 
 In this paper, we study the use of on-line monitoring and statistical
-forecasting of future API runtime performance as a means of providing each
-client with a guaranteed minimum performance (e.g. as the basis for a Service Level
-Agreement).  Most cloud platforms today offer probablistic
-Service Level Agreements (SLAs) for service reliability but not response time. 
-Our work focuses on response time SLAs for APIs that are supported at the
-platform level (i.e. as part of ``Platform as a Service'' or \textit{PaaS}).
+forecasting of web API performance as a means of providing each API
+consumer with a guaranteed minimum performance level. 
+More specifically, we explore the idea of using web API response time forecasts
+as the basis for formulating Service Level Agreements (SLAs)
+for web APIs. Most cloud platforms today offer probabilistic
+SLAs for service availability but not response time. 
+Our work focuses on response time SLAs for web APIs deployed
+in Platform-as-a-Service (PaaS) clouds.
 
 %Without such tools, 
 %programmers must resort to extensive and continuous testing and 
@@ -33,29 +34,29 @@ platform level (i.e. as part of ``Platform as a Service'' or \textit{PaaS}).
 %of their applications.
 
 To enable this, we have developed Cerebro~\cite{cerebro-soccsub15},
-a cloud platform-as-a-service (PaaS) technology that
-predicts the response time of web APIs hosted by the PaaS.  Cerebro is able to
-determine automatically the bounds on API response time that are 
-associated with a specific SLA guarantee (expressed as a probability).
+a system that
+predicts the response time of web APIs hosted in a PaaS cloud. Cerebro is able to
+determine automatically the bounds on API response time with a specific
+correctness probability.
 Our previous work~\cite{cerebro-soccsub15} describes the effectiveness of
-Cerebro SLAs for Google's PaaS platform (Google
-App Engine) and also for the AppScale~\cite{6488671} private on-premeses PaaS.  
+Cerebro when it is used with Google's public PaaS (Google
+App Engine) and the AppScale~\cite{6488671} private on-premise PaaS.  
 
 In this work, we
 explore the use of Cerebro predictions as the basis of SLAs between an API
 consumer, or client,
 and a service hosted by the PaaS.  Specifically, we detail the duration
 over which SLAs offered to clients of applications running in Google App
-Engine persist.  The SLA duratiion is important because PaaS API consumers
+Engine persist. The SLA duration is important because PaaS API consumers
 often
-wish to contract for specific minimum guaranteed service levels and must
+wish to contract for specific minimum guaranteed service levels, and must
 renegotiate when those guarantees expire or can no longer be sustained.  
 This work demonstrates that, using a combination of on-line API benchmarking
 and static program analysis, Cerebro can generate SLAs that are
 \textit{durable} over long periods.  That is, using Cerebro it is possible for
 a user of Google App Engine or AppScale to offer statistically
-reliable response time SLAs as the basis of a contract with his or her clients
-that persist over reasonably long periods (and thus do not require frequent
+reliable response time SLAs on web APIs
+that persist over long periods (and thus do not require frequent
 renegotiation).
 
 %Cerebro enables the PaaS administrator to determine response time service level 
@@ -91,17 +92,17 @@ renegotiation).
 %violates a previously negotiated SLA, Cerebro contacts the API consumer
 %for which the SLA is violated and renegotiates a new SLA.
 
-To analyze SLA durability how API consumers are 
+To analyze SLA durability and how API consumers are 
 impacted by it, we perform extensive testing and empirical evaluation
-of Google's public PaaS cloud App Engine and a set of open source Java web applications.  
-We also use simulation to explore different options for SLA renegotiation.
+of Google App Engine using a set of open source Java web applications.  
+We also employ simulation to explore different options for SLA renegotiation.
 Our results indicate that on average, the minimum duration for which Cerebro SLAs 
-remain valid for this PaaS is 12 days.  We also find that
+remain valid for this PaaS is 12 days. We also show that
 over a period of 112 days, the maximum number of times that any API consumer must renegotiate
-their SLA is 6.  We also find that in some cases Cerebro prompts an API consumer to
+their SLA is 6.  Furthermore, we find that in some cases Cerebro prompts an API consumer to
 renegotiate an SLA when the predicted new SLA value is very close to the invalidated SLA value. 
 Such renegotiations are not useful in practice and only serve to increase the renegotiation overhead
 for API consumers. We thus also present a threshold-based mechanism that both reduces 
-the number of required renegotiations and extends SLA validity duration
-significantly.  To our knowledge, no other research or system is able to offer
-durable SLA performance guarantees for a public PaaS such as Google App Engine.
+the number of required renegotiations and extends SLA validity duration.
+To our knowledge, no other research or system is able to predict
+durable performance SLAs for a public PaaS such as Google App Engine.
