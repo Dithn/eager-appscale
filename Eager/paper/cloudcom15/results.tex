@@ -1,8 +1,9 @@
-We next present the results from our experiments using this methodology. We
+We next present the experimental results obtained using this methodology. We
 analyze the number of SLA renegotiations performed by each API consumer during the 112 day
 period of the experiment, and calculate a set of cumulative distribution functions (CDF). These
 CDFs describe the probability of finding an API consumer that experienced a given number of
-renegotiation events. Figure~\ref{fig:renegotiation_cdf} presents the CDFs.
+renegotiation events. Figure~\ref{fig:renegotiation_cdf} presents the CDFs. We use the convention
+\textit{ApplicationName\#Operation} to label individual web API operations.
 
 \begin{figure}
 \centering
@@ -16,9 +17,8 @@ According to Figure~\ref{fig:renegotiation_cdf}, the largest number of SLA reneg
 experienced by any user is 6. This is
 with regard to the StudentInfo\#addStudent operation. Across all web APIs, at least 96\% of the API
 consumers experience no more than 4 renegotiation events during the period of 112 days. Further,
-at least 76\% of the API consumers see no more than 3 SLA renegotiations, and at least 18\% of
-the API consumers observe no more than 1. These statistics
-indicate that SLAs predicted by Cerebro for Google App Engine is fairly
+at least 76\% of the API consumers see no more than 3 SLA renegotiations. These statistics
+indicate that SLAs predicted by Cerebro for Google App Engine are fairly
 stable over time, and renegotiation is required only rarely. From an API consumer's perspective
 this is a highly desirable property, since it reduces the frequency and the 
 overhead of SLA renegotiation.
@@ -64,9 +64,9 @@ consumers observe SLA validity periods longer than 7.65 hours at least 95\% of t
 between SLA renegotiations is greater than 7.65 hours at least 95\% of the time.
 
 To reduce the number of renegotiations further, we observe that we can exploit the
-in which the difference between an invalidated SLA
-and a new SLA is small.  In such cases, it is of little use to renegotiate 
-a new SLA and API consumers may be content to continue with the old SLA.
+SLA change events in which the difference between an invalidated SLA
+and a new SLA is small. In such cases, it is of little use to renegotiate 
+a new SLA, and API consumers may be content to continue with the old SLA.
 To incorporate this behavior into Cerebro (and our simulation process), we introduce threshold
 value \textit{sla\_delta\_threshold} into the process. This parameter takes a percentage value that
 represents the minimum acceptable percentage difference between the old and new SLA 
@@ -79,14 +79,14 @@ that exceeds the threshold.
 Note that our previous experiments are 
 a special case of thresholding for which \textit{sla\_delta\_threshold} is 0.
 
-Next we evaluate the sensitivity of our results to the Cerebro \textit{sla\_delta\_threshold}.
+Next we evaluate the sensitivity of our results to \textit{sla\_delta\_threshold}.
 Figure~\ref{fig:renegotiation_cdf_sd10}
-shows the resulting CDFs of per-user renegotiation count when the threshold is set to 10\%. That is, Cerebro does not prompt the API consumer to renegotiate an SLA, unless the new SLA is at 
+shows the resulting CDFs of per-user renegotiation count when the threshold is 10\%. 
+That is, Cerebro does not prompt the API consumer to renegotiate an SLA, unless the new SLA is at 
 least 10\% off from the old one. In this case, the
 maximum number of renegotiation events drops from 6 to 5.
 Also most of the probabilities shift slightly upwards. For instance,
-now more than 82\% of the users see 3 or less renegotiation events (as opposed to 76\%). The
-introduction of the \textit{sla\_delta\_threshold} make renegotiations more rare.
+now more than 82\% of the users see 3 or less renegotiation events (as opposed to 76\%).
 
 \begin{figure}
 \centering
@@ -103,7 +103,7 @@ recorded in the table is 304.97 hours.
 We have also considered a \textit{sla\_delta\_threshold} value of 20\%. This change
 introduces only small shifts in the probability values of 
 the CDFs (more than 84\% of the users see 3 or less renegotiations), 
-but the maximum number of renegotiations remains at 5.
+and the maximum number of renegotiations remains at 5.
 
 \begin{table}
 \begin{center}
