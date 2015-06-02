@@ -76,8 +76,8 @@ value $Q$ can be used to form a response time SLA of the form ``the web API oper
 under $Q$ milliseconds at least $p$ percent of the time''.
 
 Cerebro only takes the performance of the cloud SDK calls into account
-when making predictions. It ignores all other operations in the web API code. In
-other words, it assumes that the response time of a PaaS-hosted web API is primarily determined
+when making predictions. It ignores all other operations in the web API code, and
+assumes that the response time of a PaaS-hosted web API is primarily determined
 by the cloud SDK calls. Our previous work has shown that this is a reasonable
 assumption -- i.e. PaaS-hosted web APIs spend most of their time ($> 90\%$) executing cloud 
 SDK calls. Also the conservative nature of QBETS
@@ -91,20 +91,22 @@ helps offset any discrepancies that might occur due to operations other than clo
 
 For a given web API, Cerebro predicts an initial response time SLA
 at the API's deployment-time. It then consults an on-line API benchmarking
-service to continuously verify the response time SLA it has
-predicted to determine if and when it has been violated.
-SLA violations can occur when conditions in the PaaS change in
-ways that impact the performance of the cloud SDK operations. Such changes can result
-from congestion (multitenancy), resource availability, and modifications to
-the implementations of the underlying PaaS services. 
+service to continuously verify the predicted response time SLA
+to determine if and when it has been violated.
+SLA violations occur when conditions in the PaaS change in
+ways that adversely impact the performance of the cloud SDK operations. 
+Such changes can result
+from congestion (multitenancy), component failures, and modifications to
+PaaS service implementations. The continuous tracking of SLA violations is
+necessary to notify the affected API consumers promptly.
 
 Cerebro also periodically recomputes the SLAs for the APIs over time. 
 Cerebro is able to perform fast, online
 prediction of time series percentiles via QBETS as more SDK benchmarking data becomes 
 available from the cloud SDK monitor.
 This periodic recomputation of SLAs is important because changes in the PaaS
-can occur that invalidate Cerebro's response time predictions such that
-previously negotiated SLAs are no longer valid. Cerebro must detect when such
+can occur that make new SLAs available that are better and tighter than the
+previously predicted ones. Cerebro must detect when such
 changes occur so that API consumers can be notified and SLAs renegotiated.
 
 To determine SLA durability, we extend Cerebro with a 
@@ -153,12 +155,12 @@ We refer to this duration as the \textit{SLA validity duration}.
 We extend Cerebro with an SLA negotiation process that invalidates SLAs at the end of the
 SLA validity duration, and re-establishes a new SLA for the API consumer.
 API consumers acquire an initial SLA for a web API hosted by a Cerebro-equipped PaaS
-as part of the API subscription process in which the consumer obtains her API keys.
+as part of the API subscription process (i.e. when obtaining API keys).
 At this point Cerebro also records the 
 tuple $<API\ Consumer, API, Timestamp, SLA\ Value>$.
 
-When Cerebro detects consecutive violations of one of its earlier predictions,
-it considers the corresponding SLA to be invalid (as per the statistical model described above), 
+When Cerebro detects consecutive violations of one of its predictions,
+it considers the corresponding SLA to be invalid, 
 and notifies the affected API consumers to establish a 
 new SLA. Cerebro can suspend API access by affected API consumers until 
 renegotiation occurs, or simply record violations for later remediation.
