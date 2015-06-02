@@ -8,20 +8,20 @@ The benefits to programmer productivity that such development practices
 permit have resulted in a vast number and diversity of available web APIs~\cite{pweb}.
 
 Unfortunately, reusing existing services has its drawbacks. In particular, 
-web APIs can impact the performance, behavior, and reliability of the applications
+web APIs impact the performance, behavior, and reliability of the applications
 that integrate them.  Web service functionality and performance can change over time 
-without prior notice, even when the API remains the same.
-Moreover, there is a shortage of tools that help developers 
+without prior notice, while their APIs remain unchanged.
+Moreover, there is a shortage of tools to help developers 
 reason about the impact of web API dependencies, and their potential for
 dynamic change throughout an application's 
 lifecycle (i.e. development, deployment, and runtime).  
 
 In this paper, we study the use of on-line monitoring and statistical
 forecasting of web API performance as a means of providing each API
-consumer with a guaranteed minimum performance level. 
-More specifically, we explore the idea of using web API response time forecasts
-as the basis for formulating Service Level Agreements (SLAs)
-for web APIs. Most cloud platforms today offer probabilistic
+consumer with a guaranteed minimum performance level.
+More specifically, we explore the idea of formulating Service Level Agreements (SLAs)
+for web APIs, based on automatic prediction of web API response times.
+Most cloud platforms today offer probabilistic
 SLAs for service availability but not response time. 
 Our work focuses on response time SLAs for web APIs deployed
 in Platform-as-a-Service (PaaS) clouds.
@@ -39,7 +39,7 @@ predicts the response time of web APIs hosted in a PaaS cloud. Cerebro is able t
 determine automatically the bounds on API response time with a specific
 correctness probability.
 Our previous work~\cite{cerebro-soccsub15} describes the effectiveness of
-Cerebro when it is used with Google's public PaaS (Google
+Cerebro when it is used in conjunction with Google's public PaaS (Google
 App Engine) and the AppScale~\cite{6488671} private on-premise PaaS.  
 
 In this work, we
@@ -49,9 +49,9 @@ and a service hosted by the PaaS.  Specifically, we detail the duration
 over which SLAs offered to clients of applications running in Google App
 Engine persist. The SLA duration is important because PaaS API consumers
 often
-wish to contract for specific minimum guaranteed service levels, and must
+wish to contract for specific minimum service level guarantees, and must
 renegotiate when those guarantees expire or can no longer be sustained.  
-This work demonstrates that, using a combination of on-line API benchmarking
+This work demonstrates that, using a combination of on-line benchmarking
 and static program analysis, Cerebro can generate SLAs that are
 \textit{durable} over long periods.  That is, using Cerebro it is possible for
 a user of Google App Engine or AppScale to offer statistically
@@ -101,8 +101,8 @@ remain valid for this PaaS is 12 days. We also show that
 over a period of 112 days, the maximum number of times that any API consumer must renegotiate
 their SLA is 6.  Furthermore, we find that in some cases Cerebro prompts an API consumer to
 renegotiate an SLA when the predicted new SLA value is very close to the invalidated SLA value. 
-Such renegotiations are not useful in practice and only serve to increase the renegotiation overhead
+Such renegotiations are not useful in practice, and only serve to increase the renegotiation overhead
 for API consumers. We thus also present a threshold-based mechanism that both reduces 
-the number of required renegotiations and extends SLA validity duration.
+the number of required renegotiations, and extends SLA validity duration.
 To our knowledge, no other research or system is able to predict
 durable performance SLAs for a public PaaS such as Google App Engine.
