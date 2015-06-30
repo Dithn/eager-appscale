@@ -1,0 +1,225 @@
+Begin forwarded message:
+
+From: mfreed@CS.Princeton.EDU
+Subject: [socc15] Accepted paper #59 "Response Time Service Level Agreements..."
+Date: June 21, 2015 7:39:59 PM PDT
+To: Hiranya Jayathilaka <hiranya@cs.ucsb.edu>
+Cc: "SOCC'15 PC Chairs" <socc15chairs@googlegroups.com>
+Reply-To: socc15chairs@googlegroups.com
+
+
+Dear author(s),
+
+We are very happy to inform you that your paper #59 has been accepted for
+SOCC 2015. Congratulations!
+
+      Title: Response Time Service Level Agreements for Cloud-hosted Web
+             Applications
+    Authors: Hiranya Jayathilaka (UC Santa Barbara)
+             Chandra Krintz (UC Santa Barbara)
+             Rich Wolski (UC Santa Barbara)
+ Paper site: https://socc15.cs.princeton.edu/paper/59?cap=059aLr5YnmuTOzE
+
+Your paper was one of 34 accepted out of 157 submissions.
+
+Reviews and comments on your paper are appended to this email, which you
+can also find on the submission site.
+
+Each SOCC 2015 PC member took time to read the assigned papers carefully
+and to provide valuable feedback not only for the final decision, but also
+to improve the papers. Thus, we would like to ask you to read the reviews
+carefully and to incorporate into the final version of the paper any
+changes that were suggested by the reviewers.
+
+Every accepted paper will be assigned a shepherd.  Your shepherd will be
+assigned in the next few days, please work with them to preparing a final
+version of the paper that addresses issued raised by the PC during the
+review process.  Additional instructions for preparing and uploading the
+final version of your paper will be sent in a separate email.
+
+Please register for the SOCC 2015 conference via the web site. Please note
+that at least one author of an accepted paper needs to register for the
+conference by July 8th 2015 (end of early registration). If no authors have
+registered by that time, the paper cannot be included in the proceedings of
+the conference.
+
+The organizing committee for SOCC 2015  is looking forward to your
+presentation in Hawaii in August!
+
+Best regards,
+
+Magdalena Balazinska
+Michael Freedman
+PC Chairs, SOCC 2015
+
+
+===========================================================================
+                           socc15 Review #59A
+                   Updated 13 May 2015 12:48:31am EDT
+---------------------------------------------------------------------------
+  Paper #59: Response Time Service Level Agreements for Cloud-hosted Web
+             Applications
+---------------------------------------------------------------------------
+
+                     Overall merit: 3. Weak accept
+                Reviewer expertise: 3. Knowledgeable
+
+                        ===== Paper summary =====
+
+An application which sits atop a PaaS cloud defines a set of "web APIs." These APIs are invoked by external clients to access high-level application functionality. Internally, the application implements each web API by invoking "cloud APIs"; cloud APIs are defined by the PaaS provider, and expose low-level methods to access persistent storage, manage user accounts, fetch HTTP data, and so on.
+
+The authors show that the majority of execution time for a web API method is spent in cloud API methods. The authors also demonstrate that web API methods are very simple, containing a small number of cloud API calls, and few branches or loops. This means that static analysis can provide tight estimates for how many cloud APIs a web method calls. By combining those static estimates with dynamic profiling of cloud API performance, the authors demonstrate how to provide tight upper-bounds for web method latency. Such bounds are useful for SLAs.
+
+                       ===== Paper strengths =====
+
+Providing tighter bounds on SLAs is very useful, so the paper tackles an important problem. The empirical findings about the simplicity of web API methods are surprising and insightful!
+
+                      ===== Paper weaknesses =====
+
+The evaluation setting for the response time estimator is very benign, so it's unclear how the estimator would perform in more realistic settings.
+
+                     ===== Comments for author =====
+
+I really like the empirical findings in Section 2. When I read the intro and saw that Cerebro uses static analysis to analyze web SDKs, I thought, "there's no way that it will work--web SDKs are too complex to be amenable to static analysis." It was awesome to read Section 2 and see my naivete debunked. You might want to foreshadow those results in the intro, because they seem like a key contribution!
+
+My primary complaint with the paper is the evaluation section. Section 4.1 says that the authors "benchmark each web API for a period of 15 to 20 hours. During this time we run a remote HTTP client that makes requests to the web APIs once every minute." This seems like a really softball client workload--in a real web service, dozens or hundreds of requests will arrive per *second*! At one request per minute, an m3.2xlarge VM isn't going to have any resources pegged, so the response time prediction task should be much easier; the amount of resources needed to satisfy one request a minute should not strain the available VM resources, so there should be little variance in how long the VM needs to satisfy the request. Perhaps my analysis is too simplistic because a lot of latency arises from VM-external sources like the distributed storage system. Indeed, Figure 7 says that the #getAllStudents operation has high performance variance because it reads from the datastore. However, a
+t a high-level, it's unclear how well the authors' estimator performs under more realistic load conditions. For example, what would Figures 5 and 6 look like if there were thirty requests a second instead of one request a minute? This would be a more useful setting for a response time estimator, since it's easy to meet SLAs when there is no resource contention!
+
+===========================================================================
+                           socc15 Review #59B
+                    Updated 20 May 2015 2:33:27pm EDT
+---------------------------------------------------------------------------
+  Paper #59: Response Time Service Level Agreements for Cloud-hosted Web
+             Applications
+---------------------------------------------------------------------------
+
+                     Overall merit: 3. Weak accept
+                Reviewer expertise: 1. No familiarity
+
+                        ===== Paper summary =====
+
+The paper introduces Celebro, a system that predicts useful response time characteristics for cloud-hosted web applications using static analysis and information about the latency of various web API calls (specifically APIs offered by applications hosted on PaaS platforms). Performance statistics offered by Celebro can be used to support performance SLAs for cloud  applications built on these web APIs.
+
+                       ===== Paper strengths =====
+
+Celebro leverages statistics on past performance behavior to forecast the SDK calls that affect more negatively the performance. It leverages this information to identify the worse case performance bounds 
+
+Celebro can identify when SLA guarantees (i.e., performance predictions) will be invalid, in which case Celebro can be used again to establish new SLAs
+
+The paper is well written and easy to follow. I especially enjoyed how the paper anticipates counter-arguments and answers them well and directly.
+
+Experiments and analysis are very insightful and are persuasive. Assumptions are justified using real world data.
+
+                      ===== Paper weaknesses =====
+
+While potential failure cases (unpredictable loops) are mentioned, experiments showing some failure cases would be useful. It isn't entirely clear what would happen if a provided service exhibited extremely unpredictable behavior. However, the authors do a very good job of explaining why this is an edge case.
+
+The main contribution of the paper (the prediction model) has appeared in another publication.
+
+                     ===== Comments for author =====
+
+Very well written and explained! A pleasure to read and insightful. It might be nice to see a "failure case" -- an example of Cerebro attempting to predict the performance of code with a lot of looping and branching. Can you experimentally show that the system can recognize highly unpredictable code (maybe a loop based on a randomly generated value?) and loosen its performance estimates appropriately?
+
+Of course, you'll never be able to perfectly predict the latency of loops from static analysis alone (halting problem), but seeing how the system deals with an extreme case that violates many of your assumptions would be interesting and would go a long way in persuading me, as a reader, that the system was robust but also not magical.
+
+
+My main concern is that the main contribution of the paper (the prediction model) has been published before (by the same authors). Therefore, the paper seems to be  practically an application of the QBETS methods that the authors have developed.  there is of course some values on applying that model on web applications, but after reading that the whole idea of forecasting on performance times series was inspired by previous work I found the paper to be incremental.
+
+===========================================================================
+                           socc15 Review #59C
+                    Updated 23 May 2015 1:42:43pm EDT
+---------------------------------------------------------------------------
+  Paper #59: Response Time Service Level Agreements for Cloud-hosted Web
+             Applications
+---------------------------------------------------------------------------
+
+                     Overall merit: 5. Strong accept
+                Reviewer expertise: 3. Knowledgeable
+
+                        ===== Paper summary =====
+
+The paper proposes a technique to estimate SLA for web APIs hosted on
+PaaS platforms. Their approach is to use static analysis to identify
+the paths containing calls to the PaaS services, monitor these services so that an
+estimate for their individual SLAs can be computed, getting estimates
+for the paths, and finally for the APIs. The applications running on
+PaaS themselves are not monitored.
+
+                       ===== Paper strengths =====
+
++ very relevant problem
++ novel exploration based on efficiently monitoring PaaS services, not the
+applications using them, to estimate SLAs
++  experimental results obtained from both public and cloud PaaS platform
+
+                      ===== Paper weaknesses =====
+
+- workload assumptions derived from small set of applications that are
+ not showed to be particularly representative
+- cloud service monitoring unlikely to capture performance variations
+ coming from specific data access patterns, even if those are quite common
+
+                     ===== Comments for author =====
+
+I like the problem this paper is exploring a lot, and I think the
+paper presents very good progress in attacking the problem.
+
+I believe that the line of work proposed by this paper can be very
+useful in getting closer to meaningful SLA estimates. But results are
+strong as long as the assumptions made in terms of web APIs
+hold. Authors demonstrated they hold for the workloads they analyzed,
+but it is not clear that these hold the patterns more likely to give
+us headaches. For private cloud offerings, where operators may have no
+limitation of how long a service can run, we may see different
+execution paths appearing in the applications.
+
+The paper proposes using agents invoking cloud SDK operations
+periodically on synthetic datasets in order to monitor the behavior of
+these operations. It seems to me that it is too simplistic and
+unlikely to capture the service variation that may be occurring.
+It may make sense to modify the applications so that themselves are
+able to collect information on how the operations are running on their
+own data.
+
+===========================================================================
+                           socc15 Review #59D
+                   Updated 13 Jun 2015 12:54:41am EDT
+---------------------------------------------------------------------------
+  Paper #59: Response Time Service Level Agreements for Cloud-hosted Web
+             Applications
+---------------------------------------------------------------------------
+
+                     Overall merit: 3. Weak accept
+                Reviewer expertise: 2. Some familiarity
+
+                        ===== Paper summary =====
+
+The paper presents Cerebro which provides statistical guarantees for response times of applications that are hosted in a PaaS cloud. Cerebro uses Soot to analyze the application code and identify cloud API invocations,  cloud monitoring and QBETS to identify the segments of data that seem to be stationary (stable system), statistic analysis to find the response time for dominating cloud SDk invocations and finally predicts bounds for response times for web API requests.
+
+Authors evaluate the correctness of Cerebro's predictions, Compute the duration of validity for the predictions and the tightness of the prediction.
+
+                       ===== Paper strengths =====
+
+- The paper addresses an interesting problem.
+- The paper is well written and proposes a solution which could work under some assumptions.
+- The problem they are targeting has real application and they have provided implementations on two actual PaaS (private and public).
+
+                      ===== Paper weaknesses =====
+
+- The model is simple but there are so  many factors that can impact the cloud API invocations and on the other hand the paper has some assumptions that need to be satisfied for the model to work so I am not sure how this will work in real scenarios.
+- There is no sufficient details about cases for which their approach may fail.
+
+                     ===== Comments for author =====
+
+- What happens if there is a lot of variance in the behavior of the system (no stable behavior at all)?
+- The paper was well written and very easy to follow and understand.
+- How to decide the duration of history data?
+- How are the 35 applications chosen? 
+- Figure 2 and 3 have a lot of extra space. the y-axix for each can start from 0.6 and 0.4 respectively.
+- In section 3.2 how are the data sizes decided?
+- The contributions of the paper seem to have a lot of overlap with authors previous work.
+
+
+
+
+
