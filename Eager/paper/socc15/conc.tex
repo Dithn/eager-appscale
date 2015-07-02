@@ -79,8 +79,14 @@ In the current design, Cerebro's cloud SDK monitoring agent only monitors
 a predefined set of cloud SDK operations. In our future work we wish 
 to explore the possibility of making this component more dynamic,
 so that it automatically learns what operations to benchmark from the web APIs 
-deployed in the cloud. We also plan to investigate further how to better
-handle data-dependent loops (iterative datastore reads) for different workloads. 
+deployed in the cloud. This also includes learning the size and the form of the datasets
+that cloud SDK invocations operate on, so that Cerebro can acquire more realistic
+benchmarking data. Implementing these features might require non-invasively
+instrumenting the deployed cloud applications. We also plan to investigate further how to better
+handle data-dependent loops (iterative datastore reads) for different workloads. We are interested
+in exploring the ways in which we can handle API codes with unpredictable execution patterns (e.g.
+loops based on a random number), even though such cases are quite rare in the applications we
+have looked at so far.
 Further, we plan
 to integrate Cerebro with EAGER, our API governance system 
 and policy engine for PaaS clouds, so 

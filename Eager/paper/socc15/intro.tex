@@ -121,7 +121,11 @@ Google datastore that is available as part of the Google App Engine PaaS.
 %by combining static analysis
 %of the program with dynamic performance sampling of the platform services.
 Cerebro uses static analysis to identify the cloud SDK invocations
-that dominate the response time of web APIs.  Independently,
+that dominate the response time of web APIs. By surveying a collection of
+web applications developed for a PaaS cloud, we show
+that such applications indeed spend majority of their execution time on cloud SDK
+invocations. Further, they do not have many branches and loops, which
+makes them amenable to static analysis (section~\ref{sec:approach}). Independently,
 Cerebro also maintains a running history of cloud SDK response time 
 performance.  It uses
 QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} -- a forecasting methodology

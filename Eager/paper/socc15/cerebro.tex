@@ -74,7 +74,10 @@ benchmarks loop iteration over datastore entities to capture
 the performance of iterative datastore reads for datastore result set sizes 
 of 10, 100, and 1000. We limit ourselves to these values because the PaaS requires
 that all operations complete (respond) within 60 seconds -- so the data
-sizes returned are typically small.
+sizes returned are typically small. Sizing up the datastore in terms of powers of 10,
+mirrors the typical approach taken by DevOps personnel
+to approximate the size of a database. If necessary, our prototype allows adding iterative
+datastore read benchmarks for other result set sizes easily. 
 
 \subsection{Making SLA Predictions}
 \label{sec:qbets}
@@ -216,8 +219,10 @@ sequence of cloud SDK operations.
 \item Run QBETS on the joint time series with the 
 desired $p$ and $c$ values to predict an upper bound. 
 \end{enumerate}
-Cerebro uses largest predicted value (across path sequences) 
-as its SLA prediction for a web API operation.
+Cerebro uses the largest predicted value (across path sequences) 
+as its SLA prediction for a web API operation. The exhaustive approach by 
+which Cerebro predicts SLAs for all possible program paths ensures that
+the final SLA holds valid regardless of which path gets executed at runtime.
 This process (SLA prediction) can be implemented
 as a co-located service in the PaaS cloud or as a standalone utility.  We do 
 the latter in our prototype.
