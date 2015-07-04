@@ -183,8 +183,18 @@ log(c)/log(0.01p)$.
 
 For example, predicting the $95^{th}$ percentile
 of the API execution time, with an upper confidence of $0.01$ requires at
-least $90$ observations.  We use this information to control 
-reclamation of monitoring data by PaaS agent.
+least $90$ observations. We use this limit as a lower bound for the length
+of the history to keep. There is no upper bound for the history length
+that QBETS can process. But in Cerebro's case, several thousand data points
+in the history (i.e. 1-3 days of monitoring data) provides a good balance between
+results accuracy and computation overhead.
+
+The minimum history length also provides a bound on the variability of the
+time series that can be tolerated by QBETS. In general, each time series must be
+approximately ergodic, meaning their mean and the variance should not change abruptly.
+More specifically, if the values in the time series change too fast for QBETS to gather
+a stationary dataset at least as long as the minimum history length, its prediction 
+accuracy may suffer.
 
 \subsection{Example Cerebro Workflow}
 

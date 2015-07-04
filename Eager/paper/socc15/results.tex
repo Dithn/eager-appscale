@@ -65,11 +65,21 @@ corresponding Cerebro predictions.
 
 We benchmark each web API for a period of 15 to 20 hours.  During this time we
 run a remote HTTP client that makes requests to the web APIs once every
-minute.  The application instrumentation measures and records the response
+minute. The application instrumentation measures and records the response
 time of the API operation for each request (i.e. within the application).
 Concurrently and within the same PaaS system, we execute the Cerebro
 PaaS monitoring agent which is an independently hosted application within the
 cloud that benchmarks each SDK operation once every minute.
+
+Our test request rate (1 request/minute) is not sufficient to put the backend cloud servers
+under any stress. However, cloud platforms like Google App Engine and
+AppScale are highly scalable. When the load increases, they automatically spin up new backend servers,
+and maintain the average response time of deployed web APIs steady. This 
+enables us to measure and evaluate the correctness of the Cerebro predictions under
+light load conditions. Note that our cloud SDK benchmarking rate at the cloud SDK monitor
+is also 1 request per minute. We assume that the time series of cloud SDK performance is ergodic
+(i.e. stationary over a long period). Under that assumption, QBETS is insensitive to the measurement
+frequency, and a higher benchmarking rate would not significantly change the results.
 
 Cerebro predicts the web API execution times using only the cloud SDK
 benchmarking data collected by Cerebro's PaaS monitoring agent. 
