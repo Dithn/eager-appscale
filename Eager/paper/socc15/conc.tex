@@ -1,40 +1,43 @@
-Web services and service oriented architecture encourage developers to create new applications by
-composing existing services via their web APIs. But such integration of services makes it difficult to
-reason about the performance and other non-functional properties of 
-composite applications. To
-facilitate such reasoning, web APIs should be exported for use
-by applications with strong performance 
-guarantees (SLAs).%, so that application developers are aware of 
+%%Web services and service oriented architecture encourage developers to create new applications by
+%%composing existing services via their web APIs. But such integration of services makes it difficult to
+%%reason about the performance and other non-functional properties of 
+%%composite applications. To
+%%facilitate such reasoning, web APIs should be exported for use
+%%by applications with strong performance 
+%%guarantees (SLAs).%, so that application developers are aware of 
 %what to expect from the web APIs they consume. 
 
-To this end,
-we propose Cerebro, a system that predicts response time 
-bounds for web APIs deployed in PaaS clouds. We
-choose PaaS clouds as the target environment of our 
-research due to their rapidly growing popularity as a technology
-for hosting scalable web APIs, and their SDK-based, restricted 
-application development model, 
-which makes it easier to analyze PaaS applications statically.
-
-Cerebro uses static analysis to extract the sequence of cloud SDK 
+%%To this end,
+%We have presented Cerebro, a system that predicts response time 
+%bounds for web APIs deployed in PaaS clouds. 
+%We
+%choose PaaS clouds as the target environment of our 
+%research due to their rapidly growing popularity as a technology
+%for hosting scalable web APIs, and their SDK-based, restricted 
+%application development model, 
+%which makes it easier to analyze PaaS applications statically.
+Cerebro is a system that predicts response time 
+bounds for web APIs deployed in PaaS clouds.  It does so via 
+static analysis to extract the sequence of cloud SDK 
 calls made by a given web API code combined with
-historical performance measurements of cloud SDK calls to predict 
-the response time of the web
-API. 
+historical performance measurements of cloud SDK calls. 
+%to predict 
+%the response time of the web
+%API. 
 %The historical performance data of cloud SDK 
 %calls are gathered using a special monitoring agent
 %executed in the PaaS cloud, that periodically benchmarks and records 
 %cloud SDK performance, independent of deployed applications and web APIs.
-It employs QBETS, a non-parametric time series analysis and 
+Cerebro employs QBETS, a non-parametric time series analysis and 
 forecasting method, to analyze
 cloud SDK performance data, and predict bounds
 on response time that can be used as statistical ``guarantees'' with
 associated guarantee probabilities.
-Cerebro is intended for use both during development and 
+Cerebro is intended for use during development and 
 deployment phases of a web API, and 
 precludes the need for continuous performance testing of the API code. 
-Further, it does not interfere with the run-time operation (i.e. it requires
-no application instrumentation at runtime) which makes it scalable.
+Further, it does not interfere with run-time operation (i.e. it requires
+no application instrumentation) making it scalable.
 
 We have implemented a prototype of Cerebro for Google App Engine public PaaS
 and AppScale private PaaS
@@ -75,6 +78,7 @@ with average validity times varying between one and three days.
 %\end{itemize}
 %\vspace{-0.05in}
 
+\ignore{
 In the current design, Cerebro's cloud SDK monitoring agent only monitors 
 a predefined set of cloud SDK operations. In our future work we wish 
 to explore the possibility of making this component more dynamic,
@@ -94,3 +98,4 @@ that PaaS administrators can enforce SLA-related policies on web APIs at deploym
 %Such a system will make it possible to prevent any API that 
 %does not adhere to the organizational performance
 %standards from being deployed in the production cloud environment.
+}
