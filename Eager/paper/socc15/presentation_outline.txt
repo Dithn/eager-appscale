@@ -1,0 +1,134 @@
+================================
+
+* Introduce self and collaborators
+* Mention RaceLAB and UCSB
+* Introduce high-level research area: Governance of web APIs for cloud platforms
+
+================================
+
+* Web services and SOA facilitate building complex distributed systems in a modular fashion
+* Web APIs (network-enabled interfaces of web services):
+   - make it easy to reuse existing services (and leverage other's development and maintenance efforts in the process)
+   - decouple service implementations from their consumers
+* For these benefits, many developers expose their systems as APIs, and in turns use other APIs to build new systems
+* Consequently the Amount of web APIs available on the Internet has exploded over the last few years
+   - ProgramableWeb stats from 2005 to 2013 indicate a near exponential growth
+   - Latest API numbers are close to 14000
+
+================================
+
+* The proliferation of APIs is not restricted to a particular industry or application domain
+* ProgrammableWeb stats show API deployments picking up in a variety of fields
+* Finance and enterprise are dominating but government, science and social also show significant API adoption
+   - Breifly mention White House, IEEE and UC-Berkeley APIs
+
+================================
+
+* APIs also have several drawbacks
+   - APIs impact the correctness, performance and availability of applications
+   - Most APIs do not provide strong guarantees with regard to such attributes thus compounding the issue
+      > This makes it harder to use APIs in certain application domains (e.g. realtime or performance-critical apps)
+   - Services underneath APIs can change with "surprises"
+   - Lack of tools to analyze and reason about API dependencies in an automated manner
+
+================================
+
+* As a first step towards addressing these issues, we introduce Cerebro
+   - Predict the responds time SLAs of web APIs using static analysis and statistical forecasting
+   - Designed to operate with PaaS clouds
+   - No manual load testing or instrumentation of applications necessary
+
+================================
+
+* Why did we focus on PaaS clouds?
+   - PaaS clouds are extremely popular among developers as scalable, high available and cost effective deployment targets for web apps
+      > Therefore a large amount of web apps today are deployed in PaaS environments (e.g. Snapchat, AppInventor etc)
+   - PaaS clouds enforce restrictions on application code, thus making them amenable to static analysis
+      > No arbitrary code or dependencies allows; Code must adhere to the provided cloud SDK
+      > All application activities are programmed as request-response interactions
+      > Restricted I/O (e.g. no file I/O on GAE)
+      > Restructed threads (e.g. each thread must complete under 60s on GAE)
+
+================================
+
+* To further understand the domain of PaaS applications, we analyzed a collection of open source GAE apps available via Github
+* 3 key observations
+   - Not many branches
+   - Not many loops
+   - PaaS apps spend most of their time on executing cloud SDK calls
+* This implies
+   - PaaS applications are highly amenable to static analysis
+   - Cloud SDK calls made by the app can give significant insights regarding the application performance
+
+================================
+
+* Cerebro architecture
+   - Cloud SDK monitor runs in the cloud, periodically benchmarking cloud SDK operations, and recording the results as a set of time series (one series per operation)
+   - When a developer submits a new web API to the cloud, Cerebro performs a static analysis on it to extract the sequence of cloud SDK calls made by it
+   - In cases where there are cloud SDK calls within loops, we try to predict loop bounds (for data independent loops)
+   - For data independent loops (common case in PaaS apps -- iterating a datastore result set), we prompt the developer to enter a suitable loop bound
+   - The SLA predictor retrieves the time series data related to those cloud SDK calls, aggregates them, and uses QBETS to make an SLA prediction
+
+================================
+
+* QBETS simplified:
+   - a non-parametric time series analysis and forecasting method
+   - Originally developed for predicting the queue delay bounds on batch computing systems
+   - Looks at the first n entries in a time series, and predicts an upper bound for the (n+1)th entry
+   - We adapt QBETS to process time series data regarding cloud SDK performance and make SLA predictions for web APIs
+
+================================
+
+* Implemented prototype for GAE and AppScale
+* Static analyzer - Soot; SDK monitor - GAE app; SLA predictor - Java, Go and QBETS (C)
+* Tests carried out on GAE public cloud and AppScale private cloud (on a 4-node Euca cluster)
+* Used a representative collection of open source Java GAE apps 
+   - Covers branching, loops, single SDK call, multiple SDK calls etc
+
+================================
+
+Results - Prediction correctness
+* We benchmark each app for 15-20hours (in 1 minute intervals)
+* We also run the cloud SDK monitor in parallel on the same cloud
+* We use Cerebro to make per-minute predictions for the whole time span of the experiment 
+* Then we compare the actual app benchmark values againse Cerebro predictions
+
+* For all cases Cerebro records an accuracy level close to higher than 95%
+* In one case it's slightly below 95% (94.8), this is because QBETS accuracy fluctuations
+
+================================
+
+Results - Prediction tightness
+* Desired accracy level can be achieved by simply making absurdly high predictions
+* Challenge is to meet the desired accuracy goal, while making tight predictions (i.e. predict values close to the actual values)
+* We compute the average difference between predicted and actual values
+* In most cases Cerebro is no more than 65ms off
+* When Cerebro predictions are way off, that is because the actual web API operation has highly variable performance traits
+
+================================
+
+* To further evaluate this notion we take a closer look at the case where we get the worst tightness results (getAllStudents operation on GAE)
+* The mean of actual response times is around 3400ms, but the 95th percentile is over 4700ms
+* That is the operation frequently registers very high response times
+* To incorporate such high outliers, and meet the desired accuracy goals, Cerebro must predict a value that is far off from the mean
+* That is Cerebro trades off tightness for accuracy
+
+================================
+
+* We also analyzed the vaidity duration of Cerebro predictions -- i.e. how long does a Cerebro prediction remain valid in the face of changing conditions in the cloud?
+* We refer you to the paper for more details, and simply state that on average Cerebro predictions are valid for at least 26.8 hours on GAE and 33.7 hours on AppScale
+* We conducted more detailed and long term analysis of Cerebro prediction vaidity periods and how it would impact SLA renegotiation in a separate ongoing work
+* We plan to intergrate Cerebro with EAGER for SLA-aware policy enforcement
+* We plan to evaluate adaptive benchmarking strategies for the cloud SDK monitor (i.e. learn the operations and workloads to test from the deployed applications)
+
+================================
+
+In summary:
+* As the API ecosystem continues to grow, we need new and powerful tools to analyze and reason about APIs
+* We designed and implemented Cerebro, a system that predicts the response time SLAs for web APIs deployed in PaaS settings
+* Cerebro uses a combination of static analysis and runtime monitoring of cloud SDK monitor to predict API SLAs as they are deployed to the cloud
+* Cerebro doesn't require any manual load testing or profiling
+
+================================
+
+Thanks and questions
