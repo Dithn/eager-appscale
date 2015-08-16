@@ -24,17 +24,38 @@
 
 ================================
 
-* APIs also have several drawbacks
+* When considering the growth and the adoption of the API technology, we can see that APIs have become important resources, or "first-class citizens" 
+  in the modern IT landscape. 
+* It has come to the point that developers and users now reason about systems in terms of the APIs they consume and the APIs they expose.
+* For example if you're developing a navigation application for a mobile device, you would most likely think about it in terms of an API like Google Maps. 
+* Similarly, if you're the provider of an API like Google Maps, you would want to think about what your API should look like, and what other APIs you can use
+  at the backend, in order to enhance your API by providing more data such as traffic information or nearby landmark information. 
+* This transition of APIs into key IT resources poses several challenges as well.
    - APIs impact the correctness, performance and availability of applications
+   - APIs hide the functionality changes in systems; Services underneath APIs can change with "surprises"
    - Most APIs do not provide strong guarantees with regard to such attributes thus compounding the issue
       > This makes it harder to use APIs in certain application domains (e.g. realtime or performance-critical apps)
-   - Services underneath APIs can change with "surprises"
    - Lack of tools to analyze and reason about API dependencies in an automated manner
 
 ================================
 
-* As a first step towards addressing these issues, we introduce Cerebro
-   - Predict the responds time SLAs of web APIs using static analysis and statistical forecasting
+* Now what do all these entail? 
+* A key implication of these problems is that the service-level agreements, or SLAs of applications are now closely tied to the SLAs of the APIs they consume.
+* In fact the SLA of an application depends on:
+   - the SLAs of the APIs it uses
+   - and the ability to compose multiple API SLAs into a single application SLA
+* This is really bad news for those who use cloud platforms to deploy APIs or those who wish to use APIs already deployed in the cloud.
+   - Modern cloud platforms like Google or AWS as we know do not provide much in terms of an SLA
+   - The best you can expect is an uptime SLA on an individual API (like the one shown here)
+   - They do not provide performance SLAs, and they  most definitely do not provide performance SLAs regarding the user services or APIs deployed in the cloud
+
+================================
+
+* So given this limitation in the cloud platforms, we ask the question
+   - Can we determine, automatically, performance SLAs for cloud-hosted applications and APIs?
+   - If we can solve this problem, every API deployed into the cloud, will automatically get a performance SLA making them more dependable and easier to program with
+* We took a stab at this problem, and came up with a system that we call Cerenro.
+   - Predict the response time SLAs of web APIs using static analysis and statistical forecasting
    - Designed to operate with PaaS clouds
    - No manual load testing or instrumentation of applications necessary
 
@@ -47,7 +68,7 @@
       > No arbitrary code or dependencies allows; Code must adhere to the provided cloud SDK
       > All application activities are programmed as request-response interactions
       > Restricted I/O (e.g. no file I/O on GAE)
-      > Restructed threads (e.g. each thread must complete under 60s on GAE)
+      > Restricted threads (e.g. each thread must complete under 60s on GAE)
 
 ================================
 
@@ -72,10 +93,19 @@
 ================================
 
 * QBETS simplified:
-   - a non-parametric time series analysis and forecasting method
-   - Originally developed for predicting the queue delay bounds on batch computing systems
-   - Looks at the first n entries in a time series, and predicts an upper bound for the (n+1)th entry
+   - a non-parametric time series analysis and forecasting method that can predict instantaneous bounds on the percentiles of a time series
+   - What does that mean? Suppose we are given a time series. If we treat it as a distribution of numbers, we can sort it and compute various percentiles on it
+   - But these percentiles are instantaneous, in the sense they keep changing, as new data points are added to the time series
+   - QBETS gives us the ability to predict upperbounds on the future values of the time series percentiles
+   - And just like the percentiles we can compute off a given snapshot of a timeseries, these predictions are also instantaneous. 
+   - We can and need to reevaluate them afer each data point addition
+
+   - Another way to explain this is: Looks at the first n entries in a time series, and predicts an upper bound for the (n+1)th entry
    - We adapt QBETS to process time series data regarding cloud SDK performance and make SLA predictions for web APIs
+
+   - Originally developed for predicting the queue delay bounds on batch computing systems
+   - It also detects and deals with change points in the time series
+   - Fast, efficient implementation available for online computation
 
 ================================
 
@@ -104,10 +134,7 @@ Results - Prediction tightness
 * We compute the average difference between predicted and actual values
 * In most cases Cerebro is no more than 65ms off
 * When Cerebro predictions are way off, that is because the actual web API operation has highly variable performance traits
-
-================================
-
-* To further evaluate this notion we take a closer look at the case where we get the worst tightness results (getAllStudents operation on GAE)
+(getAllStudents operation on GAE)
 * The mean of actual response times is around 3400ms, but the 95th percentile is over 4700ms
 * That is the operation frequently registers very high response times
 * To incorporate such high outliers, and meet the desired accuracy goals, Cerebro must predict a value that is far off from the mean
@@ -115,19 +142,17 @@ Results - Prediction tightness
 
 ================================
 
-* We also analyzed the vaidity duration of Cerebro predictions -- i.e. how long does a Cerebro prediction remain valid in the face of changing conditions in the cloud?
-* We refer you to the paper for more details, and simply state that on average Cerebro predictions are valid for at least 26.8 hours on GAE and 33.7 hours on AppScale
-* We conducted more detailed and long term analysis of Cerebro prediction vaidity periods and how it would impact SLA renegotiation in a separate ongoing work
+In summary:
+* As the API ecosystem continues to grow, we need APIs to give strong performance guarantees, and we need powerful tools to analyze and reason about them
+* As a first step towards that goal we designed and implemented Cerebro, a system that predicts the response time SLAs for web APIs deployed in PaaS settings
+* Cerebro uses a combination of static analysis and runtime monitoring of cloud SDK to predict API SLAs as they are deployed to the cloud
+* Our empirical evaluation show that Cerebro is able to predict correct and tight performance SLAs for a wide range of PaaS-hosted applications and APIs
+
+* In terms of ongoing and future work, we have been looking into the matter of SLA durability.
+* In fact this paper also includes some preliminary results, but we have been conducting some long term experiments since then 
+* Another related aspect we are interested in is SLA renegotiation
 * We plan to intergrate Cerebro with EAGER for SLA-aware policy enforcement
 * We plan to evaluate adaptive benchmarking strategies for the cloud SDK monitor (i.e. learn the operations and workloads to test from the deployed applications)
-
-================================
-
-In summary:
-* As the API ecosystem continues to grow, we need new and powerful tools to analyze and reason about APIs
-* We designed and implemented Cerebro, a system that predicts the response time SLAs for web APIs deployed in PaaS settings
-* Cerebro uses a combination of static analysis and runtime monitoring of cloud SDK monitor to predict API SLAs as they are deployed to the cloud
-* Cerebro doesn't require any manual load testing or profiling
 
 ================================
 
