@@ -9,18 +9,10 @@
 * Web services and SOA facilitate building complex distributed systems in a modular fashion
 * Web APIs (network-enabled interfaces of web services):
    - make it easy to reuse existing services (and leverage other's development and maintenance efforts in the process)
-   - decouple service implementations from their consumers
-* For these benefits, many developers expose their systems as APIs, and in turns use other APIs to build new systems
+* For these benefits, many developers expose their systems as APIs
 * Consequently the Amount of web APIs available on the Internet has exploded over the last few years
    - ProgramableWeb stats from 2005 to 2013 indicate a near exponential growth
    - Latest API numbers are close to 14000
-
-================================
-
-* The proliferation of APIs is not restricted to a particular industry or application domain
-* ProgrammableWeb stats show API deployments picking up in a variety of fields
-* Finance and enterprise are dominating but government, science and social also show significant API adoption
-   - Breifly mention White House, IEEE and UC-Berkeley APIs
 
 ================================
 
@@ -32,7 +24,6 @@
   at the backend, in order to enhance your API by providing more data such as traffic information or nearby landmark information. 
 * This transition of APIs into key IT resources poses several challenges as well.
    - APIs impact the correctness, performance and availability of applications
-   - APIs hide the functionality changes in systems; Services underneath APIs can change with "surprises"
    - Most APIs do not provide strong guarantees with regard to such attributes thus compounding the issue
       > This makes it harder to use APIs in certain application domains (e.g. realtime or performance-critical apps)
    - Lack of tools to analyze and reason about API dependencies in an automated manner
@@ -41,9 +32,7 @@
 
 * Now what do all these entail? 
 * A key implication of these problems is that the service-level agreements, or SLAs of applications are now closely tied to the SLAs of the APIs they consume.
-* In fact the SLA of an application depends on:
-   - the SLAs of the APIs it uses
-   - and the ability to compose multiple API SLAs into a single application SLA
+* Plus, we need a mechanism to compose multiple API SLAs into a single application SLA
 * This is really bad news for those who use cloud platforms to deploy APIs or those who wish to use APIs already deployed in the cloud.
    - Modern cloud platforms like Google or AWS as we know do not provide much in terms of an SLA
    - The best you can expect is an uptime SLA on an individual API (like the one shown here)
@@ -56,8 +45,8 @@
    - If we can solve this problem, every API deployed into the cloud, will automatically get a performance SLA making them more dependable and easier to program with
 * We took a stab at this problem, and came up with a system that we call Cerenro.
    - Predict the response time SLAs of web APIs using static analysis and statistical forecasting
+   - Fully automatic
    - Designed to operate with PaaS clouds
-   - No manual load testing or instrumentation of applications necessary
 
 ================================
 
@@ -66,7 +55,6 @@
       > Therefore a large amount of web apps today are deployed in PaaS environments (e.g. Snapchat, AppInventor etc)
    - PaaS clouds enforce restrictions on application code, thus making them amenable to static analysis
       > No arbitrary code or dependencies allows; Code must adhere to the provided cloud SDK
-      > All application activities are programmed as request-response interactions
       > Restricted I/O (e.g. no file I/O on GAE)
       > Restricted threads (e.g. each thread must complete under 60s on GAE)
 
