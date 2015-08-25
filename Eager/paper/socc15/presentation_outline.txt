@@ -6,11 +6,10 @@
 
 ================================
 
-* Web services and SOA facilitate building complex distributed systems in a modular fashion
 * Web APIs (network-enabled interfaces of web services):
-   - make it easy to reuse existing services (and leverage other's development and maintenance efforts in the process)
-* For these benefits, many developers expose their systems as APIs
-* Consequently the Amount of web APIs available on the Internet has exploded over the last few years
+   - make it easy to reuse existing services (and leverage other's IT resources)
+* For these benefits, many developers prefer to use existing web APIs when creating new applications.
+* Incidentally the number of web APIs available on the Internet has exploded over the last few years
    - ProgramableWeb stats from 2005 to 2013 indicate a near exponential growth
    - Latest API numbers are close to 14000
 
@@ -22,17 +21,19 @@
 * For example if you're developing a navigation application for a mobile device, you would most likely think about it in terms of an API like Google Maps. 
 * Similarly, if you're the provider of an API like Google Maps, you would want to think about what your API should look like, and what other APIs you can use
   at the backend, in order to enhance your API by providing more data such as traffic information or nearby landmark information. 
-* This transition of APIs into key IT resources poses several challenges as well.
+
+* In this new paradigm for application development, a client application typically relies on one or more web APIs. And the interaction between the
+  client application and its users are governed by some application SLA -- which could be purely technical or financial.
+* However, there are couple of problems in this picture.
    - APIs impact the correctness, performance and availability of applications
    - Most APIs do not provide strong guarantees with regard to such attributes thus compounding the issue
       > This makes it harder to use APIs in certain application domains (e.g. realtime or performance-critical apps)
-   - Lack of tools to analyze and reason about API dependencies in an automated manner
+
+* A key implication of these problems is that the service-level agreements, or SLAs of applications are now closely tied to the SLAs of the APIs they consume.
+* Plus, we need a mechanism to compose multiple API SLAs into a single application SLA
 
 ================================
 
-* Now what do all these entail? 
-* A key implication of these problems is that the service-level agreements, or SLAs of applications are now closely tied to the SLAs of the APIs they consume.
-* Plus, we need a mechanism to compose multiple API SLAs into a single application SLA
 * This is really bad news for those who use cloud platforms to deploy APIs or those who wish to use APIs already deployed in the cloud.
    - Modern cloud platforms like Google or AWS as we know do not provide much in terms of an SLA
    - The best you can expect is an uptime SLA on an individual API (like the one shown here)
