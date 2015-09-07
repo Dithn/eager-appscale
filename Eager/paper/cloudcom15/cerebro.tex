@@ -1,9 +1,7 @@
 In this section we provide an overview of PaaS clouds and Cerebro. Then we present a model for 
 negotiating response time SLAs for web APIs deployed in PaaS clouds.
 
-\vspace{-0.1in}
 \subsection{ Properties of PaaS-hosted Applications}
-\vspace{-0.1in}
 PaaS clouds enforce a restricted programming model on the application developer to guarantee
 the scalability, security and the availability of the cloud-hosted applications. 
 PaaS clouds provide a predefined set of programming interfaces through which they export 
@@ -29,16 +27,13 @@ a collection of open source PaaS applications we have also found that program fe
 inhibit static analysis (e.g. excessive branching and loops) are rare among PaaS-hosted
 applications.
 
-\vspace{-0.1in}
 \subsection{ Cerebro Architecture and Statistical Model}
-\vspace{-0.1in}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.3]{cerebro_arch}
 \caption{Main components of Cerebro and their interactions.}
 \label{fig:cerebro_arch}
-\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:cerebro_arch} illustrates the main components of Cerebro, and how they interact with
@@ -149,9 +144,7 @@ We refer to this duration as the \textit{SLA validity duration}.
 %%for some percentile $p$, the measured response time of the API is less
 %than or equal to the predicted upper bound at least $p\%$ of the time. 
 
-\vspace{-0.1in}
 \subsection{ SLA Negotiation Model}
-\vspace{-0.1in}
 We extend Cerebro with an SLA negotiation process that invalidates SLAs at the end of the
 SLA validity duration, and re-establishes a new SLA for the API consumer.
 API consumers acquire an initial SLA for a web API hosted by a Cerebro-equipped PaaS
