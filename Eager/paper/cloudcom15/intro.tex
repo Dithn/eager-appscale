@@ -21,7 +21,7 @@ forecasting of web API performance as a means of providing each API
 consumer with a guaranteed minimum performance level.
 More specifically, we explore the idea of formulating Service Level Agreements (SLAs)
 for web APIs, based on automatic prediction of web API response times.
-Most cloud platforms today offer probabilistic
+Most cloud platforms which are used to serve web APIs today only offer probabilistic
 SLAs for service availability but not response time. 
 Our work focuses on response time SLAs for web APIs deployed
 in Platform-as-a-Service (PaaS) clouds.
@@ -47,7 +47,13 @@ explore the use of Cerebro predictions as the basis of SLAs between an API
 consumer, or client,
 and a service hosted by the PaaS.  Specifically, we detail the duration
 over which SLAs offered to clients of applications running in Google App
-Engine persist. The SLA duration is important because PaaS API consumers
+Engine persist. The predicted SLAs do not remain valid indefinitely due to the
+dynamic performance variations that occur in the underlying cloud platform.
+Empirical analysis on cloud workload traces has shown that production cloud
+platforms often display performance variations, sometimes with temporal
+patterns~\cite{5948601}.
+
+The resulting SLA duration is important because PaaS API consumers
 often
 wish to contract for specific minimum service level guarantees, and must
 renegotiate when those guarantees expire or can no longer be sustained.  
