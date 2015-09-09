@@ -37,6 +37,16 @@ by the developer. In contrast, Cerebro handles SLAs for interactive web applicat
 the response time of applications using static analysis, without any input from the application developer. 
 Cerebro also supports automatic SLA renegotiation, with possible room for economic incentives.
 
+Iosup et al showed via empirical analysis, that production cloud platforms like Google App Engine and AWS regularly
+undergo performance variations, thus impacting the response time of the applications deployed in such
+cloud platforms~\cite{5948601}. Some of these cloud platforms even exhibit temporal patterns 
+in their performance variations (weekly, monthly, annual or seasonal). Cerebro and the associated API performance
+forecasting model acknowledge this fact, and periodically re-evaluate the predicted response time upper bounds.
+It detects when a previously predicted upper bound becomes invalid, and prompts the API clients to renegotiate their
+SLAs accordingly. Indeed, one of Cerebro's strength's is its ability to detect change points in the input time series
+data (periodically collected cloud SDK benchmark results), and generate up-to-date predictions that are not 
+affected by old obsolete observations that were gathered prior to a change point.
+
 There has also been prior work in the area of predicting 
 SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
 These systems take an existing SLA and historical performance data of a service, and predict when the 
