@@ -26,6 +26,33 @@ SLAs for service availability but not response time.
 Our work focuses on response time SLAs for web APIs deployed
 in Platform-as-a-Service (PaaS) clouds.
 
+We use the term ``SLA'' to refer to the minimum service level promised by the
+service provider regarding some non-functional property of the service such as
+its availability or performance (response time). Such SLAs are explicitly
+stated by the service provider, and are associated with a correctness probability,
+which can be described as the likelihood the service will meet the promised
+minimum service level. An availability SLA that follows this notion
+takes the form: ``the service will be available $p\%$ of the time''.
+Here the value $p\%$ is the correctness probability of the SLA. Similarly, a
+response time SLA would take the form of the statement: ``the service will respond 
+under $Q$ milliseconds, $p\%$ of the time. Naturally, $p$ should be a value close
+to $100$, for this type of SLAs to be useful in practice. 
+
+In a corporate setting, an 
+SLA would consist of additional clauses describing what happens if and when the
+service fails to meet the promised minimum service level (for example, if the
+service is only available $p^\prime\%$ of the time, where $p^\prime < p$). This
+typically boils down to service provider paying some penalty (a refund), or 
+providing some form of free service credits for the users. We do not consider such
+legal and social obligations of an SLA in this work, and simply focus on the
+minimum service levels and the associated correctness probabilities, since those
+are the things that matter from a performance and capacity planning point of view
+of an application. Some authors use the term Service Level Objective (SLO) to
+refer to promised minimum service levels, and reserve the term SLA for the
+aggregate of SLOs and other action clauses~\cite{Keller:2003:WFS:635430.635442}.
+Since we are only looking at the minimum service levels, we disregard this
+separation, and make liberal use of the term SLA.
+
 %Without such tools, 
 %programmers must resort to extensive and continuous testing and 
 %profiling 
@@ -33,7 +60,7 @@ in Platform-as-a-Service (PaaS) clouds.
 %and behavior
 %of their applications.
 
-To enable this, we have developed Cerebro~\cite{Jayathilaka:2015:RTS:2806777.2806842},
+To enable our study, we have developed Cerebro~\cite{Jayathilaka:2015:RTS:2806777.2806842},
 a system that
 predicts the response time of web APIs hosted in a PaaS cloud. Cerebro is able to
 determine automatically the bounds on API response time with a specific
@@ -112,4 +139,4 @@ Such renegotiations are not useful in practice, and only serve to increase the r
 for API consumers. We thus also present a threshold-based mechanism that both reduces 
 the number of required renegotiations, and extends SLA validity duration.
 To our knowledge, no other research or system is able to predict
-durable performance SLAs for a public PaaS such as Google App Engine.
+durable performance SLAs for applications hosted on a public PaaS such as Google App Engine.
