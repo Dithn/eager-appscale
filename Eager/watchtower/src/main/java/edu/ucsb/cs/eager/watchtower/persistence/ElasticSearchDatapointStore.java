@@ -34,7 +34,6 @@ import java.util.Map;
 public class ElasticSearchDataPointStore extends DataPointStore {
 
     private static final String INDEX_NAME = "logstash-watchtower";
-    private static final String INDEX_TYPE = "appengine";
     private static final String ELK_ENDPOINT = "elkEndpoint";
     private static final Gson gson = new Gson();
 
@@ -49,24 +48,45 @@ public class ElasticSearchDataPointStore extends DataPointStore {
 
     @Override
     public boolean save(DataPoint p) {
-        Map<String,Object> json = new HashMap<>();
-        json.put("timestamp", p.getTimestamp());
-        json.putAll(p.getData());
         try {
-            URL url = new URL(endpoint + "/" + INDEX_NAME + "/" + INDEX_TYPE);
+            URL url = new URL(endpoint + "/_bulk");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(gson.toJson(json));
+            writer.write(toBulkIndexRequest(p));
             writer.close();
 
-            boolean status = connection.getResponseCode() == HttpURLConnection.HTTP_CREATED;
+            boolean status = connection.getResponseCode() == HttpURLConnection.HTTP_OK;
             connection.disconnect();
             return status;
         } catch (IOException e) {
             return false;
         }
+    }
+
+    private String toBulkIndexRequest(DataPoint p) {
+        Map<String,Map<String,Object>> serviceResults = new HashMap<>();
+        for (Map.Entry<String,Integer> entry : p.getData().entrySet()) {
+            String key = entry.getKey();
+            String serviceName = key.substring(0, key.indexOf('_', 3));
+            Map<String,Object> sr = serviceResults.get(serviceName);
+            if (sr == null) {
+                sr = new HashMap<>();
+                sr.put("timestamp", p.getTimestamp());
+                serviceResults.put(serviceName, sr);
+            }
+            sr.put(key, entry.getValue());
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String,Map<String,Object>> entry : serviceResults.entrySet()) {
+            String op = String.format("{ \"index\" : { \"_index\" : \"%s\", \"_type\" : \"%s\" } }\n",
+                    INDEX_NAME, entry.getKey());
+            sb.append(op);
+            sb.append(gson.toJson(entry.getValue())).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
