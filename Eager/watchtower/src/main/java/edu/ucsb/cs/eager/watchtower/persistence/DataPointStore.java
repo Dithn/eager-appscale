@@ -41,7 +41,7 @@ public abstract class DataPointStore {
         if ("elk".equals(persistence)) {
             return new ElasticSearchDataPointStore(context);
         }
-        return new CloudDataPointStore();
+        return new CloudDatapointStore();
     }
 
 }

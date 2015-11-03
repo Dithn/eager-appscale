@@ -23,8 +23,8 @@ import java.util.*;
 
 public final class DataPoint {
 
-    private final long timestamp;
-    private final Map<String,Integer> data = new HashMap<String, Integer>();
+    private long timestamp;
+    private Map<String,Integer> data = new HashMap<String, Integer>();
 
     public DataPoint(long timestamp) {
         this.timestamp = timestamp;
