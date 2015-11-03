@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public final class CloudDatapointStore extends DataPointStore {
+public final class CloudDataPointStore extends DataPointStore {
 
     @Override
     public boolean save(DataPoint p) {
