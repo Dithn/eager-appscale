@@ -19,34 +19,36 @@
 
 package edu.ucsb.cs.eager.watchtower.persistence;
 
-import com.google.appengine.repackaged.com.google.gson.Gson;
 import edu.ucsb.cs.eager.watchtower.DataPoint;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 import javax.servlet.ServletContext;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ElasticSearchDataPointStore extends DataPointStore {
 
-    private static final Gson gson = new Gson();
-
-    private final URL url;
+    private final TransportClient client;
 
     public ElasticSearchDataPointStore(ServletContext context) {
-        String endpoint = context.getInitParameter("elkEndpoint");
-        if (endpoint == null || "".equals(endpoint)) {
-            throw new RuntimeException("ELK endpoint not configured");
+        String endpoints = context.getInitParameter("elkEndpoints");
+        if (endpoints == null || "".equals(endpoints)) {
+            throw new RuntimeException("ELK endpoints not configured");
         }
-        try {
-            url = new URL(endpoint);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Malformed URL", e);
+        client = TransportClient.builder().build();
+        for (String endpoint : endpoints.split(",")) {
+            String[] segments = endpoint.split(":");
+            try {
+                client.addTransportAddress(new InetSocketTransportAddress(
+                        InetAddress.getByName(segments[0]), Integer.parseInt(segments[1])));
+            } catch (UnknownHostException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -55,20 +57,9 @@ public class ElasticSearchDataPointStore extends DataPointStore {
         Map<String,Object> json = new HashMap<>();
         json.put("timestamp", p.getTimestamp());
         json.putAll(p.getData());
-        try {
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(gson.toJson(json));
-            writer.close();
-
-            boolean status = connection.getResponseCode() == HttpURLConnection.HTTP_CREATED;
-            connection.disconnect();
-            return status;
-        } catch (IOException e) {
-            return false;
-        }
+        IndexResponse response = client.prepareIndex("logstash-watchtower", "appengine")
+                .setSource(json).get();
+        return response.isCreated();
     }
 
     @Override
@@ -88,5 +79,6 @@ public class ElasticSearchDataPointStore extends DataPointStore {
 
     @Override
     public void close() {
+        client.close();
     }
 }

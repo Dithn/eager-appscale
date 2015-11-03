@@ -5,8 +5,8 @@
         <param-value>elk</param-value>
     </context-param>
     <context-param>
-        <param-name>elkEndpoint</param-name>
-        <param-value>http://128.111.179.159:9200/logstash-watchtower/appengine</param-value>
+        <param-name>elkEndpoints</param-name>
+        <param-value>128.111.179.159:9200</param-value>
     </context-param>
 
     <servlet>
