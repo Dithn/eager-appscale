@@ -21,7 +21,9 @@ package edu.ucsb.cs.eager.watchtower;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import edu.ucsb.cs.eager.watchtower.persistence.DataPointStore;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,20 @@ import java.io.InputStream;
 import java.util.*;
 
 public class BackupServlet extends HttpServlet {
+
+    private DataPointStore store;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        store = DataPointStore.init(config.getServletContext());
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        store.close();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req,
@@ -50,9 +66,9 @@ public class BackupServlet extends HttpServlet {
         Map<Long,Map<String,Integer>> results = new TreeMap<Long, Map<String, Integer>>();
         Collection<DataPoint> dataPoints;
         if (limit > 0) {
-            dataPoints = DataPoint.getRange(start, limit);
+            dataPoints = store.getRange(start, limit);
         } else {
-            dataPoints = DataPoint.getAll();
+            dataPoints = store.getAll();
         }
         for (DataPoint p : dataPoints) {
             if (p.getTimestamp() > start) {
@@ -91,7 +107,7 @@ public class BackupServlet extends HttpServlet {
                 dataPoints.add(p);
             }
 
-            if (DataPoint.restore(dataPoints)) {
+            if (store.restore(dataPoints)) {
                 System.out.println("Restored " + dataPoints.size() + " data points...");
             } else {
                 resp.sendError(500, "Restoration operation failed");

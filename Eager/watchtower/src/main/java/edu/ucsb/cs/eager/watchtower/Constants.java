@@ -27,7 +27,7 @@ public class Constants {
     public static final String BM_CONTEXT_KIND = "BM_CONTEXT";
     public static final String BM_CONTEXT_KEY = "BM_CONTEXT";
     public static final String BM_CONTEXT_FIRST_RECORD = "FirstRecord";
-    public static final String BM_CONTEXT_STOP_COLLECTION = "StopCollection";
+    public static final String BM_CONTEXT_COLLECTION_ENABLED = "CollectionEnabled";
     public static final String BM_CONTEXT_INITIALIZED = "Initialized";
 
     public static final String DATA_POINT_KIND = "DATA_POINT";

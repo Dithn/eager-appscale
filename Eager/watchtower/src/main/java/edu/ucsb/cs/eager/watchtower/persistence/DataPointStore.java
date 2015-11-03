@@ -17,33 +17,31 @@
  *  under the License.
  */
 
-package edu.ucsb.cs.eager.watchtower;
+package edu.ucsb.cs.eager.watchtower.persistence;
 
-import java.util.*;
+import edu.ucsb.cs.eager.watchtower.DataPoint;
 
-public final class DataPoint {
+import javax.servlet.ServletContext;
+import java.util.List;
 
-    private long timestamp;
-    private Map<String,Integer> data = new HashMap<String, Integer>();
+public abstract class DataPointStore {
 
-    public DataPoint(long timestamp) {
-        this.timestamp = timestamp;
-    }
+    public abstract boolean save(DataPoint p);
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+    public abstract List<DataPoint> getAll();
 
-    public void put(String key, int value) {
-        this.data.put(key, value);
-    }
+    public abstract List<DataPoint> getRange(long start, int limit);
 
-    public void putAll(Map<String,Integer> map) {
-        this.data.putAll(map);
-    }
+    public abstract boolean restore(List<DataPoint> dataPoints);
 
-    public Map<String,Integer> getData() {
-        return Collections.unmodifiableMap(this.data);
+    public abstract void close();
+
+    public static DataPointStore init(ServletContext context) {
+        String persistence = context.getInitParameter("dataPointStore");
+        if ("elk".equals(persistence)) {
+            return new ElasticSearchDataPointStore(context);
+        }
+        return new CloudDatapointStore();
     }
 
 }

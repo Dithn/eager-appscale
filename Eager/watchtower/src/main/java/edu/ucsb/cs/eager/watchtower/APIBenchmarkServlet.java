@@ -22,7 +22,9 @@ package edu.ucsb.cs.eager.watchtower;
 import edu.ucsb.cs.eager.watchtower.benchmark.APIBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.MemcacheBenchmark;
+import edu.ucsb.cs.eager.watchtower.persistence.DataPointStore;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +35,24 @@ import java.util.Map;
 
 public class APIBenchmarkServlet extends HttpServlet {
 
+    private DataPointStore store;
+
     private static final APIBenchmark[] benchmarks = new APIBenchmark[]{
         new DatastoreBenchmark(),
         new MemcacheBenchmark(),
     };
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        store = DataPointStore.init(config.getServletContext());
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        store.close();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req,
@@ -65,7 +81,7 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        if (context.isFirstRecord() || context.isCollectionStopped()) {
+        if (context.isFirstRecord() || !context.isCollectionEnabled()) {
             // Always drop the very first data point collected.
             // This is almost always an outlier.
             context.setFirstRecord(false);
@@ -74,7 +90,7 @@ public class APIBenchmarkServlet extends HttpServlet {
             } else {
                 resp.sendError(500, "Failed to save benchmark context");
             }
-        } else if (p.save()) {
+        } else if (store.save(p)) {
             JSONUtils.serializeMap(results, resp);
         } else {
             resp.sendError(500, "Failed to save benchmark data point");
@@ -84,11 +100,11 @@ public class APIBenchmarkServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req,
                           HttpServletResponse resp) throws ServletException, IOException {
-        String stopCollection = req.getParameter("stopCollection");
+        String collectionEnabled = req.getParameter("collectionEnabled");
         BenchmarkContext context = new BenchmarkContext();
-        context.setCollectionStopped(Boolean.parseBoolean(stopCollection));
+        context.setCollectionEnabled(Boolean.parseBoolean(collectionEnabled));
         if (context.save()) {
-            JSONUtils.serializeCollectionStatus(context.isCollectionStopped(), resp);
+            JSONUtils.serializeCollectionStatus(context.isCollectionEnabled(), resp);
         } else {
             resp.sendError(500, "Failed to save benchmark context");
         }
