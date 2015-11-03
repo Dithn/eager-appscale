@@ -21,6 +21,7 @@ package edu.ucsb.cs.eager.watchtower;
 
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
+import edu.ucsb.cs.eager.watchtower.persistence.CloudDataPointStoreUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,9 +51,9 @@ public class BackupServlet extends HttpServlet {
         Map<Long,Map<String,Integer>> results = new TreeMap<Long, Map<String, Integer>>();
         Collection<DataPoint> dataPoints;
         if (limit > 0) {
-            dataPoints = DataPoint.getRange(start, limit);
+            dataPoints = CloudDataPointStoreUtils.getRange(start, limit);
         } else {
-            dataPoints = DataPoint.getAll();
+            dataPoints = CloudDataPointStoreUtils.getAll();
         }
         for (DataPoint p : dataPoints) {
             if (p.getTimestamp() > start) {
@@ -91,7 +92,7 @@ public class BackupServlet extends HttpServlet {
                 dataPoints.add(p);
             }
 
-            if (DataPoint.restore(dataPoints)) {
+            if (CloudDataPointStoreUtils.restore(dataPoints)) {
                 System.out.println("Restored " + dataPoints.size() + " data points...");
             } else {
                 resp.sendError(500, "Restoration operation failed");

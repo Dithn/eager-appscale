@@ -17,32 +17,20 @@
  *  under the License.
  */
 
-package edu.ucsb.cs.eager.watchtower;
+package edu.ucsb.cs.eager.watchtower.persistence;
 
-import java.util.*;
+import edu.ucsb.cs.eager.watchtower.DataPoint;
 
-public class DataPoint {
+import javax.servlet.ServletContext;
 
-    private long timestamp;
-    private Map<String,Integer> data = new HashMap<String, Integer>();
+public abstract class DataPointStore {
 
-    public DataPoint(long timestamp) {
-        this.timestamp = timestamp;
+    protected final ServletContext context;
+
+    public DataPointStore(ServletContext context) {
+        this.context = context;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+    public abstract boolean save(DataPoint p);
 
-    public void put(String key, int value) {
-        this.data.put(key, value);
-    }
-
-    public void putAll(Map<String,Integer> map) {
-        this.data.putAll(map);
-    }
-
-    public Map<String,Integer> getData() {
-        return Collections.unmodifiableMap(this.data);
-    }
 }

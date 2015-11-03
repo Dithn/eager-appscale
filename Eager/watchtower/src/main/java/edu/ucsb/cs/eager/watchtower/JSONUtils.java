@@ -47,11 +47,11 @@ public class JSONUtils {
         }
     }
 
-    public static void serializeCollectionStatus(boolean collectionStopped,
+    public static void serializeCollectionStatus(boolean collectionEnabled,
                                                  HttpServletResponse response) throws IOException {
         try {
             JSONObject json = new JSONObject();
-            json.put("collectionStopped", collectionStopped);
+            json.put("collectionEnabled", collectionEnabled);
             setContentType(response);
             response.getOutputStream().println(json.toString());
         } catch (JSONException e) {

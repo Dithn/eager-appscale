@@ -22,7 +22,12 @@ package edu.ucsb.cs.eager.watchtower;
 import edu.ucsb.cs.eager.watchtower.benchmark.APIBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.DatastoreBenchmark;
 import edu.ucsb.cs.eager.watchtower.benchmark.MemcacheBenchmark;
+import edu.ucsb.cs.eager.watchtower.persistence.CloudDataPointStore;
+import edu.ucsb.cs.eager.watchtower.persistence.DataPointStore;
+import edu.ucsb.cs.eager.watchtower.persistence.ElasticSearchDataPointStore;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +42,27 @@ public class APIBenchmarkServlet extends HttpServlet {
         new DatastoreBenchmark(),
         new MemcacheBenchmark(),
     };
+
+    private DataPointStore dataPointStore;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init();
+        ServletContext context = config.getServletContext();
+        String storeImpl = context.getInitParameter("dataPointStore");
+        if ("elk".equals(storeImpl)) {
+            storeImpl = ElasticSearchDataPointStore.class.getName();
+        } else {
+            storeImpl = CloudDataPointStore.class.getName();
+        }
+        try {
+            Class<? extends DataPointStore> clazz = Class.forName(storeImpl)
+                    .asSubclass(DataPointStore.class);
+            dataPointStore = clazz.getConstructor(ServletContext.class).newInstance(context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req,
@@ -57,7 +83,7 @@ public class APIBenchmarkServlet extends HttpServlet {
             return;
         }
 
-        Map<String,Map<String,Integer>> results = new HashMap<String, Map<String, Integer>>();
+        Map<String,Map<String,Integer>> results = new HashMap<>();
         DataPoint p = new DataPoint(timestamp);
         for (APIBenchmark b : benchmarks) {
             Map<String,Integer> data = b.benchmark();
@@ -65,7 +91,7 @@ public class APIBenchmarkServlet extends HttpServlet {
             results.put(b.getName(), data);
         }
 
-        if (context.isFirstRecord() || context.isCollectionStopped()) {
+        if (context.isFirstRecord() || !context.isCollectionEnabled()) {
             // Always drop the very first data point collected.
             // This is almost always an outlier.
             context.setFirstRecord(false);
@@ -74,7 +100,7 @@ public class APIBenchmarkServlet extends HttpServlet {
             } else {
                 resp.sendError(500, "Failed to save benchmark context");
             }
-        } else if (p.save()) {
+        } else if (dataPointStore.save(p)) {
             JSONUtils.serializeMap(results, resp);
         } else {
             resp.sendError(500, "Failed to save benchmark data point");
@@ -84,11 +110,11 @@ public class APIBenchmarkServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req,
                           HttpServletResponse resp) throws ServletException, IOException {
-        String stopCollection = req.getParameter("stopCollection");
+        String enabled = req.getParameter("collectionEnabled");
         BenchmarkContext context = new BenchmarkContext();
-        context.setCollectionStopped(Boolean.parseBoolean(stopCollection));
+        context.setCollectionEnabled(Boolean.parseBoolean(enabled));
         if (context.save()) {
-            JSONUtils.serializeCollectionStatus(context.isCollectionStopped(), resp);
+            JSONUtils.serializeCollectionStatus(context.isCollectionEnabled(), resp);
         } else {
             resp.sendError(500, "Failed to save benchmark context");
         }

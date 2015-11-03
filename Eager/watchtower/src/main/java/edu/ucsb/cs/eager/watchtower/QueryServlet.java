@@ -19,14 +19,14 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
+import edu.ucsb.cs.eager.watchtower.persistence.CloudDataPointStoreUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class QueryServlet extends HttpServlet {
@@ -52,7 +52,7 @@ public class QueryServlet extends HttpServlet {
         }
 
         QueryResult result = new QueryResult();
-        for (DataPoint p : DataPoint.getAll()) {
+        for (DataPoint p : CloudDataPointStoreUtils.getAll()) {
             if (start <= p.getTimestamp() && p.getTimestamp() <= end) {
                 Map<String,Integer> currentData = new HashMap<String, Integer>();
                 for (Map.Entry<String,Integer> entry : p.getData().entrySet()) {

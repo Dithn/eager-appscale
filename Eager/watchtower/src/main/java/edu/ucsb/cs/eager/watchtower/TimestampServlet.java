@@ -19,6 +19,8 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
+import edu.ucsb.cs.eager.watchtower.persistence.CloudDataPointStoreUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +37,7 @@ public class TimestampServlet extends HttpServlet {
         Map<String,Long> results = new HashMap<String,Long>();
         int count = 0;
         long latest = -1L;
-        for (DataPoint p : DataPoint.getAll()) {
+        for (DataPoint p : CloudDataPointStoreUtils.getAll()) {
             if (p.getTimestamp() >= limit) {
                 break;
             }
