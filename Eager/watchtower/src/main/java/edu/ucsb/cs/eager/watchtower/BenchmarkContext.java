@@ -25,7 +25,7 @@ public class BenchmarkContext {
 
     private boolean initialized = false;
     private boolean firstRecord = true;
-    private boolean collectionEnabled = false;
+    private boolean collectionStopped = true;
 
     public BenchmarkContext(){
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -37,8 +37,8 @@ public class BenchmarkContext {
             if (entity != null) {
                 firstRecord = (Boolean) entity.getProperty(
                         Constants.BM_CONTEXT_FIRST_RECORD);
-                collectionEnabled = (Boolean) entity.getProperty(
-                        Constants.BM_CONTEXT_COLLECTION_ENABLED);
+                collectionStopped = (Boolean) entity.getProperty(
+                        Constants.BM_CONTEXT_STOP_COLLECTION);
                 initialized = (Boolean) entity.getProperty(
                         Constants.BM_CONTEXT_INITIALIZED);
             }
@@ -58,12 +58,12 @@ public class BenchmarkContext {
         this.firstRecord = firstRecord;
     }
 
-    public boolean isCollectionEnabled() {
-        return collectionEnabled;
+    public boolean isCollectionStopped() {
+        return collectionStopped;
     }
 
-    public void setCollectionEnabled(boolean collectionEnabled) {
-        this.collectionEnabled = collectionEnabled;
+    public void setCollectionStopped(boolean collectionStopped) {
+        this.collectionStopped = collectionStopped;
     }
 
     public boolean isInitialized() {
@@ -82,7 +82,7 @@ public class BenchmarkContext {
             Entity entity = new Entity(Constants.BM_CONTEXT_KIND,
                     Constants.BM_CONTEXT_KEY, Constants.BM_CONTEXT_PARENT);
             entity.setProperty(Constants.BM_CONTEXT_FIRST_RECORD, firstRecord);
-            entity.setProperty(Constants.BM_CONTEXT_COLLECTION_ENABLED, collectionEnabled);
+            entity.setProperty(Constants.BM_CONTEXT_STOP_COLLECTION, collectionStopped);
             entity.setProperty(Constants.BM_CONTEXT_INITIALIZED, initialized);
             datastore.put(txn, entity);
             txn.commit();

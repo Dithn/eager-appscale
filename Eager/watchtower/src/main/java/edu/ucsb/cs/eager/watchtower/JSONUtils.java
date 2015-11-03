@@ -51,7 +51,7 @@ public class JSONUtils {
                                                  HttpServletResponse response) throws IOException {
         try {
             JSONObject json = new JSONObject();
-            json.put("collectionEnabled", collectionStopped);
+            json.put("collectionStopped", collectionStopped);
             setContentType(response);
             response.getOutputStream().println(json.toString());
         } catch (JSONException e) {

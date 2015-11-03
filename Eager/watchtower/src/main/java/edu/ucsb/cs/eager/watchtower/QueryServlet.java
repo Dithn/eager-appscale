@@ -19,32 +19,17 @@
 
 package edu.ucsb.cs.eager.watchtower;
 
-import edu.ucsb.cs.eager.watchtower.persistence.DataPointStore;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QueryServlet extends HttpServlet {
-
-    private DataPointStore store;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        store = DataPointStore.init(config.getServletContext());
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        store.close();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req,
@@ -67,7 +52,7 @@ public class QueryServlet extends HttpServlet {
         }
 
         QueryResult result = new QueryResult();
-        for (DataPoint p : store.getAll()) {
+        for (DataPoint p : DataPoint.getAll()) {
             if (start <= p.getTimestamp() && p.getTimestamp() <= end) {
                 Map<String,Integer> currentData = new HashMap<String, Integer>();
                 for (Map.Entry<String,Integer> entry : p.getData().entrySet()) {
