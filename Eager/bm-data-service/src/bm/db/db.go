@@ -201,7 +201,7 @@ type RangeQuery struct {
 }
 
 func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error) {
-	var queryString *bytes.Buffer
+	var queryString string
 	if start != -1 || end != -1 {
 		var rq RangeQuery
 		rq.Query.Range.Timestamp = make(map[string]int64)
@@ -215,27 +215,34 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 		if err != nil {
 			return nil, err
 		}
-		queryString = bytes.NewBuffer(qrBytes)
+		queryString = string(qrBytes)
 	} else {
-		queryString = bytes.NewBufferString(`{"query" : {"match_all":{}}}`)
+		queryString = `{"query" : {"match_all":{}}}`
 	}
-	
+
 	url := fmt.Sprintf("%s/%s/%s/_search?scroll=1m&size=1000", es.BaseURL, es.Index, es.Type)
-	resp, err := http.Post(url, "application/json", queryString)
-	if err != nil {
+	result := make(map[string]TimeSeries)
+	if err := queryElasticSearch(url, queryString, ops, result); err != nil {
 		return nil, err
+	}
+	return result, nil
+}
+
+func queryElasticSearch(url string, queryString string, ops []string, result map[string]TimeSeries) error {
+	resp, err := http.Post(url, "application/json", bytes.NewBufferString(queryString))
+	if err != nil {
+		return err
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	var sr searchResult
 	if err := json.Unmarshal(body, &sr); err != nil {
-		return nil, err
+		return err
 	}
-	result := make(map[string]TimeSeries)
 	for _, hit := range sr.Hits.Hits {
 		timestamp := hit.Source.Timestamp
 		values := hit.Source.Values
@@ -244,5 +251,5 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 			result[op] = append(result[op], p)
 		}
 	}
-	return result, nil
+	return nil
 }
