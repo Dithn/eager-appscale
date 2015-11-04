@@ -4,6 +4,7 @@ package db
 
 import (
 	"bm/bmutil"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -156,6 +157,92 @@ func (aed *AEDatabase) Query(n int, ops []string, start, end int64) (map[string]
 			})
 		}
 		result[op] = ts
+	}
+	return result, nil
+}
+
+type ElasticSearchDatabase struct {
+	BaseURL string
+	Index string
+	Type string
+}
+
+type searchResult struct {
+	ScrollID string `json:"_scroll_id"`
+	Took int `json:"took"`
+	TimedOut bool `json:"timed_out"`
+	Shards struct {
+		Total int `json:"total"`
+		Successful int `json:"successful"`
+		Failed int `json:"failed"`
+	} `json:"_shards"`
+	Hits struct {
+		Total int `json:"total"`
+		MaxScore float64 `json:"max_score"`
+		Hits []struct {
+			Index string `json:"_index"`
+			Type string `json:"_type"`
+			ID string `json:"_id"`
+			Score float64 `json:"_score"`
+			Source struct {
+				Timestamp int64 `json:"timestamp"`
+				Values map[string]int
+			} `json:"_source"`
+		} `json:"hits"`
+	} `json:"hits"`
+}
+
+type RangeQuery struct {
+	Query struct {
+		Range struct {
+			Timestamp map[string]int64 `json:"timestamp"`
+		} `json:"range"`
+	} `json:"query"`
+}
+
+func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error) {
+	var queryString *bytes.Buffer
+	if start != -1 || end != -1 {
+		var rq RangeQuery
+		rq.Query.Range.Timestamp = make(map[string]int64)
+		if start != -1 {
+			rq.Query.Range.Timestamp["gte"] = start
+		}
+		if end != -1 {
+			rq.Query.Range.Timestamp["lte"] = end
+		}
+		qrBytes, err := json.Marshal(rq)
+		if err != nil {
+			return nil, err
+		}
+		queryString = bytes.NewBuffer(qrBytes)
+	} else {
+		queryString = bytes.NewBufferString(`{"query" : {"match_all":{}}}`)
+	}
+	
+	url := fmt.Sprintf("%s/%s/%s/_search?scroll=1m&size=1000", es.BaseURL, es.Index, es.Type)
+	resp, err := http.Post(url, "application/json", queryString)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var sr searchResult
+	if err := json.Unmarshal(body, &sr); err != nil {
+		return nil, err
+	}
+	result := make(map[string]TimeSeries)
+	for _, hit := range sr.Hits.Hits {
+		timestamp := hit.Source.Timestamp
+		values := hit.Source.Values
+		for _, op := range ops {
+			p := Datapoint{Timestamp: timestamp, Value: values[op]}
+			result[op] = append(result[op], p)
+		}
 	}
 	return result, nil
 }

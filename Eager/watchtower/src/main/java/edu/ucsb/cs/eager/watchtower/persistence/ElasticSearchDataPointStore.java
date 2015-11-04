@@ -52,7 +52,7 @@ public class ElasticSearchDataPointStore extends DataPointStore {
     public boolean save(DataPoint p) {
         Map<String,Object> json = new HashMap<>();
         json.put("timestamp", p.getTimestamp());
-        json.putAll(p.getData());
+        json.put("values", p.getData());
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);

@@ -164,6 +164,12 @@ func main() {
 			fmt.Println(err)
 			return
 		}
+	} else if *dbType == "es" {
+		d = &db.ElasticSearchDatabase {
+			BaseURL: *url,
+			Index: "logstash-watchtower",
+			Type: "appengine",
+		}
 	} else {
 		fmt.Println("Invalid database type:", *dbType)
 		return
