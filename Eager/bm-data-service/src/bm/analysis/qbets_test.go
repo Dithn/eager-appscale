@@ -18,8 +18,8 @@ func TestPredictQuantile1(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if q != 99 {
-		t.Errorf("expected: 99, got: %f", q)
+	if q != 97 {
+		t.Errorf("expected: 97, got: %d", q)
 	}
 }
 

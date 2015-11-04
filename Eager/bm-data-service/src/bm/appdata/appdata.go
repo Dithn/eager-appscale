@@ -31,14 +31,16 @@ func main() {
 	}
 
 	var ts db.TimeSeries
-	for _, line := range lines {
+	var tsval []int
+	for l_index, line := range lines {
 		segments := strings.Fields(line)
 		val, err := strconv.ParseFloat(segments[1], 64)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		ts = append(ts, int(val*1000.0))
+		ts = append(ts, db.Datapoint{Timestamp: int64(l_index), Value:int(val*1000.0)})
+		tsval = append(tsval, int(val*1000.0))
 	}
 	fmt.Println("Loaded", len(ts), "data points from file")
 
@@ -48,19 +50,19 @@ func main() {
 		fmt.Println()
 	}
 
-	pred, err := pred.PredictQuantile(ts, *q, *c, false)
+	prediction, err := pred.PredictQuantile(ts, *q, *c, false)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("Actual Quantile (QBETS):", pred)
+	fmt.Println("Actual Quantile (QBETS):", prediction)
 
-	sort.Ints(ts)
-	index := int(float64(len(ts)) * (*q))
-	fmt.Println("Actual Quantile: ", ts[index-1], "(element =", index, ")")
+	sort.Ints(tsval)
+	index := int(float64(len(tsval)) * (*q))
+	fmt.Println("Actual Quantile: ", tsval[index-1], "(element =", index, ")")
 }
 
-func analyzeTrace(ts []int, q, c float64, pred analysis.Predictor) {
+func analyzeTrace(ts db.TimeSeries, q, c float64, pred analysis.Predictor) {
 	minIndex := int(math.Log(c)/math.Log(q)) + 10
 	fmt.Println("Min index: ", minIndex)
 	if len(ts) < minIndex+1 {
@@ -77,6 +79,6 @@ func analyzeTrace(ts []int, q, c float64, pred analysis.Predictor) {
 	startIndex := len(ts) - len(results)
 
 	for i := 0; i < len(results); i++ {
-		fmt.Printf("[trace] %d %d %d\n", i+startIndex, int(results[i]), ts[i+startIndex])
+		fmt.Printf("[trace] %d %d %d\n", i+startIndex, int(results[i].Value), ts[i+startIndex])
 	}
 }
