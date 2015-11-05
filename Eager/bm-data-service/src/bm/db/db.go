@@ -200,6 +200,12 @@ type RangeQuery struct {
 	} `json:"query"`
 }
 
+type searchContext struct {
+	Total int
+	Current int
+	ScrollID string
+}
+
 func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error) {
 	var queryString string
 	if start != -1 || end != -1 {
@@ -222,27 +228,44 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 
 	url := fmt.Sprintf("%s/%s/%s/_search?scroll=1m&size=1000", es.BaseURL, es.Index, es.Type)
 	result := make(map[string]TimeSeries)
-	if err := queryElasticSearch(url, queryString, ops, result); err != nil {
+
+	context, err := queryElasticSearch(url, queryString, ops, result)
+	if err != nil {
 		return nil, err
+	}
+
+	count := context.Current
+	for count < context.Total {
+		url = fmt.Sprintf("%s/_search/scroll?scroll=1m&size=1000", es.BaseURL)
+		queryString = context.ScrollID
+		context, err = queryElasticSearch(url, queryString, ops, result)
+		if err != nil {
+			return nil, err
+		}
+		count += context.Current
 	}
 	return result, nil
 }
 
-func queryElasticSearch(url string, queryString string, ops []string, result map[string]TimeSeries) error {
+func queryElasticSearch(url string, queryString string, ops []string, result map[string]TimeSeries) (searchContext,error) {
+	var context searchContext
 	resp, err := http.Post(url, "application/json", bytes.NewBufferString(queryString))
 	if err != nil {
-		return err
+		return context, err
 	}
 
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return context, err
 	}
 	var sr searchResult
 	if err := json.Unmarshal(body, &sr); err != nil {
-		return err
+		return context, err
 	}
+	context.Total = sr.Hits.Total
+	context.Current = len(sr.Hits.Hits)
+	context.ScrollID = sr.ScrollID
 	for _, hit := range sr.Hits.Hits {
 		timestamp := hit.Source.Timestamp
 		values := hit.Source.Values
@@ -251,5 +274,5 @@ func queryElasticSearch(url string, queryString string, ops []string, result map
 			result[op] = append(result[op], p)
 		}
 	}
-	return nil
+	return context, nil
 }
