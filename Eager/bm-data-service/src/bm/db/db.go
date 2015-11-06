@@ -198,6 +198,7 @@ type RangeQuery struct {
 			Timestamp map[string]int64 `json:"timestamp"`
 		} `json:"range"`
 	} `json:"query"`
+	Sort []map[string]interface{} `json:"sort"`
 }
 
 type searchContext struct {
@@ -210,6 +211,11 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 	var queryString string
 	if start != -1 || end != -1 {
 		var rq RangeQuery
+		rq.Sort = append(rq.Sort, map[string]interface{} {
+			"timestamp": map[string]string {
+				"order": "asc",
+			},
+		})
 		rq.Query.Range.Timestamp = make(map[string]int64)
 		if start != -1 {
 			rq.Query.Range.Timestamp["gte"] = start
@@ -223,7 +229,7 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 		}
 		queryString = string(qrBytes)
 	} else {
-		queryString = `{"query" : {"match_all":{}}}`
+		queryString = `{"query" : {"match_all":{}}, "sort" : [{"timestamp":{"order":"asc"}}]}`
 	}
 
 	url := fmt.Sprintf("%s/%s/%s/_search?scroll=1m&size=1000", es.BaseURL, es.Index, es.Type)

@@ -155,16 +155,19 @@ func main() {
 	var d db.Database
 	var err error
 	if *dbType == "ae" {
+		fmt.Println("Using AppEngine database")
 		d = &db.AEDatabase{
 			BaseURL: *url,
 		}
 	} else if *dbType == "file" {
+		fmt.Println("Using file system database")
 		d, err = db.NewFSDatabase(*url)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 	} else if *dbType == "es" {
+		fmt.Println("Using ElasticSearch database")
 		d = &db.ElasticSearchDatabase {
 			BaseURL: *url,
 			Index: "logstash-watchtower",
