@@ -41,8 +41,19 @@ public class ElasticSearchDataPointStore extends DataPointStore {
         if (endpoint == null || "".equals(endpoint)) {
             throw new IllegalArgumentException("ELK endpoint not configured");
         }
+        String index = context.getInitParameter("elkIndex");
+        if (index == null || "".equals(index)) {
+            index = "logstash-watchtower";
+        }
+        String type = context.getInitParameter("elkType");
+        if (type == null || "".equals(type)) {
+            type = "appengine";
+        }
+        if (index.contains("/") || type.contains("/")) {
+            throw new IllegalArgumentException("Index and type must not contain '/'");
+        }
         try {
-            url = new URL(endpoint + "/logstash-watchtower/appengine");
+            url = new URL(endpoint + "/" + index + "/" + type);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e);
         }
