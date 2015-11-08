@@ -5,6 +5,9 @@ DEPS=block_io.h freelist.h ilist.h
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+h2fs: freelist_test mkfs_h2
+	@echo "Building all"
+
 freelist_test: freelist.o block_io.o freelist_test.o 
 	gcc -o freelist_test freelist.o block_io.o freelist_test.o $(CFLAGS)
 
