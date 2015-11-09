@@ -147,6 +147,10 @@ func main() {
 	qbetsPath := flag.String("q", "", "Path to QBETS executable")
 	simplePred := flag.Bool("s", false, "Use simple predictor instead of QBETS")
 	debug := flag.Bool("v", false, "Enable verbose (debug) mode")
+
+	esIndex := flag.String("i", "logstash-watchtower", "Name of the ElasticSearch index")
+	esType := flag.String("t", "appengine", "Name of the ElasticSearch type")
+
 	flag.Parse()
 	if *url == "" {
 		fmt.Println("URL/Path of the data files not specified.")
@@ -170,8 +174,8 @@ func main() {
 		fmt.Println("Using ElasticSearch database")
 		d = &db.ElasticSearchDatabase {
 			BaseURL: *url,
-			Index: "logstash-watchtower",
-			Type: "appengine",
+			Index: *esIndex,
+			Type: *esType,
 		}
 	} else {
 		fmt.Println("Invalid database type:", *dbType)
