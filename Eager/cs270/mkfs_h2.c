@@ -18,7 +18,8 @@ int main(int argc, char** argv) {
 
   /* number of blocks on disk */
   long block_count = total_num_bytes / BLOCK_SIZE;
-  if (block_count == 0) {
+  if (block_count < 4) {
+    // Need at least 4 blocks: superblock + inode bitmap + inodes + data
     printf("Not enough space on the device for installing a file system\n");
     return 1;
   }
@@ -28,6 +29,9 @@ int main(int argc, char** argv) {
     printf("Not enough blocks available for inodes\n");
     return 1;
   }
+
+  printf("Total blocks on device: %ld\n", block_count);
+  printf("Blocks allocated for inodes: %ld\n", inode_block_count);
 
   /* number of i-nodes in the FS */
   long inode_count = inode_block_count * BLOCK_SIZE / sizeof(inode);
