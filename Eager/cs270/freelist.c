@@ -3,13 +3,14 @@
 
 #include "freelist.h"
 
-#define POINTERS_PER_BLOCK (BLOCK_SIZE/sizeof(int))
+static int POINTERS_PER_BLOCK;
 
 void init_free_list(block_id head, int blocks) {
   if (blocks <= 0) {
     printf("Block count must be positive\n");
     return;
   }
+  POINTERS_PER_BLOCK = BLOCK_SIZE / sizeof(int);
 
   printf("\nBuilding Free List\n");
   printf("======================\n");

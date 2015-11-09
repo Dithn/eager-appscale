@@ -4,9 +4,8 @@
 typedef unsigned int block_id;
 
 extern const int BLOCK_SIZE;
-extern const int TOTAL_SIZE;
 
-int open_device();
+int open_device(char *device);
 int read_block(block_id block, void* buffer, int size);
 int write_block(block_id block, void* buffer, int size);
 void close_device();

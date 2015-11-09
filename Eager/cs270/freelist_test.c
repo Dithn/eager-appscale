@@ -3,8 +3,11 @@
 #include "freelist.h"
 #include "block_io.h"
 
+static char* DEVICE = "/dev/disk1";
+static unsigned long TOTAL_SIZE = 1024 * 1024;
+
 int main() {
-  if (open_device() < 0) {
+  if (open_device(DEVICE) < 0) {
     printf("Failed to open device\n");
     return 1;
   }
