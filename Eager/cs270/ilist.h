@@ -21,8 +21,15 @@ typedef struct {
 typedef struct {
   block_id bitmap;
   block_id ilist;
-  long ilist_length;
+  unsigned long ilist_length;
   block_id freelist_head;
 } superblock;
+
+typedef unsigned long inumber;
+
+void init_ilist(superblock *sb);
+void cleanup_ilist();
+inumber allocate_inode();
+void release_inode(inumber in);
 
 #endif

@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
   printf("Blocks allocated for inodes: %ld\n", inode_block_count);
 
   /* number of i-nodes in the FS */
-  long inode_count = inode_block_count * BLOCK_SIZE / sizeof(inode);
+  unsigned long inode_count = inode_block_count * BLOCK_SIZE / sizeof(inode);
 
   /* number of blocks for a bitmap */
   long bitmap_blocks = ceil(ceil(inode_count / sizeof(char)) / BLOCK_SIZE); 
