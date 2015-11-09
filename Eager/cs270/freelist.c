@@ -5,7 +5,7 @@
 
 static int POINTERS_PER_BLOCK;
 
-void init_free_list(block_id head, int blocks) {
+void init_free_list(block_id head, block_count blocks) {
   if (blocks <= 0) {
     printf("Block count must be positive\n");
     return;
@@ -33,7 +33,7 @@ void init_free_list(block_id head, int blocks) {
     }
     
     for (i = 0; i < POINTERS_PER_BLOCK; i++) {
-      printf("[Block %d][%d] %d\n", current, i, pointers[i]);
+      printf("[Block %ld][%d] %ld\n", current, i, pointers[i]);
     }
     write_block(current, pointers, BLOCK_SIZE);
     current++;
@@ -41,7 +41,7 @@ void init_free_list(block_id head, int blocks) {
   free(pointers);
 }
 
-int check_free_list(block_id head, int blocks) {
+int check_free_list(block_id head, block_count blocks) {
   block_id current = head, count = 0;
   block_id *pointers = malloc(BLOCK_SIZE);
   while (TRUE) {

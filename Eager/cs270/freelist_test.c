@@ -13,8 +13,8 @@ int main() {
   }
 
   block_id head = 0;
-  int blocks = TOTAL_SIZE / BLOCK_SIZE;
-  printf("Block size: %d, Block count: %d\n", BLOCK_SIZE, blocks);
+  block_count blocks = TOTAL_SIZE / BLOCK_SIZE;
+  printf("Block size: %d, Block count: %ld\n", BLOCK_SIZE, blocks);
   
   // Create free list on disk
   init_free_list(head, blocks);
@@ -40,7 +40,7 @@ int main() {
       break;
     }
     allocated_blocks[alloc_count++] = allocation;
-    printf("Allocated block: %d\n", allocation);
+    printf("Allocated block: %ld\n", allocation);
     write_block(allocation, str, strlen(str));
   }
   printf("Total blocks allocated: %d\n", alloc_count);
@@ -49,7 +49,7 @@ int main() {
   int i;
   for (i = 0; i < alloc_count; i++) {
     free_block(head, allocated_blocks[i]);
-    printf("Freed block: %d\n", allocated_blocks[i]);
+    printf("Freed block: %ld\n", allocated_blocks[i]);
   }
 
   // Re-check the free block count

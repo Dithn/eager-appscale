@@ -1,7 +1,8 @@
 #ifndef _BLOCK_IO_H
 #define _BLOCK_IO_H
 
-typedef unsigned int block_id;
+typedef unsigned long block_id;
+typedef unsigned long block_count;
 
 extern const int BLOCK_SIZE;
 

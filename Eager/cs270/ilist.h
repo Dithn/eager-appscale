@@ -13,9 +13,9 @@ typedef struct {
   long size;
   long links;
   int flags;
-  block_id direct_blocks[16];
-  block_id l1_indirect_blocks[16];
-  block_id l2_indirect_blocks[16];
+  block_id direct_blocks[8];
+  block_id l1_indirect_blocks[8];
+  block_id l2_indirect_blocks[8];
 } inode;
 
 typedef struct {
