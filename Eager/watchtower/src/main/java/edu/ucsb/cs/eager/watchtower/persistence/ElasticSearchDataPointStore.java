@@ -26,37 +26,39 @@ import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ElasticSearchDataPointStore extends DataPointStore {
 
-    private final URL url;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM");
+
+    private final String endpoint;
+    private final String index;
+    private final String type;
 
     public ElasticSearchDataPointStore(ServletContext context) {
         super(context);
-        String endpoint = context.getInitParameter("elkEndpoint");
-        if (endpoint == null || "".equals(endpoint)) {
+        endpoint = getParameter(context, "elkEndpoint", null);
+        if (endpoint == null) {
             throw new IllegalArgumentException("ELK endpoint not configured");
         }
-        String index = context.getInitParameter("elkIndex");
-        if (index == null || "".equals(index)) {
-            index = "logstash-watchtower";
-        }
-        String type = context.getInitParameter("elkType");
-        if (type == null || "".equals(type)) {
-            type = "appengine";
-        }
+        index = getParameter(context, "elkIndex", "watchtower-prod");
+        type = getParameter(context, "elkType", "appengine");
         if (index.contains("/") || type.contains("/")) {
             throw new IllegalArgumentException("Index and type must not contain '/'");
         }
-        try {
-            url = new URL(endpoint + "/" + index + "/" + type);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(e);
+    }
+
+    private String getParameter(ServletContext context, String name, String def) {
+        String value = context.getInitParameter(name);
+        if (value == null || "".equals(value)) {
+            value = def;
         }
+        return value;
     }
 
     @Override
@@ -64,7 +66,9 @@ public class ElasticSearchDataPointStore extends DataPointStore {
         Map<String,Object> json = new HashMap<>();
         json.put("timestamp", p.getTimestamp());
         json.put("values", p.getData());
+        String indexName = index + "_" + DATE_FORMAT.format(new Date());
         try {
+            URL url = new URL(endpoint + "/" + indexName + "/" + type);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
