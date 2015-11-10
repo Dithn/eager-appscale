@@ -148,7 +148,7 @@ func main() {
 	simplePred := flag.Bool("s", false, "Use simple predictor instead of QBETS")
 	debug := flag.Bool("v", false, "Enable verbose (debug) mode")
 
-	esIndex := flag.String("i", "logstash-watchtower", "Name of the ElasticSearch index")
+	esIndex := flag.String("i", "watchtower-prod*", "Name of the ElasticSearch index")
 	esType := flag.String("t", "appengine", "Name of the ElasticSearch type")
 
 	flag.Parse()
