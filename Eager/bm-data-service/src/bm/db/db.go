@@ -12,6 +12,7 @@ import (
 	"path"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Datapoint represents an individual member of a time series.
@@ -165,6 +166,7 @@ type ElasticSearchDatabase struct {
 	BaseURL string
 	Index string
 	Type string
+	HistoryDays int
 }
 
 type searchResult struct {
@@ -192,13 +194,29 @@ type searchResult struct {
 	} `json:"hits"`
 }
 
-type RangeQuery struct {
+type IndicesQuery struct {
 	Query struct {
-		Range struct {
-			Timestamp map[string]int64 `json:"timestamp"`
-		} `json:"range"`
+		Indices struct {
+			Indices []string `json:"indices"`
+			Query interface{} `json:"query"`
+		} `json:"indices"`
 	} `json:"query"`
 	Sort []map[string]interface{} `json:"sort"`
+	Filter struct {
+		Type struct {
+			Value string `json:"value"`
+		} `json:"type"`
+	} `json:"filter"`
+}
+
+type MatchAllQuery struct {
+	Match_all map[string]string `json:"match_all"`
+}
+
+type RangeQuery struct {
+	Range struct {
+		Timestamp map[string]int64 `json:"timestamp"`
+	} `json:"range"`
 }
 
 type searchContext struct {
@@ -208,31 +226,47 @@ type searchContext struct {
 }
 
 func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (map[string]TimeSeries, error) {
-	var queryString string
-	if start != -1 || end != -1 {
-		var rq RangeQuery
-		rq.Sort = append(rq.Sort, map[string]interface{} {
-			"timestamp": map[string]string {
-				"order": "asc",
-			},
-		})
-		rq.Query.Range.Timestamp = make(map[string]int64)
-		if start != -1 {
-			rq.Query.Range.Timestamp["gte"] = start
+	var queryObj IndicesQuery
+	queryObj.Sort = append(queryObj.Sort, map[string]interface{} {
+		"timestamp": map[string]string {
+			"order": "asc",
+		},
+	})
+	queryObj.Filter.Type.Value = es.Type
+	if es.HistoryDays > 0 {
+		indexPrefix := strings.TrimRight(es.Index, "*")
+		now := time.Now()
+		then := now.Add(-time.Hour * time.Duration(24 * es.HistoryDays))
+		//thenTimestamp := then.UnixNano() / 1000000
+		thenYear := then.Year()
+		thenMonth := then.Month()
+		var indices []string
+		for {
+			indices = append(indices, fmt.Sprintf("%s_%d-%02d", indexPrefix, thenYear, thenMonth))
+			if now.Year() == thenYear && now.Month() == thenMonth {
+				break
+			}
+			if thenMonth < 12 {
+				thenMonth++
+			} else {
+				thenMonth = 1
+				thenYear++
+			}
 		}
-		if end != -1 {
-			rq.Query.Range.Timestamp["lte"] = end
-		}
-		qrBytes, err := json.Marshal(rq)
-		if err != nil {
-			return nil, err
-		}
-		queryString = string(qrBytes)
+		queryObj.Query.Indices.Indices = indices
 	} else {
-		queryString = `{"query" : {"match_all":{}}, "sort" : [{"timestamp":{"order":"asc"}}]}`
+		queryObj.Query.Indices.Indices = []string{es.Index}
 	}
 
-	url := fmt.Sprintf("%s/%s/%s/_search?scroll=1m&size=1000", es.BaseURL, es.Index, es.Type)
+	queryObj.Query.Indices.Query = getQuery(start, end)
+
+	queryStringBytes, err := json.Marshal(queryObj)
+	if err != nil {
+		return nil, err
+	}
+	queryString := string(queryStringBytes)
+	fmt.Println(queryString)
+	url := fmt.Sprintf("%s/_search?scroll=1m&size=1000", es.BaseURL)
 	result := make(map[string]TimeSeries)
 
 	context, err := queryElasticSearch(url, queryString, ops, result)
@@ -251,6 +285,21 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 		count += context.Current
 	}
 	return result, nil
+}
+
+func getQuery(start, end int64) interface{} {
+	if start != -1 || end != -1 {
+		var rq RangeQuery
+		rq.Range.Timestamp = make(map[string]int64)
+		if start != -1 {
+			rq.Range.Timestamp["gte"] = start
+		}
+		if end != -1 {
+			rq.Range.Timestamp["lte"] = end
+		}
+		return rq
+	}
+	return MatchAllQuery{Match_all: make(map[string]string)}
 }
 
 func queryElasticSearch(url string, queryString string, ops []string, result map[string]TimeSeries) (searchContext,error) {
@@ -272,13 +321,18 @@ func queryElasticSearch(url string, queryString string, ops []string, result map
 	context.Total = sr.Hits.Total
 	context.Current = len(sr.Hits.Hits)
 	context.ScrollID = sr.ScrollID
+	last := int64(-1)
 	for _, hit := range sr.Hits.Hits {
 		timestamp := hit.Source.Timestamp
+		if timestamp <= last {
+			panic("Out of order results")
+		}
 		values := hit.Source.Values
 		for _, op := range ops {
 			p := Datapoint{Timestamp: timestamp, Value: values[op]}
 			result[op] = append(result[op], p)
 		}
+		last = timestamp
 	}
 	return context, nil
 }
