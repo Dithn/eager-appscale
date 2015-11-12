@@ -150,6 +150,7 @@ func main() {
 
 	esIndex := flag.String("i", "watchtower-prod*", "Name of the ElasticSearch index")
 	esType := flag.String("t", "appengine", "Name of the ElasticSearch type")
+	esHistory := flag.Int("hd", -1, "ElasticSearch history to search (in days)")
 
 	flag.Parse()
 	if *url == "" {
@@ -176,6 +177,7 @@ func main() {
 			BaseURL: *url,
 			Index: *esIndex,
 			Type: *esType,
+			HistoryDays: *esHistory,
 		}
 	} else {
 		fmt.Println("Invalid database type:", *dbType)

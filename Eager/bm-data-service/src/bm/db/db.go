@@ -233,42 +233,29 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 		},
 	})
 	queryObj.Filter.Type.Value = es.Type
+	startPoint := int64(-1)
 	if es.HistoryDays > 0 {
-		indexPrefix := strings.TrimRight(es.Index, "*")
 		now := time.Now()
 		then := now.Add(-time.Hour * time.Duration(24 * es.HistoryDays))
-		//thenTimestamp := then.UnixNano() / 1000000
-		thenYear := then.Year()
-		thenMonth := then.Month()
-		var indices []string
-		for {
-			indices = append(indices, fmt.Sprintf("%s_%d-%02d", indexPrefix, thenYear, thenMonth))
-			if now.Year() == thenYear && now.Month() == thenMonth {
-				break
-			}
-			if thenMonth < 12 {
-				thenMonth++
-			} else {
-				thenMonth = 1
-				thenYear++
-			}
-		}
-		queryObj.Query.Indices.Indices = indices
+		startPoint = then.UnixNano() / 1000000
+		queryObj.Query.Indices.Indices = getIndices(es.Index, now, then)
 	} else {
 		queryObj.Query.Indices.Indices = []string{es.Index}
 	}
 
-	queryObj.Query.Indices.Query = getQuery(start, end)
+	if start != -1 {
+		startPoint = start
+	}
+	queryObj.Query.Indices.Query = getQuery(startPoint, end)
 
 	queryStringBytes, err := json.Marshal(queryObj)
 	if err != nil {
 		return nil, err
 	}
+
 	queryString := string(queryStringBytes)
-	fmt.Println(queryString)
 	url := fmt.Sprintf("%s/_search?scroll=1m&size=1000", es.BaseURL)
 	result := make(map[string]TimeSeries)
-
 	context, err := queryElasticSearch(url, queryString, ops, result)
 	if err != nil {
 		return nil, err
@@ -285,6 +272,26 @@ func (es *ElasticSearchDatabase) Query(n int, ops []string, start, end int64) (m
 		count += context.Current
 	}
 	return result, nil
+}
+
+func getIndices(index string, now, then time.Time) []string {
+	indexPrefix := strings.TrimRight(index, "*")
+	thenYear := then.Year()
+	thenMonth := then.Month()
+	var indices []string
+	for {
+		indices = append(indices, fmt.Sprintf("%s_%d-%02d", indexPrefix, thenYear, thenMonth))
+		if now.Year() == thenYear && now.Month() == thenMonth {
+			break
+		}
+		if thenMonth < 12 {
+			thenMonth++
+		} else {
+			thenMonth = 1
+			thenYear++
+		}
+	}
+	return indices
 }
 
 func getQuery(start, end int64) interface{} {
