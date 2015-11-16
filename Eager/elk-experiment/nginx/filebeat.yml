@@ -1,0 +1,12 @@
+filebeat:
+  prospectors:
+    -
+      paths:
+        - /var/log/nginx/watchtower.access.log
+      document_type: watchtower
+
+output:
+  logstash:
+    enabled: true
+
+    hosts: ["10.2.250.251:5044"]
