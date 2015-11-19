@@ -1,6 +1,7 @@
 import json
 import httplib
 import subprocess
+import time
 
 def get_haproxy_stats():
   return subprocess.check_output(['/root/haproxy_stats.sh'])
