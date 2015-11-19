@@ -63,6 +63,9 @@ buffer = __builtin__.buffer
 # Global for accessing the datastore. An instance of DatastoreDistributed.
 datastore_access = None
 
+# Global for reporting to ElasticSearch. An instance of ESReporter
+es_reporter = None
+
 # ZooKeeper global variable for locking
 zookeeper = None
 
@@ -4026,9 +4029,6 @@ class MainHandler(tornado.web.RequestHandler):
   HTTP requests.
   """
 
-  def initialize(self):
-    self.es_reporter = ESReporter('128.111.179.159', 9200)
-
   def unknown_request(self, app_id, http_request_data, pb_type):
     """ Function which handles unknown protocol buffers.
 
@@ -4085,7 +4085,8 @@ class MainHandler(tornado.web.RequestHandler):
   def hkj_log(self, app_id, apirequest):
     event = {'app_id': app_id, 'timestamp': int(time.time() * 1000)}
     event['method'] = apirequest.method()
-    self.es_reporter.report(event)
+    global es_reporter
+    es_reporter.report(event)
 
   def remote_request(self, app_id, http_request_data):
     """ Receives a remote request to which it should give the correct 
@@ -4558,6 +4559,7 @@ pb_application = tornado.web.Application([
 def main(argv):
   """ Starts a web service for handing datastore requests. """
   global datastore_access
+  global es_reporter
   zookeeper_locations = appscale_info.get_zk_locations_string()
 
   db_info = appscale_info.get_db_info()
@@ -4594,6 +4596,8 @@ def main(argv):
 
   datastore_access = DatastoreDistributed(datastore_batch, 
                                           zookeeper=zookeeper)
+
+  es_reporter = ESReporter('128.111.179.159', 9200)
   if port == DEFAULT_SSL_PORT and not is_encrypted:
     port = DEFAULT_PORT
 
