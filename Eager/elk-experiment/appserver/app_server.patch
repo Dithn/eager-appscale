@@ -1,0 +1,66 @@
+diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
+index 1a15112..8c1b2a0 100644
+--- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
++++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
+@@ -32,6 +32,9 @@ import com.google.apphosting.api.ApiProxy.Environment;
+ import com.google.apphosting.api.ApiProxy.LogRecord;
+ import com.google.apphosting.api.ApiProxy.UnknownException;
+ 
++import java.io.FileOutputStream;
++import java.io.IOException;
++
+ /**
+  * Implements ApiProxy.Delegate such that the requests are dispatched to local
+  * service implementations. Used for both the
+@@ -93,8 +96,30 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+         }
+     }
+ 
++
++    private synchronized void writeToFile(String text) {
++        FileOutputStream fos = null;
++        try {
++            fos = new FileOutputStream("/root/hkj_appscale_test.log", true);
++            fos.write((text + "\n").getBytes());
++            fos.flush();
++        } catch (IOException ignored) {
++        } finally {
++            if (fos != null) {
++                try {
++                    fos.close();
++                } catch (IOException ignored) {
++                }
++            }
++        }
++    }
++
+     public Future<byte[]> makeAsyncCall(Environment environment, String packageName, String methodName,
+             byte[] requestBytes, ApiConfig apiConfig) {
++
++        String line = environment.getAttributes().get("edu.ucsb.cs.eager.RequestId") + " " + ((LocalEnvironment) environment).getAppId() + " " + packageName + " " + methodName;
++        writeToFile(line);
++
+         Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
+ 
+         if (semaphore != null) {
+diff --git a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
+index 13d3b92..808cba0 100644
+--- a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
++++ b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
+@@ -12,6 +12,7 @@ import java.util.Enumeration;
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Map;
++import java.util.UUID;
+ 
+ public class LocalHttpRequestEnvironment extends LocalEnvironment
+ {
+@@ -60,6 +61,8 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
+             this.attributes.put("com.google.appengine.request.offline", Boolean.TRUE);
+         }
+ 
++        this.attributes.put("edu.ucsb.cs.eager.RequestId", UUID.randomUUID().toString());
++
+         // AppScale: The metadata parameter is set in the Blobstore server before a blob upload callback request.
+         String metadata = request.getParameter("blob_info_metadata");
+         if(request.getParameter("blob_info_metadata") != null) {
