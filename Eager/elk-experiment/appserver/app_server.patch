@@ -44,7 +44,7 @@ index 1a15112..8c1b2a0 100644
  
          if (semaphore != null) {
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
-index 13d3b92..808cba0 100644
+index 13d3b92..5b7af7b 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 @@ -12,6 +12,7 @@ import java.util.Enumeration;
@@ -55,11 +55,15 @@ index 13d3b92..808cba0 100644
  
  public class LocalHttpRequestEnvironment extends LocalEnvironment
  {
-@@ -60,6 +61,8 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
+@@ -60,6 +61,12 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
              this.attributes.put("com.google.appengine.request.offline", Boolean.TRUE);
          }
  
-+        this.attributes.put("edu.ucsb.cs.eager.RequestId", UUID.randomUUID().toString());
++        String requestId = request.getHeader("X-Request-Id");
++        if (requestId == null) {
++          requestId = "autogen:" + UUID.randomUUID().toString();
++        }
++        this.attributes.put("edu.ucsb.cs.eager.RequestId", requestId);
 +
          // AppScale: The metadata parameter is set in the Blobstore server before a blob upload callback request.
          String metadata = request.getParameter("blob_info_metadata");
