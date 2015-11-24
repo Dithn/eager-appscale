@@ -1,0 +1,29 @@
+* Install required libs:
+
+    apt-get install nginx-extras
+    apt-get install libossp-uuid-perl
+
+* Add Perl script to /etc/nginx/nginx.conf
+
+http {
+...
+perl_require "Data/UUID.pm";
+perl_set $uuid 'sub {
+
+  $ug = new Data::UUID;
+  $str = $ug->create_str();
+  return $str;
+               }';
+... }
+
+* Set request header
+
+location ~ /data/(.+) {
+...
+...
+            proxy_set_header    X-Request-Id    $uuid;
+...
+}
+
+
+Based on: https://it.randomthemes.com/2014/01/21/generate-unique-request-id-nginx/
