@@ -12,7 +12,7 @@ typedef struct {
   int protection;
   long size;
   long links;
-  int flags;
+  unsigned int flags;
   block_id direct_blocks[21];
   block_id l1_indirect_blocks;
   block_id l2_indirect_blocks;
@@ -30,7 +30,7 @@ typedef unsigned long inumber;
 
 void init_ilist(superblock *sb);
 void cleanup_ilist();
-inumber allocate_inode();
+int allocate_inode(inumber *in);
 void release_inode(inumber in);
 
 #endif
