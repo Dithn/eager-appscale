@@ -10,7 +10,7 @@ void init_free_list(block_id head, block_count blocks) {
     printf("Block count must be positive\n");
     return;
   }
-  POINTERS_PER_BLOCK = BLOCK_SIZE / sizeof(int);
+  POINTERS_PER_BLOCK = BLOCK_SIZE / sizeof(block_id);
 
   printf("\nBuilding Free List\n");
   printf("======================\n");

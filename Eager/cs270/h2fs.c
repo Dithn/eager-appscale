@@ -5,7 +5,7 @@
 #include "ilist.h"
 
 int main() {
-  if (open_device("/dev/disk1") < 0) {
+  if (open_device("/dev/loop0") < 0) {
     printf("Failed to open device\n");
     return 1;
   }
