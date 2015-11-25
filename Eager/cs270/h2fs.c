@@ -12,8 +12,17 @@
 static int h2_getattr(const char *path, struct stat *stbuf) {
   printf("Getting attributes: %s\n", path);
   if (strcmp(path, "/") == 0) {
-    stbuf->st_mode = S_IFDIR | 0755;
-    stbuf->st_nlink = 2;
+    inode root;
+    get_inode(0, &root);
+    stbuf->st_ino = 0;
+    stbuf->st_mode = root.mode;
+    stbuf->st_nlink = root.links;
+    stbuf->st_uid = root.user_id;
+    stbuf->st_gid = root.group_id;
+    stbuf->st_size = root.size;
+    stbuf->st_atime = root.atime;
+    stbuf->st_mtime = root.mtime;
+    stbuf->st_ctime = root.ctime;
     return 0;
   }
   return -ENOENT;
@@ -45,6 +54,7 @@ int main(int argc, char **argv) {
   read_block(0, sb, sizeof(superblock));
   init_ilist(sb);
   free(sb);
+
   int status = fuse_main(argc, argv, &h2_oper, NULL);
   cleanup_ilist();
   close_device();

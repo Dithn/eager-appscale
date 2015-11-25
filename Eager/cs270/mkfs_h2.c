@@ -3,6 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "ilist.h"
 #include "block_io.h"
@@ -89,22 +91,23 @@ int main(int argc, char** argv) {
     return 1;
   }
   inode* root = malloc(sizeof(inode));
+  time_t now;
+  time(&now);
   get_inode(root_number, root);
   root->user_id = getuid();
   root->group_id = getgid();
-  root->created_time = time(NULL);
-  root->access_time = 0;
-  root->modified_time = root->created_time;
-  root->protection = 600;
+  root->ctime = now;
+  root->atime = now;
+  root->mtime = now;
+  root->mode = S_IFDIR | 0755;
   root->size = 0;
   root->links = 0;
-  root->flags = 1;
   write_block(ilist_head, root, sizeof(inode));
   printf("Creating root directory at inode %ld\n\n", root_number);
   free(root);
-  cleanup_ilist();
 
   printf("H2 file system initialized successfully\n");
+  cleanup_ilist();
   close_device();
   return 0;
 }

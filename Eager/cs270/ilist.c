@@ -64,9 +64,9 @@ void get_inode(inumber i_number, inode* i_node) {
   if (i_number >= ILIST_LENGTH) {
     return;
   }
-  block_id block = i_number / INODES_PER_BLOCK;
+  block_id block = ILIST_HEAD + (i_number / INODES_PER_BLOCK);
   inode* inodes = malloc(BLOCK_SIZE);
   read_block(block, inodes, BLOCK_SIZE);
-  i_node = inodes + i_number % INODES_PER_BLOCK;
+  *i_node = *(inodes + (i_number % INODES_PER_BLOCK));
   free(inodes);
 }
