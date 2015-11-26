@@ -28,10 +28,19 @@ typedef struct {
 
 typedef unsigned long inumber;
 
+typedef struct {
+  char name[56];
+  inumber number;
+} direntry;
+
 void init_ilist(superblock *sb);
 void cleanup_ilist();
 int allocate_inode(inumber *in);
 void release_inode(inumber in);
 void get_inode(inumber i_number, inode* i_node);
+void write_inode(inumber i_number, inode * i_node);
+
+off_t read_dir(inode *i_node, direntry *buffer);
+off_t write_dir(inumber i_number, inode *i_node, direntry *buffer, off_t size);
 
 #endif

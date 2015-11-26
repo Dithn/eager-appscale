@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
   root->mode = S_IFDIR | 0755;
   root->size = 0;
   root->links = 0;
-  write_block(ilist_head, root, sizeof(inode));
+  write_inode(root_number, root);
   printf("Creating root directory at inode %ld\n\n", root_number);
   free(root);
 

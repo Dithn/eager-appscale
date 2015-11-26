@@ -14,7 +14,7 @@ freelist_test: freelist.o block_io.o freelist_test.o
 mkfs_h2: mkfs_h2.o block_io.o freelist.o ilist.o
 	gcc -o mkfs.h2 mkfs_h2.o block_io.o freelist.o ilist.o -lm $(CFLAGS)
 
-h2fs_impl: h2fs.o block_io.o ilist.o
-	gcc -Wall -o h2fs h2fs.o block_io.o ilist.o `pkg-config fuse --cflags --libs` $(CFLAGS)
+h2fs_impl: h2fs.o block_io.o ilist.o freelist.o
+	gcc -Wall -o h2fs h2fs.o block_io.o ilist.o freelist.o `pkg-config fuse --cflags --libs` $(CFLAGS)
 clean:
 	rm *.o
