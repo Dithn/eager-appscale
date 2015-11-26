@@ -29,38 +29,81 @@ static void h2_init_stat(inode *in, struct stat *stbuf) {
 }
 
 static int h2_resolve(const char *path, inumber *in) {
-  if (strcmp(path, "/") == 0) {
-    *in = 0;
-    return 1;
+  inumber current_inumber = 0;
+  inode current;
+  char path_copy[128];
+  strcpy(path_copy, path);
+  char *segment = strtok(path_copy, "/");
+  while (segment != NULL) {
+    get_inode(current_inumber, &current);
+    if (S_ISDIR(current.mode)) {
+      direntry *dir = malloc(current.size);
+      int entries = current.size / sizeof(direntry);
+      read_dir(&current, dir);
+      int i;
+      int found_name = 0;
+      for (i = 0; i < entries; i++) {
+	if (strcmp((dir+i)->name, segment) == 0) {
+	  current_inumber = (dir+i)->number;
+	  found_name = 1;
+	  break;
+	}
+      }
+      free(dir);
+      if (!found_name) {
+	return 0;
+      }
+      segment = strtok(NULL, "/");
+    } else if (strtok(NULL, "/") != NULL) {
+      return 0;
+    }
   }
-  return 0;
+  *in = current_inumber;
+  printf("Resolve: %s => %ld\n", path, *in);
+  return 1;
 }
 
 static int h2_getattr(const char *path, struct stat *stbuf) {
   printf("Getting attributes: %s\n", path);
   inumber in;
-  if (strcmp(path, "/") == 0) {
-    inode root;
-    get_inode(0, &root);
-    h2_init_stat(&root, stbuf);
+  if (h2_resolve(path, &in)) {
+    inode node;
+    get_inode(in, &node);
+    h2_init_stat(&node, stbuf);
     return 0;
-  } else if (strcmp(path, "/foo") == 0) {
-    inode root;
-    get_inode(1, &root);
-    h2_init_stat(&root, stbuf);
+  }
+  return -ENOENT;
+}
+
+static int h2_opendir(const char *path, struct fuse_file_info *file_info) {
+  inumber in;
+  if (h2_resolve(path, &in)) {
     return 0;
   }
   return -ENOENT;
 }
 
 static int h2_mkdir(const char *path, mode_t mode) {
-  printf("mkdir %s\n", path);
-  char *parent = "/";
-  char *base = path + 1;
-  printf("%s %s\n", parent, base);
+  char *last = strrchr(path, '/');
+  char parent[32], base[32];
+  memset(parent, '\0', sizeof(parent));
+  memset(base, '\0', sizeof(base));
+  if (last != NULL) {
+    int parent_length = strlen(path) - strlen(last);
+    if (parent_length == 0) {
+      strcpy(parent, "/");
+    } else {
+      strncpy(parent, path, parent_length);
+    }
+    strcpy(base, last + 1);
+  } else {
+    strcpy(parent, "/");
+    strcpy(base, path);
+  }
+
+  printf("mkdir parent: %s; base: %s\n", parent, base);
   inumber parent_num;
   if (h2_resolve(parent, &parent_num)) {
-    printf("Resolved %s to %ld\n", parent, parent_num);
     inode parent;
     get_inode(parent_num, &parent);
     off_t newsize = parent.size + sizeof(direntry);
@@ -110,27 +153,32 @@ static int h2_mkdir(const char *path, mode_t mode) {
 static int h2_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                          off_t offset, struct fuse_file_info *fi) {
   printf("Reading dir: %s\n", path);
-  if (strcmp(path, "/") != 0) {
-    return -ENOENT;
+  inumber in;
+  if (h2_resolve(path, &in)) {
+    inode node;
+    get_inode(in, &node);
+    filler(buf, ".", NULL, 0);
+    filler(buf, "..", NULL, 0);
+    int i;
+    if (node.size > 0) {
+      direntry *dir = malloc(node.size);
+      read_dir(&node, dir);
+      int lim = node.size / sizeof(direntry);
+      for (i = 0; i < lim; i++) {
+	filler(buf, (dir+i)->name, NULL, 0);
+      }
+      free(dir);
+    }
+    return 0;
   }
-  inode root;
-  get_inode(0, &root);
-  direntry *dir = malloc(root.size);
-  read_dir(&root, dir);
-  filler(buf, ".", NULL, 0);
-  filler(buf, "..", NULL, 0);
-  int i;
-  int lim = root.size / sizeof(direntry);
-  for (i = 0; i < lim; i++) {
-    filler(buf, (dir+i)->name, NULL, 0);
-  }
-  return 0;
+  return -ENOENT;
 }
 
 static struct fuse_operations h2_oper = {
   .getattr = h2_getattr,
   .readdir = h2_readdir,
   .mkdir = h2_mkdir,
+  .opendir = h2_opendir,
 };
 
 int main(int argc, char **argv) {
@@ -143,8 +191,6 @@ int main(int argc, char **argv) {
   read_block(0, sb, sizeof(superblock));
   init_ilist(sb);
   free(sb);
-
-  h2_mkdir("/foo", 0755);
 
   int status = fuse_main(argc, argv, &h2_oper, NULL);
   cleanup_ilist();
