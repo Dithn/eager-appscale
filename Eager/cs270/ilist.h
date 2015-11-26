@@ -40,7 +40,7 @@ void release_inode(inumber in);
 void get_inode(inumber i_number, inode* i_node);
 void write_inode(inumber i_number, inode * i_node);
 
-off_t read_dir(inode *i_node, direntry *buffer);
-off_t write_dir(inumber i_number, inode *i_node, direntry *buffer, off_t size);
+int read_dir(inode *i_node, direntry *buffer);
+int write_dir(inumber i_number, inode *i_node, direntry *buffer, off_t size);
 
 #endif

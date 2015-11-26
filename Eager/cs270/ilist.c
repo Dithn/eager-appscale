@@ -6,6 +6,8 @@
 #include "freelist.h"
 
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
+#define TRUE 1
+#define FALSE 0
 
 static block_id ILIST_HEAD;
 static block_id BITMAP_HEAD;
@@ -19,8 +21,9 @@ static block_id FREELIST_HEAD;
 void bitmap_set(int k);
 int bitmap_test(int k);
 
-off_t read_fully(inode *i_node, void *buffer);
-off_t write_fully(inumber i_number, inode *i_node, void *buffer, off_t size);
+int read_fully(inode *i_node, void *buffer);
+int write_fully(inumber i_number, inode *i_node, void *buffer, off_t size);
+void update_inode(inumber i_number, inode *i_node, off_t size);
 
 void bitmap_set(int k) {
   *(INODE_BITMAP + k/32) |= 1 << (k % 32);
@@ -62,10 +65,10 @@ int allocate_inode(inumber *in) {
       int block_offset = (i / 32) / INTS_PER_BLOCK;
       block_id bm_block= BITMAP_HEAD + block_offset;
       write_block(bm_block, INODE_BITMAP + block_offset * INTS_PER_BLOCK, BLOCK_SIZE);
-      return 1;
+      return TRUE;
     }
   }
-  return 0;
+  return FALSE;
 }
 
 void release_inode(inumber i) {
@@ -95,15 +98,15 @@ void write_inode(inumber i_number, inode* i_node) {
   free(inodes);
 }
 
-off_t read_dir(inode *i_node, direntry *buffer) {
+int read_dir(inode *i_node, direntry *buffer) {
   return read_fully(i_node, buffer);
 }
 
-off_t write_dir(inumber i_number, inode *i_node, direntry *buffer, off_t size) {
+int write_dir(inumber i_number, inode *i_node, direntry *buffer, off_t size) {
   return write_fully(i_number, i_node, buffer, size);
 }
 
-off_t read_fully(inode *i_node, void *buffer) {
+int read_fully(inode *i_node, void *buffer) {
   off_t read = 0;
   int indirection = 0;
   int iteration = 0;
@@ -118,15 +121,15 @@ off_t read_fully(inode *i_node, void *buffer) {
       }
     } else {
       // TODO: Handle other levels of indirection
-      return read;
+      return FALSE;
     }
   }
-  return read;
+  return TRUE;
 }
 
-off_t write_fully(inumber i_number, inode *i_node, void *buffer, off_t size) {
+int write_fully(inumber i_number, inode *i_node, void *buffer, off_t size) {
   off_t written = 0;
-  int indirection = 0;
+  int indirection = 0; 
   int iteration = 0;
   while (written < size) {
     if (indirection == 0) {
@@ -137,14 +140,10 @@ off_t write_fully(inumber i_number, inode *i_node, void *buffer, off_t size) {
       } else {
 	current = allocate_block(FREELIST_HEAD);
 	if (current == 0) {
-	  return written;
+	  update_inode(i_number, i_node, written);
+	  return FALSE;
 	}
-	time_t now;
-	time(&now);
-	i_node->mtime = now;
-	i_node->ctime = now;
 	i_node->direct_blocks[iteration] = current;
-	write_inode(i_number, i_node);
       }
 
       written += write_block(current, buffer + written, write_size);
@@ -155,11 +154,18 @@ off_t write_fully(inumber i_number, inode *i_node, void *buffer, off_t size) {
       }
     } else {
       // TODO: Handle other levels of indirection
-      return written;
+      return FALSE;
     }
   }
 
-  i_node->size = written;
+  update_inode(i_number, i_node, written);
+  return TRUE;
+}
+
+void update_inode(inumber i_number, inode *i_node, off_t size) {
+  time_t now;
+  time(&now);
+  i_node->mtime = now;
+  i_node->size = size;
   write_inode(i_number, i_node);
-  return written;
 }

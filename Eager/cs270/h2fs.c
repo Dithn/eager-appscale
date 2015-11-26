@@ -13,6 +13,7 @@
 #include "block_io.h"
 #include "ilist.h"
 
+static void h2_split_filename(const char *path, char *parent, char *base);
 static void h2_init_stat(inode *in, struct stat *stbuf);
 static int h2_resolve(const char *path, inumber *in);
 
@@ -63,6 +64,71 @@ static int h2_resolve(const char *path, inumber *in) {
   return 1;
 }
 
+static int h2_create(const char *path, mode_t mode, struct fuse_file_info *file_info) {
+  printf("create file %s\n", path);
+  char parent[32], base[32];
+  memset(parent, '\0', sizeof(parent));
+  memset(base, '\0', sizeof(base));
+  h2_split_filename(path, parent, base);
+  inumber parent_num;
+  if (h2_resolve(parent, &parent_num)) {
+    inode parent;
+    get_inode(parent_num, &parent);
+    off_t newsize = parent.size + sizeof(direntry);
+    printf("New dir size: %ld\n", newsize);
+    direntry *parentdir = malloc(newsize);
+    if (!read_dir(&parent, parentdir)) {
+      free(parentdir);
+      return -EIO;
+    }
+
+    int newdir_index = parent.size / sizeof(direntry);
+    inumber newdir_number;
+    time_t now;
+    time(&now);
+    if (allocate_inode(&newdir_number)) {
+      printf("New inode allocated: %ld\n", newdir_number);
+      inode newdir;
+      newdir.mode = mode | S_IFREG;
+      newdir.links = 1;
+      newdir.atime = now;
+      newdir.mtime = now;
+      newdir.ctime = now;
+      newdir.size = 0;
+      newdir.user_id = getuid();
+      newdir.group_id = getgid();
+      write_inode(newdir_number, &newdir);
+      printf("Wrote new inode\n");
+
+      direntry newentry;
+      strcpy(newentry.name, base);
+      newentry.number = newdir_number;
+      printf("New entry: %s %ld\n", newentry.name, newentry.number);
+      *(parentdir + newdir_index) = newentry;
+      if (!write_dir(parent_num, &parent, parentdir, newsize)) {
+	free(parentdir);
+	return -EIO;
+      }
+      free(parentdir);
+      return 0;
+    }
+  }
+  return -ENOENT;
+}
+
+static int h2_utimens(const char *path, const struct timespec tv[2]) {
+  inumber in;
+  if (h2_resolve(path, &in)) {
+    inode i_node;
+    get_inode(in, &i_node);
+    i_node.atime = tv[0].tv_sec;
+    i_node.mtime = tv[1].tv_sec;
+    write_inode(in, &i_node);
+    return 0;
+  }
+  return -ENOENT;
+}
+
 static int h2_getattr(const char *path, struct stat *stbuf) {
   printf("Getting attributes: %s\n", path);
   inumber in;
@@ -76,6 +142,7 @@ static int h2_getattr(const char *path, struct stat *stbuf) {
 }
 
 static int h2_opendir(const char *path, struct fuse_file_info *file_info) {
+  printf("Open dir: %s\n", path);
   inumber in;
   if (h2_resolve(path, &in)) {
     return 0;
@@ -83,11 +150,8 @@ static int h2_opendir(const char *path, struct fuse_file_info *file_info) {
   return -ENOENT;
 }
 
-static int h2_mkdir(const char *path, mode_t mode) {
+static void h2_split_filename(const char *path, char *parent, char *base) {
   char *last = strrchr(path, '/');
-  char parent[32], base[32];
-  memset(parent, '\0', sizeof(parent));
-  memset(base, '\0', sizeof(base));
   if (last != NULL) {
     int parent_length = strlen(path) - strlen(last);
     if (parent_length == 0) {
@@ -100,7 +164,13 @@ static int h2_mkdir(const char *path, mode_t mode) {
     strcpy(parent, "/");
     strcpy(base, path);
   }
+}
 
+static int h2_mkdir(const char *path, mode_t mode) {
+  char parent[32], base[32];
+  memset(parent, '\0', sizeof(parent));
+  memset(base, '\0', sizeof(base));
+  h2_split_filename(path, parent, base);
   printf("mkdir parent: %s; base: %s\n", parent, base);
   inumber parent_num;
   if (h2_resolve(parent, &parent_num)) {
@@ -109,10 +179,8 @@ static int h2_mkdir(const char *path, mode_t mode) {
     off_t newsize = parent.size + sizeof(direntry);
     printf("New dir size: %ld\n", newsize);
     direntry *parentdir = malloc(newsize);
-    off_t read = read_dir(&parent, parentdir);
-    printf("Read parent dir: %ld %ld\n", read, parent.size);
-    if (read != parent.size) {
-      return -ENOENT;
+    if (!read_dir(&parent, parentdir)) {
+      return -EIO;
     }
     int newdir_index = parent.size / sizeof(direntry);
 
@@ -138,11 +206,10 @@ static int h2_mkdir(const char *path, mode_t mode) {
       newentry.number = newdir_number;
       printf("New entry: %s %ld\n", newentry.name, newentry.number);
       *(parentdir + newdir_index) = newentry;
-      off_t written = write_dir(parent_num, &parent, parentdir, newsize);
-      printf("Write parent: %ld %ld\n", written, newsize);
-      if (written != newsize) {
-	return -ENOENT;
+      if (!write_dir(parent_num, &parent, parentdir, newsize)) {
+	return -EIO;
       }
+      free(parentdir);
       return 0;
     }
   }
@@ -179,6 +246,8 @@ static struct fuse_operations h2_oper = {
   .readdir = h2_readdir,
   .mkdir = h2_mkdir,
   .opendir = h2_opendir,
+  .create = h2_create,
+  .utimens = h2_utimens,
 };
 
 int main(int argc, char **argv) {
