@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "ilist.h"
 #include "block_io.h"
@@ -79,9 +82,32 @@ int main(int argc, char** argv) {
   sb->freelist_head = current;
   printf("\nWriting superblock\n");
   write_block(0, sb, sizeof(superblock));
+  init_ilist(sb);
   free(sb);
 
+  inumber root_number;
+  if (!allocate_inode(&root_number)) {
+    printf("Failed to allocate inode for root\n");
+    return 1;
+  }
+  inode* root = malloc(sizeof(inode));
+  time_t now;
+  time(&now);
+  get_inode(root_number, root);
+  root->user_id = getuid();
+  root->group_id = getgid();
+  root->ctime = now;
+  root->atime = now;
+  root->mtime = now;
+  root->mode = S_IFDIR | 0755;
+  root->size = 0;
+  root->links = 0;
+  write_inode(root_number, root);
+  printf("Creating root directory at inode %ld\n\n", root_number);
+  free(root);
+
   printf("H2 file system initialized successfully\n");
+  cleanup_ilist();
   close_device();
   return 0;
 }

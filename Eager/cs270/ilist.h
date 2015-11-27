@@ -1,19 +1,19 @@
 #ifndef _ILIST_H
 #define _ILIST_H
 
+#include <sys/types.h>
 #include "block_io.h"
 
 typedef struct {
-  unsigned int user_id;
-  unsigned int group_id;
-  long created_time;
-  long access_time;
-  long modified_time;
-  int protection;
-  long size;
-  long links;
-  int flags;
-  block_id direct_blocks[21];
+  uid_t user_id;
+  gid_t group_id;
+  time_t ctime; // Last status change time (change to inode)
+  time_t atime; // Last accessed time
+  time_t mtime; // Last modified time (change to content)
+  mode_t mode;
+  off_t size;
+  nlink_t links;
+  block_id direct_blocks[22];
   block_id l1_indirect_blocks;
   block_id l2_indirect_blocks;
   block_id l3_indirect;
@@ -28,9 +28,19 @@ typedef struct {
 
 typedef unsigned long inumber;
 
+typedef struct {
+  char name[56];
+  inumber number;
+} direntry;
+
 void init_ilist(superblock *sb);
 void cleanup_ilist();
-inumber allocate_inode();
+int allocate_inode(inumber *in);
 void release_inode(inumber in);
+void get_inode(inumber i_number, inode* i_node);
+void write_inode(inumber i_number, inode * i_node);
+
+int read_dir(inode *i_node, direntry *buffer);
+int write_dir(inumber i_number, inode *i_node, direntry *buffer, off_t size);
 
 #endif
