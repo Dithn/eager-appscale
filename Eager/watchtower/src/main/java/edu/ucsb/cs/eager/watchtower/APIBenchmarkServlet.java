@@ -47,7 +47,7 @@ public class APIBenchmarkServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init();
+        super.init(config);
         ServletContext context = config.getServletContext();
         String storeImpl = context.getInitParameter("dataPointStore");
         if ("elk".equals(storeImpl)) {

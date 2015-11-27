@@ -23,8 +23,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 import edu.ucsb.cs.eager.watchtower.DataPoint;
 
 import javax.servlet.ServletContext;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -68,19 +67,29 @@ public class ElasticSearchDataPointStore extends DataPointStore {
         json.put("values", p.getData());
         String indexName = index + "_" + DATE_FORMAT.format(new Date());
         try {
-            URL url = new URL(endpoint + "/" + indexName + "/" + type);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(new JSONObject(json).toString());
-            writer.close();
-
-            boolean status = connection.getResponseCode() == HttpURLConnection.HTTP_CREATED;
-            connection.disconnect();
-            return status;
+            return sendToElasticSearch(indexName, json);
         } catch (IOException e) {
             return false;
         }
+    }
+
+    private boolean sendToElasticSearch(String indexName, Map<String,Object> json) throws IOException {
+        URL url = new URL(endpoint + "/" + indexName + "/" + type);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+            writer.write(new JSONObject(json).toString());
+        }
+
+        int httpStatus = connection.getResponseCode();
+        if (httpStatus >= 200 && httpStatus < 400) {
+            try (InputStream in = connection.getInputStream()) {
+                byte[] data = new byte[1024];
+                while (in.read(data) != -1) {
+                }
+            }
+        }
+        return httpStatus == HttpURLConnection.HTTP_CREATED;
     }
 }
