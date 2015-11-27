@@ -1,18 +1,105 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..8c1b2a0 100644
+index 1a15112..0171562 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-@@ -32,6 +32,9 @@ import com.google.apphosting.api.ApiProxy.Environment;
+@@ -32,6 +32,16 @@ import com.google.apphosting.api.ApiProxy.Environment;
  import com.google.apphosting.api.ApiProxy.LogRecord;
  import com.google.apphosting.api.ApiProxy.UnknownException;
  
++import java.util.ArrayList;
 +import java.io.FileOutputStream;
 +import java.io.IOException;
++import java.util.concurrent.BlockingQueue;
++import java.util.concurrent.ExecutorService;
++import java.util.concurrent.Executors;
++import java.util.concurrent.LinkedBlockingQueue;
++import java.util.concurrent.ThreadFactory;
++
 +
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -93,8 +96,30 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +67,71 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+     private final LocalServiceContext context;
+     private Clock clock = Clock.DEFAULT;
+ 
++    private final BlockingQueue<ApiCallEvent> pendingEvents = new LinkedBlockingQueue<ApiCallEvent>();
++    private final ExecutorService exec = Executors.newSingleThreadExecutor(new ThreadFactory() {
++        @Override
++        public Thread newThread(Runnable r) {
++            Thread t = new Thread(r, "api-call-event-reporter");
++            t.setDaemon(true);
++            return t;
++        }
++    });
++
++    private static class ApiCallEvent {
++        private final long timestamp;
++        private final long elapsedTime;
++        private final String requestId;
++        private final String appId;
++        private final String packageName;
++        private final String methodName;
++
++        public ApiCallEvent(long startTime, String requestId, String appId, String packageName, String methodName) {
++            this.timestamp = System.currentTimeMillis();
++            this.elapsedTime = this.timestamp - startTime;
++            this.requestId = requestId;
++            this.appId = appId;
++            this.packageName = packageName;
++            this.methodName = methodName;
++        }
++
++        @Override
++        public String toString() {
++            return String.format("{\"timestamp\": %d, \"requestId\": \"%s\", \"appId\": \"%s\", " +
++                            "\"service\": \"%s\", \"operation\": \"%s\", \"elapsed\": %d}",
++                    timestamp, requestId, appId, packageName, methodName, elapsedTime);
++        }
++    }
++
++    private class ApiCallEventReporter implements Runnable {
++        @Override
++        public void run() {
++            long lastReport = System.currentTimeMillis();
++            while (true) {
++                List<ApiCallEvent> temp = new ArrayList<>();
++                try {
++                    while (temp.size() < 100) {
++                        if (temp.size() > 0 && System.currentTimeMillis() - lastReport > 5000) {
++                            break;
++                        }
++                        if (pendingEvents.drainTo(temp, 100 - temp.size()) == 0) {
++                            temp.add(pendingEvents.take());
++                        }
++                    }
++
++                    StringBuilder sb = new StringBuilder(">>>");
++                    for (ApiCallEvent e : temp) {
++                        sb.append("\n{\"index\" : {\"_index\" : \"test\", \"_type\" : \"type1\"}}");
++                        sb.append("\n").append(e.toString());
++                    }
++                    writeToFile(sb.toString());
++                    lastReport = System.currentTimeMillis();
++                } catch (Exception ignored) {
++                }
++            }
++        }
++    }
++
++
+     /**
+      * Creates the local proxy in a given context
+      * 
+@@ -65,6 +140,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+      */
+     protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
+         this.context = new LocalServiceContextImpl(environment);
++        this.exec.submit(new ApiCallEventReporter());
+     }
+ 
+     public void log(Environment environment, LogRecord record) {
+@@ -93,8 +169,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -37,12 +124,25 @@ index 1a15112..8c1b2a0 100644
      public Future<byte[]> makeAsyncCall(Environment environment, String packageName, String methodName,
              byte[] requestBytes, ApiConfig apiConfig) {
 +
-+        String line = environment.getAttributes().get("edu.ucsb.cs.eager.RequestId") + " " + ((LocalEnvironment) environment).getAppId() + " " + packageName + " " + methodName;
-+        writeToFile(line);
-+
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
+@@ -307,10 +402,15 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+         }
+ 
+         public byte[] call() {
++            long start = System.currentTimeMillis();
++            String requestId = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestId");
++            String appId = ((LocalEnvironment) environment).getAppId();
+             try {
+                 return callInternal();
+             } finally {
+                 tryReleaseSemaphore();
++                ApiCallEvent event = new ApiCallEvent(start, requestId, appId, packageName, methodName);
++                pendingEvents.offer(event);
+             }
+         }
+ 
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 index 13d3b92..5b7af7b 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
