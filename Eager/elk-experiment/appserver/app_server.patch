@@ -1,8 +1,8 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..0171562 100644
+index 1a15112..6dc2be4 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-@@ -32,6 +32,16 @@ import com.google.apphosting.api.ApiProxy.Environment;
+@@ -32,6 +32,22 @@ import com.google.apphosting.api.ApiProxy.Environment;
  import com.google.apphosting.api.ApiProxy.LogRecord;
  import com.google.apphosting.api.ApiProxy.UnknownException;
  
@@ -14,12 +14,18 @@ index 1a15112..0171562 100644
 +import java.util.concurrent.Executors;
 +import java.util.concurrent.LinkedBlockingQueue;
 +import java.util.concurrent.ThreadFactory;
-+
++import java.io.InputStream;
++import java.io.OutputStreamWriter;
++import java.net.HttpURLConnection;
++import java.net.URL;
++import com.google.appengine.repackaged.org.apache.commons.httpclient.HttpClient;
++import com.google.appengine.repackaged.org.apache.commons.httpclient.methods.PostMethod;
++import com.google.appengine.repackaged.org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 +
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +67,71 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +73,91 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -66,20 +72,23 @@ index 1a15112..0171562 100644
 +                List<ApiCallEvent> temp = new ArrayList<>();
 +                try {
 +                    while (temp.size() < 100) {
-+                        if (temp.size() > 0 && System.currentTimeMillis() - lastReport > 5000) {
-+                            break;
++                        ApiCallEvent event = pendingEvents.poll(2, TimeUnit.SECONDS);
++                        if (event != null) {
++                            temp.add(event);
++                            pendingEvents.drainTo(temp, 100 - temp.size());
 +                        }
-+                        if (pendingEvents.drainTo(temp, 100 - temp.size()) == 0) {
-+                            temp.add(pendingEvents.take());
++                        if (temp.size() > 0 && System.currentTimeMillis() - lastReport > 10000) {
++                            break;
 +                        }
 +                    }
 +
-+                    StringBuilder sb = new StringBuilder(">>>");
++                    StringBuilder sb = new StringBuilder();
 +                    for (ApiCallEvent e : temp) {
-+                        sb.append("\n{\"index\" : {\"_index\" : \"test\", \"_type\" : \"type1\"}}");
++                        sb.append("\n{\"index\" : {}}");
 +                        sb.append("\n").append(e.toString());
 +                    }
-+                    writeToFile(sb.toString());
++                    sb.append("\n");
++                    reportToElasticSearch(sb, "appscale-internal", "apicall");
 +                    lastReport = System.currentTimeMillis();
 +                } catch (Exception ignored) {
 +                }
@@ -87,11 +96,28 @@ index 1a15112..0171562 100644
 +        }
 +    }
 +
++    private void reportToElasticSearch(StringBuilder sb, String index, String type) {
++        HttpClient client = new HttpClient();
++        PostMethod method = new PostMethod("http://128.111.179.159:9200/" + index + "/" + type + "/_bulk");
++        method.setRequestEntity(new ByteArrayRequestEntity(sb.toString().getBytes(), "application/x-www-form-urlencoded"));
++        try {
++            int status = client.executeMethod(method);
++            String response = method.getResponseBodyAsString();
++            if (status != 200) {
++                logger.log(Level.WARNING, response);
++            }
++        } catch (Exception e) {
++            logger.log(Level.WARNING, "Error while reporting to ElasticSearch", e);
++        } finally {
++	    method.releaseConnection();
++        }
++    }
++
 +
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +140,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +166,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -99,7 +125,7 @@ index 1a15112..0171562 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +169,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +195,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -127,7 +153,7 @@ index 1a15112..0171562 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,10 +402,15 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,10 +428,15 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
