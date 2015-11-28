@@ -166,6 +166,47 @@ static void h2_split_filename(const char *path, char *parent, char *base) {
   }
 }
 
+static int h2_rmdir(const char *path) {
+  inumber number;
+  if (h2_resolve(path, &number)) {
+    inode target;
+    get_inode(number, &target);
+    if (target.size > 0) {
+      return -ENOTEMPTY;
+    } else if (!S_ISDIR(target.mode)) {
+      return -ENOTDIR;
+    }
+
+    char parent[32], base[32];
+    memset(parent, '\0', sizeof(parent));
+    memset(base, '\0', sizeof(base));
+    h2_split_filename(path, parent, base);
+    inumber parent_num;
+    h2_resolve(parent, &parent_num);
+    inode parent_node;
+    get_inode(parent_num, &parent_node);
+    direntry* parent_dir = malloc(parent_node.size);
+    int new_size = parent_node.size - sizeof(direntry);
+    direntry* new_parent_dir = malloc(new_size);
+    int file_count = parent_node.size / sizeof(direntry);
+    read_dir(&parent_node, parent_dir);
+    int i;
+    int j = 0;
+    for (i = 0; i < file_count; i++) {
+      if (strcmp((parent_dir+i)->name, base) != 0) {
+	*(new_parent_dir + j) = *(parent_dir+i);
+	j++;
+      }
+    }
+    write_dir(parent_num, &parent_node, new_parent_dir, new_size);
+    release_inode(number);
+    free(parent_dir);
+    free(new_parent_dir);
+    return 0;
+  }
+  return -ENOENT;
+}
+
 static int h2_mkdir(const char *path, mode_t mode) {
   char parent[32], base[32];
   memset(parent, '\0', sizeof(parent));
@@ -245,6 +286,7 @@ static struct fuse_operations h2_oper = {
   .getattr = h2_getattr,
   .readdir = h2_readdir,
   .mkdir = h2_mkdir,
+  .rmdir = h2_rmdir,
   .opendir = h2_opendir,
   .create = h2_create,
   .utimens = h2_utimens,
