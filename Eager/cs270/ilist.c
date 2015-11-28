@@ -19,6 +19,7 @@ static long INODES_PER_BLOCK;
 static block_id FREELIST_HEAD;
 
 void bitmap_set(int k);
+void bitmap_unset(int k);
 int bitmap_test(int k);
 
 int read_fully(inode *i_node, void *buffer);
@@ -27,6 +28,10 @@ void update_inode(inumber i_number, inode *i_node, off_t size);
 
 void bitmap_set(int k) {
   *(INODE_BITMAP + k/32) |= 1 << (k % 32);
+}
+
+void bitmap_unset(int k) {
+  *(INODE_BITMAP + k/32) &= ~(1 << (k % 32));  
 }
 
 int bitmap_test(int k) {
@@ -72,7 +77,10 @@ int allocate_inode(inumber *in) {
 }
 
 void release_inode(inumber i) {
-
+  bitmap_unset(i);
+  int block_offset = (i / 32) / INTS_PER_BLOCK;
+  block_id bm_block = BITMAP_HEAD + block_offset;
+  write_block(bm_block, INODE_BITMAP + block_offset * INTS_PER_BLOCK, BLOCK_SIZE);
 }
 
 void get_inode(inumber i_number, inode* i_node) {
