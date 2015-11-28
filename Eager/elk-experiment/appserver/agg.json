@@ -6,10 +6,17 @@
         "field": "requestId.raw"
       },
       "aggs": {
-        "sum_time": {
-          "sum": {
-             "field": "elapsed"
-           }
+        "group_by_service": {
+          "terms": {
+            "field": "service.raw"
+          },
+          "aggs": {
+            "sum_time": {
+              "sum": {
+                 "field": "elapsed"
+               }
+            }
+          }
         }
       }
     }

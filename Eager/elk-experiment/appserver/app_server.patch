@@ -1,5 +1,5 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..6dc2be4 100644
+index 1a15112..a321902 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 @@ -32,6 +32,22 @@ import com.google.apphosting.api.ApiProxy.Environment;
@@ -25,7 +25,7 @@ index 1a15112..6dc2be4 100644
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +73,91 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +73,101 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -68,31 +68,41 @@ index 1a15112..6dc2be4 100644
 +        @Override
 +        public void run() {
 +            long lastReport = System.currentTimeMillis();
++            List<ApiCallEvent> buffer = new ArrayList<>();
 +            while (true) {
-+                List<ApiCallEvent> temp = new ArrayList<>();
 +                try {
-+                    while (temp.size() < 100) {
-+                        ApiCallEvent event = pendingEvents.poll(2, TimeUnit.SECONDS);
-+                        if (event != null) {
-+                            temp.add(event);
-+                            pendingEvents.drainTo(temp, 100 - temp.size());
-+                        }
-+                        if (temp.size() > 0 && System.currentTimeMillis() - lastReport > 10000) {
-+                            break;
-+                        }
++                    if (drain(buffer, 100, 10, TimeUnit.SECONDS) == 0) {
++                        continue;
 +                    }
-+
 +                    StringBuilder sb = new StringBuilder();
-+                    for (ApiCallEvent e : temp) {
++                    for (ApiCallEvent e : buffer) {
 +                        sb.append("\n{\"index\" : {}}");
 +                        sb.append("\n").append(e.toString());
 +                    }
 +                    sb.append("\n");
++                    buffer.clear();
 +                    reportToElasticSearch(sb, "appscale-internal", "apicall");
 +                    lastReport = System.currentTimeMillis();
 +                } catch (Exception ignored) {
 +                }
 +            }
++        }
++
++        private int drain(List<ApiCallEvent> buffer, int numElements, long timeout, TimeUnit unit) throws InterruptedException {
++            long deadline = System.nanoTime() + unit.toNanos(timeout);
++            int added = 0;
++            while (added < numElements) {
++                added += pendingEvents.drainTo(buffer, numElements - added);
++                if (added < numElements) { // not enough elements immediately available; will have to poll
++                    ApiCallEvent e = pendingEvents.poll(deadline - System.nanoTime(), TimeUnit.NANOSECONDS);
++                    if (e == null) {
++                        break; // we already waited enough, and there are no more elements in sight
++                    }
++                    buffer.add(e);
++                    added++;
++                }
++            }
++            return added;
 +        }
 +    }
 +
@@ -117,7 +127,7 @@ index 1a15112..6dc2be4 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +166,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +176,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -125,7 +135,7 @@ index 1a15112..6dc2be4 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +195,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +205,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -153,7 +163,7 @@ index 1a15112..6dc2be4 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,10 +428,15 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,10 +438,15 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
