@@ -1,12 +1,13 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..a321902 100644
+index 1a15112..628a98b 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-@@ -32,6 +32,22 @@ import com.google.apphosting.api.ApiProxy.Environment;
+@@ -32,6 +32,23 @@ import com.google.apphosting.api.ApiProxy.Environment;
  import com.google.apphosting.api.ApiProxy.LogRecord;
  import com.google.apphosting.api.ApiProxy.UnknownException;
  
 +import java.util.ArrayList;
++import java.util.Arrays;
 +import java.io.FileOutputStream;
 +import java.io.IOException;
 +import java.util.concurrent.BlockingQueue;
@@ -25,7 +26,7 @@ index 1a15112..a321902 100644
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +73,101 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +74,112 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -41,26 +42,37 @@ index 1a15112..a321902 100644
 +
 +    private static class ApiCallEvent {
 +        private final long timestamp;
-+        private final long elapsedTime;
++        private long endTime;
 +        private final String requestId;
 +        private final String appId;
 +        private final String packageName;
 +        private final String methodName;
++        private final byte[] requestBytes;
++        private String requestType = "unknown";
 +
-+        public ApiCallEvent(long startTime, String requestId, String appId, String packageName, String methodName) {
-+            this.timestamp = System.currentTimeMillis();
-+            this.elapsedTime = this.timestamp - startTime;
++        public ApiCallEvent(long startTime, String requestId, String appId, String packageName, String methodName, byte[] requestBytes) {
++            this.timestamp = startTime;
 +            this.requestId = requestId;
 +            this.appId = appId;
 +            this.packageName = packageName;
 +            this.methodName = methodName;
++            this.requestBytes = requestBytes;
++        }
++
++        public void setRequestType(String requestType) {
++	    this.requestType = requestType;
++        }
++
++        public void setEndTime(long endTime) {
++	    this.endTime = endTime;
 +        }
 +
 +        @Override
 +        public String toString() {
 +            return String.format("{\"timestamp\": %d, \"requestId\": \"%s\", \"appId\": \"%s\", " +
-+                            "\"service\": \"%s\", \"operation\": \"%s\", \"elapsed\": %d}",
-+                    timestamp, requestId, appId, packageName, methodName, elapsedTime);
++                            "\"service\": \"%s\", \"operation\": \"%s\", \"elapsed\": %d, \"requestSize\": %d, " + 
++                            "\"requestType\": \"%s\", \"requestHash\": %d}",
++                    timestamp, requestId, appId, packageName, methodName, endTime - timestamp, requestBytes.length, requestType, Arrays.hashCode(requestBytes));
 +        }
 +    }
 +
@@ -127,7 +139,7 @@ index 1a15112..a321902 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +176,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +188,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -135,7 +147,7 @@ index 1a15112..a321902 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +205,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +217,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -163,22 +175,38 @@ index 1a15112..a321902 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,10 +438,15 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,14 +450,21 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
 +            long start = System.currentTimeMillis();
 +            String requestId = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestId");
 +            String appId = ((LocalEnvironment) environment).getAppId();
++            ApiCallEvent event = new ApiCallEvent(start, requestId, appId, this.packageName, this.methodName, this.requestBytes);
              try {
-                 return callInternal();
+-                return callInternal();
++                return callInternal(event);
              } finally {
                  tryReleaseSemaphore();
-+                ApiCallEvent event = new ApiCallEvent(start, requestId, appId, packageName, methodName);
++                event.setEndTime(System.currentTimeMillis());
 +                pendingEvents.offer(event);
              }
          }
  
+-        private byte[] callInternal() {
++        private byte[] callInternal(ApiCallEvent event) {
++
+             LocalRpcService service = getService(this.packageName);
+ 
+             if (service == null) {
+@@ -332,6 +482,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+             try {
+                 Class<?> requestClass = method.getParameterTypes()[1];
+                 Object request = convertBytesToPb(this.requestBytes, requestClass);
++                event.setRequestType(request.getClass().getName());
+ 
+                 return convertPbToBytes(method.invoke(service, new Object[] { status, request }));
+             } catch (IllegalAccessException e) {
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 index 13d3b92..5b7af7b 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
