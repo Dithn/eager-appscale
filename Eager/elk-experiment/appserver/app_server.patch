@@ -1,8 +1,8 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..628a98b 100644
+index 1a15112..6d66d12 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-@@ -32,6 +32,23 @@ import com.google.apphosting.api.ApiProxy.Environment;
+@@ -32,6 +32,24 @@ import com.google.apphosting.api.ApiProxy.Environment;
  import com.google.apphosting.api.ApiProxy.LogRecord;
  import com.google.apphosting.api.ApiProxy.UnknownException;
  
@@ -22,11 +22,12 @@ index 1a15112..628a98b 100644
 +import com.google.appengine.repackaged.org.apache.commons.httpclient.HttpClient;
 +import com.google.appengine.repackaged.org.apache.commons.httpclient.methods.PostMethod;
 +import com.google.appengine.repackaged.org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
++import com.google.gson.Gson;
 +
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +74,112 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +75,130 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -40,39 +41,57 @@ index 1a15112..628a98b 100644
 +        }
 +    });
 +
++
 +    private static class ApiCallEvent {
++        
++        private static final Gson gson = new Gson();
++        
 +        private final long timestamp;
-+        private long endTime;
 +        private final String requestId;
 +        private final String appId;
-+        private final String packageName;
-+        private final String methodName;
++        private final String service;
++        private final String operation;
 +        private final byte[] requestBytes;
-+        private String requestType = "unknown";
++        private Object requestObject;
++        private long endTime = -1L;
 +
-+        public ApiCallEvent(long startTime, String requestId, String appId, String packageName, String methodName, byte[] requestBytes) {
-+            this.timestamp = startTime;
++        public ApiCallEvent(long timestamp, String requestId, String appId, String service, 
++                            String operation, byte[] requestBytes) {
++            this.timestamp = timestamp;
 +            this.requestId = requestId;
 +            this.appId = appId;
-+            this.packageName = packageName;
-+            this.methodName = methodName;
++            this.service = service;
++            this.operation = operation;
 +            this.requestBytes = requestBytes;
 +        }
 +
-+        public void setRequestType(String requestType) {
-+	    this.requestType = requestType;
++        public void setRequestObject(Object requestObject) {
++            this.requestObject = requestObject;
 +        }
 +
 +        public void setEndTime(long endTime) {
-+	    this.endTime = endTime;
++            this.endTime = endTime;
 +        }
 +
 +        @Override
 +        public String toString() {
-+            return String.format("{\"timestamp\": %d, \"requestId\": \"%s\", \"appId\": \"%s\", " +
-+                            "\"service\": \"%s\", \"operation\": \"%s\", \"elapsed\": %d, \"requestSize\": %d, " + 
-+                            "\"requestType\": \"%s\", \"requestHash\": %d}",
-+                    timestamp, requestId, appId, packageName, methodName, endTime - timestamp, requestBytes.length, requestType, Arrays.hashCode(requestBytes));
++            Map<String,Object> event = new HashMap<>();
++            event.put("timestamp", timestamp);
++            event.put("requestId", requestId);
++            event.put("appId", appId);
++            event.put("service", service);
++            event.put("operation", operation);
++            if (requestBytes != null) {
++                event.put("requestSize", requestBytes.length);
++                event.put("requestHash", Arrays.hashCode(requestBytes));
++            }
++            if (requestObject != null) {
++                event.put("requestType", requestObject.getClass().getName());
++            }
++            if (endTime > 0) {
++                event.put("elapsed", endTime - timestamp);
++            }
++            return gson.toJson(event);
 +        }
 +    }
 +
@@ -139,7 +158,7 @@ index 1a15112..628a98b 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +188,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +207,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -147,7 +166,7 @@ index 1a15112..628a98b 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +217,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +236,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -175,7 +194,7 @@ index 1a15112..628a98b 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,14 +450,21 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,14 +469,21 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
@@ -199,11 +218,11 @@ index 1a15112..628a98b 100644
              LocalRpcService service = getService(this.packageName);
  
              if (service == null) {
-@@ -332,6 +482,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -332,6 +501,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
              try {
                  Class<?> requestClass = method.getParameterTypes()[1];
                  Object request = convertBytesToPb(this.requestBytes, requestClass);
-+                event.setRequestType(request.getClass().getName());
++                event.setRequestObject(request);
  
                  return convertPbToBytes(method.invoke(service, new Object[] { status, request }));
              } catch (IllegalAccessException e) {
