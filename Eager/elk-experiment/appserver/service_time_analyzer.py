@@ -1,12 +1,14 @@
 import argparse
 import httplib
 import json
+import numpy
 import time
 
 class RequestInfo:
     def __init__(self, req):
         self.key = req['key']
         self.timestamp = req['request_timestamp']['value_as_string']
+        self.api_calls = req['doc_count']
         self.service_times = {}
         services = req['group_by_service']['buckets']
         for service in services:
@@ -62,19 +64,27 @@ def get_request_info(server, port, index, app, time_window):
         result.append(RequestInfo(req))
     return result
 
+def calculate_summary(requests, service):
+    values = map(lambda req: req.service_times.get(service, -1), requests)
+    values = filter(lambda val: val > 0, values)
+    return numpy.mean(values), numpy.std(values), numpy.median(values), len(values)
+
 def print_output(requests):
     service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
-    print 'requestId  datastore_v3 (datastore_v3%)  memcache (memcache%)  urlfetch (urlfetch%)  total'
+    print 'requestId  datastore_v3 (datastore_v3%)  memcache (memcache%)  urlfetch (urlfetch%)  total_time api_calls'
     for req in requests:
         record = '{0}  {1}  '.format(req.timestamp, req.key)
         for k in service_names:
             value = req.service_times.get(k, 0.0)
             record += '{0}  ({1:.2f})  '.format(value, (value/req.total_time) * 100.0)
-        record += '{0}'.format(req.total_time)
+        record += '{0}  {1}'.format(req.total_time, req.api_calls)
         print record
     print
     print 'Total requests: {0}'.format(len(requests))
-        
+    print '[service] Name mean std median count'
+    print '[service] Datastore {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'datastore_v3'))
+    print '[service] Memcache {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'memcache'))
+    print '[service] URLFetch {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'urlfetch'))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyzes execution time of cloud services.')
