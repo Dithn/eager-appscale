@@ -4,7 +4,16 @@ import json
 import time
 
 class RequestInfo:
-    pass
+    def __init__(self, req):
+        self.key = req['key']
+        self.timestamp = req['request_timestamp']['value_as_string']
+        self.service_times = {}
+        services = req['group_by_service']['buckets']
+        for service in services:
+            name = service['key']
+            value = service['service_time']['value']
+            self.service_times[name] = value
+        self.total_time = sum(self.service_times.values())
 
 def get_request_info(server, port, index, app, time_window):
     start_time = long(time.time() * 1000) - time_window
@@ -44,30 +53,27 @@ def get_request_info(server, port, index, app, time_window):
     data = response.read()
     conn.close()
     if response.status != 200:
-        print 'Server returned unexpected status', response.status
-        print data
-        return
+        error_message = 'Server returned unexpected status: {0}\n{1}'.format(response.status, data)
+        raise RuntimeError(error_message)
     output = json.loads(data)
     requests = output['aggregations']['group_by_request']['buckets']
-    service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
-    if not requests:
-        print 'No requests found'
-        return
-    print 'requestId  datastore_v3 datastore_v3%  memcache memcache%  urlfetch urlfetch%  total'
+    result = []
     for req in requests:
-        services = req['group_by_service']['buckets']
-        service_times = {}
-        for service in services:
-            name = service['key']
-            value = service['service_time']['value']
-            service_times[name] = value
-        total = sum(service_times.values())
-        record = '{0}  {1}  '.format(req['request_timestamp']['value_as_string'], req['key'])
+        result.append(RequestInfo(req))
+    return result
+
+def print_output(requests):
+    service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
+    print 'requestId  datastore_v3 (datastore_v3%)  memcache (memcache%)  urlfetch (urlfetch%)  total'
+    for req in requests:
+        record = '{0}  {1}  '.format(req.timestamp, req.key)
         for k in service_names:
-            value = service_times.get(k, 0.0)
-            record += '{0}  ({1:.2f})  '.format(value, (value/total) * 100.0)
-        record += '{0}'.format(total)
+            value = req.service_times.get(k, 0.0)
+            record += '{0}  ({1:.2f})  '.format(value, (value/req.total_time) * 100.0)
+        record += '{0}'.format(req.total_time)
         print record
+    print
+    print 'Total requests: {0}'.format(len(requests))
         
 
 if __name__ == '__main__':
@@ -77,4 +83,8 @@ if __name__ == '__main__':
     parser.add_argument('--index', '-i', dest='index', default='appscale-internal')
     parser.add_argument('--app', '-a', dest='app', default='watchtower')
     args = parser.parse_args()
-    get_request_info(args.server, args.port, args.index, args.app, 3600 * 1000)
+    requests = get_request_info(args.server, args.port, args.index, args.app, 3600 * 1000)
+    if requests:
+        print_output(requests)
+    else:
+        print 'No request information found'
