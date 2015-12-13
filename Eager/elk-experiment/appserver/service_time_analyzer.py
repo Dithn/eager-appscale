@@ -2,6 +2,7 @@ import argparse
 import httplib
 import json
 import numpy
+import re
 import time
 
 class RequestInfo:
@@ -17,6 +18,30 @@ class RequestInfo:
             self.service_times[name] = value
         self.total_time = sum(self.service_times.values())
 
+def get_digit(delta_str):
+    return int(delta_str[:len(delta_str)-1])
+        
+def parse_time_delta(delta_str):
+    pattern = re.compile('^(\d+[dhms]\s*)+$')
+    if pattern.match(delta_str):
+        segments = re.split('(\d+[dhms]\s*)', delta_str)
+        segments = map(lambda s: s.strip(), filter(lambda s: len(s) > 0, segments))
+        result = 0
+        for segment in segments:
+            if segment.endswith('s'):
+                result += get_digit(segment) * 1000
+            elif segment.endswith('m'):
+                result += get_digit(segment) * 1000 * 60
+            elif segment.endswith('h'):
+                result += get_digit(segment) * 1000 * 60 * 60
+            elif segment.endswith('d'):
+                result += get_digit(segment) * 1000 * 60 * 60 * 24
+            else:
+                raise ValueError('Invalid time delta string ' + segment)
+        return result
+    else:
+        raise ValueError('Invalid time delta string ' + delta_str)
+        
 def get_request_info(server, port, index, app, time_window):
     start_time = long(time.time() * 1000) - time_window
     filtered_query = {
@@ -92,8 +117,10 @@ if __name__ == '__main__':
     parser.add_argument('--port', '-p', type=int, dest='port', default=9200)
     parser.add_argument('--index', '-i', dest='index', default='appscale-internal')
     parser.add_argument('--app', '-a', dest='app', default='watchtower')
+    parser.add_argument('--time_window', '-t', dest='time_window', default='1h')
     args = parser.parse_args()
-    requests = get_request_info(args.server, args.port, args.index, args.app, 3600 * 1000)
+    time_window_ms = parse_time_delta(args.time_window)
+    requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
     if requests:
         print_output(requests)
     else:
