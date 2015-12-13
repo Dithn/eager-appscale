@@ -90,7 +90,10 @@ def get_request_info(server, port, index, app, time_window):
     return result
 
 def calculate_summary(requests, service):
-    values = map(lambda req: req.service_times.get(service, -1), requests)
+    if service == 'TotalTime':
+        values = map(lambda req: req.total_time, requests)
+    else:
+        values = map(lambda req: req.service_times.get(service, -1), requests)
     values = filter(lambda val: val > 0, values)
     return numpy.mean(values), numpy.std(values), numpy.median(values), len(values)
 
@@ -110,6 +113,7 @@ def print_output(requests):
     print '[service] Datastore {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'datastore_v3'))
     print '[service] Memcache {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'memcache'))
     print '[service] URLFetch {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'urlfetch'))
+    print '[service] TotalTime {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'TotalTime'))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyzes execution time of cloud services.')
