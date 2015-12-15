@@ -89,12 +89,8 @@ def get_request_info(server, port, index, app, time_window):
         result.append(RequestInfo(req))
     return result
 
-def calculate_summary(requests, service):
-    if service == 'TotalTime':
-        values = map(lambda req: req.total_time, requests)
-    else:
-        values = map(lambda req: req.service_times.get(service, -1), requests)
-    values = filter(lambda val: val > 0, values)
+def calculate_summary(requests, func):
+    values = filter(lambda val: val > 0, map(func, requests))
     return numpy.mean(values), numpy.std(values), numpy.median(values), len(values)
 
 def print_output(requests):
@@ -110,10 +106,14 @@ def print_output(requests):
     print
     print 'Total requests: {0}'.format(len(requests))
     print '[service] Name mean std median count'
-    print '[service] Datastore {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'datastore_v3'))
-    print '[service] Memcache {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'memcache'))
-    print '[service] URLFetch {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'urlfetch'))
-    print '[service] TotalTime {0:.2f} {1:.2f} {2:.2f} {3}'.format(*calculate_summary(requests, 'TotalTime'))
+    print '[service] Datastore {0:.2f} {1:.2f} {2:.2f} {3}'.format(
+        *calculate_summary(requests, lambda req: req.service_times.get('datastore_v3', -1)))
+    print '[service] Memcache {0:.2f} {1:.2f} {2:.2f} {3}'.format(
+        *calculate_summary(requests, lambda req: req.service_times.get('memcache', -1)))
+    print '[service] URLFetch {0:.2f} {1:.2f} {2:.2f} {3}'.format(
+        *calculate_summary(requests, lambda req: req.service_times.get('urlfetch', -1)))
+    print '[service] TotalTime {0:.2f} {1:.2f} {2:.2f} {3}'.format(
+        *calculate_summary(requests, lambda req: req.total_time))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyzes execution time of cloud services.')
