@@ -115,6 +115,30 @@ def print_output(requests):
     print '[service] TotalTime {0:.2f} {1:.2f} {2:.2f} {3}'.format(
         *calculate_summary(requests, lambda req: req.total_time))
 
+def print_edge_cases(requests):
+    sorted_requests = sorted(requests, key=lambda x: x.total_time)
+    service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
+    print 'Fastest requests'
+    for i in range(5):
+        req = sorted_requests[i]
+        record = '{0}  {1}  '.format(req.timestamp, req.key)
+        for k in service_names:
+            value = req.service_times.get(k, 0.0)
+            record += '{0}  ({1:.2f})  '.format(value, (value/req.total_time) * 100.0)
+        record += '{0}  {1}'.format(req.total_time, req.api_calls)
+        print record
+
+    print '\nSlowest requests'
+    start = len(sorted_requests) - 1 - 5
+    for i in range(5):
+        req = sorted_requests[start + i]
+        record = '{0}  {1}  '.format(req.timestamp, req.key)
+        for k in service_names:
+            value = req.service_times.get(k, 0.0)
+            record += '{0}  ({1:.2f})  '.format(value, (value/req.total_time) * 100.0)
+        record += '{0}  {1}'.format(req.total_time, req.api_calls)
+        print record
+    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyzes execution time of cloud services.')
     parser.add_argument('--server', '-s', dest='server', default='128.111.179.159')
@@ -127,5 +151,10 @@ if __name__ == '__main__':
     requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
     if requests:
         print_output(requests)
+        # Filter out single URLFetch calls made by Watchtower
+        filtered = filter(lambda x: x.api_calls > 1, requests)
+        if len(filtered) > 10:
+            print
+            print_edge_cases(filtered)
     else:
         print 'No request information found'
