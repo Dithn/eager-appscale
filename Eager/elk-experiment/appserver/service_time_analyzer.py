@@ -6,7 +6,7 @@ import re
 import time
 
 class RequestInfo:
-    def __init__(self, req):
+    def __init__(self, req, filtered=[]):
         self.key = req['key']
         self.timestamp = req['request_timestamp']['value_as_string']
         self.api_calls = req['doc_count']
@@ -14,6 +14,8 @@ class RequestInfo:
         services = req['group_by_service']['buckets']
         for service in services:
             name = service['key']
+            if name in filtered:
+                continue
             value = service['service_time']['value']
             self.service_times[name] = value
         self.total_time = sum(self.service_times.values())
@@ -42,7 +44,7 @@ def parse_time_delta(delta_str):
     else:
         raise ValueError('Invalid time delta string ' + delta_str)
         
-def get_request_info(server, port, index, app, time_window):
+def get_request_info(server, port, index, app, time_window, filtered):
     start_time = long(time.time() * 1000) - time_window
     filtered_query = {
       'filtered' : {
@@ -86,12 +88,15 @@ def get_request_info(server, port, index, app, time_window):
     requests = output['aggregations']['group_by_request']['buckets']
     result = []
     for req in requests:
-        result.append(RequestInfo(req))
+        result.append(RequestInfo(req, filtered))
     return result
 
 def calculate_summary(requests, func):
     values = filter(lambda val: val > 0, map(func, requests))
-    return numpy.mean(values), numpy.std(values), numpy.median(values), len(values)
+    if values:
+        return numpy.mean(values), numpy.std(values), numpy.median(values), len(values)
+    else:
+        return 0, 0, 0, 0
 
 def print_output(requests, order):
     service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
@@ -126,9 +131,10 @@ if __name__ == '__main__':
     parser.add_argument('--app', '-a', dest='app', default='watchtower')
     parser.add_argument('--time_window', '-t', dest='time_window', default='1h')
     parser.add_argument('--order', '-o', dest='order', action='store_true')
+    parser.add_argument('--filtered_services', '-fs', nargs='+', dest='filtered_services', default=[])
     args = parser.parse_args()
     time_window_ms = parse_time_delta(args.time_window)
-    requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
+    requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms, args.filtered_services)
     if requests:
         print_output(requests, args.order)
     else:
