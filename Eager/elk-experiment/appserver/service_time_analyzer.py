@@ -93,10 +93,13 @@ def calculate_summary(requests, func):
     values = filter(lambda val: val > 0, map(func, requests))
     return numpy.mean(values), numpy.std(values), numpy.median(values), len(values)
 
-def print_output(requests):
+def print_output(requests, order):
     service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
     print 'requestId  datastore_v3 (datastore_v3%)  memcache (memcache%)  urlfetch (urlfetch%)  total_time api_calls'
-    for req in requests:
+    sorted_requests = requests
+    if order:
+        sorted_requests = sorted(requests, key=lambda x: x.total_time)
+    for req in sorted_requests:
         record = '{0}  {1}  '.format(req.timestamp, req.key)
         for k in service_names:
             value = req.service_times.get(k, 0.0)
@@ -115,30 +118,6 @@ def print_output(requests):
     print '[service] TotalTime {0:.2f} {1:.2f} {2:.2f} {3}'.format(
         *calculate_summary(requests, lambda req: req.total_time))
 
-def print_edge_cases(requests):
-    sorted_requests = sorted(requests, key=lambda x: x.total_time)
-    service_names = [ 'datastore_v3', 'memcache', 'urlfetch' ]
-    print 'Fastest requests'
-    for i in range(5):
-        req = sorted_requests[i]
-        record = '{0}  {1}  '.format(req.timestamp, req.key)
-        for k in service_names:
-            value = req.service_times.get(k, 0.0)
-            record += '{0}  ({1:.2f})  '.format(value, (value/req.total_time) * 100.0)
-        record += '{0}  {1}'.format(req.total_time, req.api_calls)
-        print record
-
-    print '\nSlowest requests'
-    start = len(sorted_requests) - 1 - 5
-    for i in range(5):
-        req = sorted_requests[start + i]
-        record = '{0}  {1}  '.format(req.timestamp, req.key)
-        for k in service_names:
-            value = req.service_times.get(k, 0.0)
-            record += '{0}  ({1:.2f})  '.format(value, (value/req.total_time) * 100.0)
-        record += '{0}  {1}'.format(req.total_time, req.api_calls)
-        print record
-    
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Analyzes execution time of cloud services.')
     parser.add_argument('--server', '-s', dest='server', default='128.111.179.159')
@@ -146,15 +125,11 @@ if __name__ == '__main__':
     parser.add_argument('--index', '-i', dest='index', default='appscale-internal')
     parser.add_argument('--app', '-a', dest='app', default='watchtower')
     parser.add_argument('--time_window', '-t', dest='time_window', default='1h')
+    parser.add_argument('--order', '-o', dest='order', action='store_true')
     args = parser.parse_args()
     time_window_ms = parse_time_delta(args.time_window)
     requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
     if requests:
-        print_output(requests)
-        # Filter out single URLFetch calls made by Watchtower
-        filtered = filter(lambda x: x.api_calls > 1, requests)
-        if len(filtered) > 10:
-            print
-            print_edge_cases(filtered)
+        print_output(requests, args.order)
     else:
         print 'No request information found'
