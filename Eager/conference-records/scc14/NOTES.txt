@@ -1,0 +1,145 @@
+Day 1
+=====
+
+ICWS - WIP Session 1,2
+
+* Beijing central heat system
+  - Heat sensors deployed in user's homes
+  - Central service gathers temperature readings and regulates heat distribution throughout the city
+  - Use of business processes to receive/process maintenance requests, billing etc.
+
+* WSDarwin
+  - Proxy service for many different versions of a web API
+  - Client talks to the proxy and Darwin adapts the request to the current version of the web API
+  - Implemented for Axis2; case study using EC2
+
+* JSON web service testing
+  - github.com/aherranz/jsongen.git
+
+BigData - WIP Session 3
+
+* CouchFS
+  - File system on top of CouchDB
+  - Use Hadoop to create indexes and process queries etc.
+
+Cloud - WIP Session 4,5
+
+* Hardware device (security element) for storing API keys securely
+  - Tamper proof (2 factor authentication: card + PIN)
+  - Currently there are no standards for web applications to access local resources (e.g. access card) securely
+  - Currently applications integrate with the device using proprietary drivers/plug-ins
+  - Efforts to standardize this integration is currently underway (W3C working group)
+
+* Benchmark results for compute and storage optimized EC2 instances
+  - Preliminary results show that compute optimized instances provide slightly better IO performance
+  - Only compared 2 specific types of instances (one from each category)
+  - Didn't benchmark across different OS's and file system implementations
+  - Variability of the results not shown/discussed
+
+Day 2
+=====
+
+* LinkedIn community for Services Computing
+
+Keynote: Crowds & Clouds
+  - Initial crowdsourcing solutions attempt to model crowds as a DB extension (e.g. CrowdDB)
+  - Use of ontologies, declarative query languages (e.g. SPARQL) and fact sets (historical data, survey results etc.)
+  - Can we trust the crowds? Need provenance
+  - A W3C standard is being developed to address provenance (called PROV)
+  - Provenance algebra (Green et al, PODS 2007, VLDB 2007)
+
+Cloud - I&A Session 1
+
+SCC - I&A Session 2
+
+* Rain4Service
+  - USDL: upcoming standard for describing heterogeneous services (SOAP, REST, human-provided);
+  - USDL covers all aspects of a service from pricing to legal
+  - Interesting approach for load balancing requests in a service composition
+  - Based on physics of rain drops rolling down a surface
+
+* NevCan (http://sensor.nevada.edu/NCCP/Climate%20Monitoring/Network.aspx)
+  - Weather monitoring sensors 
+  - Data collected by a Arduino/CR1000 device
+  - Arduino device forwards data to a RESTful web service
+  - Data stored in a DB
+
+* CLAMS
+  - Cross-layer (IaaS, PaaS, SaaS) and cross-vendor cloud monitoring
+  - Monitoring agents deployed at each cloud vendor, at each layer that need to be monitored
+  - Data collected and processed at a separate central cloud
+  - Use a pull model to get data (Monitoring manager queries remote agents)
+  - Uses SNMP to collect data
+
+SCC - Research Session 3
+
+* DATAVIEW
+  - Dataflow system for processing bigdata in the cloud
+  - Allows users to create workflows using a drag-n-drop editor and run them in the cloud
+  - Runs on multiple IaaS insfrastructures (EC2, Euca etc)
+  - Provides estimates on running time and cost before starting a job (WIP)
+ 
+SCC - I&A Session 4
+
+
+Day 3
+=====
+
+ICWS - Research Session 5
+
+Cloud - Research Session 6
+
+SCC - Research Session 7
+
+realtime bigdata analytics - ParStream, 
+
+
+Day 4
+=====
+
+ICWS - I&A 8
+
+ICWS - Research Session 9
+
+* Service evolution patterns
+  - Formal model for reasoning about service evolution
+  - Changes coule be on operations or data types (add, remove, refine etc.)
+  - Patterns: a catalog of reusable patterns to handle certain service evolution scenarios
+    + Compatibility pattern (evolve a service without impacting consumers)
+    + Transition pattern (evolve with minimal impact)
+    + Split-map pattern
+
+SCC - Research Session 10
+
+Day 5
+=====
+
+BigData - Research Session 8
+
+* DeltaDB
+  - DB for storing server/process monitoring data over time
+  - Log structured (stores only the changes/deltas)
+  - Significant reduction in storage space
+  - Powerful analytics and query support (compatible with MapReduce)
+
+SCC - A&I Session 12
+
+
+Day 6
+=====
+
+ICWS - A&I Session 15 (Katmai)
+
+* Web service performance functions
+
+* Reliability prediction of web service compositions
+
+SCC - A&I Session 23
+
+* Performance antipattern detection in cloud (static analysis) 
+
+SCC - A&I Session 24  (Dillingham) [Porting Effort]
+
+SCC - A&I Session 17
+
+SCC - A&I Session 18

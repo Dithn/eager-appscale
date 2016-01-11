@@ -1,0 +1,431 @@
+\documentclass[conference,10pt] {IEEEtran}
+\usepackage{mathptmx}
+\usepackage{multicol}
+\usepackage{flushend}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf}
+\graphicspath{{./figures/}}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
+\pgfplotsset{every axis/.append style={
+        very thick,
+        tick style={thick}}}
+\usepackage[%pdftex,
+            pdfauthor={Hiranya Jayathilaka, Michael Agun},
+            pdftitle={Executing Unmodified MPI Applications on Modern Clouds Using BSP},
+            %pdfsubject={The Subject},
+            pdfkeywords={MPI, BSP, Cloud Computing},
+            %pdfproducer={Latex with hyperref, or other system},
+            %pdfcreator={pdflatex, or other tool}
+                                                ]{hyperref}
+\hyphenation{paradi-gms speed-up am-ount ach-ieved}
+\begin{document}
+\title{Executing Unmodified MPI Applications on Modern Clouds Using BSP}
+\author{\IEEEauthorblockN{Hiranya Jayathilaka, Michael Agun}
+\IEEEauthorblockA{Department of Computer Science\\
+University of California, Santa Barbara\\
+Santa Barbara, CA, USA\\
+\{hiranya,dagun\}@cs.ucsb.edu}
+}
+\maketitle
+
+\begin{abstract}
+As the popularity of modern parallel computing paradigms and cloud computing continues to increase, a significant amount of legacy code implemented using old computing standards is outdated and left behind. In order to keep up with the rapid advancements in computing, organizations must learn the new technologies and port the old applications into new platforms. This, however, directly violates the ``develop once - run anywhere'' principle promised by modern utility computing models. Intuitively, cross-paradigm execution can be used to make modern computing platforms more versatile, thereby mitigating this problem. To establish the feasibility of such an approach, we explore the possibility of executing unmodified MPI applications over a modern parallel computing platform. Using BSP as a bridging model between legacy MPI code and modern computing frameworks, we propose an architecture for a complete MPI runtime for today's computing clouds, thus relieving developers of the overhead of porting legacy code.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+The field of parallel computing is undergoing a paradigm shift from large-scale supercomputers towards clusters of inexpensive commodity computers. Supercomputers and computing grids are expensive, hard to maintain and difficult to scale up on the fly. Utility computing technologies such as Infrastructure-as-a-Service (IaaS) and Platform-as-a-Service (PaaS) on the other hand are making it increasingly trivial and cheaper to set up a cluster of computing resources \cite{Degabriele:2007:EAU:1386610.1386645,Wang:2009:CMH:1646468.1646475}. Such computing resources do not impose a big maintenance overhead, and can be easily scaled up dynamically \cite{Ghanbari:2012:OAI:2371536.2371567,Brebner:2012:YCE:2188286.2188334}. As a result, we see that more and more organizations are starting to use utility computing services for their computing needs. In the recent years various public cloud services such as Amazon EC2 \cite{url:ec2}, Google App Engine \cite{url:gae} and Microsoft Azure \cite{url:azure} have become extremely popular due to this trend. 
+
+Unfortunately, as the techniques used for acquiring computing resources and deploying applications evolve, we must also change the frameworks used to implement parallel applications. Most new cloud computing platforms do not support older parallel programming models or standards. For an organization which has been using an older parallel programming standard, this could be a major barrier when it comes to adopting the cloud, and reaping the cost, time and manpower benefits the latest utility computing platforms promise \cite{Wilkes:2004:UTI:1133572.1133603}. Most of the time the only way around this barrier is to learn the latest cloud computing technologies and re-implement all the legacy applications for the new platform. However, any financial resource spent on re-implementing a program that is known to work is a huge burden to any organization. Requiring developers to re-implement existing programs just so they can be deployed on a modern computing facility goes against the ``develop once - run anywhere'' principle of the utility computing model. Furthermore, porting software is a tedious, time-consuming and error prone activity.
+
+One way to overcome this issue would be to use an IaaS solution and manually set up a runtime for legacy code in the cloud using virtual machines (VMs). However, this requires the users to be deeply familiar with performing low-level system administration and maintenance tasks. Users need to be capable of performing VM management tasks (acquisition and release), configuring network connectivity and firewalls and also performing certain low-level debugging tasks since the IaaS providers do not provide any assistance with regard to the failures in the software executed by the user. Clearly, for a user who just wants to execute a program in the cloud, this approach is going to pose a mountain of extra work and challenges. 
+
+A more robust and cost-effective solution to this problem is to make the modern computing platforms more versatile and make them backwards compatible with older parallel computing paradigms. Using the adapter pattern, sometimes it is possible to support multiple programming models on a single base platform. This way, existing legacy applications can be deployed on a modern computing platform with little or no code changes, and developers do not have to spend any effort on learning the underlying workings of the base platform or porting legacy code. 
+
+In this paper, we explore the possibility of running legacy Message Passing Interface (MPI) \cite{url:mpi} applications on a modern day parallel computing platform. We develop an architecture which enables deploying unmodified MPI code on modern parallel and cloud computing systems. We also present a prototype of our architecture using Hadoop \cite{url:hadoop} as the modern base platform. We strive to make the prototype as comprehensive as possible so that virtually any MPI program can be deployed on Hadoop without any code changes. We also hide all the Hadoop-related details from the MPI developer and enable the MPI developer to remain in her comfort zone with her familiar MPI interfaces and tools. Finally we wish to achieve reasonable MPI performance when executed on Hadoop. However, our main focus is on getting unmodified MPI code to run on the Hadoop platform with minimal porting and setup overhead, and therefore some performance degradation is considered to be acceptable.
+
+A key difference in our approach and some of the past attempts \cite{SS12} to solve similar problems is the use of the Bulk Synchronous Parallel (BSP) model \cite{Valiant:1990:BMP:79173.79181} as a bridge between MPI and the underlying computing platform. As far as our prototype is concerned, BSP enabled us to cleanly map MPI constructs to Hadoop, thus greatly simplifying the implementation. It also allowed us to avoid expensive process checkpointing and reduce the amount of inter-process communication (IPC).
+
+The main objective of our work is to adapt and extend the modern PaaS clouds using BSP so that unmodified MPI applications can be executed on them. While running MPI on clouds could potentially improve the fault tolerance aspects of MPI programs, we do not claim any major performance gains over native MPI runtimes. Our main contributions are:
+\begin{enumerate}
+\item An architecture based on BSP that enables executing any legacy MPI application in modern computing environments.
+\item A prototype system based on the above architecture, which supports running unmodified MPI code on the Hadoop platform.
+\item A set of tools for building and executing MPI code on Hadoop while providing the same functionality and behavior as existing popular MPI tools.
+\item Some test results that illustrate the validity and the accuracy of the proposed architecture.
+\item Performance test results that highlight the efficiency improvements of the new architecture when compared to some of the previous attempts to adapt PaaS clouds for MPI.
+\end{enumerate}
+
+The rest of this article is organized as follows. First we give background for our research and discuss related work in bridging legacy and cloud programming models. Next we give a brief system overview followed by a more in depth discussion of our framework. Following our implementation details we present performance results for three unmodified MPI applications executed on our system. Finally we discuss our findings and introduce several future areas of research.
+
+\section{Background}
+\label{sec:background}
+
+\subsection{Message Passing Interface (MPI)}
+MPI is a standard for implementing parallel applications based on message passing, and was the popular choice for implementing parallel applications during the 90's and early 2000's. Several high-performance implementations of MPI exist that provide bindings for C and Fortran. From a developer's perspective, MPI is a library of functions that can be used when implementing parallel applications. The MPI standard defines a series of functions that can be used to send/receive messages and coordinate other parallel execution activities.
+
+The popularity of MPI has somewhat degraded over the last few years, primarily due to the advent of other computing frameworks such as MapReduce \cite{Dean:2008:MSD:1327452.1327492}, the growing popularity of multithreading and symmetric multiprocessing, and the arrival of the cloud phenomenon. But MPI is still widely used and taught in the scientific and academic community. Many organizations still possess large bulks of MPI code written to handle various tasks.
+
+MPI supports two communication models:
+\begin{itemize}
+\item Point-to-point communication functions (mainly provided by MPI\_Send and MPI\_Recv)
+\item Collective communication functions (mainly provided by MPI\_Bcast and MPI\_Reduce)
+\end{itemize}	
+In addition to these basic communication primitives, MPI also provides a plethora of other functions to obtain information about the runtime environment, manage resources and perform synchronization.
+
+\subsection{Hadoop}
+In the recent years Hadoop has seen widespread adoption in the industry due to its simplicity, ability to handle large workloads efficiently and comprehensive language and tooling support. It is also increasingly becoming the base platform for many utility computing services. For example, Amazon Elastic MapReduce (EMR) \cite{url:emr} is an online service based on Hadoop that provides MapReduce-as-a-Service functionality.
+
+Many would categorize Hadoop as a computing platform for MapReduce. But in reality Hadoop is an entire distributed computing platform, comprised of a distributed file system (HDFS), a key-value store (HBase) and much more (Hive, Mahout, Pig etc.). Therefore many different types of applications can be developed and executed on Hadoop. We leveraged this versatility of Hadoop in our attempt to execute MPI programs over a modern computing platform. Instead of mapping MPI jobs to MapReduce jobs, we used a BSP model where MPI constructs were mapped to BSP constructs and then executed over Hadoop as a BSP job.
+
+\subsection{Bulk Synchronous Parallel (BSP)}
+Our approach for executing MPI over Hadoop uses BSP as a bridging model. BSP is a simple abstract programming model for parallel applications, which offers predictable performance and deadlock-free execution. Pregel \cite{Malewicz:2010:PSL:1807167.1807184}, the graph processing system used by Google to compute page ranks, is based on BSP. We argue that MPI is more inline with the BSP model than with plain MapReduce, thereby resulting in a cleaner and more straightforward mapping between MPI and BSP. In fact, with BSP as the bridging model, we were able to come up with a complete MPI runtime for Hadoop, which supports executing virtually any MPI program with no code changes, abstracts out all the Hadoop-related details from the MPI programmer and also provides very good performance compared to some of the previous attempts to run MPI jobs over Hadoop \cite{SS12}.
+
+BSP is better suited than MapReduce for adapting MPI. For instance, an MPI application usually involves several processes carrying out some local computations followed by exchanging messages to share data and perform synchronization. The MapReduce model, however, does not support explicit message passing nor allow any kind of addressing or synchronization among the processes. BSP on the other hand is based on a simple superstep model where each superstep consists of a local computation step, a message exchanging step and a barrier synchronization step. Message passing, addressing and synchronization are integral parts of the BSP model and it is easy to note that MPI has more in common with BSP than with MapReduce. Both MPI and BSP are very generic in the sense that many parallel computation problems can be modeled and implemented using these frameworks. MapReduce on the other hand is highly optimized for batch processing and works best for embarrassingly parallel workloads. 
+
+Over the years, several extensions to BSP have been proposed so that BSP can be easily adapted to many diverse application domains. It has been shown that BSP variants like BSP Without Barriers (BSPWB) and Message Passing Machine (MPM) are ideally suited for modeling and simulating MPI programs \cite{Roda:1998:BSP:945406.938371}.
+
+\section{Related Work}
+\label{sec:related_work}
+
+Cross-paradigm execution is a very active research area, and several significant breakthroughs have already been made in this space.
+
+CloudBLAST \cite{MTF08} attempts to parallelize existing applications through the extensive use of virtualization and MapReduce. CloudBLAST parallelizes serial applications by breaking the input data set into multiple chunks and processing them using MapReduce over a cluster of virtual machines. The use of virtual machines and MapReduce is explicit in this approach, and the developers are responsible for parallelizing the existing code by wrapping them with map and reduce functions. A main limitation in this approach is that it can only handle applications that can be easily parallelized through the use of MapReduce. This works well for embarrassingly parallel workloads, but for any other application, the porting overhead could be non trivial. We take a different approach where the details of the underlying runtime are completely hidden from the developers, and developers are not expected to make any changes to existing code.
+
+The work that is closest to our approach is the model introduced by Slawinski and Sunderam that facilitates the execution of unmodified MPI programs over Hadoop using pure MapReduce \cite{SS12}. In this model, each MPI application is mapped to a series of MapReduce jobs. Mappers are responsible for executing the MPI code and whenever a MPI function call is invoked, the MPI process takes a self-checkpoint and exits. At this point the reducers kick in and distribute the MPI function arguments to all the processes. When the current MapReduce job is completed, another MapReduce job is initiated and the second set of mappers resume the MPI program from the previous checkpoints. This model, however, can only support the collective communication operations of MPI (MPI\_Bcast and MPI\_Reduce). Since MapReduce does not support point-to-point communication among processes, it is not possible to map MPI\_Send and MPI\_Recv calls into this model. This severely limits the number of existing MPI programs that can be executed on the target platform. Another drawback of this approach is the very high performance overhead that it tends to incur. MapReduce is optimized for batch processing and therefore most MPI programs have to pay a huge performance penalty when executed on this model. Also, since the model executes multiple MapReduce jobs per MPI program and performs expensive process checkpointing, the overall performance of the executed MPI programs degrades to a nearly unacceptable level. For these reasons we did not consider pure MapReduce as a suitable candidate for adapting MPI code into Hadoop. Instead we used BSP, which is just as simple and more compatible with MPI.
+
+In the recent months the Hadoop community has been revamping the existing Hadoop architecture, an effort referred to as the YARN project \cite{url:yarn}. As a part of this endeavor, work is currently underway \cite{url:mpiyarn} to facilitate the execution of MPI code on the Hadoop platform using a native MPI runtime such as MPICH \cite{url:mpich}. Our work focuses on executing MPI code on the existing Hadoop architecture, which is already popular and widely deployed. Our approach doesn't require upgrading existing Hadoop clusters to the new architecture, and it doesn't require setting up a native MPI runtime.
+
+Neptune \cite{Bunch:2011:NDS:1996109.1996120} is another effort that enables executing MPI and a range of other applications on modern cloud platforms. Neptune provides a programming language and a runtime to deploy legacy code on the AppScale cloud platform \cite{6488671}. However, this requires the users to develop Neptune scripts to control the execution of legacy code. Also, MPI users must use Neptune tools to interact with the underlying runtime, instead of using the familiar MPI tools such as mpicc and mpirun. Neptune and AppScale also rely on virtualization at the IaaS layer and therefore require machine images to be set up with MPI pre-installed. Our approach completely hides the details of the underlying runtime and allows MPI developers to interact with the system using familiar MPI tools with no additional coding or setup.
+
+There are many other past and ongoing efforts in the space of cross-paradigm execution. Although not directly related to our work, the following projects have provided us inspiration in many occasions. Hoefler, Lumsdaine and Dongarra explored the possibility of efficiently executing MapReduce jobs over MPI \cite{Hoefler:2009:TEM:1612208.1612248}. MR-MPI \cite{url:mrmpi} is an open source library that provides MapReduce functionality using MPI constructs. BSP++ \cite{Hamidouche:2010:HBS:1863482.1863494} proposed by Hamidouche, Falcou and Etiemble is a high performance C++ library based on BSP and MPI. BSPonMPI \cite{url:bsponmpi} is an open source library that provides BSP support for applications using MPI constructs. Note that the latter is the exact inverse of our intended goal.
+
+\section{System Architecture}
+\label{sec:design}
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{layers}
+\caption{High-level architecture}
+\label{fig:layers}
+\end{figure}
+We propose an architecture consisting of two main components: the BSP framework, and the BSP-aware MPI C library. As shown in figure~\ref{fig:layers}, the BSP framework runs directly on the underlying modern parallel computing platform and coordinates the execution of MPI jobs. It is responsible for starting the MPI processes and facilitating communication among them. The BSP-aware MPI C library interfaces the developer's C code with the BSP framework.
+ 
+Users of the system should link their MPI code with the BSP-aware MPI C library. This MPI C library is compliant with the MPI standard thereby allowing unmodified MPI code to be compiled and linked against it. Then the users can start a BSP job on the BSP framework by specifying the number of MPI tasks to run and the location of the executable MPI program obtained by linking with the BSP-aware MPI C library. The BSP job will first start a number of BSP tasks (peers) to handle the execution of the job. Each peer will then start executing an instance of the MPI program as a separate child process. Whenever a child MPI process invokes a standard MPI function, the BSP-aware MPI C library will contact the corresponding parent BSP task and let the BSP task execute the MPI function call on behalf of the MPI process. The BSP framework may utilize the communication, I/O and synchronization capabilities of the underlying computing platform to handle some MPI related activities. 
+
+BSP is a simple computing model, which can be supported on almost any modern parallel computing platform that facilitates inter-process communication (IPC). There are many existing libraries that provide core BSP functionality using which a BSP framework can be implemented for a given computing environment. In cases like Hadoop, powerful BSP extensions already exist, which can be easily deployed on the computing platform without having to write any additional code. From a design perspective, a more straightforward mapping between MPI and BSP can be achieved by using an extended BSP model such as BSPWB or MPM since they support message passing without barrier synchronization \cite{Roda:1998:BSP:945406.938371}.
+
+Cloud platforms and modern computing platforms such as Hadoop provide excellent fault tolerance via methods like replication and checkpointing. Using our architecture, one could make MPI programs more fault tolerant by piggybacking on these existing failure handling capabilities. Improving the fault tolerance of MPI programs using this approach is one of our future research avenues and is further discussed in the future work section.
+
+\section{Prototype Implementation}
+\label{sec:impl}
+
+\subsection{BSP Framework}
+We used Apache Hama \cite{url:hama} as the BSP framework in our prototype implementation. Hama is an extension to Hadoop which enables programmers to develop and execute BSP jobs in the Java programming language. It is based on HDFS and many other core APIs of Hadoop. Similar to Hadoop MapReduce, Hama also reads its input from HDFS and writes the output back into HDFS. Setting up Hama on an existing Hadoop cluster is just a matter of modifying a few configuration files.
+
+For our prototype implementation, we developed a single generic BSP job called MPI2BSP, which acts as the entry point to our system. When a programmer wants to execute a MPI program using our model, she simply starts an instance of the MPI2BSP job on Hama. MPI2BSP takes several input parameters from the user. These include the number of tasks (processes) to spawn and the binary executable of the MPI program. MPI2BSP starts the specified number of BSP tasks and uploads the MPI program executable to HDFS. Each BSP task downloads the MPI program executable to their local file systems and executes them as independent processes. This means each MPI process is spawned as a child process of some BSP task. Having spawned a child MPI process, each BSP task simply waits listening on a TCP port. Whenever the child MPI process needs to execute some standard MPI function, it contacts the parent BSP process and the BSP process performs the requested communication or coordination operations on behalf of the child, and communicates the results back to the child process upon completion. This continues to happen until the child MPI process calls MPI\_Finalize. At this point, the parent BSP job stops listening for any more requests from the child, and waits for the child to terminate. When the child process has exited, the parent process collects the standard output and standard error of the MPI process and writes it to HDFS as the BSP job output. When all BSP tasks have completed, MPI2BSP downloads all the BSP task outputs from HDFS to the local file system of where the user started the job.
+
+It is sometimes possible for a child MPI process to exit without ever calling MPI\_Finalize. This may be due to incorrect programming or an unexpected runtime error in the user's MPI code. To prevent the parent BSP task from waiting forever in this case, each BSP task also runs a health monitor thread in the background. This thread periodically checks whether the MPI process has exited. If that is the case, the health monitor forces the BSP task to write any output generated by the MPI process so far into HDFS and terminate.
+
+\subsection{BSP-aware MPI C Library}
+For the purpose of prototyping, we implemented a subset of the MPI standard in our MPI C library. As of now our MPI library supports the following MPI functions:
+
+\begin{multicols}{2}
+\begin{itemize}
+\item MPI\_Init
+\item MPI\_Finalize
+\item MPI\_Comm\_size
+\item MPI\_Comm\_rank
+\item MPI\_Send
+\item MPI\_Recv
+\item MPI\_Bcast
+\item MPI\_Reduce
+\item MPI\_Wtime
+\end{itemize}
+\end{multicols}
+
+There are many MPI applications based on the above 9 functions. Therefore, our BSP-aware MPI library is already capable of supporting a large number of existing MPI programs. It is a trivial engineering activity to support other MPI functions in our prototype. Therefore our solution model can be easily extended to support any MPI program with absolutely no code changes.
+
+The main duty of the BSP-aware MPI C library is to bridge MPI calls to the underlying BSP framework. Each parent BSP task listens on a specific TCP port that is communicated to the child MPI process via a special environment variable. When the child process executes an MPI function call it is first handled by our MPI library, which makes a TCP connection to the parent process and sends the name of the MPI function being invoked along with the associated arguments. The parent BSP process can then process the function and the arguments using BSP primitives and return the function output to the child process as a TCP response. At this point the BSP-aware MPI C library returns to the user code with the output received from the parent BSP process. In order to avoid the overhead of repetitive TCP connection initialization and teardown, we maintain a simple connection pool in our MPI library. Therefore most MPI programs do not have to open more than one TCP connection during their lifetimes. We also considered inter-process communication (IPC) mechanisms other than TCP sockets for the communication between the MPI process and the BSP process. We looked into using the local file system, Unix named pipes and even Unix process signals as our IPC mechanism. But we finally settled on using sockets due to their efficiency, simplicity, multithreading support and library support available in C and Java.
+
+The most challenging functionality to implement in our MPI library was point-to-point communication (MPI\_Send and MPI\_Recv). In Apache Hama, all the nodes should perform barrier synchronization before they can receive any messages sent by another BSP node. This means that whenever two MPI processes need to communicate using point-to-point communication routines, all the BSP tasks in the underlying framework must perform barrier synchronization. Considering the difficulty and inefficiency associated with such an approach, we opted to implement point-to-point MPI communication without going through Hama. Since we already had a TCP-based communication framework in-place, it was a trivial task to leverage that framework to implement support for MPI\_Send and MPI\_Recv. In our latest implementation, MPI\_Send simply queries the parent BSP task to determine the hostname and port number of the destination BSP task. Then our MPI library uses the BSP addressing information returned by the query to directly contact the destination BSP peer and transfer the relevant application data. Our performance analysis indicates that this approach is both fast and scales well when transferring large quantities of data. To further optimize the send/receive operations, we do not perform any additional marshaling or unmarshaling of data when they are placed on the network. We simply provide the input MPI buffer as an argument to the TCP send operation, which treats all resident data as raw bytes.
+
+MPI point-to-point communication procedures are best implemented using an extended BSP model such as BSPWB or MPM, which allows exchanging messages without cluster-wide barrier synchronization. Past research has shown that these BSP variants are highly compatible with MPI and can yield performance very close to native MPI \cite{Roda:1998:BSP:945406.938371}. Therefore it is possible to develop a better and more advanced MPI adapter for clouds using our architecture if a BSPWB framework or an MPM framework was used instead of a basic BSP implementation. However as of now Apache Hama only supports basic BSP, and in order to keep the prototype implementation simple, we opted to implement point-to-point communication as a separate feature from Hama.
+
+\subsection{Mapping MPI Constructs to BSP}
+When a child MPI process invokes an MPI function, the function name and the arguments are communicated to a parent BSP process. Calls to MPI\_Send are directly communicated to the parent BSP process of the destination MPI process. Upon receiving this information, each BSP task must perform some native BSP operations to process the MPI function call.
+
+In general there is a clean and straightforward mapping between MPI constructs and BSP constructs. The MPI rank (the integer identifier assigned by MPI to each MPI task) maps directly to the concept of BSP peer index (the integer identifier assigned by Hama to each BSP task). Therefore calling an MPI function such as MPI\_Comm\_rank simply translates to a BSP function call such as BSPPeer.getIndex( ). MPI\_Bcast can be executed by performing a series of BSP send operations followed by barrier synchronization. Receivers of MPI\_Bcast would first perform the barrier synchronization and then call BSP receive function to receive the message. MPI\_Reduce is implemented in a similar manner. 
+
+Messages sent using MPI\_Send get buffered at the destination BSP task. When the child MPI process calls MPI\_Recv, it will simply get the message from the parent BSP process if the message has already been received or it will block until the message is available in the buffer.
+
+\subsection{MPI Tools}
+As a part of our prototype, we also provide a set of tools that have the same interface and behavior as traditional MPI tools. These tools completely shield the MPI developers from the details pertaining to Hadoop. Therefore MPI developers do not have to learn anything related to Hadoop or Hama. They can simply compile and run their code without even knowing that they are actually interacting with a Hadoop cluster.
+
+We provide an mpicc tool for compiling MPI programs for our platform. This mpicc tool compiles user code using gcc/g++ and then links it with our BSP-aware MPI C library. We also provide an mpirun tool, which can be used to execute MPI programs on our prototype system. 
+
+\subsection{Overall Workflow}
+\begin{figure}
+\centering
+\includegraphics[scale=0.45]{architecture}
+\caption{Prototype implementation and workflow}
+\label{fig:architecture}
+\end{figure}
+Figure~\ref{fig:architecture} illustrates the main components of our prototype and how they interact with each other. Users interact with our system using the MPI tools we provide. Once an MPI application is compiled using our mpicc tool, it can be submitted to the system for execution using mpirun. This command will launch an instance of the MPI2BSP job passing the path to the executable MPI program and the required number of MPI tasks as program arguments. The BSP job will first upload the executable MPI application to HDFS (step 1) and launch the specified number of BSP tasks (step 2). These BSP tasks will download the MPI program to their local file systems (step 3) and execute them as separate processes (step 4). Whenever the MPI program makes a MPI function call, the parent BSP task is contacted over a TCP connection to delegate the processing of the function. When a child MPI process has exited either normally or abnormally (e.g. by encountering an error), the parent BSP task responsible for that MPI process obtains the standard output and standard error generated by the MPI process and writes it to HDFS as the output of the BSP process. The main MPI2BSP job waits for all BSP peers to terminate and then downloads their output from HDFS to the local file system where the mpirun was invoked. Our mpirun tool then simply displays the content of these output files on the terminal.
+
+\section{Performance Evaluation}
+\label{sec:performance_eval}
+
+The primary objective of our project was to transparently execute MPI code on a modern day parallel computing platform such as Hadoop. Performance optimization was considered a secondary goal but at the same time we wanted the MPI performance on our system to be on par with native MPI platforms. 
+
+In order to evaluate the performance of MPI jobs in our system, we chose several MPI programs and conducted a series of performance tests. The three test programs we chose were: a simple PI calculation program (cpi.c example program from MPICH \cite{url:mpich}), a broadcast/reduce matrix multiplication program and a send/receive matrix multiplication program. We ran our performance tests on a cluster of six machines. Each machine was set up with the following system configuration.
+
+\begin{itemize}
+\item Intel Xeon X3363 CPU @ 2.83 GHz (Quad core) with 6MB cache
+\item 8GB main memory
+\item Broadcom NetXtreme BCM5722 Gigabit Ethernet card on PCI express
+\item Ubuntu Linux 10.04 (Lucid) operating system
+\item Oracle JDK 1.7.0\_09
+\end{itemize}
+
+We installed Hadoop 1.1.1 on this cluster of six machines and then augmented the installation with Hama 0.6. We used default settings for both Hadoop and Hama.
+
+\begin{figure}[t]
+  \centering
+  %\includegraphics[scale=.45,natwidth=511,natheight=276]{cpic}
+	\begin{tikzpicture}
+		\begin{axis}[
+		title=CPI.c,
+		xlabel={Number of Processes (MPI Tasks)},
+		ylabel={Execution Time (sec)},
+		extra y ticks={4.5,5.5,6.5} %because it only shows 4,5,6,7
+		]
+		\addplot table {figures/cpic_data.txt};
+		\end{axis}
+	\end{tikzpicture}
+  \caption{Execution time of the PI calculation program}
+  \label{fig-cpic}
+\end{figure}
+
+We chose the cpi.c PI calculation program mainly to evaluate the system
+overhead and to compare our performance against prior work, which interfaced
+MPI with MapReduce \cite{SS12}. According to the performance test results given
+in \cite{SS12} this program has taken more than 200 seconds to complete when
+executed over MapReduce. According to Figure~\ref{fig-cpic}, our system always
+managed to complete the job under 8 seconds. The graph shows a sharp increase
+in execution time when increasing the number of parallel tasks from 2 to 4, but
+this is because with only 2 tasks they are both scheduled on the same physical
+machine, which significantly reduces the communication overhead (by default
+Hama schedules up to 3 tasks per physical node).
+
+The cpi.c test program is in the class of embarrassingly parallel programs,
+i.e. there is a broadcast at the start of the job and reduce at the end, but
+during the rest of the run there is no communication. The computational load
+of the program is too small to be benefitted by the increasing number of workers,
+ and therefore the communication and synchronization overheads dominate. This explains our
+relatively constant execution time (once the tasks were distributed over more
+than one physical machine), and shows that for small broadcast messages our
+system incurs a relatively light communication and synchronization cost up to at least 16 tasks.
+This result is compelling evidence that BSP makes a reasonably efficient
+adapter between MPI and Hadoop.
+
+\begin{figure}[t]
+  \centering
+  %\includegraphics[scale=.45,natwidth=511,natheight=276]{mm1}
+	\begin{tikzpicture}
+		\begin{axis}[
+		title=Send/Recv Matrix Multiplication ($n\times{}n$),
+		xlabel={Number of Processes (MPI Tasks)},
+		ylabel={MFLOPS},
+		legend pos=north west
+		]
+		\addplot[color=blue,mark=*] table[x=tasks,y=1000] {figures/mm1_data.txt};
+		\addplot[color=red,mark=square*] table[x=tasks,y=2000] {figures/mm1_data.txt};
+		\addplot[color=brown,mark=triangle*,mark size=3] table[x=tasks,y=4000] {figures/mm1_data.txt};
+		\legend{$n=1000$,$n=2000$,$n=4000$};
+		\end{axis}
+	\end{tikzpicture}
+  \caption{Megaflops count for the matrix multiplication problem parallelized using MPI\_Send and MPI\_Recv}
+  \label{fig-mm1}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  %\includegraphics[scale=.45,natwidth=511,natheight=276]{mm2}
+	\begin{tikzpicture}
+		\begin{axis}[
+		title=Bcast/Reduce Matrix Multiplication ($n\times{}n$),
+		xlabel={Number of Processes (MPI Tasks)},
+		ylabel={MFLOPS},
+		%legend pos=north west
+		]
+		\addplot[color=blue,mark=*] table[x=tasks,y=1000] {figures/mm2_data.txt};
+		\addplot[color=red,mark=square*] table[x=tasks,y=2000] {figures/mm2_data.txt};
+		\addplot[color=brown,mark=triangle*,mark size=3] table[x=tasks,y=4000] {figures/mm2_data.txt};
+		\legend{$n=1000$,$n=2000$,$n=4000$};
+		\end{axis}
+	\end{tikzpicture}
+  \caption{Megaflops count for the matrix multiplication problem parallelized using MPI\_Bcast and MPI\_Reduce}
+  \label{fig-mm2}
+\end{figure}
+
+We further tested our system using two matrix multiplication programs, one
+using MPI\_Send and MPI\_Recv, and the other using MPI\_Bcast and MPI\_Reduce.
+We evaluated the performance of these test programs by reporting the megaflops
+(MFLOP/s) count achieved for various input matrix sizes and parallel task
+counts. Results of these two experiments are illustrated in
+Figure~\ref{fig-mm1} and Figure~\ref{fig-mm2} respectively. The main takeaway
+from our matrix multiplication tests was that in our adapted MPI system, the
+send/receive performance is significantly better and more scalable than the
+broadcast/reduce performance. This is mainly because we bypass Hama and use our
+own lightweight socket based communication mechanism to implement send/receive
+functionality. We bypass Hama because unlike other modified BSP models
+discussed earlier (BSPWB and MPM), Hama supports only barrier synchronized communication. 
+
+With MPI\_Bcast and MPI\_Reduce, we were unable to test 4000x4000 matrices using
+more than 6 tasks due to the lack of physical memory in our test setup. Apache
+Hama buffers all the messages sent during a BSP superstep in memory, and this
+buffer space is not reclaimed until the next barrier synchronization. Therefore
+to broadcast two 4000x4000 matrices to more than 6 BSP tasks, the sender BSP
+task requires a buffer space close to or in excess of 2 GB. But in our test
+setup we only had 2 GB of physical memory allocated for each BSP task. The
+na\"{\i}ve algorithm of our prototype can be improved to support larger
+messages, but we leave that to future work.
+
+Our broadcast/reduce based matrix multiplication achieves speedup for up to 6
+tasks for the 3 matrix sizes tested, but then quickly drops off. This is mainly
+because when the number of BSP tasks increases the associated BSP communication
+and barrier synchronization overhead also increases significantly. The
+send/receive implementation shows significant speedup all the way up to 16
+tasks with the larger problem sizes, which suggests that our system scales
+well for larger problems.
+
+In order to compare and evaluate the performance of our system against a native MPI implementation, we installed MPICH \cite{url:mpich} on the same set of machines used for our previous experiments, and executed the same matrix multiplication programs on it. We used the results of these experiments to estimate the percentage performance degradation of our system compared to native MPI.
+
+\begin{figure}[t]
+  \centering
+  %\includegraphics[scale=.45,natwidth=511,natheight=276]{mm2}
+	\begin{tikzpicture}
+		\begin{axis}[
+		align=center,
+		title=Performance Degradation in Send/Recv \\ Matrix Multiplication ($n\times{}n$),
+		xlabel={Number of Processes (MPI Tasks)},
+		ylabel={Percentage Performance Drop},
+		legend style={
+		  at={(0.975,0.6)},
+		  anchor=east
+		}
+		%legend pos=outer
+		]
+		\addplot[color=blue,mark=*] table[x=tasks,y=1000] {figures/mm1_drop.txt};
+		\addplot[color=red,mark=square*] table[x=tasks,y=2000] {figures/mm1_drop.txt};
+		\addplot[color=brown,mark=triangle*,mark size=3] table[x=tasks,y=4000] {figures/mm1_drop.txt};
+		\legend{$n=1000$,$n=2000$,$n=4000$};
+		\end{axis}
+	\end{tikzpicture}
+  \caption{Performance degradation of the matrix multiplication problem parallelized using MPI\_Send and MPI\_Recv when compared to native MPI}
+  \label{fig-mm3}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  %\includegraphics[scale=.45,natwidth=511,natheight=276]{mm2}
+	\begin{tikzpicture}
+		\begin{axis}[
+		align=center,
+		title=Performance Degradation in Bcast/Reduce \\ Matrix Multiplication ($n\times{}n$),
+		xlabel={Number of Processes (MPI Tasks)},
+		ylabel={Percentage Performance Drop},
+		extra y ticks={10,30,50,70,90},
+		legend pos=south east
+		]
+		\addplot[color=blue,mark=*] table[x=tasks,y=1000] {figures/mm2_drop.txt};
+		\addplot[color=red,mark=square*] table[x=tasks,y=2000] {figures/mm2_drop.txt};
+		\addplot[color=brown,mark=triangle*,mark size=3] table[x=tasks,y=4000] {figures/mm2_drop.txt};
+		\legend{$n=1000$,$n=2000$,$n=4000$};
+		\end{axis}
+	\end{tikzpicture}
+  \caption{Performance degradation of the matrix multiplication problem parallelized using MPI\_Bcast and MPI\_Reduce when compared to native MPI}
+  \label{fig-mm4}
+\end{figure}
+
+Figure~\ref{fig-mm3} shows that the send/receive performance of our system is not too far off from the performance levels observed with native MPI. Even the largest performance drop observed is less than a single order of magnitude. As a percentage, the performance degradation is always under 50\% and remains relatively constant regardless of the number of MPI tasks. This suggests that the extra layers in our prototype implementation (Java, Hadoop and Hama) do not cause a significant performance overhead. What's even more interesting is that when the computational intensity of the workload is increased, the percentage performance drop decreases. For the send/receive matrix multiplication, the percentage performance drop reduces from around 50\% to almost 10\% when the matrix size is increased. This implies that for large computationally intensive workloads, the overhead added by our system is negligible. 
+
+Figure~\ref{fig-mm4} shows that our collective communication features do not scale very well. With only 2 and 4 tasks the performance drop stays within an acceptable range, but the na\"{\i}ve, one-to-all broadcast implementation in our prototype slows down greatly when used with more than 4 workers.
+
+\section{Discussion}
+\subsection{Supporting MPI on Hadoop}
+Our prototype only supports a small subset of the MPI standard as of now. However, the supported subset includes some of the most widely used MPI functions and therefore the prototype as it is can be used to execute a large number of existing MPI programs. The experiments in the previous section showed how this system can be used to run existing MPI benchmark applications based on C and C++ without making any code changes to the test applications. The prototype supports the collective communication functions of MPI and unlike some of the past attempts to run MPI in PaaS clouds \cite{SS12}, our architecture provides support for point-to-point communication functions as well. 
+
+We would like to emphasize that extending our prototype to support the entire MPI standard is a straightforward programming exercise. As of now we only support blocking and non-buffered communication modes of MPI. But there is nothing preventing us from supporting the non-blocking and buffered communication modes (MPI\_Bsend, MPI\_Isend etc) in our architecture. A non-blocking send can be implemented easily by using a separate thread to perform the data transfer in our MPI library. We can use a library like Pthreads to implement such behavior. Buffered send operations can be implemented by copying the input data to a temporary buffer and then using a separate thread to write the temporary buffer contents to the network interface. Similarly, all other functions of the MPI standard can be implemented in the proposed model, which means this approach can be used to implement a fully standard compliant MPI runtime for modern computing frameworks and clouds.
+
+\subsection{Performance}
+Our experiment results show reasonable performance for running unmodified MPI 
+C and C++ programs over Hadoop for point-to-point communication. Our collective 
+communication implementation shows poor scalability, but this is to be expected 
+as we have a very na\"{\i}ve broadcast implementation in our prototype, simply 
+to show the flexibility and feasibility of the BSP-based bridging model.  The other limitation of our 
+collective communication is that an entire round of messages must fit into the 
+memory of the BSP process, which limits our ability to test with larger problem 
+sizes. This issue can be alleviated by performing synchronization after each send 
+operation during broadcast to free memory more frequently, but we leave investigation of the 
+trade-offs between memory usage and communication overhead to future work. 
+Another way to resolve the problems with large messages is to use 
+an extended BSP model (e.g. BSPWB) which supports communication without 
+cluster-wide barrier synchronization. Using such an implementation will help improve broadcast
+performance and will also allow point-to-point communication functions to be directly
+implemented in BSP. Past research has shown that simulating MPI programs on an
+extended BSP model such as BSPWB can achieve performance very close to native
+MPI \cite{Roda:1998:BSP:945406.938371}.
+
+Another consideration in looking at our performance
+numbers is that native MPI libraries are often optimized for underlying hardware,
+whereas our prototype runs on top of Java and Hadoop. This
+makes our code more portable, but also puts a rather strict limit
+on performance. If best performance is required,
+adapting MPI to BSP is likely not the right solution.
+Our system is targeted at executing unmodified legacy
+MPI code on modern cloud and parallel computing platforms for
+increased portability, thus making today's computing platforms more versatile.
+
+\subsection{Application to Cloud}
+The most obvious way this work applies to cloud is that it enables supporting MPI functionality in a PaaS environment. In other words the proposed architecture can be used to facilitate an MPI-as-a-Service offering in the cloud. There are several PaaS solutions that already offer Hadoop functionality in the cloud. Amazon's Elastic MapReduce (EMR) is a good example for such a service offering. EMR is fully API compatible with Hadoop and in fact is actually implemented using Hadoop as its distributed data processing engine. Such a PaaS solution can be easily extended using the proposed model so that users of the PaaS can submit and execute legacy MPI code in the cloud. Implementation-wise this requires the existing PaaS cloud to be extended with BSP support, but that itself is an added benefit since it enables the users to deploy BSP jobs in the cloud as well. In case of Amazon EMR, a BSP framework which is compatible with Hadoop, like Hama, can be used, just as we used Hama in our prototype implementation, without having to implement a BSP overlay from the scratch.
+
+The proposed architecture entails other cloud related advantages and opportunities as well. For instance, the MPI library can be enhanced with additional features so that MPI applications can access Hadoop's underlying distributed file system (HDFS). This functionality can be provided as a new extension API or by transparently intercepting and overriding the standard C/C++ file system operations (fopen, fclose etc.) so that they are executed on HDFS. This type of tight integration between MPI and cloud resources opens up new ways to implement powerful parallel applications and share data among the nodes in a cluster. For instance one may envision a new breed of PaaS clouds that use MPI as the programming interface and a distributed file system as a shared storage much like how basic Hadoop uses MapReduce as a programming abstraction and HDFS as a shared storage.
+
+Similarly, the proposed solution can be extended to allow MPI code access other components in the Hadoop platform such as HBase, Mahout and ZooKeeper. It is also possible to provide an extension API in C/C++ so that MPI code can trigger MapReduce jobs in the underlying Hadoop framework. Therefore the proposed model can be used to bring a whole new class of features into the MPI landscape and use MPI in interesting new ways that were not easy to practically realize before. 
+
+\section{Future Work}
+\label{sec:futurework}
+Three areas of possible future research are fault tolerance,
+improved performance and scalability, and additional functionality
+to the model. 
+
+For fault tolerance, concepts from prior work can be leveraged to provide a fault tolerant system without sacrificing performance. By implementing automated checkpointing of the MPI process, if a node were to fail the checkpoint can be restarted elsewhere without restarting the entire job. Hama already provides some support for checkpointing of the BSP processes and message buffer contents. This built-in checkpointing capability can be extended to also save the state of the MPI processes using a checkpointing library such as DMTCP \cite{url:dmtcp}. The advantage of using Hama with its long running tasks over MapReduce is that it only requires relocating and loading checkpoints in the case of node failures, rather than for every communication event.
+
+For increased performance, an implementation of the BSP job can be created using Hama
+Pipes. Hama Pipes is a C++ extension for Hama, which
+should provide simpler integration with the MPI code
+and improved performance from the smaller overhead.
+Using Hama Pipes can also possibly eliminate the local socket
+communication between the BSP parent process and
+the MPI child process, allowing for reduced IPC overhead. A second performance improvement
+would be to redesign the broadcast protocol. A tree-based broadcast system would likely provide much better scalability. Additionally, Hama requires that all the messages for a single superstep should fit
+into memory, which is a problem when broadcasting
+a number of very large messages. Therefore another area of future
+work is to look into different superstep synchronization schedules during a broadcast. The Hama tasks
+can end the current superstep after sending each message, or they may end the superstep each time some fixed amount of data has been sent, thereby releasing allocated memory buffers more frequently. Also, as mentioned earlier, using an extended BSP model such as BSPWB or MPM can help eliminate the overhead of cluster-wide barrier synchronization. Evaluating the impact of using such an extended model is also definitely an interesting future research avenue that we intend to pursue.
+
+A third area of future work would be to extend the MPI model to integrate with other powerful distributed computing features such as distributed file systems, key-value stores and cluster management. Such features are currently not a part of the standard MPI model of computation, but are inherent in modern computing platforms such as Hadoop and cloud. In addition to transparent integration of cloud with MPI, this type of explicit extensions to the MPI model can make the MPI programming standard much more powerful than it already is and can allow a whole new breed of MPI programs to be developed for the cloud era.
+ 
+\section{Conclusion} 
+\label{sec:conclusion}
+As cloud and other latest computing paradigms continue to garner widespread adoption, applications implemented using old computing standards become outdated. Porting these programs to modern computing environments is a cumbersome and expensive process. Cross-paradigm execution provides a method to make modern computing platforms more versatile and backwards compatible with old programming standards, thereby allowing developers to run legacy code on modern systems with little or no code changes. In order to explore and demonstrate the feasibility of this approach we developed an architecture that facilitates executing unmodified MPI code on latest parallel and cloud computing platforms. We also presented a prototype implementation of an MPI adapter that enables executing MPI programs over Hadoop without any code changes. Our prototype works on already popular and widely adopted Hadoop architecture. It doesn't require upgrading to YARN or setting up a separate native MPI runtime. 
+
+We showed that by using BSP as a bridging model between MPI and the underlying computing framework, it is possible to map any MPI procedure call to a modern computing environment. Our architecture and the associated prototype support a wide range of MPI procedure calls including point-to-point communication functions and collective communication functions. We showed that the architecture can easily support the entire MPI programming standard and the prototype can be easily extended to support all MPI functions. Our experiment results pointed out how existing MPI programs can be easily deployed and executed on Hadoop without any code changes, and our performance test results showed great improvements over past attempts to run MPI code on Hadoop. Our adapter implementation did exhibit some overhead, especially with regard to collective communication operations, but we showed that this was primarily due to limitations in the basic BSP model and can be eliminated by using an extended BSP model such as BSPWB or MPM. Finally we discussed how running MPI on cloud can improve the fault tolerance aspects of MPI and we also suggested several explicit cloud-specific extensions to the MPI model, which will ultimately make the MPI standard more powerful and more suitable for the cloud paradigm. 
+
+\section{Acknowledgements}
+This work was funded in part by Google, IBM, NSF grants CNS-0546737, CNS-0905237, CNS-1218808, and NIH grant 1R01EB014877-01.
+
+\bibliographystyle{abbrv}
+\bibliography{main}
+\end{document}

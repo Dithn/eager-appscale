@@ -1,0 +1,577 @@
+*** Reviews for IEEE IPDPS 2015 ***
+Do not remove any lines beginning with @.
+Replace XX by the numeric score for each question.
+@paper: 1570044241
+### "Adaptive Resource and Job Management for limited power consumption"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+-replace with one or more lines of review text-
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+-replace with one or more lines of review text-
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+-replace with one or more lines of review text-
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= XX
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= XX
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= XX
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= XX
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= XX
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570044257
+### "Identifying Resource Usage Patterns with System Failures from Cluster Log Data"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+-replace with one or more lines of review text-
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+-replace with one or more lines of review text-
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+-replace with one or more lines of review text-
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= XX
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= XX
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= XX
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= XX
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= XX
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570044355
+### "PowerFCT: Power Optimization of Data Center Network with Flow Completion Time Constraints"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+-replace with one or more lines of review text-
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+-replace with one or more lines of review text-
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+-replace with one or more lines of review text-
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= XX
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= XX
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= XX
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= XX
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= XX
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570044771
+### "Towards a high level programming paradigm to deploy e-science applications with dynamic workflows on large scale distributed systems"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+-replace with one or more lines of review text-
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+-replace with one or more lines of review text-
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+-replace with one or more lines of review text-
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= XX
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= XX
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= XX
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= XX
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= XX
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570045055
+### "Improving Batch Scheduling on Blue Gene/Q by Relaxing 5D Torus Network Allocation Constraints"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+-replace with one or more lines of review text-
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+-replace with one or more lines of review text-
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+-replace with one or more lines of review text-
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= XX
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= XX
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= XX
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= XX
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= XX
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570045939
+### "IOrchestra: Supporting High-Performance Data-Intensive Applications in the Cloud via Collaborative Virtualization"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+This paper contribution is IOrchestra, a collaborative frameworks builded my modifying the XenStore and XenBus modules. IOrchestra improves I/O latency by leveraging on better knowledge achieved by cooperation between the different domains running across VMs in a cluster. 
+
+The paper is very well structured and well written with very few typos. The framework architecture and functionality is clearly described and the implemented prototype is evaluated under different scenarios and with a variety of applications running on top. It convincingly shows latency improvements compared to the baseline case and the results are explained in sufficient detail, showing significant improvements in some cases. The implementation on section IV though, could have been more detailed.
+
+A point that wasn’t very convincing on the paper is how well IOrchestra would do under greater scale. Despite, the statements of good scalability throughout the paper their isn’t a thorough evaluation of under significant load and many machines. I think that a bigger cluster and more configuration settings across the different domains could lead to increased communication on the XenBus, as well as increased processing on the hierarchical key-value structure stored on the XenStore and might be a bottleneck after some point. I think this is already evident on some of the figures (fig. 9 and 10) and so a bigger scale evaluation would be important to clarify this.
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+On section II, the second paragraph is very dense and hard to follow. Its not clear how it adds to the motivation.
+
+The architecture overall is well explained on section III. Nevertheless, on algorithm 2 its not clear how “overcrowded” is defined. 
+
+On the implementations section (IV) it is not clear how the best configuration is selected. What makes this configuration the best and how the system avoids changing configurations frequently that might occur because of temporary fluctuations on the VM conditions, hick-ups of the monitoring system etc?
+
+The claims about IOrchestra scalability properties should have been justified with more experiments on the evaluation. Also the congestion control experiment needs more evaluation. What happens when the suggested algorithm is more optimistic that it should? Are there cases that the conservative congestion control is still better even with inadequate semantics?
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+no
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= 3
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= 3
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= 3
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= 4
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= 4
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570046255
+### "Scalable Scheduling for Tasks with Hierarchical Effects"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+-replace with one or more lines of review text-
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+-replace with one or more lines of review text-
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+-replace with one or more lines of review text-
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= XX
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= XX
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= XX
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= XX
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= XX
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= XX
+
+@end
+
+@paper: 1570046495
+### "Functional Reactive Stream Processing for data-centric publish/subscribe systems"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+This paper integrates Microsoft's .Net Reactive Extensions (Rx) with OMG Data Distribution Service (DDS) to contribute an open-source library called RX4DDS.NET. The authors present the advantages of adopting a functional style of programming and compare it to an imperative one they used in a previous effort both in terms of usability as well as performance. They evaluate their framework using queries from the ACM DEBS 2013 Grand Challenge comparing input/output rates of different queries and the performance of their system using differnt Rx schedulers.
+
+As an imlementation the idea of combining DDS with Rx to leverage on their common mappings and complement each other makes perfect sense. Also, the advantages of using a functional programing model are in some cases obvious - though still some of the arguments presented in the paper to support the functional style over the imperative seem specific to the authors experience with this particular system and cannot be generalized (More details on the next section). 
+
+Nevertheless, this paper doesn't advance the functional programming model in any way nor it suggests something novel for reactive stream processing. The only contribution is an open-source library, which was implementing by integrating existing available technologies. It might be good as a development effort but lacks many parts of a research paper. The related section fails to position the work on existing state of the art research. Moreover, the evaluation lacks integral parts. The experiments are done in one machine and not in a distributed setting, no details on how many times the measurements  were done, consequently no averages or standard deviation is provided on the results. The measurements taken are on throughput and rates - latency which is crucial for IoT stream processing systems is missing. The evaluation is only presenting different performance aspects of the contributed code using different Rx schedulers. processes and threads and completes lacks comparison against any existing systems. Finally, the diagrams presented are crowded and not always add value to the goals of the evaluation.
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+ The presentation of the paper is fair - the paper is well written with some mistakes though on sections numbering and some typos. For example on page 5 the Qualitative approach begins mentioning  points 1, 2 and 3 in comparison with the challenges of imperative approaches mentioned on page 3 but then the number of the next point is C instead of 4 and so on...
+
+In page 2 the footnote probably is misplaced or otherwise it is completely irelevant to the context.
+
+In page 3 section III the authors mention that they are going to provide a brief overview of DDS and Rx. Though only DDS is presented. Also in page 3 the third argument under section B is weak. How is this a win of a functional approach? What restricts the use of an imperative approach to build a library? How does the last argument in section B (page 4) contributes to the reasoning of supporting the functional approach compared to the imperative?
+
+Usually a qualitative approach includes some user study and mentions the number of code needed. This section lacks both. Moreover, some paragraphs (for example 1st paragraph in page 6) just argue on the general advantages of the functional programming model. Despite the fact that the functional programming model might gave some improvements compared to their previous imperative approach, this doesn’t add anything in comparison with the state of the art.
+
+As for the quantitative evaluation as mentioned above this could be drastically improved by comparing against similar systems and by including more metrics like latency as well as extended experiments with more realistic scenarios. Even the comparison against the previous version implemented with C++ is not presented anywhere on the diagrams.
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+-replace with one or more lines of review text-
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+no
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= 3
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= 1
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= 1
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= 2
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= 4
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= 1
+
+@end
+

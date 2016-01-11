@@ -1,0 +1,16 @@
+### "Adaptive Resource and Job Management for limited power consumption"
+Alex
+### "Identifying Resource Usage Patterns with System Failures from Cluster Log Data"
+Dani
+### "PowerFCT: Power Optimization of Data Center Network with Flow Completion Time Constraints"
+Alex
+### "Towards a high level programming paradigm to deploy e-science applications with dynamic workflows on large scale distributed systems"
+Brian
+### "Improving Batch Scheduling on Blue Gene/Q by Relaxing 5D Torus Network Allocation Constraints"
+Hiranya
+### "IOrchestra: Supporting High-Performance Data-Intensive Applications in the Cloud via Collaborative Virtualization"
+Stratos
+### "Scalable Scheduling for Tasks with Hierarchical Effects"
+Hiranya
+### "Functional Reactive Stream Processing for data-centric publish/subscribe systems"
+Stratos

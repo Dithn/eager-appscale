@@ -1,0 +1,157 @@
+*** Reviews for IEEE IPDPS 2015 ***
+Do not remove any lines beginning with @.
+Replace XX by the numeric score for each question.
+
+@paper: 1570044241
+### "Adaptive Resource and Job Management for limited power consumption"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+The paper describes a power-aware scheduling approach for HPC cluster environments with a focus on power-capping the cluster on-schedule or on-demand. The proposed approach assumes a gang-scheduled workload and trades off turnaround time for maintaining temporary power caps. It integrates with both, job admission control and task scheduling and uses node shutoff and dynamic voltage scaling to achieve power-proportionallity. A major domain-specific optimization considered is the non-linear power bonus achieved by disabling physical groups of nodes and support equipment, such as switches.
+The scheduler works in two stages: the offline job admission control only admits jobs able to complete under the current cap, potentially using cluster-wide voltage scaling. This high level job scheduler is implemented using standard backfilling approaches and uses heuristic estimation of turnaround time based on cluster voltage states. Also, node and equipment shutoff are also controlled at this level. Low level task scheduling then enforces the power-cap on a best-effort basis, only modifying voltage states and potentially holding back task placement. For any placement decision, the net effect of dynamic voltage scaling is determined by probing, i.e. temporarily increasing the target nodes’ power states to required levels and measuring the resulting consumption. The authors evaluate their approach by implementing it within the SLURM framework and executing benchmarks with different job sizes on the Curie supercomputer.
+As a whole the approach is a practical extension of existing scheduling approaches to enable integrated power-aware scheduling in HPC environments. Contrary to the authors’ claims, however, power-capping compute clusters via combined voltage scaling and node shutoff is a well-studied approach and has been applied to Grid and Cloud environments for a long time. See [1] for a survey and [2] for a specific exposition. Nevertheless, the domain-specific optimizations for HPC environments appear worthy of further exploration.
+
+[1] Beloglazov, Anton, Jemal Abawajy, and Rajkumar Buyya. "Energy-aware resource allocation heuristics for efficient management of data centers for cloud computing." Future Generation Computer Systems 28.5 (2012): 755-768. (http://www.cloudbus.org/papers/Energy-Aware-CloudResourceAllocation-FGCS2012.pdf#cite.b8)
+[2] Raghavendra, Ramya, et al. "No power struggles: Coordinated multi-level power management for the data center." ACM SIGARCH Computer Architecture News. Vol. 36. No. 1. ACM, 2008. (http://people.cs.pitt.edu/~kirk/cs3150spring2010/2008_asplos_nopowerstruggles.pdf)
+
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+The paper has a clear motivation and overview of the methodology, but the the details of methodology, implementation and evaluation are convoluted in sections V and VI. It would be helpful to describe the whole method and experimental setup in a dedicated subsection.
+In terms of technical content it would be recommendable to prioritize the focus on domain-specific optimization possible in the HPC space, rather than re-iterating existing approaches. Second, since the proposed hybrid MIX strategy does not consistently dominate other approaches, it would be valuable to know where these limitations stem from.
+A third question relates to the implementation. It seems to use a binary high-low power-state approach. This is valid and mirrors the findings in literature, but stands in contrast to the initial description of the methodology which gives the impression that fine-grained linear voltage scaling is important. (e.g. Figure 3 and 4)
+In terms of presentation the layout of figures is easily followed. However, formulas could be formatted for easier readability. As an example, C1 contains an unnecessary “1” denominator and, as most other formulas, contains a “.” operator rather than the usual concatenation or “x”.
+Finally, Fig 8 shows core results as a huge amount of data, most of which is intuitive and does not help improve the understanding for the reader, e.g. it is not surprising that a scaled-down cluster accumulates less cpu time than a fully powered one. A more selective display of results, e.g. the outperformance of the MIX strategy for small jobs would help focus the reader’s attention. Furthermore, a single metric for comparison, such as work/energy could help the reader gauge the goodness of a solution more easily.
+
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+No.
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= 3
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= 2
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= 2
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= 2
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= 3
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= 2
+
+@end
+
+@paper: 1570044355
+### "PowerFCT: Power Optimization of Data Center Network with Flow Completion Time Constraints"
+@type: review
+** Key Contributions:
+Please describe the key contributions of the paper or lack thereof. Your comments should be specific and justify your overall recommendation.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+@T1
+The authors present PowerFCT, a power-optimization algorithm for data center networking infrastructure via dynamic voltage scaling and equipment shutdown. Compared to state-of-the-art power-saving algorithms, the presented approach aims at minimizing SLA violations of delay-sensitive flows while still achieving competitive power-saving results. Using validated simulation, the authors demonstrate that their heuristic approach generates superior results meeting tight completion time constraints and consistently comes close to the optimal solution possible under the assumed simulation model.
+The simulation is modelled after a fat-tree data center topology running DCTCP over Pronto 3290 switches. The authors emulate a small-scale data center scenario on the switch in order to verify model accuracy at this observable level. They then scale this simulation up to a larger scenario and show consistently strong results under varying topology, flow-size, -count and -deadlines.
+As a whole the proposed heuristic presents a valuable extension to existing routing methodologies to concurrently enable deadline-aware and power-efficient networking.
+
+@@
+
+** Suggestions for Improvement:
+Additional comments and suggestions for improvement in the technical content or the presentation. Please be as detailed and constructive as you can be.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+@T2
+Regarding the technical content the advantage of considering flow deadlines over deadline-oblivious approaches is presented clearly and convincingly. The validation of simulation results with regards to the absolute possible power-savings seems less convincing, i.e. assuming fine-grained control over all hardware components without capable hardware at hand. Since the model is used for relative comparison of the different approaches, this does not, however, impact the validity of the comparsion. Instead of breaking the power-consumption down into many small components, aggregate two- or three-step scaling would be sufficient.
+Regarding the presentation, the paper is easy to follow and an has a clear logical flow. There are some minor spelling and grammar issues such as “ones” instead of “once”, “turnning” instead of “tuning”, etc. which should be addressed. Finally, there are numerous graphs for different experiments displaying power-savings and SLA-violations. The graphs per experiment should be grouped together more clearly, so the different experiments are easily distinguished.
+
+@@
+
+** Comments to TPC:
+This section is specifically for comments which for some reason should NOT be sent to the authors.  Detail will be helpful here also.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T3
+
+@@
+
+** Award quality?:
+Do you consider the paper a candidate for a best-paper award? If so, why? These comments will NOT be sent to authors.
+(viewable by reviewers who have completed their review, track chairs or conference chairs)
+@T4
+No.
+@@
+
+** Significance:
+Assess the significance of the topic addressed in the paper.
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S1= 4
+
+** Originality/Novelty (of contribution):
+How novel are the concepts presented in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:None; 2:Below average; 3:Above average; 4:Excellent
+@S2= 3
+
+** Technical Soundness:
+How strong are the techniques and methodologies used in the paper?
+(viewable by reviewers who have completed their review, conference chairs or paper author)
+1:Poor; 2:Weak; 3:Strong; 4:Excellent
+@S3= 3
+
+** Quality of Presentation:
+Assess both the ease of reading the paper and the extent to which it gets its contributions across.
+(viewable by reviewers who have completed their review or conference chairs)
+1:Poor; 2:Below average; 3:Above average; 4:Excellent
+@S4= 3
+
+** Expertise:
+Please assess your expertise in the subject matter of the paper.
+(viewable by reviewers who have completed their review or conference chairs)
+1: Totally outside the subject matter; 2: Little familiarity with the subject matter; 3: Average knowledge on the subject matter ; 4: Knows the subject matter in a reasonable manner; 5: Expert in the subject matter
+@S5= 3
+
+** Overall Recommendation:
+Your final rating should be consistent with your ratings on previous questions.
+(viewable by reviewers who have completed their review, track chairs, conference chairs or paper author)
+1:Definite Reject; 2:Reject; 3:Weak Reject; 4:Weak accept; 5:Accept; 6:Definite accept
+@S6= 5
+
+@end

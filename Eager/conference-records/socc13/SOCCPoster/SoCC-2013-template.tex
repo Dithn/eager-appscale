@@ -1,0 +1,119 @@
+%% Layout controls.
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\special{papersize=8.5in,11in}
+\setlength{\pdfpagewidth}{8.5in}
+\setlength{\pdfpageheight}{11in}
+
+\usepackage[noheadfoot,
+            left=1in,right=1in,top=1in,bottom=1in,
+            columnsep=0.3in
+            ]{geometry}
+\usepackage{times} % Body font is Times Roman.
+\usepackage{mathptmx} % Times Roman font in math mode, too
+\usepackage[bf,small]{caption} % see http://www.ctex.org/documents/packages/float/caption.pdf
+\usepackage{graphicx}
+\usepackage{url}
+\DeclareGraphicsExtensions{.pdf}
+\frenchspacing % Do not add extra spaces after sentence ends.
+\pagestyle{empty} 
+
+%%%
+%%% AUTHOR: SET THE DOI NUMBER FOR YOUR PAPER
+%%% (You will receive this number via email before the camera ready
+%%% deadline
+%%%
+\newcommand{\doi}{10.1145/2523616.2525942}
+%%%
+%%%
+%%%
+% --- Copyright and conference block ---
+%%% This section (adapted from code by KBT for the ACM SIG style file)
+%%%  handles the 1" box in the lower left
+%%% corner of the left column of the first page by creating a picture,
+%%% and inserting the predefined string at the bottom
+%%%
+\makeatletter
+
+\def\ftype@copyrightbox{8}
+\def\@copyrightspace{
+\@float{copyrightbox}[b]
+\begin{center}
+\setlength{\unitlength}{1pc}
+\begin{picture}(20,7.0)  %**** AUTHOR: CHANGE HEIGHT IF NEEDED ****
+\put(0,3){\parbox{\columnwidth}{\footnotesize
+
+
+\noindent
+Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses, contact the Owner/Author. \\
+Copyright is held by the owner/author(s).\\
+\noindent
+\textit{SOCC '13}, Oct 01-03 2013, Santa Clara, CA, USA. \\
+ACM 978-1-4503-2428-1/13/10.
+
+\noindent
+http://dx.doi.org/10.1145/2523616.2525942}
+}
+\end{picture}
+\end{center}
+\end@float}
+
+\def\maketitle{\par
+ \begingroup
+   \def\thefootnote{\fnsymbol{footnote}}
+   \def\@makefnmark{\hbox
+       to 0pt{$^{\@thefnmark}$\hss}}
+     \twocolumn[\@maketitle]
+\@thanks
+ \endgroup
+ \setcounter{footnote}{0}
+ \let\maketitle\relax
+ \let\@maketitle\relax
+ \gdef\@thanks{}\gdef\@author{}\gdef\@title{}\gdef\@subtitle{}\let\thanks\relax
+ \@copyrightspace}
+
+
+\makeatother
+% --- End of Copyright and conference block ---
+%%%
+
+\begin{document}
+
+
+\title{\bf Extending Modern PaaS Clouds with BSP to Execute Legacy MPI Applications} 
+\author{Hiranya Jayathilaka, Michael Agun \\ 
+Department of Computer Science \\
+UC Santa Barbara, Santa Barbara, CA, USA}
+\date{}
+\maketitle 
+\thispagestyle{empty}
+
+\begin{abstract} 
+As the popularity of cloud computing continues to increase, a significant amount of legacy code implemented using older parallel computing standards is outdated and left behind. This forces the organizations to port the old applications into new cloud platforms. This, however, violates the ``develop once - run anywhere'' principle promised by utility computing. As a solution to this problem, we explore the possibility of executing unmodified MPI applications over a modern parallel computing platform. Using BSP as a bridging model between MPI and the Hadoop framework, we implement a prototype MPI runtime for today's computing clouds, which eliminates the overhead of porting legacy code.
+\end{abstract}
+
+\section{Introduction}
+
+Our main goal is to execute virtually any Message Passing Interface (MPI)~\cite{url:mpi} based C program on Hadoop~\cite{url:hadoop}, without making any changes to the MPI code or the implementation of the Hadoop platform. This type of transparency is crucial when migrating legacy code to modern cloud environments, although it may incur a performance penalty. To achieve this goal, we deploy a Bulk Synchronous Parallel (BSP)~\cite{Valiant:1990:BMP:79173.79181} overlay (Apache Hama~\cite{url:hama}) on Hadoop. This doesn't require any changes to the Hadoop implementation or the configuration. Then we define a mapping from native MPI constructs to the BSP constructs so that MPI operations can be executed on the BSP overlay. 
+
+\section{Design and Implementation} 
+
+Our architecture consists of 3 main components -- a custom MPI C library, a BSP job that coordinates the execution of MPI code and a collection of MPI tools for the Hadoop environment. User's MPI C code should be linked with our custom MPI C library. This library is responsible for intercepting MPI procedure calls and delegating them to the underlying BSP framework. 
+
+The BSP job uploads the binary executable of the user's MPI code into HDFS, and starts a number of BSP processes (tasks). These BSP tasks download the MPI code from HDFS, and run them as separate child processes. Whenever a child MPI process calls a MPI function, it is dispatched to our custom MPI C library, which makes a TCP call to the parent BSP process. The parent BSP process executes the function call on behalf of the child process using native BSP constructs. 
+
+We also provide two MPI tools, mpicc and mpirun, that can be used to transparently compile and run MPI C code on Hadoop. 
+
+\section{Results and Conclusion}
+We tested our prototype on multiple applications (PI calculation and matrix multiplication), using the most common MPI primitives, on a small cluster of machines. We also compared our results against another MPI-to-Hadoop adapter which uses MapReduce~\cite{Dean:2008:MSD:1327452.1327492} as the underlying bridging model~\cite{SS12}. We were able to run a variety of unmodified MPI codes using our implementation, and our test results show an acceptable level of performance. Our results confirm that BSP is a more flexible and performant model for MPI-to-Hadoop bridging.
+
+Currently, other solutions are being developed to allow running MPI directly on Hadoop (e.g. YARN~\cite{url:yarn}). However, by implementing a lightweight adapter such as ours, MPI code can be deployed in the cloud today, without upgrading existing Hadoop clusters. We have also reduced the performance overhead by selecting BSP, which matches the MPI primitives closely.
+
+\section*{Acknowledgements}
+This work was funded in part by Google, IBM, NSF grants CNS-0546737, CNS-0905237, CNS-1218808, and NIH grant 1R01EB014877-01.
+
+\bibliography{main}
+\bibliographystyle{abbrv} 
+
+\end{document}
+

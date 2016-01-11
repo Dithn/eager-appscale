@@ -1,0 +1,22 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Background}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Message Passing Interface \(MPI\)}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Hadoop}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Bulk Synchronous Parallel \(BSP\)}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Related Work}{}% 6
+\BOOKMARK [1][-]{section.4}{System Architecture}{}% 7
+\BOOKMARK [1][-]{section.5}{Prototype Implementation}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{BSP Framework}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{BSP-aware MPI C Library}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.3}{Mapping MPI Constructs to BSP}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.4}{MPI Tools}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.5}{Overall Workflow}{section.5}% 13
+\BOOKMARK [1][-]{section.6}{Performance Evaluation}{}% 14
+\BOOKMARK [1][-]{section.7}{Discussion}{}% 15
+\BOOKMARK [2][-]{subsection.7.1}{Supporting MPI on Hadoop}{section.7}% 16
+\BOOKMARK [2][-]{subsection.7.2}{Performance}{section.7}% 17
+\BOOKMARK [2][-]{subsection.7.3}{Application to Cloud}{section.7}% 18
+\BOOKMARK [1][-]{section.8}{Future Work}{}% 19
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 20
+\BOOKMARK [1][-]{section.10}{Acknowledgements}{}% 21
+\BOOKMARK [1][-]{section*.1}{References}{}% 22

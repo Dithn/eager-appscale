@@ -1,0 +1,16 @@
+Beginning
+=========
+
+Web APIs play a crucial role in our lives. Just think about all the web applications, mobile apps and cloud services that we consume in a day-to-day basis. These systems or services may come from many different business domains like search, social networking, online shopping and video streaming; but they all have one thing in common. That is they heavily rely on web APIs to deliver functionality and data to end-users. 
+
+In this presentation we are going to look at a specific problem that arise when using web APIs to create new software -- the problem of API churn. This problem has many negative consequences since it forces application developers to keep porting and upgrading their applications to newer APIs, without any idea of the effort that it would take to perform these ports. We attempt to make the developer's life easier by providing them a framework to analyze and reason about the difficulty associated with porting an application from one API to another.
+
+I will begin my talk with a short introduction to web APIs, their growth over the last decade and how they have influenced the way developers go about developing new software. Then I will introduce the problem of API churn and explain how it makes application porting an inevitable developer burden. Next, I will explain a new technique for analyzing the difficulty of porting an application between a given pair of APIs. I will point out how we can quantify this porting effort using the semantic descriptions of the web APIs involved. Finally, I will show some of the experimental results obtained using our technique and present our conclusions.
+
+
+Ending
+======
+
+In conclusion, we presented a new approach based on semantic similarity for analyzing the effort required to port an application from one web API to another. Our algorithm is simple, practical to implement and fast. It delivers accurate analysis and classification results on a wide range of real world APIs, so that combined with its simplicity and speed makes it suitable to be used as a key component of a developer's toolkit. Our approach uses Python syntax to document the axiomatic semantics of web APIs, which enables service developers to easily specify their API semantics. In instances where the API provider does not provide such specifications, the application developers that consume the APIs can create their own semantic specifications by going through the available API documentation. And finally, we can attempt to further improve our porting effort calculation approach by combining it with syntactic similarity checking methods widely used in programming languages research.
+
+And with that I conclude my presentation, and open up this session for questions from the audience.

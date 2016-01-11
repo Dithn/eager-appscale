@@ -1,0 +1,14 @@
+Scalable scheduling for tasks with hierarchical effects
+
+* A scalable and efficient scheduler for the TWEJava framework (Tasks with Effect)
+* Programs explicitly specify memory regions and the effects that methods may have on those regions at runtime
+* Scheduler takes this information into account when scheduling concurrent tasks (i.e. two tasks with conflicting effects shouldn't be allowed to run together)
+* Existing scheduler is too slow (uses a single queue with a global lock)
+* Proposes a new scheduler that uses a tree structure (RPL tree) to represent the hierarchical regions and effects
+* Tasks on sibling nodes never conflict - So no need to check across siblings
+
+* Scheduling algorithm (and data structures) are defined in excruciating detail. But the overall idea seems to be very straightforward.
+* Proof is simple, but a lot of space is spent on it.
+
+* They claim that TWE can handle arbitrary concurrent applications - But the results section do not cover any apps of that nature.
+* Related-work section needs to improve - None of the existing tree-based CC work has been cited

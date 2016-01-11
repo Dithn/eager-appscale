@@ -1,0 +1,12 @@
+System Design
+=============
+* Include a diagram describing an example contention-free wiring arrangement.
+
+Experiments and Results
+=======================
+* It's not clear how they classified jobs based on their communication sensitivity. Was this done manually?
+* How much effort was it to implement the new scheduling system and the contention-free partitions?
+* What is the overhead of implementing a contention-free partition? This is only explained for 1K paritiions. What about larger ones?
+* Did you observe any interesting results with other levels of slowdown? At least mention that the shared results are representative of all results.
+* Nowadays it is fairly common to run large scale parallel processing frameworks such as Map-Reduce on super computers. It doesn't look like such applications have been considered in the survey.
+
