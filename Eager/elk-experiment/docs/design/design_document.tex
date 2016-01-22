@@ -6,12 +6,13 @@
 \maketitle
 
 \section{Introduction}
-Over the last decade Platform-as-a-Service (PaaS) clouds have become a popular means for deploying
-applications. Many organizations, academic institutes and hobbyists make use of public
+Over the last decade Platform-as-a-Service (PaaS) has become a popular approach for deploying
+applications in the cloud. Many organizations, academic institutes and hobbyists make use of public
 and/or private PaaS clouds to deploy their applications.
 PaaS clouds provide a high level of abstraction to the application developer that effectively hides
-all the infrastructure-level details such as physical resource allocation (CPU, memory, disk etc),
-and network configuration. This enables application developers to focus solely on the programming
+all the infrastructure-level details such as physical resource allocation (CPU, memory, disk etc), operating
+system configuration, 
+and network set up. This enables application developers to focus solely on the programming
 aspects of their applications, without having to be concerned about deployment issues. PaaS
 clouds can also ensure high levels of scalability and availability for the deployed applications. 
 Scalability is typically provided by automatically allocating resources for applications
@@ -19,8 +20,29 @@ on the fly (auto scaling), and availability is ensured by running multiple insta
 Consequently the viable PaaS technologies, and the PaaS-deployed applications
 continue to increase in number.
 
-This rapid growth in PaaS technology has intensified the need for powerful new techniques to
-monitor applications deployed in a PaaS cloud. Application developers and users need
+This rapid growth in PaaS technology has intensified the need for new techniques to
+monitor applications deployed in a PaaS cloud. Application developers and users wish
 to monitor the availability of the deployed applications, track application performance and detect 
-application and system anomalies as they occur. 
+application and system anomalies as they occur. To obtain this level of deep operational insight into
+PaaS-deployed applications, the PaaS clouds need to be equipped with powerful instrumentation,
+data gathering and analysis capabilities that span the entire stack of the PaaS cloud. 
+Moreover, PaaS clouds need to provide comprehensive
+data visualization and notification mechanisms. However, most PaaS technologies available
+today either do not provide any application monitoring support, or only provide primitive
+monitoring features such as application-level logging. Hence, they are not capable of performing
+powerful predictive analyses or anomaly detection, which require much more fine-grained, low-level
+and full stack data collection and analytics. 
+
+To address this limitation we intend to design and implement a comprehensive application monitoring 
+platform (APM) that can be easily integrated with a wide variety of PaaS technologies. The proposed
+APM is not an external system that monitors a PaaS cloud from the outside. Rather, it integrates with
+the PaaS cloud from within thereby extending and augmenting the existing components of the PaaS cloud
+to provide comprehensive full stack monitoring, analytics and visualization capabilities. In other words,
+the APM is built into the PaaS cloud so that it is active as long as the cloud is, and has operational
+insight to both core cloud components as well as the deployed applications.
+
+This document details the architecture of the proposed APM, and how it integrates with a typical PaaS
+cloud. We describe individual components of the APM, their functions and how they interact with each
+other. Where appropriate we also detail the concrete technologies (tools and products) used to implement
+various components of the APM, and give rationale for choosing those technologies.
 \end{document}
