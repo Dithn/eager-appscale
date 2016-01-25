@@ -85,4 +85,46 @@ for receiving all application requests, filtering them and routing them to an ap
 server instance for further execution. As the fronted server, it is the entry point for PaaS-deployed
 applications for all application clients.
 
+\section{Cloud APM Architecture}
+\subsection{Logical and Physical Layouts of the APM}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{apm_functions}
+\caption{Key functions of the APM.}
+\label{fig:apm_functions}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{apm_layout}
+\caption{Physical view of the APM functions.}
+\label{fig:apm_layout}
+\end{figure}
+
+Like most system monitoring solutions, the proposed cloud APM needs to serve four major functions: Data
+collection, storage, processing (analytics) and visualization. Figure~\ref{fig:apm_functions} shows the
+logical organization of these functions in the APM, and various tasks that fall under each of them.
+Figure~\ref{fig:apm_layout} shows a physical deployment view of the said functions. Arrows indicate
+the flow of information through the APM.
+
+Data collection is performed by various sensors and agents that instrument the applications and the
+core components of the PaaS cloud. While sensors are very primitive in their capability to monitor
+a given component, an agent may intelligently adapt to changing conditions, making decisions on
+what information to capture and how often. Instrumentations should be lightweight and as non-intrusive
+as possible so their existence does not put any additional overhead on the applications.
+
+Data storage components should be capable of
+dealing with potentially very high volumes of data. The data needs to be organized and indexed
+to facilitate efficient retrieval, and replicated to maintain reliability and high availability. 
+
+Data processing components should also be capable of processing large volumes of data in near real-time,
+while supporting a wide range of data analytics features such as filters, projections and aggregations. 
+They will employ various statistical and perhaps even machine learning methods to understand the
+data, detect anomalies and identify bottlenecks in the system.
+
+Data visualization layer mainly consists of graphical interfaces (dashboards) for displaying various
+metrics computed by the data processing components. Additionally it may also have APIs to export
+the calculated results and trigger alerts. 
+
+\subsection{APM Integration with the PaaS}
 \end{document}
