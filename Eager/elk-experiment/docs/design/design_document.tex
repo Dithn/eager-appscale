@@ -1,4 +1,8 @@
-\documentclass[11pt]{report}
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.png,.jpg}
+\graphicspath{{./figures/}}
+
 \begin{document}
 
 \title{Architecture of the Proposed Cloud Application Platform Monitor}
@@ -33,8 +37,8 @@ monitoring features such as application-level logging. Hence, they are not capab
 powerful predictive analyses or anomaly detection, which require much more fine-grained, low-level
 and full stack data collection and analytics. 
 
-To address this limitation we intend to design and implement a comprehensive application monitoring 
-platform (APM) that can be easily integrated with a wide variety of PaaS technologies. The proposed
+To address this limitation we intend to design and implement a comprehensive application platform 
+monitor (APM) that can be easily integrated with a wide variety of PaaS technologies. The proposed
 APM is not an external system that monitors a PaaS cloud from the outside. Rather, it integrates with
 the PaaS cloud from within thereby extending and augmenting the existing components of the PaaS cloud
 to provide comprehensive full stack monitoring, analytics and visualization capabilities. In other words,
@@ -45,4 +49,40 @@ This document details the architecture of the proposed APM, and how it integrate
 cloud. We describe individual components of the APM, their functions and how they interact with each
 other. Where appropriate we also detail the concrete technologies (tools and products) used to implement
 various components of the APM, and give rationale for choosing those technologies.
+
+We start by describing the layered system organization typically seen in PaaS clouds. Then we describe
+the APM architecture, and show how it fits into the PaaS.
+
+\section{PaaS System Organization}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{paas_architecture}
+\caption{PaaS system organization.}
+\label{fig:paas_architecture}
+\end{figure}
+
+Figure~\ref{fig:paas_architecture} shows the key system layers of a typical PaaS cloud. Arrows indicate
+the flow of data and control in response to application requests.
+
+At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
+and networking resources. How this infrastructure is set up may vary from a simple cluster of physical 
+machines to a comprehensive Infrastructure-as-a-Service (IaaS) solution. In large scale PaaS clouds,
+this layer typically consists of many virtual machines and/or containers with the ability to acquire more
+resources on the fly.
+
+On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
+services that high-level application developers can compose into their applications. The provided services
+may include database services, caching services, queueing services and much more. Some PaaS clouds
+provide a managed set of APIs (an SDK) for the application developer to access these fundamental services. 
+In that case all interactions between the applications and the PaaS kernel must take place through
+the cloud provider specified APIs (e.g. Google App Engine). 
+
+One level above the PaaS kernel we find the application servers that are used to deploy and run
+applications. Application servers provide the necessary integration (linkage) between application code and the
+underlying PaaS kernel, while sandboxing application code for secure, multi-tenant operation. On top
+of the application servers layer resides the fronted and load balancing layer. This layer is responsible
+for receiving all application requests, filtering them and routing them to an appropriate application
+server instance for further execution. As the fronted server, it is the entry point for PaaS-deployed
+applications for all application clients.
+
 \end{document}
