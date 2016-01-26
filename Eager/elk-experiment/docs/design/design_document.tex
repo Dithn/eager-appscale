@@ -86,7 +86,7 @@ server instance for further execution. As the fronted server, it is the entry po
 applications for all application clients.
 
 \section{Cloud APM Architecture}
-\subsection{Logical and Physical Layouts of the APM}
+\subsection{Key Functions}
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_functions}
@@ -97,7 +97,7 @@ applications for all application clients.
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_layout}
-\caption{Physical view of the APM functions.}
+\caption{Deployment view of the APM functions.}
 \label{fig:apm_layout}
 \end{figure}
 
@@ -126,5 +126,75 @@ Data visualization layer mainly consists of graphical interfaces (dashboards) fo
 metrics computed by the data processing components. Additionally it may also have APIs to export
 the calculated results and trigger alerts. 
 
-\subsection{APM Integration with the PaaS}
+\subsection{APM Architecture and Integration with PaaS}
+\begin{figure}
+\centering
+\includegraphics[scale=0.35]{apm_architecture}
+\caption{APM architecture.}
+\label{fig:apm_architecture}
+\end{figure}
+
+Figure~\ref{fig:apm_architecture} illustrates the overall architecture of the proposed APM, and how 
+it fits into the PaaS cloud stack. APM components are shown in grey, with their interactions indicated
+by the black lines. The small grey boxes attached to the PaaS components represent the sensors and
+agents used to instrument the cloud platform for data collection purposes. Note that the APM collects
+data from all layers in the PaaS stack (i.e. full stack monitoring).
+
+From the frontend and load balancing layer we gather all information related to incoming application
+requests. A big part of this is scraping the HTTP server access logs, which indicate request timestamps,
+source and destination addressing information, response time (latency) and other HTTP message
+parameters. This information is readily available for harvesting in most technologies used as frontend
+servers (e.g. Apache HTTPD, Nginx). Additionally we may also collect information pertaining to active
+connections, invalid access attempts and other errors.
+
+From the application server layer we intend to collect basic application logs as well as any other logs and 
+metrics that can be easily collected from the application runtime. This may include some process level
+metrics indicating the resource usage of the individual application instances. If deeper insight into the 
+application execution becomes necessary, more intrusive instrumentation can be introduced to the 
+application server (perhaps selectively or adaptively). 
+
+At the PaaS kernel layer we employ instrumentation to record information regarding all kernel invocations
+made by the applications. This instrumentation needs to be applied carefully as to not introduce a noticeable
+overhead to the application execution. For each PaaS kernel invocation, we can capture the 
+following parameters.
+\begin{itemize}
+\item Source application making the kernel invocation
+\item Timestamp
+\item Target kernel service and operation
+\item Execution time of the invocation
+\item Request size, hash and other parameters
+\end{itemize}
+Collecting this PaaS kernel invocation details enables tracing the execution of application 
+requests, without the need for instrumenting application code, which we believe is a feature 
+unique to PaaS cloues. 
+
+Finally, at the lowest infrastructure level, we can collect information related to virtual machines, containers
+and their resource usage. We can also gather metrics on network usage by individual components which
+might be useful in a number of traffic engineering use cases. Where appropriate we can also scrape
+hypervisor and container manager logs to get an idea of how resources are allocated and released over
+time.
+
+\subsection{Cross-layer Data Correlation}
+Previous subsection details how the APM collects useful monitoring data at each layer of the cloud
+stack. To make most out of the gathered data, and use them to perform complex analyses, we need
+to be able to correlate data records collected at different layers of the PaaS. For example consider
+the execution of a single application request. This single event results in following data records at
+different layers of the cloud, which will be collected and stored by the APM as separate entities.
+
+\begin{itemize}
+\item A frontend server access log entry
+\item An application server log entry
+\item Zero or more application log entries
+\item Zero or more PaaS kernel invocation records
+\end{itemize}
+
+We need a mechanism to tie these disparate records together, so the data processing layer can easily
+aggregate the related information. For instance, we need to be able to retrieve via an
+aggregation query, all PaaS kernel invocations made by a specific application request.
+
+To facilitate this we propose that frontend server tags all incoming application requests with unique identifiers.
+This request identifier can be attached to HTTP requests as a header which is visible to all components 
+internal to the PaaS cloud. All data collecting agents can then be configured to record the request identifiers
+whenever recording an event. At the data processing layer APM can aggregate the data by request identifiers
+to efficiently group the related records.
 \end{document}
