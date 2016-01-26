@@ -192,9 +192,48 @@ We need a mechanism to tie these disparate records together, so the data process
 aggregate the related information. For instance, we need to be able to retrieve via an
 aggregation query, all PaaS kernel invocations made by a specific application request.
 
-To facilitate this we propose that frontend server tags all incoming application requests with unique identifiers.
+To facilitate this requirement we propose that frontend server tags all incoming application requests 
+with unique identifiers.
 This request identifier can be attached to HTTP requests as a header which is visible to all components 
 internal to the PaaS cloud. All data collecting agents can then be configured to record the request identifiers
 whenever recording an event. At the data processing layer APM can aggregate the data by request identifiers
 to efficiently group the related records.
+
+\section{Implementation}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{apm_impl}
+\caption{APM implementation based on ElasticSearch.}
+\label{fig:apm_impl}
+\end{figure}
+In this section we outline some of the technologies and tools that we have chosen to implement the proposed
+APM architecture.  After a thorough evaluation of numerous existing system monitoring tools and platforms, 
+we have decided to implement our APM for PaaS clouds using ElasticSearch. More specifically, ElasticSearch
+will operate as the primary data storage component of the APM. ElasticSearch is ideal for storing large volumes
+of structured and semi-structured data. It supports scalability and high availability via sharding and replication.
+Perhaps what makes ElasticSearch an excellent choice for an APM is its comprehensive data indexing and
+query support. Using the tried and tested Apache Lucene technology, ElasticSearch continuously organizes
+and indexes data, making the information available for fast retrieval and efficient querying. 
+Additionally it also provides
+powerful data filtering and aggregation features, which can greatly simplify the implementations of high-level
+data processing algorithms.
+
+Data can be directly stored in ElasticSearch via its REST API. This means most data collection agents can 
+simply make HTTP calls to ElasticSearch to add new records. ElasticSearch also supports batch 
+processing thereby enabling agents to locally buffer collected data, and store them in batches to avoid
+making too many HTTP calls. For scraping server logs and storing the extracted records in ElasticSearch,
+we can use the Logstash tool. Logstash supports scraping a wide range of standard log formats (e.g. 
+Apache HTTPD access logs), and other custom log formats can be supported via a simple configuration.
+It also integrates naturally with ElasticSearch.
+
+For data visualization we are currently considering Kibana, a powerful web-based dash boarding tool 
+that is specifically designed to operate in conjunction with ElasticSearch. Kibana provides a wide
+range of charting and tabulation capabilities, with particularly strong support for temporal data.  Since
+ElasticSearch exposes all stored data via its REST API, it's also possible to bring other visualization
+tools into the mix easily.
+
+Figure~\ref{fig:apm_impl} shows the APM deployment view with ElasticSearch and other related technologies
+in place. Most of the data processing features are provided by ElasticSearch itself, and other more complex
+data analytics can be provided by a custom data processing system. 
+
 \end{document}
