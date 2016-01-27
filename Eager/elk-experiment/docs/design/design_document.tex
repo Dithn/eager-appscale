@@ -166,7 +166,7 @@ following parameters.
 \end{itemize}
 Collecting this PaaS kernel invocation details enables tracing the execution of application 
 requests, without the need for instrumenting application code, which we believe is a feature 
-unique to PaaS cloues. 
+unique to PaaS clouds. 
 
 Finally, at the lowest infrastructure level, we can collect information related to virtual machines, containers
 and their resource usage. We can also gather metrics on network usage by individual components which
@@ -235,5 +235,22 @@ tools into the mix easily.
 Figure~\ref{fig:apm_impl} shows the APM deployment view with ElasticSearch and other related technologies
 in place. Most of the data processing features are provided by ElasticSearch itself, and other more complex
 data analytics can be provided by a custom data processing system. 
+
+\section{Conclusions}
+As the PaaS technologies become popular, the need for technologies to monitor the performance and behavior of
+deployed applications has also grown. However, most PaaS clouds available today do not provide adequate
+data collecting and analyzing tools. Therefore, we propose an application platform monitor system which can be
+integrated to typical PaaS clouds.
+
+To provide comprehensive full stack monitoring and analytics, the proposed APM needs to provide four major functions:
+data collecting, data storage, data processing, and data visualization. We first show its organization of
+these functions, and illustrate how these functions work as a component in the system. Also, by providing the
+architecture of typical PaaS and proposed APM, we illustrate how these functions can be built as components that
+make APM can be easily integrated with PaaS.
+
+After investigating into some most used data collecting and analyzing tools, we choose ElasticSearch as data storage
+component. ElasticSearch provides powerful, easy to use indexing features and scalability. We also decide to
+implement the data collecting component by using logstash. Logstash supports a variety of standard log formants,
+and is easy to be configured to collect custom data.
 
 \end{document}
