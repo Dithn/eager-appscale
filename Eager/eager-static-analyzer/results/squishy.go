@@ -24,13 +24,20 @@ func analyzeMethod(bf *bufio.Reader) {
 			paths[segments[0]] = append(paths[segments[0]], segments[1])
 		} else if strings.TrimSpace(line) == "" {
 			fmt.Println("Distinct paths:", len(paths))
-			sdkPaths := make(map[string][]string)
+			sdkPaths := make(map[string]string)
 			for k,v := range paths {
 				if v[0] != "--" {
-					sdkPaths[k] = v
+					sdkPaths[k] = strings.Join(v, "->")
 				}
 			}
 			fmt.Println("Paths with API calls:", len(sdkPaths))
+			pathCounts := make(map[string]int)
+			for _,v := range sdkPaths {
+				pathCounts[v] += 1
+			}
+			for k,v := range pathCounts {
+				fmt.Println("[path]", k, v)
+			}
 			fmt.Println()
 			return
 		}
