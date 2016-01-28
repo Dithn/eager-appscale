@@ -236,6 +236,51 @@ Figure~\ref{fig:apm_impl} shows the APM deployment view with ElasticSearch and o
 in place. Most of the data processing features are provided by ElasticSearch itself, and other more complex
 data analytics can be provided by a custom data processing system. 
 
+\section{APM Use Cases}
+\subsection{Static Topology Discovery and SLA Prediction}
+Our goal is to give a prediction that can make it possible to determine response time service level agreements(SLAs)
+with probabilities specified by the cloud provider in a way that is scalable. To allow PaaS administrators to
+determine what minimum response time guarantee can be made, we will take an approach which combines static analysis
+of the hosted web APIs and runtime monitoring of the PaaS cloud.
+
+One of the characteristic of PaaS systems that we are going to exploit is its predefined programming interfaces provided
+by cloud SDK. Typically, PaaS-hosted web APIs perform one or more cloud SDK calls. From experience, we know that most APIs
+spend majority of the execution time on cloud SDK invocations, and they do not have many branches and loops. Therefore,
+we can use static analysis to identify these invocations. Also, since we want to provide the prediction to PaaS users when
+they are deploying the applications, such static analysis needs to be done without deploying or running on PaaS cloud. 
+
+To build a system that predicts response time SLAs using only static information, our design has three components:
+\begin{itemize}
+\item Static analysis tool
+\item Monitoring agent
+\item SLA predictor
+\end{itemize}
+
+\subsubsection{Static Analysis Tool}
+This component analyzes the source code of the web API and extracts a sequence of cloud SDK operations. It performs a simple
+construction and interprocedural static analysis of control flow graph for each web API operation. Ideally, we can identify cloud SDK
+calls by their namespace.
+Although loops are rare, when they occur, they are used to iterate over a dataset returned from a database. The tool estimates the loop 
+bounds if specified in the cloud SDK call (e.g. the maximum number of entities to return).
+
+\subsubsection{Monitoring Agent}
+This agent monitors and records the response time of individual cloud SDK operations within a running PaaS system. It can be built as
+a native PaaS feature, or as an independent application deployed on PaaS. To avoid unnecessary performance overhead on other PaaS-hosted
+web APIs, the monitoring agent runs in the background separate from them.
+The agent invokes cloud SDK operations periodically and records response times for each cloud SDK operation. Also, the agent periodically
+reclaims old measurement data to eliminate unnecessary storage.
+
+\subsubsection{SLA predictor}
+The SLA predictor uses the outputs of other two components to predict an upper bound on the response time of the web API.
+To make SLA predictions, we use a non-parametric time series analysis method in our design.
+
+\subsubsection{Workflow}
+The SLA prediction can be invoked when a web API is deployed to the PaaS cloud or at any time during the development process to give
+developers insight into the worst-case response time of their applications.
+
+When the prediction is invoked, it performs static analysis on all operations in the API. Next, it retrives benchmarking data from
+the monitoring agent for all SDK operations. Finally, the non-parametric time series analysis method was applied to the data.
+
 \section{Conclusions}
 As the PaaS technologies become popular, the need for technologies to monitor the performance and behavior of
 deployed applications has also grown. However, most PaaS clouds available today do not provide adequate
