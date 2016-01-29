@@ -237,17 +237,24 @@ in place. Most of the data processing features are provided by ElasticSearch its
 data analytics can be provided by a custom data processing system. 
 
 \section{APM Use Cases}
-\subsection{Static Topology Discovery and SLA Prediction}
 Our goal is to give a prediction that can make it possible to determine response time service level agreements(SLAs)
-with probabilities specified by the cloud provider in a way that is scalable. To allow PaaS administrators to
-determine what minimum response time guarantee can be made, we will take an approach which combines static analysis
-of the hosted web APIs and runtime monitoring of the PaaS cloud.
+with probabilities specified by the cloud provider in a way that is scalable.
 
-One of the characteristic of PaaS systems that we are going to exploit is its predefined programming interfaces provided
-by cloud SDK. Typically, PaaS-hosted web APIs perform one or more cloud SDK calls. From experience, we know that most APIs
-spend majority of the execution time on cloud SDK invocations, and they do not have many branches and loops. Therefore,
-we can use static analysis to identify these invocations. Also, since we want to provide the prediction to PaaS users when
-they are deploying the applications, such static analysis needs to be done without deploying or running on PaaS cloud. 
+To allow PaaS administrators to determine what minimum response time guarantee can be made,
+we will take an approach which combines static analysis of the hosted web APIs and runtime monitoring of the PaaS cloud. 
+Also, since we want to provide the prediction to PaaS users when they are deploying the applications,
+such static analysis needs to be done without deploying or running on PaaS cloud. 
+
+\subsection{Static Topology Discovery and SLA Prediction}
+A typical PaaS cloud exports many kinds of services, such as datastore and cache. PaaS users then compose their web applications
+with these services provided by PaaS. From experience, we know that most applications hosted on PaaS spend majority of
+the execution time on PaaS service invocations, and they do not have many branches and loops. Therefore, in our design we use
+static analysis to identify the PaaS kernel service invocations that dominate the response time of web APIs.
+
+We will use a forecasting methodology we have developed before for predicting response time bounds on each service invocation
+made by application. Also, because service implementations and platform behavior under load change over time,
+the predicted SLAs may become invalid after a period of time. We have a model to detect such SLA invalidations.
+When such invalidations occur, the SLA prediction can be reinvoked to establish new SLAs.
 
 To build a system that predicts response time SLAs using only static information, our design has three components:
 \begin{itemize}
@@ -257,17 +264,17 @@ To build a system that predicts response time SLAs using only static information
 \end{itemize}
 
 \subsubsection{Static Analysis Tool}
-This component analyzes the source code of the web API and extracts a sequence of cloud SDK operations. It performs a simple
-construction and interprocedural static analysis of control flow graph for each web API operation. Ideally, we can identify cloud SDK
-calls by their namespace.
+This component analyzes the source code of the web application and extracts a sequence of cloud SDK operations. It performs a simple
+construction and interprocedural static analysis of control flow graph for each web application operation. Ideally, we can identify
+the PaaS kernel service calls by their namespace.
 Although loops are rare, when they occur, they are used to iterate over a dataset returned from a database. The tool estimates the loop 
 bounds if specified in the cloud SDK call (e.g. the maximum number of entities to return).
 
 \subsubsection{Monitoring Agent}
-This agent monitors and records the response time of individual cloud SDK operations within a running PaaS system. It can be built as
+This agent monitors and records the response time of individual PaaS services within a running PaaS system. It can be built as
 a native PaaS feature, or as an independent application deployed on PaaS. To avoid unnecessary performance overhead on other PaaS-hosted
-web APIs, the monitoring agent runs in the background separate from them.
-The agent invokes cloud SDK operations periodically and records response times for each cloud SDK operation. Also, the agent periodically
+web applications, the monitoring agent runs in the background separate from them.
+The agent invokes services provided by PaaS kernel periodically and records response times for each PaaS service. Also, the agent periodically
 reclaims old measurement data to eliminate unnecessary storage.
 
 \subsubsection{SLA predictor}
@@ -275,6 +282,13 @@ The SLA predictor uses the outputs of other two components to predict an upper b
 To make SLA predictions, we use a non-parametric time series analysis method in our design.
 
 \subsubsection{Workflow}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{apm_flow}
+\caption{APM architecture and components interaction.}
+\label{fig:apm_flow}
+\end{figure}
+Figure~\ref{fig:apm_flow} illustrates how the components interact with each other during the prediction making process.
 The SLA prediction can be invoked when a web API is deployed to the PaaS cloud or at any time during the development process to give
 developers insight into the worst-case response time of their applications.
 
