@@ -6,49 +6,62 @@
 \begin{document}
 
 \title{Architecture of the Proposed Cloud Application Platform Monitor}
-\author{Chandra Krintz, Rich Wolski, Hiranya Jayathilaka, Wei-Tsung Lin}
+\author{Hiranya Jayathilaka, Wei-Tsung Lin, Chandra Krintz, and 
+Rich Wolski \\
+Computer Science Dept., UC Santa Barbara \\
+\\
+Collaborators: Michael Xie and Ying Xiong \\
+Huawei Technologies\\
+\\
+January 2016
+}
+\date{}
 \maketitle
 
 \section{Introduction}
 Over the last decade Platform-as-a-Service (PaaS) has become a popular approach for deploying
-applications in the cloud. Many organizations, academic institutes and hobbyists make use of public
+applications in the cloud. Many organizations, academic institutions, and hobbyists make use of public
 and/or private PaaS clouds to deploy their applications.
 PaaS clouds provide a high level of abstraction to the application developer that effectively hides
-all the infrastructure-level details such as physical resource allocation (CPU, memory, disk etc), operating
-system configuration, 
-and network set up. This enables application developers to focus solely on the programming
-aspects of their applications, without having to be concerned about deployment issues. PaaS
-clouds can also ensure high levels of scalability and availability for the deployed applications. 
-Scalability is typically provided by automatically allocating resources for applications
-on the fly (auto scaling), and availability is ensured by running multiple instances of the application.
-Consequently the viable PaaS technologies, and the PaaS-deployed applications
-continue to increase in number.
+all the infra\-structure-level details such as physical resource allocation (CPU, memory, disk etc), operating
+system,
+and network configuration. This enables application developers to focus solely on the programming
+aspects of their applications, without having to be concerned about deployment issues. 
 
-This rapid growth in PaaS technology has intensified the need for new techniques to
+PaaS clouds execute web-accessible (HTTP/s) applications, to which they provide high levels of scalability, availability, and execution management. 
+PaaS clouds provide scalability by automatically allocating resources 
+for applications on the fly (auto scaling), and provide availability through
+the execution of multiple instances of the application and/or the PaaS
+services they employ for their functionality.
+Consequently, viable PaaS technologies as well as
+PaaS-enabled applications continue to increase rapidly in number.
+
+This rapid growth in PaaS technology has intensified the need 
+for new techniques to
 monitor applications deployed in a PaaS cloud. Application developers and users wish
-to monitor the availability of the deployed applications, track application performance and detect 
+to monitor the availability of the deployed applications, track application performance, and detect 
 application and system anomalies as they occur. To obtain this level of deep operational insight into
-PaaS-deployed applications, the PaaS clouds need to be equipped with powerful instrumentation,
+PaaS-deployed applications, the PaaS clouds must be equipped with powerful instrumentation,
 data gathering and analysis capabilities that span the entire stack of the PaaS cloud. 
-Moreover, PaaS clouds need to provide comprehensive
+Moreover, PaaS clouds must provide comprehensive
 data visualization and notification mechanisms. However, most PaaS technologies available
 today either do not provide any application monitoring support, or only provide primitive
 monitoring features such as application-level logging. Hence, they are not capable of performing
 powerful predictive analyses or anomaly detection, which require much more fine-grained, low-level
 and full stack data collection and analytics. 
 
-To address this limitation we intend to design and implement a comprehensive application platform 
+To address this limitation, we present the design of 
+a comprehensive application platform 
 monitor (APM) that can be easily integrated with a wide variety of PaaS technologies. The proposed
-APM is not an external system that monitors a PaaS cloud from the outside. Rather, it integrates with
+APM is not an external system that monitors a PaaS cloud from the outside (as most APM systems today). Rather, it integrates with
 the PaaS cloud from within thereby extending and augmenting the existing components of the PaaS cloud
-to provide comprehensive full stack monitoring, analytics and visualization capabilities. In other words,
-the APM is built into the PaaS cloud so that it is active as long as the cloud is, and has operational
-insight to both core cloud components as well as the deployed applications.
+to provide comprehensive full stack monitoring, analytics and visualization capabilities. We believe that this design decision is a key differentiator over existing PaaS and cloud application monitoring systems because (i) it is
+able to take advantage of the scaling, efficiency, deployment, fault tolerance, security, and control features that the PaaS offers, (ii) while providing low overhead end-to-end monitoring and analysis of cloud applications.
 
 This document details the architecture of the proposed APM, and how it integrates with a typical PaaS
 cloud. We describe individual components of the APM, their functions and how they interact with each
-other. Where appropriate we also detail the concrete technologies (tools and products) used to implement
-various components of the APM, and give rationale for choosing those technologies.
+other. Where appropriate, we also detail the concrete technologies (tools and products) that we plan to use to implement
+various components of the APM, and provide our rationale and intuition behind choosing these technologies.
 
 We start by describing the layered system organization typically seen in PaaS clouds. Then we describe
 the APM architecture, and show how it fits into the PaaS.
@@ -72,7 +85,7 @@ resources on the fly.
 
 On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
 services that high-level application developers can compose into their applications. The provided services
-may include database services, caching services, queueing services and much more. Some PaaS clouds
+may include database services, caching services, queuing services and much more. Some PaaS clouds
 provide a managed set of APIs (an SDK) for the application developer to access these fundamental services. 
 In that case all interactions between the applications and the PaaS kernel must take place through
 the cloud provider specified APIs (e.g. Google App Engine). 
@@ -101,7 +114,7 @@ applications for all application clients.
 \label{fig:apm_layout}
 \end{figure}
 
-Like most system monitoring solutions, the proposed cloud APM needs to serve four major functions: Data
+Like most system monitoring solutions, the proposed cloud APM must serve four major functions: Data
 collection, storage, processing (analytics) and visualization. Figure~\ref{fig:apm_functions} shows the
 logical organization of these functions in the APM, and various tasks that fall under each of them.
 Figure~\ref{fig:apm_layout} shows a physical deployment view of the said functions. Arrows indicate
@@ -110,11 +123,12 @@ the flow of information through the APM.
 Data collection is performed by various sensors and agents that instrument the applications and the
 core components of the PaaS cloud. While sensors are very primitive in their capability to monitor
 a given component, an agent may intelligently adapt to changing conditions, making decisions on
-what information to capture and how often. Instrumentations should be lightweight and as non-intrusive
-as possible so their existence does not put any additional overhead on the applications.
+what information to capture and how often. Monitoring and instrumentation should be lightweight and as non-intrusive
+as possible so their existence does not impose additional overhead 
+on the applications.
 
 Data storage components should be capable of
-dealing with potentially very high volumes of data. The data needs to be organized and indexed
+dealing with potentially very high volumes of data. The data must be organized and indexed
 to facilitate efficient retrieval, and replicated to maintain reliability and high availability. 
 
 Data processing components should also be capable of processing large volumes of data in near real-time,
@@ -140,10 +154,10 @@ by the black lines. The small grey boxes attached to the PaaS components represe
 agents used to instrument the cloud platform for data collection purposes. Note that the APM collects
 data from all layers in the PaaS stack (i.e. full stack monitoring).
 
-From the frontend and load balancing layer we gather all information related to incoming application
+From the front-end and load balancing layer we gather all information related to incoming application
 requests. A big part of this is scraping the HTTP server access logs, which indicate request timestamps,
 source and destination addressing information, response time (latency) and other HTTP message
-parameters. This information is readily available for harvesting in most technologies used as frontend
+parameters. This information is readily available for harvesting in most technologies used as front-end
 servers (e.g. Apache HTTPD, Nginx). Additionally we may also collect information pertaining to active
 connections, invalid access attempts and other errors.
 
@@ -154,7 +168,7 @@ application execution becomes necessary, more intrusive instrumentation can be i
 application server (perhaps selectively or adaptively). 
 
 At the PaaS kernel layer we employ instrumentation to record information regarding all kernel invocations
-made by the applications. This instrumentation needs to be applied carefully as to not introduce a noticeable
+made by the applications. This instrumentation must be applied carefully as to not introduce a noticeable
 overhead to the application execution. For each PaaS kernel invocation, we can capture the 
 following parameters.
 \begin{itemize}
@@ -174,25 +188,49 @@ might be useful in a number of traffic engineering use cases. Where appropriate 
 hypervisor and container manager logs to get an idea of how resources are allocated and released over
 time.
 
+To summarize, the types of services and resources that this APM will be able
+to monitor include the following. Moreover, our design of the data collection layer is abstract and thus easily extended to permit monitoring of new services and PaaS components as they become available in the future.
+\begin{itemize}
+\item Cloud Infrastructure: 
+\begin{itemize}
+\item CPU, memory, disk, network
+\item Linux containers, virtual machines
+\end{itemize}
+\item PaaS Kernel (including PaaS cloud SDK)
+\begin{itemize}
+\item Task queues, security components (user/developer tracking and authentication and authorization), enterprise service bus
+\item Data caches (memcache), datastores (key value, NoSQL), databases (fixed schema, SQL).
+\end{itemize}
+\item Application servers
+\begin{itemize}
+\item Per-language runtime systems
+\item Our APM will target the Java language
+\end{itemize}
+\item Front-end components
+\begin{itemize}
+\item HTTP/s request serving 
+\item Load balancing and rate limiting components
+\end{itemize}
+\end{itemize}
+
 \subsection{Cross-layer Data Correlation}
 Previous subsection details how the APM collects useful monitoring data at each layer of the cloud
-stack. To make most out of the gathered data, and use them to perform complex analyses, we need
-to be able to correlate data records collected at different layers of the PaaS. For example consider
+stack. To make most out of the gathered data, and use them to perform complex analyses, we must be able to correlate data records collected at different layers of the PaaS. For example consider
 the execution of a single application request. This single event results in following data records at
 different layers of the cloud, which will be collected and stored by the APM as separate entities.
 
 \begin{itemize}
-\item A frontend server access log entry
+\item A front-end server access log entry
 \item An application server log entry
 \item Zero or more application log entries
 \item Zero or more PaaS kernel invocation records
 \end{itemize}
 
-We need a mechanism to tie these disparate records together, so the data processing layer can easily
-aggregate the related information. For instance, we need to be able to retrieve via an
+We require a mechanism to tie these disparate records together, so the data processing layer can easily
+aggregate the related information. For instance, we must be able to retrieve via an
 aggregation query, all PaaS kernel invocations made by a specific application request.
 
-To facilitate this requirement we propose that frontend server tags all incoming application requests 
+To facilitate this requirement we propose that front-end server tags all incoming application requests 
 with unique identifiers.
 This request identifier can be attached to HTTP requests as a header which is visible to all components 
 internal to the PaaS cloud. All data collecting agents can then be configured to record the request identifiers
@@ -239,7 +277,7 @@ data analytics can be provided by a custom data processing system.
 \section{APM Use Cases}
 In this section we elaborate on some concrete use cases of the proposed APM. In particular, we discuss how
 the APM can be used to predict performance SLAs for web applications deployed in a PaaS cloud, as well
-as detecting performance anomalies. These use cases rely on the data collected by the APM, and some
+as to detect performance anomalies. These use cases rely on the data collected by the APM, and some
 of its data processing and visualization capabilities. Where appropriate we will extend the base design
 of the APM to incorporate new components and tools required to implement the features discussed here.
 
@@ -251,9 +289,9 @@ To allow PaaS administrators to determine what response time guarantees can be m
 regarding the deployed applications,
 we will take an approach that combines static analysis of the hosted web applications and runtime monitoring of the PaaS cloud. 
 Also, since we want to provide the prediction to PaaS users when they are deploying the applications,
-such static analysis needs to be done before deploying or running an application on the PaaS cloud. 
+such static analysis must be done before deploying or running an application on the PaaS cloud. 
 
-A typical PaaS cloud exports many kinds of services, such as data storage, caching and queueing (PaaS kernel
+A typical PaaS cloud exports many kinds of services, such as data storage, caching and queuing (PaaS kernel
 services). Application developers
 compose these services into their web applications. 
 From experience, we know that most applications hosted on PaaS spend majority of
@@ -320,23 +358,23 @@ Figure~\ref{fig:apm_flow} illustrates how the components interact with each othe
 The SLA prediction can be invoked when a web application is deployed to the PaaS cloud or at any time during the development process to give
 developers insight into the worst-case response time of their applications.
 
-When the prediction is invoked, it performs static analysis on all operations in the application. Next, it retrives benchmarking data collected by
+When the prediction is invoked, it performs static analysis on all operations in the application. Next, it retrieves benchmarking data collected by
 the monitoring agent for all PaaS service invocations. Finally, the QBETS analysis is applied to the data with the desired percentile and confidence value.
 After the predictions are made, we can use the largest value across all applications path as the SLA prediction for a web application.
 
 \subsection{Performance Anomaly Detection}
 Numerous statistical models have been developed over time for detecting performance anomalies in running
-applications. However, prior work has mostly focused on simple standalone applications. Few efforts have
+applications. However, prior work has mostly focused on simple stand-alone applications. Few efforts have
 extended this notion towards web applications, but web applications in PaaS clouds, for the most part,
 is an uncharted territory. We intend to build on prior work regarding detecting performance anomalies in
 web applications, and invent new mechanisms that can detect performance anomalies of PaaS-deployed
 applications.
 
-Such techniques need to be able to detect a drop in performance level of an application, and then
+Such techniques must be able to detect a drop in performance level of an application, and then
 determine if it occurred due to a change in the workload, or some system-level issue. This requires
 correlating performance data of an application (e.g. response time), with workload information (e.g. number
 of users). If a performance drop
-occurred due to a system-level issue, we need to further analyze the performance data concerning
+occurred due to a system-level issue, we must further analyze the performance data concerning
 PaaS kernel services. Note that the proposed APM collects such low-level information regarding
 the PaaS kernel service invocations by applications. This information can be analyzed in relation 
 to a detected performance anomaly to identify where the bottleneck is.
@@ -349,20 +387,27 @@ We can use novelty detection (a form of anomaly detection) to identify the execu
 unseen paths, which by themselves may be a sign of an anomaly.
 
 \section{Conclusions}
-As the PaaS technologies become popular, the need for technologies to monitor the performance and behavior of
-deployed applications has also grown. However, most PaaS clouds available today do not provide adequate
-data collecting and analyzing tools. Therefore, we propose an application platform monitor system which can be
-integrated to typical PaaS clouds.
+As PaaS increased in popularity and use, the need 
+for technologies to monitor and analyze the performance and behavior of
+deployed applications has also grown. 
+However, most PaaS clouds available today do not provide adequate support
+for such analysis.
+Therefore, we propose an application platform monitoring system that 
+is able to take advantage of PaaS cloud features, but that is portable
+across them.
 
-To provide comprehensive full stack monitoring and analytics, the proposed APM needs to provide four major functions:
-data collecting, data storage, data processing, and data visualization. We first show its organization of
-these functions, and illustrate how these functions work as a component in the system. Also, by providing the
+To provide comprehensive full stack monitoring and analytics, 
+the APM we propose provides four major functions:
+data collecting, data storage, data processing, and data visualization. 
+We describe the necessary organization of
+these functions, and illustrate how these functions work as 
+a component in the system. Also, by providing the
 architecture of typical PaaS and proposed APM, we illustrate how these functions can be built as components that
-make APM can be easily integrated with PaaS.
+make APM can be easily integrated with any PaaS.
 
-After investigating into some most used data collecting and analyzing tools, we choose ElasticSearch as data storage
-component. ElasticSearch provides powerful, easy to use indexing features and scalability. We also decide to
-implement the data collecting component by using logstash. Logstash supports a variety of standard log formants,
-and is easy to be configured to collect custom data.
+After investigating popular application performance data collection and analysis tools, we choose ElasticSearch for data management.
+ElasticSearch provides powerful, easy to use indexing features and scalability. We also choose to collect data via custom agents and Logstash.
+Logstash supports a variety of standard log formants,
+and is easy to customize the configuration to collect a variety of key data.
 
 \end{document}
