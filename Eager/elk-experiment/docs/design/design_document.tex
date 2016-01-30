@@ -237,23 +237,34 @@ in place. Most of the data processing features are provided by ElasticSearch its
 data analytics can be provided by a custom data processing system. 
 
 \section{APM Use Cases}
-Our goal is to give a prediction that can make it possible to determine response time service level agreements(SLAs)
-with probabilities specified by the cloud provider in a way that is scalable.
-
-To allow PaaS administrators to determine what minimum response time guarantee can be made,
-we will take an approach which combines static analysis of the hosted web applications and runtime monitoring of the PaaS cloud. 
-Also, since we want to provide the prediction to PaaS users when they are deploying the applications,
-such static analysis needs to be done without deploying or running on PaaS cloud. 
+In this section we elaborate on some concrete use cases of the proposed APM. In particular, we discuss how
+the APM can be used to predict performance SLAs for web applications deployed in a PaaS cloud, as well
+as detecting performance anomalies.
 
 \subsection{Static Topology Discovery and SLA Prediction}
-A typical PaaS cloud exports many kinds of services, such as datastore and cache. PaaS users then compose their web applications
-with these services provided by PaaS. From experience, we know that most applications hosted on PaaS spend majority of
+Our goal is to give a prediction that can make it possible to determine response time service level agreements (SLAs)
+with probabilities specified by the cloud provider in a way that is scalable.
+
+To allow PaaS administrators to determine what response time guarantees can be made
+regarding the deployed applications,
+we will take an approach that combines static analysis of the hosted web applications and runtime monitoring of the PaaS cloud. 
+Also, since we want to provide the prediction to PaaS users when they are deploying the applications,
+such static analysis needs to be done before deploying or running an application on the PaaS cloud. 
+
+A typical PaaS cloud exports many kinds of services, such as data storage, caching and queueing (PaaS kernel
+services). Application developers
+compose these services into their web applications. 
+From experience, we know that most applications hosted on PaaS spend majority of
 the execution time on PaaS service invocations, and they do not have many branches and loops. Therefore, in our design we use
 static analysis to identify the PaaS kernel service invocations that dominate the response time of web applications.
 
-We will use a forecasting methodology we have developed before for predicting response time bounds on each service invocation
-made by application. Also, because service implementations and platform behavior under load change over time,
-the predicted SLAs may become invalid after a period of time. We have a model to detect such SLA invalidations.
+Our APM design includes sensors/agents that monitor the performance of PaaS kernel services over time. This
+information can be recorded periodically to form a set of time series. This historical performance data can be
+aggregated and processed using a time series forecasting methodology to calculate statistical bounds on the
+response time of applications. These forecast values can be used as the basis of
+a performance SLA.
+Also, because service implementations and platform behavior under load change over time,
+the predicted SLAs may become invalid after a period of time. We will develop a statistical model to detect such SLA invalidations.
 When such invalidations occur, the SLA prediction can be reinvoked to establish new SLAs.
 
 To build a system that predicts response time SLAs using only static information, our design has three components:
@@ -267,8 +278,8 @@ To build a system that predicts response time SLAs using only static information
 This component analyzes the source code of the web application and extracts a sequence of PaaS service invocations.
 
 It performs a simple construction and interprocedural static analysis of control flow graph for each web application operation.
-The algorithm extracts all PaaS service invocations along each path of application. Since third-party libraries seldom contain
-PaaS service invocations, we don't need to analyze those library calls. Ideally, we can identify the PaaS kernel service calls
+The algorithm extracts all PaaS service invocations along each path of application. 
+Ideally, we can identify the PaaS kernel service calls
 by their namespace.
 
 Although loops are rare, when they occur, they are used to iterate over a dataset returned from a database. The tool estimates the loop 
@@ -288,8 +299,8 @@ and wait for processing.
 
 \subsubsection{SLA predictor}
 The SLA predictor uses the outputs of other two components to predict an upper bound on the response time of the services.
-To make SLA predictions, we use Queue Bounds Estimation from Time Series (QBETS), a non-parametric time series analysis method that
-we developed in prior work. The method has been proved effective in cases where forecasts from arbitrary times series are needed.
+To make SLA predictions, we propose using Queue Bounds Estimation from Time Series (QBETS), a non-parametric time series analysis method that
+we developed in prior work. The method has proved effective in cases where forecasts from arbitrary times series are needed.
 
 A QBETS analysis takes a time series of data as input. In our case, it takes the response times for each PaaS service we record in ElasticSearch.
 Notice that the data is collected continuously, so QBETS is able to automatically adapt to the changing environment. Given the percentile for which 
@@ -298,7 +309,7 @@ an upper bound should be predicted and the upper confidence level of the predict
 \subsubsection{Workflow}
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{apm_flow}
+\includegraphics[scale=0.35]{apm_flow}
 \caption{APM architecture and components interaction.}
 \label{fig:apm_flow}
 \end{figure}
@@ -309,6 +320,30 @@ developers insight into the worst-case response time of their applications.
 When the prediction is invoked, it performs static analysis on all operations in the application. Next, it retrives benchmarking data collected by
 the monitoring agent for all PaaS service invocations. Finally, the QBETS analysis is applied to the data with the desired percentile and confidence value.
 After the predictions are made, we can use the largest value across all applications path as the SLA prediction for a web application.
+
+\subsection{Performance Anomaly Detection}
+Numerous statistical models have been developed over time for detecting performance anomalies in running
+applications. However, prior work has mostly focused on simple standalone applications. Few efforts have
+extended this notion towards web applications, but web applications in PaaS clouds, for the most part,
+is an uncharted territory. We intend to build on prior work regarding detecting performance anomalies in
+web applications, and invent new mechanisms that can detect performance anomalies of PaaS-deployed
+applications.
+
+Such techniques need to be able to detect a drop in performance level of an application, and then
+determine if it occurred due to a change in the workload, or some system-level issue. This requires
+correlating performance data of an application (e.g. response time), with workload information (e.g. number
+of users). If a performance drop
+occurred due to a system-level issue, we need to further analyze the performance data concerning
+PaaS kernel services. Note that the proposed APM collects such low-level information regarding
+the PaaS kernel service invocations by applications. This information can be analyzed in relation 
+to a detected performance anomaly to identify where the bottleneck is.
+
+APM can also keep track of the sequences of PaaS kernel services invoked by a given application over time.
+Each unique sequence represents the execution of a different path through the application code. 
+This information is useful for
+identifying the nature of the workload handled by a given application, and how it evolves with time. 
+We can use novelty detection (a form of anomaly detection) to identify the execution of new, previously
+unseen paths, which by themselves may be a sign of an anomaly.
 
 \section{Conclusions}
 As the PaaS technologies become popular, the need for technologies to monitor the performance and behavior of
