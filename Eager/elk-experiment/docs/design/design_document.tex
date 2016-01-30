@@ -239,7 +239,9 @@ data analytics can be provided by a custom data processing system.
 \section{APM Use Cases}
 In this section we elaborate on some concrete use cases of the proposed APM. In particular, we discuss how
 the APM can be used to predict performance SLAs for web applications deployed in a PaaS cloud, as well
-as detecting performance anomalies.
+as detecting performance anomalies. These use cases rely on the data collected by the APM, and some
+of its data processing and visualization capabilities. Where appropriate we will extend the base design
+of the APM to incorporate new components and tools required to implement the features discussed here.
 
 \subsection{Static Topology Discovery and SLA Prediction}
 Our goal is to give a prediction that can make it possible to determine response time service level agreements (SLAs)
@@ -257,6 +259,7 @@ compose these services into their web applications.
 From experience, we know that most applications hosted on PaaS spend majority of
 the execution time on PaaS service invocations, and they do not have many branches and loops. Therefore, in our design we use
 static analysis to identify the PaaS kernel service invocations that dominate the response time of web applications.
+By doing so we also detect the topology of applications -- i.e. the service dependencies.
 
 Our APM design includes sensors/agents that monitor the performance of PaaS kernel services over time. This
 information can be recorded periodically to form a set of time series. This historical performance data can be
