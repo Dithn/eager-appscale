@@ -10,6 +10,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] com.google.appengine.api.files.GSFileOptions$GSFileOptionsBuilder#build()->com.google.appengine.api.files.FileService#createNewGSFile()->com.google.appengine.api.files.FileService#openWriteChannel()->com.google.appengine.api.files.FileWriteChannel#closeFinally() 1
 
+[largest] 1
 
 ----------------- PROJECT: DUBwise-Download -----------------
 Analyzing: org.ligi.dubwise.download.DUBwiseProps#sound_str()
@@ -438,6 +439,7 @@ Analyzing: org.ligi.dubwise.download.SourceInfoProvider#update_act_version()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 36
 
 ----------------- PROJECT: FeedStore -----------------
 Analyzing: org.magiccube.feedstore.common.entity.AbstractEntity#setTitle()
@@ -884,13 +886,14 @@ Analyzing: org.magiccube.feedstore.server.resource.SubscriptionResource#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 8
 
 ----------------- PROJECT: GBrain -----------------
 Analyzing: com.axlight.gbrain.server.GBrainServiceImpl#updatePosition()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.jdo.PersistenceManager#getObjectById() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById() 1
 
 Analyzing: com.axlight.gbrain.server.GBrainServiceImpl#addNeuron()
 Distinct paths: 2
@@ -984,10 +987,10 @@ Paths with API calls: 0
 Analyzing: com.axlight.gbrain.server.GBrainServiceImpl#removeParent()
 Distinct paths: 4
 Paths with API calls: 4
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: com.axlight.gbrain.server.Neuron#setChildren()
 Distinct paths: 1
@@ -1017,11 +1020,11 @@ Paths with API calls: 0
 Analyzing: com.axlight.gbrain.server.GBrainServiceImpl#updateParent()
 Distinct paths: 5
 Paths with API calls: 5
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: com.axlight.gbrain.shared.NeuronData#getY()
 Distinct paths: 1
@@ -1039,6 +1042,7 @@ Analyzing: com.axlight.gbrain.server.GBrainServiceImpl#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 2
 
 ----------------- PROJECT: Google-AppEngine-Test-Application -----------------
 Analyzing: example.project.GuestbookServlet#<init>()
@@ -1051,6 +1055,7 @@ Paths with API calls: 2
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->com.google.appengine.api.users.UserService#createLogoutURL() 1
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->com.google.appengine.api.users.UserService#createLoginURL() 1
 
+[largest] 1
 
 ----------------- PROJECT: Google_AppEngine -----------------
 Analyzing: guestbook1.AddEvent#<init>()
@@ -1282,8 +1287,8 @@ Paths with API calls: 1
 Analyzing: guestbook1.ToDo_Delete#doPost()
 Distinct paths: 5
 Paths with API calls: 5
-[path] com.google.appengine.api.users.UserService#getCurrentUser() 2
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManager#clear() 3
+[path] com.google.appengine.api.users.UserService#getCurrentUser() 2
 
 Analyzing: guestbook1.ToDo_Delete#<init>()
 Distinct paths: 1
@@ -1298,6 +1303,7 @@ Analyzing: guestbook1.UpdateEvent#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 34992
 
 ----------------- PROJECT: LibrosEndPoint-AppEngine -----------------
 Analyzing: com.jtristan.librosendpoint.DeviceInfoEndpoint#removeDeviceInfo()
@@ -1308,8 +1314,8 @@ Paths with API calls: 1
 Analyzing: com.jtristan.librosendpoint.DeviceInfoEndpoint#insertDeviceInfo()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 1
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close() 1
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 1
 
 Analyzing: com.jtristan.librosendpoint.DeviceInfo#getDeviceRegistrationID()
 Distinct paths: 1
@@ -1320,8 +1326,8 @@ Distinct paths: 12
 Paths with API calls: 12
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
 
 Analyzing: com.jtristan.librosendpoint.DeviceInfoEndpoint#<init>()
 Distinct paths: 1
@@ -1383,10 +1389,10 @@ Paths with API calls: 1
 Analyzing: com.jtristan.librosendpoint.MessageEndpoint#listMessages()
 Distinct paths: 12
 Paths with API calls: 12
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
 
 Analyzing: com.jtristan.librosendpoint.MessageData#setTimestamp()
 Distinct paths: 1
@@ -1432,8 +1438,8 @@ Paths with API calls: 0
 Analyzing: com.jtristan.librosendpoint.entidades.LibroEndpoint#updateLibro()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: com.jtristan.librosendpoint.entidades.Libro#getId()
 Distinct paths: 1
@@ -1446,11 +1452,12 @@ Paths with API calls: 0
 Analyzing: com.jtristan.librosendpoint.entidades.LibroEndpoint#listLibro()
 Distinct paths: 12
 Paths with API calls: 12
+[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
 [path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 2
 [path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
-[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
 
+[largest] 4
 
 ----------------- PROJECT: MI-MDW-Project -----------------
 Analyzing: cz.cvut.fit.mi_mdw.servlets.AdminServlet#addBrand()
@@ -1504,14 +1511,14 @@ Paths with API calls: 0
 Analyzing: cz.cvut.fit.mi_mdw.servlets.AdminServlet#action()
 Distinct paths: 22
 Paths with API calls: 20
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#deletePersistent()->javax.jdo.PersistenceManager#close() 1
-[path] javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close()->javax.jdo.Query#execute()->javax.jdo.Query#execute()->javax.jdo.Query#execute() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#deletePersistent() 3
-[path] javax.jdo.Query#execute()->javax.jdo.Query#execute()->javax.jdo.Query#execute() 2
 [path] javax.jdo.Query#execute() 4
+[path] javax.jdo.Query#execute()->javax.jdo.Query#execute()->javax.jdo.Query#execute() 2
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#deletePersistent() 3
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#makePersistent() 3
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#deletePersistent()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
+[path] javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close()->javax.jdo.Query#execute()->javax.jdo.Query#execute()->javax.jdo.Query#execute() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 4
 
 Analyzing: cz.cvut.fit.mi_mdw.servlets.AdminServlet#orders()
@@ -1823,8 +1830,8 @@ Paths with API calls: 1
 Analyzing: cz.cvut.fit.mi_mdw.servlets.FrontendServlet#buy()
 Distinct paths: 5
 Paths with API calls: 5
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 4
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 4
 
 Analyzing: cz.cvut.fit.mi_mdw.entities.User#getOrders()
 Distinct paths: 1
@@ -1850,18 +1857,18 @@ Paths with API calls: 2
 Analyzing: cz.cvut.fit.mi_mdw.servlets.FrontendServlet#search()
 Distinct paths: 145
 Paths with API calls: 145
-[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 16
+[path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 1
+[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 25
+[path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 25
+[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 7
+[path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 7
 [path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 16
+[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 19
 [path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 19
 [path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 4
-[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 7
 [path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 4
+[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 16
 [path] javax.jdo.Query#execute() 2
-[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 25
-[path] javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 19
-[path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 7
-[path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 1
-[path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 25
 
 Analyzing: cz.cvut.fit.mi_mdw.entities.User#getID()
 Distinct paths: 1
@@ -1897,10 +1904,10 @@ Paths with API calls: 1
 Analyzing: cz.cvut.fit.mi_mdw.servlets.FrontendServlet#action()
 Distinct paths: 5
 Paths with API calls: 5
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
 [path] javax.jdo.Query#execute() 2
 [path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#getObjectById() 1
 
 Analyzing: cz.cvut.fit.mi_mdw.entities.Order#getID()
 Distinct paths: 1
@@ -1956,6 +1963,7 @@ Analyzing: cz.cvut.fit.mi_mdw.ws.OrdersWS#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 25
 
 ----------------- PROJECT: Quotester-AppEngine -----------------
 Analyzing: com.binroot.Util#writeJSON()
@@ -2057,8 +2065,8 @@ Paths with API calls: 0
 Analyzing: com.binroot.QueryQuoteServlet#doGet()
 Distinct paths: 6
 Paths with API calls: 4
-[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
+[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 
 Analyzing: com.binroot.QueryQuoteServlet#doPost()
 Distinct paths: 1
@@ -2083,6 +2091,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 1
 
+[largest] 8
 
 ----------------- PROJECT: ReservaRestaurantev2-AppEngine -----------------
 Analyzing: com.jtristan.reservarestaurantev2.DeviceInfoEndpoint#<init>()
@@ -2102,10 +2111,10 @@ Paths with API calls: 2
 Analyzing: com.jtristan.reservarestaurantev2.DeviceInfoEndpoint#listDeviceInfo()
 Distinct paths: 12
 Paths with API calls: 12
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
 
 Analyzing: com.jtristan.reservarestaurantev2.DeviceInfoEndpoint#removeDeviceInfo()
 Distinct paths: 1
@@ -2124,8 +2133,8 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.DeviceInfoEndpoint#insertDeviceInfo()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 1
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close() 1
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 1
 
 Analyzing: com.jtristan.reservarestaurantev2.DeviceInfoEndpoint#containsDeviceInfo()
 Distinct paths: 2
@@ -2163,10 +2172,10 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.MessageEndpoint#listMessages()
 Distinct paths: 12
 Paths with API calls: 12
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
 
 Analyzing: com.jtristan.reservarestaurantev2.MessageEndpoint#getEntityManager()
 Distinct paths: 1
@@ -2194,10 +2203,10 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.entidades.OfertaEndpoint#listOferta()
 Distinct paths: 12
 Paths with API calls: 12
-[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
 [path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 2
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.OfertaEndpoint#updateOferta()
 Distinct paths: 2
@@ -2246,8 +2255,8 @@ Distinct paths: 12
 Paths with API calls: 12
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
 [path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 2
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.ReservaEndpoint#updateReserva()
 Distinct paths: 2
@@ -2301,8 +2310,8 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.entidades.CartaEndpoint#updateCarta()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.CartaEndpoint#insertCarta()
 Distinct paths: 3
@@ -2314,11 +2323,11 @@ Paths with API calls: 3
 Analyzing: com.jtristan.reservarestaurantev2.entidades.CartaEndpoint#listCarta()
 Distinct paths: 25
 Paths with API calls: 25
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
+[path] javax.jdo.PersistenceManager#getObjectsById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 8
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 8
-[path] javax.jdo.PersistenceManager#getObjectsById()->javax.jdo.PersistenceManager#close() 1
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.CartaEndpoint#getPersistenceManager()
 Distinct paths: 1
@@ -2336,8 +2345,8 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.entidades.RestauranteEndpoint#updateRestaurante()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.Restaurante#getOfertas()
 Distinct paths: 1
@@ -2380,13 +2389,13 @@ Analyzing: com.jtristan.reservarestaurantev2.entidades.RestauranteEndpoint#listR
 Distinct paths: 36
 Paths with API calls: 36
 [path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 8
-[path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
-[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 8
-[path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 2
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
 [path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
+[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 8
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.UsuarioEndpoint#getUsuario()
 Distinct paths: 1
@@ -2405,10 +2414,10 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.entidades.UsuarioEndpoint#listUsuario()
 Distinct paths: 12
 Paths with API calls: 12
-[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
-[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
-[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
 [path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->javax.jdo.PersistenceManager#close() 4
+[path] javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 4
+[path] com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.jdo.Query#execute()->com.google.appengine.datanucleus.query.JDOCursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.jdo.PersistenceManager#close() 2
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.UsuarioEndpoint#getPersistenceManager()
 Distinct paths: 1
@@ -2421,9 +2430,9 @@ Paths with API calls: 0
 Analyzing: com.jtristan.reservarestaurantev2.entidades.UsuarioEndpoint#insertUsuario()
 Distinct paths: 3
 Paths with API calls: 3
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: com.jtristan.reservarestaurantev2.entidades.UsuarioEndpoint#updateUsuario()
 Distinct paths: 2
@@ -2436,6 +2445,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 
+[largest] 8
 
 ----------------- PROJECT: ServerHealth -----------------
 Analyzing: mfi.serverhealth.ServerHealthPollingServlet#readPauseFlag()
@@ -2506,6 +2516,7 @@ Distinct paths: 2
 Paths with API calls: 2
 [path] com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put() 2
 
+[largest] 128
 
 ----------------- PROJECT: Smorg-Backend-Appengine -----------------
 Analyzing: com.smorg.backend.SmorgbackendServlet#<init>()
@@ -2516,6 +2527,7 @@ Analyzing: com.smorg.backend.SmorgbackendServlet#doGet()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 0
 
 ----------------- PROJECT: Stocks-AppEngine -----------------
 Analyzing: com.binroot.stocks.BuyServlet#<init>()
@@ -2525,8 +2537,8 @@ Paths with API calls: 0
 Analyzing: com.binroot.stocks.BuyServlet#doPost()
 Distinct paths: 9
 Paths with API calls: 9
-[path] com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.PreparedQuery#asList() 1
 [path] com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.DatastoreService#put() 8
+[path] com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.PreparedQuery#asList() 1
 
 Analyzing: com.binroot.stocks.BuyServlet#doGet()
 Distinct paths: 1
@@ -2767,8 +2779,8 @@ Paths with API calls: 2
 Analyzing: com.binroot.stocks.StockServlet#doPost()
 Distinct paths: 5
 Paths with API calls: 4
-[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 3
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.DatastoreService#put() 1
+[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 3
 
 Analyzing: com.binroot.stocks.StockServlet#getConfigEntity()
 Distinct paths: 2
@@ -2800,8 +2812,8 @@ Paths with API calls: 2
 Analyzing: com.binroot.stocks.UserServlet#doPost()
 Distinct paths: 33
 Paths with API calls: 33
-[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 16
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.DatastoreService#put() 16
+[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 16
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.DatastoreService#put() 1
 
 Analyzing: com.binroot.stocks.UserServlet#<init>()
@@ -2823,6 +2835,7 @@ Distinct paths: 2
 Paths with API calls: 2
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 
+[largest] 16
 
 ----------------- PROJECT: WheelGo-navigator -----------------
 Analyzing: cz.nuc.wheelgo.dijkstra.DijkstraAlgorithm#getDistance()
@@ -3013,13 +3026,14 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] com.google.appengine.api.taskqueue.QueueFactory#getDefaultQueue()->com.google.appengine.api.taskqueue.Queue#add() 1
 
+[largest] 2
 
 ----------------- PROJECT: app-AppEnginer -----------------
 Analyzing: com.example.app.DeviceInfoEndpoint#updateDeviceInfo()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close() 1
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 1
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close() 1
 
 Analyzing: com.example.app.DeviceInfoEndpoint#<init>()
 Distinct paths: 1
@@ -3047,10 +3061,10 @@ Paths with API calls: 2
 Analyzing: com.example.app.DeviceInfoEndpoint#listDeviceInfo()
 Distinct paths: 12
 Paths with API calls: 12
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
 
 Analyzing: com.example.app.DeviceInfoEndpoint#insertDeviceInfo()
 Distinct paths: 2
@@ -3079,9 +3093,9 @@ Paths with API calls: 1
 Analyzing: com.example.app.MessageEndpoint#listMessages()
 Distinct paths: 12
 Paths with API calls: 12
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 2
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->com.google.appengine.api.datastore.Cursor#toWebSafeString()->javax.persistence.EntityManager#close() 4
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->com.google.appengine.api.datastore.Cursor#fromWebSafeString()->javax.persistence.Query#getResultList()->com.google.appengine.datanucleus.query.JPACursorHelper#getCursor()->javax.persistence.EntityManager#close() 2
 
 Analyzing: com.example.app.MessageEndpoint#<init>()
@@ -3119,8 +3133,8 @@ Paths with API calls: 0
 Analyzing: com.example.app.MessageEndpoint#doSendViaGcm()
 Distinct paths: 8
 Paths with API calls: 4
-[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 2
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#close()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 2
+[path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 2
 
 Analyzing: com.example.app.MessageEndpoint#sendMessage()
 Distinct paths: 1
@@ -3135,6 +3149,7 @@ Analyzing: com.example.app.MessageData#setTimestamp()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 4
 
 ----------------- PROJECT: ca-shellyphoto -----------------
 Analyzing: info.berryworks.photoorder.Ca_photoorderServlet#<init>()
@@ -3240,8 +3255,8 @@ Paths with API calls: 0
 Analyzing: info.berryworks.photoorder.ServletCreatePOAlbum#doPost()
 Distinct paths: 9
 Paths with API calls: 9
-[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#persist()->javax.persistence.EntityManager#close() 4
+[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 
 Analyzing: info.berryworks.photoorder.dao.Dao#addPOAlbum()
 Distinct paths: 1
@@ -3334,8 +3349,8 @@ Paths with API calls: 2
 Analyzing: info.berryworks.photoorder.ServletDpia#doPost()
 Distinct paths: 9
 Paths with API calls: 9
-[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.Query#getResultList() 4
+[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 
 Analyzing: info.berryworks.photoorder.model.POPhoto#getId()
 Distinct paths: 1
@@ -3378,8 +3393,8 @@ Paths with API calls: 9
 Analyzing: info.berryworks.photoorder.ServletRemovePOAlbum#doGet()
 Distinct paths: 9
 Paths with API calls: 9
-[path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 4
 [path] com.google.appengine.api.users.UserService#getCurrentUser() 5
+[path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 4
 
 Analyzing: info.berryworks.photoorder.ServletRemovePOAlbum#<init>()
 Distinct paths: 1
@@ -3402,14 +3417,14 @@ Paths with API calls: 0
 Analyzing: info.berryworks.photoorder.ServletRemovePOGroup#doGet()
 Distinct paths: 9
 Paths with API calls: 9
-[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 4
+[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 
 Analyzing: info.berryworks.photoorder.ServletRemovePOPhoto#doGet()
 Distinct paths: 9
 Paths with API calls: 9
-[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 4
+[path] com.google.appengine.api.users.UserService#getCurrentUser() 5
 
 Analyzing: info.berryworks.photoorder.ServletRemovePOPhoto#<init>()
 Distinct paths: 1
@@ -3444,6 +3459,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] javax.persistence.EntityManagerFactory#createEntityManager()->javax.persistence.EntityManager#find()->javax.persistence.EntityManager#remove()->javax.persistence.EntityManager#close() 1
 
+[largest] 13
 
 ----------------- PROJECT: eventplan -----------------
 Analyzing: com.florianpaul.epn.mdl.ResourceItem#setText()
@@ -3741,6 +3757,7 @@ Analyzing: com.florianpaul.epn.mdl.EventType#addResourceTypes()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 2
 
 ----------------- PROJECT: filmfleximdb -----------------
 Analyzing: com.monksvaughan.filmflex.ContentProvider#getContent()
@@ -3872,6 +3889,7 @@ Analyzing: com.monksvaughan.filmflex.LaunchLoadRatingServlet#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 16
 
 ----------------- PROJECT: freemobilenetstat-gae -----------------
 Analyzing: org.pixmob.freemobile.netstat.gae.web.v1.DeviceService#unregister()
@@ -3959,6 +3977,7 @@ Analyzing: org.pixmob.freemobile.netstat.gae.web.cron.CronServlet#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 1
 
 ----------------- PROJECT: gae-event-logger -----------------
 Analyzing: ca.sheepdoginc.eventlogging.EventLoggingServlet#doGet()
@@ -3977,6 +3996,7 @@ Analyzing: ca.sheepdoginc.eventlogging.EventImager#doGet()
 Distinct paths: 9
 Paths with API calls: 0
 
+[largest] 0
 
 ----------------- PROJECT: gae-getting-started -----------------
 Analyzing: com.google.appengine.codelab.ContactServlet#doGet()
@@ -4005,8 +4025,8 @@ Paths with API calls: 3
 Analyzing: com.google.appengine.codelab.Util#deleteEntity()
 Distinct paths: 2
 Paths with API calls: 2
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit() 1
 
 Analyzing: com.google.appengine.codelab.ContactServlet#createEntity()
 Distinct paths: 2
@@ -4148,8 +4168,8 @@ Paths with API calls: 1
 Analyzing: com.google.appengine.codelab.ItemServlet#doDelete()
 Distinct paths: 3
 Paths with API calls: 3
-[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 [path] com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
+[path] com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 
 Analyzing: com.google.appengine.codelab.ItemServlet#<init>()
 Distinct paths: 1
@@ -4223,6 +4243,7 @@ Analyzing: com.google.appengine.codelab.ProductServlet#doPut()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 5
 
 ----------------- PROJECT: gae-jdo -----------------
 Analyzing: com.giago.appengine.commons.servlet.AuthServlet#<init>()
@@ -4389,6 +4410,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] com.google.appengine.api.taskqueue.QueueFactory#getQueue() 1
 
+[largest] 2
 
 ----------------- PROJECT: gae-webdav -----------------
 Analyzing: com.googlecode.freewebdav.entities.WebdavFolder#setParent()
@@ -4403,8 +4425,8 @@ Paths with API calls: 2
 Analyzing: com.googlecode.freewebdav.http.HomeServlet#doGet()
 Distinct paths: 3
 Paths with API calls: 3
-[path] com.google.appengine.api.users.UserService#getCurrentUser() 1
 [path] com.google.appengine.api.users.UserService#getCurrentUser()->com.google.appengine.api.users.UserService#createLogoutURL() 2
+[path] com.google.appengine.api.users.UserService#getCurrentUser() 1
 
 Analyzing: com.googlecode.freewebdav.http.HomeServlet#<init>()
 Distinct paths: 1
@@ -4511,6 +4533,7 @@ Analyzing: com.googlecode.freewebdav.http.WebdavServlet#rawResponse()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 2
 
 ----------------- PROJECT: gcm-demo-appengine-maven -----------------
 Analyzing: com.google.android.gcm.demo.server.HomeServlet#<init>()
@@ -4554,10 +4577,10 @@ Paths with API calls: 4
 Analyzing: com.google.android.gcm.demo.server.Datastore#register()
 Distinct paths: 4
 Paths with API calls: 4
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.Transaction#rollback() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList() 1
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
 
 Analyzing: com.google.android.gcm.demo.server.BaseServlet#getParameter()
 Distinct paths: 2
@@ -4590,17 +4613,17 @@ Paths with API calls: 2
 Analyzing: com.google.android.gcm.demo.server.SendAllMessagesServlet#doPost()
 Distinct paths: 3
 Paths with API calls: 3
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.taskqueue.QueueFactory#getQueue()->com.google.appengine.api.taskqueue.Queue#add() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.taskqueue.QueueFactory#getQueue() 1
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asIterable()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
 
 Analyzing: com.google.android.gcm.demo.server.SendMessageServlet#sendMulticastMessage()
 Distinct paths: 12
 Paths with API calls: 12
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 2
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 4
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 4
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 2
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 4
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback()->com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 2
 
 Analyzing: com.google.android.gcm.demo.server.SendMessageServlet#init()
 Distinct paths: 1
@@ -4619,8 +4642,8 @@ Paths with API calls: 0
 Analyzing: com.google.android.gcm.demo.server.Datastore#updateMulticast()
 Distinct paths: 2
 Paths with API calls: 2
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.DatastoreService#put()->com.google.appengine.api.datastore.Transaction#commit() 1
 
 Analyzing: com.google.android.gcm.demo.server.Datastore#updateRegistration()
 Distinct paths: 4
@@ -4650,10 +4673,10 @@ Paths with API calls: 2
 Analyzing: com.google.android.gcm.demo.server.Datastore#unregister()
 Distinct paths: 4
 Paths with API calls: 4
-[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.Transaction#commit() 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
+[path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit() 1
 
 Analyzing: com.google.android.gcm.demo.server.SendMessageServlet#<init>()
 Distinct paths: 1
@@ -4682,6 +4705,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] com.google.appengine.api.datastore.DatastoreService#beginTransaction()->com.google.appengine.api.datastore.PreparedQuery#asList()->com.google.appengine.api.datastore.DatastoreService#delete()->com.google.appengine.api.datastore.Transaction#commit()->com.google.appengine.api.datastore.Transaction#rollback() 1
 
+[largest] 4
 
 ----------------- PROJECT: gptrans -----------------
 Analyzing: net.premereur.gae.transport.service.admin.CleanQuoteRequestsResource#cleanQuoteRequests()
@@ -4960,6 +4984,7 @@ Analyzing: net.premereur.gae.transport.service.task.MakeQuoteResource#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 0
 
 ----------------- PROJECT: hildy -----------------
 Analyzing: com.appspot.hildy.servlets.BloggerServlet#doGet()
@@ -5078,8 +5103,8 @@ Paths with API calls: 0
 Analyzing: com.appspot.hildy.servlets.FeedServlet#doGet()
 Distinct paths: 4
 Paths with API calls: 3
-[path] com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 [path] com.google.appengine.api.datastore.DatastoreService#get() 1
+[path] com.google.appengine.api.datastore.DatastoreService#get()->com.google.appengine.api.datastore.PreparedQuery#asIterable() 2
 
 Analyzing: com.appspot.hildy.servlets.RegisterServlet#doOAuthRegistration()
 Distinct paths: 3
@@ -5110,8 +5135,8 @@ Paths with API calls: 0
 Analyzing: com.appspot.hildy.servlets.RegisterServlet#doGet()
 Distinct paths: 5
 Paths with API calls: 4
-[path] com.google.appengine.api.memcache.MemcacheService#get()->com.google.appengine.api.datastore.DatastoreService#put() 2
 [path] com.google.appengine.api.memcache.MemcacheService#put()->com.google.appengine.api.memcache.MemcacheService#put() 2
+[path] com.google.appengine.api.memcache.MemcacheService#get()->com.google.appengine.api.datastore.DatastoreService#put() 2
 
 Analyzing: com.appspot.hildy.model.MuDate#getDate()
 Distinct paths: 1
@@ -5131,6 +5156,7 @@ Distinct paths: 2
 Paths with API calls: 2
 [path] com.google.appengine.api.datastore.PreparedQuery#asList() 2
 
+[largest] 3
 
 ----------------- PROJECT: insta4j -----------------
 Analyzing: com.insta4j.instagram.exception.InstagramException#<init>()
@@ -5175,6 +5201,7 @@ Analyzing: com.insta4j.instagram.util.JSONToObjectTransformer#getError()
 Distinct paths: 3
 Paths with API calls: 0
 
+[largest] 24
 
 ----------------- PROJECT: opensajux -----------------
 Analyzing: com.opensajux.service.ApplicationService#getSiteInfo()
@@ -5228,8 +5255,8 @@ Paths with API calls: 1
 Analyzing: com.opensajux.service.BlogService#saveBlog()
 Distinct paths: 3
 Paths with API calls: 3
-[path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 1
 [path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute()->javax.jdo.PersistenceManager#makePersistent() 2
+[path] javax.jdo.Query#declareParameters()->javax.jdo.Query#execute() 1
 
 Analyzing: com.opensajux.service.MenuItemService#removeMenuItem()
 Distinct paths: 1
@@ -5389,6 +5416,7 @@ Analyzing: com.opensajux.service.TalkStreamService#<init>()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 4
 
 ----------------- PROJECT: spring-social-appengine -----------------
 Analyzing: org.springframework.social.connect.appengine.AppEngineConnectionRepository#setInterceptors()
@@ -5560,6 +5588,7 @@ Analyzing: org.springframework.social.connect.appengine.AppEngineUsersConnection
 Distinct paths: 2
 Paths with API calls: 0
 
+[largest] 6
 
 ----------------- PROJECT: sky -----------------
 Analyzing: Cash.Pages.AccountEngine#<init>()
@@ -5638,6 +5667,7 @@ Analyzing: Users.Pages.LoginUser#Logout()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 0
 
 ----------------- PROJECT: Anywhere-2.0.0-App-Engine -----------------
 Analyzing: com.jcolley.anywhere2.GAE.server.Serve#<init>()
@@ -5703,8 +5733,8 @@ Paths with API calls: 0
 Analyzing: com.jcolley.anywhere2.GAE.server.Upload2#doPost()
 Distinct paths: 4
 Paths with API calls: 4
-[path] com.google.appengine.api.images.ImagesService#getServingUrl()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 2
 [path] javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 2
+[path] com.google.appengine.api.images.ImagesService#getServingUrl()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 2
 
 Analyzing: com.jcolley.anywhere2.GAE.client.SerialLatLng#<init>()
 Distinct paths: 1
@@ -6022,6 +6052,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] javax.jdo.Query#execute()->javax.jdo.PersistenceManager#close() 1
 
+[largest] 8
 
 ----------------- PROJECT: App-Engine-Java-Mapper-API-demos -----------------
 Analyzing: com.ikai.mapperdemo.servlets.AddCommentServlet#<init>()
@@ -6096,6 +6127,7 @@ Distinct paths: 1
 Paths with API calls: 1
 [path] com.google.appengine.tools.mapreduce.MapReduceState#getMapReduceStateFromJobID()->com.google.appengine.tools.mapreduce.MapReduceState#getCounters()->com.google.appengine.api.datastore.DatastoreService#put() 1
 
+[largest] 2
 
 ----------------- PROJECT: DateEngine -----------------
 Analyzing: com.dateengine.controllers.BrowseServlet#doGet()
@@ -6123,8 +6155,8 @@ Paths with API calls: 1
 Analyzing: com.dateengine.controllers.MessageServlet#doGet()
 Distinct paths: 3
 Paths with API calls: 2
-[path] javax.jdo.Query#execute()->javax.jdo.Query#closeAll() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.Query#execute()->javax.jdo.Query#closeAll() 1
 
 Analyzing: com.dateengine.controllers.MessageServlet#<init>()
 Distinct paths: 1
@@ -6199,6 +6231,7 @@ Distinct paths: 2
 Paths with API calls: 1
 [path] javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 
+[largest] 3
 
 ----------------- PROJECT: EmployeeDirectory -----------------
 Analyzing: com.mindstorm.employeesdirectory.search.SearchIndexManager#indexDocument()
@@ -6294,6 +6327,7 @@ Analyzing: com.mindstorm.employeesdirectory.entities.Employee#setEmailAddress()
 Distinct paths: 1
 Paths with API calls: 0
 
+[largest] 3
 
 ----------------- PROJECT: Intrade-Archive -----------------
 Analyzing: intrade.scripts.FetchMarketOverview#<init>()
@@ -6336,8 +6370,8 @@ Paths with API calls: 0
 Analyzing: intrade.scripts.ProcessContractTrades#fetchTradesForContract()
 Distinct paths: 3
 Paths with API calls: 3
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 2
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 2
 
 Analyzing: intrade.scripts.ProcessContractTrades#print()
 Distinct paths: 1
@@ -6363,8 +6397,8 @@ Analyzing: intrade.scripts.ProcessEventClass#doGet()
 Distinct paths: 30
 Paths with API calls: 26
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 16
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 8
 [path] javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 8
 
 Analyzing: intrade.scripts.ProcessEventClass#<init>()
 Distinct paths: 1
@@ -6465,8 +6499,8 @@ Analyzing: intrade.scripts.ProcessEvent#doGet()
 Distinct paths: 30
 Paths with API calls: 26
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 8
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 16
 [path] javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 16
 
 Analyzing: intrade.scripts.ProcessEvent#time_threshold()
 Distinct paths: 1
@@ -6479,8 +6513,8 @@ Paths with API calls: 0
 Analyzing: intrade.scripts.ProcessEvent#storeContracts()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: intrade.scripts.ProcessEvent#lastRetrieved_event()
 Distinct paths: 2
@@ -6494,8 +6528,8 @@ Paths with API calls: 0
 Analyzing: intrade.scripts.ProcessEventGroup#doGet()
 Distinct paths: 36
 Paths with API calls: 28
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 8
 [path] javax.jdo.PersistenceManager#close() 4
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 8
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 16
 
 Analyzing: intrade.scripts.ProcessEventGroup#time_threshold()
@@ -6530,8 +6564,8 @@ Analyzing: intrade.scripts.StoreContracts#doGet()
 Distinct paths: 120
 Paths with API calls: 104
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 64
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 32
 [path] javax.jdo.PersistenceManager#close() 8
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#close() 32
 
 Analyzing: intrade.scripts.StoreContracts#storeEventGroups()
 Distinct paths: 5
@@ -6555,8 +6589,8 @@ Paths with API calls: 2
 Analyzing: intrade.scripts.StoreContracts#storeEventClasses()
 Distinct paths: 5
 Paths with API calls: 4
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 2
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 2
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 2
 
 Analyzing: intrade.scripts.StoreContracts#lastRetrieved_event()
 Distinct paths: 2
@@ -6589,8 +6623,8 @@ Paths with API calls: 2
 Analyzing: intrade.scripts.StoreContracts#storeContracts()
 Distinct paths: 2
 Paths with API calls: 2
-[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 [path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#makePersistent()->javax.jdo.PersistenceManager#close() 1
+[path] javax.jdo.PersistenceManager#getObjectById()->javax.jdo.PersistenceManager#close() 1
 
 Analyzing: intrade.scripts.TruncateServlet#<init>()
 Distinct paths: 1

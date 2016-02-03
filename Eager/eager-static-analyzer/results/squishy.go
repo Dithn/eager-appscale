@@ -5,19 +5,20 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sort"
 	"strings"
 )
 
-func analyzeMethod(bf *bufio.Reader) {
+func analyzeMethod(bf *bufio.Reader) int {
 	paths := make(map[string][]string)
 	for {
 		line, err := bf.ReadString('\n')
 		if err == io.EOF {
-			return
+			return -1
 		}
 		if err != nil {
 			fmt.Println("Error while parsing line", err)
-			return
+			return -1
 		}
 		if strings.HasPrefix(line, "  [path") {
 			segments := strings.Fields(line)
@@ -35,11 +36,15 @@ func analyzeMethod(bf *bufio.Reader) {
 			for _,v := range sdkPaths {
 				pathCounts[v] += 1
 			}
+			maxValue := 0
 			for k,v := range pathCounts {
 				fmt.Println("[path]", k, v)
+				if v > maxValue {
+					maxValue = v
+				}
 			}
 			fmt.Println()
-			return
+			return maxValue
 		}
 	}
 }
@@ -59,6 +64,7 @@ func main() {
 
 	defer inputFile.Close()
 	bf := bufio.NewReader(inputFile)
+	var maxValues []int
 	for {
 		line, err := bf.ReadString('\n')
 		if err == io.EOF {
@@ -68,10 +74,15 @@ func main() {
 			fmt.Println("Error while parsing line", err)
 			return
 		} else if strings.HasPrefix(line, "----------------- PROJECT: ") {
+			if len(maxValues) > 0 {
+				sort.Ints(maxValues)
+				fmt.Println("[largest]", maxValues[len(maxValues) - 1])
+				maxValues = maxValues[:0]
+			}
 			fmt.Print("\n", line)
 		} else if strings.HasPrefix(line, "Analyzing: ") {
 			fmt.Print(line)
-			analyzeMethod(bf)
+			maxValues = append(maxValues, analyzeMethod(bf))
 		}
 	}
 }
