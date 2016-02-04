@@ -75,6 +75,24 @@ def path_to_string(path):
         path_str += sdk_call.service + ':' + sdk_call.operation
     return path_str
 
+def invert_map(map):
+    invert = {}
+    for k,v in map.items():
+        if not invert.has_key(v):
+            invert[v] = []
+        invert[v].append(k)
+    return invert
+
+def print_request_list(requests):
+    line = ''
+    for i in range(len(requests)):
+        if i % 3 == 0:
+            print line
+            line = ''
+        line += requests[i] + '  '
+    if line:
+        print line
+                       
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Identifies paths of execution through an app from SDK calls.')
     parser.add_argument('--server', '-s', dest='server', default='128.111.179.159')
@@ -85,5 +103,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     time_window_ms = parse_time_delta(args.time_window)
     requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
-    for k,v in requests.items():
-        print k, path_to_string(v)
+    request_paths = {k: path_to_string(v) for k,v in requests.items()}
+    path_requests = invert_map(request_paths)
+    index = 1
+    for k,v in path_requests.items():
+        print 'Path', index
+        print '========='
+        print k, '\n'
+        print '[requests]', len(v)
+        print_request_list(v)
+        print
+        index += 1
+        
