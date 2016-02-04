@@ -45,16 +45,17 @@ def make_http_call(server, port, path, payload):
     return json.loads(data)
     
 def get_request_info(server, port, index, app, time_window):
-    start_time = long(time.time() * 1000) - time_window
+    end_time = long(time.time() * 1000) - 60 * 1000
+    start_time = end_time - time_window
     filtered_query = {
       'filtered' : {
          'query' : { 'term' : { 'appId' : app }},
-         'filter' : { 'range' : { 'timestamp' : { 'gte' : start_time}}}
+         'filter' : { 'range' : { 'timestamp' : { 'gte' : start_time, 'lte': end_time }}}
        }
     }
     query = {
       'query' : filtered_query,
-      'size' : 1500,
+      'size' : 2000,
       'sort': { 'timestamp' : { 'order' : 'asc'}}
     }
 
@@ -67,13 +68,16 @@ def get_request_info(server, port, index, app, time_window):
     while True:
         requests = output['hits']['hits']
         for req in requests:
+            received += 1
             source = req['_source']
+            if not source.has_key('requestId'):
+                continue
             req_id = source['requestId']
             if not result.has_key(req_id):
                 result[req_id] = []
             result[req_id].append(SDKCall(source))
-            received += 1
         if received < total_hits:
+            print 'Received {0} of {1} records'.format(received, total_hits)
             query = {
                 'scroll' : '1m',
                 'scroll_id' : scroll_id
@@ -81,6 +85,8 @@ def get_request_info(server, port, index, app, time_window):
             output = make_http_call(server, port, '/_search/scroll', query)
         else:
             break
+    print 'Received {0} of {1} records'.format(received, total_hits)
+    print
     return result
 
 def path_to_string(path):
@@ -116,6 +122,7 @@ if __name__ == '__main__':
     parser.add_argument('--index', '-i', dest='index', default='appscale-internal')
     parser.add_argument('--app', '-a', dest='app', default='watchtower')
     parser.add_argument('--time_window', '-t', dest='time_window', default='1h')
+    parser.add_argument('--verbose', '-v', dest='verbose', action='store_true')
     args = parser.parse_args()
     time_window_ms = parse_time_delta(args.time_window)
     requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
@@ -127,7 +134,8 @@ if __name__ == '__main__':
         print '========='
         print k, '\n'
         print '[requests]', len(v)
-        print_request_list(v)
+        if args.verbose:
+            print_request_list(v)
         print
         index += 1
         
