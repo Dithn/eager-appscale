@@ -33,6 +33,17 @@ def parse_time_delta(delta_str):
     else:
         raise ValueError('Invalid time delta string ' + delta_str)
 
+def make_http_call(server, port, path, payload):
+    conn = httplib.HTTPConnection(server, port)
+    conn.request('POST', path, json.dumps(payload))
+    response = conn.getresponse()
+    data = response.read()
+    conn.close()
+    if response.status != 200:
+        error_message = 'Server returned unexpected status: {0}\n{1}'.format(response.status, data)
+        raise RuntimeError(error_message)
+    return json.loads(data)
+    
 def get_request_info(server, port, index, app, time_window):
     start_time = long(time.time() * 1000) - time_window
     filtered_query = {
@@ -43,28 +54,33 @@ def get_request_info(server, port, index, app, time_window):
     }
     query = {
       'query' : filtered_query,
-      'size' : 1500, # TODO: Implement iterative scroll
+      'size' : 1500,
       'sort': { 'timestamp' : { 'order' : 'asc'}}
     }
 
-    path = '/{0}/apicall/_search'.format(index)
-    conn = httplib.HTTPConnection(server, port)
-    conn.request('POST', path, json.dumps(query))
-    response = conn.getresponse()
-    data = response.read()
-    conn.close()
-    if response.status != 200:
-        error_message = 'Server returned unexpected status: {0}\n{1}'.format(response.status, data)
-        raise RuntimeError(error_message)
-    output = json.loads(data)
-    requests = output['hits']['hits']
+    path = '/{0}/apicall/_search?scroll=1m'.format(index)
+    output = make_http_call(server, port, path, query)
+    total_hits = output['hits']['total']
+    scroll_id = output['_scroll_id']
     result = {}
-    for req in requests:
-        source = req['_source']
-        req_id = source['requestId']
-        if not result.has_key(req_id):
-            result[req_id] = []
-        result[req_id].append(SDKCall(source))
+    received = 0
+    while True:
+        requests = output['hits']['hits']
+        for req in requests:
+            source = req['_source']
+            req_id = source['requestId']
+            if not result.has_key(req_id):
+                result[req_id] = []
+            result[req_id].append(SDKCall(source))
+            received += 1
+        if received < total_hits:
+            query = {
+                'scroll' : '1m',
+                'scroll_id' : scroll_id
+            }
+            output = make_http_call(server, port, '/_search/scroll', query)
+        else:
+            break
     return result
 
 def path_to_string(path):
