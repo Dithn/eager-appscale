@@ -128,14 +128,18 @@ if __name__ == '__main__':
     requests = get_request_info(args.server, args.port, args.index, args.app, time_window_ms)
     request_paths = {k: path_to_string(v) for k,v in requests.items()}
     path_requests = invert_map(request_paths)
+    total_req_count = sum(map(lambda x: len(x), path_requests.values()))
     index = 1
     for k,v in path_requests.items():
-        print 'Path', index
-        print '========='
+        print 'Path-{0}'.format(index)
+        print '========'
         print k, '\n'
         print '[requests]', len(v)
         if args.verbose:
             print_request_list(v)
         print
         index += 1
-        
+    index = 1
+    for k,v in path_requests.items():
+        print '[pd] Path-{0} {1:.2f}'.format(index, float(len(v))*100.0/total_req_count)
+        index += 1
