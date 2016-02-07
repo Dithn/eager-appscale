@@ -316,12 +316,29 @@ To build a system that predicts response time SLAs using only static information
 \end{itemize}
 
 \subsubsection{Static Analysis Tool}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{cloud_app_model}
+\caption{Cloud Application Model.}
+\label{fig:cloud_app_model}
+\end{figure}
 This component analyzes the source code of the web application and extracts a sequence of PaaS service invocations.
 
-It performs a simple construction and interprocedural static analysis of control flow graph for each web application operation.
-The algorithm extracts all PaaS service invocations along each path of application. 
-Ideally, we can identify the PaaS kernel service calls
-by their namespace.
+Figure~\ref{fig:cloud_app_model} illustrates the PaaS development and deployment model. Developers use the services exposed by
+PaaS cloud SDK to compose their applications. These PaaS service implementations are highly scalable, highly available
+(have SLAs associated with them), and automatically managed by the platform. Developers then upload their applications
+to the cloud for deployment.
+
+After the applications being uploaded, the analysis tool can analyze the source code or the application's intermediate
+representation(e.g. Java bytecode). It performs a simple construction and interprocedural static analysis of control flow graph
+and extracts a sequence of PaaS service invocations for each web application operation. 
+Since the applications need to be exposed to users through HTTP/s, we can do the extraction by checking specific language class
+or framework annotations, for example, Java's servlet and the path specified with JAX-RS annotations.
+
+For each analyzed operation it produces a list of annotated PaaS service invocation sequences - one sequence per program path.
+It then prunes this list to eliminate duplicates. Duplicates occur when an application operation has multiple program
+paths with the same sequence of PaaS service invocations.
+Ideally, we can identify the PaaS kernel service calls by their namespace(in Java's case, the package name).
 
 Although loops are rare, when they occur, they are used to iterate over a dataset returned from a database. The tool estimates the loop 
 bounds if specified in the PaaS kernel service API (e.g. the maximum number of entities to return). Otherwise, we can ask users to provide
