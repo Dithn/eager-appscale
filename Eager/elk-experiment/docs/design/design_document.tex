@@ -322,27 +322,43 @@ To build a system that predicts response time SLAs using only static information
 \caption{Cloud Application Model.}
 \label{fig:cloud_app_model}
 \end{figure}
+
 This component analyzes the source code of the web application and extracts a sequence of PaaS service invocations.
 
-Figure~\ref{fig:cloud_app_model} illustrates the PaaS development and deployment model. Developers use the services exposed by
-PaaS cloud SDK to compose their applications. These PaaS service implementations are highly scalable, highly available
-(have SLAs associated with them), and automatically managed by the platform. Developers then upload their applications
-to the cloud for deployment.
+Figure~\ref{fig:cloud_app_model} illustrates the typical PaaS development and deployment model. 
+Developers use the services exposed by the
+PaaS cloud (aka PaaS kernel services or PaaS SDK) to implement their applications. Applications
+in turns are exposed to end users via one or more web APIs. The end user could be a client application
+external to the cloud, or another application running in the same cloud environment. 
+The underlying PaaS kernel service implementations are highly scalable, highly available
+(have SLAs associated with them), and automatically managed by the platform. 
+Developers upload their finished applications to the cloud for deployment. An uploaded
+application typically consists of source code or some intermediate representation of it along
+with one or more deployment descriptors (configurations, versioning information, crypto resources etc.)
 
-After the applications being uploaded, the analysis tool can analyze the source code or the application's intermediate
-representation(e.g. Java bytecode). It performs a simple construction and interprocedural static analysis of control flow graph
-and extracts a sequence of PaaS service invocations for each web application operation. 
-Since the applications need to be exposed to users through HTTP/s, we can do the extraction by checking specific language class
-or framework annotations, for example, Java's servlet and the path specified with JAX-RS annotations.
+When an application has been uploaded, the static analysis tool can analyze the source code 
+or the application's intermediate representation (e.g. Java bytecode). It performs a simple 
+construction and inter-procedural static analysis of the control flow graph (CFG).
+By performing a depth-first traversal on the CFG it is possible to identify all possible paths
+of execution through the application code. This includes paths that occur due to branching (if-else constructs, 
+switch statements etc.), looping as well error handling (try-catch constructs). 
+For each identified path, the static analysis tool extracts a sequence of PaaS service 
+invocations. Since the applications need to be exposed to users through HTTP/s, 
+the static analysis tool can begin the extraction by checking specific language classes
+or framework annotations, for example, Java's servlet classes or the classes marked with
+the JAX-RS Path annotation.
 
-For each analyzed operation it produces a list of annotated PaaS service invocation sequences - one sequence per program path.
-It then prunes this list to eliminate duplicates. Duplicates occur when an application operation has multiple program
+For each application the static analysis tool produces a list of annotated PaaS 
+service invocation sequences -- one sequence per program path.
+It then prunes this list to eliminate duplicates. Duplicates occur when an application has multiple program
 paths with the same sequence of PaaS service invocations.
-Ideally, we can identify the PaaS kernel service calls by their namespace(in Java's case, the package name).
+Ideally, we can identify the PaaS kernel service calls by their namespace 
+(in Java's case, the package name).
 
-Although loops are rare, when they occur, they are used to iterate over a dataset returned from a database. The tool estimates the loop 
-bounds if specified in the PaaS kernel service API (e.g. the maximum number of entities to return). Otherwise, we can ask users to provide
-an estimation of the size of their dataset.
+Although loops are rare in this type of applications, when they occur, they are used to 
+iterate over a dataset returned from a database. The tool estimates the loop 
+bounds if specified in the PaaS kernel service API (e.g. the maximum number of entities to return). 
+Otherwise, we can ask users to provide an estimation of the size of their dataset.
 
 \subsubsection{Monitoring Agent}
 This agent monitors and records the response time of individual PaaS services within a running PaaS system.
@@ -434,7 +450,13 @@ to form a single time series where each data point is an approximation of the to
 on invoking PaaS kernel services. This aggregate time series can be provided as the input to QBETS to
 make the response time predictions.
 
-The key assumption that makes this method viable is that PaaS-hosted web applications spend most of
+Note that our static analysis tool produces multiple sequences of PaaS service invocations for each
+analyzed application. Multiple sequences occur due to the existence of branches, loops and error handling
+logic in the application code. The SLA predictor can make predictions for each of the paths identified
+by the static analysis tool.  The largest predicted value can then be used as the basis for a response time
+SLA, thus covering all paths of the input applications.
+
+The key assumption that makes our approach viable is that PaaS-hosted web applications spend most of
 their execution time on invoking PaaS kernel services. 
 Previous studies~\cite{Jayathilaka:2015:RTS:2806777.2806842} have shown this to be true,
 with applications spending over 90\% of their execution time on PaaS kernel service invocations.
@@ -452,7 +474,7 @@ developers insight into the worst-case response time of their applications.
 
 When the prediction is invoked, it performs static analysis on all operations in the application. Next, it retrieves benchmarking data collected by
 the monitoring agent for all PaaS service invocations. Finally, the QBETS analysis is applied to the data with the desired percentile and confidence value.
-After the predictions are made, we can use the largest value across all applications path as the SLA prediction for a web application.
+After the predictions are made, we can use the largest value across all application paths as the SLA prediction for a web application.
 
 \subsection{Performance Anomaly Detection}
 Numerous statistical models have been developed over time for detecting performance anomalies in running
