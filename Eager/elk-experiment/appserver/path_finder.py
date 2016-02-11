@@ -8,6 +8,7 @@ class SDKCall:
     def __init__(self, source):
         self.service = source['service']
         self.operation = source['operation']
+        self.exectime = source['elapsed']
 
 def get_digit(delta_str):
     return int(delta_str[:len(delta_str)-1])
