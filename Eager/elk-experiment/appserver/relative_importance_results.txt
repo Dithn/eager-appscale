@@ -121,3 +121,28 @@ datastore_v3.Next.2           4.402858e-03
 memcache.Set                  2.584419e-03
 memcache.Get                  4.886930e-04
 memcache.Delete               7.498275e-03
+
+
+Random Multiplier (BeginTransaction * 1000; p = 0.01; Total Adjusted)
+=====================================================================
+
+Response variable: Total 
+Total response variance: 833650.8 
+Analysis based on 495 observations
+
+datastore_v3.BeginTransaction 8.686857e-01
+datastore_v3.RunQuery         2.037478e-03
+datastore_v3.Commit           1.178343e-04
+datastore_v3.Put              1.860837e-03
+datastore_v3.Get              1.172355e-04
+datastore_v3.RunQuery.1       5.506487e-05
+datastore_v3.Delete           1.271527e-04
+datastore_v3.RunQuery.2       4.880171e-03
+datastore_v3.Next             2.443647e-03
+datastore_v3.RunQuery.3       1.579025e-03
+datastore_v3.Next.1           2.004544e-03
+datastore_v3.RunQuery.4       1.124272e-01
+datastore_v3.Next.2           3.282021e-04
+memcache.Set                  4.986211e-04
+memcache.Get                  1.002636e-03
+memcache.Delete               1.812949e-03
