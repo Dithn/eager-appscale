@@ -2,19 +2,24 @@ import argparse
 import random
 import sys
 
-def modify_line(line, col, multiplier, prob):
+def modify_line(line, col, multiplier, prob, adjust_total):
     fields = line.split()
-    value = int(fields[col])
+    old_value = int(fields[col])
+    new_value = old_value
     if random.random() < prob:
-        value *= multiplier
+        new_value *= multiplier
+    diff = new_value - old_value
+    
     result = ''
     for i in range(len(fields)):
         if result:
             result += ' '
-        if i != col:
-            result += fields[i]
+        if i == col:
+            result += str(new_value)
+        elif i == len(fields) - 1 and adjust_total:
+            result += str(int(fields[i]) + diff)
         else:
-            result += str(value)
+            result += fields[i]
     return result
 
 if __name__ == '__main__':
@@ -23,6 +28,7 @@ if __name__ == '__main__':
     parser.add_argument('--column', '-c', type=int, dest='column', default=-1)
     parser.add_argument('--multiplier', '-m', type=int, dest='multiplier')
     parser.add_argument('--probability', '-p', type=float, dest='probability', default=1.0)
+    parser.add_argument('--adj_total', '-a', action='store_true', dest='adjust_total', default=False)
     args = parser.parse_args()
 
     if not args.file:
@@ -44,4 +50,4 @@ if __name__ == '__main__':
 
     print lines[0],
     for i in range(1, len(lines)):
-        print modify_line(lines[i].strip(), args.column, args.multiplier, args.probability)
+        print modify_line(lines[i].strip(), args.column, args.multiplier, args.probability, args.adjust_total)
