@@ -1,0 +1,77 @@
+113 -->
+
+bm_datastore_asList_10      0.011024655
+bm_datastore_asList_100     0.160855139
+bm_datastore_asList_1000    0.763117633
+bm_datastore_asSingleEntity 0.035479146
+bm_datastore_delete         0.004219930
+bm_datastore_get            0.006462901
+bm_datastore_put            0.003867194
+bm_memcache_delete          0.012341426
+bm_memcache_get             0.001018333
+bm_memcache_put             0.001516426
+
+120 -->
+
+bm_datastore_asList_10      0.0090295534
+bm_datastore_asList_100     0.1511081092
+bm_datastore_asList_1000    0.7843281796
+bm_datastore_asSingleEntity 0.0293773095
+bm_datastore_delete         0.0029812038
+bm_datastore_get            0.0078568879
+bm_datastore_put            0.0014143306
+bm_memcache_delete          0.0109428416
+bm_memcache_get             0.0009052958
+bm_memcache_put             0.0019598313
+
+121 -->
+
+bm_datastore_asList_10      0.0094869556
+bm_datastore_asList_100     0.1472781522
+bm_datastore_asList_1000    0.7872197399
+bm_datastore_asSingleEntity 0.0277358064
+bm_datastore_delete         0.0029570111
+bm_datastore_get            0.0083569967
+bm_datastore_put            0.0011645193
+bm_memcache_delete          0.0126612590
+bm_memcache_get             0.0008736455
+bm_memcache_put             0.0021726383
+
+179 -->
+
+bm_datastore_asList_10      0.0113677874
+bm_datastore_asList_100     0.1396330208
+bm_datastore_asList_1000    0.7962476668
+bm_datastore_asSingleEntity 0.0225063321
+bm_datastore_delete         0.0025147806
+bm_datastore_get            0.0027288416
+bm_datastore_put            0.0018379999
+bm_memcache_delete          0.0136691091
+bm_memcache_get             0.0007941618
+bm_memcache_put             0.0085817198
+
+1394 -->
+
+bm_datastore_asList_10      0.0172527850
+bm_datastore_asList_100     0.1233550842
+bm_datastore_asList_1000    0.7330745448
+bm_datastore_asSingleEntity 0.0030293100
+bm_datastore_delete         0.0011210608
+bm_datastore_get            0.0494413005
+bm_datastore_put            0.0211319917
+bm_memcache_delete          0.0343402982
+bm_memcache_get             0.0005440069
+bm_memcache_put             0.0165929758
+
+6456 -->
+
+bm_datastore_asList_10      0.0055377551
+bm_datastore_asList_100     0.1069178984
+bm_datastore_asList_1000    0.8556230034
+bm_datastore_asSingleEntity 0.0035894740
+bm_datastore_delete         0.0110237692
+bm_datastore_get            0.0073114874
+bm_datastore_put            0.0045824993
+bm_memcache_delete          0.0030969413
+bm_memcache_get             0.0015198819
+bm_memcache_put             0.0007202773

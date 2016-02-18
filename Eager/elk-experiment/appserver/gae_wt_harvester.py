@@ -6,6 +6,7 @@ import sys
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Harvests Watchtower SDK call execution time information from GAE backups.')
     parser.add_argument('--file', '-f', dest='file', default=None)
+    parser.add_argument('--mock_total', '-m', dest='mock_total', action='store_true', default=False)
     args = parser.parse_args()
 
     if not args.file:
@@ -27,5 +28,8 @@ if __name__ == '__main__':
         data = records[key]
         for call in calls:
             print data[call],
-        print sum(data.values())
+        if args.mock_total:
+            print sum(data.values()) + random.randint(0, 20)
+        else:
+            print sum(data.values())
         
