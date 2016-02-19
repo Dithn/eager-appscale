@@ -1,3 +1,7 @@
+List1000 is the cause of the detected anomalies most of the time. In 88.38384% of the cases, when the total exceeded the 95th percentile, List1000
+also exceeded the 95th percentile.
+
+
 113 -->
 
 bm_datastore_asList_10      0.011024655
