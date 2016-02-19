@@ -12,7 +12,7 @@ cat('[relimp] index', names(lmgr), '\n')
 
 anomalies <- 0
 condition_met <- 0
-for (i in 1:2000) {
+for (i in 1:nrow(gae)) {
   if (i > 100) {
     model <- lm(Total ~ ., data=gae[1:i,])
     rankings <- calc.relimp(model, type=c('lmg'))

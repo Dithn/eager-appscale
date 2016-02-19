@@ -12,7 +12,6 @@ for (i in 1:10) {
   lines(x, relimp_vs_time[[columns[i]]], type='l', col=cl[i])
 }
 
-#legend('middleright', legend=)
 legend("topright", legend = columns, col = cl, lwd = 1, cex = 0.5)
 for (i in 1:nrow(anomaly_vs_time)) {
   abline(v=anomaly_vs_time[i,2])
