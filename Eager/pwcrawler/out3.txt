@@ -1,0 +1,4187 @@
+1 MyGene.Info /api/mygene.info
+2 MyGeoPosition GeoPicker /api/mygeoposition-geopicker
+3 myGPSID /api/mygpsid
+4 myHealthAccount /api/myhealthaccount
+5 MyHeritage Family Graph /api/myheritage-family-graph
+6 MyHits /api/myhits
+7 MyHurricane /api/myhurricane
+8 MyIGA Hypermedia /api/myiga-hypermedia
+9 MyIntervals /api/myintervals
+10 MyLittleFaceWhen.com /api/mylittlefacewhen.com
+11 MyMemory /api/mymemory
+12 MyMemory HTS /api/mymemory-hts
+13 MyMovies /api/mymovies
+14 Myna /api/myna
+15 MyNetDiary Food Search /api/mynetdiary-food-search
+16 MyNetFone MyText SMS /api/mynetfone-mytext-sms
+17 MyNewsdesk /api/mynewsdesk
+18 MyNewsletterBuilder /api/mynewsletterbuilder
+19 MyNotify /api/mynotify
+20 MYOB AccountRight Live /api/myob-accountright-live
+21 myOneLogin /api/myonelogin
+22 Myows /api/myows
+23 Myplaylist /api/myplaylist
+  --> myplaylist lyrics
+  --> MyPlaylist Slideshow
+24 MyPW Authentication /api/mypw-authentication
+25 Myqr /api/myqr
+26 MyRobots /api/myrobots
+27 Myrrix /api/myrrix
+28 mySeat /api/myseat
+29 MyselfToGo /api/myselftogo
+30 MySEOTool /api/myseotool
+31 MyShowroom.TV /api/myshowroom.tv
+32 MyShows /api/myshows
+33 mysms /api/mysms
+34 MySMSmantra.com /api/mysmsmantra.com
+35 MySociety Gaze /api/mysociety-gaze
+36 MySpace /api/myspace
+  --> Cleepr
+  --> FbFriendFinder.com
+  --> Gruvr
+  --> Headup
+  --> Imaginalaxy
+  --> Jamzee
+  --> Learnit Lists
+  --> Life Stream
+  --> Lost and Found Pets Ireland
+  --> Mashup Arts
+  --> MeechMe
+  --> MySpace Friendshow
+  --> NetTickr
+  --> OMOM - Online Members On Map
+  --> Plocky.com: Get your e-life together
+  --> Showcator
+  --> Small Wide World
+  --> SmartTickr
+  --> SocialOyster
+  --> Sociotoco Search
+  --> Sports Karma
+  --> The TurnSocial bar
+  --> Vodafone Update App for Android
+  --> Vodafone Update App for BlackBerry or iPhone
+  --> VoxPix
+  --> Yippr
+37 MYSuite /api/mysuite
+38 MyTagList /api/mytaglist
+39 Mytago /api/mytago
+40 MyTaskHelper /api/mytaskhelper
+41 Mythic Beasts /api/mythic-beasts
+42 myTNT /api/mytnt
+43 MyTravelToolbox /api/mytraveltoolbox
+44 MyTSA /api/mytsa
+45 MyTTC /api/myttc
+46 MyUpcoming /api/myupcoming
+47 MyVidster /api/myvidster
+48 MyVox /api/myvox
+  --> Click2Message
+  --> Learn10
+  --> Voice Maps
+  --> Voice Slideshow Demo
+  --> VoxCards
+  --> VoxPix
+49 MyWebzz /api/mywebzz
+50 MyWot /api/mywot
+  --> I Love Long URL
+  --> ScanURL.net
+51 Myxer /api/myxer
+52 n0tice /api/n0tice
+53 NA-ARC /api/na-arc
+54 Nabaztag /api/nabaztag
+  --> Kalle Kanin Library Rabbit
+55 NAC Geocoding Address Files /api/nac-geocoding-address-files
+56 NAC Real-time Conversion /api/nac-real-time-conversion
+57 NAC Real-time Mapping /api/nac-real-time-mapping
+58 NAC Real-time Routing /api/nac-real-time-routing
+59 NACapp /api/nacapp
+60 NaCTeM Geniatagger /api/nactem-geniatagger
+61 NaCTeM Termine /api/nactem-termine
+62 NADA /api/nada
+63 NAIC Registry /api/naic-registry
+64 NAIC SERFF /api/naic-serff
+65 NakdReality /api/nakdreality
+66 NALENND Basic NPA NXX Validation /api/nalennd-basic-npa-nxx-validation
+67 Namba.kg /api/namba.kg
+68 Name Toolkit /api/name-toolkit
+69 Name.com /api/name.com
+70 NameAction /api/nameaction
+71 namebay /api/namebay
+72 NameCheap /api/namecheap-2
+73 NameCheap /api/namecheap
+74 NameChk /api/namechk
+75 Names &amp; Numbers Enterprise /api/names-numbers-enterprise
+76 NameSilo /api/namesilo
+77 NaNoWriMo Word Count /api/nanowrimo-word-count
+78 Nantes open data /api/nantes-open-data
+79 Napster  /api/napster
+80 Naringslex /api/naringslex
+81 Narnoo /api/narnoo
+82 NASA /api/nasa
+  --> Flash Earth
+  --> Global Coordinate
+  --> Weather Bonk
+83 NASA Astrophysics Data System /api/nasa-astrophysics-data-system
+84 NASA Coordinated Data Analysis System (CDAS) /api/nasa-coordinated-data-analysis-system-cdas
+85 NASA EOS Metadata Clearninghouse (ECHO) /api/nasa-eos-metadata-clearninghouse-echo
+86 Nasa Exoplanet Archive /api/nasa-exoplanet-archive
+87 NASA Moderate Resolution Imaging Spectroradiometer /api/nasa-moderate-resolution-imaging-spectroradiometer
+88 NASDAQ Data-On-Demand /api/nasdaq-data-on-demand
+89 Nate/Cyworld /api/natecyworld
+90 National Broadband Map /api/national-broadband-map
+91 National Buyer Listing Service /api/national-buyer-listing-service
+92 National Cancer Institue caDSR /api/national-cancer-institue-cadsr
+93 National Cancer Institute SEER /api/national-cancer-institute-seer
+94 National Cancer Institute TCGA Data Access Matrix /api/national-cancer-institute-tcga-data-access-matrix
+95 National Cellular Directory People Search /api/national-cellular-directory-people-search
+96 National Citer /api/national-citer
+97 National Crime Victimization Survey /api/national-crime-victimization-survey
+98 National Drug File-Reference Terminology /api/national-drug-file-reference-terminology
+99 National Geographic FieldScope /api/national-geographic-fieldscope
+100 National Institute for Geographic Information and forestry /api/national-institute-for-geographic-information-and-forestry
+101 National Institute on Drug Abuse Drug Screening Tool /api/national-institute-on-drug-abuse-drug-screening-tool
+102 National Library of Australia Trove /api/national-library-of-australia-trove
+103 National Library of Medicine ChemSpell /api/national-library-of-medicine-chemspell
+104 National Library of Medicine Digital Collections /api/national-library-of-medicine-digital-collections
+105 National Library of Medicine DIRLINE /api/national-library-of-medicine-dirline
+  --> Acid reflux information site
+106 National Library of the Netherlands /api/national-library-of-the-netherlands
+107 National Map Elevation Query /api/national-map-elevation-query
+108 National Map Viewer /api/national-map-viewer
+109 National Maritime Museum /api/national-maritime-museum
+110 National Practitioner Data Bank /api/national-practitioner-data-bank
+111 National Rail Enquiries /api/national-rail-enquiries
+112 National Renewable Energy Lab /api/national-renewable-energy-lab
+113 National Student Radio Chart /api/national-student-radio-chart
+114 National Taiwan University Activity /api/national-taiwan-university-activity
+115 National Terrorism Advisory System /api/national-terrorism-advisory-system
+116 National Virtual Observatory /api/national-virtual-observatory
+117 National Weather Service NDFD /api/national-weather-service-ndfd
+  --> BleacherWeather
+118 NationalPriorities  /api/nationalpriorities
+119 NationBuilder /api/nationbuilder
+120 NationBuilder Election Center /api/nationbuilder-election-center
+121 NationStates /api/nationstates
+122 Nationwide Gravesite Locations /api/nationwide-gravesite-locations
+123 NativeX /api/nativex
+124 Nature.com Blogs /api/nature.com-blogs
+125 Nature.com OpenSearch /api/nature.com-opensearch
+126 Natureserve species /api/natureserve-species
+  --> Gwannon.com
+127 Naver /api/naver
+  --> Create Map Korea
+  --> NaGle
+  --> QuestGlobe
+  --> Text Grinder
+128 Naver Maps /api/naver-maps
+129 Navionics /api/navionics
+130 navitia.io /api/navitia.io
+131 Navizon ITS /api/navizon-its
+132 Navlost NWX Weather /api/navlost-nwx-weather
+133 Navnelabarotoriets (Name Laboratory) /api/navnelabarotoriets-name-laboratory
+134 NAVTEQ LocationPoint Advertising /api/navteq-locationpoint-advertising
+135 NAVTEQ Map Reporter /api/navteq-map-reporter
+136 NAVTEQ Traffic /api/navteq-traffic
+137 NBIC Peregrine /api/nbic-peregrine
+138 NBN Gateway /api/nbn-gateway
+139 NCAA Mens College Basketball /api/ncaa-mens-college-basketball
+  --> Sports Karma
+140 NCAR Digital Library /api/ncar-digital-library
+141 NCBI Conserved Domain Database (CDD) /api/ncbi-conserved-domain-database-cdd
+142 NCBI Entrez /api/ncbi-entrez
+  --> Get Better Diet Info: PubMed and Amazon.com Ratings
+  --> iSpecies
+  --> Pubmed Faceoff
+  --> Tiedonhituset
+143 NCBO BioPortal /api/ncbo-bioportal
+144 NCEP Forecast /api/ncep-forecast
+145 NCEP North American Mesoscale /api/ncep-north-american-mesoscale
+146 NCR Aloha Loyalty /api/ncr-aloha-loyalty
+147 ncRNA fRNAdb /api/ncrna-frnadb
+148 NCSU Libraries CatalogWS /api/ncsu-libraries-catalogws
+149 NCSU Scholarly Publications Repository /api/ncsu-scholarly-publications-repository
+150 nd url /api/nd-url
+  --> Shorten URL
+151 NDS Service Delivery Platform /api/nds-service-delivery-platform
+152 Nearby.org.uk /api/nearby.org.uk
+153 NearlyFreeSpeech.NET /api/nearlyfreespeech.net
+154 NearMap /api/nearmap
+155 Need Tagger Social Signals /api/need-tagger-social-signals
+156 Needish /api/needish
+157 NEEScentral /api/neescentral
+158 Neighborland /api/neighborland
+159 Neil deGrasse Tyson Quotes  /api/neil-degrasse-tyson-quotes
+160 NEMSIS /api/nemsis
+161 Nenest /api/nenest
+162 Neon SMS /api/neon-sms
+163 NeonCRM /api/neoncrm
+164 NEOS /api/neos
+165 NeoSpeech  /api/neospeech
+166 Nephics European VAT Number Validation /api/nephics-european-vat-number-validation
+167 Nephoscale /api/nephoscale
+168 Nestoria /api/nestoria
+  --> My Neighbourhoods UK
+  --> Nestoria Espana
+  --> Nestoria UK
+  --> Where Can I Live?
+169 Net Atlantic /api/net-atlantic
+170 Net Oxygen SMS /api/net-oxygen-sms
+171 NetAccounts /api/netaccounts
+172 Netalive /api/netalive
+173 NetApplications /api/netapplications
+174 Netatmo /api/netatmo
+175 Netaxept /api/netaxept
+176 NetBase Insight /api/netbase-insight
+177 Netcetera /api/netcetera
+178 NetCom DataLayer /api/netcom-datalayer
+179 NetDNA /api/netdna
+180 NetDocuments /api/netdocuments
+181 Netflix /api/netflix
+  --> CelebDomain
+  --> CueThat
+  --> DoAt (do@) 
+  --> DVDCorral DVD Catalog
+  --> FeedFlix
+  --> fflick
+  --> Flickd Movies
+  --> Hell Horror
+  --> Instant Watch Database
+  --> InstantPlex
+  --> Journamatic
+  --> metaskim
+  --> MovieAB
+  --> MovieDNA
+  --> Netflix Catalog API Explorer
+  --> NetFlix InstantWatcher
+  --> QueueCumBeR
+  --> Qup
+  --> SmartFlicks: Netflix on BlackBerry
+  --> Streaming Criterions
+  --> Tehpage
+  --> The Web Intersect
+  --> VIDVIDOO
+  --> Watch.io
+182 Netload /api/netload
+183 Netlog /api/netlog
+184 NetLog /api/netlog-2
+185 Netmera /api/netmera
+186 Netmobo FeeFactor /api/netmobo-feefactor
+187 NetProspex /api/netprospex
+188 Netregistry Reseller /api/netregistry-reseller
+189 NetSuite /api/netsuite
+  --> iabol
+  --> Netsuite and Box.net
+190 Nettica /api/nettica
+191 Netvibes /api/netvibes
+  --> Amazon widgets
+  --> AOL Mail on Netvibes
+  --> CyberAndorra Widget
+  --> HowToDoThings.com
+  --> Moviestarlover
+  --> My KoffeePhoto Frame for Netvibes
+  --> My Pet Profile Widget
+  --> Netvibes Digg Widget
+  --> Netvibes Orb Quick Finder
+  --> Netvibes Slideshow
+  --> Netvibes Slideshow
+  --> preciseHeadlines for Netvibes
+  --> preciseNews
+  --> preciseTechnology
+  --> Unofficial Tupalo Widget
+  --> UWA-Gadget for Twick.it search at iGoogle or Netvibes
+  --> What's Public
+192 NetWallet /api/netwallet
+193 NetWealth Financial Calculators /api/netwealth-financial-calculators
+194 Network Analysis Tools (NeAT) /api/network-analysis-tools-neat
+195 Network for Good Donation /api/network-for-good-donation
+196 Network Norway Content Provider /api/network-norway-content-provider
+197 Network Rail /api/network-rail
+198 Network Solutions Public Ecommerce /api/network-solutions-public-ecommerce
+199 NetXposure /api/netxposure
+200 Neurolinq /api/neurolinq
+201 Neuroscience Information Framework /api/neuroscience-information-framework
+202 NeuStar Port PS /api/neustar-port-ps
+203 Neutrino /api/neutrino
+204 Nevistas News /api/nevistas-news
+205 New Dawn ACM /api/new-dawn-acm
+206 New Dawn JustWare /api/new-dawn-justware
+207 New Hope Oahu /api/new-hope-oahu
+208 New Penn Rate Quote /api/new-penn-rate-quote
+209 New Relic /api/new-relic
+  --> CityStrides
+  --> Ministry Ops
+210 New York Federal Reserve Foreign Exchange /api/new-york-federal-reserve-foreign-exchange
+211 New York Federal Reserve SOMA Holdings /api/new-york-federal-reserve-soma-holdings
+212 New York Public Library Digital Collections /api/new-york-public-library-digital-collections
+213 New York State Police IEPD /api/new-york-state-police-iepd
+214 New York Times Article Search /api/new-york-times-article-search
+  --> Artist Explorer
+  --> AskJot
+  --> bitPrompt
+  --> Cahella
+  --> Fedtastic
+  --> Headup
+  --> jQueery
+  --> NYT Trender
+  --> Regime
+  --> Suburbified
+  --> The Explorer
+215 New York Times Best Sellers /api/new-york-times-best-sellers
+  --> BookBargain
+  --> JoomFlix - Mashing Joomla
+  --> Reading Radar
+  --> WorldCat + New York Times 
+216 New York Times Campaign Finance /api/new-york-times-campaign-finance
+  --> Display of US Political Information
+  --> New York Times Campaign Finance Chart 
+  --> NY Times 2008 Campaign Finances Remix
+217 New York Times Community  /api/new-york-times-community
+  --> Voicefuse
+218 New York Times Congress /api/new-york-times-congress
+  --> bitPrompt
+  --> Display of US Political Information
+  --> Regime
+  --> Represent
+219 New York Times Districts /api/new-york-times-districts
+220 New York Times Events /api/new-york-times-events
+221 New York Times Most Popular /api/new-york-times-most-popular
+222 New York Times Movie Reviews /api/new-york-times-movie-reviews
+  --> DoAt (do@) 
+  --> jQueery
+  --> MovieAB
+  --> New York Times Movie Tweets
+223 New York Times Newswire /api/new-york-times-newswire
+  --> jQueery
+  --> metaskim
+  --> NewsAlarm
+  --> Nooblast
+  --> NY Times + Flickr
+224 New York Times NY State Legislature /api/new-york-times-ny-state-legislature
+225 New York Times Real Estate /api/new-york-times-real-estate
+226 New York Times TimesPeople /api/new-york-times-timespeople
+  --> New York Times TimesPeople Gadget
+  --> TimesPeople Mood Reader
+227 New York Times TimesTags /api/new-york-times-timestags
+228 New Zealand Ministry of Education DEX /api/new-zealand-ministry-of-education-dex
+229 New Zealand National Broadband Map /api/new-zealand-national-broadband-map
+230 New Zealand Post Label Printing /api/new-zealand-post-label-printing
+231 New Zealand Post Locator /api/new-zealand-post-locator
+232 New Zealand Post Rate Finder /api/new-zealand-post-rate-finder
+233 New Zealand Post Tracking /api/new-zealand-post-tracking
+234 New Zealand Post Tracking Notification /api/new-zealand-post-tracking-notification
+235 NewAer /api/newaer
+236 Newcastle Public Schools Workspace Calendar /api/newcastle-public-schools-workspace-calendar
+237 NewHaze /api/newhaze
+238 NewsBlur /api/newsblur
+239 NewsCloud /api/newscloud
+  --> Jesus Speaks
+  --> Newscloud on Mobile Phone
+240 NewsCo Article Summary /api/newsco-article-summary
+241 NewsCred Platform /api/newscred-platform
+242 Newseum NewsMania /api/newseum-newsmania
+243 Newsfeed Lab /api/newsfeed-lab
+244 NewsGator /api/newsgator
+  --> DeliciousMona
+  --> Moviestarlover
+  --> preciseNews
+  --> preciseTechnology
+245 Newsinapp /api/newsinapp
+246 NewsIsFree /api/newsisfree
+247 NewsKnowledge /api/newsknowledge
+248 Newslookup.com /api/newslookup.com
+249 Newsman /api/newsman
+250 Newsmonster.org /api/newsmonster.org
+251 Newspaper Club /api/newspaper-club
+252 Newsweaver /api/newsweaver
+253 NEWT NERSC /api/newt-nersc
+254 Nexage /api/nexage
+255 Nexalogy Nx /api/nexalogy-nx
+256 Nexiwave /api/nexiwave
+257 Nexmo Wholesale SMS /api/nexmo-wholesale-sms
+  --> Amazon SNS and Nexmo SMS
+  --> InDash: SMS Dashboard &amp; auto-responder for Nexmo
+  --> itDuzzit and Nexmo 
+  --> itDuzzit and Nexmo - Send Multiple SMS From email
+  --> itDuzzit and Nexmo - Send SMS using a simple form
+  --> Nexmo Mailchimp mashup
+  --> Nexmo SMS Spreader
+  --> Pushs.ms Nexmo mashup
+  --> Real time simple SMS Voting App
+  --> Ushahidi Nexmo SMS mashup
+258 Next Big Sound /api/next-big-sound
+  --> SeekIt.gr
+259 Next Caller /api/next-caller
+260 NextBio /api/nextbio
+261 NextBus /api/nextbus
+262 NextDB  /api/nextdb
+263 Nexternal XML Tools /api/nexternal-xml-tools
+264 Nextgen Mobile CardBoardFish /api/nextgen-mobile-cardboardfish
+265 NextMark /api/nextmark
+266 Nextstop /api/nextstop
+267 NextUser /api/nextuser
+268 Nexus6Studio StockQuote /api/nexus6studio-stockquote
+269 NFLData.com /api/nfldata.com
+270 NHS /api/nhs
+  --> Acid reflux information site
+271 NHTSA /api/nhtsa
+272 NHXS /api/nhxs
+273 Nibbme  /api/nibbme
+274 nibl /api/nibl
+275 Nice Time on Ice /api/nice-time-on-ice
+276 NiceNic /api/nicenic
+277 Nicereply /api/nicereply
+278 Nifty Cloud /api/nifty-cloud
+279 Nigerian Stock Exchange /api/nigerian-stock-exchange
+280 NightLife Texting /api/nightlife-texting
+281 Nike Materials Sustainability /api/nike-materials-sustainability
+282 Nike Plus /api/nike-plus
+  --> Fitbit Daemon
+283 NileGuide /api/nileguide
+284 Nimbb /api/nimbb
+285 nimbits /api/nimbits
+286 Nimbix /api/nimbix
+287 Nimble /api/nimble
+288 Nimbula /api/nimbula
+289 Nimbus Phantom /api/nimbus-phantom
+290 Nimbus.io /api/nimbus.io
+291 Nimbuzz /api/nimbuzz
+292 Nimsoft CloudMonitor /api/nimsoft-cloudmonitor
+293 Ninchat /api/ninchat
+294 Ninefold Online Storage /api/ninefold-online-storage
+295 Ning /api/ning
+  --> Best Beauty Search
+  --> Gawkk.com
+  --> Ning and Box.net
+  --> OMOM - Online Members On Map
+  --> Rosetta
+  --> The Five Space
+296 Ningbo Institute of Technology SOIP /api/ningbo-institute-of-technology-soip
+297 Ninja Blocks /api/ninja-blocks
+298 Nirvanix /api/nirvanix
+299 NISS /api/niss
+300 NIST CDA Guideline Validation /api/nist-cda-guideline-validation
+301 NITLE Blog Census /api/nitle-blog-census
+302 Nive /api/nive
+303 NJ Transit DepartureVision /api/nj-transit-departurevision
+304 NL.AE iptoc /api/nl.ae-iptoc
+305 Nlyte Ngauge /api/nlyte-ngauge
+306 NN.NF /api/nn.nf
+307 nNetis Tennis Database /api/nnetis-tennis-database
+308 NOAA Climate Data Online /api/noaa-climate-data-online
+  --> Cheap Places to Live
+  --> Furkot - free online road trip planner
+309 NOAA ERDDAP /api/noaa-erddap
+  --> Tidely
+310 NOAA GOES SEM /api/noaa-goes-sem
+311 NOAA GOES Solar X-Ray Imager /api/noaa-goes-solar-x-ray-imager
+312 NOAA Historical Observing Metadata Repository /api/noaa-historical-observing-metadata-repository
+313 NOAA MADIS /api/noaa-madis
+314 NOAA National Weather Service (NWS) /api/noaa-national-weather-service-nws
+  --> Bester News
+  --> Blizzalert
+  --> DGMapper - Disc Golf Tournament Map and Calendar
+  --> fishingnotes.com
+  --> LocAlerts
+  --> MoreMap
+  --> OMG Rainbows!
+  --> Ski Bonk
+  --> Tidespy: Tide Charts with Best Fishing Times
+  --> VirtualTraveller
+  --> Weather Alerts
+  --> Weather Bonk
+  --> WeatherMole
+315 NOAA Severe Weather Data Inventory /api/noaa-severe-weather-data-inventory
+316 Nobel Prize /api/nobel-prize
+317 Nodejitsu /api/nodejitsu
+318 NodePing /api/nodeping
+319 Nodester /api/nodester
+  --> Explore TEDxAlger
+320 Noisebridge /api/noisebridge
+321 NoiseTube /api/noisetube
+322 Nokia Map Image /api/nokia-map-image
+323 Nokia Maps /api/nokia-maps
+  --> Geo Location Atlas
+324 Nokia MixRadio /api/nokia-mixradio
+325 Nokia Music /api/nokia-music
+326 Nokia Places /api/nokia-places
+327 NolaPro /api/nolapro
+  --> NolaPro
+328 Nomaine /api/nomaine
+329 Nomi /api/nomi
+330 Nomisma /api/nomisma
+331 Nonoba /api/nonoba
+332 nooked /api/nooked
+333 Nordea Markets /api/nordea-markets
+334 NorseCorp /api/norsecorp
+335 North Sidney Council Application Master /api/north-sidney-council-application-master
+336 Northtext /api/northtext
+337 Norway Weather /api/norway-weather
+  --> Saaennuste.fi
+  --> SvD weather
+  --> We Love Wind
+338 Norwegian Biodiversity Information Centre /api/norwegian-biodiversity-information-centre
+339 Norwegian Bioinformatics Platform /api/norwegian-bioinformatics-platform
+340 Norwegian Meteorological Institute /api/norwegian-meteorological-institute
+341 Nos Données (Our Data) /api/nos-donnes-our-data
+342 NoSwearing /api/noswearing
+343 Notable and Quotable Random Quote /api/notable-and-quotable-random-quote
+344 Notches /api/notches
+345 Noteflight /api/noteflight
+346 NoteHub /api/notehub
+347 Notely /api/notely
+348 NoteShred /api/noteshred
+349 Notifixio.us /api/notifixio.us
+  --> Notifixious and SimplyHired
+  --> Notifixious and Twitter
+  --> Technorati and Notifixious
+350 Notifo /api/notifo
+  --> DBStract.com
+351 Notify.Me /api/notify.me
+352 Nova Software Schedule File /api/nova-software-schedule-file
+353 Novasol /api/novasol
+354 NovelASPect /api/novelaspect
+355 Novelty Global SMS /api/novelty-global-sms
+356 novoseek /api/novoseek
+357 nowCOAST LayerInfo /api/nowcoast-layerinfo
+358 Nozbe /api/nozbe
+  --> TodoToday for Nozbe
+359 NPR /api/npr
+  --> bitPrompt
+  --> NPR Road Trip Planner
+  --> NPRbackstory
+  --> nprSQ
+  --> Reverbiage
+360 NRC ADAMS /api/nrc-adams
+361 NREL Alternative Fuel Stations /api/nrel-alternative-fuel-stations
+362 NREL Building Component Library /api/nrel-building-component-library
+363 NREL National Solar Radiation Database /api/nrel-national-solar-radiation-database
+364 NREL PVWatts /api/nrel-pvwatts
+365 NREL Solar /api/nrel-solar
+366 NSDL Repository Update Service /api/nsdl-repository-update-service
+367 NSDL Search /api/nsdl-search
+368 NSIDC /api/nsidc
+369 nSphere /api/nsphere
+370 nsure.io /api/nsure.io
+371 NSW Home Warranty Premium Calculator /api/nsw-home-warranty-premium-calculator
+372 NSW Motor Vehicle Reporting App /api/nsw-motor-vehicle-reporting-app
+373 NSW Office of Water Hydstra /api/nsw-office-of-water-hydstra
+374 NSW State Records /api/nsw-state-records
+375 NTNU IME Faculty /api/ntnu-ime-faculty
+376 nToklo /api/ntoklo
+377 NTZA Traffic Webcams /api/ntza-traffic-webcams
+378 Nuance Nina /api/nuance-nina
+379 NuBot /api/nubot
+380 Nuclear Protein Database /api/nuclear-protein-database
+381 Nuconomy /api/nuconomy
+382 NuGram Runtime /api/nugram-runtime
+383 NuMaps /api/numaps
+384 NumberLaundry /api/numberlaundry
+385 Numbers /api/numbers
+  --> Contextwit!
+386 Numbler /api/numbler
+387 Numenta Grok /api/numenta-grok
+388 Numismatic Search /api/numismatic-search
+389 Numote Live /api/numote-live
+390 Nursing &amp; Health Survival Guides /api/nursing-health-survival-guides
+391 NUSMods /api/nusmods
+392 NutchWAX OpenSearch /api/nutchwax-opensearch
+393 Nutribu /api/nutribu
+394 Nutritionix /api/nutritionix
+395 Nutshell /api/nutshell
+396 nViso /api/nviso
+397 NVMS /api/nvms
+398 NWCC Air and Water Database /api/nwcc-air-and-water-database
+399 NWCC Air-Water Database /api/nwcc-air-water-database
+400 NWN master server tracker /api/nwn-master-server-tracker
+401 NWQMC Water Quality Portal /api/nwqmc-water-quality-portal
+402 NY Senate /api/ny-senate
+403 NYC 311 Online /api/nyc-311-online
+404 NYC Open Data /api/nyc-open-data
+  --> Open City Agora
+  --> wattQuiz
+405 Nymbol /api/nymbol
+406 Nymi /api/nymi
+407 NYPL Digital Gallery /api/nypl-digital-gallery
+408 NYPL What's on the Menu /api/nypl-whats-on-the-menu
+409 NYXdata /api/nyxdata
+410 NZTA Auckland Traffic /api/nzta-auckland-traffic
+411 NZTA Christchurch Traffic /api/nzta-christchurch-traffic
+412 NZTA Highway Info /api/nzta-highway-info
+413 NZTA Location Referencing /api/nzta-location-referencing
+414 NZTA SSDF Segment Manager /api/nzta-ssdf-segment-manager
+415 O'Reilly Product Metadata Interface /api/oreilly-product-metadata-interface
+416 O*NET /api/onet
+417 O-Maniac! /api/o-maniac
+418 Oahu Transit Services /api/oahu-transit-services
+419 Oakland Crime Reports /api/oakland-crime-reports
+420 Oakland Crimespotting /api/oakland-crimespotting
+421 OANDA FXTrade /api/oanda-fxtrade
+422 ObexCode /api/obexcode
+423 Obituarydata.com /api/obituarydata.com
+424 ObjectRocket /api/objectrocket
+425 Observu /api/observu
+426 Obsidian Portal /api/obsidian-portal
+427 OC Transpo /api/oc-transpo
+428 Ocean Networks Canada /api/ocean-networks-canada
+429 Ockham Spell /api/ockham-spell
+430 OCLC Article Exchange  /api/oclc-article-exchange
+431 OCLC Classify /api/oclc-classify
+432 OCLC Crosswalk /api/oclc-crosswalk
+433 OCLC EprintsUK /api/oclc-eprintsuk
+434 OCLC Kindred Works /api/oclc-kindred-works
+435 OCLC MapFAST /api/oclc-mapfast
+436 OCLC QuestionPoint /api/oclc-questionpoint
+437 OCLC Virtual International Authority File /api/oclc-virtual-international-authority-file
+438 OCLC WMS /api/oclc-wms
+439 OCR Terminal /api/ocr-terminal
+440 OCR Web Service /api/ocr-web-service
+441 OCR-IT /api/ocr-it
+442 Octopart Electronics /api/octopart-electronics
+443 Octopod /api/octopod
+444 Octopus-News /api/octopus-news
+445 OctopusDeploy /api/octopusdeploy
+446 OctopusTravel /api/octopustravel
+447 Ocutag /api/ocutag
+448 OCWSearch /api/ocwsearch
+449 Odds24 /api/odds24
+450 OddsMiner /api/oddsminer
+451 oDesk /api/odesk
+452 Odnoklassniki /api/odnoklassniki
+  --> immipad
+453 ODP Search /api/odp-search
+454 OECD Open Data /api/oecd-open-data
+455 OFAC Analyzer /api/ofac-analyzer
+456 OffeneDaten /api/offenedaten
+457 OfferGrid /api/offergrid
+458 Offerpal /api/offerpal
+459 Offerpop Contest Integration /api/offerpop-contest-integration
+460 Office for National Statistics /api/office-for-national-statistics
+461 OfficeAutoPilot /api/officeautopilot
+462 OfficeDrop /api/officedrop
+463 OfficeRecovery /api/officerecovery
+464 Officeshots /api/officeshots
+465 Official.fm /api/official.fm
+466 OffiServ /api/offiserv
+467 Offline Geolocation /api/offline-geolocation
+468 Offorte /api/offorte
+469 Ofuz /api/ofuz
+470 Oh Hey World /api/oh-hey-world
+471 Ohloh /api/ohloh
+  --> Achivy
+  --> coderbits
+472 Ohmydeal /api/ohmydeal
+473 OhNoRobot /api/ohnorobot
+474 OiDViEW MIB /api/oidview-mib
+475 OIPA: Openaid IATI  /api/oipa-openaid-iati
+476 Okkam /api/okkam
+477 Oklahoma Compulsory Insurance Verification System /api/oklahoma-compulsory-insurance-verification-system
+478 OKPAY /api/okpay
+479 Okta /api/okta
+480 Oktopost /api/oktopost
+481 Olapic /api/olapic
+482 Olark /api/olark
+483 OLI-it /api/oli-it
+484 OligoSelection /api/oligoselection
+485 OLO /api/olo
+486 Olopoly /api/olopoly
+487 olpcMAP /api/olpcmap
+488 OMA Browser /api/oma-browser
+489 OMG /api/omg
+490 Omgili /api/omgili
+  --> Newspaper.li
+  --> TagsUp
+491 OMIM /api/omim
+492 OMNIASIG /api/omniasig
+493 OmniComm TrialOne /api/omnicomm-trialone
+494 Omnidrive /api/omnidrive
+  --> FireUploader
+  --> Zoho and Omindrive
+495 omniEffect Universal Platform /api/omnieffect-universal-platform
+496 Omnifone MusicStation /api/omnifone-musicstation
+497 Omnistar /api/omnistar
+498 omNovia Archive /api/omnovia-archive
+499 OMS /api/oms
+500 On Deck Capital /api/on-deck-capital
+501 OnApp /api/onapp
+502 Onboard Informatics /api/onboard-informatics
+503 Onboard Lifestyle Search /api/onboard-lifestyle-search
+504 Onboard Points of Interest /api/onboard-points-of-interest
+505 Onboard Property Search /api/onboard-property-search
+506 Ondango /api/ondango
+507 ondi.ro Geocoding /api/ondi.ro-geocoding
+508 Ondore /api/ondore
+509 One App Cloud /api/one-app-cloud
+510 One Time Secret /api/one-time-secret
+511 One Way SMS /api/one-way-sms
+512 Oneall /api/oneall
+513 OneAPI4SMS /api/oneapi4sms
+514 OneBip /api/onebip
+515 OneBusAway /api/onebusaway
+516 OneDesk /api/onedesk
+517 OneGo /api/onego
+518 OneHourTranslation /api/onehourtranslation
+519 Onehub /api/onehub
+520 OneID /api/oneid
+521 ONEIS /api/oneis
+522 OneLogin /api/onelogin
+  --> Dentists in Brampton 
+  --> InvenBin
+523 OneLook Dictionary Search /api/onelook-dictionary-search
+524 OneMusic /api/onemusic
+525 OneOutBox /api/oneoutbox
+526 OnePageCRM /api/onepagecrm
+527 OneSchool /api/oneschool
+528 OneSearchAway /api/onesearchaway
+529 ONEsite /api/onesite
+530 OneSkyApp /api/oneskyapp
+531 OneStyle Cart /api/onestyle-cart
+532 OneTok /api/onetok
+533 OneTrueFan /api/onetruefan
+534 OneWinner.Me /api/onewinner.me
+535 OnForce /api/onforce
+536 Ongage /api/ongage
+537 ONKI Ontology and Thesaurus /api/onki-ontology-and-thesaurus
+538 Online Commodity Broker Certigo /api/online-commodity-broker-certigo
+539 Online Courier Quotes /api/online-courier-quotes
+540 Online Cron Job /api/online-cron-job
+541 Online OCR /api/online-ocr
+542 Online Talent Manager /api/online-talent-manager
+543 Online Whois Lookup /api/online-whois-lookup
+544 Online-Convert.com /api/online-convert.com
+545 OnlineCity NIMTA /api/onlinecity-nimta
+546 OnlineNIC /api/onlinenic
+547 OnlinePizza.se /api/onlinepizza.se
+548 OnlyWire /api/onlywire
+549 Onset HOBOlink /api/onset-hobolink
+550 OnSIP VoIP /api/onsip-voip
+551 OnSIP XMPP /api/onsip-xmpp
+552 OnSugar /api/onsugar
+553 OnTime Outbound Calling /api/ontime-outbound-calling
+554 Ontimenow  /api/ontimenow
+555 Ontok /api/ontok
+  --> Banned Books
+  --> MusicPortl
+  --> Ontok Highlighter
+  --> Track Eminent Domain Abuses
+  --> Unthirsty.com
+  --> UrbanHitchhiker.com
+556 Ontok Wikipedia /api/ontok-wikipedia
+  --> MusicPortl.com
+  --> NewsBlade
+557 Ontos /api/ontos
+558 Onuma Planning System /api/onuma-planning-system
+559 Onuma WFS /api/onuma-wfs
+560 ONVIF /api/onvif
+561 Oobgolf /api/oobgolf
+562 OOcharts /api/oocharts
+563 Oodle /api/oodle
+  --> 615 Nashville
+  --> 615 Nasvhille
+  --> adoodles
+  --> AllinOneMart
+  --> Cats Now
+  --> Classifiables
+  --> ConnectorLocal
+  --> Craigslist-Search.Com
+  --> Dachshund Adoption
+  --> Dogs Now
+  --> Find a Car
+  --> FindHorsesForSale.net
+  --> Instrument Wire
+  --> Job Searching Engine
+  --> Local Bike Trader
+  --> MattClassifieds
+  --> MattFind.com
+  --> MobileHomesForSaleInfo.com
+  --> Money Manager
+  --> My Apartment Map
+  --> MyApartmentMap Rentals
+  --> PetStew.com
+  --> PicClick
+  --> Pick Your Perfect Pet
+  --> Real Estate Listings for Android
+  --> RenttoOwnQuest
+  --> RentUntilYouOwn.com
+  --> Reptiles Now
+  --> SchoolAndHousing
+  --> TinkOMatic
+  --> Woya Shopping
+  --> Yosle yardsales
+  --> Your Baby Now
+564 Ookaboo /api/ookaboo
+  --> MobileHomesForSaleInfo.com
+565 Oonetic BuyBox /api/oonetic-buybox
+566 ooVoo /api/oovoo
+  --> Media Share
+567 Ooyala Analytics /api/ooyala-analytics
+568 Ooyala Interactive Video /api/ooyala-interactive-video
+569 Ooyala Video Player /api/ooyala-video-player
+  --> Gawkk.com
+570 Open Access Plagiarism Search  /api/open-access-plagiarism-search
+571 Open Archives Initiative /api/open-archives-initiative
+572 Open Assessments /api/open-assessments
+573 Open Bank Project OBP /api/open-bank-project-obp
+574 Open Beer Database /api/open-beer-database
+575 Open Charge Map /api/open-charge-map
+576 Open Context /api/open-context
+577 Open Data Badalona /api/open-data-badalona
+578 Open Data Catalogue Austria /api/open-data-catalogue-austria
+579 Open Data Euskadi /api/open-data-euskadi
+580 Open Data gencat /api/open-data-gencat
+581 Open Dems Polling Place /api/open-dems-polling-place
+582 Open Dems Voter Registration /api/open-dems-voter-registration
+583 Open Desktop /api/open-desktop
+584 Open Dining Network Food Ordering /api/open-dining-network-food-ordering
+  --> Order Anywhere (Beta)
+585 Open Domesday /api/open-domesday
+586 Open EAN/GTIN Database /api/open-eangtin-database
+587 Open Energy Information /api/open-energy-information
+588 Open Exchange Rates /api/open-exchange-rates
+589 Open Fraud Detection Project /api/open-fraud-detection-project
+590 Open Game /api/open-game
+591 Open Gif /api/open-gif
+592 Open Government Data Initiative /api/open-government-data-initiative
+  --> BillMaps
+593 Open Images /api/open-images
+594 Open Kent /api/open-kent
+595 Open Knesset User Voting API /api/open-knesset-user-voting-api
+596 Open Library /api/open-library
+597 Open Meteo Forecast /api/open-meteo-forecast
+598 Open mHealth /api/open-mhealth
+599 Open New York Child Care Regulated Programs /api/open-new-york-child-care-regulated-programs
+600 Open New York Farmers Markets in New York State /api/open-new-york-farmers-markets-in-new-york-state
+601 Open New York Recommended Fishing Rivers and Streams /api/open-new-york-recommended-fishing-rivers-and-streams
+602 Open North Represent /api/open-north-represent
+603 Open Notify /api/open-notify
+604 Open Onderwijs Data /api/open-onderwijs-data
+605 Open Patent Services /api/open-patent-services
+  --> IP Newsflash Patent Family Search
+606 Open PHACTS /api/open-phacts
+607 Open Places /api/open-places
+608 Open Responsibility /api/open-responsibility
+609 Open Source Currency /api/open-source-currency
+610 Open Source Exchange Rates  /api/open-source-exchange-rates
+611 Open Spreety /api/open-spreety
+612 Open State Project /api/open-state-project
+613 Open States /api/open-states
+614 Open Stockholm /api/open-stockholm
+615 Open Taobao /api/open-taobao
+616 Open University of Catalonia (UOC) /api/open-university-of-catalonia-uoc
+617 Open Voice /api/open-voice
+618 Open Weather Map /api/open-weather-map
+619 Open Xdrive /api/open-xdrive
+620 Open Xerox PDF-to-XML /api/open-xerox-pdf-to-xml
+621 Open311 /api/open311
+622 OpenAddresses GeoLocated Address Search /api/openaddresses-geolocated-address-search
+623 OpenADR /api/openadr
+624 OpenAid /api/openaid
+625 OpenAustralia /api/openaustralia
+626 OpenBaltimore /api/openbaltimore
+627 OpenBlock /api/openblock
+628 openBmap /api/openbmap
+629 OpenCaching /api/opencaching
+630 Opencaching.us /api/opencaching.us
+631 OpenCarData /api/opencardata
+632 OpenCellID /api/opencellid
+633 Openclipart /api/openclipart
+634 OpenCNAM /api/opencnam
+635 OpenColorado /api/opencolorado
+636 OpenCongress /api/opencongress
+637 OpenCorporates /api/opencorporates
+638 OpenCrypt Video Conversion /api/opencrypt-video-conversion-2
+639 OpenCrypt Video Conversion /api/opencrypt-video-conversion
+640 openDada /api/opendada
+  --> DJBooth
+  --> Obani Urban Music 
+  --> ReRingtones
+  --> Ringtone Gal
+641 Opendatacommunities /api/opendatacommunities
+642 OpenDataPhilly /api/opendataphilly
+643 OpenDOAR /api/opendoar
+  --> Repository66
+644 OpenDover /api/opendover
+645 OpenDrive /api/opendrive
+646 OpenEco  /api/openeco
+647 OpenEMI Music /api/openemi-music
+648 OpenFace /api/openface
+649 openfooty /api/openfooty
+650 OpenGeocoding /api/opengeocoding
+651 OpenGeoTracker /api/opengeotracker
+652 OpenGov NSW /api/opengov-nsw
+653 opengov.es /api/opengov.es
+654 opengov.fi /api/opengov.fi
+655 OpenGovernment /api/opengovernment
+656 OpenHallway /api/openhallway
+657 OpenHazards GetEarthquakeProbability /api/openhazards-getearthquakeprobability
+658 OPENi /api/openi
+659 OpenJaw Tribe /api/openjaw-tribe
+660 OpenKeyval /api/openkeyval
+661 OpenKit /api/openkit
+662 OpenLabels /api/openlabels
+663 OpenLayers /api/openlayers
+  --> Arrivedin.com
+  --> CartoLogic OpenLayers Demo
+  --> Cheap Places to Live
+  --> ClickPoint
+  --> Flash Earth
+  --> G4ng
+  --> Google Maps Multiuser Conversational Game
+  --> Mandelbrot Fractal Explorer
+  --> myElectorate Australia
+  --> North American Environmental Atlas
+  --> OK Travel Australia
+  --> okSchool Explorer
+  --> Pentomino Puzzle
+  --> Spatialbook
+  --> Tweetmapper
+  --> WeoGeo
+664 OpenLearning /api/openlearning
+665 OpenLigaDB /api/openligadb
+666 Openly Local /api/openly-local
+667 OpenMarket Push Notifications /api/openmarket-push-notifications
+668 OpenMedia.io /api/openmedia.io
+669 OpenMenu /api/openmenu
+670 OpenMinds /api/openminds
+671 openModeller /api/openmodeller
+672 Openomy /api/openomy
+673 openOV /api/openov
+674 openparliament.ca /api/openparliament.ca
+675 OpenPaths /api/openpaths
+676 Openpay /api/openpay
+677 OpenPhoto /api/openphoto
+678 OpenRouteService /api/openrouteservice
+679 OpenSearchServer Screenshot /api/opensearchserver-screenshot
+680 OpenSecrets /api/opensecrets
+  --> bitPrompt
+  --> Congress SpaceBook
+  --> Display of US Political Information
+  --> Fedtastic
+  --> jQueery
+  --> Regime
+  --> US Campaign Contributions by Industry
+681 OpenSesame /api/opensesame
+682 OpenSignal /api/opensignal
+683 OpenSky /api/opensky
+684 OpenSkyQuery SkyPortal /api/openskyquery-skyportal
+  --> Cbeams.org - Deep Sky Objects Database
+685 OpenSnow /api/opensnow
+686 openSNP /api/opensnp
+687 OpenSocial /api/opensocial
+  --> Gawkk.com
+  --> HIT Map Blog
+  --> Learnit Lists
+  --> Outfit Editor
+  --> Twitkut
+688 OpenSosius /api/opensosius
+  --> Sosius Integrates Signature
+689 OpenSpending /api/openspending
+690 OpenSRS  /api/opensrs
+691 OpenStack  /api/openstack
+692 OpenStrands /api/openstrands
+  --> eFanMusic
+693 OpenStreetMap /api/openstreetmap
+  --> Antenna
+  --> CoinMap
+  --> G4ng
+  --> Lobbyist Activity Tracker
+  --> Mappyfriends
+  --> Maps For Smartphone
+  --> Maps of All
+  --> Maps Shown To Me
+  --> Pageflakes
+  --> Place My Past
+  --> playmap.jp
+  --> RunningFree
+  --> Sinsai Japan Earthquake Resources
+  --> Suburbified
+  --> The Slate Starbucks Map Quiz
+  --> Tipperary Food Producers Map
+  --> Tweetmapper
+  --> UMapper 
+  --> Vaguely Rude Place Names Of The World
+  --> WeGooo
+  --> Where Can I Live?
+694 OpenStreetMap Name Finder /api/openstreetmap-name-finder
+695 OpenStreetMap Taginfo /api/openstreetmap-taginfo
+696 Opensubtitles /api/opensubtitles
+697 OpenTech /api/opentech
+698 OpenThesaurus /api/openthesaurus
+699 OpenTox /api/opentox
+700 Opentracker Developer Analytics /api/opentracker-developer-analytics
+701 Openwave Network Address Book /api/openwave-network-address-book
+702 OpenX /api/openx
+  --> Agenzy.com
+703 OpenXC /api/openxc
+704 Opinionage /api/opinionage
+705 OpinionCrawl Sentiment Analysis /api/opinioncrawl-sentiment-analysis
+  --> Opinion Crawl
+706 OPIS  /api/opis
+707 OppsPlace /api/oppsplace
+708 Opscode Chef Server /api/opscode-chef-server
+709 Opscode Cookbooks /api/opscode-cookbooks
+710 OpsGenie /api/opsgenie
+711 Opt It Mobile /api/opt-it-mobile
+712 Optemo Search /api/optemo-search
+713 OpTier /api/optier
+714 Optify /api/optify
+715 OptimalPayments Netbanx /api/optimalpayments-netbanx
+716 Optimizely /api/optimizely
+717 OptionsHouse /api/optionshouse
+718 OptionsXpress /api/optionsxpress
+719 Opuss /api/opuss
+720 Oracle CRM On Demand /api/oracle-crm-on-demand
+721 Orange Authentication /api/orange-authentication
+722 Orange Click-to-Call /api/orange-click-to-call
+723 Orange Contact Everyone /api/orange-contact-everyone
+724 Orange Device Capability Enabler /api/orange-device-capability-enabler
+725 Orange Email /api/orange-email
+726 Orange Location /api/orange-location
+  --> Allo Sortir
+727 Orange MMS /api/orange-mms
+728 Orange Mobeasy Platform /api/orange-mobeasy-platform
+729 Orange Multimedia Conference /api/orange-multimedia-conference
+730 Orange Payline /api/orange-payline
+731 Orange Personal Calendar /api/orange-personal-calendar
+732 Orange Personal Contacts /api/orange-personal-contacts
+733 Orange Personal Content /api/orange-personal-content
+734 Orange Personal Favourites /api/orange-personal-favourites
+735 Orange Personal Messages /api/orange-personal-messages
+736 Orange Personal Photos /api/orange-personal-photos
+737 Orange Personal Profile /api/orange-personal-profile
+738 Orange SMS /api/orange-sms
+  --> Allo Sortir
+739 Orange Voicemail /api/orange-voicemail
+740 Orange VoiceMashup /api/orange-voicemashup
+741 Orb /api/orb
+  --> Netvibes Orb Quick Finder
+742 Orbis  /api/orbis
+743 Orchestrate.io /api/orchestrate.io
+744 ORCID  /api/orcid
+745 OrderDog /api/orderdog
+746 OrderHarmony /api/orderharmony
+747 orderTopia /api/ordertopia
+748 Orderwave /api/orderwave
+749 Ordnance Survey OpenSpace /api/ordnance-survey-openspace
+  --> Geograph Photos
+  --> Photospots
+  --> Where Is The Path
+750 Ordr.in /api/ordr.in
+  --> Dentists in Brampton 
+  --> FoodieToGo
+  --> Hubot-Food
+  --> ImmaBeHungover
+  --> Meals With Friends
+  --> Meetup and Chow Down
+  --> mommy
+  --> NP-Food: Exact Cost
+751 Oregon Education /api/oregon-education
+752 Oregon Liquor Prices /api/oregon-liquor-prices
+753 Oregon Metro RLIS /api/oregon-metro-rlis
+754 OReilly Safari /api/oreilly-safari
+755 OremGeocoder /api/oremgeocoder
+756 OrgSync /api/orgsync
+757 Origo /api/origo
+758 Orion /api/orion
+759 Orion's Belt /api/orions-belt
+760 Orkut /api/orkut
+  --> HIT Map Blog
+  --> Learnit Lists
+  --> OMOM - Online Members On Map
+  --> Plocky.com: Get your e-life together
+  --> Twitkut
+761 Osmek /api/osmek
+762 Osmosis /api/osmosis
+763 Ost.io /api/ost.io
+764 Ostext /api/ostext
+765 OSU Calendar Web Service /api/osu-calendar-web-service
+766 osu! /api/osu
+767 Our Manna Daily Verses /api/our-manna-daily-verses
+768 OurShelf /api/ourshelf
+769 Outpost.Travel Public /api/outpost.travel-public
+770 Outright  /api/outright
+771 Outside.in /api/outside.in
+  --> Lookzi
+  --> MyBackyard Coastal Carolina
+  --> near.ly
+  --> The TurnSocial bar
+  --> yolink-Outside.in Mashup
+772 Outune /api/outune
+773 Oventus /api/oventus
+774 OverDrive /api/overdrive
+775 Overlake Golf and Country Club Photo Album /api/overlake-golf-and-country-club-photo-album
+776 Overlay.TV /api/overlay.tv
+777 Overpass OpenStreetMap /api/overpass-openstreetmap
+778 OVERTURES SMS /api/overtures-sms
+779 Overwolf /api/overwolf
+780 OVH Cloud /api/ovh-cloud
+781 OVH.com /api/ovh.com
+782 Ow.ly /api/ow.ly
+783 OwnCloud /api/owncloud
+784 OWS Coupons /api/ows-coupons
+785 Oxford English Dictionary /api/oxford-english-dictionary
+786 Oxilion Antispam /api/oxilion-antispam
+787 Oxygen Cloud /api/oxygen-cloud
+788 Oxygen.next /api/oxygen.next
+789 OZ Data Centa /api/oz-data-centa
+790 OzMedia /api/ozmedia
+791 P4D /api/p4d
+792 Paago /api/paago
+793 Pachube /api/pachube
+  --> RDTN
+794 Pacific Biosciences SMRT Pipe /api/pacific-biosciences-smrt-pipe
+795 Pacific Links Hawaii Championship Photo Album /api/pacific-links-hawaii-championship-photo-album
+796 packit4me /api/packit4me
+797 Pactas /api/pactas
+798 Paddle /api/paddle
+799 Padpaw /api/padpaw
+800 PaeDae /api/paedae
+801 Page2Images /api/page2images
+  -->  Mobile Emulator
+  --> Batch URL to Image Converter 
+  --> Mobile OK Checker
+  --> Website Screenshot Generator
+802 Pageflakes /api/pageflakes
+  --> preciseNews
+  --> preciseTechnology
+803 PageGlimpse /api/pageglimpse
+804 PageLever /api/pagelever
+805 Pagelime /api/pagelime
+806 Pagely Partner /api/pagely-partner
+807 PageMunch /api/pagemunch
+808 PageOne /api/pageone
+809 PagePeeker /api/pagepeeker
+810 PagerDuty /api/pagerduty
+  --> PhoneDuty
+811 Pagevamp /api/pagevamp
+812 Pagify /api/pagify
+813 Paglo /api/paglo
+814 Paidpiper /api/paidpiper
+815 PalBee Mashup /api/palbee-mashup
+816 PaleoDB /api/paleodb
+817 Palma Resort /api/palma-resort
+818 PamFax /api/pamfax
+819 Panacea Mobile Bulk SMS /api/panacea-mobile-bulk-sms
+820 Pancake /api/pancake
+821 Panda /api/panda
+822 Pando /api/pando
+823 Pandorabots /api/pandorabots
+824 Panelesms Send /api/panelesms-send
+825 Panl /api/panl
+826 Panopta /api/panopta
+827 Panoptix /api/panoptix
+828 Panoramio /api/panoramio
+  --> Cahella
+  --> Caribbean Resorts Mashup
+  --> ChaMap
+  --> ClickPoint
+  --> ConnectorLocal
+  --> CrimeLit
+  --> Distances Calculator
+  --> Earthplacemarks
+  --> FlexiJourney Travel
+  --> Fun Tourist Attractions
+  --> G4ng
+  --> geognos
+  --> GeoPix
+  --> GeoPix Fractal View
+  --> GoolzOOm
+  --> GPSies.com
+  --> Headup
+  --> ImmoPlaza
+  --> Locago
+  --> Localliser
+  --> Loomji
+  --> MapMyPage
+  --> Maps Shown To Me
+  --> MAPyou
+  --> MeetSomewhere
+  --> Mymaps.dk
+  --> ongmap
+  --> Panoramio Holiday Countdown
+  --> Parto Subito
+  --> PicTell: Self Describing Photos
+  --> Plan Your Road Trips
+  --> playmap.jp
+  --> printo.jp
+  --> Real Estate Tools
+  --> Real Indoor
+  --> Safiri.dk Travel Search
+  --> See Bournemouth
+  --> Sightsmap
+  --> Spot a Hotel
+  --> Take Kerala (India)
+  --> Tidespy: Tide Charts with Best Fishing Times
+  --> Tixik.com Tourist Guide
+  --> Towns Of The World
+  --> Travel at RoamEarth.com
+  --> Travel Mixed
+  --> TravelOxi.com
+  --> Tripmondo
+  --> TripSailor -  Sailing Blogs, Yacht Charter Reviews, Sailing Adventures, 
+  --> View Satellite Imagery at Full Browser Window
+  --> Wolpy
+829 Papa Texts /api/papa-texts
+830 Papel a Web /api/papel-a-web
+831 PaperBack Swap /api/paperback-swap
+  --> Towns Of The World
+832 PaperCut /api/papercut
+833 PaperHost /api/paperhost
+834 Paperlex /api/paperlex
+835 Papertrail /api/papertrail
+836 Papirus /api/papirus
+837 Parallel Kingdom Trade Data /api/parallel-kingdom-trade-data
+838 Parcel Pro /api/parcel-pro
+839 ParcelCheck /api/parcelcheck
+840 ParcelMonkey /api/parcelmonkey
+841 ParcelStream /api/parcelstream
+842 Pardot Marketing Automation /api/pardot-marketing-automation
+843 Paris Is /api/paris-is
+844 Park Shark /api/park-shark
+845 ParkingInMotion /api/parkinginmotion
+846 ParkMe /api/parkme
+847 ParkWhiz /api/parkwhiz
+848 Parlay X /api/parlay-x
+849 ParliamentData.ca /api/parliamentdata.ca
+850 ParsCit /api/parscit
+851 Parse /api/parse
+  --> AutoProfilez
+852 Parse.ly /api/parse.ly
+853 Parse.ly Recommendations /api/parse.ly-recommendations
+854 Parseco /api/parseco
+855 Parsel /api/parsel
+856 Parsify /api/parsify
+857 PartySpark /api/partyspark
+858 PartySync /api/partysync
+859 Paspartout /api/paspartout
+860 PassDefense /api/passdefense
+861 PassDock /api/passdock
+862 PassHound /api/passhound
+863 PassKit /api/passkit
+864 Passphrase Random Password /api/passphrase-random-password
+865 PassSlot /api/passslot
+866 PassSource /api/passsource
+867 Passta /api/passta
+868 PassVerse /api/passverse
+869 Pastebin.com /api/pastebin.com
+870 PastPages /api/pastpages
+871 PastPlace /api/pastplace
+872 Patch /api/patch
+873 Path /api/path
+874 Path of Exile /api/path-of-exile
+875 Pathable /api/pathable
+876 Pathbase /api/pathbase
+877 Pathfinder /api/pathfinder
+878 Pathway Commons /api/pathway-commons
+879 Patient Opinion /api/patient-opinion
+880 PATLive /api/patlive
+881 Patrick's Aviation /api/patricks-aviation
+882 Paxum /api/paxum
+883 Pay It Square /api/pay-it-square
+884 PayAnywhere /api/payanywhere
+885 PayBy.Me /api/payby.me
+886 PayChannel /api/paychannel
+887 PayChoice Payment Gateway /api/paychoice-payment-gateway
+888 Paydiant /api/paydiant
+889 Payfirma  /api/payfirma
+890 PayGate Kenya /api/paygate-kenya
+891 PayGround Express Checkout /api/payground-express-checkout
+892 PayJunction /api/payjunction
+893 PayLane /api/paylane
+894 PayLeap /api/payleap
+895 Payline /api/payline
+896 PayLoadz /api/payloadz
+897 Paymate /api/paymate
+898 Payment Vision Pay /api/payment-vision-pay
+  --> FastCashier Wallet
+  --> FastCashier Wallet
+899 Payment21 /api/payment21
+900 PaymentEvolution /api/paymentevolution
+901 PaymentExpress /api/paymentexpress
+902 Payments Gateway /api/payments-gateway
+  --> FastCashier Wallet
+903 PaymentSpring /api/paymentspring
+904 PaymentVault  /api/paymentvault
+905 PaymentVision Pay /api/paymentvision-pay
+906 Paymentwall /api/paymentwall
+  --> FastCashier Wallet
+907 Paymill /api/paymill
+908 Paymo /api/paymo
+909 PayNearMe /api/paynearme
+910 PayNetEasy /api/payneteasy
+911 Paynoy /api/paynoy
+912 PayOnDelivery /api/payondelivery
+913 PayPal /api/paypal
+  --> AuctionSound
+  --> Best Dining
+  --> Blinksale
+  --> Brownstoner Marketplace
+  --> China Electronics Wholesale
+  --> Connecting Consumers and Businesses in Cities, Worldwide!
+  --> Donations
+  --> Dropcash
+  --> DvdCrate.com
+  --> E-junkie Shopping Cart
+  --> eDigiCash Shopping Cart
+  --> FbFriendFinder.com
+  --> Feedback Army
+  --> fflap
+  --> grou.ps
+  --> Handmade Spark
+  --> Human Pets
+  --> JoomFlix JF Crowd 
+  --> Learn10
+  --> MsgTime.com
+  --> MyAdEngine
+  --> MyStoreRewards
+  --> PayBook
+  --> PayPal + DocuSign
+  --> PayPal for Thrutu
+  --> PayPal Refunds Made Easy - MassRefunds
+  --> PeerIt
+  --> PoxPay
+  --> printo.jp
+  --> PropertyWala.com
+  --> ShipStation
+  --> Sportmeets
+  --> TeachStreet
+  --> Twippr Twitter Payments
+  --> Willie Hurl Experience
+  --> WipBox
+  --> Yappoint
+914 PayPal Adaptive Accounts /api/paypal-adaptive-accounts
+915 PayPal Adaptive Payments /api/paypal-adaptive-payments
+916 PayPal Invoicing /api/paypal-invoicing
+917 PayPal MassPay /api/paypal-masspay
+918 PayPal Payflow Pro /api/paypal-payflow-pro
+919 PayPal Permissions /api/paypal-permissions
+920 PayPal Segmentation Service /api/paypal-segmentation-service
+921 PayPoint /api/paypoint
+922 Pays-Lecture /api/pays-lecture
+923 paysafecard /api/paysafecard
+924 Paysbuy /api/paysbuy
+925 Payscape Advisors /api/payscape-advisors
+926 Paysera Wallet /api/paysera-wallet
+927 PaySimple /api/paysimple
+928 Paysius /api/paysius
+929 Payson /api/payson
+930 PayTech EzPay Checkout /api/paytech-ezpay-checkout
+931 PayTrace /api/paytrace
+932 Paytrail Connect /api/paytrail-connect
+933 Payvment /api/payvment
+  --> ShipStation
+934 PayWay /api/payway
+935 Payza /api/payza
+936 PayZippy /api/payzippy
+937 PBS COVE /api/pbs-cove
+938 PBS Image Transformation Service /api/pbs-image-transformation-service
+939 PBS TV Schedules /api/pbs-tv-schedules
+940 PBS Universal User Authentication /api/pbs-universal-user-authentication
+941 PBwiki /api/pbwiki
+942 PC Monitor /api/pc-monitor
+943 PC2Paper Letter Pricing /api/pc2paper-letter-pricing
+944 Pcons /api/pcons
+945 PcProf predict physico-chemical profiles of proteins /api/pcprof-predict-physico-chemical-profiles-of-proteins
+946 PDBj /api/pdbj
+947 PDF Alchemy /api/pdf-alchemy
+948 PDF Converter /api/pdf-converter
+949 PDF Generator /api/pdf-generator
+  --> Fast Track Estate Agents
+  --> Online PDF Generator
+950 PDF24 Javascript PDF /api/pdf24-javascript-pdf
+951 PDF2Data /api/pdf2data
+952 Pdfcrowd /api/pdfcrowd
+953 PDFize /api/pdfize
+954 PDFmyURL /api/pdfmyurl
+955 PDFremix /api/pdfremix
+956 PDX /api/pdx
+957 PDX CitySync /api/pdx-citysync
+958 PDXCouncilConnect /api/pdxcouncilconnect
+  --> API discovery with Scheme
+  --> CivicVis
+  --> PDXster
+959 Peachnote /api/peachnote
+960 Peachpit Visual QuickStart Guides /api/peachpit-visual-quickstart-guides
+961 Pearson Brilliant Series /api/pearson-brilliant-series
+962 Pearson Correlation Coefficient /api/pearson-correlation-coefficient
+963 Pearson Dictionaries /api/pearson-dictionaries
+964 Pearson Food &amp; Drink /api/pearson-food-drink
+965 Pearson FT Education /api/pearson-ft-education
+966 Pearson Kitchen Manager /api/pearson-kitchen-manager
+967 Pebble /api/pebble
+968 Peecho /api/peecho
+969 PeekaCity /api/peekacity
+  --> Chicago Apartments
+970 PeekYou Social Analytics /api/peekyou-social-analytics
+  --> #BeerMap - The Top 2,500 Beers on Twitter
+971 Peer39 /api/peer39
+972 PeerIndex /api/peerindex
+  --> MarketMeSuite
+  --> Tvitre.no
+  --> Twibitz
+  --> WelcomeToYourData WordPress Plugin
+973 PeerJS /api/peerjs
+974 Peerlo JobGenie /api/peerlo-jobgenie
+975 PeerReach /api/peerreach
+976 Peixe Urbano /api/peixe-urbano
+977 Pelagios /api/pelagios
+978 Pelican Climate Control /api/pelican-climate-control
+979 Pen.io /api/pen.io
+980 PencePay /api/pencepay
+981 Penguin Classics /api/penguin-classics
+982 Peninsula Truck Rate Quote /api/peninsula-truck-rate-quote
+983 Penki Top 100 /api/penki-top-100
+984 Penny Currency /api/penny-currency
+985 PennyTel Open /api/pennytel-open
+986 Penolo /api/penolo
+987 Pensio /api/pensio
+988 People's Music Store /api/peoples-music-store
+989 PeopleAggregator /api/peopleaggregator
+990 Peoplebrowsr /api/peoplebrowsr
+991 PeopleBrowsr Kred /api/peoplebrowsr-kred
+992 PeopleBrowsr Kredentials /api/peoplebrowsr-kredentials
+993 Percolate /api/percolate
+994 Perfect Audience /api/perfect-audience
+995 Perfect Dating Profile /api/perfect-dating-profile
+996 PerfectForms /api/perfectforms
+997 PerfectMoney  /api/perfectmoney
+  --> eDigiCash Shopping Cart
+998 Performance Horizon /api/performance-horizon
+999 Performancing /api/performancing
+1000 Performancing pMetrics /api/performancing-pmetrics
+1001 Performant Juxta /api/performant-juxta
+1002 PeriShip /api/periship
+1003 Perkville /api/perkville
+1004 PermissionTV /api/permissiontv
+1005 Personal /api/personal
+1006 Personality Forge Chat Bot /api/personality-forge-chat-bot
+1007 Persony /api/persony
+1008 Persuasion /api/persuasion
+1009 Pervasive Data Integrator /api/pervasive-data-integrator
+1010 PetaProperti /api/petaproperti
+1011 Petfinder /api/petfinder
+  --> Cat Breeds
+1012 Pfam /api/pfam
+1013 PFGBEST BESTDirect /api/pfgbest-bestdirect
+1014 PGiConnect /api/pgiconnect
+1015 PGXN /api/pgxn
+1016 Phanfare /api/phanfare
+  --> Migratr
+  --> Pixelpipe
+1017 Pharmacy Checker /api/pharmacy-checker
+1018 Phaxio /api/phaxio
+1019 Pheed /api/pheed
+1020 Pheedo Ping  /api/pheedo-ping
+1021 PHF-TRAIN /api/phf-train
+1022 Philadelphia School Information /api/philadelphia-school-information
+1023 Philips hue /api/philips-hue
+1024 Philly Address Live /api/philly-address-live
+1025 Philly Hoods /api/philly-hoods
+1026 PHIN VADS /api/phin-vads
+1027 Phish.Net /api/phish.net
+1028 PhishTank /api/phishtank
+  --> PhishTank Bookmarklet
+  --> PhishTank SiteChecker
+  --> ScanURL.net
+1029 PHL /api/phl
+1030 pho.to /api/pho.to
+  --> Avatar Photo
+  --> Funny  Photo
+1031 Phocoder /api/phocoder
+1032 Phoenix Minecraft /api/phoenix-minecraft
+1033 PhoneDog /api/phonedog
+1034 PhoneGnome /api/phonegnome
+1035 Phoneify /api/phoneify
+1036 Phonescomplete /api/phonescomplete
+1037 PhoneTag /api/phonetag
+1038 PhoneVal /api/phoneval
+1039 Phono /api/phono
+1040 Phospho.ELM /api/phospho.elm
+1041 Photo Captcha /api/photo-captcha
+1042 Photobucket /api/photobucket
+  --> ApiTickr
+  --> bitPrompt
+  --> buffstuff.de
+  --> MeechMe
+  --> Migratr
+  --> obsvr.net
+  --> Photobucket Pics on TiVo
+  --> PicWash Photo Retouch Service
+  --> Pixelpipe
+  --> SlideMyPics
+  --> SmartTickr
+  --> SocialOyster
+  --> SpyTickr
+  --> Tagbulb
+  --> VoxPix
+1043 Photocat /api/photocat
+1044 PhotoLive /api/photolive
+1045 Photopoll /api/photopoll
+1046 PhotoShelter /api/photoshelter
+  --> obsvr.net
+1047 PhotoShow /api/photoshow
+1048 PhotoXpress /api/photoxpress
+1049 Photozou /api/photozou
+1050 PHP Object Generator /api/php-object-generator
+1051 PHPGraphlib Remote /api/phpgraphlib-remote
+1052 PhraseApp /api/phraseapp
+1053 Phreadz /api/phreadz
+1054 Phweet /api/phweet
+1055 PhyloBox /api/phylobox
+1056 Phylogenetic Footprinting /api/phylogenetic-footprinting
+1057 PhyloPic /api/phylopic
+1058 Pic Resize /api/pic-resize
+1059 PicApp /api/picapp
+1060 PicarIS Platform /api/picaris-platform
+1061 Picitup /api/picitup
+  --> iOnRoad
+1062 PicketReport Lifestyle /api/picketreport-lifestyle
+1063 PiCloud /api/picloud
+1064 Picmember /api/picmember
+1065 PicMonkey /api/picmonkey
+1066 Picnik /api/picnik
+  --> FunFriendFotos
+  --> Mashup Arts
+  --> Picnik and Box.net
+1067 PicoMoney /api/picomoney
+1068 Picovico /api/picovico
+1069 Picozu /api/picozu
+1070 Picplum /api/picplum
+1071 PicPlz /api/picplz
+  --> BadgePlz
+  --> Journamatic
+  --> jQuery Lifestream
+  --> printo.jp
+  --> Snapfinch
+1072 Picqer /api/picqer
+1073 PicScout /api/picscout
+1074 Pictaculous /api/pictaculous
+1075 Pictobar /api/pictobar
+1076 Picwing Printing /api/picwing-printing
+1077 PicYou /api/picyou
+1078 PicZasso /api/piczasso
+1079 Pidoco /api/pidoco
+1080 Pieceable /api/pieceable
+1081 Piins Contacts /api/piins-contacts
+1082 PikaPay /api/pikapay
+1083 Pikchur /api/pikchur
+  --> TwitLoader v 2.0 
+1084 Pikeo /api/pikeo
+  --> MashGet
+  --> Pixelpipe
+1085 Pillbox /api/pillbox
+1086 PilotOutlook /api/pilotoutlook
+1087 Pin /api/pin
+1088 Pin 'n' Tag /api/pin-n-tag
+1089 Pin Drop /api/pin-drop
+1090 Pin Payments /api/pin-payments
+1091 Pinboard /api/pinboard
+  --> jQuery Lifestream
+  --> We-Wired Web
+1092 Pinch /api/pinch
+1093 Pincodr /api/pincodr
+1094 Ping the Semantic Web /api/ping-the-semantic-web
+1095 Ping-uin /api/ping-uin
+1096 Ping.fm /api/ping.fm
+  --> StreetMavens
+1097 Pingar /api/pingar
+1098 Pingboard /api/pingboard
+1099 PingBrigade /api/pingbrigade
+1100 Pingdom /api/pingdom
+  --> Alerter for Pingdom
+  --> TrustSaaS
+1101 Pingeborg /api/pingeborg
+1102 PingER /api/pinger
+1103 PingerFinger /api/pingerfinger
+1104 PingGiant /api/pinggiant
+1105 PingPal /api/pingpal
+1106 PingPing /api/pingping
+1107 Pinknotes /api/pinknotes
+1108 Pinnacle Cart /api/pinnacle-cart
+  --> File2Cart
+1109 Pinnacle Sports /api/pinnacle-sports
+1110 PinnedURL /api/pinnedurl
+1111 Pinnion /api/pinnion
+1112 Pinpointers /api/pinpointers
+1113 Pinterest /api/pinterest
+  --> in1.com
+  --> Mapinterest
+  --> Pingram
+  --> Pinterest Clone
+  --> ShareMetric Chrome Extension
+  --> The Global Map of Musicians
+1114 Pipedrive /api/pipedrive
+1115 PipeJump /api/pipejump
+1116 PipelineDeals /api/pipelinedeals
+1117 Pipl /api/pipl
+1118 Pirate Metrics /api/pirate-metrics
+1119 Pirateplay /api/pirateplay
+1120 PirateUpload /api/pirateupload
+1121 Piryx /api/piryx
+1122 Pistevo Criminal Search /api/pistevo-criminal-search
+1123 PivotalTracker /api/pivotaltracker
+1124 Pixagogo /api/pixagogo
+  --> Pixagogo
+1125 Pixate /api/pixate
+1126 Pixenate /api/pixenate
+1127 pixlinQ searchimage /api/pixlinq-searchimage
+1128 PiXlogic piXserve /api/pixlogic-pixserve
+1129 Pixlr /api/pixlr
+  --> XsDesktop
+1130 Pixmac /api/pixmac
+1131 Pixodrom /api/pixodrom
+1132 Pixorial /api/pixorial
+1133 piZap /api/pizap
+1134 Pizza-Rat Restaurant Health /api/pizza-rat-restaurant-health
+1135 Pizzazz Email /api/pizzazz-email
+1136 pknotsRG /api/pknotsrg
+1137 Placecast  /api/placecast
+1138 Placed /api/placed
+1139 PlaceEngine /api/placeengine
+1140 PLACEHOLD.IT /api/placehold.it
+1141 PlaceIQ /api/placeiq
+1142 placekitten /api/placekitten
+1143 Places.sg /api/places.sg
+1144 Placester /api/placester
+1145 Placr /api/placr
+1146 PlagScan /api/plagscan
+1147 PlagSpotter /api/plagspotter
+1148 Plagtracker /api/plagtracker
+1149 Plaid /api/plaid
+1150 Plakatt /api/plakatt
+1151 Planbox /api/planbox
+1152 Plancake /api/plancake
+1153 Plancast /api/plancast
+  --> VIPLi.st
+  --> What's Public
+1154 planetGR /api/planetgr
+1155 PlanetLab Central /api/planetlab-central
+1156 Planets Nu /api/planets-nu
+1157 PlanetSide 2 Census /api/planetside-2-census
+1158 PlanMill /api/planmill
+1159 Planning Center /api/planning-center
+  --> Ministry Ops
+1160 PlanningAlerts /api/planningalerts
+1161 Planscope /api/planscope
+1162 Planspot /api/planspot
+1163 PlantTFDB /api/planttfdb
+1164 Planvine /api/planvine
+1165 Planyo /api/planyo
+1166 Plastiq /api/plastiq
+1167 Plastyc /api/plastyc
+1168 Platial /api/platial
+1169 Plaxo /api/plaxo
+  --> Anyvite
+  --> Docoloco
+  --> MyPunchbowl.com
+  --> News on a Timeline
+  --> Plocky.com: Get your e-life together
+1170 Play Truly Random /api/play-truly-random
+1171 Play2Shop /api/play2shop
+1172 Playbasis /api/playbasis
+1173 PlayCanvas /api/playcanvas
+1174 PlayHaven Reporting /api/playhaven-reporting
+1175 Playme /api/playme
+  --> Playme Instant 
+  --> TweetUrMusic
+1176 Playmob /api/playmob
+1177 playMobi /api/playmobi
+1178 Playnice.ly /api/playnice.ly
+1179 PlayPhone /api/playphone
+1180 PlaySpan /api/playspan
+1181 Playtomic Data Exporting /api/playtomic-data-exporting
+1182 Playwire /api/playwire
+1183 Plazes /api/plazes
+  --> Plazes
+  --> Plazes Local Search
+1184 Pleiades /api/pleiades
+1185 plentyMarkets /api/plentymarkets
+1186 Plifk /api/plifk
+1187 Plings /api/plings
+1188 Plivo /api/plivo
+1189 Plivo Framework /api/plivo-framework
+1190 Plivo Voice Chat /api/plivo-voice-chat
+1191 PLOS Article-Level Metrics /api/plos-article-level-metrics
+1192 PLoS Search /api/plos-search
+  --> Science Stack
+  --> Science Stack Select and Search
+1193 Plotly  /api/plotly
+1194 plug.dj /api/plug.dj
+1195 Plum Voice  /api/plum-voice
+1196 Plunker /api/plunker
+  --> coderbits
+  --> Plunker editor
+1197 Plupload /api/plupload
+1198 Plurk /api/plurk
+  --> We-Wired Web
+1199 Plus 1 Twitter Voting /api/plus-1-twitter-voting
+1200 Plus.io /api/plus.io
+1201 PNG Crush /api/png-crush
+1202 PNI Photo Services /api/pni-photo-services
+1203 PNRDekho /api/pnrdekho
+1204 Po.st /api/po.st
+1205 Pocket /api/pocket
+  --> We-Wired Web
+1206 Pocket Village /api/pocket-village
+1207 podcast.de  /api/podcast.de
+1208 PODFather /api/podfather
+1209 Podio /api/podio
+1210 Podium.io /api/podium.io
+1211 Podling /api/podling
+1212 POEditor /api/poeditor
+1213 Pogoplug /api/pogoplug
+  --> iFiles
+1214 Point /api/point
+1215 Point-In-Polygon Census Intersection /api/point-in-polygon-census-intersection
+1216 Point.io /api/point.io
+1217 PointDNS /api/pointdns
+1218 Pointer.gr /api/pointer.gr
+1219 PointLoyalty /api/pointloyalty
+1220 Points2Shop /api/points2shop
+1221 Pokelog /api/pokelog
+1222 PokeTalk /api/poketalk
+1223 Polar Bear Farm AirForms /api/polar-bear-farm-airforms
+1224 PolicyMap /api/policymap
+1225 Poligraft /api/poligraft
+1226 POLipayments /api/polipayments
+1227 Politwitter /api/politwitter
+1228 Polk VINtelligence /api/polk-vintelligence
+1229 Poll Everywhere /api/poll-everywhere
+1230 PollBob /api/pollbob
+1231 PollDaddy /api/polldaddy
+1232 Pollfish /api/pollfish
+1233 Pollstar /api/pollstar
+1234 Poly9 FreeEarth /api/poly9-freeearth
+  --> Del.icio.us in 3D
+  --> Earth Shots Earth Explorer
+  --> flickrvision 3D
+  --> Moonplex
+  --> Twittervision 3D
+  --> UFOMaps 3D
+  --> Weather 3D
+1235 polytraits /api/polytraits
+1236 Pond5 /api/pond5
+1237 Pongr Image Recognition /api/pongr-image-recognition
+1238 Ponoko /api/ponoko
+1239 Pontiflex /api/pontiflex
+1240 Pony Ipsum /api/pony-ipsum
+1241 PonyCountdown /api/ponycountdown
+1242 Ponyfac.es /api/ponyfac.es
+1243 Poodz /api/poodz
+1244 Pool-X /api/pool-x
+1245 Popcarte /api/popcarte
+1246 PopClogs /api/popclogs
+1247 Popcorn.js /api/popcorn.js
+1248 PopCV Semantic /api/popcv-semantic
+1249 Popfax /api/popfax
+1250 PopShops /api/popshops
+  --> TheFusionBoutique
+1251 Poptip /api/poptip
+1252 Populr /api/populr
+1253 Popyoular /api/popyoular
+1254 PORDL /api/pordl
+1255 Positionly /api/positionly
+1256 PositionMonitor /api/positionmonitor
+1257 posps /api/posps
+1258 PostageApp /api/postageapp
+1259 PostalMethods /api/postalmethods
+  --> Postal Letters From Salesforce
+  --> PostalMethods and Box.net
+  --> Send Snail Mail from Google Docs
+1260 Postcard on the Run /api/postcard-on-the-run
+1261 Postcode Anywhere /api/postcode-anywhere
+1262 Postcode Anywhere Address Services /api/postcode-anywhere-address-services
+1263 Postcode Anywhere Customer Profiling /api/postcode-anywhere-customer-profiling
+1264 Postcode Anywhere Distances and Directions /api/postcode-anywhere-distances-and-directions
+1265 Postcode Anywhere Email Validation /api/postcode-anywhere-email-validation
+1266 Postcode Anywhere Geocoding /api/postcode-anywhere-geocoding
+1267 Postcode Anywhere Government Data /api/postcode-anywhere-government-data
+1268 Postcode Anywhere Maps /api/postcode-anywhere-maps
+1269 Postcode Anywhere Payment Validation /api/postcode-anywhere-payment-validation
+1270 Postcode Anywhere Route Optimisation /api/postcode-anywhere-route-optimisation
+1271 Postcode Anywhere Store Finder /api/postcode-anywhere-store-finder
+1272 Postcode Anywhere Worldwide Business Data /api/postcode-anywhere-worldwide-business-data
+1273 Postcode IT /api/postcode-it
+1274 Postcode.nl /api/postcode.nl
+1275 PostcodePal /api/postcodepal
+1276 PostCoder /api/postcoder
+1277 Postcodes 4 U /api/postcodes-4-u
+1278 Postcodes.io /api/postcodes.io
+1279 Posterous /api/posterous
+  --> Ringerous
+  --> Sociotoco Search
+  --> We-Wired Web
+1280 PosterOven /api/posteroven
+1281 PostLinks.com /api/postlinks.com
+1282 PostMapper /api/postmapper
+1283 Postmark /api/postmark
+  --> Analytics Portfolio
+1284 Postmark Spamcheck /api/postmark-spamcheck
+1285 Postmaster /api/postmaster
+1286 PostRank /api/postrank
+1287 PostRank Data Mining /api/postrank-data-mining
+  --> Agnostic Platform Aggregator
+1288 PostRank Real-Time Content /api/postrank-real-time-content
+1289 PostRank Real-Time Engagement /api/postrank-real-time-engagement
+1290 Posttraumatic Stress Disorder Programs /api/posttraumatic-stress-disorder-programs
+1291 Poszkole.pl /api/poszkole.pl
+1292 Powa /api/powa
+1293 PowerFolder /api/powerfolder
+1294 Powerhouse Museum Collection /api/powerhouse-museum-collection
+1295 PowerInbox /api/powerinbox
+1296 PowerOptions /api/poweroptions
+1297 PowerPay /api/powerpay
+1298 Powershop /api/powershop
+1299 Pownce /api/pownce
+  --> Commuter Feed
+  --> Handout
+  --> Muecs
+  --> Pixelpipe
+  --> Posty
+  --> Powncified
+  --> rePownce
+  --> Twhirl Twitter Client
+1300 PoxPay /api/poxpay
+1301 Practice Fusion /api/practice-fusion
+1302 PractiTest /api/practitest
+1303 PRAGYA-E-WORLD /api/pragya-e-world
+1304 Praized /api/praized
+1305 Praxeon /api/praxeon
+1306 Prayer Planet /api/prayer-planet
+1307 Precog /api/precog
+1308 PREDATOR protein secondary structure prediction /api/predator-protein-secondary-structure-prediction
+1309 PredictionIO /api/predictionio
+1310 Predictious /api/predictious
+1311 Predictive Edge /api/predictive-edge
+1312 PredictiveIntent IntentPredictionServer /api/predictiveintent-intentpredictionserver
+1313 Predictivez /api/predictivez
+1314 Predixion /api/predixion
+1315 Prefinery /api/prefinery
+1316 Preona Readability /api/preona-readability
+1317 Prep Sportswear /api/prep-sportswear
+1318 Presdo /api/presdo
+1319 Press Association Sport /api/press-association-sport
+1320 Pressbanking /api/pressbanking
+1321 Presseportal /api/presseportal
+1322 Pressjack /api/pressjack
+1323 Presstacular /api/presstacular
+1324 PressTrends /api/presstrends
+1325 PRESTO Harvard Library /api/presto-harvard-library
+1326 Pretzil /api/pretzil
+1327 Preva /api/preva
+1328 Previmeteo Weather /api/previmeteo-weather
+1329 Previsite /api/previsite
+1330 PriceCheckIndia /api/pricecheckindia
+1331 Pricecut /api/pricecut
+1332 PriceFlurry /api/priceflurry
+1333 PriceGrabber /api/pricegrabber
+  --> Best Buys 
+  --> Mahak
+  --> SmartRatings
+  --> Woya Shopping
+1334 PriceMyLoan /api/pricemyloan
+1335 Priceonomics /api/priceonomics
+1336 PriceRunner /api/pricerunner
+  --> Best Buys 
+  --> Compare4
+  --> iPod Super Store
+  --> Jewelry Store
+  --> ShopSort
+1337 PriceSpin /api/pricespin
+  --> ShopSmart Brazil
+  --> White-Label Shopping Price Comparison
+1338 Primadesk /api/primadesk
+1339 Primal /api/primal
+  --> Primal for Wordpress
+  --> ShopSmart Brazil
+1340 PrimoPay /api/primopay
+1341 Print Audit ICE /api/print-audit-ice
+1342 Print Mosaic  /api/print-mosaic
+1343 Printfection /api/printfection
+  --> FACEinHOLE.com
+1344 Printful /api/printful
+1345 Printzel /api/printzel
+1346 Prior Knowledge /api/prior-knowledge
+1347 prismic.io /api/prismic.io
+1348 Privacy CA /api/privacy-ca
+1349 PrivacyChoice /api/privacychoice
+1350 PrivacyScore /api/privacyscore
+1351 PrivatBank /api/privatbank
+1352 Prj2EPSG /api/prj2epsg
+1353 Pro Writing Aid /api/pro-writing-aid
+1354 Pro6PP /api/pro6pp
+1355 ProBiS /api/probis
+1356 ProcessClaims /api/processclaims
+1357 ProcessWire /api/processwire
+1358 Prodigem /api/prodigem
+  --> PEP Delicious
+1359 ProDom /api/prodom
+1360 Product Life Cycle Support /api/product-life-cycle-support
+1361 Producteev /api/producteev
+  --> MA4Producteev
+  --> TodoToday for Producteev
+1362 ProfessionL /api/professionl
+1363 Profiles.im /api/profiles.im
+1364 ProFit /api/profit
+1365 ProfitBricks /api/profitbricks
+1366 Progetica /api/progetica
+1367 Progetto Tessera Sanitaria /api/progetto-tessera-sanitaria
+1368 Program O Chatbot /api/program-o-chatbot
+1369 ProgrammableWeb /api/programmableweb
+  --> ProgrammableWeb Member Map
+  --> ProgrammableWeb Search Tool
+  --> Small Wide World
+1370 Progressive SuperCREWS /api/progressive-supercrews
+1371 Project Bamboo /api/project-bamboo
+1372 Project Insight /api/project-insight
+1373 Project Kenai /api/project-kenai
+1374 Project Kenai SunCloud  /api/project-kenai-suncloud
+1375 Project Sunblock /api/project-sunblock
+1376 Project Troia /api/project-troia
+1377 Project Vote Smart /api/project-vote-smart
+1378 ProjectBubble /api/projectbubble
+1379 ProjectPlace /api/projectplace
+1380 Projjex /api/projjex
+1381 Promedas /api/promedas
+1382 Prometheus Image Archive /api/prometheus-image-archive
+1383 PROMOpark /api/promopark
+1384 PromptCloud /api/promptcloud
+1385 PRONOM /api/pronom
+1386 Proof of Existence /api/proof-of-existence
+1387 Proofeditors.com /api/proofeditors.com
+1388 ProofHQ /api/proofhq
+1389 ProofHub /api/proofhub
+1390 Proofread Bot /api/proofread-bot
+1391 Propers /api/propers
+1392 ProperSpell /api/properspell
+1393 Property Solutions /api/property-solutions
+1394 PropertyWala.com /api/propertywala.com
+1395 Propertyware /api/propertyware
+1396 ProProfs Quiz Maker /api/proprofs-quiz-maker
+1397 ProPublica Forensics /api/propublica-forensics
+1398 ProPublica Free the Files /api/propublica-free-the-files
+1399 ProSMS /api/prosms
+1400 Prosper /api/prosper
+  --> Prosper-itus
+1401 Prosperent /api/prosperent
+  --> GrabEvery
+1402 ProStores /api/prostores
+1403 ProtecMail /api/protecmail
+1404 ProTexting SMS /api/protexting-sms
+1405 ProThesaurus /api/prothesaurus
+1406 Prototype GeoIP /api/prototype-geoip
+1407 Prowl /api/prowl
+1408 Prowork /api/prowork
+1409 ProWorkflow  /api/proworkflow
+1410 ProxAPI /api/proxapi
+1411 Proximic /api/proximic
+1412 Proxomo /api/proxomo
+1413 ProxyFraud /api/proxyfraud
+1414 ProxyKey /api/proxykey
+1415 Pryv /api/pryv
+1416 Pseudoviewer /api/pseudoviewer
+1417 PSLC DataShop /api/pslc-datashop
+1418 PSN Sign In /api/psn-sign-in
+1419 PSNapi /api/psnapi
+1420 PSWinCom Intouch /api/pswincom-intouch
+1421 PSWinCom SMS Gateway /api/pswincom-sms-gateway
+1422 PsychSignal /api/psychsignal
+1423 Psydex AG /api/psydex-ag
+1424 PTT Info /api/ptt-info
+1425 PubChem PUG /api/pubchem-pug
+1426 PubEasy /api/pubeasy
+1427 Public Insight Network /api/public-insight-network
+1428 Public Transit Data Community /api/public-transit-data-community
+  --> iPhone Public Transit Application
+1429 Publicaster /api/publicaster
+1430 Publications NZ Book Cover /api/publications-nz-book-cover
+1431 PublicData.eu /api/publicdata.eu
+1432 PublicStuff /api/publicstuff
+1433 Publisheer Text Rewrite /api/publisheer-text-rewrite
+1434 Publishflow /api/publishflow
+1435 PublishThis Content Platform /api/publishthis-content-platform
+1436 Publitweet /api/publitweet
+1437 Publr /api/publr
+1438 PubMatic /api/pubmatic
+1439 PubMLST /api/pubmlst
+1440 PubNub /api/pubnub
+  --> InDash: SMS Dashboard &amp; auto-responder for Nexmo
+1441 PubNub JavaScript Push /api/pubnub-javascript-push
+  --> InDash: SMS Dashboard &amp; auto-responder for Nexmo
+  --> Real time simple SMS Voting App
+1442 PubSub /api/pubsub
+  --> Notifixlite
+  --> Sampa
+1443 Pulse.to /api/pulse.to
+1444 PulseFlow /api/pulseflow
+1445 Pulsepoint /api/pulsepoint
+1446 Pulsepoint Real-Time Classifier /api/pulsepoint-real-time-classifier
+1447 Punchfork Recipe /api/punchfork-recipe
+1448 PunchTab /api/punchtab
+1449 Punkrock.org /api/punkrock.org
+1450 PuppetLabs /api/puppetlabs
+1451 Purifyr /api/purifyr
+1452 Purlem /api/purlem
+1453 Purolator eShip /api/purolator-eship
+1454 Purple /api/purple
+1455 Push Channels /api/push-channels
+1456 Push Entertainment /api/push-entertainment
+1457 Push IO /api/push-io
+1458 Push Open Door /api/push-open-door
+1459 PushBots /api/pushbots
+1460 PushBug /api/pushbug
+1461 PushBullet /api/pushbullet
+1462 Pusher /api/pusher
+  --> Automagical.ly
+  --> Filtrand
+  --> FreeflowTV
+  --> Retrospective
+  --> Scrabb.ly
+1463 Pushingbox /api/pushingbox
+1464 Pushover /api/pushover
+  --> Automagical.ly
+1465 Pushpin /api/pushpin
+  --> Dead Cell Zones
+1466 Pushpin Location Data /api/pushpin-location-data
+  --> PolicyMap
+1467 PushWoosh /api/pushwoosh
+1468 Put.io /api/put.io
+1469 Putler /api/putler
+1470 PutLocker /api/putlocker
+1471 pVerify /api/pverify
+1472 PVOutput Service /api/pvoutput-service
+1473 pvSense /api/pvsense
+1474 PWG Print Services Interface /api/pwg-print-services-interface
+1475 Pwinty /api/pwinty
+1476 Pwned.com /api/pwned.com
+1477 PwnedList /api/pwnedlist
+1478 Pygame /api/pygame
+1479 Pygments /api/pygments
+1480 pyMantis /api/pymantis
+1481 Python Package Index /api/python-package-index
+1482 Q-Pulse /api/q-pulse
+1483 Q-Sensei FeedBooster /api/q-sensei-feedbooster
+1484 Qaiku /api/qaiku
+1485 Qhub /api/qhub
+1486 Qik /api/qik
+1487 Qipit /api/qipit
+1488 Qirina /api/qirina
+1489 QMachine /api/qmachine
+1490 Qminder /api/qminder
+1491 Qobuz /api/qobuz
+1492 Qoiob /api/qoiob
+1493 Qordoba /api/qordoba
+1494 QR and DMX Barcode Generator /api/qr-and-dmx-barcode-generator
+1495 QR-Server QR Code /api/qr-server-qr-code
+1496 qr.cx /api/qr.cx
+  --> Shorten URL
+1497 QR4 QR Code /api/qr4-qr-code
+1498 qrd.by /api/qrd.by
+1499 QRdvark /api/qrdvark
+1500 QReate.me /api/qreate.me
+1501 QRickit QR Code /api/qrickit-qr-code
+1502 Qrimp /api/qrimp
+1503 QRtag /api/qrtag
+1504 Qtravel  /api/qtravel
+1505 Quaderno /api/quaderno
+1506 Quag /api/quag
+1507 Qualified Address /api/qualified-address
+1508 Qualita PA Mettiamoci la Faccia /api/qualita-pa-mettiamoci-la-faccia
+1509 QualityCentral /api/qualitycentral
+1510 Qualtrics /api/qualtrics
+1511 QualysGuard /api/qualysguard
+1512 Quandl /api/quandl
+1513 QUANT Electronic /api/quant-electronic
+1514 Quantact /api/quantact
+1515 Quantcast Measurement /api/quantcast-measurement
+1516 Quantopian /api/quantopian
+1517 Quantter /api/quantter
+1518 QuarkRank /api/quarkrank
+  --> Quarkshop
+1519 Qubit /api/qubit
+1520 QueekyPaint /api/queekypaint
+1521 Quentin Sager ABA Routing Number /api/quentin-sager-aba-routing-number
+1522 Quentin Sager European IBAN /api/quentin-sager-european-iban
+1523 Quentin Sager SSN Validation /api/quentin-sager-ssn-validation
+1524 QuestionPro /api/questionpro
+1525 Questsin /api/questsin
+1526 Quetter /api/quetter
+1527 Queue-it /api/queue-it
+1528 Quick File /api/quick-file
+1529 QUICK SMS /api/quick-sms
+1530 QuickBase /api/quickbase
+  --> QuickBase PowerTools with Click-to-Conference
+1531 QuickBlox /api/quickblox
+  --> QuickBlox iOS SuperSample
+  --> QuickBlox MapChat Widget
+1532 QuickFuse /api/quickfuse
+  --> QuickFuse Amazon Mashup
+  --> QuickFuse Google Maps Mashup
+  --> QuickFuse Twitter Mashup
+1533 QuickGO /api/quickgo
+1534 Quickie Marketing Scrub /api/quickie-marketing-scrub
+1535 Quickpay /api/quickpay
+1536 Quicktate /api/quicktate
+1537 QuickyCoin /api/quickycoin
+1538 Quintura Site Search /api/quintura-site-search
+1539 Quisque /api/quisque
+1540 Quiubas SMS /api/quiubas-sms
+1541 Quixly /api/quixly
+1542 Quizlet Flashcards /api/quizlet-flashcards
+  --> Quizlio
+1543 Qumu /api/qumu
+1544 Quomage /api/quomage
+1545 Quoqu /api/quoqu
+1546 Quora /api/quora
+  --> Quorafox
+1547 Quotations Book /api/quotations-book
+1548 QUOTE.fm /api/quote.fm
+1549 Quotes Daddy /api/quotes-daddy
+1550 Quotes on Design /api/quotes-on-design
+1551 Quova /api/quova
+  --> Geo Location Atlas
+  --> Takeout Roulette
+1552 Qurl /api/qurl
+  --> Shorten URL
+1553 Quttera Website Malware Scanner  /api/quttera-website-malware-scanner
+1554 Qwerly /api/qwerly
+  --> Hoverme
+  --> What's Public
+1555 Qwiki /api/qwiki
+1556 Qwips /api/qwips
+1557 QXL Ricardo /api/qxl-ricardo
+1558 Qype /api/qype
+  --> mapt the Q
+1559 r.im /api/r.im
+  --> Shorten URL
+1560 RACAI Linguistic /api/racai-linguistic
+1561 Rackspace Cloud Block Storage /api/rackspace-cloud-block-storage
+1562 Rackspace Cloud DNS /api/rackspace-cloud-dns
+1563 Rackspace Cloud Files /api/rackspace-cloud-files
+  --> iFiles
+  --> SkaFlash
+1564 Rackspace Cloud Identity /api/rackspace-cloud-identity
+1565 Rackspace Cloud Load Balancers /api/rackspace-cloud-load-balancers
+1566 Rackspace Cloud Servers /api/rackspace-cloud-servers
+1567 Rackspace Email /api/rackspace-email
+1568 RACO Barcode /api/raco-barcode
+1569 Radarmatic /api/radarmatic
+1570 Radbox /api/radbox
+1571 Radian6 SocialCloud /api/radian6-socialcloud
+1572 RadioPing /api/radioping
+1573 RadioReference  /api/radioreference
+1574 Radioshack /api/radioshack
+1575 RadioSherpa /api/radiosherpa
+1576 RadioTime /api/radiotime
+  --> Antenna
+1577 Radish Systems ChoiceView /api/radish-systems-choiceview
+1578 RadiumOne /api/radiumone
+1579 Radixx International /api/radixx-international
+1580 RadMap /api/radmap
+1581 Ragefac.es /api/ragefac.es
+1582 Ragic /api/ragic
+1583 RainCaptcha /api/raincaptcha
+1584 Rainforest QA /api/rainforest-qa
+1585 Rainmaker /api/rainmaker
+1586 Rakuten /api/rakuten
+  --> Joybeans Shopping
+1587 Rally /api/rally
+1588 Rambla /api/rambla
+1589 RAMP Content /api/ramp-content
+1590 Random House /api/random-house
+1591 Random House Insight /api/random-house-insight
+1592 random.org /api/random.org
+1593 RandomProfile /api/randomprofile
+1594 RandomText.me /api/randomtext.me
+1595 RandomUser /api/randomuser
+1596 RankCrew /api/rankcrew
+1597 RankMyTyping /api/rankmytyping
+1598 Ranks.nl Page Analyzer /api/ranks.nl-page-analyzer
+1599 Rankur /api/rankur
+1600 Rapaport Diamond Manager /api/rapaport-diamond-manager
+1601 Rapaport Price List /api/rapaport-price-list
+1602 Raphael Research Resource /api/raphael-research-resource
+1603 RapidPoints /api/rapidpoints
+1604 RapidShare /api/rapidshare
+1605 RapidSwitch /api/rapidswitch
+1606 RapLeaf /api/rapleaf
+  --> DormItem Free College Classifieds
+  --> ISwapYou
+  --> Junk Depot
+  --> StepRep Online Reputation Monitor
+  --> SwapThing
+  --> vivirama
+1607 Rapleaf Personalization /api/rapleaf-personalization
+1608 RapLeaf Utilities /api/rapleaf-utilities
+1609 Rapportive /api/rapportive
+1610 Ratchet /api/ratchet
+1611 RateBeer /api/ratebeer
+1612 RateItAll /api/rateitall
+1613 RatePubs /api/ratepubs
+1614 Raveal /api/raveal
+1615 RaveGeo WebMap /api/ravegeo-webmap
+1616 Ravelry /api/ravelry
+1617 Raven SEO Tools /api/raven-seo-tools
+1618 Raven Slingshot /api/raven-slingshot
+1619 Raven Tools /api/raven-tools
+1620 Raw Sugar /api/raw-sugar
+  --> keotag
+  --> opsdo
+  --> Tagbulb
+  --> Tagground
+1621 Raydash /api/raydash
+1622 Raygun /api/raygun
+1623 RazorCloud /api/razorcloud
+1624 Razuna /api/razuna
+1625 RBK Games /api/rbk-games
+1626 RBL Watcher /api/rbl-watcher
+1627 RChilli /api/rchilli
+1628 RCSB Protein Data Bank /api/rcsb-protein-data-bank
+1629 RdbHost /api/rdbhost
+1630 Rdio /api/rdio
+  --> Beathound
+  --> Cyborg Karaoke Party 
+  --> Visual Groove
+1631 Rdio oEmbed /api/rdio-oembed
+1632 Rdio Web Playback /api/rdio-web-playback
+1633 Reactome /api/reactome
+1634 Read The Docs /api/read-the-docs
+1635 Readability  /api/readability
+  --> coderbits
+  --> Comment Stack
+  --> We-Wired Web
+1636 Readability Metrics  /api/readability-metrics
+1637 Readability rdd.me /api/readability-rdd.me
+1638 Reader.is /api/reader.is
+1639 Readernaut  /api/readernaut
+1640 Readmill /api/readmill
+  --> Readmap
+  --> ReadTracker
+  --> The Book Report
+1641 ReadSocial /api/readsocial
+  --> Comment Stack
+1642 ReadSpeaker speechCloud /api/readspeaker-speechcloud
+1643 Ready to SMS /api/ready-to-sms
+1644 ReadyTalk /api/readytalk
+1645 Real Estate Cloud MLS /api/real-estate-cloud-mls
+1646 Real Estate Transaction Standard /api/real-estate-transaction-standard
+1647 Real Magnet /api/real-magnet
+1648 RealEDA Reverse Phone Lookup /api/realeda-reverse-phone-lookup
+1649 RealGifts /api/realgifts
+1650 RealGravity /api/realgravity
+1651 Reality Digital OPUS /api/reality-digital-opus
+1652 Really Simple Systems CRM /api/really-simple-systems-crm
+1653 RealmEye /api/realmeye
+1654 RealPhoneValidation /api/realphonevalidation
+1655 RealRadios /api/realradios
+1656 RealSatisfied /api/realsatisfied
+1657 RealSearch FraudGATE  /api/realsearch-fraudgate
+1658 RealSearch Liberty Criminal /api/realsearch-liberty-criminal
+1659 RealSearch TIN Reverse /api/realsearch-tin-reverse
+1660 RealSearch Wireless &amp; Cellphone /api/realsearch-wireless-cellphone
+1661 Realtime Express /api/realtime-express
+1662 Realtime ORTC /api/realtime-ortc
+1663 Realtime Register /api/realtime-register
+  --> DirectAdmin &amp; Realtime Register integration
+1664 Realtime Trains /api/realtime-trains
+1665 Realtors Property Resource /api/realtors-property-resource
+1666 RealtyBaron Agents /api/realtybaron-agents
+1667 RealtyBaron Answers /api/realtybaron-answers
+  --> Real Estate Answers for Android
+  --> Real Estate Answers for Wordpress
+  --> Real Estate Listings for Android
+1668 Rebtel /api/rebtel
+1669 Rebtel Voice Platform /api/rebtel-voice-platform
+1670 reCAPTCHA /api/recaptcha
+  --> Belmonte Online
+1671 Receipt Bank /api/receipt-bank
+1672 Recharge Blast /api/recharge-blast
+1673 Recharge My /api/recharge-my
+1674 ReciPal /api/recipal
+1675 Recipe Puppy /api/recipe-puppy
+1676 RecipeBridge /api/recipebridge
+1677 Recipeon.us /api/recipeon.us
+1678 Reciprocal Research Network /api/reciprocal-research-network
+1679 Recognize.im /api/recognize.im
+  --> Art4Europe
+  --> SaveUp
+1680 Recollect /api/recollect
+1681 Record Setter URDB /api/record-setter-urdb
+1682 Recorded Future News Analytics /api/recorded-future-news-analytics
+1683 Recovery.gov /api/recovery.gov
+1684 Recreation.gov /api/recreation.gov
+1685 Recurly /api/recurly
+  --> AccentTraining.net
+1686 RED ALERT /api/red-alert
+1687 Red Condor Provisioning /api/red-condor-provisioning
+1688 Red Frog Freight /api/red-frog-freight
+1689 Red Oxygen /api/red-oxygen
+1690 Redbox /api/redbox
+1691 Redbox Widgets /api/redbox-widgets
+1692 Redbridge DataShare /api/redbridge-datashare
+1693 Redbus /api/redbus
+1694 RedCritter  /api/redcritter
+1695 Reddaway Transit Time /api/reddaway-transit-time
+1696 Reddit /api/reddit
+  --> bitPrompt
+  --> Claz
+  --> DoAt (do@) 
+  --> EmbedPlus - Chrome Browser Extension for YouTube 
+  --> jQuery Lifestream
+  --> metaskim
+  --> Newzupp
+  --> Punk'n'Roll - Watch and Listen to Rock Music
+  --> Reddit Livestream
+  --> Reddit-Matic
+  --> RedditPics
+  --> scovry
+  --> ShareMetric Chrome Extension
+  --> The Alien's Wall
+  --> Yapeo video classifieds
+1697 RedFin Network /api/redfin-network
+1698 RedHat OpenShift /api/redhat-openshift
+1699 Rediff /api/rediff
+1700 Redis To Go /api/redis-to-go
+1701 Redistats /api/redistats
+1702 RedLine13 Zip Code Distance /api/redline13-zip-code-distance
+1703 Redmine /api/redmine
+1704 RedPass /api/redpass
+1705 RedSMS /api/redsms
+1706 Redtail CRM /api/redtail-crm
+1707 reegle /api/reegle
+1708 ReelSurfer /api/reelsurfer
+1709 refbase OpenSearch /api/refbase-opensearch
+1710 Referly /api/referly
+1711 ReferralCandy /api/referralcandy
+1712 Refinder /api/refinder
+1713 Reflect /api/reflect
+1714 Reflection IT Calculator /api/reflection-it-calculator
+1715 Reflection IT Html2Xml /api/reflection-it-html2xml
+1716 Regal Technologies DevConnect /api/regal-technologies-devconnect
+1717 reGame.tv /api/regame.tv
+1718 Regator Semantic /api/regator-semantic
+1719 RegCheck.org.uk /api/regcheck.org.uk
+1720 RegExLib /api/regexlib
+1721 RegistryCompliance Scrub /api/registrycompliance-scrub
+1722 Regulations.gov /api/regulations.gov
+1723 Regulatory Sequence Analysis Tools /api/regulatory-sequence-analysis-tools
+1724 Regus /api/regus
+1725 Rejoiner /api/rejoiner
+1726 Rekognition /api/rekognition
+1727 Relify /api/relify
+1728 ReLink /api/relink
+1729 Remember the Milk /api/remember-the-milk
+  --> TodoToday for Remember the Milk
+1730 ReminderConnection /api/reminderconnection
+1731 Remote Potato /api/remote-potato
+1732 Remoteling /api/remoteling
+1733 Remy Sharp's TinyURL /api/remy-sharps-tinyurl
+1734 Renao /api/renao
+1735 Renderfarm.fi /api/renderfarm.fi
+1736 Renren /api/renren
+1737 Rental Car Manager /api/rental-car-manager
+1738 RentJuice /api/rentjuice
+1739 RentMetrics /api/rentmetrics
+1740 Rentometer /api/rentometer
+  --> CribQ Rental Housing Dashboard
+1741 RentPost /api/rentpost
+1742 RentRange Rental Rate /api/rentrange-rental-rate
+1743 RentRent /api/rentrent
+1744 RentShout /api/rentshout
+1745 Replicon /api/replicon
+1746 ReportGrid /api/reportgrid
+1747 ReportIt /api/reportit
+1748 Reppify /api/reppify
+1749 RepStamp /api/repstamp
+1750 Repustate /api/repustate
+  --> Sentiment-Evaluation
+1751 Reputer /api/reputer
+1752 RequestBin /api/requestbin
+1753 RescueGroups /api/rescuegroups
+1754 RescueTime /api/rescuetime
+  --> ProcrasDonate
+1755 Research Data Australia /api/research-data-australia
+1756 Research.gov Application Submission /api/research.gov-application-submission
+1757 Researchr /api/researchr
+1758 ResellerClub /api/resellerclub
+1759 Resellers Panel /api/resellers-panel
+1760 Resfly /api/resfly
+1761 Resighting  /api/resighting
+1762 Resizor /api/resizor
+1763 Resort Data Processing /api/resort-data-processing
+1764 Response Tap /api/response-tap
+1765 Responsys Interact /api/responsys-interact
+1766 REST Countries /api/rest-countries
+1767 Restalo /api/restalo
+1768 RestBackup /api/restbackup
+1769 RestFul Web Services Airport /api/restful-web-services-airport
+1770 RestFul Web Services Bible /api/restful-web-services-bible
+1771 RestFul Web Services Email Validation /api/restful-web-services-email-validation
+1772 RestFul Web Services Financial /api/restful-web-services-financial
+1773 RestFul Web Services GeoIP /api/restful-web-services-geoip
+1774 RestFul Web Services HCPCS /api/restful-web-services-hcpcs
+1775 RestFul Web Services Postal Code /api/restful-web-services-postal-code
+1776 RestFul Web Services UNSPSC /api/restful-web-services-unspsc
+1777 RestFul Web Services USA Zip Code /api/restful-web-services-usa-zip-code
+1778 RestFul Web Services Weather Forecast /api/restful-web-services-weather-forecast
+1779 Restricted Party Screening /api/restricted-party-screening
+1780 Retail Intelligence Data  /api/retail-intelligence-data
+1781 Retailigence /api/retailigence
+1782 RetailMeNot.com Community Ideas /api/retailmenot.com-community-ideas
+  --> Dog Food Coupons
+  --> Pizza Coupons
+1783 Rethumb /api/rethumb
+1784 Reto Loser's Lotto Generator /api/reto-losers-lotto-generator
+1785 Retro Avatar /api/retro-avatar
+  --> Retro Avatar for Facebook
+1786 Retrotector /api/retrotector
+1787 Retsly /api/retsly
+1788 Retweet Rank /api/retweet-rank
+1789 Reuters Spotlight /api/reuters-spotlight
+  --> Breaking New Map Flash
+  --> NewsLinQ
+1790 Rev /api/rev
+1791 revAdd  /api/revadd
+1792 Revel Systems /api/revel-systems
+1793 RevelDigital /api/reveldigital
+1794 Reverse Australia /api/reverse-australia
+1795 Review Trackers /api/review-trackers
+1796 REVO /api/revo
+1797 Revolv /api/revolv
+1798 Revver /api/revver
+  --> Connecting Consumers and Businesses in Cities, Worldwide!
+  --> Gawkk.com
+  --> iPhone Maniacs
+  --> MyTube
+  --> myVidster
+  --> Tagbulb
+  --> Videomap
+  --> Vidmeter
+1799 RewardMe /api/rewardme
+1800 Rewd.co /api/rewd.co
+1801 Rezdy new /api/rezdy-new
+1802 Rezgo /api/rezgo
+  --> Africa in Style by Trek Holidays
+  --> Almago
+  --> Barcelona City Tours
+  --> Napa Wine Train Reserve Online
+  --> Viamigo
+1803 Rezopia /api/rezopia
+1804 Rezora /api/rezora
+1805 RezScore /api/rezscore
+1806 rFocus GIS /api/rfocus-gis
+1807 Rhapsody /api/rhapsody
+  --> Alarm Clock Rhapsody
+  --> Grazrhapsody
+  --> KEXPlorer.com
+  --> Mashup Keyword
+  --> Mugshot
+  --> Music Mash
+  --> Pageflakes
+  --> Pitchforkmedia Rhapsody Mashup
+  --> RhapSIGody
+  --> Rhapsody Record Label Search
+  --> Rhapsody Remote
+  --> Rhapsody Srobbler
+  --> Rhapsody Top Feeds
+  --> Search Rhapsody by Phone
+  --> Shareable Music Playlists
+  --> SongList
+1808 RhymeBrain /api/rhymebrain
+  --> Random Poem Generator
+1809 Rhyming  /api/rhyming
+1810 RI.gov Open Data /api/ri.gov-open-data
+1811 Ribbet /api/ribbet
+1812 Ribbit /api/ribbit
+  --> Flex Hotel Search
+1813 Ribbit Messages /api/ribbit-messages
+1814 Ribbit Transcription on Demand /api/ribbit-transcription-on-demand
+1815 Ribbon /api/ribbon
+1816 Richmond Sunlight /api/richmond-sunlight
+1817 Ride On Live Transit /api/ride-on-live-transit
+1818 RidePSTA /api/ridepsta
+1819 RideUTA /api/rideuta
+1820 Right Media Exchange /api/right-media-exchange
+1821 RightNow Connect /api/rightnow-connect
+1822 RightSignature  /api/rightsignature
+1823 RightsLine  /api/rightsline
+1824 Rigor /api/rigor
+1825 Rijksmuseum /api/rijksmuseum
+1826 Rijksoverheid CSO /api/rijksoverheid-cso
+1827 RimuHosting /api/rimuhosting
+1828 RimuHosting DNS /api/rimuhosting-dns
+1829 Rimzu /api/rimzu
+1830 Ringcaptcha /api/ringcaptcha
+1831 RingCentral Fax /api/ringcentral-fax
+1832 RingCentral RingOut /api/ringcentral-ringout
+1833 Ringful /api/ringful
+  --> Facebook Voicetag
+  --> iConference
+  --> Mobile Identity Verification 
+  --> Phone Alias
+  --> Push Conference 
+  --> Ringful Intant Group Calls. 
+1834 Ringio CRM /api/ringio-crm
+1835 Rio Branco Real Estate /api/rio-branco-real-estate
+1836 RIOJA Journal Repository /api/rioja-journal-repository
+1837 Riot Games /api/riot-games
+1838 RIPE Database /api/ripe-database
+1839 Ripe Development /api/ripe-development
+1840 RIPL /api/ripl
+1841 Ripple /api/ripple
+1842 RipRoad /api/riproad
+1843 Risk I/O /api/risk-io
+1844 Ritc /api/ritc
+1845 RitcJS /api/ritcjs
+1846 Riverside Township High School Workspace Calendar /api/riverside-township-high-school-workspace-calendar
+1847 Rixty /api/rixty
+1848 Riya /api/riya
+  --> MeyshanSlide
+  --> MeyshanWall
+  --> Spicy Pipes Creative Mashups
+  --> Tagbulb
+  --> WAP Based Image Search
+1849 RNAfold /api/rnafold
+1850 RNAforester /api/rnaforester
+1851 RNAhybrid /api/rnahybrid
+1852 RNAshapes /api/rnashapes
+1853 Roadrunner Transportation Services /api/roadrunner-transportation-services
+1854 RoadSavvy /api/roadsavvy
+1855 Roambi Business /api/roambi-business
+1856 Roar Engine /api/roar-engine
+1857 RoboEarth /api/roboearth
+1858 Robotalker /api/robotalker
+1859 RoboWhois /api/robowhois
+  --> Analytics Portfolio
+1860 Robust Links /api/robust-links
+1861 Rochester Genesee Regional Transportation Authority /api/rochester-genesee-regional-transportation-authority
+1862 Roci /api/roci
+1863 Rocket Dispatch /api/rocket-dispatch
+1864 Rocket Matter /api/rocket-matter
+1865 RockTech CloudMate Platform /api/rocktech-cloudmate-platform
+1866 RockYou Super Wall /api/rockyou-super-wall
+1867 Rogers Location /api/rogers-location
+1868 Rogers Payment /api/rogers-payment
+1869 Rogers Privacy /api/rogers-privacy
+1870 Rogers SMS /api/rogers-sms
+1871 Rogers User Profile /api/rogers-user-profile
+1872 Rogerthat  /api/rogerthat
+1873 Roistr /api/roistr
+1874 Roku /api/roku
+1875 Roleplayer's Online Dice Roller /api/roleplayers-online-dice-roller
+1876 Roll the Dice /api/roll-the-dice
+1877 Roll20 /api/roll20
+1878 Rollbar /api/rollbar
+1879 Rollbase hosted service /api/rollbase-hosted-service
+1880 Rome2rio /api/rome2rio
+1881 RoninApp /api/roninapp
+1882 Roomorama /api/roomorama
+1883 roondoo /api/roondoo
+1884 Rose /api/rose
+1885 Rotten Tomatoes /api/rotten-tomatoes
+  --> Book vs Movie
+  --> Discovr Movies
+  --> Instant Watch Database
+  --> InstantPlex
+  --> Movie Finder
+  --> Moviegram
+  --> Movies Now Playing
+  --> Moviis
+  --> On-Demand Movie Reviews
+  --> Qup
+  --> The Web Intersect
+  --> TomatoFlix
+  --> VIDVIDOO
+  --> Watchable
+  --> WatchNext
+1886 RoundSky Lead-Seller /api/roundsky-lead-seller
+1887 Route You /api/route-you
+1888 Route4me /api/route4me
+1889 RouteSavvy /api/routesavvy
+1890 RouteShout /api/routeshout
+1891 RouteSMS /api/routesms
+1892 RouteSMS Javascript /api/routesms-javascript
+1893 RoutoMessaging SMS/MMS /api/routomessaging-smsmms
+1894 Rovi Cloud Services /api/rovi-cloud-services
+  --> AllMusic by Rovi
+  --> AllRovi
+  --> Discovr Movies
+  --> Inflooenz
+  --> Murfie
+  --> Music Bloodline
+  --> Popify
+  --> Rovi Mobile Music
+  --> TotalGuide G2
+  --> What's On TV 
+1895 Royal Albert Memorial Museum /api/royal-albert-memorial-museum
+1896 Royal Mail E*Pro /api/royal-mail-epro
+1897 Royal Mail Price /api/royal-mail-price
+1898 RoyBoyDeals /api/royboydeals
+1899 RPM Software /api/rpm-software
+  --> Music Bloodline
+1900 RPost /api/rpost
+1901 Rrove /api/rrove
+  --> Pageflakes
+1902 RRPproxy /api/rrpproxy
+1903 RSDN Janus /api/rsdn-janus
+1904 RSSmeme /api/rssmeme
+1905 rst2a /api/rst2a
+1906 RTBTC /api/rtbtc
+1907 RTCkit /api/rtckit
+1908 RTRT.me /api/rtrt.me
+1909 Rubets /api/rubets
+1910 RubyGems /api/rubygems
+  --> coderbits
+1911 rules.io /api/rules.io
+1912 Rumblefish /api/rumblefish
+1913 Rummble /api/rummble
+1914 Rummble Labs /api/rummble-labs
+1915 RunAlong /api/runalong
+1916 RunKeeper Health Graph /api/runkeeper-health-graph
+  --> CityStrides
+1917 RunningAHEAD /api/runningahead
+1918 RunSaturday /api/runsaturday
+1919 Runscope /api/runscope
+1920 RunSignUp /api/runsignup
+1921 RunwayFinder /api/runwayfinder
+1922 RushWeb /api/rushweb
+1923 Rutamina /api/rutamina
+1924 Rutgers /api/rutgers
+1925 Rutgers University Community Repository /api/rutgers-university-community-repository
+1926 Rvolve Hyperlocal Ads /api/rvolve-hyperlocal-ads
+1927 RxNav NDF-RT /api/rxnav-ndf-rt
+1928 RxNorm /api/rxnorm
+1929 RxNorm Prescribable /api/rxnorm-prescribable
+1930 RxTerms /api/rxterms
+1931 Ryzom /api/ryzom
+1932 S&amp;P Capital IQ /api/sp-capital-iq
+1933 SaasGrid /api/saasgrid
+1934 SaaSpose /api/saaspose
+1935 Saasu /api/saasu
+1936 SaaSy /api/saasy
+1937 Saba Meeting /api/saba-meeting
+1938 Saba People Cloud /api/saba-people-cloud
+1939 sabifoo /api/sabifoo
+1940 SABIO-RK /api/sabio-rk
+1941 Sabre /api/sabre
+1942 Safe Creative /api/safe-creative
+  --> Official Java API for Safe Creative
+1943 Safe.mn /api/safe.mn
+1944 Safe2pee /api/safe2pee
+1945 safedrop /api/safedrop
+1946 SafeLinking /api/safelinking
+1947 SaferBus /api/saferbus
+1948 Saffron Sierra /api/saffron-sierra
+1949 SagePay Reporting and Admin /api/sagepay-reporting-and-admin
+1950 SAI Virtual Observatory WCS Fix /api/sai-virtual-observatory-wcs-fix
+1951 Saia /api/saia
+1952 Sailthru /api/sailthru
+1953 SAINTlogin /api/saintlogin
+1954 Sale Plus Operations /api/sale-plus-operations
+1955 SaleLocator /api/salelocator
+1956 SalesBinder Inventory /api/salesbinder-inventory
+1957 SalesBoom /api/salesboom
+1958 Salesforce.com /api/salesforce.com
+  --> AirSpeed
+  --> All-in-one Dashboard Widget for Salesforce.com
+  --> Arrowpointe Maps
+  --> ChannelAdvisor CRM Connector
+  --> Cirrus Insight
+  --> CloudGento
+  --> Crisply
+  --> Del.icio.us for Salesforce.com
+  --> Drawloop LOOPlus
+  --> eCommazon
+  --> eCommSource by Cloud Conversion
+  --> Eventbrite Connector for Salesforce
+  --> Faceforce
+  --> Geopointe
+  --> In2Clouds Predictive Analytics for Salesforce.com
+  --> Infopia
+  --> Kieden
+  --> Phone2Lead
+  --> Phone2Lead Call Tracking with Salesforce
+  --> Pipeline vs. Quota for Salesforce.com
+  --> Postal Letters From Salesforce
+  --> RingDNA softphone 
+  --> Sales Executive Dashboard
+  --> SalesForce and Box.net
+  --> Salesforce and Google Maps
+  --> Salesforce Campaign Effectiveness Dashboard
+  --> Salesforce Customer Reference
+  --> SalesForce De-duplication
+  --> Salesforce Discount Approval
+  --> Salesforce International Mapping
+  --> Salesforce International Mapping
+  --> Salesforce Single Sign On
+  --> Salesforce.com and AdWords
+  --> Salesforce.com Events Calendar
+  --> Salesforce.com Sales Credit Approval Mashup
+  --> SalesView
+  --> Sharemethods + EchoSign
+  --> ShareOffice
+  --> Skype for AppExchange
+  --> Social Salesforce
+  --> Social Salesforce Twitter Search Widget 
+  --> Solid Commerce
+  --> Spam Check: Salesforce plus Akismet 
+  --> Surveilio Force
+  --> TrustSaaS
+  --> ZenKraft Shipmate - FedEx for Salesforce
+1959 Salesforce.com Apex /api/salesforce.com-apex
+1960 Salesforce.com Chatter /api/salesforce.com-chatter
+  --> fluxgain like button
+1961 Salesforce.com Streaming /api/salesforce.com-streaming
+1962 SalesFUSION /api/salesfusion
+1963 SalesKing /api/salesking
+1964 Salesnet /api/salesnet
+1965 Salsa Commons /api/salsa-commons
+1966 SalsaDev /api/salsadev
+1967 SAManage /api/samanage
+1968 SamEnrico eBook /api/samenrico-ebook
+1969 Samepoint Real-Time Social Media /api/samepoint-real-time-social-media
+1970 SAMHSA /api/samhsa
+1971 Sampark SMS /api/sampark-sms
+1972 SampleSumo MeloTranscript /api/samplesumo-melotranscript
+1973 San Francisco Crimespotting /api/san-francisco-crimespotting
+  --> Open City Agora
+1974 San Francisco Ethics Commission Lobbyist /api/san-francisco-ethics-commission-lobbyist
+1975 San Francisco Open311 /api/san-francisco-open311
+1976 San Luis Obispo Country Club Photo Album /api/san-luis-obispo-country-club-photo-album
+1977 Sandglaz /api/sandglaz
+1978 Sao Paolo Open Government /api/sao-paolo-open-government
+1979 SAP StreamWork Integration /api/sap-streamwork-integration
+1980 Sape /api/sape
+1981 Saplo Text Analysis /api/saplo-text-analysis
+  --> RDFaCE
+1982 Sapo Advertising /api/sapo-advertising
+1983 Sapo Agenda /api/sapo-agenda
+1984 Sapo Alerts /api/sapo-alerts
+1985 Sapo Auto Search /api/sapo-auto-search
+1986 Sapo Captcha /api/sapo-captcha
+1987 Sapo Chart /api/sapo-chart
+1988 Sapo Development /api/sapo-development
+1989 Sapo Galp Fast /api/sapo-galp-fast
+1990 Sapo Games /api/sapo-games
+1991 Sapo Holiday /api/sapo-holiday
+1992 Sapo Mail /api/sapo-mail
+1993 Sapo Messaging /api/sapo-messaging
+1994 Sapo POI /api/sapo-poi
+1995 Sapo PunyURL /api/sapo-punyurl
+1996 Sapo Semantic Lists /api/sapo-semantic-lists
+1997 Sapo Social /api/sapo-social
+1998 Sapo Tags /api/sapo-tags
+1999 Sapo Verbetes /api/sapo-verbetes
+2000 Satellite Situation Center Web (SSCWeb) /api/satellite-situation-center-web-sscweb
+2001 Satisfeo /api/satisfeo
+2002 Sauce Labs /api/sauce-labs
+2003 Savi /api/savi
+2004 SavvisStation /api/savvisstation
+2005 Savvr /api/savvr
+2006 SaxoBank Direct /api/saxobank-direct
+2007 Saygent /api/saygent
+2008 SayRoom /api/sayroom
+2009 Sazneo /api/sazneo
+2010 Säsongmat /api/saesongmat
+2011 SBA Business Licenses and Permits /api/sba-business-licenses-and-permits
+2012 SBA City and County Data /api/sba-city-and-county-data
+2013 SBA Content Share /api/sba-content-share
+2014 SBA Loans and Grants Search /api/sba-loans-and-grants-search
+2015 SBA Recommended Sites /api/sba-recommended-sites
+2016 SBML Validator /api/sbml-validator
+2017 SBUYSMS /api/sbuysms
+2018 SC2Ranks /api/sc2ranks
+2019 Scaffold /api/scaffold
+2020 Scalarium /api/scalarium
+2021 Scaled Recognition /api/scaled-recognition
+2022 ScaleDo /api/scaledo
+2023 Scality /api/scality
+2024 Scalr /api/scalr
+  --> Research And Compare
+2025 Scan &amp; Target /api/scan-target
+2026 Scanbuy ScanLife /api/scanbuy-scanlife
+2027 Scandit Product /api/scandit-product
+2028 SCAPSync /api/scapsync
+2029 Scarab Research /api/scarab-research
+2030 SCHED* /api/sched
+2031 SchedEz /api/schedez
+2032 Schedulefly /api/schedulefly
+2033 Schedules Direct /api/schedules-direct
+2034 Schedulr /api/schedulr
+2035 Schematic Ipsum /api/schematic-ipsum
+2036 SchemingMind /api/schemingmind
+2037 Schenker Norway Webservices /api/schenker-norway-webservices
+2038 Schmap /api/schmap
+2039 Schmipsum /api/schmipsum
+2040 Scholarly iQ /api/scholarly-iq
+2041 Scholarometer /api/scholarometer
+2042 Schoology /api/schoology
+2043 SchoolTube /api/schooltube
+2044 SciBite /api/scibite
+2045 Science Ipsum /api/science-ipsum
+2046 Science Museum  /api/science-museum
+  --> Cosmos and Culture
+2047 Science.gov /api/science.gov
+2048 ScienceBase /api/sciencebase
+2049 ScienceCard /api/sciencecard
+2050 ScienceLogic /api/sciencelogic
+2051 ScienceSeeker /api/scienceseeker
+2052 ScienceSoft LaTeX /api/sciencesoft-latex
+2053 SciVerse Framework and Content  /api/sciverse-framework-and-content
+2054 Scoop.it /api/scoop.it
+  --> We-Wired Web
+2055 Scopus /api/scopus
+2056 Scoreoid /api/scoreoid
+2057 Scorescard /api/scorescard
+2058 SCORM Cloud /api/scorm-cloud
+2059 Scottish Enterprise Events /api/scottish-enterprise-events
+2060 Scotty App /api/scotty-app
+2061 ScottyLabs /api/scottylabs
+2062 Scout /api/scout
+2063 Scout for Apps /api/scout-for-apps
+2064 Scrape.it /api/scrape.it
+2065 Scrape.ly /api/scrape.ly
+2066 ScrapeLogo /api/scrapelogo
+2067 ScraperWiki /api/scraperwiki
+  --> coderbits
+2068 Scrapinghub /api/scrapinghub
+2069 scrazzl /api/scrazzl
+2070 Screach /api/screach
+2071 Screenhero /api/screenhero
+2072 Screenleap /api/screenleap
+2073 ScreenPlay /api/screenplay
+2074 Screenr Business /api/screenr-business
+2075 Screenshot Shark /api/screenshot-shark
+2076 Screenshots.com /api/screenshots.com
+2077 ScreenSteps Live /api/screensteps-live
+2078 ScreenTunes /api/screentunes
+2079 ScreenTweet /api/screentweet
+2080 Scribble /api/scribble
+2081 Scribble Maps /api/scribble-maps
+2082 Scribblelive /api/scribblelive
+2083 ScribblePics /api/scribblepics
+2084 Scribd /api/scribd
+  --> endToo Search
+  --> Furthere, Your Twitter Driven Weblog
+  --> Moveboxer
+  --> surf2gether.com
+  --> View Docs Online
+2085 Scribd iPaper /api/scribd-ipaper
+  --> iPaper and Box.net
+  --> ResumeDroppr
+  --> View Docs Online
+2086 Scribe /api/scribe
+2087 Scribendi Editing Services /api/scribendi-editing-services
+2088 Scringo /api/scringo
+2089 Scripps Center for Metabolomics METLIN /api/scripps-center-for-metabolomics-metlin
+2090 Scripted /api/scripted
+2091 Scrive /api/scrive
+2092 ScrumDesk /api/scrumdesk
+2093 ScrumNinja /api/scrumninja
+2094 ScrumWorks Pro /api/scrumworks-pro
+2095 Scrumy /api/scrumy
+2096 Sculpteo /api/sculpteo
+2097 Scup /api/scup
+2098 SDL BeGlobal /api/sdl-beglobal
+2099 SDM Storage Resource Management /api/sdm-storage-resource-management
+2100 SDSS CasJobs /api/sdss-casjobs
+2101 SDSS Cone Search /api/sdss-cone-search
+2102 SDSS ImgCutout /api/sdss-imgcutout
+  --> Cbeams.org - Deep Sky Objects Database
+2103 Seafile /api/seafile
+2104 Seamless /api/seamless
+2105 SearchBox /api/searchbox
+2106 SearchForecast Keywords /api/searchforecast-keywords
+2107 Searchify /api/searchify
+2108 Searchmetrics /api/searchmetrics
+2109 SearchUPC.com /api/searchupc.com
+2110 Sears /api/sears
+  --> Bumpin Santa Games
+  --> ShipStation
+2111 Seasoo /api/seasoo
+2112 SeatGeek /api/seatgeek
+2113 Seats.io /api/seats.io
+2114 Seattle 2.0 /api/seattle-2.0
+2115 Seattle Clearinghouse /api/seattle-clearinghouse
+2116 Seatwave /api/seatwave
+  --> Coming to Town Concerts - Rdio - Seatwave
+  --> Event Browser
+  --> FanTastic Top Artists
+  --> MusicDNA ID
+  --> SeatTrip
+  --> Seatwave Top Artists
+  --> Sonos Enhanced 
+  --> What's On Air Pro
+2117 Seavus DropMind /api/seavus-dropmind
+2118 SeaZone HydroView /api/seazone-hydroview
+2119 SEC Watch /api/sec-watch
+2120 Second Life Grid Survey /api/second-life-grid-survey
+2121 SecondHandSongs /api/secondhandsongs
+2122 SecondLife /api/secondlife
+  --> Congress Meets Second Life
+  --> Gridmarker for Second Life
+  --> Life2Life Virtual Shopping
+  --> Mapanno
+  --> Second Life Weather
+  --> Slurlmaker for Second Life
+  --> Twitter Fountain for Second Life
+2123 Sector /api/sector
+2124 Seculert /api/seculert
+2125 Secunia PSI /api/secunia-psi
+2126 Secure Hosting /api/secure-hosting
+2127 SecureNet /api/securenet
+2128 SecurePayTech /api/securepaytech
+2129 SecureSocial /api/securesocial
+2130 SecureTrading /api/securetrading
+2131 Securo /api/securo
+2132 Sedo /api/sedo
+2133 SeeClickFix /api/seeclickfix
+2134 SeedFinder /api/seedfinder
+2135 SeedPeer /api/seedpeer
+2136 SeeMe SMS /api/seeme-sms
+2137 SeeqPod /api/seeqpod
+  --> Albumart.org
+  --> Amazon and SeeqPod Music Recommendations
+  --> Dinle
+  --> DukeTek Web Player
+  --> eFanMusic
+  --> Favtape
+  --> Headup
+  --> idiomag
+  --> iRadioApp: iPhone Radio 
+  --> LyricsFly
+  --> Mp3 Album
+  --> myplaylist lyrics
+  --> MyPlaylist Slideshow
+  --> Oatmeal Music for iPhone
+  --> QERIO
+  --> SongSeek
+  --> TuneMaze
+2138 Seesmic /api/seesmic
+  --> Gawkk.com
+  --> Learn10
+  --> Pixelpipe
+2139 Seevl /api/seevl
+2140 Segment.io /api/segment.io
+2141 SegPay /api/segpay
+2142 SEGUID /api/seguid
+2143 Seika Code Publish /api/seika-code-publish
+2144 Seismi /api/seismi
+2145 Seismic Data Portal /api/seismic-data-portal
+2146 SelecTrucks Email Signup /api/selectrucks-email-signup
+2147 SelfSurveys /api/selfsurveys
+2148 Sellaround /api/sellaround
+2149 SellFire Affiliate /api/sellfire-affiliate
+2150 SellMate /api/sellmate
+2151 SellsBrothers Excuse /api/sellsbrothers-excuse
+2152 Sem4Tags /api/sem4tags
+2153 Semantic Contextual Advertising /api/semantic-contextual-advertising
+  --> LinkSensor
+2154 Semantic Engines Semantic /api/semantic-engines-semantic
+2155 Semantic Research Semantica /api/semantic-research-semantica
+2156 SemanticHacker /api/semantichacker
+  --> Skeedy
+  --> Videonym
+2157 Semantics3  /api/semantics3
+2158 semanticSBML /api/semanticsbml
+2159 SemanticWire /api/semanticwire
+2160 SemantiNet Knowledge Graph /api/semantinet-knowledge-graph
+2161 Semantria /api/semantria
+  --> SemantAPI
+  --> Sentiment-Evaluation
+2162 Semetric /api/semetric
+2163 Semiocast /api/semiocast
+2164 SEMrush /api/semrush
+2165 Sen.se /api/sen.se
+2166 Sencha /api/sencha
+2167 Send Word Now /api/send-word-now
+2168 SendBulkSMS /api/sendbulksms
+2169 Senddr /api/senddr
+2170 Sendega /api/sendega
+2171 SendGrid /api/sendgrid
+  --> Article Optimizer
+  --> Book vs Movie
+  --> Book-Current
+  --> Cloud Elements- Messaging Hub
+  --> Create a Custom API for Siri Using SendGrid's Parse API
+  --> Get Rhythm
+  --> Motivation Mix
+  --> My Powers Out
+  --> Planrrr
+  --> RingRingBaby
+  --> SeatTrip
+  --> Simple Energy
+  --> SkaFlash
+  --> Wedgies
+2172 SendGrid Customer Subuser /api/sendgrid-customer-subuser
+2173 SendGrid Event /api/sendgrid-event
+2174 SendGrid Newsletter /api/sendgrid-newsletter
+2175 SendGrid Parse /api/sendgrid-parse
+2176 SendGrid Reseller /api/sendgrid-reseller
+2177 SendGrid SMTP /api/sendgrid-smtp
+2178 SendHub /api/sendhub
+2179 Sendible /api/sendible
+  --> Snippee
+2180 Sendicate /api/sendicate
+2181 SendinBlue /api/sendinblue
+2182 Sendinc REST /api/sendinc-rest
+2183 Sendinc SMTP /api/sendinc-smtp
+2184 SendLabs /api/sendlabs
+2185 Sendloop /api/sendloop
+2186 Sendmachine /api/sendmachine
+2187 SendMe Mobile /api/sendme-mobile
+2188 Sendori /api/sendori
+2189 Sendouts /api/sendouts
+2190 SendOwl /api/sendowl
+2191 SendSpace /api/sendspace
+2192 SendTab /api/sendtab
+2193 SendToReader /api/sendtoreader
+2194 sendwithus /api/sendwithus
+2195 SendWrite /api/sendwrite
+2196 Sendy /api/sendy
+2197 Sense Tecnic WoTkit /api/sense-tecnic-wotkit
+2198 Sensebot /api/sensebot
+  --> LinkSensor
+  --> Opinion Crawl
+  --> Search Results Summarizer
+2199 Sensis Business Search /api/sensis-business-search
+  --> Aussie Pubcrawl
+2200 SensorCloud /api/sensorcloud
+2201 SensorLogic /api/sensorlogic
+2202 Sensr.net /api/sensr.net
+2203 Sent.ly /api/sent.ly
+2204 Sentence Recognition /api/sentence-recognition
+2205 Sentiment Analysis Online /api/sentiment-analysis-online
+2206 Sentiment140 /api/sentiment140
+2207 Sentinel Monitoring /api/sentinel-monitoring
+2208 SentiRate /api/sentirate
+2209 SEO Engine /api/seo-engine
+2210 SEO metrics /api/seo-metrics
+2211 SEO On The Fly SMS Marketing /api/seo-on-the-fly-sms-marketing
+2212 SEOBudget /api/seobudget
+2213 SEOgadget Links /api/seogadget-links
+2214 SEOGenies /api/seogenies
+2215 SEOlytics /api/seolytics
+2216 SEOmoz /api/seomoz
+  --> Analytics Portfolio
+  --> RealWebStats
+  --> SEO Site Comparison
+2217 SEOshop WebshopApp /api/seoshop-webshopapp
+2218 SEPTA  /api/septa
+2219 SeqHound /api/seqhound
+2220 SeQR Pay /api/seqr-pay
+2221 Serence Klip /api/serence-klip
+2222 Serendio /api/serendio
+2223 SerialStamper /api/serialstamper
+2224 Serko Online /api/serko-online
+2225 Sermon Browser /api/sermon-browser
+2226 SermonAudio /api/sermonaudio
+2227 SERP-P /api/serp-p
+2228 SERPs SEO &amp; Rankings /api/serps-seo-rankings
+2229 Sertifi /api/sertifi
+2230 Server Density Monitoring API /api/server-density-monitoring-api
+2231 ServerCyde /api/servercyde
+2232 ServerMojo /api/servermojo
+2233 Servertastic Reseller /api/servertastic-reseller
+2234 Service Outsourcing Knowledge /api/service-outsourcing-knowledge
+2235 Service-X /api/service-x
+2236 ServiceM8 /api/servicem8
+2237 serviceminder  /api/serviceminder
+2238 ServiceNow /api/servicenow
+2239 ServiceObjects DOTS Address /api/serviceobjects-dots-address
+2240 ServiceObjects DOTS BIN Validation /api/serviceobjects-dots-bin-validation
+2241 ServiceObjects DOTS Demographics /api/serviceobjects-dots-demographics
+2242 ServiceObjects DOTS Email Validation /api/serviceobjects-dots-email-validation
+2243 ServiceObjects DOTS Fast Quote /api/serviceobjects-dots-fast-quote
+2244 ServiceObjects DOTS Fast Tax /api/serviceobjects-dots-fast-tax
+2245 ServiceObjects DOTS Fast Weather /api/serviceobjects-dots-fast-weather
+2246 ServiceObjects DOTS GeoCash /api/serviceobjects-dots-geocash
+2247 ServiceObjects DOTS IP Address Validation /api/serviceobjects-dots-ip-address-validation
+2248 ServiceObjects DOTS Lead Quality Solutions /api/serviceobjects-dots-lead-quality-solutions
+2249 ServiceObjects DOTS Name Validation /api/serviceobjects-dots-name-validation
+2250 ServiceObjects DOTS NCOA Live /api/serviceobjects-dots-ncoa-live
+2251 ServiceObjects DOTS Phone Services /api/serviceobjects-dots-phone-services
+2252 ServiceU /api/serviceu
+2253 SerwerSMS /api/serwersms
+2254 Sesame Name Resolver /api/sesame-name-resolver
+2255 SesameVault /api/sesamevault
+2256 SetCronJob /api/setcronjob
+2257 SetGetGo GUID /api/setgetgo-guid
+2258 SetGetGo IP Geolocation /api/setgetgo-ip-geolocation
+2259 SetGetGo Random Image /api/setgetgo-random-image
+2260 SetGetGo Random Word /api/setgetgo-random-word
+2261 SetGetGo Simple Crypto /api/setgetgo-simple-crypto
+2262 Seth Cardoza Random Password Generator /api/seth-cardoza-random-password-generator
+2263 SetLinks /api/setlinks
+2264 setlist.fm /api/setlist.fm
+2265 SetOnx /api/setonx
+2266 Setster /api/setster
+2267 Setu Infocom /api/setu-infocom
+2268 Seznam Captcha /api/seznam-captcha
+2269 Sfax /api/sfax
+2270 SFpark /api/sfpark
+2271 SFR MMS /api/sfr-mms
+2272 SFR SMS /api/sfr-sms
+2273 SFW SMS /api/sfw-sms
+2274 Shadow /api/shadow
+2275 Shadows /api/shadows
+  --> Backtags Social Ranking
+  --> keotag
+  --> Tagground
+2276 Shakespeare /api/shakespeare
+2277 Shanje Control Service /api/shanje-control-service
+2278 Shapeways /api/shapeways
+2279 Share-Online /api/share-online
+2280 Shareaholic /api/shareaholic
+2281 ShareASale Affiliate /api/shareasale-affiliate
+2282 ShareASale Merchant /api/shareasale-merchant
+2283 Shared Count /api/shared-count
+2284 Shared Workforce /api/shared-workforce
+2285 SharedBook /api/sharedbook
+  --> BigOven Cookbook
+  --> Blog2Print
+  --> CarePages Keepsake Book
+  --> Legacy Commemorative Guest Book
+  --> Personalized Guidebook
+  --> Regent Seven Seas Cruises
+2286 SharedBookshelves /api/sharedbookshelves
+2287 SharedCount /api/sharedcount
+2288 ShareFile /api/sharefile
+2289 ShareMojo /api/sharemojo
+2290 ShareMyPlaylists /api/sharemyplaylists
+2291 ShareThis /api/sharethis
+  --> Banfield Flea Fighter
+  --> Book-Current
+  --> Make Me Change My Job
+  --> ocell.us
+  --> Skimzee
+  --> Tagbulb
+  --> WeGooo
+  --> Your Mapper
+2292 SharkScope /api/sharkscope
+2293 SharpDevelop Code Converter /api/sharpdevelop-code-converter
+2294 Shaw Tracking Hours of Service /api/shaw-tracking-hours-of-service
+2295 SheerID /api/sheerid
+2296 shelby.tv /api/shelby.tv
+2297 ShepHertz App42 Cloud /api/shephertz-app42-cloud
+2298 Sherpa Romeo /api/sherpa-romeo
+2299 ShifD /api/shifd
+2300 Shift Platform /api/shift-platform
+2301 Shiftboard /api/shiftboard
+2302 ShiftPlanning /api/shiftplanning
+2303 Shiny Ads /api/shiny-ads
+2304 shipcloud /api/shipcloud
+2305 ShipCompliant Marketplace /api/shipcompliant-marketplace
+2306 ShipOnline /api/shiponline
+2307 Shipping Gear /api/shipping-gear
+2308 ShippingEasy /api/shippingeasy
+2309 Shippo /api/shippo
+2310 ShipStation /api/shipstation
+  --> ShipStation
+2311 Shipwire /api/shipwire-developer-tools
+2312 Shivtr /api/shivtr
+2313 Shizzow /api/shizzow
+  --> Beer Signal
+  --> Beergeeks - Beer Finder
+  --> Espressogeeks - Espresso Finder
+  --> IceCondor
+  --> Shizzeeps
+2314 Shockedfish /api/shockedfish
+2315 ShockeyMonkey /api/shockeymonkey
+2316 ShoeBooks /api/shoebooks
+2317 Shoeboxed /api/shoeboxed
+2318 Sholarometer /api/sholarometer
+2319 Shoothill Postcode /api/shoothill-postcode
+2320 ShootProof /api/shootproof
+2321 Shopatron /api/shopatron
+2322 Shopgate Merchant /api/shopgate-merchant
+2323 Shopify /api/shopify
+  --> File2Cart
+  --> Mediaburst SMS through Shopify
+  --> Printout Designer
+  --> ShipStation
+  --> ShopTalk
+2324 ShopIgniter /api/shopigniter
+2325 ShopLocal /api/shoplocal
+2326 ShopperTrak /api/shoppertrak
+2327 Shopping Cart Diagnostics  /api/shopping-cart-diagnostics
+2328 Shopping.com /api/shopping.com
+  -->  Shopping.com API 3 Demo for All Markets
+  --> 1 Ordinateur
+  --> All the Bests
+  --> Aromatherapy Products
+  --> AutoPartsSpy.com
+  --> Best Buys 
+  --> Best Buys Zone UK
+  --> Best Shop Guide
+  --> buylar
+  --> CamChooser.com
+  --> Camera Prices
+  --> Cheese Nachos Product Search
+  --> Chitika
+  --> Comparison Shopping with News Updates
+  --> Costwalk
+  --> Daily Domain Hotlist
+  --> Dealighted
+  --> DealMine.com
+  --> DevHub
+  --> DoAt (do@) 
+  --> Early Miser
+  --> Ecotrunk
+  --> Estonish.com
+  --> Frugalytics
+  --> Giddi
+  --> Hockey Shopper
+  --> Home and Garden
+  --> Home Furnishings Store
+  --> Kaboodle
+  --> LCD TV Price Comparison
+  --> Modoshi
+  --> Mpire
+  --> Muecs
+  --> MyShopping Facebook
+  --> Onesource Online Mall
+  --> Ontok Highlighter
+  --> Price Comparison Shopping
+  --> PrinterComp
+  --> ProductDose
+  --> Quarkshop
+  --> Robe de soir�e
+  --> RouterComp
+  --> SecretPrices.com
+  --> Shop the Best Deals
+  --> ShopAbout.co.uk
+  --> Shopbib: Shop and Compare Online
+  --> Shoppers Needs
+  --> Shopping.com for vBulletin
+  --> shopping247
+  --> ShopsGenius
+  --> ShopSort
+  --> SPACIFY furniture
+  --> Sprenzy
+  --> SusieSays
+  --> Texsy Ads
+  --> Une Robe .com
+  --> Valuepia
+  --> ValueZilla Shopping Service
+  --> WishMindr
+  --> Wishpot
+2329 ShopSavvy /api/shopsavvy
+2330 ShopSense /api/shopsense
+2331 ShopStyle /api/shopstyle
+  --> Fashionaholics
+  --> WishMindr
+2332 ShopWiki /api/shopwiki
+2333 ShopWindow /api/shopwindow
+2334 ShopYourWay /api/shopyourway
+2335 Shopzilla /api/shopzilla
+  -->  Compare-Prices.info
+  --> AllinOneMart
+  --> Best Buys 
+  --> buylar
+  --> CheapBoots.net
+  --> Combyo
+  --> Compare Prices Discount-Malin.com
+  --> DealSauce
+  --> eDrool - Bargain Finder
+  --> Electroniche.com
+  --> eLocalFinder
+  --> Halter Top
+  --> Hawkee Technology Network
+  --> MattCompare.com
+  --> mpp3.info
+  --> Onesource Online Mall
+  --> PopWatchers
+  --> Price Comparison Shopping
+  --> SAVEonAtoZ.com
+  --> Shophilia
+  --> Shopnics - Visual Comparison
+  --> ShoppingBounce
+  --> Taffly.com
+  --> The Hemp Cloud
+  --> Valuepia
+  --> ValueZilla Shopping Service
+  --> Woya Shopping
+2336 Short and tweet /api/short-and-tweet
+  --> DealSauce
+2337 Shortmail /api/shortmail
+2338 shortr /api/shortr
+2339 Shorty /api/shorty
+2340 Shotbot /api/shotbot
+2341 ShotCode /api/shotcode
+2342 Shotgun /api/shotgun
+2343 Shoudio /api/shoudio
+2344 SHOUTcast Radio /api/shoutcast-radio
+  --> SHOUTcast D.N.A.S. Status
+2345 ShoutEm /api/shoutem
+2346 Shoutlet /api/shoutlet
+2347 ShowClix /api/showclix
+2348 ShowMyIP /api/showmyip
+2349 Shr.Im /api/shr.im
+2350 Shreeweb Bulk SMS /api/shreeweb-bulk-sms
+2351 ShreveSearch Search /api/shrevesearch-search
+2352 Shrib /api/shrib
+2353 ShrinkTheWeb PagePix /api/shrinktheweb-pagepix
+2354 Shropshire Council /api/shropshire-council
+2355 Shrten /api/shrten
+  --> Shorten URL
+2356 Shtoss /api/shtoss
+2357 Shuffler.fm /api/shuffler.fm
+2358 Shutl /api/shutl
+2359 Shutter /api/shutter
+2360 Shutterfly /api/shutterfly
+2361 ShutterPoint /api/shutterpoint
+  --> ShutterPoint Image Upload Demo
+2362 ShutterPro /api/shutterpro
+2363 Shutterstock /api/shutterstock
+2364 SI-TSA Timestamp /api/si-tsa-timestamp
+2365 Siasto /api/siasto
+2366 Sick Marketing /api/sick-marketing
+2367 SideBuy /api/sidebuy
+2368 Sierra Stanford HIV /api/sierra-stanford-hiv
+2369 Sierra Trading Post  /api/sierra-trading-post
+2370 Sift Science /api/sift-science
+2371 Sifter /api/sifter
+2372 Sightwalk /api/sightwalk
+2373 Sigimera /api/sigimera
+2374 SIGKAT Credentials /api/sigkat-credentials
+2375 Sign-Up.to /api/sign-up.to
+2376 Signal /api/signal
+2377 SignalFire Postcode /api/signalfire-postcode
+2378 SignalP/SignalP4 /api/signalpsignalp4
+2379 Signature.io /api/signature.io
+2380 Signere.no /api/signere.no
+2381 Signifyd /api/signifyd
+2382 SigningHub.com /api/signinghub.com
+2383 SignNow /api/signnow
+2384 SigQuotes /api/sigquotes
+2385 SIL /api/sil
+2386 Silanis e-Signatures /api/silanis-e-signatures
+2387 Silentale /api/silentale
+2388 Silk /api/silk
+2389 Silo Breaker /api/silo-breaker
+2390 Silobreaker /api/silobreaker
+2391 Silverpop /api/silverpop
+2392 SilverRail Journey Planner /api/silverrail-journey-planner
+2393 SilverRail Technologies /api/silverrail-technologies
+2394 Silverstreet /api/silverstreet
+2395 Similar Site Check /api/similar-site-check
+2396 Similar Site Search /api/similar-site-search
+2397 Similar Sites /api/similar-sites
+2398 SimilarWeb Website Categorization /api/similarweb-website-categorization
+2399 SimilarWeb Website Category Ranking /api/similarweb-website-category-ranking
+2400 SimilarWeb Website Country Ranking /api/similarweb-website-country-ranking
+2401 SimilarWeb Website Global Ranking /api/similarweb-website-global-ranking
+2402 SimilarWeb Website Tagging /api/similarweb-website-tagging
+2403 SIMPA96 /api/simpa96
+2404 Simperium  /api/simperium
+2405 Simple Legal /api/simple-legal
+2406 Simple Reverse Geocoding /api/simple-reverse-geocoding
+2407 Simple Sales Tracking /api/simple-sales-tracking
+2408 Simple Semantic Web Architecture and Protocol /api/simple-semantic-web-architecture-and-protocol
+2409 Simple Texting /api/simple-texting
+2410 SimpleAPI /api/simpleapi
+  --> Stars and Planetarium Search
+  --> The Social Music Mashup Site
+  --> TwitterLove
+2411 SimpleDB /api/simpledb
+2412 SimpleGeek BlogXBrowsing /api/simplegeek-blogxbrowsing
+2413 SimpleGeo /api/simplegeo
+  --> Blink-182 Neighborhoods
+  --> Lookzi
+  --> Planrrr
+  --> SimpleGeo Searcher
+2414 SimpleGeo Context /api/simplegeo-context
+2415 SimpleGeo Places /api/simplegeo-places
+  --> Planrrr
+2416 SimpleMappr /api/simplemappr
+2417 SimpleName /api/simplename
+2418 Simplenote /api/simplenote
+2419 SimplePie Live /api/simplepie-live
+2420 SimpleRelevance /api/simplerelevance
+2421 SimpleText /api/simpletext
+2422 SimpleTexting /api/simpletexting
+2423 SimpleUPC /api/simpleupc
+2424 SimpleVox /api/simplevox
+2425 SimpleWorker /api/simpleworker
+2426 Simpli.fi /api/simpli.fi
+2427 Simply Hired Jobs /api/simply-hired-jobs
+  --> AllJobs.biz
+  --> Classified on Google Maps and Charts
+  --> getHired Mobile App
+  --> Instant Job Search
+  --> Job search HireADroid
+  --> JobDepot.us
+  --> JobSpeek
+  --> metaskim
+  --> Notifixious and SimplyHired
+  --> Tagbulb
+  --> Trackle
+2428 Simply Postcode /api/simply-postcode
+2429 SimplyCast /api/simplycast
+2430 SimplyHired Jobs /api/simplyhired-jobs
+2431 Simprove Workity /api/simprove-workity
+2432 Simpy /api/simpy
+  --> Tagground
+2433 SimSimi Conversation /api/simsimi-conversation
+2434 Simunix T2A /api/simunix-t2a
+2435 Simwood eSMS /api/simwood-esms
+2436 Sina Weibo /api/sina-weibo
+  --> H7N9 avian flu distribution and updates
+2437 Sincerely /api/sincerely
+2438 Sindice /api/sindice
+2439 Singapore Geocoder /api/singapore-geocoder
+2440 Singapore Metro Rapid Transit /api/singapore-metro-rapid-transit
+2441 SingleHop /api/singlehop
+2442 SinglePlatform /api/singleplatform
+  --> BizScrambler
+2443 Singly /api/singly
+  --> Idego
+2444 SingTel inSing Business Search /api/singtel-insing-business-search
+2445 SingTel Messaging /api/singtel-messaging
+2446 SingTel Phone Type /api/singtel-phone-type
+2447 SingTel Single Sign On /api/singtel-single-sign-on
+2448 SingTel WAP Push /api/singtel-wap-push
+2449 Sipgate /api/sipgate
+2450 SIPmly /api/sipmly
+2451 Sippy SoftSwitch /api/sippy-softswitch
+2452 SircWeb for Logistics /api/sircweb-for-logistics
+2453 SirsiDynix Symphony /api/sirsidynix-symphony
+2454 SISSVoc /api/sissvoc
+2455 Sistrix /api/sistrix
+2456 SITA Airport FIDS /api/sita-airport-fids
+2457 SITA BagTrac /api/sita-bagtrac
+2458 SITA Boarding Pass /api/sita-boarding-pass
+2459 SITA iTravel /api/sita-itravel
+2460 SITA World Tracer /api/sita-world-tracer
+2461 Site Stats /api/site-stats
+2462 Site24x7 /api/site24x7
+2463 SiteKreator /api/sitekreator
+2464 Siteleaf /api/siteleaf
+2465 SiteLock Partner /api/sitelock-partner
+2466 SitePal Server /api/sitepal-server
+2467 Siter /api/siter
+2468 SiteScout /api/sitescout
+2469 SiteShuffle /api/siteshuffle
+2470 Sitestat OneCall  /api/sitestat-onecall
+2471 SiteUptime /api/siteuptime
+2472 SitOrSquat /api/sitorsquat
+2473 SIX Address Image /api/six-address-image
+2474 SIX Address Search /api/six-address-search
+2475 SixFinancial /api/sixfinancial
+2476 Skanetrafiken /api/skanetrafiken
+2477 Skate Ipsum /api/skate-ipsum
+2478 Skebby /api/skebby
+2479 Sketch Engine /api/sketch-engine
+2480 Sketchfab /api/sketchfab
+2481 SKGA Golf Hadicap /api/skga-golf-hadicap
+2482 Skicow /api/skicow
+2483 Skiddle /api/skiddle
+2484 SkillSense /api/skillsense
+2485 Skimap.org /api/skimap.org
+2486 Skimlinks /api/skimlinks
+2487 Skimlinks Merchant /api/skimlinks-merchant
+2488 Skimlinks Product /api/skimlinks-product
+2489 Skimlinks Reporting /api/skimlinks-reporting
+2490 Skinnyr /api/skinnyr
+2491 SkiWhere Global Ski Resort Locator /api/skiwhere-global-ski-resort-locator
+2492 Skizmo VIN /api/skizmo-vin
+2493 Sklik /api/sklik
+2494 Skobbler Tiles /api/skobbler-tiles
+2495 Skolportalen /api/skolportalen
+2496 SKOS Thesaurus /api/skos-thesaurus
+2497 Skwish URL /api/skwish-url
+2498 SkyBiometry Face Detection and Recognition /api/skybiometry-face-detection-and-recognition
+2499 Skybuffer Cloud Checklist /api/skybuffer-cloud-checklist
+2500 Skyclerk /api/skyclerk
+2501 Skycore /api/skycore
+2502 Skydeck /api/skydeck
+  --> Dial2Do Ranked Contact Import
+  --> Dial2Do Skydeck Import
+  --> Skydeck Mac Dashboard Widget
+  --> Skydeck to FreshBooks Importer
+2503 Skyhook Wireless /api/skyhook-wireless
+  --> ConnectorLocal
+  --> Gigometer
+  --> JiWire Hotspot Finder for Skype
+2504 Skype /api/skype
+  --> Big Contacts
+  --> Call Transfer For Skype
+  --> Call Transfer For Skype
+  --> Chat Translator and Speaker for Skype
+  --> Easy Voip Recorder
+  --> Gophernow
+  --> JiWire Hotspot Finder for Skype
+  --> JyvePro
+  --> Mood-O-Matic
+  --> Moodgeist
+  --> MyToGo for Skype
+  --> MyToGo For Skype II
+  --> PamBot
+  --> PamFax
+  --> SKMap
+  --> Skype Based RSS Reader
+  --> Skype Chat Messages to Text
+  --> Skype for AppExchange
+  --> Skype Mood Message to Twitter
+  --> Skype Social Network
+  --> Skype to-and-from Twitter
+  --> SkypeMap
+  --> soZiety
+  --> Subscription Monitor for Skype
+  --> Universal Chat Translator for Skype
+  --> Unype.com
+  --> Void.Bot
+  --> Webjam
+2505 Skypop /api/skypop
+2506 SKYPOST /api/skypost
+2507 Skyrock /api/skyrock
+2508 Skyscanner /api/skyscanner
+2509 SkyServer /api/skyserver
+2510 Skytap /api/skytap
+2511 Skyttle /api/skyttle
+  --> Sentiment-Evaluation
+2512 SLAC IEPM /api/slac-iepm
+2513 SLAP /api/slap
+2514 SlashDB /api/slashdb
+2515 Slatemind  /api/slatemind
+2516 sletoh.com /api/sletoh.com
+  --> AirportHotels
+  --> Compare Hotels in Europe
+  --> Hotel Comparison Widget
+  --> TubeHotels.com
+2517 Slice /api/slice
+2518 Slicehost SliceManager /api/slicehost-slicemanager
+2519 Slick Text /api/slick-text
+2520 SlideBomb /api/slidebomb
+2521 SlidePay /api/slidepay
+2522 SlideShare /api/slideshare
+  --> A B2B Mashup to get Linkedin Users on Your Site
+  --> coderbits
+  --> endToo Search
+  --> FireUploader
+  --> Furthere, Your Twitter Driven Weblog
+  --> jQuery Lifestream
+  --> Muecs
+  --> Search The Web
+  --> SlideShare Karaoke
+2523 SlideShare Player /api/slideshare-player
+2524 SlideSix /api/slidesix
+2525 SlideSMS /api/slidesms
+2526 Slifeshare /api/slifeshare
+2527 SLIjs /api/slijs
+2528 SLiMFinder /api/slimfinder
+2529 SlimSurveys /api/slimsurveys
+2530 SlimTimer /api/slimtimer
+2531 SlipSMS /api/slipsms
+2532 SlipStream /api/slipstream
+2533 Slipstream SA /api/slipstream-sa
+2534 Slug.ch /api/slug.ch
+2535 Smadex /api/smadex
+2536 SmallInvoice /api/smallinvoice
+2537 Smarkets /api/smarkets
+2538 SMART /api/smart
+2539 Smart AdServer /api/smart-adserver
+2540 Smart Tribune /api/smart-tribune
+2541 Smart-IP Geo-IP /api/smart-ip-geo-ip
+2542 smart.coder /api/smart.coder
+2543 SmartBear AlertSite /api/smartbear-alertsite
+2544 SmartBots /api/smartbots
+2545 SmartDebit /api/smartdebit
+2546 SmartEnergy /api/smartenergy
+2547 SmarterMeasure /api/smartermeasure
+2548 SmarterTools SmarterMail /api/smartertools-smartermail
+2549 SmartFile /api/smartfile
+2550 Smartling /api/smartling
+2551 SmartPea Grocery  /api/smartpea-grocery
+2552 smartRealm SNAP /api/smartrealm-snap
+2553 SmartSheet /api/smartsheet
+2554 SmartSource /api/smartsource
+2555 SmartThings /api/smartthings
+2556 SmartTravelDeals /api/smarttraveldeals
+2557 SmartTurn /api/smartturn
+2558 Smartwaiver /api/smartwaiver
+2559 SmartyStreets /api/smartystreets
+2560 SmashFly /api/smashfly
+  --> Pageflakes
+2561 SMEStorage Multi Cloud /api/smestorage-multi-cloud
+2562 SMMRY /api/smmry
+2563 Smotri /api/smotri
+2564 SMS 55 /api/sms-55
+2565 SMS Action /api/sms-action
+2566 SMS Broadcast /api/sms-broadcast
+2567 SMS Central /api/sms-central
+2568 SMS Creator /api/sms-creator
+2569 SMS Everywhere Messaging /api/sms-everywhere-messaging
+2570 SMS FAKE /api/sms-fake
+2571 SMS Fastly /api/sms-fastly
+2572 SMS Freedom /api/sms-freedom
+2573 SMS Global /api/sms-global
+2574 SMS GupShup /api/sms-gupshup
+2575 SMS Ingenuity /api/sms-ingenuity
+2576 SMS Telintel /api/sms-telintel
+2577 SMS.MIO SendMessages /api/sms.mio-sendmessages
+2578 SMS123Go! /api/sms123go
+2579 SMSAPI /api/smsapi
+2580 SMSBOX /api/smsbox
+2581 smsBug /api/smsbug
+2582 SMSCenter.PK /api/smscenter.pk
+2583 SMSCluster /api/smscluster
+2584 SMSConCuba /api/smsconcuba
+2585 SMSCountry /api/smscountry
+2586 SmsDial /api/smsdial
+2587 SMSEagle /api/smseagle
+2588 SMSEWAY /api/smseway
+2589 SMSFlight /api/smsflight
+2590 SMSGateway.ca /api/smsgateway.ca
+2591 SMSgol /api/smsgol
+2592 SMSGuys /api/smsguys
+2593 SMSified /api/smsified
+2594 SMSimple /api/smsimple
+2595 SMSMyBus /api/smsmybus
+  --> Madison Metro Gmail Gadget
+  --> Mother Fool's Bus Kiosk
+2596 SMSNetworks /api/smsnetworks
+2597 SMSPinoy /api/smspinoy
+2598 SMSpoint /api/smspoint
+2599 SMSS South Africa /api/smss-south-africa
+2600 SMStrade /api/smstrade
+2601 SMSWarehouse /api/smswarehouse
+2602 smsways /api/smsways
+2603 SMSWebGh /api/smswebgh
+2604 SMTP.com /api/smtp.com
+2605 Smugmug /api/smugmug
+  --> bitPrompt
+  --> buffstuff.de
+  --> FireUploader
+  --> FotoViewr
+  --> FxFoto
+  --> Migratr
+  --> obsvr.net
+  --> PictureSync
+  --> PicWash Photo Retouch Service
+  --> Pixelpipe
+  --> SlideMyPics
+  --> smugMaps
+  --> StarExplorer
+  --> Tagbulb
+  --> typo.obsvr.net - Typography Observer
+2606 Smynx /api/smynx
+2607 SnagPad /api/snagpad
+2608 SnapAppointments /api/snapappointments
+2609 SnapBill /api/snapbill
+2610 SnapComms Desktop Alert /api/snapcomms-desktop-alert
+2611 SnapCrowd /api/snapcrowd
+2612 SnapEngage Event /api/snapengage-event
+2613 SnapFish Publisher /api/snapfish-publisher
+2614 Snapito! /api/snapito
+2615 Snapjoy /api/snapjoy
+2616 SnapLogic /api/snaplogic
+2617 Snappr.net /api/snappr.net
+2618 Snappy /api/snappy
+2619 SnappyFingers /api/snappyfingers
+  --> FindOut
+2620 SnappyTV /api/snappytv
+2621 Snapr /api/snapr
+  --> BadgePlz
+  --> Snapfinch
+2622 SnapReplay /api/snapreplay
+2623 Snaptwit /api/snaptwit
+2624 Sni.ps /api/sni.ps
+2625 Snip.it /api/snip.it
+2626 Snipcart /api/snipcart
+2627 Snipplr /api/snipplr
+2628 Snipplr /api/snipplr-2
+2629 Snipr /api/snipr
+2630 Snipshot /api/snipshot
+  --> myDataBus
+  --> Snipshot and Box.net
+  --> WipBox
+2631 Snipt /api/snipt
+2632 Snipt.net /api/snipt.net
+2633 SNOCAP /api/snocap
+  --> GoMojo
+  --> SNOCAP MyStore Search
+  --> SnoTunes
+  --> Unofficial SNOCAP Pandora Mashup
+2634 SnoCountry /api/snocountry
+2635 Snoobi /api/snoobi
+2636 Snoopon.me /api/snoopon.me
+2637 Snooth /api/snooth
+2638 SNOTEL /api/snotel
+2639 Snowy Evening /api/snowy-evening
+2640 SNTMNT /api/sntmnt
+2641 SOAPBuilders Interop /api/soapbuilders-interop
+2642 SOAPClient PKI /api/soapclient-pki
+2643 SoapLab /api/soaplab
+2644 SOCH /api/soch
+2645 Sociagram /api/sociagram
+2646 Social Actions /api/social-actions
+  --> Passione non profit
+  --> SocialActions - Take Actions Widget
+  --> socialConnect
+2647 Social Archive /api/social-archive
+  --> BizScrambler
+  --> What's Public
+2648 Social Crawlytics /api/social-crawlytics
+2649 Social Entrepreneur /api/social-entrepreneur
+2650 Social Gaming Network /api/social-gaming-network
+2651 Social Gold /api/social-gold
+2652 Social Mention /api/social-mention
+  --> Streams.im
+2653 Social Money CorePro /api/social-money-corepro
+2654 Social Networks Software /api/social-networks-software
+2655 Social Report /api/social-report
+2656 Social Solutions ETO Software /api/social-solutions-eto-software
+2657 Social Translator /api/social-translator
+2658 Social Video Bytes /api/social-video-bytes
+2659 Social Whale /api/social-whale
+2660 Social123 SocialData+ /api/social123-socialdata
+2661 Socialbel /api/socialbel
+2662 Socialcam /api/socialcam
+2663 Socialcast /api/socialcast
+2664 SocialFlow /api/socialflow
+2665 SocialGO /api/socialgo
+2666 Socialight /api/socialight
+2667 Socializando Llevame /api/socializando-llevame
+2668 Socialize /api/socialize
+2669 Socializr /api/socializr
+2670 socialmod /api/socialmod
+2671 SocialOomph /api/socialoomph
+  --> Research And Compare
+2672 SocialPlay /api/socialplay
+2673 SocialStock /api/socialstock
+2674 Socialtext /api/socialtext
+2675 Socialyzer /api/socialyzer
+2676 Sociocast Prediction /api/sociocast-prediction
+2677 SocketLabs Email On Demand /api/socketlabs-email-on-demand
+2678 Socrata Open Data  /api/socrata-open-data
+2679 Socure /api/socure
+2680 SodaHead /api/sodahead
+2681 Sofanatics /api/sofanatics
+2682 SoftLayer /api/softlayer
+2683 SoftModal Diesel  /api/softmodal-diesel
+2684 Softnet SMS /api/softnet-sms
+2685 Softonic /api/softonic
+  --> Teradown
+2686 SoFurry /api/sofurry
+2687 SoGeo /api/sogeo
+2688 Sogou Search Marketing /api/sogou-search-marketing
+2689 Sohu Microblogging /api/sohu-microblogging
+2690 SOI County-to-County Migration Data /api/soi-county-to-county-migration-data
+2691 SolarGIS /api/solargis
+2692 SolarPermit.org /api/solarpermit.org
+2693 SolarPlots /api/solarplots
+2694 SOLEMI /api/solemi
+2695 Soleo /api/soleo
+2696 SolidFire /api/solidfire
+2697 SolidOpinion /api/solidopinion
+2698 SolidShops /api/solidshops
+2699 Solutecia /api/solutecia
+2700 Solve Media /api/solve-media
+2701 Solve360 /api/solve360
+2702 SolvingMaze /api/solvingmaze
+2703 Some Murrays Website Summaries /api/some-murrays-website-summaries
+2704 Sometrics /api/sometrics
+2705 Sonatype Nexus /api/sonatype-nexus
+2706 Song.ly /api/song.ly
+  --> Shorten URL
+2707 Songbird /api/songbird
+2708 Songkick /api/songkick
+  --> Beardscratchers Compendium
+  --> DoAt (do@) 
+  --> Now Playing on BBC Radio
+  --> Richseam
+  --> ShowHear
+  --> Spotkick
+2709 SongMeanings /api/songmeanings
+2710 Songsterr /api/songsterr
+2711 Songza /api/songza
+  --> idiomag
+2712 Sonic Notify /api/sonic-notify
+2713 sonicAPI.com /api/sonicapi.com
+  --> webklang instant harmony
+2714 SonicLiving Concerts /api/sonicliving-concerts
+2715 Sonico /api/sonico
+2716 SONoMA /api/sonoma
+2717 Sonos Music /api/sonos-music
+  --> Sonos Enhanced 
+2718 Sony Camera Remote /api/sony-camera-remote
+2719 Sony Ericsson Track ID /api/sony-ericsson-track-id
+2720 Sony Online Entertainment Data /api/sony-online-entertainment-data
+2721 Soocial /api/soocial
+2722 Sorenson 360 /api/sorenson-360
+2723 SortMyBooks  /api/sortmybooks
+2724 Sound of the City /api/sound-of-the-city
+2725 SoundBite /api/soundbite
+2726 SoundCloud /api/soundcloud
+  --> BeatStriker
+  --> Blink-182 Neighborhoods
+  --> CitySounds.fm - The sounds of cities
+  --> Daft Punk Mashup 
+  --> DoAt (do@) 
+  --> Dubtune
+  --> FbFriendFinder.com
+  --> FindTheStream
+  --> GIF Spinner
+  --> Listen To Blogs
+  --> ListnPlay
+  --> Listnr
+  --> Little Corner
+  --> Luxtape
+  --> RadioCloud
+  --> RandomCloud
+  --> Seesu
+  --> ShownToME Music
+  --> SoundCloud Player for Facebook
+  --> Soundcry
+  --> soundeer
+  --> soundeos
+  --> SoundYouNeed
+  --> The Cloud Player
+  --> Tracks On A Map
+  --> Vibin.fm
+  --> We Are Hunted For Android
+  --> We-Wired Web
+  --> webklang instant harmony
+2727 Soundrop /api/soundrop
+2728 soundtoys /api/soundtoys
+2729 Sourberry /api/sourberry
+2730 Sourcemap /api/sourcemap
+2731 SourceSMS /api/sourcesms
+2732 Sourcing.io /api/sourcing.io
+2733 South African YellowPages Maps /api/south-african-yellowpages-maps
+2734 South France Villas /api/south-france-villas
+2735 Space /api/space
+2736 Space Physics Interactive Data Resource /api/space-physics-interactive-data-resource
+2737 Space-Track.org /api/space-track.org
+2738 SpacialDB Layers /api/spacialdb-layers
+2739 SpamID.net IP Locator /api/spamid.net-ip-locator
+2740 SpamOn /api/spamon
+  --> SpamOn Disposable Emails
+2741 Spamty /api/spamty
+2742 SpamWipe /api/spamwipe
+2743 SpanDex /api/spandex
+2744 Spark /api/spark
+2745 Spark Devices /api/spark-devices
+2746 Spark.io /api/spark.io
+2747 Sparked /api/sparked
+2748 SparkleShare /api/sparkleshare
+2749 Sparklines /api/sparklines
+  --> Feedsparks
+  --> MyOutdoors.net
+2750 Sparkwise /api/sparkwise
+2751 SPARQcode QRGen /api/sparqcode-qrgen
+2752 Sparrow SMS /api/sparrow-sms
+2753 SpatialStream /api/spatialstream
+2754 SpeakerRate /api/speakerrate
+2755 SpeakerText /api/speakertext
+2756 Speaking URL /api/speaking-url
+2757 SpeakLike Translation /api/speaklike-translation
+2758 Speap /api/speap
+2759 Spearman Correlation Coefficient /api/spearman-correlation-coefficient
+2760 Species Invaders /api/species-invaders
+2761 speechapi /api/speechapi
+2762 SpeedOf.Me /api/speedof.me
+2763 SpeedskatingResults.com /api/speedskatingresults.com
+2764 SPEEDY Express Delivery Services /api/speedy-express-delivery-services
+  --> iabol
+2765 Speek /api/speek
+2766 Spell Out /api/spell-out
+2767 Spellchecker.net /api/spellchecker.net
+2768 Spellodrome /api/spellodrome
+2769 Spendgate /api/spendgate
+2770 SPHERE.IO /api/sphere.io
+2771 Spicynodes /api/spicynodes
+2772 Spiderline Site Search /api/spiderline-site-search
+2773 SpiderOak DIY /api/spideroak-diy
+2774 Spigit /api/spigit
+2775 Spil Games /api/spil-games
+2776 SPIN RDF /api/spin-rdf
+2777 SpinChimp /api/spinchimp
+2778 Spinn3r /api/spinn3r
+2779 SpinnerChief /api/spinnerchief
+2780 Spinque /api/spinque
+2781 SpinVox /api/spinvox
+2782 Spire ITIS /api/spire-itis
+2783 spire.io /api/spire.io
+2784 SpitCast /api/spitcast
+2785 Spizter Heritage Archive /api/spizter-heritage-archive
+2786 Splitable /api/splitable
+2787 Splitwise /api/splitwise
+2788 SplogSpot /api/splogspot
+  --> NewsFino
+  --> Stock Cloud
+  --> TrackBackr
+2789 Splunk  /api/splunk
+2790 Spock /api/spock
+  --> Gajeebo Search Aggregation Engine
+  --> iPhone People Search
+2791 SpokenBuzz /api/spokenbuzz
+  --> LOOQ Here, Buy on eBay
+  --> SpokenBuzz on a Map
+2792 Spongecell /api/spongecell
+2793 SponsorPay /api/sponsorpay
+2794 Spore /api/spore
+  --> Spore Buddy Browser
+  --> Sporepedia Gadgets
+2795 Sport Ngin /api/sport-ngin
+2796 Sports Data /api/sports-data
+  --> farangis
+2797 Sports Power /api/sports-power
+  --> farangis
+2798 SportsDirect /api/sportsdirect
+2799 SportTracks /api/sporttracks
+2800 SPOT Shared Page /api/spot-shared-page
+2801 Spot2be /api/spot2be
+2802 Spotbros /api/spotbros
+2803 SPOTCatalog /api/spotcatalog
+2804 SpotCrime /api/spotcrime
+2805 Spotify Apps /api/spotify-apps
+2806 Spotify Metadata /api/spotify-metadata
+  --> BandStalk
+  --> BBCify
+  --> biblify
+  --> Covers.FM
+  --> FindTheStream
+  --> Instant Playlist
+  --> Last.ify
+  --> Listen Spotify
+  --> MusicWall
+  --> My Fav Bands
+  --> MyFavBands
+  --> Richseam
+  --> Setlisting
+  --> Shared Playlists
+  --> Sonos Enhanced 
+  --> Sound Shelter - An electronic music discovery engine
+  --> SoundYouNeed
+  --> spofm
+  --> Spot.fm
+  --> Spotify Music Catalog Search
+  --> Spotify my Last FM
+  --> SpotiLast
+  --> Spotkick
+  --> SpotLib
+  --> The byrds and the bee(gees) 
+  --> Tubufy.com
+  --> Viral Music List
+2807 SpotOption /api/spotoption
+2808 SpotPrices.biz /api/spotprices.biz
+2809 SpotRight /api/spotright
+2810 spotXchange /api/spotxchange
+2811 Spotzot /api/spotzot
+2812 SPP CROW /api/spp-crow
+2813 Spraci /api/spraci
+  --> Tagbulb
+2814 Sprawk /api/sprawk
+2815 Spreadshirt /api/spreadshirt
+2816 Spreaker /api/spreaker
+2817 Spree Commerce /api/spree-commerce
+2818 Spreedly /api/spreedly
+2819 SpringCM /api/springcm
+2820 Springer /api/springer
+  --> Springer Quotes
+2821 Springest /api/springest
+2822 Springnote /api/springnote
+2823 Springpad /api/springpad
+2824 SpringSense Meaning Detection /api/springsense-meaning-detection
+2825 SpringWidgets /api/springwidgets
+  --> preciseNews
+  --> preciseNews Flash Widget
+  --> preciseTechnology
+2826 Sprint  /api/sprint
+2827 Sprint Geofencing /api/sprint-geofencing
+2828 Sprint Location /api/sprint-location
+2829 Sprint Presence /api/sprint-presence
+2830 Sprint.ly /api/sprint.ly
+2831 SproutVideo /api/sproutvideo
+2832 Spruce Media /api/spruce-media
+2833 Sprylogics /api/sprylogics
+2834 Spy Dialer /api/spy-dialer
+2835 Sqoot /api/sqoot
+  --> Checkin Cashin
+2836 Squarespace /api/squarespace
+2837 SquidAnalytics /api/squidanalytics
+2838 Squirrel Tools /api/squirrel-tools
+2839 Squirro /api/squirro
+2840 Sqwiggle /api/sqwiggle
+2841 SRC Demographics /api/src-demographics
+2842 Srch.io /api/srch.io
+2843 SRFax Internet Fax /api/srfax-internet-fax
+2844 Sri Lanka Postal Codes /api/sri-lanka-postal-codes
+2845 SRTM /api/srtm
+2846 SSA CBSV /api/ssa-cbsv
+2847 SSearch protein similarity search /api/ssearch-protein-similarity-search
+2848 SSL.com Certificate Reseller /api/ssl.com-certificate-reseller
+2849 SSN Validator /api/ssn-validator
+2850 SSW Australian Postcode /api/ssw-australian-postcode
+2851 St. Gregorios Church Bible /api/st.-gregorios-church-bible
+2852 St. Gregorios Church Calendar /api/st.-gregorios-church-calendar
+2853 St. Louis FRED /api/st.-louis-fred
+2854 Stack Exchange /api/stack-exchange
+2855 Stack Overflow /api/stack-overflow
+2856 Stackdriver /api/stackdriver
+2857 StackMob /api/stackmob
+2858 Stage of Life Coupon /api/stage-of-life-coupon
+2859 StageBloc /api/stagebloc
+2860 Stamplin /api/stamplin
+2861 stampr /api/stampr
+2862 Stamps.com /api/stamps.com
+2863 Standard Treasury /api/standard-treasury
+2864 STANDS4 Definitions /api/stands4-definitions
+2865 Stanford HighWire /api/stanford-highwire
+2866 Stanford University Student /api/stanford-university-student
+2867 Stanford University Workgroup /api/stanford-university-workgroup
+2868 Stannp /api/stannp
+2869 Staples /api/staples
+2870 Stapleup /api/stapleup
+2871 Starcraft II /api/starcraft-ii
+2872 StatAd /api/statad
+2873 StatCounter /api/statcounter
+2874 State Decoded /api/state-decoded
+2875 State Library of New South Wales /api/state-library-of-new-south-wales
+2876 State Of Text /api/state-of-text
+2877 StatHat /api/stathat
+2878 Statistical Me /api/statistical-me
+2879 Statistics Sweden /api/statistics-sweden
+2880 StatPlat /api/statplat
+2881 StatPro /api/statpro
+2882 StatsFC Premier League  /api/statsfc-premier-league
+2883 StatsMix /api/statsmix
+2884 StatTrackr /api/stattrackr
+2885 StatusPage /api/statuspage
+2886 Statwing /api/statwing
+2887 StayClassy /api/stayclassy
+2888 stdicon /api/stdicon
+2889 StealthModeWatch /api/stealthmodewatch
+2890 Steam Web /api/steam-web
+2891 Stella /api/stella
+2892 Steply /api/steply
+  --> BadgePlz
+  --> Snapfinch
+2893 STEPStools /api/stepstools
+2894 Stereomood /api/stereomood
+2895 StesCodes Address Book Importer /api/stescodes-address-book-importer
+2896 StesCodes Contact Grabber /api/stescodes-contact-grabber
+2897 StesCodes Friends Inviter /api/stescodes-friends-inviter
+2898 StesCodes Social Event Manager /api/stescodes-social-event-manager
+2899 StesCodes Social Login /api/stescodes-social-login
+2900 Steve In Action /api/steve-in-action
+2901 Stickybits /api/stickybits
+2902 StickyStreet /api/stickystreet
+2903 stikkit /api/stikkit
+  --> Stikkit SMS Interface
+2904 Stipple /api/stipple
+2905 Stochastic IMDb /api/stochastic-imdb
+2906 Stock Market Data /api/stock-market-data
+2907 Stockholm Film Festival /api/stockholm-film-festival
+2908 Stockholm University Palign /api/stockholm-university-palign
+2909 Stockholm University PRODIV-TMHMM /api/stockholm-university-prodiv-tmhmm
+2910 Stocklytics Company Data /api/stocklytics-company-data
+2911 Stocklytics Historical Stock Prices /api/stocklytics-historical-stock-prices
+2912 Stocklytics Intraday Historical Stock Prices /api/stocklytics-intraday-historical-stock-prices
+2913 Stocklytics Stock News /api/stocklytics-stock-news
+2914 Stocklytics Stock Tweets /api/stocklytics-stock-tweets
+2915 StockTwits /api/stocktwits
+2916 StockViz /api/stockviz
+2917 Stop Forum Spam /api/stop-forum-spam
+2918 StorageMadeEasy Cloud Data /api/storagemadeeasy-cloud-data
+2919 StorageRoom /api/storageroom
+2920 StoreMail /api/storemail
+2921 Storenvy /api/storenvy
+2922 Storify /api/storify
+2923 Storm On Demand /api/storm-on-demand
+2924 Stormpath /api/stormpath
+2925 Stormpulse Maps /api/stormpulse-maps
+2926 StormRETS /api/stormrets
+2927 StormSwift /api/stormswift
+2928 StormWeight /api/stormweight
+2929 Stormz /api/stormz
+2930 Straight-Street /api/straight-street
+2931 Straker Translation /api/straker-translation
+2932 Strand Map /api/strand-map
+2933 Strand Map Service /api/strand-map-service
+2934 Strands Social Recommender /api/strands-social-recommender
+2935 StrategYard /api/strategyard
+2936 Strathcom /api/strathcom
+2937 Strava /api/strava
+2938 Streak /api/streak
+2939 Stream SDK /api/stream-sdk
+2940 StreamAPI /api/streamapi
+2941 Streamfinder /api/streamfinder
+2942 StreamIn /api/streamin
+2943 Streaming Video Provider /api/streaming-video-provider
+2944 Streamio /api/streamio
+2945 Streamload /api/streamload
+2946 Streampad /api/streampad
+2947 StreamSend /api/streamsend
+2948 StreamWIDE Call Screening /api/streamwide-call-screening
+2949 Streamzoo /api/streamzoo
+2950 Street Directory Maps /api/street-directory-maps
+2951 StreetEagleGPS /api/streeteaglegps
+2952 StreetEasy /api/streeteasy
+2953 StreetLightOutages /api/streetlightoutages
+2954 Stremor Liquid Helium /api/stremor-liquid-helium
+2955 StressFreeAirportParking /api/stressfreeairportparking
+2956 Stride /api/stride
+2957 StrikeIron /api/strikeiron
+  --> Salesforce.com Sales Credit Approval Mashup
+2958 StrikeIron Address Distance /api/strikeiron-address-distance
+2959 StrikeIron Address Verfication /api/strikeiron-address-verfication
+2960 StrikeIron Baseball Stats /api/strikeiron-baseball-stats
+2961 StrikeIron Do Not Call /api/strikeiron-do-not-call
+2962 StrikeIron Email Verification /api/strikeiron-email-verification
+2963 StrikeIron Foreign Exchange Rates /api/strikeiron-foreign-exchange-rates
+2964 StrikeIron Global SMS Pro /api/strikeiron-global-sms-pro
+  --> After Hours Doctors Office
+  --> BillHighway
+2965 StrikeIron Insider Trading /api/strikeiron-insider-trading
+2966 StrikeIron Lite Web Services /api/strikeiron-lite-web-services
+2967 StrikeIron Midnight Trader Financial News /api/strikeiron-midnight-trader-financial-news
+2968 StrikeIron Mobile Email /api/strikeiron-mobile-email
+2969 StrikeIron Phone Number Enhancement /api/strikeiron-phone-number-enhancement
+2970 StrikeIron Residential Lookup /api/strikeiron-residential-lookup
+2971 StrikeIron Reverse Phone Lookup /api/strikeiron-reverse-phone-lookup
+  --> Reverse Phone Lookup
+2972 StrikeIron Sales Tax Basic /api/strikeiron-sales-tax-basic
+2973 StrikeIron Super Data Pack /api/strikeiron-super-data-pack
+  --> Bester News
+  --> Chemistry Quiz
+2974 StrikeIron Tax Service /api/strikeiron-tax-service
+  --> Census Dashboard
+2975 StrikeIron US Addresses /api/strikeiron-us-addresses
+2976 StrikeIron US Census /api/strikeiron-us-census
+  --> Census Dashboard
+  --> Nurse Facility Locator
+2977 StrikeIron Zacks Company Profile /api/strikeiron-zacks-company-profile
+2978 StrikeIron ZIP and Postal Code Info /api/strikeiron-zip-and-postal-code-info
+2979 Strim /api/strim
+2980 STRING /api/string
+2981 Stripe /api/stripe
+  --> Blizzalert
+  --> qabic
+  --> RingRingBaby
+  --> SkaFlash
+  --> Stripe Payments Plugin
+2982 StrongCoin Merchants /api/strongcoin-merchants
+2983 Strongspace /api/strongspace
+2984 Strongsteam /api/strongsteam
+2985 StructuredRetailProducts /api/structuredretailproducts
+2986 Strutta /api/strutta
+2987 stSoftware Job Track /api/stsoftware-job-track
+2988 StubHub /api/stubhub
+2989 StudiHelp /api/studihelp
+2990 Study Island Dictionary /api/study-island-dictionary
+2991 StudyStack /api/studystack
+2992 Stumble.to /api/stumble.to
+2993 Stupeflix /api/stupeflix
+  --> Stupeflix TV
+  --> Stupeflix Wikipedia Videos
+2994 Styfee /api/styfee
+2995 StyleFeeder /api/stylefeeder
+2996 Stylight /api/stylight
+  --> Outfit Editor
+2997 Su.pr /api/su.pr
+2998 su2.be /api/su2.be
+2999 SubDB /api/subdb
+  --> Easy Subtitles
+3000 Subeta /api/subeta
