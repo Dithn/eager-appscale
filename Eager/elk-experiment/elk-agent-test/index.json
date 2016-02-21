@@ -1,0 +1,11 @@
+{
+  "mappings": {
+    "jvmheap": {
+      "_timestamp": { 
+        "enabled": true,
+        "path": "timestamp",
+        "format": "YYYY-MM-dd HH:mm:ss z"
+      }
+    }
+  }
+}
