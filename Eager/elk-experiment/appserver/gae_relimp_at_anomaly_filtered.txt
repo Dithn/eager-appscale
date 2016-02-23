@@ -1,3 +1,10 @@
+Notes
+=====
+GAE data is very stable over time with very few anomalies. Outliers are rare and random (i.e. no systematic pattern of anomalies). The relative importance metric is capable
+of pinpointing the most likely cause of these random anomalies when they occur.
+
+Results
+=======
 [relimp] index bm_datastore_asList_10 bm_datastore_asSingleEntity bm_datastore_delete bm_datastore_get bm_datastore_put bm_memcache_delete bm_memcache_get bm_memcache_put 
 [anomaly] 8 736 
 [anomaly] 9 243 
