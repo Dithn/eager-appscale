@@ -1,4 +1,4 @@
-bm_datastore_asList_10 bm_datastore_asSingleEntity bm_datastore_delete bm_datastore_get bm_datastore_put bm_memcache_delete bm_memcache_get bm_memcache_put
+bm_datastore_asList_10 bm_datastore_asSingleEntity bm_datastore_delete bm_datastore_get bm_datastore_put bm_memcache_delete bm_memcache_get bm_memcache_put Total
 27 9 29 6 51 2 3 2 130
 28 8 29 6 51 2 2 2 131
 32 9 32 8 48 3 3 18 157
