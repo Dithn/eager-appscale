@@ -1,6 +1,7 @@
 import argparse
 import numpy
 import random
+import sys
 
 class UniformGenerator:
     def __init__(self, lowest, highest):
@@ -34,12 +35,39 @@ class FaultInjector:
     def mutate(self, time, value):
         if self.start <= time <= self.end:
             if random.random() < self.probability:
+                sys.stderr.write('Injecting fault at index {0}\n'.format(time))
                 if self.type == 'A':
                     return value + self.factor
                 elif self.type == 'M':
                     return value * self.factor
         return value
 
+class GroupFaultInjector(FaultInjector):
+    def __init__(self, config):
+        FaultInjector.__init__(self, config)
+        self.services = config.split(',')[5:]
+        sys.stderr.write('Configured group fault injector for: {0}\n'.format(self.services))
+
+    def mutate(self, time, values):
+        def mutate_by_addition(k,v):
+            if k in self.services:
+                return v + self.factor
+            else:
+                return v
+        def mutate_by_multiplication(k,v):
+            if k in self.services:
+                return v * self.factor
+            else:
+                return v
+        if self.start <= time <= self.end:
+            if random.random() < self.probability:
+                sys.stderr.write('Injecting fault at index {0}\n'.format(time))
+                if self.type == 'A':
+                    return {k: mutate_by_addition(k,v) for k,v in values.items()}
+                elif self.type == 'M':
+                    return {k: mutate_by_multiplication(k,v) for k,v in values.items()}
+        return values
+    
 class CloudService:
     def __init__(self, config):
         if config.startswith('[service]'):
@@ -57,7 +85,7 @@ class CloudService:
             raise Exception('Unsupported generator type: {0}'.format(self.type))
         self.time = 0
         self.fault_injectors = []
-        print 'Configured service: {0}'.format(self.name)
+        sys.stderr.write('Configured service: {0}\n'.format(self.name))
 
     def add_fault_injector(self, config):
         self.fault_injectors.append(FaultInjector(config))
@@ -78,7 +106,7 @@ if __name__ == '__main__':
         print 'File argument is required'
         sys.exit(1)
 
-    print 'Reading configuration from {0}'.format(args.file)
+    sys.stderr.write('Reading configuration from {0}\n'.format(args.file))
     fp = open(args.file, 'r')
     lines = fp.readlines()
     fp.close()
@@ -86,28 +114,34 @@ if __name__ == '__main__':
     iterations = int(lines[0].strip())
     services = []
     extra_gen = None
+    group_fault_injectors = []
     for line in lines[1:]:
         if line.startswith('[service]'):
             services.append(CloudService(line.strip()))
         elif line.startswith('[extra]'):
             extra_gen = CloudService(line.replace('[extra]', '[service]'))
+        elif line.startswith('[gfi]'):
+            group_fault_injectors.append(GroupFaultInjector(line[5:].strip()))
         elif line.strip():
             if services:
                 services[-1].add_fault_injector(line.strip())
             else:
                 raise Exception('Fault injector configuration must follow a service configuration')
 
-    print 'Starting simulation...'
-    print
+    sys.stderr.write('Starting simulation...\n\n')
     for service in services:
         print service.name,
     print 'Total'
     for i in range(iterations):
-        total = 0.0
+        values = {}
         for service in services:
             current = service.invoke()
-            print current,
-            total += current
+            values[service.name] = current
         if extra_gen:
-            total += extra_gen.invoke()
-        print total
+            values[extra_gen.name] = extra_gen.invoke()
+        for gfi in group_fault_injectors:
+            values = gfi.mutate(i, values)
+        for service in services:
+            print values[service.name],
+        print sum(values.values())
+    sys.stderr.write('Done.\n')
