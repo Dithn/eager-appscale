@@ -8,7 +8,7 @@ columns <- column_names[c(3:length(column_names))]
 cl <- rainbow(length(columns))
 
 x <- relimp_vs_time$index
-plot(x, relimp_vs_time[,3], type='n', xlim=c(0,2000), ylim=c(0,1), xlab='Time', ylab='Relative Importance')
+plot(x, relimp_vs_time[,3], type='n', xlim=c(0,length(relimp_vs_time[,1])), ylim=c(0,1), xlab='Time', ylab='Relative Importance')
 for (i in 1:length(columns)) {
   lines(x, relimp_vs_time[[columns[i]]], type='l', col=cl[i])
 }
