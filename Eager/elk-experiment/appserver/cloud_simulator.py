@@ -61,7 +61,7 @@ class GroupFaultInjector(FaultInjector):
                 return v
         if self.start <= time <= self.end:
             if random.random() < self.probability:
-                sys.stderr.write('Injecting fault at index {0}\n'.format(time))
+                sys.stderr.write('Injecting group fault at index {0}\n'.format(time))
                 if self.type == 'A':
                     return {k: mutate_by_addition(k,v) for k,v in values.items()}
                 elif self.type == 'M':
