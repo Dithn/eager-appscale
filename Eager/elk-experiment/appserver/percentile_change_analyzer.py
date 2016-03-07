@@ -8,6 +8,7 @@ if __name__ == '__main__':
     parser.add_argument('--column', '-c', type=int, dest='col', default=0)
     parser.add_argument('--percentile', '-p', type=int, dest='perc', default=95)
     parser.add_argument('--threshold', '-t', type=int, dest='threshold', default=10)
+    parser.add_argument('--mean_threshold', '-m', action='store_true', dest='mean_threshold', default=False)
     args = parser.parse_args()
 
     if not args.file:
@@ -30,6 +31,7 @@ if __name__ == '__main__':
     numbers = []
     index = 0
     prev_percentile = -1.0
+    prev_mean = -1.0
     print 'index value mean percentile change anomaly'
     for line in lines[1:]:
         n = int(line.strip().split()[args.col])
@@ -38,8 +40,13 @@ if __name__ == '__main__':
             current_percentile = np.percentile(numbers, args.perc)
             mean = np.mean(numbers)
             change = 0.0
+            anomaly = False
             if prev_percentile > 0:
                 change = (current_percentile - prev_percentile)*100.0/float(prev_percentile)
-            print '{0} {1} {2:.4f} {3:.4f} {4:.4f} {5}'.format(index, n, mean, current_percentile, change, change > args.threshold)
+                anomaly = change > args.threshold
+            if args.mean_threshold and prev_mean > 0:
+                anomaly = (current_percentile - prev_percentile) > prev_mean * args.threshold/100.0
+            print '{0} {1} {2:.4f} {3:.4f} {4:.4f} {5}'.format(index, n, mean, current_percentile, change, anomaly)
             prev_percentile = current_percentile
+            prev_mean = mean
         index += 1
