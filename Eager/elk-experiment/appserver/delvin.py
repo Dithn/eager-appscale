@@ -23,7 +23,7 @@ def modify_line(line, col, multiplier, prob, adjust_total):
     return result
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Harvests SDK call execution time information for an app.')
+    parser = argparse.ArgumentParser(description='Modifies columnar data by multiplying values randomly at a specific probability.')
     parser.add_argument('--file', '-f', dest='file', default=None)
     parser.add_argument('--column', '-c', type=int, dest='column', default=-1)
     parser.add_argument('--multiplier', '-m', type=int, dest='multiplier')
