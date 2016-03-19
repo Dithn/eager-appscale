@@ -1,11 +1,13 @@
-package edu.ucsb.cs.roots;
+package edu.ucsb.cs.roots.anomaly;
 
+import com.google.common.base.Strings;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 public final class AnomalyDetectorScheduler {
@@ -22,6 +24,7 @@ public final class AnomalyDetectorScheduler {
     private State state;
 
     public AnomalyDetectorScheduler(String id) throws SchedulerException {
+        checkArgument(!Strings.isNullOrEmpty(id), "ID is required");
         StdSchedulerFactory factory = new StdSchedulerFactory();
         String instanceName = id + "-anomaly-detector-scheduler";
         Properties properties = new Properties();

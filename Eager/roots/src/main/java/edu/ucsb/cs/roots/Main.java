@@ -1,6 +1,10 @@
 package edu.ucsb.cs.roots;
 
 
+import edu.ucsb.cs.roots.anomaly.AnomalyDetector;
+import edu.ucsb.cs.roots.anomaly.AnomalyDetectorScheduler;
+import edu.ucsb.cs.roots.anomaly.TestAnomalyDetector;
+
 import java.util.concurrent.TimeUnit;
 
 public class Main {

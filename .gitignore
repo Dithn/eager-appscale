@@ -10,5 +10,7 @@
 *.aux
 *.bbl
 *.blg
+*.iml
 appengine-java-sdk-1.8.0/
 war/
+target/
