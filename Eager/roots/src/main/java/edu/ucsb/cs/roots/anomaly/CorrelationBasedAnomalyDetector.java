@@ -32,8 +32,10 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
         this.historyLength = builder.historyLength;
         this.history = new HashMap<>();
         this.rDirectory = new File(builder.rDirectory);
-        checkArgument(rDirectory.exists() && rDirectory.isDirectory(),
-                "R directory does not exist or is not a directory: " + rDirectory.getAbsolutePath());
+        checkArgument(rDirectory.exists(), "R directory path does not exist: %s",
+                rDirectory.getAbsolutePath());
+        checkArgument(rDirectory.isDirectory(), "%s is not a directory",
+                rDirectory.getAbsolutePath());
     }
 
     @Override
