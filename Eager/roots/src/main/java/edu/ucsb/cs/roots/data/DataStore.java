@@ -1,5 +1,7 @@
 package edu.ucsb.cs.roots.data;
 
+import java.util.List;
+
 public abstract class DataStore {
 
     /**
@@ -9,8 +11,8 @@ public abstract class DataStore {
      * @param application Name of the application
      * @param start Start time of the interval (inclusive)
      * @param end End time of the interval (exclusive)
-     * @return An array of AccessLogEntry objects
+     * @return A list of AccessLogEntry objects
      */
-    public abstract AccessLogEntry[] getAccessLogEntries(String application, long start, long end);
+    public abstract List<AccessLogEntry> getAccessLogEntries(String application, long start, long end);
 
 }

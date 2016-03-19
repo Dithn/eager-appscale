@@ -8,9 +8,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -22,7 +21,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
 
     private final int historyLength;
-    private final List<Summary> history;
+    private final Map<String,List<Summary>> history;
     private final File rDirectory;
 
     private long end = -1L;
@@ -31,7 +30,7 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
         super(builder.application, builder.period, builder.timeUnit, builder.dataStore);
         checkArgument(builder.historyLength > 10, "History length must be greater than 10");
         this.historyLength = builder.historyLength;
-        this.history = new ArrayList<>(this.historyLength);
+        this.history = new HashMap<>();
         this.rDirectory = new File(builder.rDirectory);
         checkArgument(rDirectory.exists() && rDirectory.isDirectory(),
                 "R directory does not exist or is not a directory: " + rDirectory.getAbsolutePath());
@@ -47,23 +46,33 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
             start = end;
             end += timeUnit.toMillis(period);
         }
-        AccessLogEntry[] entries = dataStore.getAccessLogEntries(application, start, end);
-        if (history.size() == historyLength) {
-            history.remove(0);
-        }
-        history.add(new Summary(entries));
-        if (history.size() > 2) {
-            try {
-                computeCorrelation();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+
+        List<AccessLogEntry> logEntries = dataStore.getAccessLogEntries(application, start, end);
+        Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
+                .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
+        Map<String,Summary> summaries = groupedEntries.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> new Summary(e.getValue())));
+
+        for (Map.Entry<String,Summary> entry : summaries.entrySet()) {
+            List<Summary> record = history.get(entry.getKey());
+            if (record == null) {
+                record = new ArrayList<>(historyLength);
+                history.put(entry.getKey(), record);
             }
+            if (record.size() == historyLength) {
+                record.remove(0);
+            }
+            record.add(entry.getValue());
         }
+
+        history.entrySet().stream()
+                .filter(e -> e.getValue().size() > 2)
+                .forEach(e -> computeCorrelation(e.getKey(), e.getValue()));
     }
 
-    private void computeCorrelation() throws IOException, InterruptedException {
+    private void computeCorrelation(String key, List<Summary> summaries) {
         StringBuilder sb = new StringBuilder();
-        history.stream().forEach(h ->
+        summaries.stream().forEach(h ->
                 sb.append(h.requestCount).append(" ").append(h.responseTime).append('\n'));
         File tempFile = null;
         try {
@@ -76,7 +85,9 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
                         "; output=" + output.getStdout() + "; error=" + output.getStderr());
             }
             String line = output.getStdout();
-            System.out.println(line);
+            System.out.println(key + " " + line);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         } finally {
             FileUtils.deleteQuietly(tempFile);
         }
@@ -90,16 +101,16 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
         private final double responseTime;
         private final double requestCount;
 
-        private Summary(AccessLogEntry[] entries) {
-            if (entries.length > 0) {
-                responseTime = Arrays.asList(entries).stream()
+        private Summary(Collection<AccessLogEntry> entries) {
+            if (entries.size() > 0) {
+                responseTime = entries.stream()
                         .mapToDouble(AccessLogEntry::getResponseTime)
                         .average()
                         .getAsDouble();
             } else {
                 responseTime = 0.0;
             }
-            requestCount = entries.length;
+            requestCount = entries.size();
         }
     }
 

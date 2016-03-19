@@ -17,6 +17,10 @@ public final class AccessLogEntry {
         this.responseTime = responseTime;
     }
 
+    public String getRequestType() {
+        return method + " " + path;
+    }
+
     public long getTimestamp() {
         return timestamp;
     }
