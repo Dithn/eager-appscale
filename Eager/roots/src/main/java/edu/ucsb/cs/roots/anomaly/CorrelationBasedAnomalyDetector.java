@@ -52,6 +52,8 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
                 .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
         Map<String,Summary> summaries = groupedEntries.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> new Summary(e.getValue())));
+        history.keySet().stream()
+                .forEach(k -> summaries.putIfAbsent(k, ZERO_SUMMARY));
 
         for (Map.Entry<String,Summary> entry : summaries.entrySet()) {
             List<Summary> record = history.get(entry.getKey());
@@ -113,6 +115,8 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
             requestCount = entries.size();
         }
     }
+
+    private static final Summary ZERO_SUMMARY = new Summary(new ArrayList<>(0));
 
     public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedAnomalyDetector,Builder> {
 
