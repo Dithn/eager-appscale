@@ -52,23 +52,30 @@ public final class AnomalyDetectorScheduler {
     }
 
     public void schedule(AnomalyDetector detector) throws SchedulerException {
-        String taskKey = getTaskKey(detector.getApplication());
         JobDetail jobDetail = JobBuilder.newJob(AnomalyDetectorJob.class)
-                .withIdentity(taskKey, ANOMALY_DETECTOR_GROUP)
+                .withIdentity(getJobKey(detector.getApplication()))
                 .build();
         JobDataMap jobDataMap = jobDetail.getJobDataMap();
         jobDataMap.put(AnomalyDetectorJob.ANOMALY_DETECTOR_INSTANCE, detector);
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(TriggerKey.triggerKey(taskKey, ANOMALY_DETECTOR_GROUP))
+                .withIdentity(getTriggerKey(detector.getApplication()))
                 .withSchedule(getScheduleBuilder(detector.getTimeUnit(), detector.getPeriod()))
                 .startNow()
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
     }
 
-    private String getTaskKey(String application) {
-        return application + "-job";
+    public void cancel(AnomalyDetector detector) throws SchedulerException {
+        scheduler.unscheduleJob(getTriggerKey(detector.getApplication()));
+    }
+
+    private JobKey getJobKey(String application) {
+        return JobKey.jobKey(application + "-job", ANOMALY_DETECTOR_GROUP);
+    }
+
+    private TriggerKey getTriggerKey(String application) {
+        return TriggerKey.triggerKey(application + "-job", ANOMALY_DETECTOR_GROUP);
     }
 
     private SimpleScheduleBuilder getScheduleBuilder(TimeUnit timeUnit, int period) {
