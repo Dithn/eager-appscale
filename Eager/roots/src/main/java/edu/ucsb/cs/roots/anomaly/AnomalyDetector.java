@@ -2,6 +2,8 @@ package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.base.Strings;
 import edu.ucsb.cs.roots.data.DataStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +16,7 @@ public abstract class AnomalyDetector {
     protected final int period;
     protected final TimeUnit timeUnit;
     protected final DataStore dataStore;
+    protected final Logger log = LoggerFactory.getLogger(getClass());
 
     public AnomalyDetector(String application, int period, TimeUnit timeUnit, DataStore dataStore) {
         checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");

@@ -1,5 +1,6 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import com.google.common.collect.EvictingQueue;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.utils.CommandLineUtils;
 import edu.ucsb.cs.roots.utils.CommandOutput;
@@ -14,12 +15,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * Based on "Detection of Performance Anomalies in Web-based Applications" by Magalhaes and Silva.
  * Calculates the correlation between response time and number of requests to detect any
- * anomalous increases in response time.
+ * anomalous increases in response time. If the correlation drops below a threshold, checks
+ * the dynamic time warping (DTW) distance to further ensure that the anomalous performance
+ * is not explained by the workload conditions.
  */
-public class CorrelationBasedDetector extends AnomalyDetector {
+public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private final int historyLength;
-    private final Map<String,List<ResponseTimeSummary>> history;
+    private final Map<String,EvictingQueue<ResponseTimeSummary>> history;
     private final File rDirectory;
     private final double correlationThreshold;
     private final double dtwIncreasePercentageThreshold;
@@ -58,17 +61,15 @@ public class CorrelationBasedDetector extends AnomalyDetector {
 
         Map<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
                 application, start, end);
-        history.keySet().stream()
-                .forEach(k -> summaries.putIfAbsent(k, ResponseTimeSummary.ZERO));
+        history.entrySet().stream()
+                .filter(e -> !summaries.containsKey(e.getKey()))
+                .forEach(e -> e.getValue().add(ResponseTimeSummary.ZERO));
 
         for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
-            List<ResponseTimeSummary> record = history.get(entry.getKey());
+            EvictingQueue<ResponseTimeSummary> record = history.get(entry.getKey());
             if (record == null) {
-                record = new ArrayList<>(historyLength);
+                record = EvictingQueue.create(historyLength);
                 history.put(entry.getKey(), record);
-            }
-            if (record.size() == historyLength) {
-                record.remove(0);
             }
             record.add(entry.getValue());
         }
@@ -78,7 +79,7 @@ public class CorrelationBasedDetector extends AnomalyDetector {
                 .forEach(e -> computeCorrelation(e.getKey(), e.getValue()));
     }
 
-    private void computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
+    private void computeCorrelation(String key, Collection<ResponseTimeSummary> summaries) {
         File tempFile = null;
         try {
             tempFile = CommandLineUtils.writeToTempFile(summaries,
@@ -89,6 +90,7 @@ public class CorrelationBasedDetector extends AnomalyDetector {
                 throw new IOException(output.toString());
             }
             String line = output.getStdout();
+            log.info("Correlation analysis output: {}", line);
             String[] segments = line.split(" ");
             double correlation = Double.parseDouble(segments[0]);
             double dtw = Double.parseDouble(segments[1]);
@@ -98,14 +100,13 @@ public class CorrelationBasedDetector extends AnomalyDetector {
                 // might be looking at a performance anomaly.
                 double dtwIncrease = (dtw - lastDtw)*100.0/lastDtw;
                 if (dtwIncrease > dtwIncreasePercentageThreshold) {
-                    System.out.println("Anomaly detected -- correlation: " + correlation
-                            + "; dtwIncrease: " + dtwIncrease + "%");
+                    log.warn("Anomaly detected -- correlation: {}; dtwIncrease: {}%",
+                            correlation, dtwIncrease);
                 }
             }
             prevDtw.put(key, dtw);
-            System.out.println(key + " " + line);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error("Error computing the correlation statistics", e);
         } finally {
             FileUtils.deleteQuietly(tempFile);
         }

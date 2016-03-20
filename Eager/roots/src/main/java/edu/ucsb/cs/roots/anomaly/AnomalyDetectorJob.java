@@ -4,6 +4,7 @@ import org.quartz.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@DisallowConcurrentExecution
 public final class AnomalyDetectorJob implements Job {
 
     public static final String ANOMALY_DETECTOR_INSTANCE = "anomaly-detector-instance";
