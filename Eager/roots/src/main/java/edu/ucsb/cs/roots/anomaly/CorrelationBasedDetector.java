@@ -7,7 +7,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -80,13 +79,10 @@ public class CorrelationBasedDetector extends AnomalyDetector {
     }
 
     private void computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
-        StringBuilder sb = new StringBuilder();
-        summaries.stream().forEach(h -> sb.append(h.getRequestCount())
-                .append(" ").append(h.getMeanResponseTime()).append('\n'));
         File tempFile = null;
         try {
-            tempFile = File.createTempFile("ad_corr_", ".tmp");
-            FileUtils.writeStringToFile(tempFile, sb.toString(), Charset.defaultCharset());
+            tempFile = CommandLineUtils.writeToTempFile(summaries,
+                    s -> s.getRequestCount() + " " + s.getMeanResponseTime() + "\n", "ad_corr_");
             CommandOutput output = CommandLineUtils.runCommand(rDirectory, "Rscript",
                     "correlation.R", tempFile.getAbsolutePath());
             if (output.getStatus() != 0) {
@@ -99,7 +95,7 @@ public class CorrelationBasedDetector extends AnomalyDetector {
             double lastDtw = prevDtw.getOrDefault(key, -1.0);
             if (correlation < correlationThreshold && lastDtw > 0) {
                 // If the correlation has dropped and the DTW distance has increased, we
-                // might be looking at a performance anomaly. 
+                // might be looking at a performance anomaly.
                 double dtwIncrease = (dtw - lastDtw)*100.0/lastDtw;
                 if (dtwIncrease > dtwIncreasePercentageThreshold) {
                     System.out.println("Anomaly detected -- correlation: " + correlation
