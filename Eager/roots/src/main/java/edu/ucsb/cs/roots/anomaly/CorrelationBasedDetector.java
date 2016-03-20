@@ -1,6 +1,6 @@
 package edu.ucsb.cs.roots.anomaly;
 
-import edu.ucsb.cs.roots.data.AccessLogEntry;
+import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.utils.CommandLineUtils;
 import edu.ucsb.cs.roots.utils.CommandOutput;
 import org.apache.commons.io.FileUtils;
@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -18,15 +17,15 @@ import static com.google.common.base.Preconditions.checkArgument;
  * Calculates the correlation between response time and number of requests to detect any
  * anomalous increases in response time.
  */
-public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
+public class CorrelationBasedDetector extends AnomalyDetector {
 
     private final int historyLength;
-    private final Map<String,List<Summary>> history;
+    private final Map<String,List<ResponseTimeSummary>> history;
     private final File rDirectory;
 
     private long end = -1L;
 
-    private CorrelationBasedAnomalyDetector(Builder builder) {
+    private CorrelationBasedDetector(Builder builder) {
         super(builder.application, builder.period, builder.timeUnit, builder.dataStore);
         checkArgument(builder.historyLength > 10, "History length must be greater than 10");
         this.historyLength = builder.historyLength;
@@ -49,16 +48,13 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
             end += timeUnit.toMillis(period);
         }
 
-        List<AccessLogEntry> logEntries = dataStore.getAccessLogEntries(application, start, end);
-        Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
-                .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
-        Map<String,Summary> summaries = groupedEntries.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> new Summary(e.getValue())));
+        Map<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
+                application, start, end);
         history.keySet().stream()
-                .forEach(k -> summaries.putIfAbsent(k, ZERO_SUMMARY));
+                .forEach(k -> summaries.putIfAbsent(k, ResponseTimeSummary.ZERO));
 
-        for (Map.Entry<String,Summary> entry : summaries.entrySet()) {
-            List<Summary> record = history.get(entry.getKey());
+        for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
+            List<ResponseTimeSummary> record = history.get(entry.getKey());
             if (record == null) {
                 record = new ArrayList<>(historyLength);
                 history.put(entry.getKey(), record);
@@ -74,10 +70,10 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
                 .forEach(e -> computeCorrelation(e.getKey(), e.getValue()));
     }
 
-    private void computeCorrelation(String key, List<Summary> summaries) {
+    private void computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
         StringBuilder sb = new StringBuilder();
         summaries.stream().forEach(h ->
-                sb.append(h.requestCount).append(" ").append(h.responseTime).append('\n'));
+                sb.append(h.getRequestCount()).append(" ").append(h.getMeanResponseTime()).append('\n'));
         File tempFile = null;
         try {
             tempFile = File.createTempFile("ad_corr_", ".tmp");
@@ -101,26 +97,7 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
         return new Builder();
     }
 
-    private static class Summary {
-        private final double responseTime;
-        private final double requestCount;
-
-        private Summary(Collection<AccessLogEntry> entries) {
-            if (entries.size() > 0) {
-                responseTime = entries.stream()
-                        .mapToDouble(AccessLogEntry::getResponseTime)
-                        .average()
-                        .getAsDouble();
-            } else {
-                responseTime = 0.0;
-            }
-            requestCount = entries.size();
-        }
-    }
-
-    private static final Summary ZERO_SUMMARY = new Summary(new ArrayList<>(0));
-
-    public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedAnomalyDetector,Builder> {
+    public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedDetector,Builder> {
 
         private int historyLength = 60;
         private String rDirectory = "r";
@@ -144,8 +121,8 @@ public class CorrelationBasedAnomalyDetector extends AnomalyDetector {
         }
 
         @Override
-        public CorrelationBasedAnomalyDetector build() {
-            return new CorrelationBasedAnomalyDetector(this);
+        public CorrelationBasedDetector build() {
+            return new CorrelationBasedDetector(this);
         }
     }
 }

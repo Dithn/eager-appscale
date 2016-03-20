@@ -3,12 +3,23 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class TestDataStore extends DataStore {
 
     @Override
-    public List<AccessLogEntry> getAccessLogEntries(String application, long start, long end) {
+    public Map<String, ResponseTimeSummary> getResponseTimeSummary(
+            String application, long start, long end) {
+        List<AccessLogEntry> logEntries = getAccessLogEntries(application, start, end);
+        Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
+                .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
+        return groupedEntries.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> new ResponseTimeSummary(e.getValue())));
+    }
+
+    private List<AccessLogEntry> getAccessLogEntries(String application, long start, long end) {
         Random rand = new Random();
         int recordCount = rand.nextInt(100);
         ImmutableList.Builder<AccessLogEntry> builder = ImmutableList.builder();

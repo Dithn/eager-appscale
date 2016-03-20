@@ -3,7 +3,7 @@ package edu.ucsb.cs.roots;
 
 import edu.ucsb.cs.roots.anomaly.AnomalyDetector;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorScheduler;
-import edu.ucsb.cs.roots.anomaly.CorrelationBasedAnomalyDetector;
+import edu.ucsb.cs.roots.anomaly.CorrelationBasedDetector;
 import edu.ucsb.cs.roots.data.TestDataStore;
 
 import java.util.concurrent.TimeUnit;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        AnomalyDetector detector = CorrelationBasedAnomalyDetector.newBuilder()
+        AnomalyDetector detector = CorrelationBasedDetector.newBuilder()
                 .setApplication("watchtower")
                 .setPeriod(1)
                 .setTimeUnit(TimeUnit.SECONDS)
@@ -22,7 +22,7 @@ public class Main {
         scheduler.schedule(detector);
         try {
             Thread.sleep(60000);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         scheduler.destroy();
     }
