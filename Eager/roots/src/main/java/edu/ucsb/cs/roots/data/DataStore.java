@@ -1,7 +1,8 @@
 package edu.ucsb.cs.roots.data;
 
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.Collection;
 
 public abstract class DataStore {
 
@@ -15,7 +16,7 @@ public abstract class DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and response time data (ResponseTimeSummary)
      */
-    public abstract Map<String,ResponseTimeSummary> getResponseTimeSummary(
+    public abstract ImmutableMap<String,ResponseTimeSummary> getResponseTimeSummary(
             String application, long start, long end);
 
     /**
@@ -28,7 +29,7 @@ public abstract class DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and benchmark results for each type
      */
-    public abstract Map<String,List<AccessLogEntry>> getBenchmarkResults(
+    public abstract ImmutableMap<String,Collection<AccessLogEntry>> getBenchmarkResults(
             String application, long start, long end);
 
 }

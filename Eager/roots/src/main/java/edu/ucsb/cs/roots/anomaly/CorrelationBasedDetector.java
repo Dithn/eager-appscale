@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.EvictingQueue;
+import com.google.common.collect.ImmutableMap;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.utils.CommandLineUtils;
 import edu.ucsb.cs.roots.utils.CommandOutput;
@@ -59,7 +60,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             end += timeUnit.toMillis(period);
         }
 
-        Map<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
+        ImmutableMap<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
                 application, start, end);
         history.entrySet().stream()
                 .filter(e -> !summaries.containsKey(e.getKey()))
