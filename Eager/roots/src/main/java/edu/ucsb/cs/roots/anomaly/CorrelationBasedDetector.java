@@ -22,15 +22,24 @@ public class CorrelationBasedDetector extends AnomalyDetector {
     private final int historyLength;
     private final Map<String,List<ResponseTimeSummary>> history;
     private final File rDirectory;
+    private final double correlationThreshold;
+    private final double dtwIncreasePercentageThreshold;
 
     private long end = -1L;
+    private Map<String,Double> prevDtw = new HashMap<>();
 
     private CorrelationBasedDetector(Builder builder) {
         super(builder.application, builder.period, builder.timeUnit, builder.dataStore);
         checkArgument(builder.historyLength > 10, "History length must be greater than 10");
+        checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
+                "Correlation threshold must be in the interval [-1,1]");
+        checkArgument(builder.dtwIncreasePercentageThreshold > 0,
+                "DTW increase percentage threshold must be positive");
         this.historyLength = builder.historyLength;
         this.history = new HashMap<>();
         this.rDirectory = new File(builder.rDirectory);
+        this.correlationThreshold = builder.correlationThreshold;
+        this.dtwIncreasePercentageThreshold = builder.dtwIncreasePercentageThreshold;
         checkArgument(rDirectory.exists(), "R directory path does not exist: %s",
                 rDirectory.getAbsolutePath());
         checkArgument(rDirectory.isDirectory(), "%s is not a directory",
@@ -72,8 +81,8 @@ public class CorrelationBasedDetector extends AnomalyDetector {
 
     private void computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
         StringBuilder sb = new StringBuilder();
-        summaries.stream().forEach(h ->
-                sb.append(h.getRequestCount()).append(" ").append(h.getMeanResponseTime()).append('\n'));
+        summaries.stream().forEach(h -> sb.append(h.getRequestCount())
+                .append(" ").append(h.getMeanResponseTime()).append('\n'));
         File tempFile = null;
         try {
             tempFile = File.createTempFile("ad_corr_", ".tmp");
@@ -81,10 +90,23 @@ public class CorrelationBasedDetector extends AnomalyDetector {
             CommandOutput output = CommandLineUtils.runCommand(rDirectory, "Rscript",
                     "correlation.R", tempFile.getAbsolutePath());
             if (output.getStatus() != 0) {
-                throw new IOException("R script terminated with status: " + output.getStatus() +
-                        "; output=" + output.getStdout() + "; error=" + output.getStderr());
+                throw new IOException(output.toString());
             }
             String line = output.getStdout();
+            String[] segments = line.split(" ");
+            double correlation = Double.parseDouble(segments[0]);
+            double dtw = Double.parseDouble(segments[1]);
+            double lastDtw = prevDtw.getOrDefault(key, -1.0);
+            if (correlation < correlationThreshold && lastDtw > 0) {
+                // If the correlation has dropped and the DTW distance has increased, we
+                // might be looking at a performance anomaly. 
+                double dtwIncrease = (dtw - lastDtw)*100.0/lastDtw;
+                if (dtwIncrease > dtwIncreasePercentageThreshold) {
+                    System.out.println("Anomaly detected -- correlation: " + correlation
+                            + "; dtwIncrease: " + dtwIncrease + "%");
+                }
+            }
+            prevDtw.put(key, dtw);
             System.out.println(key + " " + line);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -101,6 +123,8 @@ public class CorrelationBasedDetector extends AnomalyDetector {
 
         private int historyLength = 60;
         private String rDirectory = "r";
+        private double correlationThreshold = 0.5;
+        private double dtwIncreasePercentageThreshold = 20.0;
 
         private Builder() {
         }
@@ -117,6 +141,16 @@ public class CorrelationBasedDetector extends AnomalyDetector {
 
         public Builder setrDirectory(String rDirectory) {
             this.rDirectory = rDirectory;
+            return this;
+        }
+
+        public Builder setCorrelationThreshold(double correlationThreshold) {
+            this.correlationThreshold = correlationThreshold;
+            return this;
+        }
+
+        public Builder setDtwIncreasePercentageThreshold(double dtwIncreasePercentageThreshold) {
+            this.dtwIncreasePercentageThreshold = dtwIncreasePercentageThreshold;
             return this;
         }
 

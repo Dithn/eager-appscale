@@ -23,4 +23,10 @@ public final class CommandOutput {
     public String getStderr() {
         return stderr;
     }
+
+    @Override
+    public String toString() {
+        return "Process terminated with status: " + status + "; output: " + stderr
+                + "; error: " + stderr;
+    }
 }
