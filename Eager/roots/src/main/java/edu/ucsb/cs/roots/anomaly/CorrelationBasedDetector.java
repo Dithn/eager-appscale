@@ -15,7 +15,7 @@ import java.util.*;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class CorrelationBasedDetector extends AnomalyDetector {
+public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private final int historyLengthInSeconds;
     private final Map<String,List<ResponseTimeSummary>> history;
@@ -45,20 +45,23 @@ public class CorrelationBasedDetector extends AnomalyDetector {
                 scriptDirectory.getAbsolutePath());
     }
 
-    private Collection<String> initFullHistory() {
-        end = System.currentTimeMillis() - 60 * 1000;
-        long start = end - historyLengthInSeconds * 1000;
+    private void initFullHistory(long windowStart, long windowEnd) {
+        checkArgument(windowStart < windowEnd, "Start time must precede end time");
         ImmutableMap<String,ImmutableList<ResponseTimeSummary>> summaries =
-                dataStore.getResponseTimeHistory(application, start, end, periodInSeconds * 1000);
+                dataStore.getResponseTimeHistory(application, windowStart, windowEnd,
+                        periodInSeconds * 1000);
         summaries.forEach((k,v) -> history.put(k, new ArrayList<>(v)));
-        return ImmutableList.copyOf(summaries.keySet());
+        history.entrySet().stream()
+                .filter(e -> e.getValue().size() > 2)
+                .map(e -> computeCorrelation(e.getKey(), e.getValue()))
+                .filter(Objects::nonNull)
+                .forEach(c -> prevDtw.put(c.key, c.dtw));
     }
 
-    private Collection<String> updateHistory() {
-        long start = end;
-        end = System.currentTimeMillis() - 60 * 1000;
+    private Collection<String> updateHistory(long windowStart, long windowEnd) {
+        checkArgument(windowStart < windowEnd, "Start time must precede end time");
         ImmutableMap<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
-                application, start, end);
+                application, windowStart, windowEnd);
         for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
             List<ResponseTimeSummary> record = history.get(entry.getKey());
             if (record == null) {
@@ -72,18 +75,23 @@ public class CorrelationBasedDetector extends AnomalyDetector {
 
     @Override
     public void run() {
-        Collection<String> requestTypes;
+        long start;
         if (end < 0) {
-            requestTypes = initFullHistory();
-        } else {
-            requestTypes = updateHistory();
+            end = System.currentTimeMillis() - 60 * 1000 - periodInSeconds * 1000;
+            start = end - historyLengthInSeconds * 1000;
+            initFullHistory(start, end);
         }
+        start = end;
+        end = System.currentTimeMillis() - 60 * 1000;
+        Collection<String> requestTypes = updateHistory(start, end);
 
         long cutoff = end - historyLengthInSeconds * 1000;
         history.values().forEach(v -> cleanupOldData(cutoff, v));
         history.entrySet().stream()
                 .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
-                .forEach(e -> computeCorrelation(e.getKey(), e.getValue()));
+                .map(e -> computeCorrelation(e.getKey(), e.getValue()))
+                .filter(Objects::nonNull)
+                .forEach(this::checkForAnomalies);
     }
 
     private void cleanupOldData(long cutoff, List<ResponseTimeSummary> summaries) {
@@ -93,7 +101,7 @@ public class CorrelationBasedDetector extends AnomalyDetector {
         oldData.forEach(summaries::remove);
     }
 
-    private void computeCorrelation(String key, Collection<ResponseTimeSummary> summaries) {
+    private Correlation computeCorrelation(String key, Collection<ResponseTimeSummary> summaries) {
         File tempFile = null;
         try {
             tempFile = CommandLineUtils.writeToTempFile(summaries,
@@ -105,24 +113,40 @@ public class CorrelationBasedDetector extends AnomalyDetector {
             }
             String line = output.getStdout();
             log.info("Correlation analysis output [{}]: {}", key, line);
-            String[] segments = line.split(" ");
-            double correlation = Double.parseDouble(segments[0]);
-            double dtw = Double.parseDouble(segments[1]);
-            double lastDtw = prevDtw.getOrDefault(key, -1.0);
-            if (correlation < correlationThreshold && lastDtw >= 0) {
-                // If the correlation has dropped and the DTW distance has increased, we
-                // might be looking at a performance anomaly.
-                double dtwIncrease = (dtw - lastDtw)*100.0/lastDtw;
-                if (dtwIncrease > dtwIncreaseThreshold) {
-                    log.warn("Anomaly detected -- correlation: {}; dtwIncrease: {}%",
-                            correlation, dtwIncrease);
-                }
-            }
-            prevDtw.put(key, dtw);
+            return new Correlation(key, line);
         } catch (IOException | InterruptedException e) {
             log.error("Error computing the correlation statistics", e);
+            return null;
         } finally {
             FileUtils.deleteQuietly(tempFile);
+        }
+    }
+
+    private void checkForAnomalies(Correlation correlation) {
+        double lastDtw = prevDtw.getOrDefault(correlation.key, -1.0);
+        if (correlation.rValue < correlationThreshold && lastDtw >= 0) {
+            // If the correlation has dropped and the DTW distance has increased, we
+            // might be looking at a performance anomaly.
+            double dtwIncrease = (correlation.dtw - lastDtw)*100.0/lastDtw;
+            if (dtwIncrease > dtwIncreaseThreshold) {
+                log.warn("Anomaly detected -- correlation: {}; dtwIncrease: {}%",
+                        correlation.rValue, dtwIncrease);
+            }
+        }
+        prevDtw.put(correlation.key, correlation.dtw);
+    }
+
+    private static class Correlation {
+
+        private final String key;
+        private final double rValue;
+        private final double dtw;
+
+        private Correlation(String key, String line) {
+            this.key = key;
+            String[] segments = line.split(" ");
+            this.rValue = Double.parseDouble(segments[0]);
+            this.dtw = Double.parseDouble(segments[1]);
         }
     }
 
