@@ -60,7 +60,8 @@ public final class AnomalyDetectorScheduler {
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(getTriggerKey(detector.getApplication()))
-                .withSchedule(getScheduleBuilder(detector.getTimeUnit(), detector.getPeriod()))
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .repeatForever().withIntervalInSeconds(detector.getPeriodInSeconds()))
                 .startNow()
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
@@ -78,19 +79,10 @@ public final class AnomalyDetectorScheduler {
         return TriggerKey.triggerKey(application + "-job", ANOMALY_DETECTOR_GROUP);
     }
 
-    private SimpleScheduleBuilder getScheduleBuilder(TimeUnit timeUnit, int period) {
-        SimpleScheduleBuilder builder = SimpleScheduleBuilder.simpleSchedule().repeatForever();
-        switch (timeUnit) {
-            case HOURS:
-                builder.withIntervalInHours(period);
-                break;
-            case MINUTES:
-                builder.withIntervalInMinutes(period);
-                break;
-            case SECONDS:
-                builder.withIntervalInSeconds(period);
-                break;
-        }
-        return builder;
+    private SimpleScheduleBuilder getScheduleBuilder(int periodInSeconds) {
+        return SimpleScheduleBuilder
+                .simpleSchedule()
+                .repeatForever()
+                .withIntervalInSeconds(periodInSeconds);
     }
 }

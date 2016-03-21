@@ -7,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extends AnomalyDetectorBuilder<T,B>> {
 
     protected String application;
-    protected int period = 60;
-    protected TimeUnit timeUnit = TimeUnit.SECONDS;
+    protected int periodInSeconds = 60;
     protected DataStore dataStore;
 
     private final B thisObj;
@@ -25,13 +24,8 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
         return thisObj;
     }
 
-    public final B setPeriod(int period) {
-        this.period = period;
-        return thisObj;
-    }
-
-    public final B setTimeUnit(TimeUnit timeUnit) {
-        this.timeUnit = timeUnit;
+    public final B setPeriodInSeconds(int periodInSeconds) {
+        this.periodInSeconds = periodInSeconds;
         return thisObj;
     }
 

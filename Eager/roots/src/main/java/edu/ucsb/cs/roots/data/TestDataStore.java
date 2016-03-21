@@ -18,7 +18,7 @@ public class TestDataStore extends DataStore {
         Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
                 .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
         return groupedEntries.entrySet().stream().collect(ImmutableCollectors.toMap(
-                        Map.Entry::getKey, e -> new ResponseTimeSummary(e.getValue())));
+                        Map.Entry::getKey, e -> new ResponseTimeSummary(start, e.getValue())));
     }
 
     @Override

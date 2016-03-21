@@ -6,16 +6,14 @@ import edu.ucsb.cs.roots.anomaly.AnomalyDetectorScheduler;
 import edu.ucsb.cs.roots.anomaly.CorrelationBasedDetector;
 import edu.ucsb.cs.roots.data.TestDataStore;
 
-import java.util.concurrent.TimeUnit;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
         AnomalyDetector detector = CorrelationBasedDetector.newBuilder()
                 .setApplication("watchtower")
-                .setPeriod(1)
-                .setTimeUnit(TimeUnit.SECONDS)
+                .setPeriodInSeconds(1)
                 .setDataStore(new TestDataStore())
+                .setHistoryLengthInSeconds(10)
                 .build();
         AnomalyDetectorScheduler scheduler = new AnomalyDetectorScheduler("Test");
         scheduler.init();

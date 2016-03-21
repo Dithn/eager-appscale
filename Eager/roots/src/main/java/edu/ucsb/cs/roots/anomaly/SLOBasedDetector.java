@@ -21,7 +21,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
     private long end = -1L;
 
     private SLOBasedDetector(Builder builder) {
-        super(builder.application, builder.period, builder.timeUnit, builder.dataStore);
+        super(builder.application, builder.periodInSeconds, builder.dataStore);
         checkArgument(builder.historyLength > 10, "History length must be greater than 10");
         checkArgument(builder.responseTimeUpperBound > 0,
                 "Response time upper bound must be positive");
@@ -38,10 +38,10 @@ public final class SLOBasedDetector extends AnomalyDetector {
         long start;
         if (end < 0) {
             end = System.currentTimeMillis() - 60 * 1000;
-            start = end - timeUnit.toMillis(period);
+            start = end - periodInSeconds * 1000;
         } else {
             start = end;
-            end += timeUnit.toMillis(period);
+            end += periodInSeconds * 1000;
         }
 
         ImmutableMap<String,List<AccessLogEntry>> summaries = dataStore.getBenchmarkResults(

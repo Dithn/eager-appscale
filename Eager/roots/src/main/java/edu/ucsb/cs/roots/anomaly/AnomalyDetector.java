@@ -5,28 +5,22 @@ import edu.ucsb.cs.roots.data.DataStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AnomalyDetector {
 
     protected final String application;
-    protected final int period;
-    protected final TimeUnit timeUnit;
+    protected final int periodInSeconds;
     protected final DataStore dataStore;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    public AnomalyDetector(String application, int period, TimeUnit timeUnit, DataStore dataStore) {
+    public AnomalyDetector(String application, int periodInSeconds, DataStore dataStore) {
         checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");
-        checkArgument(period > 0, "Period must be a positive integer");
-        checkArgument(timeUnit == TimeUnit.HOURS || timeUnit == TimeUnit.MINUTES
-                || timeUnit == TimeUnit.SECONDS, "Only hours, minutes and seconds are allowed");
+        checkArgument(periodInSeconds > 0, "Period must be a positive integer");
         checkNotNull(dataStore, "DataStore must not be null");
         this.application = application;
-        this.period = period;
-        this.timeUnit = timeUnit;
+        this.periodInSeconds = periodInSeconds;
         this.dataStore = dataStore;
     }
 
@@ -34,12 +28,8 @@ public abstract class AnomalyDetector {
         return application;
     }
 
-    public final int getPeriod() {
-        return period;
-    }
-
-    public final TimeUnit getTimeUnit() {
-        return timeUnit;
+    public final int getPeriodInSeconds() {
+        return periodInSeconds;
     }
 
     public abstract void run();
