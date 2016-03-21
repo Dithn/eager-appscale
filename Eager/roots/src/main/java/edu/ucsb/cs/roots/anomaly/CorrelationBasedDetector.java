@@ -74,15 +74,15 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     }
 
     @Override
-    public void run() {
+    public void run(long now) {
         long start;
         if (end < 0) {
-            end = System.currentTimeMillis() - 60 * 1000 - periodInSeconds * 1000;
+            end = now - 60 * 1000 - periodInSeconds * 1000;
             start = end - historyLengthInSeconds * 1000;
             initFullHistory(start, end);
         }
         start = end;
-        end = System.currentTimeMillis() - 60 * 1000;
+        end += periodInSeconds * 1000;
         Collection<String> requestTypes = updateHistory(start, end);
 
         long cutoff = end - historyLengthInSeconds * 1000;

@@ -37,10 +37,10 @@ public final class SLOBasedDetector extends AnomalyDetector {
     }
 
     @Override
-    public void run() {
+    public void run(long now) {
         long start;
         if (end < 0) {
-            end = System.currentTimeMillis() - 60 * 1000;
+            end = now - 60 * 1000;
             start = end - periodInSeconds * 1000;
         } else {
             start = end;

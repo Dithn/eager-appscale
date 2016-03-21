@@ -32,6 +32,6 @@ public abstract class AnomalyDetector {
         return periodInSeconds;
     }
 
-    public abstract void run();
+    public abstract void run(long now);
 
 }

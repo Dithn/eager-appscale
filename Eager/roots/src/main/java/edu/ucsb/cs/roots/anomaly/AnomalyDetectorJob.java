@@ -13,7 +13,7 @@ public final class AnomalyDetectorJob implements Job {
         JobDataMap jobDataMap = context.getMergedJobDataMap();
         AnomalyDetector detector = (AnomalyDetector ) jobDataMap.get(ANOMALY_DETECTOR_INSTANCE);
         checkNotNull(detector);
-        detector.run();
+        detector.run(context.getScheduledFireTime().getTime());
     }
 
 }
