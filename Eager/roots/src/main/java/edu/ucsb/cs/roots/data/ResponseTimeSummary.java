@@ -7,8 +7,6 @@ public final class ResponseTimeSummary {
     private final double meanResponseTime;
     private final double requestCount;
 
-    public static final ResponseTimeSummary ZERO = new ResponseTimeSummary(0.0, 0.0);
-
     public ResponseTimeSummary(double meanResponseTime, double requestCount) {
         this.meanResponseTime = meanResponseTime;
         this.requestCount = requestCount;

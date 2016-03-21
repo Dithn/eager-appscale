@@ -6,6 +6,7 @@ import edu.ucsb.cs.roots.data.AccessLogEntry;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -43,9 +44,9 @@ public final class SLOBasedDetector extends AnomalyDetector {
             end += timeUnit.toMillis(period);
         }
 
-        ImmutableMap<String,Collection<AccessLogEntry>> summaries = dataStore.getBenchmarkResults(
+        ImmutableMap<String,List<AccessLogEntry>> summaries = dataStore.getBenchmarkResults(
                 application, start, end);
-        for (Map.Entry<String,Collection<AccessLogEntry>> entry : summaries.entrySet()) {
+        for (Map.Entry<String,List<AccessLogEntry>> entry : summaries.entrySet()) {
             EvictingQueue<AccessLogEntry> record = history.get(entry.getKey());
             if (record == null) {
                 record = EvictingQueue.create(historyLength);

@@ -2,7 +2,7 @@ package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.util.Collection;
+import java.util.List;
 
 public abstract class DataStore {
 
@@ -29,7 +29,7 @@ public abstract class DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and benchmark results for each type
      */
-    public abstract ImmutableMap<String,Collection<AccessLogEntry>> getBenchmarkResults(
+    public abstract ImmutableMap<String,List<AccessLogEntry>> getBenchmarkResults(
             String application, long start, long end);
 
 }

@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TestDataStore extends DataStore {
@@ -25,12 +22,12 @@ public class TestDataStore extends DataStore {
     }
 
     @Override
-    public ImmutableMap<String,Collection<AccessLogEntry>> getBenchmarkResults(
+    public ImmutableMap<String,List<AccessLogEntry>> getBenchmarkResults(
             String application, long start, long end) {
         List<AccessLogEntry> logEntries = getAccessLogEntries(application, start, end, 2);
         Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
                 .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
-        ImmutableMap.Builder<String,Collection<AccessLogEntry>> builder = ImmutableMap.builder();
+        ImmutableMap.Builder<String,List<AccessLogEntry>> builder = ImmutableMap.builder();
         groupedEntries.forEach((k,v) -> builder.put(k, ImmutableList.copyOf(v)));
         return builder.build();
     }

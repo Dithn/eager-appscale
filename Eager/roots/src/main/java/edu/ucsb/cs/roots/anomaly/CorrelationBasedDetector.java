@@ -62,10 +62,6 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
         ImmutableMap<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
                 application, start, end);
-        history.entrySet().stream()
-                .filter(e -> !summaries.containsKey(e.getKey()))
-                .forEach(e -> e.getValue().add(ResponseTimeSummary.ZERO));
-
         for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
             EvictingQueue<ResponseTimeSummary> record = history.get(entry.getKey());
             if (record == null) {
@@ -76,7 +72,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         }
 
         history.entrySet().stream()
-                .filter(e -> e.getValue().size() > 2)
+                .filter(e -> summaries.containsKey(e.getKey()) && e.getValue().size() > 2)
                 .forEach(e -> computeCorrelation(e.getKey(), e.getValue()));
     }
 
