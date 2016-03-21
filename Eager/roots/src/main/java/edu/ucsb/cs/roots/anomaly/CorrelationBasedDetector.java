@@ -45,17 +45,18 @@ public class CorrelationBasedDetector extends AnomalyDetector {
                 scriptDirectory.getAbsolutePath());
     }
 
-    @Override
-    public void run() {
-        long start;
-        if (end < 0) {
-            end = System.currentTimeMillis() - 60 * 1000;
-            start = end - periodInSeconds * 1000;
-        } else {
-            start = end;
-            end += periodInSeconds * 1000;
-        }
+    private Collection<String> initFullHistory() {
+        end = System.currentTimeMillis() - 60 * 1000;
+        long start = end - historyLengthInSeconds * 1000;
+        ImmutableMap<String,ImmutableList<ResponseTimeSummary>> summaries =
+                dataStore.getResponseTimeHistory(application, start, end, periodInSeconds * 1000);
+        summaries.forEach((k,v) -> history.put(k, new ArrayList<>(v)));
+        return ImmutableList.copyOf(summaries.keySet());
+    }
 
+    private Collection<String> updateHistory() {
+        long start = end;
+        end = System.currentTimeMillis() - 60 * 1000;
         ImmutableMap<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
                 application, start, end);
         for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
@@ -66,11 +67,22 @@ public class CorrelationBasedDetector extends AnomalyDetector {
             }
             record.add(entry.getValue());
         }
+        return ImmutableList.copyOf(summaries.keySet());
+    }
+
+    @Override
+    public void run() {
+        Collection<String> requestTypes;
+        if (end < 0) {
+            requestTypes = initFullHistory();
+        } else {
+            requestTypes = updateHistory();
+        }
 
         long cutoff = end - historyLengthInSeconds * 1000;
         history.values().forEach(v -> cleanupOldData(cutoff, v));
         history.entrySet().stream()
-                .filter(e -> summaries.containsKey(e.getKey()) && e.getValue().size() > 2)
+                .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
                 .forEach(e -> computeCorrelation(e.getKey(), e.getValue()));
     }
 
@@ -97,7 +109,7 @@ public class CorrelationBasedDetector extends AnomalyDetector {
             double correlation = Double.parseDouble(segments[0]);
             double dtw = Double.parseDouble(segments[1]);
             double lastDtw = prevDtw.getOrDefault(key, -1.0);
-            if (correlation < correlationThreshold && lastDtw > 0) {
+            if (correlation < correlationThreshold && lastDtw >= 0) {
                 // If the correlation has dropped and the DTW distance has increased, we
                 // might be looking at a performance anomaly.
                 double dtwIncrease = (dtw - lastDtw)*100.0/lastDtw;

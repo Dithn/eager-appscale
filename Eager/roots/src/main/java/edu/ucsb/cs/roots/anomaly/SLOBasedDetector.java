@@ -47,9 +47,9 @@ public final class SLOBasedDetector extends AnomalyDetector {
             end += periodInSeconds * 1000;
         }
 
-        ImmutableMap<String,List<AccessLogEntry>> summaries = dataStore.getBenchmarkResults(
-                application, start, end);
-        for (Map.Entry<String,List<AccessLogEntry>> entry : summaries.entrySet()) {
+        ImmutableMap<String,ImmutableList<AccessLogEntry>> summaries =
+                dataStore.getBenchmarkResults(application, start, end);
+        for (Map.Entry<String,ImmutableList<AccessLogEntry>> entry : summaries.entrySet()) {
             List<AccessLogEntry> record = history.get(entry.getKey());
             if (record == null) {
                 record = new ArrayList<>();

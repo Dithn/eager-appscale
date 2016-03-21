@@ -22,12 +22,22 @@ public class TestDataStore extends DataStore {
     }
 
     @Override
-    public ImmutableMap<String,List<AccessLogEntry>> getBenchmarkResults(
+    public ImmutableMap<String, ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
+            String application, long start, long end, long period) {
+        ImmutableMap<String, ResponseTimeSummary> lastPeriod = getResponseTimeSummary(
+                application, end - period, end);
+        ImmutableMap.Builder<String,ImmutableList<ResponseTimeSummary>> builder = ImmutableMap.builder();
+        lastPeriod.forEach((k,v) -> builder.put(k, ImmutableList.of(v)));
+        return builder.build();
+    }
+
+    @Override
+    public ImmutableMap<String,ImmutableList<AccessLogEntry>> getBenchmarkResults(
             String application, long start, long end) {
         List<AccessLogEntry> logEntries = getAccessLogEntries(application, start, end, 2);
         Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
                 .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
-        ImmutableMap.Builder<String,List<AccessLogEntry>> builder = ImmutableMap.builder();
+        ImmutableMap.Builder<String,ImmutableList<AccessLogEntry>> builder = ImmutableMap.builder();
         groupedEntries.forEach((k,v) -> builder.put(k, ImmutableList.copyOf(v)));
         return builder.build();
     }
