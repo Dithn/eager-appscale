@@ -61,7 +61,7 @@ public final class AnomalyDetectorScheduler {
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(getTriggerKey(detector.getApplication()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withMisfireHandlingInstructionNowWithExistingCount()
+                        .withMisfireHandlingInstructionIgnoreMisfires()
                         .repeatForever().withIntervalInSeconds(detector.getPeriodInSeconds()))
                 .startNow()
                 .build();
