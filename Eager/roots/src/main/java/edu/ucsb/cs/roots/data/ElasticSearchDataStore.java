@@ -3,7 +3,9 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -18,7 +20,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,15 +28,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ElasticSearchDataStore extends DataStore {
 
-    private final String accessLogQueryTemplate;
+    private static final ImmutableList<String> METHODS = ImmutableList.of("GET", "POST", "PUT", "DELETE");
 
     private final String elasticSearchHost;
     private final int elasticSearchPort;
     private final String accessLogIndex;
+    private final String accessLogTimestampField;
+    private final String accessLogMethodField;
+    private final String accessLogPathField;
+    private final String accessLogResponseTimeField;
     private final CloseableHttpClient httpClient;
 
     private ElasticSearchDataStore(Builder builder) {
@@ -45,23 +49,22 @@ public class ElasticSearchDataStore extends DataStore {
                 "ElasticSearch host is required");
         checkArgument(builder.elasticSearchPort > 0 && builder.elasticSearchPort < 65535,
                 "ElasticSearch port number is invalid");
+        checkArgument(!Strings.isNullOrEmpty(builder.accessLogTimestampField),
+                "Timestamp field name for access log index is required");
+        checkArgument(!Strings.isNullOrEmpty(builder.accessLogMethodField),
+                "Method field name for access log index is required");
+        checkArgument(!Strings.isNullOrEmpty(builder.accessLogPathField),
+                "Path field name for access log index is required");
+        checkArgument(!Strings.isNullOrEmpty(builder.accessLogResponseTimeField),
+                "Response time field name for access log index is required");
         this.httpClient = HttpClients.createDefault();
         this.elasticSearchHost = builder.elasticSearchHost;
         this.elasticSearchPort = builder.elasticSearchPort;
         this.accessLogIndex = builder.accessLogIndex;
-
-        try {
-            this.accessLogQueryTemplate = loadTemplate("access_log_query.json");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private String loadTemplate(String name) throws IOException {
-        try (InputStream in = ElasticSearchDataStore.class.getResourceAsStream(name)) {
-            checkNotNull(in, "Failed to load resource: %s", name);
-            return IOUtils.toString(in);
-        }
+        this.accessLogTimestampField = builder.accessLogTimestampField;
+        this.accessLogMethodField = builder.accessLogMethodField;
+        this.accessLogPathField = builder.accessLogPathField;
+        this.accessLogResponseTimeField = builder.accessLogResponseTimeField;
     }
 
     @Override
@@ -73,16 +76,40 @@ public class ElasticSearchDataStore extends DataStore {
     @Override
     public ImmutableMap<String, ResponseTimeSummary> getResponseTimeSummary(
             String application, long start, long end) {
-
-        String query = String.format(accessLogQueryTemplate, start, end);
-        String path = String.format("/%s/%s/_search", accessLogIndex, application);
+        String query = String.format(ElasticSearchTemplates.RESPONSE_TIME_SUMMARY_QUERY,
+                accessLogTimestampField, start, end, accessLogMethodField, accessLogPathField,
+                accessLogResponseTimeField);
+        String urlPath = String.format("/%s/%s/_search", accessLogIndex, application);
+        ImmutableMap.Builder<String,ResponseTimeSummary> builder = ImmutableMap.builder();
         try {
-            JsonElement response = makeHttpCall(elasticSearchHost, elasticSearchPort, path, query);
-            System.out.println(response.toString());
+            JsonElement response = makeHttpCall(elasticSearchHost, elasticSearchPort, urlPath, query);
+            JsonArray methods = response.getAsJsonObject().getAsJsonObject("aggregations")
+                    .getAsJsonObject("methods").getAsJsonArray("buckets");
+            for (int i = 0; i < methods.size(); i++) {
+                JsonObject method = methods.get(i).getAsJsonObject();
+                String methodName = method.get("key").getAsString().toUpperCase();
+                if (!METHODS.contains(methodName)) {
+                    continue;
+                }
+                JsonArray paths = method.getAsJsonObject("paths").getAsJsonArray("buckets");
+                for (int j = 0; j < paths.size(); j++) {
+                    JsonObject path = paths.get(j).getAsJsonObject();
+                    String key = methodName + " " + path.get("key").getAsString();
+                    builder.put(key, newResponseTimeSummary(start, path));
+                }
+            }
         } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error("Error while querying ElasticSearch", e);
+            throw new RuntimeException(e);
         }
-        return null;
+        return builder.build();
+    }
+
+    private ResponseTimeSummary newResponseTimeSummary(long timestamp, JsonObject bucket) {
+        double responseTime = bucket.getAsJsonObject("avg_time").get("value")
+                .getAsDouble() * 1000.0;
+        double requestCount = bucket.get("doc_count").getAsDouble();
+        return new ResponseTimeSummary(timestamp, responseTime, requestCount);
     }
 
     @Override
@@ -100,7 +127,6 @@ public class ElasticSearchDataStore extends DataStore {
     private JsonElement makeHttpCall(String host, int port, String path,
                               String json) throws IOException, URISyntaxException {
         URI uri = new URI("http", null, host, port, path, null, null);
-        System.out.println(uri.toString() + "    " + json);
         HttpPost post = new HttpPost(uri);
         post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
         return httpClient.execute(post, new ElasticSearchResponseHandler());
@@ -114,11 +140,13 @@ public class ElasticSearchDataStore extends DataStore {
         @Override
         public JsonElement handleResponse(HttpResponse response) throws IOException {
             int status = response.getStatusLine().getStatusCode();
-            if (status != 200) {
-                System.out.println(EntityUtils.toString(response.getEntity()));
-                throw new ClientProtocolException("Unexpected status code: " + status);
-            }
             HttpEntity entity = response.getEntity();
+            if (status != 200) {
+                String error = entity != null ? EntityUtils.toString(entity) : null;
+                throw new ClientProtocolException("Unexpected status code: " + status
+                        + "; response: " + error);
+            }
+
             if (entity == null) {
                 return null;
             }
@@ -135,6 +163,10 @@ public class ElasticSearchDataStore extends DataStore {
         private String elasticSearchHost;
         private int elasticSearchPort;
         private String accessLogIndex;
+        private String accessLogTimestampField = "@timestamp";
+        private String accessLogMethodField = "http_verb";
+        private String accessLogPathField = "http_request.raw";
+        private String accessLogResponseTimeField = "time_duration";
 
         private Builder() {
         }
@@ -151,6 +183,26 @@ public class ElasticSearchDataStore extends DataStore {
 
         public Builder setAccessLogIndex(String accessLogIndex) {
             this.accessLogIndex = accessLogIndex;
+            return this;
+        }
+
+        public Builder setAccessLogTimestampField(String accessLogTimestampField) {
+            this.accessLogTimestampField = accessLogTimestampField;
+            return this;
+        }
+
+        public Builder setAccessLogMethodField(String accessLogMethodField) {
+            this.accessLogMethodField = accessLogMethodField;
+            return this;
+        }
+
+        public Builder setAccessLogPathField(String accessLogPathField) {
+            this.accessLogPathField = accessLogPathField;
+            return this;
+        }
+
+        public Builder setAccessLogResponseTimeField(String accessLogResponseTimeField) {
+            this.accessLogResponseTimeField = accessLogResponseTimeField;
             return this;
         }
 
@@ -171,7 +223,10 @@ public class ElasticSearchDataStore extends DataStore {
         Date start = cal.getTime();
         cal.set(2015, Calendar.NOVEMBER, 30);
         Date end = cal.getTime();
-        dataStore.getResponseTimeSummary("watchtower", start.getTime(), end.getTime());
+        ImmutableMap<String,ResponseTimeSummary> result = dataStore.getResponseTimeSummary(
+                "watchtower", start.getTime(), end.getTime());
+        result.forEach((k,v) -> System.out.println(k + " " + v.getMeanResponseTime()
+                + " " + v.getRequestCount()));
         dataStore.destroy();
     }
 }
