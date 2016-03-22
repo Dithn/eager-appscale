@@ -17,8 +17,8 @@ public class DefaultDataStore {
     private DefaultDataStore() {
         File file = new File("conf", "_roots_dds.properties");
         if (file.exists()) {
-            Properties properties = new Properties();
             try (FileInputStream in = FileUtils.openInputStream(file)) {
+                Properties properties = new Properties();
                 properties.load(in);
                 dataStore = AnomalyDetectorFactory.initDataStore(properties);
             } catch (IOException e) {
