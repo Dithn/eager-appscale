@@ -76,7 +76,7 @@ public class ElasticSearchDataStore extends DataStore {
 
     @Override
     public ImmutableMap<String, ResponseTimeSummary> getResponseTimeSummary(
-            String application, long start, long end) {
+            String application, long start, long end) throws DataStoreException {
         String query = String.format(ElasticSearchTemplates.RESPONSE_TIME_SUMMARY_QUERY,
                 accessLogTimestampField, start, end, accessLogMethodField, accessLogPathField,
                 accessLogResponseTimeField);
@@ -86,8 +86,7 @@ public class ElasticSearchDataStore extends DataStore {
             JsonElement results = makeHttpCall(elasticSearchHost, elasticSearchPort, path, query);
             parseResponseTimeSummary(results, start, builder);
         } catch (IOException | URISyntaxException e) {
-            log.error("Error while querying ElasticSearch", e);
-            throw new RuntimeException(e);
+            throw new DataStoreException("Error while querying ElasticSearch", e);
         }
         return builder.build();
     }
@@ -217,7 +216,7 @@ public class ElasticSearchDataStore extends DataStore {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DataStoreException {
         ElasticSearchDataStore dataStore = ElasticSearchDataStore.newBuilder()
                 .setElasticSearchHost("128.111.179.159")
                 .setElasticSearchPort(9200)

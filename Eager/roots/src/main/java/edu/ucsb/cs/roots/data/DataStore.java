@@ -10,11 +10,9 @@ public abstract class DataStore {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     public void init() {
-        log.info("Initializing data store");
     }
 
     public void destroy() {
-        log.info("Destroying data store");
     }
 
     /**
@@ -28,10 +26,10 @@ public abstract class DataStore {
      * @return A Map of request types (String) and response time data (ResponseTimeSummary)
      */
     public abstract ImmutableMap<String,ResponseTimeSummary> getResponseTimeSummary(
-            String application, long start, long end);
+            String application, long start, long end) throws DataStoreException;
 
     public abstract ImmutableMap<String,ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
-            String application, long start, long end, long period);
+            String application, long start, long end, long period) throws DataStoreException;
 
     /**
      * Retrieve the HTTP API benchmark results for the specified application by analyzing the
@@ -44,6 +42,6 @@ public abstract class DataStore {
      * @return A Map of request types (String) and benchmark results for each type
      */
     public abstract ImmutableMap<String,ImmutableList<AccessLogEntry>> getBenchmarkResults(
-            String application, long start, long end);
+            String application, long start, long end) throws DataStoreException;
 
 }

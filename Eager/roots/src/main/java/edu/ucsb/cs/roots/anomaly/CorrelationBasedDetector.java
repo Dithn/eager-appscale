@@ -2,6 +2,7 @@ package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.utils.CommandLineUtils;
 import edu.ucsb.cs.roots.utils.CommandOutput;
@@ -45,7 +46,37 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 scriptDirectory.getAbsolutePath());
     }
 
-    private void initFullHistory(long windowStart, long windowEnd) {
+    @Override
+    public void run(long now) {
+        Collection<String> requestTypes;
+        try {
+            long tempStart, tempEnd;
+            if (end < 0) {
+                tempEnd = now - 60 * 1000 - periodInSeconds * 1000;
+                tempStart = tempEnd - historyLengthInSeconds * 1000;
+                initFullHistory(tempStart, tempEnd);
+                end = tempEnd;
+            }
+            tempStart = end;
+            tempEnd = end + periodInSeconds * 1000;
+            requestTypes = updateHistory(tempStart, tempEnd);
+            end = tempEnd;
+        } catch (DataStoreException e) {
+            String msg = "Error while retrieving data";
+            log.error(msg, e);
+            throw new RuntimeException(msg, e);
+        }
+
+        long cutoff = end - historyLengthInSeconds * 1000;
+        history.values().forEach(v -> cleanupOldData(cutoff, v));
+        history.entrySet().stream()
+                .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
+                .map(e -> computeCorrelation(e.getKey(), e.getValue()))
+                .filter(Objects::nonNull)
+                .forEach(this::checkForAnomalies);
+    }
+
+    private void initFullHistory(long windowStart, long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
         ImmutableMap<String,ImmutableList<ResponseTimeSummary>> summaries =
                 dataStore.getResponseTimeHistory(application, windowStart, windowEnd,
@@ -58,7 +89,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 .forEach(c -> prevDtw.put(c.key, c.dtw));
     }
 
-    private Collection<String> updateHistory(long windowStart, long windowEnd) {
+    private Collection<String> updateHistory(long windowStart,
+                                             long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
         ImmutableMap<String,ResponseTimeSummary> summaries = dataStore.getResponseTimeSummary(
                 application, windowStart, windowEnd);
@@ -71,27 +103,6 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             record.add(entry.getValue());
         }
         return ImmutableList.copyOf(summaries.keySet());
-    }
-
-    @Override
-    public void run(long now) {
-        long start;
-        if (end < 0) {
-            end = now - 60 * 1000 - periodInSeconds * 1000;
-            start = end - historyLengthInSeconds * 1000;
-            initFullHistory(start, end);
-        }
-        start = end;
-        end += periodInSeconds * 1000;
-        Collection<String> requestTypes = updateHistory(start, end);
-
-        long cutoff = end - historyLengthInSeconds * 1000;
-        history.values().forEach(v -> cleanupOldData(cutoff, v));
-        history.entrySet().stream()
-                .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
-                .map(e -> computeCorrelation(e.getKey(), e.getValue()))
-                .filter(Objects::nonNull)
-                .forEach(this::checkForAnomalies);
     }
 
     private void cleanupOldData(long cutoff, List<ResponseTimeSummary> summaries) {
