@@ -31,7 +31,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class ElasticSearchDataStore extends DataStore {
 
-    private static final ImmutableList<String> METHODS = ImmutableList.of("GET", "POST", "PUT", "DELETE");
+    private static final ImmutableList<String> METHODS = ImmutableList.of(
+            "GET", "POST", "PUT", "DELETE");
 
     private final String elasticSearchHost;
     private final int elasticSearchPort;
@@ -79,30 +80,35 @@ public class ElasticSearchDataStore extends DataStore {
         String query = String.format(ElasticSearchTemplates.RESPONSE_TIME_SUMMARY_QUERY,
                 accessLogTimestampField, start, end, accessLogMethodField, accessLogPathField,
                 accessLogResponseTimeField);
-        String urlPath = String.format("/%s/%s/_search", accessLogIndex, application);
+        String path = String.format("/%s/%s/_search", accessLogIndex, application);
         ImmutableMap.Builder<String,ResponseTimeSummary> builder = ImmutableMap.builder();
         try {
-            JsonElement response = makeHttpCall(elasticSearchHost, elasticSearchPort, urlPath, query);
-            JsonArray methods = response.getAsJsonObject().getAsJsonObject("aggregations")
-                    .getAsJsonObject("methods").getAsJsonArray("buckets");
-            for (int i = 0; i < methods.size(); i++) {
-                JsonObject method = methods.get(i).getAsJsonObject();
-                String methodName = method.get("key").getAsString().toUpperCase();
-                if (!METHODS.contains(methodName)) {
-                    continue;
-                }
-                JsonArray paths = method.getAsJsonObject("paths").getAsJsonArray("buckets");
-                for (int j = 0; j < paths.size(); j++) {
-                    JsonObject path = paths.get(j).getAsJsonObject();
-                    String key = methodName + " " + path.get("key").getAsString();
-                    builder.put(key, newResponseTimeSummary(start, path));
-                }
-            }
+            JsonElement results = makeHttpCall(elasticSearchHost, elasticSearchPort, path, query);
+            parseResponseTimeSummary(results, start, builder);
         } catch (IOException | URISyntaxException e) {
             log.error("Error while querying ElasticSearch", e);
             throw new RuntimeException(e);
         }
         return builder.build();
+    }
+
+    private void parseResponseTimeSummary(JsonElement element, long timestamp,
+                                          ImmutableMap.Builder<String,ResponseTimeSummary> builder) {
+        JsonArray methods = element.getAsJsonObject().getAsJsonObject("aggregations")
+                .getAsJsonObject("methods").getAsJsonArray("buckets");
+        for (int i = 0; i < methods.size(); i++) {
+            JsonObject method = methods.get(i).getAsJsonObject();
+            String methodName = method.get("key").getAsString().toUpperCase();
+            if (!METHODS.contains(methodName)) {
+                continue;
+            }
+            JsonArray paths = method.getAsJsonObject("paths").getAsJsonArray("buckets");
+            for (int j = 0; j < paths.size(); j++) {
+                JsonObject path = paths.get(j).getAsJsonObject();
+                String key = methodName + " " + path.get("key").getAsString();
+                builder.put(key, newResponseTimeSummary(timestamp, path));
+            }
+        }
     }
 
     private ResponseTimeSummary newResponseTimeSummary(long timestamp, JsonObject bucket) {
