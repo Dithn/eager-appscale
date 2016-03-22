@@ -1,0 +1,21 @@
+{
+  "query": {
+    "filtered": {
+      "filter": {
+        "range": {
+          "@timestamp": {
+            "gte": %d,
+            "lte": %d,
+            "format": "epoch_millis"
+          }
+        }
+      }
+    }
+  },
+  "size": 20,
+  "sort": {
+    "@timestamp": {
+      "order": "asc"
+    }
+  }
+}

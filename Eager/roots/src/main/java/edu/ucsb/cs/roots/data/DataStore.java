@@ -2,8 +2,20 @@ package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class DataStore {
+
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    public void init() {
+        log.info("Initializing data store");
+    }
+
+    public void destroy() {
+        log.info("Destroying data store");
+    }
 
     /**
      * Retrieve the response time statistics for the specified application by analyzing
