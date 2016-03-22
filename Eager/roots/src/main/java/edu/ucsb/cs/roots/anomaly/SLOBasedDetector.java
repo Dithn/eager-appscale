@@ -16,6 +16,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
     private final Map<String,List<AccessLogEntry>> history;
     private final int responseTimeUpperBound;
     private final double sloPercentage;
+    private final double windowFillPercentage;
 
     private long end = -1L;
 
@@ -29,11 +30,14 @@ public final class SLOBasedDetector extends AnomalyDetector {
                 "Response time upper bound must be positive");
         checkArgument(builder.sloPercentage > 0 && builder.sloPercentage < 100,
                 "SLO percentage must be in the interval (0,100)");
+        checkArgument(builder.windowFillPercentage > 0 && builder.windowFillPercentage <= 100,
+                "Window fill percentage must be in the interval (0,100]");
         this.historyLengthInSeconds = builder.historyLengthInSeconds;
         this.samplingIntervalInSeconds = builder.samplingIntervalInSeconds;
         this.history = new HashMap<>();
         this.responseTimeUpperBound = builder.responseTimeUpperBound;
         this.sloPercentage = builder.sloPercentage;
+        this.windowFillPercentage = builder.windowFillPercentage;
     }
 
     @Override
@@ -41,7 +45,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         long start;
         if (end < 0) {
             end = now - 60 * 1000;
-            start = end - periodInSeconds * 1000;
+            start = end - historyLengthInSeconds * 1000;
         } else {
             start = end;
             end += periodInSeconds * 1000;
@@ -64,7 +68,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.entrySet().stream()
                 .filter(e -> summaries.containsKey(e.getKey()) &&
-                        e.getValue().size() > maxSamples * 0.95)
+                        e.getValue().size() >= maxSamples * windowFillPercentage)
                 .forEach(e -> computeSLO(e.getKey(), e.getValue()));
     }
 
@@ -95,6 +99,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         private int samplingIntervalInSeconds = 60;
         private int responseTimeUpperBound;
         private double sloPercentage = 95.0;
+        private double windowFillPercentage = 95.0;
 
         private Builder() {
         }
@@ -116,6 +121,11 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
         public Builder setSloPercentage(double sloPercentage) {
             this.sloPercentage = sloPercentage;
+            return this;
+        }
+
+        public Builder setWindowFillPercentage(double windowFillPercentage) {
+            this.windowFillPercentage = windowFillPercentage;
             return this;
         }
 
