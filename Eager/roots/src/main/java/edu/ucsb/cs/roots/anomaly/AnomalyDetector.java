@@ -22,6 +22,7 @@ public abstract class AnomalyDetector {
         this.application = application;
         this.periodInSeconds = periodInSeconds;
         this.dataStore = dataStore;
+        log.info("Initialized anomaly detector for: {}", application);
     }
 
     public final String getApplication() {
