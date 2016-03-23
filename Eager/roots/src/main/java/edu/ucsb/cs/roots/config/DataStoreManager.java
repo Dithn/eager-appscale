@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public final class DataStoreManager {
 
@@ -31,25 +32,36 @@ public final class DataStoreManager {
     private static final DataStoreManager instance = new DataStoreManager();
 
     private final Map<String,DataStore> dataStores = new ConcurrentHashMap<>();
+    private boolean initialized = false;
 
     private DataStoreManager() {
     }
 
-    public void init() {
-        File dataStoreDir = new File("conf", "dataStores");
-        if (!dataStoreDir.exists()) {
-            log.warn("dataStores directory not found");
-            return;
+    public synchronized void init() {
+        checkState(!initialized, "DataStoreManager is already initialized");
+        try {
+            File dataStoreDir = new File("conf", "dataStores");
+            if (!dataStoreDir.exists()) {
+                log.warn("dataStores directory not found");
+                return;
+            }
+            FileUtils.listFiles(dataStoreDir, new String[]{"properties"}, false).stream()
+                    .forEach(f -> dataStores.put(FilenameUtils.removeExtension(f.getName()),
+                            createDataStore(f)));
+            dataStores.values().stream().forEach(DataStore::init);
+        } finally {
+            initialized = true;
         }
-        FileUtils.listFiles(dataStoreDir, new String[]{"properties"}, false).stream()
-                .forEach(f -> dataStores.put(FilenameUtils.removeExtension(f.getName()),
-                        createDataStore(f)));
-        dataStores.values().stream().forEach(DataStore::init);
     }
 
-    public void destroy() {
-        dataStores.values().stream().forEach(DataStore::destroy);
-        dataStores.clear();
+    public synchronized void destroy() {
+        checkState(initialized, "DataStoreManager is not initialized");
+        try {
+            dataStores.values().stream().forEach(DataStore::destroy);
+            dataStores.clear();
+        } finally {
+            initialized = false;
+        }
     }
 
     public static DataStoreManager getInstance() {
@@ -57,6 +69,7 @@ public final class DataStoreManager {
     }
 
     public DataStore get(String name) {
+        checkState(initialized, "DataStoreManager is not initialized");
         DataStore dataStore = dataStores.get(name);
         checkNotNull(dataStore, "No data store exists by the name: %s", name);
         return dataStore;

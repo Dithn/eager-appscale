@@ -1,12 +1,10 @@
 package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.base.Strings;
-import edu.ucsb.cs.roots.data.DataStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AnomalyDetector {
 
@@ -22,7 +20,6 @@ public abstract class AnomalyDetector {
         this.application = application;
         this.periodInSeconds = periodInSeconds;
         this.dataStore = dataStore;
-        log.info("Initialized anomaly detector for: {}", application);
     }
 
     public final String getApplication() {

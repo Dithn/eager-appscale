@@ -1,5 +1,6 @@
 package edu.ucsb.cs.roots;
 
+import com.google.common.collect.ImmutableList;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetector;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorScheduler;
 import edu.ucsb.cs.roots.config.AnomalyDetectorFactory;
@@ -14,7 +15,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.*;
 
-public class Roots {
+import static com.google.common.base.Preconditions.checkState;
+
+public final class Roots {
 
     private static final Logger log = LoggerFactory.getLogger(Roots.class);
 
@@ -41,6 +44,7 @@ public class Roots {
     }
 
     public synchronized void start() throws SchedulerException {
+        checkState(!started, "Roots is already started");
         log.info("Starting Roots...");
         DataStoreManager.getInstance().init();
         scheduler.init();
@@ -49,26 +53,14 @@ public class Roots {
         Collection<File> children = FileUtils.listFiles(detectorsDir, new String[]{"properties"}, false);
         children.stream().map(this::buildDetector)
                 .filter(Objects::nonNull)
-                .forEach(detectors::add);
-        for (AnomalyDetector detector : detectors) {
-            try {
-                scheduler.schedule(detector);
-            } catch (SchedulerException e) {
-                log.warn("Error while scheduling the detector for: {}", detector.getApplication());
-            }
-        }
+                .forEach(this::scheduleDetector);
         started = true;
     }
 
     public synchronized void stop() {
+        checkState(started, "Roots is not started yet");
         log.info("Stopping Roots...");
-        for (AnomalyDetector detector : detectors) {
-            try {
-                scheduler.cancel(detector);
-            } catch (SchedulerException e) {
-                log.warn("Error while cancelling the detector for: {}", detector.getApplication());
-            }
-        }
+        ImmutableList.copyOf(detectors).forEach(this::cancelDetector);
         try {
             scheduler.destroy();
         } catch (SchedulerException e) {
@@ -89,6 +81,26 @@ public class Roots {
                 this.wait(10000);
             } catch (InterruptedException ignored) {
             }
+        }
+    }
+
+    private void scheduleDetector(AnomalyDetector detector) {
+        try {
+            scheduler.schedule(detector);
+            detectors.add(detector);
+            log.info("Scheduled detector job for: {}", detector.getApplication());
+        } catch (SchedulerException e) {
+            log.warn("Error while scheduling the detector for: {}", detector.getApplication());
+        }
+    }
+
+    private void cancelDetector(AnomalyDetector detector) {
+        try {
+            scheduler.cancel(detector);
+            detectors.remove(detector);
+            log.info("Cancelled detector job for: {}", detector.getApplication());
+        } catch (SchedulerException e) {
+            log.warn("Error while cancelling the detector for: {}", detector.getApplication());
         }
     }
 
