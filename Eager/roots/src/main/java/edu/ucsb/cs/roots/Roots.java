@@ -23,7 +23,7 @@ public final class Roots {
 
     private final List<AnomalyDetector> detectors;
     private final AnomalyDetectorScheduler scheduler;
-    private boolean started = false;
+    private State state;
 
     public static void main(String[] args) throws SchedulerException {
         Roots roots = new Roots();
@@ -41,10 +41,11 @@ public final class Roots {
     public Roots() throws SchedulerException {
         this.detectors = new ArrayList<>();
         this.scheduler = new AnomalyDetectorScheduler("Roots");
+        this.state = State.STANDBY;
     }
 
     public synchronized void start() throws SchedulerException {
-        checkState(!started, "Roots is already started");
+        checkState(state == State.STANDBY);
         log.info("Starting Roots...");
         DataStoreManager.getInstance().init();
         scheduler.init();
@@ -54,11 +55,11 @@ public final class Roots {
         children.stream().map(this::buildDetector)
                 .filter(Objects::nonNull)
                 .forEach(this::scheduleDetector);
-        started = true;
+        state = State.INITIALIZED;
     }
 
     public synchronized void stop() {
-        checkState(started, "Roots is not started yet");
+        checkState(state == State.INITIALIZED);
         log.info("Stopping Roots...");
         ImmutableList.copyOf(detectors).forEach(this::cancelDetector);
         try {
@@ -69,14 +70,14 @@ public final class Roots {
 
         try {
             DataStoreManager.getInstance().destroy();
-            started = false;
+            state = State.DESTROYED;
         } finally {
             this.notifyAll();
         }
     }
 
     public synchronized void waitFor() {
-        while (started) {
+        while (state == State.INITIALIZED) {
             try {
                 this.wait(10000);
             } catch (InterruptedException ignored) {

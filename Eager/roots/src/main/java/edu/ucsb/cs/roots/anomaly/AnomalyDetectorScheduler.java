@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.base.Strings;
+import edu.ucsb.cs.roots.State;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -12,12 +13,6 @@ import static com.google.common.base.Preconditions.checkState;
 public final class AnomalyDetectorScheduler {
 
     private static final String ANOMALY_DETECTOR_GROUP = "anomaly-detector";
-
-    private enum State {
-        STANDBY,
-        INITIALIZED,
-        DESTROYED
-    }
 
     private final Scheduler scheduler;
     private State state;
