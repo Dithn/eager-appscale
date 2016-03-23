@@ -70,7 +70,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.entrySet().stream()
                 .filter(e -> requestTypes.contains(e.getKey()) &&
-                        e.getValue().size() >= maxSamples * windowFillPercentage)
+                        e.getValue().size() >= maxSamples * windowFillPercentage/100.0)
                 .forEach(e -> computeSLO(e.getKey(), e.getValue()));
     }
 

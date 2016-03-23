@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -51,10 +52,15 @@ public final class Roots {
         scheduler.init();
 
         File detectorsDir = new File("conf", "detectors");
-        Collection<File> children = FileUtils.listFiles(detectorsDir, new String[]{"properties"}, false);
-        children.stream().map(this::buildDetector)
-                .filter(Objects::nonNull)
-                .forEach(this::scheduleDetector);
+        Collection<File> children = FileUtils.listFiles(detectorsDir,
+                new String[]{"properties"}, false);
+        children.stream().forEach(f -> {
+            try {
+                buildDetector(f);
+            } catch (IOException | SchedulerException e) {
+                log.warn("Error while loading detector from: {}", f.getAbsolutePath(), e);
+            }
+        });
         state = State.INITIALIZED;
     }
 
@@ -62,6 +68,7 @@ public final class Roots {
         checkState(state == State.INITIALIZED);
         log.info("Stopping Roots...");
         ImmutableList.copyOf(detectors).forEach(this::cancelDetector);
+        detectors.clear();
         try {
             scheduler.destroy();
         } catch (SchedulerException e) {
@@ -85,16 +92,6 @@ public final class Roots {
         }
     }
 
-    private void scheduleDetector(AnomalyDetector detector) {
-        try {
-            scheduler.schedule(detector);
-            detectors.add(detector);
-            log.info("Scheduled detector job for: {}", detector.getApplication());
-        } catch (SchedulerException e) {
-            log.warn("Error while scheduling the detector for: {}", detector.getApplication());
-        }
-    }
-
     private void cancelDetector(AnomalyDetector detector) {
         try {
             scheduler.cancel(detector);
@@ -105,16 +102,16 @@ public final class Roots {
         }
     }
 
-    private AnomalyDetector buildDetector(File file) {
+    private void buildDetector(File file) throws IOException, SchedulerException {
         try (FileInputStream in = FileUtils.openInputStream(file)) {
             log.info("Loading detector from: {}", file.getAbsolutePath());
             Properties properties = new Properties();
             properties.load(in);
             String application = FilenameUtils.removeExtension(file.getName());
-            return AnomalyDetectorFactory.create(application, properties);
-        } catch (Exception e) {
-            log.error("Error while loading detector from: {}", file.getAbsolutePath(), e);
-            return null;
+            AnomalyDetector detector = AnomalyDetectorFactory.create(application, properties);
+            scheduler.schedule(detector);
+            detectors.add(detector);
+            log.info("Scheduled detector job for: {}", detector.getApplication());
         }
     }
 }
