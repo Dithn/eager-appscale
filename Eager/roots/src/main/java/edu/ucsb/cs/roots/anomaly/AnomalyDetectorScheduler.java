@@ -5,7 +5,6 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -39,13 +38,13 @@ public final class AnomalyDetectorScheduler {
         state = State.STANDBY;
     }
 
-    public void init() throws SchedulerException {
+    public synchronized void init() throws SchedulerException {
         checkState(state == State.STANDBY);
         scheduler.start();
         state = State.INITIALIZED;
     }
 
-    public void destroy() throws SchedulerException {
+    public synchronized void destroy() throws SchedulerException {
         checkState(state == State.INITIALIZED);
         scheduler.shutdown(true);
         state = State.DESTROYED;
@@ -78,12 +77,5 @@ public final class AnomalyDetectorScheduler {
 
     private TriggerKey getTriggerKey(String application) {
         return TriggerKey.triggerKey(application + "-job", ANOMALY_DETECTOR_GROUP);
-    }
-
-    private SimpleScheduleBuilder getScheduleBuilder(int periodInSeconds) {
-        return SimpleScheduleBuilder
-                .simpleSchedule()
-                .repeatForever()
-                .withIntervalInSeconds(periodInSeconds);
     }
 }

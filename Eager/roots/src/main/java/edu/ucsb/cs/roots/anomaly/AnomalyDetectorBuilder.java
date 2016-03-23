@@ -1,14 +1,10 @@
 package edu.ucsb.cs.roots.anomaly;
 
-import edu.ucsb.cs.roots.data.DataStore;
-
-import java.util.concurrent.TimeUnit;
-
 public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extends AnomalyDetectorBuilder<T,B>> {
 
     protected String application;
     protected int periodInSeconds = 60;
-    protected DataStore dataStore;
+    protected String dataStore = "default";
 
     private final B thisObj;
 
@@ -29,7 +25,7 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
         return thisObj;
     }
 
-    public final B setDataStore(DataStore dataStore) {
+    public final B setDataStore(String dataStore) {
         this.dataStore = dataStore;
         return thisObj;
     }

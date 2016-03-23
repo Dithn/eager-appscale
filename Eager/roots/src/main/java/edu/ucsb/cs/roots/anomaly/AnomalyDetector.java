@@ -12,13 +12,13 @@ public abstract class AnomalyDetector {
 
     protected final String application;
     protected final int periodInSeconds;
-    protected final DataStore dataStore;
+    protected final String dataStore;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    public AnomalyDetector(String application, int periodInSeconds, DataStore dataStore) {
+    public AnomalyDetector(String application, int periodInSeconds, String dataStore) {
         checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");
         checkArgument(periodInSeconds > 0, "Period must be a positive integer");
-        checkNotNull(dataStore, "DataStore must not be null");
+        checkArgument(!Strings.isNullOrEmpty(dataStore), "DataStore name is required");
         this.application = application;
         this.periodInSeconds = periodInSeconds;
         this.dataStore = dataStore;
