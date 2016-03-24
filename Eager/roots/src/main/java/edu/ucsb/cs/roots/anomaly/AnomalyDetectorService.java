@@ -55,23 +55,6 @@ public class AnomalyDetectorService extends ManagedService {
         }
     }
 
-    private void schedule(AnomalyDetector detector) throws SchedulerException {
-        JobDetail jobDetail = JobBuilder.newJob(AnomalyDetectorJob.class)
-                .withIdentity(getJobKey(detector.getApplication()))
-                .build();
-        JobDataMap jobDataMap = jobDetail.getJobDataMap();
-        jobDataMap.put(AnomalyDetectorJob.ANOMALY_DETECTOR_INSTANCE, detector);
-
-        Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(getTriggerKey(detector.getApplication()))
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withMisfireHandlingInstructionIgnoreMisfires()
-                        .repeatForever().withIntervalInSeconds(detector.getPeriodInSeconds()))
-                .startNow()
-                .build();
-        scheduler.scheduleJob(jobDetail, trigger);
-    }
-
     private JobKey getJobKey(String application) {
         return JobKey.jobKey(application + "-job", ANOMALY_DETECTOR_GROUP);
     }
