@@ -3,7 +3,6 @@ package edu.ucsb.cs.roots.anomaly;
 import com.google.common.collect.ImmutableList;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.config.AnomalyDetectorFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.quartz.SchedulerException;
@@ -26,12 +25,8 @@ public class AnomalyDetectorService extends ManagedService {
         this.scheduler = new AnomalyDetectorScheduler(environment.getId());
     }
 
-    public synchronized void doInit() {
-        try {
-            scheduler.init();
-        } catch (SchedulerException e) {
-            throw new RuntimeException(e);
-        }
+    public synchronized void doInit() throws Exception {
+        scheduler.init();
 
         File detectorsDir = new File("conf", "detectors");
         Collection<File> children = FileUtils.listFiles(detectorsDir,

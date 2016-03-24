@@ -17,7 +17,7 @@ public abstract class ManagedService {
         this.state = State.STANDBY;
     }
 
-    public final void init() {
+    public final void init() throws Exception {
         checkState(state == State.STANDBY);
         doInit();
         state = State.INITIALIZED;
@@ -29,6 +29,6 @@ public abstract class ManagedService {
         state = State.DESTROYED;
     }
 
-    protected abstract void doInit();
+    protected abstract void doInit() throws Exception;
     protected abstract void doDestroy();
 }

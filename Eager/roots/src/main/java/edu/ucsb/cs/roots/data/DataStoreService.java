@@ -1,11 +1,8 @@
-package edu.ucsb.cs.roots.config;
+package edu.ucsb.cs.roots.data;
 
 import com.google.common.base.Strings;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.data.DataStore;
-import edu.ucsb.cs.roots.data.ElasticSearchDataStore;
-import edu.ucsb.cs.roots.data.TestDataStore;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 

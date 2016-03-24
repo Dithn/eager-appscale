@@ -3,7 +3,6 @@ package edu.ucsb.cs.roots.anomaly;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.config.DataStoreService;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;

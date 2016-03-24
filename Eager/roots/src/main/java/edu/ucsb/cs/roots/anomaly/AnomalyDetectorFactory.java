@@ -1,11 +1,7 @@
-package edu.ucsb.cs.roots.config;
+package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.base.Strings;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.anomaly.AnomalyDetector;
-import edu.ucsb.cs.roots.anomaly.AnomalyDetectorBuilder;
-import edu.ucsb.cs.roots.anomaly.CorrelationBasedDetector;
-import edu.ucsb.cs.roots.anomaly.SLOBasedDetector;
 
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;

@@ -1,8 +1,7 @@
 package edu.ucsb.cs.roots;
 
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
-import edu.ucsb.cs.roots.config.DataStoreService;
-import org.quartz.SchedulerException;
+import edu.ucsb.cs.roots.data.DataStoreService;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -14,14 +13,14 @@ public class RootsEnvironment {
 
     private State state;
 
-    public RootsEnvironment(String id) throws SchedulerException {
+    public RootsEnvironment(String id) throws Exception {
         this.id = id;
         this.dataStoreService = new DataStoreService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
         this.state = State.STANDBY;
     }
 
-    public synchronized void init() {
+    public synchronized void init() throws Exception {
         checkState(state == State.STANDBY);
         dataStoreService.init();
         anomalyDetectorService.init();
@@ -62,7 +61,7 @@ public class RootsEnvironment {
         }
     }
 
-    public static void main(String[] args) throws SchedulerException {
+    public static void main(String[] args) throws Exception {
         RootsEnvironment environment = new RootsEnvironment("Roots");
         environment.init();
 
