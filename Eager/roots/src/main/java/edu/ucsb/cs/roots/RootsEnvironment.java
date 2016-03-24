@@ -1,9 +1,14 @@
 package edu.ucsb.cs.roots;
 
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
 import edu.ucsb.cs.roots.data.DataStoreService;
+import edu.ucsb.cs.roots.utils.RootsThreadFactory;
 
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -13,6 +18,8 @@ public class RootsEnvironment {
     private final DataStoreService dataStoreService;
     private final AnomalyDetectorService anomalyDetectorService;
     private final Stack<ManagedService> activeServices;
+    private final ExecutorService exec;
+    private final EventBus eventBus;
 
     private State state;
 
@@ -21,6 +28,8 @@ public class RootsEnvironment {
         this.dataStoreService = new DataStoreService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
         this.activeServices = new Stack<>();
+        this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
+        this.eventBus = new AsyncEventBus(id, this.exec);
         this.state = State.STANDBY;
     }
 
@@ -41,6 +50,7 @@ public class RootsEnvironment {
         while (!activeServices.isEmpty()) {
             activeServices.pop().destroy();
         }
+        exec.shutdownNow();
         state = State.DESTROYED;
         this.notifyAll();
     }
@@ -66,6 +76,14 @@ public class RootsEnvironment {
             } catch (InterruptedException ignored) {
             }
         }
+    }
+
+    public void publishEvent(Object event) {
+        eventBus.post(event);
+    }
+
+    public void subscribe(Object subscriber) {
+        eventBus.register(subscriber);
     }
 
     public static void main(String[] args) throws Exception {

@@ -38,4 +38,8 @@ public abstract class AnomalyDetector {
 
     public abstract void run(long now);
 
+    protected final void reportAnomaly(long timestamp, String key, String description) {
+        environment.publishEvent(new Anomaly(timestamp, application, key, description));
+    }
+
 }

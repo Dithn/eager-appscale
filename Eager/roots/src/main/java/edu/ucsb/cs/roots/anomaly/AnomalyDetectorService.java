@@ -31,6 +31,7 @@ public class AnomalyDetectorService extends ManagedService {
     }
 
     public synchronized void doInit() throws Exception {
+        environment.subscribe(new AnomalyLogger());
         scheduler.start();
 
         File detectorsDir = new File("conf", "detectors");
