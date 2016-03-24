@@ -29,6 +29,10 @@ public abstract class ManagedService {
         state = State.DESTROYED;
     }
 
+    public final State getState() {
+        return state;
+    }
+
     protected abstract void doInit() throws Exception;
     protected abstract void doDestroy();
 }

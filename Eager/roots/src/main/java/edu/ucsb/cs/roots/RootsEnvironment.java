@@ -60,13 +60,8 @@ public class RootsEnvironment {
     }
 
     public DataStoreService getDataStoreService() {
-        checkState(state == State.INITIALIZED);
+        checkState(dataStoreService.getState() == State.INITIALIZED);
         return dataStoreService;
-    }
-
-    public AnomalyDetectorService getAnomalyDetectorService() {
-        checkState(state == State.INITIALIZED);
-        return anomalyDetectorService;
     }
 
     public synchronized void waitFor() {
