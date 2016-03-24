@@ -3,6 +3,8 @@ package edu.ucsb.cs.roots;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
 import edu.ucsb.cs.roots.data.DataStoreService;
 
+import java.util.Stack;
+
 import static com.google.common.base.Preconditions.checkState;
 
 public class RootsEnvironment {
@@ -10,6 +12,7 @@ public class RootsEnvironment {
     private final String id;
     private final DataStoreService dataStoreService;
     private final AnomalyDetectorService anomalyDetectorService;
+    private final Stack<ManagedService> activeServices;
 
     private State state;
 
@@ -17,25 +20,29 @@ public class RootsEnvironment {
         this.id = id;
         this.dataStoreService = new DataStoreService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
+        this.activeServices = new Stack<>();
         this.state = State.STANDBY;
     }
 
     public synchronized void init() throws Exception {
         checkState(state == State.STANDBY);
-        dataStoreService.init();
-        anomalyDetectorService.init();
+        initService(dataStoreService);
+        initService(anomalyDetectorService);
         state = State.INITIALIZED;
     }
 
+    private void initService(ManagedService service) throws Exception {
+        service.init();
+        activeServices.push(service);
+    }
+
     public synchronized void destroy() {
-        checkState(state == State.INITIALIZED);
-        try {
-            anomalyDetectorService.destroy();
-            dataStoreService.destroy();
-        } finally {
-            state = State.DESTROYED;
-            this.notifyAll();
+        checkState(!activeServices.isEmpty());
+        while (!activeServices.isEmpty()) {
+            activeServices.pop().destroy();
         }
+        state = State.DESTROYED;
+        this.notifyAll();
     }
 
     public String getId() {
