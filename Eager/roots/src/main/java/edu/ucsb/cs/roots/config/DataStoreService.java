@@ -1,13 +1,13 @@
 package edu.ucsb.cs.roots.config;
 
 import com.google.common.base.Strings;
+import edu.ucsb.cs.roots.ManagedService;
+import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.ElasticSearchDataStore;
 import edu.ucsb.cs.roots.data.TestDataStore;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,58 +18,38 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
-public final class DataStoreManager {
-
-    private static final Logger log = LoggerFactory.getLogger(DataStoreManager.class);
+public final class DataStoreService extends ManagedService {
 
     private static final String DATA_STORE_TYPE = "type";
     private static final String DATA_STORE_ES_HOST = "es.host";
     private static final String DATA_STORE_ES_PORT = "es.port";
     private static final String DATA_STORE_ES_ACCESS_LOG_INDEX = "es.accessLog.index";
 
-    private static final DataStoreManager instance = new DataStoreManager();
-
     private final Map<String,DataStore> dataStores = new ConcurrentHashMap<>();
-    private boolean initialized = false;
 
-    private DataStoreManager() {
+    public DataStoreService(RootsEnvironment environment) {
+        super(environment);
     }
 
-    public synchronized void init() {
-        checkState(!initialized, "DataStoreManager is already initialized");
-        try {
-            File dataStoreDir = new File("conf", "dataStores");
-            if (!dataStoreDir.exists()) {
-                log.warn("dataStores directory not found");
-                return;
-            }
-            FileUtils.listFiles(dataStoreDir, new String[]{"properties"}, false).stream()
-                    .forEach(f -> dataStores.put(FilenameUtils.removeExtension(f.getName()),
-                            createDataStore(f)));
-            dataStores.values().stream().forEach(DataStore::init);
-        } finally {
-            initialized = true;
+    public synchronized void doInit() {
+        File dataStoreDir = new File("conf", "dataStores");
+        if (!dataStoreDir.exists()) {
+            log.warn("dataStores directory not found");
+            return;
         }
+        FileUtils.listFiles(dataStoreDir, new String[]{"properties"}, false).stream()
+                .forEach(f -> dataStores.put(FilenameUtils.removeExtension(f.getName()),
+                        createDataStore(f)));
+        dataStores.values().stream().forEach(DataStore::init);
     }
 
-    public synchronized void destroy() {
-        checkState(initialized, "DataStoreManager is not initialized");
-        try {
-            dataStores.values().stream().forEach(DataStore::destroy);
-            dataStores.clear();
-        } finally {
-            initialized = false;
-        }
-    }
-
-    public static DataStoreManager getInstance() {
-        return instance;
+    public synchronized void doDestroy() {
+        dataStores.values().stream().forEach(DataStore::destroy);
+        dataStores.clear();
     }
 
     public DataStore get(String name) {
-        checkState(initialized, "DataStoreManager is not initialized");
         DataStore dataStore = dataStores.get(name);
         checkNotNull(dataStore, "No data store exists by the name: %s", name);
         return dataStore;

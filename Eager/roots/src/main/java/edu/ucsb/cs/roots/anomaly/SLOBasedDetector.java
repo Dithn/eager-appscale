@@ -2,7 +2,8 @@ package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import edu.ucsb.cs.roots.config.DataStoreManager;
+import edu.ucsb.cs.roots.RootsEnvironment;
+import edu.ucsb.cs.roots.config.DataStoreService;
 import edu.ucsb.cs.roots.data.AccessLogEntry;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
@@ -23,8 +24,8 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
     private long end = -1L;
 
-    private SLOBasedDetector(Builder builder) {
-        super(builder.application, builder.periodInSeconds, builder.dataStore);
+    private SLOBasedDetector(RootsEnvironment environment, Builder builder) {
+        super(environment, builder.application, builder.periodInSeconds, builder.dataStore);
         checkArgument(builder.historyLengthInSeconds > 0, "History length must be positive");
         checkArgument(builder.samplingIntervalInSeconds > 0, "Sampling interval must be positive");
         checkArgument(builder.historyLengthInSeconds > builder.samplingIntervalInSeconds,
@@ -77,7 +78,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
     private Collection<String> updateHistory(long windowStart,
                                              long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
-        DataStore ds = DataStoreManager.getInstance().get(this.dataStore);
+        DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableMap<String,ImmutableList<AccessLogEntry>> summaries =
                 ds.getBenchmarkResults(application, windowStart, windowEnd);
         for (Map.Entry<String,ImmutableList<AccessLogEntry>> entry : summaries.entrySet()) {
@@ -149,8 +150,8 @@ public final class SLOBasedDetector extends AnomalyDetector {
         }
 
         @Override
-        public SLOBasedDetector build() {
-            return new SLOBasedDetector(this);
+        public SLOBasedDetector build(RootsEnvironment environment) {
+            return new SLOBasedDetector(environment, this);
         }
 
         @Override

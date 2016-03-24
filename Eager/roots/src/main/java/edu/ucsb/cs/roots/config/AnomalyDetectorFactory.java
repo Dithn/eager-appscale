@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.config;
 
 import com.google.common.base.Strings;
+import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetector;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorBuilder;
 import edu.ucsb.cs.roots.anomaly.CorrelationBasedDetector;
@@ -30,7 +31,8 @@ public class AnomalyDetectorFactory {
     private static final String DETECTOR_SAMPLING_RATE = "samplingRate";
     private static final String DETECTOR_SAMPLING_RATE_TIME_UNIT = DETECTOR_SAMPLING_RATE + ".timeUnit";
 
-    public static AnomalyDetector create(String application, Properties properties) {
+    public static AnomalyDetector create(RootsEnvironment environment, String application,
+                                         Properties properties) {
         String detectorType = properties.getProperty(DETECTOR);
         checkArgument(!Strings.isNullOrEmpty(detectorType), "Detector type is required");
 
@@ -54,7 +56,7 @@ public class AnomalyDetectorFactory {
         if (!Strings.isNullOrEmpty(dataStore)) {
             builder.setDataStore(dataStore);
         }
-        return builder.setApplication(application).build();
+        return builder.setApplication(application).build(environment);
     }
 
     private static CorrelationBasedDetector.Builder initCorrelationBasedDetector(

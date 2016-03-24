@@ -1,5 +1,7 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import edu.ucsb.cs.roots.RootsEnvironment;
+
 public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extends AnomalyDetectorBuilder<T,B>> {
 
     protected String application;
@@ -8,7 +10,7 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
 
     private final B thisObj;
 
-    public abstract T build();
+    public abstract T build(RootsEnvironment environment);
     protected abstract B getThisObj();
 
     public AnomalyDetectorBuilder() {

@@ -2,7 +2,8 @@ package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import edu.ucsb.cs.roots.config.DataStoreManager;
+import edu.ucsb.cs.roots.RootsEnvironment;
+import edu.ucsb.cs.roots.config.DataStoreService;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
@@ -29,8 +30,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private long end = -1L;
     private Map<String,Double> prevDtw = new HashMap<>();
 
-    private CorrelationBasedDetector(Builder builder) {
-        super(builder.application, builder.periodInSeconds, builder.dataStore);
+    private CorrelationBasedDetector(RootsEnvironment environment, Builder builder) {
+        super(environment, builder.application, builder.periodInSeconds, builder.dataStore);
         checkArgument(builder.historyLengthInSeconds > 0, "History length must be positive");
         checkNotNull(builder.scriptDirectory, "Script directory path must not be null");
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
@@ -80,7 +81,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private void initFullHistory(long windowStart, long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
-        DataStore ds = DataStoreManager.getInstance().get(this.dataStore);
+        DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableMap<String,ImmutableList<ResponseTimeSummary>> summaries =
                 ds.getResponseTimeHistory(application, windowStart, windowEnd,
                         periodInSeconds * 1000);
@@ -95,7 +96,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private Collection<String> updateHistory(long windowStart,
                                              long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
-        DataStore ds = DataStoreManager.getInstance().get(this.dataStore);
+        DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableMap<String,ResponseTimeSummary> summaries = ds.getResponseTimeSummary(
                 application, windowStart, windowEnd);
         for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
@@ -199,8 +200,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             return this;
         }
 
-        public CorrelationBasedDetector build() {
-            return new CorrelationBasedDetector(this);
+        public CorrelationBasedDetector build(RootsEnvironment environment) {
+            return new CorrelationBasedDetector(environment, this);
         }
 
         @Override
