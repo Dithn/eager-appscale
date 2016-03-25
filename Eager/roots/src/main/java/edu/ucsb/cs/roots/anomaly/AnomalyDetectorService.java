@@ -33,8 +33,8 @@ public class AnomalyDetectorService extends ManagedService {
         environment.getConfigLoader().loadItems(ConfigLoader.DETECTORS, true).forEach(i -> {
             try {
                 scheduleDetector(i.getName(), i.getProperties());
-            } catch (SchedulerException e) {
-                log.warn("Error while loading detector for: {}", i.getName(), e);
+            } catch (Exception e) {
+                log.warn("Error while scheduling detector for: {}", i.getName(), e);
             }
         });
     }

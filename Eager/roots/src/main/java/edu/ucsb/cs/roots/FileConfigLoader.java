@@ -67,7 +67,7 @@ public final class FileConfigLoader implements ConfigLoader {
             log.info("Loading {} from: {}", label, file.getAbsolutePath());
             properties.load(in);
             return new ItemConfig(name, properties);
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (ignoreFaults) {
                 log.warn("Error while loading {} from: {}", label, file.getAbsolutePath());
                 return null;
