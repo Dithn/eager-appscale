@@ -4,12 +4,13 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
 import edu.ucsb.cs.roots.data.DataStoreService;
-import edu.ucsb.cs.roots.utils.RConnectionPoolFactory;
+import edu.ucsb.cs.roots.rlang.RService;
 import edu.ucsb.cs.roots.utils.RootsThreadFactory;
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.rosuda.REngine.Rserve.RConnection;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,38 +20,34 @@ import static com.google.common.base.Preconditions.checkState;
 public class RootsEnvironment {
 
     private final String id;
+    private final Properties properties;
+
     private final DataStoreService dataStoreService;
+    private final RService rService;
     private final AnomalyDetectorService anomalyDetectorService;
+
     private final Stack<ManagedService> activeServices;
     private final ExecutorService exec;
     private final EventBus eventBus;
-    private final GenericObjectPool<RConnection> rConnectionPool;
 
     private State state;
 
-    public RootsEnvironment(String id) throws Exception {
+    public RootsEnvironment(String id, Properties properties) throws Exception {
         this.id = id;
+        this.properties = properties;
         this.dataStoreService = new DataStoreService(this);
+        this.rService = new RService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
         this.activeServices = new Stack<>();
         this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
         this.eventBus = new AsyncEventBus(id, this.exec);
-        this.rConnectionPool = new GenericObjectPool<>(new RConnectionPoolFactory(),
-                getConnectionPoolConfig());
         this.state = State.STANDBY;
-    }
-
-    private GenericObjectPoolConfig getConnectionPoolConfig() {
-        GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-        config.setMaxTotal(10);
-        config.setMaxIdle(2);
-        config.setMinEvictableIdleTimeMillis(10000L);
-        return config;
     }
 
     public synchronized void init() throws Exception {
         checkState(state == State.STANDBY);
         initService(dataStoreService);
+        initService(rService);
         initService(anomalyDetectorService);
         state = State.INITIALIZED;
     }
@@ -65,7 +62,6 @@ public class RootsEnvironment {
         while (!activeServices.isEmpty()) {
             activeServices.pop().destroy();
         }
-        rConnectionPool.close();
         exec.shutdownNow();
         state = State.DESTROYED;
         this.notifyAll();
@@ -78,6 +74,15 @@ public class RootsEnvironment {
     public DataStoreService getDataStoreService() {
         checkState(dataStoreService.getState() == State.INITIALIZED);
         return dataStoreService;
+    }
+
+    public RService getRService() {
+        checkState(rService.getState() == State.INITIALIZED);
+        return rService;
+    }
+
+    public String getProperty(String key, String def) {
+        return properties.getProperty(key, def);
     }
 
     public synchronized void waitFor() {
@@ -97,18 +102,15 @@ public class RootsEnvironment {
         eventBus.register(subscriber);
     }
 
-    public RConnection getR() throws Exception {
-        return rConnectionPool.borrowObject();
-    }
-
-    public void releaseR(RConnection r) {
-        if (r != null) {
-            rConnectionPool.returnObject(r);
-        }
-    }
-
     public static void main(String[] args) throws Exception {
-        RootsEnvironment environment = new RootsEnvironment("Roots");
+        Properties properties = new Properties();
+        File conf = new File("conf", "roots.properties");
+        if (conf.exists()) {
+            try (FileInputStream in = FileUtils.openInputStream(conf)) {
+                properties.load(in);
+            }
+        }
+        RootsEnvironment environment = new RootsEnvironment("Roots", properties);
         environment.init();
 
         Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {

@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkState;
 public class AnomalyDetectorService extends ManagedService {
 
     private static final String ANOMALY_DETECTOR_GROUP = "anomaly-detector";
+    private static final String QUARTZ_THREAD_POOL = "quartz.threadPool";
+    private static final String QUARTZ_THREAD_COUNT = "quartz.threadCount";
 
     private final Scheduler scheduler;
     private final Map<String,AnomalyDetector> detectors = new ConcurrentHashMap<>();
@@ -70,8 +72,9 @@ public class AnomalyDetectorService extends ManagedService {
         Properties properties = new Properties();
         properties.setProperty(StdSchedulerFactory.PROP_SCHED_INSTANCE_NAME, instanceName);
         properties.setProperty(StdSchedulerFactory.PROP_THREAD_POOL_CLASS,
-                "org.quartz.simpl.SimpleThreadPool");
-        properties.setProperty("org.quartz.threadPool.threadCount", "10");
+                environment.getProperty(QUARTZ_THREAD_POOL, "org.quartz.simpl.SimpleThreadPool"));
+        properties.setProperty("org.quartz.threadPool.threadCount",
+                environment.getProperty(QUARTZ_THREAD_COUNT, "10"));
         factory.initialize(properties);
         checkState(factory.getScheduler(instanceName) == null,
                 "Attempting to reuse existing Scheduler");

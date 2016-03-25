@@ -7,6 +7,7 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
+import edu.ucsb.cs.roots.rlang.RService;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
@@ -23,6 +24,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private final File scriptDirectory;
     private final double correlationThreshold;
     private final double dtwIncreaseThreshold;
+    private final RService rService;
 
     private long end = -1L;
     private Map<String,Double> prevDtw = new HashMap<>();
@@ -44,6 +46,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 scriptDirectory.getAbsolutePath());
         checkArgument(scriptDirectory.isDirectory(), "%s is not a directory",
                 scriptDirectory.getAbsolutePath());
+        this.rService = environment.getRService();
     }
 
     @Override
@@ -125,7 +128,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
         RConnection r = null;
         try {
-            r = environment.getR();
+            r = rService.borrow();
             r.assign("x", requests);
             r.assign("y", responseTime);
             REXP correlation = r.eval("cor(x, y, method='pearson')");
@@ -141,7 +144,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             log.error("Error computing the correlation statistics", e);
             return null;
         } finally {
-            environment.releaseR(r);
+            rService.release(r);
         }
     }
 
