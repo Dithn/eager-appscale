@@ -7,7 +7,7 @@ import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TestDataStore extends DataStore {
+public class RandomDataStore extends DataStore {
 
     private static final Random RAND = new Random();
 

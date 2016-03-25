@@ -1,5 +1,6 @@
 package edu.ucsb.cs.roots;
 
+import com.google.common.base.Strings;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
@@ -15,11 +16,13 @@ import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 public class RootsEnvironment {
 
     private final String id;
+    private final File confDir;
     private final Properties properties;
 
     private final DataStoreService dataStoreService;
@@ -32,9 +35,19 @@ public class RootsEnvironment {
 
     private State state;
 
-    public RootsEnvironment(String id, Properties properties) throws Exception {
+    public RootsEnvironment(String id, String confDirPath) throws Exception {
+        checkArgument(!Strings.isNullOrEmpty(id), "Environment ID is required");
+        checkArgument(!Strings.isNullOrEmpty(confDirPath), "Config directory path is required");
         this.id = id;
-        this.properties = properties;
+        this.confDir = new File(confDirPath);
+        this.properties = new Properties();
+        File config = new File(this.confDir, "roots.properties");
+        if (config.exists()) {
+            try (FileInputStream in = FileUtils.openInputStream(config)) {
+                this.properties.load(in);
+            }
+        }
+
         this.dataStoreService = new DataStoreService(this);
         this.rService = new RService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
@@ -42,6 +55,10 @@ public class RootsEnvironment {
         this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
         this.eventBus = new AsyncEventBus(id, this.exec);
         this.state = State.STANDBY;
+    }
+
+    public File getConfDir() {
+        return confDir;
     }
 
     public synchronized void init() throws Exception {
@@ -63,6 +80,7 @@ public class RootsEnvironment {
             activeServices.pop().destroy();
         }
         exec.shutdownNow();
+        properties.clear();
         state = State.DESTROYED;
         this.notifyAll();
     }
@@ -103,14 +121,7 @@ public class RootsEnvironment {
     }
 
     public static void main(String[] args) throws Exception {
-        Properties properties = new Properties();
-        File conf = new File("conf", "roots.properties");
-        if (conf.exists()) {
-            try (FileInputStream in = FileUtils.openInputStream(conf)) {
-                properties.load(in);
-            }
-        }
-        RootsEnvironment environment = new RootsEnvironment("Roots", properties);
+        RootsEnvironment environment = new RootsEnvironment("Roots", "conf");
         environment.init();
 
         Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {

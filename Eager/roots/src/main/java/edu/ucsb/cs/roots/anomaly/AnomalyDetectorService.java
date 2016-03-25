@@ -36,16 +36,18 @@ public class AnomalyDetectorService extends ManagedService {
         environment.subscribe(new AnomalyLogger());
         scheduler.start();
 
-        File detectorsDir = new File("conf", "detectors");
-        Collection<File> children = FileUtils.listFiles(detectorsDir,
-                new String[]{"properties"}, false);
-        children.stream().forEach(f -> {
-            try {
-                scheduleDetector(f);
-            } catch (IOException | SchedulerException e) {
-                log.warn("Error while loading detector from: {}", f.getAbsolutePath(), e);
-            }
-        });
+        File detectorsDir = new File(environment.getConfDir(), "detectors");
+        if (detectorsDir.exists()) {
+            Collection<File> children = FileUtils.listFiles(detectorsDir,
+                    new String[]{"properties"}, false);
+            children.stream().forEach(f -> {
+                try {
+                    scheduleDetector(f);
+                } catch (IOException | SchedulerException e) {
+                    log.warn("Error while loading detector from: {}", f.getAbsolutePath(), e);
+                }
+            });
+        }
     }
 
     public synchronized void doDestroy() {

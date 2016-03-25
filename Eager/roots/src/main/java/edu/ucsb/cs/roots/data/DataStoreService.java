@@ -30,9 +30,8 @@ public final class DataStoreService extends ManagedService {
     }
 
     public synchronized void doInit() {
-        File dataStoreDir = new File("conf", "dataStores");
+        File dataStoreDir = new File(environment.getConfDir(), "dataStores");
         if (!dataStoreDir.exists()) {
-            log.warn("dataStores directory not found");
             return;
         }
         FileUtils.listFiles(dataStoreDir, new String[]{"properties"}, false).stream()
@@ -52,6 +51,10 @@ public final class DataStoreService extends ManagedService {
         return dataStore;
     }
 
+    void put(String name, DataStore dataStore) {
+        dataStores.put(name, dataStore);
+    }
+
     private DataStore createDataStore(File file) {
         Properties properties = new Properties();
         try (FileInputStream in = FileUtils.openInputStream(file)) {
@@ -64,8 +67,8 @@ public final class DataStoreService extends ManagedService {
         }
 
         String dataStore = getRequired(properties, DATA_STORE_TYPE);
-        if (TestDataStore.class.getSimpleName().equals(dataStore)) {
-            return new TestDataStore();
+        if (RandomDataStore.class.getSimpleName().equals(dataStore)) {
+            return new RandomDataStore();
         } else if (ElasticSearchDataStore.class.getSimpleName().equals(dataStore)) {
             return ElasticSearchDataStore.newBuilder()
                     .setElasticSearchHost(getRequired(properties, DATA_STORE_ES_HOST))
