@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 public class AnomalyDetectorService extends ManagedService {
@@ -47,6 +48,12 @@ public class AnomalyDetectorService extends ManagedService {
         } catch (SchedulerException e) {
             log.warn("Error while stopping the scheduler");
         }
+    }
+
+    public AnomalyDetector getDetector(String application) {
+        AnomalyDetector detector = detectors.get(application);
+        checkNotNull(detector, "No detector available for the application: %s", application);
+        return detector;
     }
 
     private JobKey getJobKey(String application) {

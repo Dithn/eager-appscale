@@ -7,7 +7,7 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestDataStore extends DataStore {
+public class TestDataStore implements DataStore {
 
     public static final String GET_BENCHMARK_RESULTS = "GET_BENCHMARK_RESULTS";
 
@@ -41,7 +41,7 @@ public class TestDataStore extends DataStore {
     }
 
     public List<DataStoreCall> getCallsAndClear() {
-        ImmutableList copy = ImmutableList.copyOf(calls);
+        ImmutableList<DataStoreCall> copy = ImmutableList.copyOf(calls);
         calls.clear();
         return copy;
     }

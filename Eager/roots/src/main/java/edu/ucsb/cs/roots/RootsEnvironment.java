@@ -81,6 +81,11 @@ public final class RootsEnvironment {
         return id;
     }
 
+    public AnomalyDetectorService getAnomalyDetectorService() {
+        checkState(anomalyDetectorService.getState() == State.INITIALIZED);
+        return anomalyDetectorService;
+    }
+
     public DataStoreService getDataStoreService() {
         checkState(dataStoreService.getState() == State.INITIALIZED);
         return dataStoreService;

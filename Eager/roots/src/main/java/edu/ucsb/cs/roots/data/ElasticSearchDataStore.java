@@ -29,7 +29,7 @@ import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ElasticSearchDataStore extends DataStore {
+public class ElasticSearchDataStore implements DataStore {
 
     private static final ImmutableList<String> METHODS = ImmutableList.of(
             "GET", "POST", "PUT", "DELETE");
@@ -70,7 +70,6 @@ public class ElasticSearchDataStore extends DataStore {
 
     @Override
     public void destroy() {
-        super.destroy();
         IOUtils.closeQuietly(httpClient);
     }
 

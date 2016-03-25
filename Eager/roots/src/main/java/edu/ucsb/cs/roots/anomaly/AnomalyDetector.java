@@ -36,6 +36,10 @@ public abstract class AnomalyDetector {
         return periodInSeconds;
     }
 
+    public String getDataStore() {
+        return dataStore;
+    }
+
     public abstract void run(long now);
 
     protected final void reportAnomaly(long start, long end, String key, String description) {

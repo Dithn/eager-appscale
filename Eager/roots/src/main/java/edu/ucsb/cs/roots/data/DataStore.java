@@ -2,17 +2,14 @@ package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public abstract class DataStore {
+public interface DataStore {
 
-    protected final Logger log = LoggerFactory.getLogger(getClass());
-
-    public void init() {
+    default void init() {
     }
 
-    public void destroy() {
+    default void destroy() {
     }
 
     /**
@@ -25,11 +22,21 @@ public abstract class DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and response time data (ResponseTimeSummary)
      */
-    public abstract ImmutableMap<String,ResponseTimeSummary> getResponseTimeSummary(
-            String application, long start, long end) throws DataStoreException;
+    default ImmutableMap<String,ResponseTimeSummary> getResponseTimeSummary(
+            String application, long start, long end) throws DataStoreException {
+        throw new NotImplementedException();
+    }
 
-    public abstract ImmutableMap<String,ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
-            String application, long start, long end, long period) throws DataStoreException;
+    default ImmutableList<Double> getWorkloadSummary(
+            String application, String operation, long start, long end,
+            long period) throws DataStoreException {
+        throw new NotImplementedException();
+    }
+
+    default ImmutableMap<String,ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
+            String application, long start, long end, long period) throws DataStoreException {
+        throw new NotImplementedException();
+    }
 
     /**
      * Retrieve the HTTP API benchmark results for the specified application by analyzing the
@@ -41,7 +48,9 @@ public abstract class DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and benchmark results for each type
      */
-    public abstract ImmutableMap<String,ImmutableList<AccessLogEntry>> getBenchmarkResults(
-            String application, long start, long end) throws DataStoreException;
+    default ImmutableMap<String,ImmutableList<AccessLogEntry>> getBenchmarkResults(
+            String application, long start, long end) throws DataStoreException {
+        throw new NotImplementedException();
+    }
 
 }

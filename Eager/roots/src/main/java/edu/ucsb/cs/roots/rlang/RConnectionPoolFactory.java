@@ -12,6 +12,7 @@ public final class RConnectionPoolFactory extends BasePooledObjectFactory<RConne
     public RConnection create() throws RserveException {
         RConnection r = new RConnection();
         r.eval("library('dtw')");
+        r.eval("library('changepoint')");
         return r;
     }
 
