@@ -129,9 +129,9 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             REXP correlation = r.eval("cor(x, y, method='pearson')");
             r.evalAndAssign("time_warp", "dtw(x, y)");
             REXP distance = r.eval("time_warp$distance");
-            String line = correlation.asDouble() + " " + distance.asDouble() + " " + requests.length;
-            log.info("Correlation analysis output [{}]: {}", key, line);
-            return new Correlation(key, line);
+            log.info("Correlation analysis output [{}]: {} {} {}", key, correlation.asDouble(),
+                    distance.asDouble(), requests.length);
+            return new Correlation(key, correlation.asDouble(), distance.asDouble());
         } catch (Exception e) {
             log.error("Error computing the correlation statistics", e);
             return null;
@@ -158,11 +158,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         private final double rValue;
         private final double dtw;
 
-        private Correlation(String key, String line) {
+        private Correlation(String key, double rValue, double dtw) {
             this.key = key;
-            String[] segments = line.split(" ");
-            this.rValue = Double.parseDouble(segments[0]);
-            this.dtw = Double.parseDouble(segments[1]);
+            this.rValue = rValue;
+            this.dtw = dtw;
         }
     }
 
