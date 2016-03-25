@@ -4,7 +4,11 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
 import edu.ucsb.cs.roots.data.DataStoreService;
+import edu.ucsb.cs.roots.utils.RConnectionPoolFactory;
 import edu.ucsb.cs.roots.utils.RootsThreadFactory;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.rosuda.REngine.Rserve.RConnection;
 
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
@@ -20,6 +24,7 @@ public class RootsEnvironment {
     private final Stack<ManagedService> activeServices;
     private final ExecutorService exec;
     private final EventBus eventBus;
+    private final GenericObjectPool<RConnection> rConnectionPool;
 
     private State state;
 
@@ -30,7 +35,17 @@ public class RootsEnvironment {
         this.activeServices = new Stack<>();
         this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
         this.eventBus = new AsyncEventBus(id, this.exec);
+        this.rConnectionPool = new GenericObjectPool<>(new RConnectionPoolFactory(),
+                getConnectionPoolConfig());
         this.state = State.STANDBY;
+    }
+
+    private GenericObjectPoolConfig getConnectionPoolConfig() {
+        GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+        config.setMaxTotal(10);
+        config.setMaxIdle(2);
+        config.setMinEvictableIdleTimeMillis(10000L);
+        return config;
     }
 
     public synchronized void init() throws Exception {
@@ -50,6 +65,7 @@ public class RootsEnvironment {
         while (!activeServices.isEmpty()) {
             activeServices.pop().destroy();
         }
+        rConnectionPool.close();
         exec.shutdownNow();
         state = State.DESTROYED;
         this.notifyAll();
@@ -79,6 +95,16 @@ public class RootsEnvironment {
 
     public void subscribe(Object subscriber) {
         eventBus.register(subscriber);
+    }
+
+    public RConnection getR() throws Exception {
+        return rConnectionPool.borrowObject();
+    }
+
+    public void releaseR(RConnection r) {
+        if (r != null) {
+            rConnectionPool.returnObject(r);
+        }
     }
 
     public static void main(String[] args) throws Exception {

@@ -6,13 +6,11 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
-import edu.ucsb.cs.roots.utils.CommandLineUtils;
-import edu.ucsb.cs.roots.utils.CommandOutput;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
-import org.apache.commons.io.FileUtils;
+import org.rosuda.REngine.REXP;
+import org.rosuda.REngine.Rserve.RConnection;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -116,24 +114,34 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         oldData.forEach(summaries::remove);
     }
 
-    private Correlation computeCorrelation(String key, Collection<ResponseTimeSummary> summaries) {
-        File tempFile = null;
+    private Correlation computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
+        double[] requests = new double[summaries.size()];
+        double[] responseTime = new double[summaries.size()];
+        for (int i = 0; i < summaries.size(); i++) {
+            ResponseTimeSummary s = summaries.get(i);
+            requests[i] = s.getRequestCount();
+            responseTime[i] = s.getMeanResponseTime();
+        }
+
+        RConnection r = null;
         try {
-            tempFile = CommandLineUtils.writeToTempFile(summaries,
-                    s -> s.getRequestCount() + " " + s.getMeanResponseTime() + "\n", "ad_corr_");
-            CommandOutput output = CommandLineUtils.runCommand(scriptDirectory, "Rscript",
-                    "correlation.R", tempFile.getAbsolutePath());
-            if (output.getStatus() != 0) {
-                throw new IOException(output.toString());
-            }
-            String line = output.getStdout();
+            r = environment.getR();
+            r.assign("x", requests);
+            r.assign("y", responseTime);
+            REXP correlation = r.eval("cor(x, y, method='pearson')");
+            r.eval("time_warp <- dtw(x, y)");
+            REXP distance = r.eval("time_warp$distance");
+            String line = correlation.asDouble() + " " + distance.asDouble() + " " + requests.length;
+            r.eval("rm(x)");
+            r.eval("rm(y)");
+            r.eval("rm(time_warp)");
             log.info("Correlation analysis output [{}]: {}", key, line);
             return new Correlation(key, line);
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             log.error("Error computing the correlation statistics", e);
             return null;
         } finally {
-            FileUtils.deleteQuietly(tempFile);
+            environment.releaseR(r);
         }
     }
 
