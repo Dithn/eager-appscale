@@ -16,7 +16,7 @@ public final class AnomalyLogger {
     @Subscribe
     public void log(Anomaly anomaly) {
         log.warn("Anomaly detected in {} ({}) at {}: {}", anomaly.getApplication(),
-                anomaly.getOperation(), new Date(anomaly.getTimestamp()), anomaly.getDescription());
+                anomaly.getOperation(), new Date(anomaly.getEnd()), anomaly.getDescription());
     }
 
 }

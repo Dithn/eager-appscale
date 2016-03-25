@@ -73,7 +73,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
                 .map(e -> computeCorrelation(e.getKey(), e.getValue()))
                 .filter(Objects::nonNull)
-                .forEach(c -> checkForAnomalies(end, c));
+                .forEach(c -> checkForAnomalies(cutoff, end, c));
     }
 
     private void initFullHistory(long windowStart, long windowEnd) throws DataStoreException {
@@ -138,14 +138,14 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         }
     }
 
-    private void checkForAnomalies(long timestamp, Correlation correlation) {
+    private void checkForAnomalies(long start, long end, Correlation correlation) {
         double lastDtw = prevDtw.getOrDefault(correlation.key, -1.0);
         if (correlation.rValue < correlationThreshold && lastDtw >= 0) {
             // If the correlation has dropped and the DTW distance has increased, we
             // might be looking at a performance anomaly.
             double dtwIncrease = (correlation.dtw - lastDtw)*100.0/lastDtw;
             if (dtwIncrease > dtwIncreaseThreshold) {
-                reportAnomaly(timestamp, correlation.key, String.format(
+                reportAnomaly(start, end, correlation.key, String.format(
                         "Correlation: %.4f; DTW-Increase: %.4f%%", correlation.rValue, dtwIncrease));
             }
         }
