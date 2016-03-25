@@ -24,11 +24,11 @@ public final class RService extends ManagedService {
                 environment.getProperty(R_MIN_IDLE_TIME_MILLIS, "10000")));
     }
 
-    public RConnection borrow() throws Exception {
+    RConnection borrow() throws Exception {
         return rConnectionPool.borrowObject();
     }
 
-    public void release(RConnection connection) {
+    void release(RConnection connection) {
         if (connection != null) {
             rConnectionPool.returnObject(connection);
         }
