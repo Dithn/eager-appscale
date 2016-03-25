@@ -1,5 +1,6 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import edu.ucsb.cs.roots.ConfigLoader;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.DataStoreCall;
 import edu.ucsb.cs.roots.data.TestDataStore;
@@ -10,7 +11,7 @@ public class SLOBasedDetectorTest {
 
     @Test
     public void testDetector() throws Exception {
-        RootsEnvironment environment = new RootsEnvironment("Test", "test");
+        RootsEnvironment environment = new RootsEnvironment("Test", new ConfigLoader(){});
         try {
             environment.init();
             TestDataStore dataStore = new TestDataStore(environment, "test-ds");

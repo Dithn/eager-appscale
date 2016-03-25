@@ -1,14 +1,10 @@
 package edu.ucsb.cs.roots.data;
 
 import com.google.common.base.Strings;
+import edu.ucsb.cs.roots.ConfigLoader;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,13 +26,8 @@ public final class DataStoreService extends ManagedService {
     }
 
     public synchronized void doInit() {
-        File dataStoreDir = new File(environment.getConfDir(), "dataStores");
-        if (!dataStoreDir.exists()) {
-            return;
-        }
-        FileUtils.listFiles(dataStoreDir, new String[]{"properties"}, false).stream()
-                .forEach(f -> dataStores.put(FilenameUtils.removeExtension(f.getName()),
-                        createDataStore(f)));
+        environment.getConfigLoader().loadItems(ConfigLoader.DATA_STORES, false).forEach(i ->
+                dataStores.put(i.getName(), createDataStore(i.getProperties())));
         dataStores.values().stream().forEach(DataStore::init);
     }
 
@@ -55,17 +46,7 @@ public final class DataStoreService extends ManagedService {
         dataStores.put(name, dataStore);
     }
 
-    private DataStore createDataStore(File file) {
-        Properties properties = new Properties();
-        try (FileInputStream in = FileUtils.openInputStream(file)) {
-            log.info("Loading data store from: " + file.getAbsolutePath());
-            properties.load(in);
-        } catch (IOException e) {
-            String msg = "Error while loading data store from: " + file.getAbsolutePath();
-            log.error(msg, e);
-            throw new RuntimeException(msg, e);
-        }
-
+    private DataStore createDataStore(Properties properties) {
         String dataStore = getRequired(properties, DATA_STORE_TYPE);
         if (RandomDataStore.class.getSimpleName().equals(dataStore)) {
             return new RandomDataStore();

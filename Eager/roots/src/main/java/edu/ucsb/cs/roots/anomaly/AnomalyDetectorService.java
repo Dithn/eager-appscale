@@ -1,17 +1,12 @@
 package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.ImmutableList;
+import edu.ucsb.cs.roots.ConfigLoader;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,19 +30,13 @@ public class AnomalyDetectorService extends ManagedService {
     public synchronized void doInit() throws Exception {
         environment.subscribe(new AnomalyLogger());
         scheduler.start();
-
-        File detectorsDir = new File(environment.getConfDir(), "detectors");
-        if (detectorsDir.exists()) {
-            Collection<File> children = FileUtils.listFiles(detectorsDir,
-                    new String[]{"properties"}, false);
-            children.stream().forEach(f -> {
-                try {
-                    scheduleDetector(f);
-                } catch (IOException | SchedulerException e) {
-                    log.warn("Error while loading detector from: {}", f.getAbsolutePath(), e);
-                }
-            });
-        }
+        environment.getConfigLoader().loadItems(ConfigLoader.DETECTORS, true).forEach(i -> {
+            try {
+                scheduleDetector(i.getName(), i.getProperties());
+            } catch (SchedulerException e) {
+                log.warn("Error while loading detector for: {}", i.getName(), e);
+            }
+        });
     }
 
     public synchronized void doDestroy() {
@@ -93,14 +82,7 @@ public class AnomalyDetectorService extends ManagedService {
         }
     }
 
-    private void scheduleDetector(File file) throws IOException, SchedulerException {
-        Properties properties = new Properties();
-        try (FileInputStream in = FileUtils.openInputStream(file)) {
-            log.info("Loading detector configuration from: {}", file.getAbsolutePath());
-            properties.load(in);
-        }
-
-        String application = FilenameUtils.removeExtension(file.getName());
+    private void scheduleDetector(String application, Properties properties) throws SchedulerException {
         AnomalyDetector detector = AnomalyDetectorFactory.create(environment,
                 application, properties);
         JobDetail jobDetail = JobBuilder.newJob(AnomalyDetectorJob.class)

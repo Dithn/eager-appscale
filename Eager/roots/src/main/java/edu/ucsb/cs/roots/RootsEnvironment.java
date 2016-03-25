@@ -7,22 +7,20 @@ import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
 import edu.ucsb.cs.roots.data.DataStoreService;
 import edu.ucsb.cs.roots.rlang.RService;
 import edu.ucsb.cs.roots.utils.RootsThreadFactory;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-public class RootsEnvironment {
+public final class RootsEnvironment {
 
     private final String id;
-    private final File confDir;
+    private final ConfigLoader configLoader;
     private final Properties properties;
 
     private final DataStoreService dataStoreService;
@@ -35,18 +33,12 @@ public class RootsEnvironment {
 
     private State state;
 
-    public RootsEnvironment(String id, String confDirPath) throws Exception {
+    public RootsEnvironment(String id, ConfigLoader configLoader) throws Exception {
         checkArgument(!Strings.isNullOrEmpty(id), "Environment ID is required");
-        checkArgument(!Strings.isNullOrEmpty(confDirPath), "Config directory path is required");
+        checkNotNull(configLoader);
         this.id = id;
-        this.confDir = new File(confDirPath);
-        this.properties = new Properties();
-        File config = new File(this.confDir, "roots.properties");
-        if (config.exists()) {
-            try (FileInputStream in = FileUtils.openInputStream(config)) {
-                this.properties.load(in);
-            }
-        }
+        this.configLoader = configLoader;
+        this.properties = configLoader.loadGlobalProperties();
 
         this.dataStoreService = new DataStoreService(this);
         this.rService = new RService(this);
@@ -57,8 +49,8 @@ public class RootsEnvironment {
         this.state = State.STANDBY;
     }
 
-    public File getConfDir() {
-        return confDir;
+    public ConfigLoader getConfigLoader() {
+        return configLoader;
     }
 
     public synchronized void init() throws Exception {
@@ -121,9 +113,8 @@ public class RootsEnvironment {
     }
 
     public static void main(String[] args) throws Exception {
-        RootsEnvironment environment = new RootsEnvironment("Roots", "conf");
+        RootsEnvironment environment = new RootsEnvironment("Roots", new FileConfigLoader("conf"));
         environment.init();
-
         Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {
             @Override
             public void run() {
