@@ -1,8 +1,8 @@
 package edu.ucsb.cs.roots.workload;
 
 import com.google.common.primitives.Doubles;
-import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.rlang.RClient;
+import edu.ucsb.cs.roots.rlang.RService;
 import org.rosuda.REngine.REXP;
 
 import java.util.Arrays;
@@ -12,18 +12,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class PELTChangePointDetector implements ChangePointDetector {
 
-    private final RootsEnvironment environment;
+    private final RService rService;
     protected final String method;
 
-    public PELTChangePointDetector(RootsEnvironment environment) {
-        checkNotNull(environment, "Environment is required");
-        this.environment = environment;
+    public PELTChangePointDetector(RService rService) {
+        checkNotNull(rService, "RService is required");
+        this.rService = rService;
         this.method = "cpt.mean(x, method='PELT')";
     }
 
     @Override
     public int[] computeChangePoints(List<Double> data) throws Exception {
-        try (RClient r = new RClient(environment.getRService())) {
+        try (RClient r = new RClient(rService)) {
             r.assign("x", Doubles.toArray(data));
             r.evalAndAssign("result", method);
             REXP result = r.eval("cpts(result)");
@@ -35,7 +35,7 @@ public final class PELTChangePointDetector implements ChangePointDetector {
     public Segment[] computeSegments(List<Double> data) throws Exception {
         int[] changePoints = computeChangePoints(data);
         if (changePoints[0] == -1) {
-            return null;
+            return new Segment[0];
         }
         Segment[] segments = new Segment[changePoints.length + 1];
         int prevIndex = 0;

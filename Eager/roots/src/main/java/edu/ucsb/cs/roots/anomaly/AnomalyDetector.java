@@ -40,10 +40,10 @@ public abstract class AnomalyDetector {
         return dataStore;
     }
 
-    public abstract void run(long now);
+    abstract void run(long now);
 
     protected final void reportAnomaly(long start, long end, String key, String description) {
-        environment.publishEvent(new Anomaly(start, end, application, key, description));
+        environment.publishEvent(new Anomaly(this, start, end, key, description));
     }
 
 }
