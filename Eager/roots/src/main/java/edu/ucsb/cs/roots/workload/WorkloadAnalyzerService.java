@@ -1,5 +1,6 @@
 package edu.ucsb.cs.roots.workload;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.eventbus.Subscribe;
 import edu.ucsb.cs.roots.ManagedService;
@@ -7,17 +8,10 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.data.DataStore;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public final class WorkloadAnalyzerService extends ManagedService {
 
     private static final String WORKLOAD_ANALYZER = "workload.analyzer";
     private static final String DEFAULT_CHANGE_POINT_DETECTOR = "PELT";
-
-    private final Map<String,ChangePointDetector> detectors = new HashMap<>();
 
     public WorkloadAnalyzerService(RootsEnvironment environment) {
         super(environment);
@@ -25,9 +19,6 @@ public final class WorkloadAnalyzerService extends ManagedService {
 
     @Override
     protected void doInit() throws Exception {
-        detectors.put(DEFAULT_CHANGE_POINT_DETECTOR,
-                new PELTChangePointDetector(environment.getRService()));
-        detectors.put("BinSeg", new BinSegChangePointDetector(environment.getRService()));
         environment.subscribe(this);
     }
 
@@ -37,9 +28,7 @@ public final class WorkloadAnalyzerService extends ManagedService {
         long start = anomaly.getEnd() - 2 * history;
 
         DataStore dataStore = environment.getDataStoreService().get(anomaly.getDataStore());
-        String cpType = environment.getProperty(WORKLOAD_ANALYZER, DEFAULT_CHANGE_POINT_DETECTOR);
-        ChangePointDetector changePointDetector = detectors.get(cpType);
-        checkNotNull(changePointDetector, "Unknown change point detector: %s", cpType);
+        ChangePointDetector changePointDetector = getChangePointDetector(anomaly);
         try {
             ImmutableList<Double> summary = dataStore.getWorkloadSummary(anomaly.getApplication(),
                     anomaly.getOperation(), start, anomaly.getEnd(),
@@ -63,8 +52,23 @@ public final class WorkloadAnalyzerService extends ManagedService {
         }
     }
 
+    private ChangePointDetector getChangePointDetector(Anomaly anomaly) {
+        String cpType = anomaly.getDetectorProperty(WORKLOAD_ANALYZER, null);
+        if (Strings.isNullOrEmpty(cpType)) {
+            cpType = environment.getProperty(WORKLOAD_ANALYZER, DEFAULT_CHANGE_POINT_DETECTOR);
+        }
+
+        switch (cpType) {
+            case "PELT":
+                return new PELTChangePointDetector(environment.getRService());
+            case "BinSeg":
+                return new BinSegChangePointDetector(environment.getRService());
+            default:
+                throw new IllegalArgumentException("Unknown workload analyzer: " + cpType);
+        }
+    }
+
     @Override
     protected void doDestroy() {
-        detectors.clear();
     }
 }

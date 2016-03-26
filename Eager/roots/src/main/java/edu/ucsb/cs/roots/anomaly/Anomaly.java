@@ -7,12 +7,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class Anomaly {
 
+    private final AnomalyDetector detector;
     private final long start;
     private final long end;
-    private final String application;
     private final String operation;
-    private final String dataStore;
-    private final int periodInSeconds;
     private final String description;
 
     Anomaly(AnomalyDetector detector, long start, long end, String operation, String description) {
@@ -20,12 +18,10 @@ public final class Anomaly {
         checkArgument(start > 0 && end > 0 && start < end, "Time interval is invalid");
         checkArgument(!Strings.isNullOrEmpty(operation), "Operation is required");
         checkArgument(!Strings.isNullOrEmpty(description), "Description is required");
+        this.detector = detector;
         this.start = start;
         this.end = end;
-        this.application = detector.getApplication();
         this.operation = operation;
-        this.dataStore = detector.getDataStore();
-        this.periodInSeconds = detector.getPeriodInSeconds();
         this.description = description;
     }
 
@@ -38,7 +34,7 @@ public final class Anomaly {
     }
 
     public String getApplication() {
-        return application;
+        return detector.getApplication();
     }
 
     public String getOperation() {
@@ -46,14 +42,18 @@ public final class Anomaly {
     }
 
     public String getDataStore() {
-        return dataStore;
+        return detector.getDataStore();
     }
 
     public int getPeriodInSeconds() {
-        return periodInSeconds;
+        return detector.getPeriodInSeconds();
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getDetectorProperty(String key, String def) {
+        return detector.getProperty(key, def);
     }
 }
