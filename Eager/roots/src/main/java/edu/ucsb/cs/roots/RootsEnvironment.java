@@ -7,6 +7,7 @@ import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
 import edu.ucsb.cs.roots.data.DataStoreService;
 import edu.ucsb.cs.roots.rlang.RService;
 import edu.ucsb.cs.roots.utils.RootsThreadFactory;
+import edu.ucsb.cs.roots.workload.WorkloadAnalyzerService;
 
 import java.util.Properties;
 import java.util.Stack;
@@ -25,6 +26,7 @@ public final class RootsEnvironment {
 
     private final DataStoreService dataStoreService;
     private final RService rService;
+    private final WorkloadAnalyzerService workloadAnalyzerService;
     private final AnomalyDetectorService anomalyDetectorService;
 
     private final Stack<ManagedService> activeServices;
@@ -42,6 +44,7 @@ public final class RootsEnvironment {
 
         this.dataStoreService = new DataStoreService(this);
         this.rService = new RService(this);
+        this.workloadAnalyzerService = new WorkloadAnalyzerService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
         this.activeServices = new Stack<>();
         this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
@@ -57,6 +60,7 @@ public final class RootsEnvironment {
         checkState(state == State.STANDBY);
         initService(dataStoreService);
         initService(rService);
+        initService(workloadAnalyzerService);
         initService(anomalyDetectorService);
         state = State.INITIALIZED;
     }

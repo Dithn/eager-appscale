@@ -22,6 +22,23 @@ public class RandomDataStore implements DataStore {
     }
 
     @Override
+    public ImmutableList<Double> getWorkloadSummary(
+            String application, String operation, long start, long end,
+            long period) throws DataStoreException {
+        ImmutableList.Builder<Double> builder = ImmutableList.builder();
+        double changePoint = start + (end - start) * 0.7;
+        boolean injectChange = RAND.nextBoolean();
+        for (long i = start; i < end; i += period) {
+            Double element = (double) RAND.nextInt(10);
+            if (injectChange && i >= changePoint) {
+                element += 20;
+            }
+            builder.add(element);
+        }
+        return builder.build();
+    }
+
+    @Override
     public ImmutableMap<String, ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
             String application, long start, long end, long period) {
         ImmutableMap<String, ResponseTimeSummary> lastPeriod = getResponseTimeSummary(
