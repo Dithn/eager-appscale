@@ -59,12 +59,37 @@ public class RandomDataStore implements DataStore {
         return builder.build();
     }
 
+    @Override
+    public ImmutableMap<String, ImmutableList<ApplicationRequest>> getRequestInfo(
+            String application, long start, long end) {
+        return ImmutableMap.of(
+                "GET /", getApplicationRequests(application, "GET /", start, end, RAND.nextInt(50), 3),
+                "POST /", getApplicationRequests(application, "POST /", start, end, RAND.nextInt(50), 2));
+    }
+
+    private ImmutableList<ApplicationRequest> getApplicationRequests(
+            String application, String operation, long start, long end, int recordCount,
+            int apiCalls) {
+        ImmutableList.Builder<ApplicationRequest> builder = ImmutableList.builder();
+        for (int i = 0; i < recordCount; i++) {
+            long offset = RAND.nextInt((int) (end - start));
+            ImmutableList.Builder<ApiCall> callBuilder = ImmutableList.builder();
+            for (int j = 0; j < apiCalls; j++) {
+                callBuilder.add(new ApiCall(start + offset, "datastore", "op" + j, RAND.nextInt(30)));
+            }
+            ApplicationRequest record = new ApplicationRequest(start + offset, application,
+                    operation, callBuilder.build());
+            builder.add(record);
+        }
+        return builder.build();
+    }
+
     private List<AccessLogEntry> getAccessLogEntries(
             String application, long start, long end) {
         return getAccessLogEntries(application, start, end, RAND.nextInt(100));
     }
 
-    private List<AccessLogEntry> getAccessLogEntries(
+    private ImmutableList<AccessLogEntry> getAccessLogEntries(
             String application, long start, long end, int recordCount) {
         ImmutableList.Builder<AccessLogEntry> builder = ImmutableList.builder();
         for (int i = 0; i < recordCount; i++) {
