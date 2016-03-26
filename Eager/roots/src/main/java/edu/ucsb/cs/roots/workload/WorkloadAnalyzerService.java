@@ -7,7 +7,17 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.data.DataStore;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public final class WorkloadAnalyzerService extends ManagedService {
+
+    private static final String WORKLOAD_ANALYZER = "workload.analyzer";
+    private static final String DEFAULT_CHANGE_POINT_DETECTOR = "PELT";
+
+    private final Map<String,ChangePointDetector> detectors = new HashMap<>();
 
     public WorkloadAnalyzerService(RootsEnvironment environment) {
         super(environment);
@@ -15,6 +25,9 @@ public final class WorkloadAnalyzerService extends ManagedService {
 
     @Override
     protected void doInit() throws Exception {
+        detectors.put(DEFAULT_CHANGE_POINT_DETECTOR,
+                new PELTChangePointDetector(environment.getRService()));
+        detectors.put("BinSeg", new BinSegChangePointDetector(environment.getRService()));
         environment.subscribe(this);
     }
 
@@ -24,7 +37,9 @@ public final class WorkloadAnalyzerService extends ManagedService {
         long start = anomaly.getEnd() - 2 * history;
 
         DataStore dataStore = environment.getDataStoreService().get(anomaly.getDataStore());
-        ChangePointDetector changePointDetector = new PELTChangePointDetector(environment.getRService());
+        String cpType = environment.getProperty(WORKLOAD_ANALYZER, DEFAULT_CHANGE_POINT_DETECTOR);
+        ChangePointDetector changePointDetector = detectors.get(cpType);
+        checkNotNull(changePointDetector, "Unknown change point detector: %s", cpType);
         try {
             ImmutableList<Double> summary = dataStore.getWorkloadSummary(anomaly.getApplication(),
                     anomaly.getOperation(), start, anomaly.getEnd(),
@@ -50,5 +65,6 @@ public final class WorkloadAnalyzerService extends ManagedService {
 
     @Override
     protected void doDestroy() {
+        detectors.clear();
     }
 }

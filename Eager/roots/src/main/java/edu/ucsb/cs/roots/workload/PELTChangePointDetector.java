@@ -10,10 +10,10 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public final class PELTChangePointDetector implements ChangePointDetector {
+public class PELTChangePointDetector implements ChangePointDetector {
 
     private final RService rService;
-    protected final String method;
+    protected String method;
 
     public PELTChangePointDetector(RService rService) {
         checkNotNull(rService, "RService is required");
