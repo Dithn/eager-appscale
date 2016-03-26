@@ -28,7 +28,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private CorrelationBasedDetector(RootsEnvironment environment, Builder builder) {
         super(environment, builder.application, builder.periodInSeconds,
-                builder.historyLengthInSeconds, builder.dataStore);
+                builder.historyLengthInSeconds, builder.dataStore, builder.properties);
         checkNotNull(builder.scriptDirectory, "Script directory path must not be null");
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");

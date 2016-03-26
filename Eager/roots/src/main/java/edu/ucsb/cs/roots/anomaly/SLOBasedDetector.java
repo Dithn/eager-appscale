@@ -24,7 +24,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
     private SLOBasedDetector(RootsEnvironment environment, Builder builder) {
         super(environment, builder.application, builder.periodInSeconds,
-                builder.historyLengthInSeconds, builder.dataStore);
+                builder.historyLengthInSeconds, builder.dataStore, builder.properties);
         checkArgument(builder.historyLengthInSeconds > 0, "History length must be positive");
         checkArgument(builder.samplingIntervalInSeconds > 0, "Sampling interval must be positive");
         checkArgument(builder.historyLengthInSeconds > builder.samplingIntervalInSeconds,

@@ -6,6 +6,10 @@ public class BinSegChangePointDetector extends PELTChangePointDetector {
 
     public BinSegChangePointDetector(RService rService) {
         super(rService);
-        this.method = "cpt.mean(x, method='BinSeg')";
+    }
+
+    @Override
+    protected String getRCall() {
+        return "cpt.mean(x, method='BinSeg')";
     }
 }

@@ -52,7 +52,8 @@ public class AnomalyDetectorFactory {
         if (!Strings.isNullOrEmpty(dataStore)) {
             builder.setDataStore(dataStore);
         }
-        return builder.setApplication(application).build(environment);
+        return builder.setApplication(application)
+                .setProperties(properties).build(environment);
     }
 
     private static CorrelationBasedDetector.Builder initCorrelationBasedDetector(

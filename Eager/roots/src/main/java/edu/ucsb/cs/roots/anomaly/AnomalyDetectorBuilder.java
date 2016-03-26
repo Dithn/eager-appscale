@@ -2,12 +2,15 @@ package edu.ucsb.cs.roots.anomaly;
 
 import edu.ucsb.cs.roots.RootsEnvironment;
 
+import java.util.Properties;
+
 public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extends AnomalyDetectorBuilder<T,B>> {
 
     protected String application;
     protected int periodInSeconds = 60;
     protected int historyLengthInSeconds = 60 * 60;
     protected String dataStore = "default";
+    protected Properties properties;
 
     private final B thisObj;
 
@@ -35,6 +38,11 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
 
     public final B setDataStore(String dataStore) {
         this.dataStore = dataStore;
+        return thisObj;
+    }
+
+    public B setProperties(Properties properties) {
+        this.properties = properties;
         return thisObj;
     }
 }

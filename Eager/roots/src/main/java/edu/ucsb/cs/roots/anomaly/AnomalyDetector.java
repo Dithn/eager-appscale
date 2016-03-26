@@ -5,6 +5,8 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Properties;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -15,10 +17,12 @@ public abstract class AnomalyDetector {
     protected final int periodInSeconds;
     protected final int historyLengthInSeconds;
     protected final String dataStore;
+    protected final Properties properties;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     public AnomalyDetector(RootsEnvironment environment, String application,
-                           int periodInSeconds, int historyLengthInSeconds, String dataStore) {
+                           int periodInSeconds, int historyLengthInSeconds, String dataStore,
+                           Properties properties) {
         checkNotNull(environment, "Environment must not be null");
         checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");
         checkArgument(periodInSeconds > 0, "Period must be a positive integer");
@@ -26,11 +30,13 @@ public abstract class AnomalyDetector {
         checkArgument(historyLengthInSeconds % periodInSeconds == 0,
                 "History length must be a multiple of period");
         checkArgument(!Strings.isNullOrEmpty(dataStore), "DataStore name is required");
+        checkNotNull(properties, "Properties must not be null");
         this.environment = environment;
         this.application = application;
         this.periodInSeconds = periodInSeconds;
         this.historyLengthInSeconds = historyLengthInSeconds;
         this.dataStore = dataStore;
+        this.properties = properties;
     }
 
     public final String getApplication() {
@@ -41,8 +47,12 @@ public abstract class AnomalyDetector {
         return periodInSeconds;
     }
 
-    public String getDataStore() {
+    public final String getDataStore() {
         return dataStore;
+    }
+
+    public final String getProperty(String key, String def) {
+        return properties.getProperty(key, def);
     }
 
     abstract void run(long now);
