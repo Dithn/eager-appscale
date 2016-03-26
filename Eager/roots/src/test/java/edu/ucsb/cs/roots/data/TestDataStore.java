@@ -18,18 +18,6 @@ public class TestDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableMap<String, ResponseTimeSummary> getResponseTimeSummary(
-            String application, long start, long end) throws DataStoreException {
-        return null;
-    }
-
-    @Override
-    public ImmutableMap<String, ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
-            String application, long start, long end, long period) throws DataStoreException {
-        return null;
-    }
-
-    @Override
     public ImmutableMap<String, ImmutableList<AccessLogEntry>> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
         calls.add(new DataStoreCall(start, end, GET_BENCHMARK_RESULTS, application));

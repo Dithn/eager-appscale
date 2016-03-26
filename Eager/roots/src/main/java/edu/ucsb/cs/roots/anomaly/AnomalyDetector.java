@@ -13,18 +13,23 @@ public abstract class AnomalyDetector {
     protected final RootsEnvironment environment;
     protected final String application;
     protected final int periodInSeconds;
+    protected final int historyLengthInSeconds;
     protected final String dataStore;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     public AnomalyDetector(RootsEnvironment environment, String application,
-                           int periodInSeconds, String dataStore) {
+                           int periodInSeconds, int historyLengthInSeconds, String dataStore) {
         checkNotNull(environment, "Environment must not be null");
         checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");
         checkArgument(periodInSeconds > 0, "Period must be a positive integer");
+        checkArgument(historyLengthInSeconds > 0, "Period must be a positive integer");
+        checkArgument(historyLengthInSeconds % periodInSeconds == 0,
+                "History length must be a multiple of period");
         checkArgument(!Strings.isNullOrEmpty(dataStore), "DataStore name is required");
         this.environment = environment;
         this.application = application;
         this.periodInSeconds = periodInSeconds;
+        this.historyLengthInSeconds = historyLengthInSeconds;
         this.dataStore = dataStore;
     }
 

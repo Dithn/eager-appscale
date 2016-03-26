@@ -14,7 +14,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public final class SLOBasedDetector extends AnomalyDetector {
 
-    private final int historyLengthInSeconds;
     private final int samplingIntervalInSeconds;
     private final Map<String,List<AccessLogEntry>> history;
     private final int responseTimeUpperBound;
@@ -24,7 +23,8 @@ public final class SLOBasedDetector extends AnomalyDetector {
     private long end = -1L;
 
     private SLOBasedDetector(RootsEnvironment environment, Builder builder) {
-        super(environment, builder.application, builder.periodInSeconds, builder.dataStore);
+        super(environment, builder.application, builder.periodInSeconds,
+                builder.historyLengthInSeconds, builder.dataStore);
         checkArgument(builder.historyLengthInSeconds > 0, "History length must be positive");
         checkArgument(builder.samplingIntervalInSeconds > 0, "Sampling interval must be positive");
         checkArgument(builder.historyLengthInSeconds > builder.samplingIntervalInSeconds,
@@ -35,7 +35,6 @@ public final class SLOBasedDetector extends AnomalyDetector {
                 "SLO percentage must be in the interval (0,100)");
         checkArgument(builder.windowFillPercentage > 0 && builder.windowFillPercentage <= 100,
                 "Window fill percentage must be in the interval (0,100]");
-        this.historyLengthInSeconds = builder.historyLengthInSeconds;
         this.samplingIntervalInSeconds = builder.samplingIntervalInSeconds;
         this.history = new HashMap<>();
         this.responseTimeUpperBound = builder.responseTimeUpperBound;
@@ -114,18 +113,12 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
     public static class Builder extends AnomalyDetectorBuilder<SLOBasedDetector, Builder> {
 
-        private int historyLengthInSeconds = 60 * 60;
         private int samplingIntervalInSeconds = 60;
         private int responseTimeUpperBound;
         private double sloPercentage = 95.0;
         private double windowFillPercentage = 95.0;
 
         private Builder() {
-        }
-
-        public Builder setHistoryLengthInSeconds(int historyLengthInSeconds) {
-            this.historyLengthInSeconds = historyLengthInSeconds;
-            return this;
         }
 
         public Builder setSamplingIntervalInSeconds(int samplingIntervalInSeconds) {

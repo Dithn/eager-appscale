@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class CorrelationBasedDetector extends AnomalyDetector {
 
-    private final int historyLengthInSeconds;
     private final Map<String,List<ResponseTimeSummary>> history;
     private final File scriptDirectory;
     private final double correlationThreshold;
@@ -28,14 +27,13 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private Map<String,Double> prevDtw = new HashMap<>();
 
     private CorrelationBasedDetector(RootsEnvironment environment, Builder builder) {
-        super(environment, builder.application, builder.periodInSeconds, builder.dataStore);
-        checkArgument(builder.historyLengthInSeconds > 0, "History length must be positive");
+        super(environment, builder.application, builder.periodInSeconds,
+                builder.historyLengthInSeconds, builder.dataStore);
         checkNotNull(builder.scriptDirectory, "Script directory path must not be null");
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");
         checkArgument(builder.dtwIncreaseThreshold > 0,
                 "DTW increase percentage threshold must be positive");
-        this.historyLengthInSeconds = builder.historyLengthInSeconds;
         this.history = new HashMap<>();
         this.scriptDirectory = new File(builder.scriptDirectory);
         this.correlationThreshold = builder.correlationThreshold;
@@ -171,17 +169,11 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
     public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedDetector,Builder> {
 
-        private int historyLengthInSeconds = 60 * 60;
         private String scriptDirectory = "r";
         private double correlationThreshold = 0.5;
         private double dtwIncreaseThreshold = 20.0;
 
         private Builder() {
-        }
-
-        public Builder setHistoryLengthInSeconds(int historyLengthInSeconds) {
-            this.historyLengthInSeconds = historyLengthInSeconds;
-            return this;
         }
 
         public Builder setScriptDirectory(String scriptDirectory) {

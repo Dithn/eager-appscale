@@ -4,7 +4,7 @@ import java.util.List;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class Segment {
+public final class Segment {
 
     private final int start;
     private final int end;
