@@ -99,12 +99,18 @@ public final class PathAnomalyDetector extends AnomalyDetector {
                     log.info("New path detected. Application: {}; Operation: {}, Path: {}",
                             application, op, path);
                     pathHistory = new ArrayList<>();
-                    longestPathHistory.forEach(p -> pathHistory.add(new PathRatio(p.timestamp, 0, 1)));
+                    longestPathHistory.forEach(p -> pathHistory.add(PathRatio.zero(p.timestamp)));
                     opHistory.put(path, pathHistory);
                 }
                 pathHistory.add(new PathRatio(windowStart, count, totalRequests));
             });
+            opHistory.keySet().stream().filter(k -> !grouped.containsKey(k))
+                    .forEach(k -> opHistory.get(k).add(PathRatio.zero(windowEnd)));
         });
+
+        history.keySet().stream().filter(k -> !requests.containsKey(k))
+                .forEach(k -> history.get(k).values()
+                        .forEach(v -> v.add(PathRatio.zero(windowEnd))));
     }
 
     private final static class PathRatio {
@@ -114,6 +120,10 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         PathRatio(long timestamp, long count, long total) {
             this.timestamp = timestamp;
             this.ratio = (count * 100.0)/total;
+        }
+
+        static PathRatio zero(long timestamp) {
+            return new PathRatio(timestamp, 0, 1);
         }
     }
 
