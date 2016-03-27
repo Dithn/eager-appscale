@@ -16,12 +16,6 @@ public final class RService extends ManagedService {
     public RService(RootsEnvironment environment) {
         super(environment);
         this.rConnectionPool = new GenericObjectPool<>(new RConnectionPoolFactory());
-        this.rConnectionPool.setMaxTotal(Integer.parseInt(
-                environment.getProperty(R_MAX_TOTAL, "10")));
-        this.rConnectionPool.setMaxIdle(Integer.parseInt(
-                environment.getProperty(R_MAX_IDLE, "2")));
-        this.rConnectionPool.setMinEvictableIdleTimeMillis(Long.parseLong(
-                environment.getProperty(R_MIN_IDLE_TIME_MILLIS, "10000")));
     }
 
     RConnection borrow() throws Exception {
@@ -36,6 +30,12 @@ public final class RService extends ManagedService {
 
     @Override
     protected void doInit() throws Exception {
+        this.rConnectionPool.setMaxTotal(Integer.parseInt(
+                environment.getProperty(R_MAX_TOTAL, "10")));
+        this.rConnectionPool.setMaxIdle(Integer.parseInt(
+                environment.getProperty(R_MAX_IDLE, "2")));
+        this.rConnectionPool.setMinEvictableIdleTimeMillis(Long.parseLong(
+                environment.getProperty(R_MIN_IDLE_TIME_MILLIS, "10000")));
     }
 
     @Override

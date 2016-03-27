@@ -22,13 +22,13 @@ public final class RootsEnvironment {
 
     private final String id;
     private final ConfigLoader configLoader;
-    private final Properties properties;
 
     private final DataStoreService dataStoreService;
     private final RService rService;
     private final WorkloadAnalyzerService workloadAnalyzerService;
     private final AnomalyDetectorService anomalyDetectorService;
 
+    private final Properties properties;
     private final Stack<ManagedService> activeServices;
     private final ExecutorService exec;
     private final EventBus eventBus;
@@ -40,12 +40,13 @@ public final class RootsEnvironment {
         checkNotNull(configLoader);
         this.id = id;
         this.configLoader = configLoader;
-        this.properties = configLoader.loadGlobalProperties();
 
         this.dataStoreService = new DataStoreService(this);
         this.rService = new RService(this);
         this.workloadAnalyzerService = new WorkloadAnalyzerService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
+
+        this.properties = configLoader.loadGlobalProperties();
         this.activeServices = new Stack<>();
         this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
         this.eventBus = new AsyncEventBus(id, this.exec);
@@ -58,11 +59,16 @@ public final class RootsEnvironment {
 
     public synchronized void init() throws Exception {
         checkState(state == State.STANDBY);
-        initService(dataStoreService);
-        initService(rService);
-        initService(workloadAnalyzerService);
-        initService(anomalyDetectorService);
-        state = State.INITIALIZED;
+        try {
+            initService(dataStoreService);
+            initService(rService);
+            initService(workloadAnalyzerService);
+            initService(anomalyDetectorService);
+            state = State.INITIALIZED;
+        } catch (Exception e) {
+            cleanupForExit();
+            throw e;
+        }
     }
 
     private void initService(ManagedService service) throws Exception {
@@ -71,14 +77,18 @@ public final class RootsEnvironment {
     }
 
     public synchronized void destroy() {
-        checkState(!activeServices.isEmpty());
+        checkState(state == State.INITIALIZED);
+        cleanupForExit();
+        state = State.DESTROYED;
+        this.notifyAll();
+    }
+
+    private void cleanupForExit() {
         while (!activeServices.isEmpty()) {
             activeServices.pop().destroy();
         }
         exec.shutdownNow();
         properties.clear();
-        state = State.DESTROYED;
-        this.notifyAll();
     }
 
     public String getId() {

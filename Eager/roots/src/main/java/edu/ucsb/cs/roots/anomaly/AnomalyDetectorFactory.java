@@ -10,6 +10,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class AnomalyDetectorFactory {
 
+    private static final String APPLICATION = "application";
     private static final String DETECTOR = "detector";
     private static final String DETECTOR_PERIOD = "period";
     private static final String DETECTOR_PERIOD_TIME_UNIT = "timeUnit";
@@ -27,8 +28,10 @@ public class AnomalyDetectorFactory {
     private static final String DETECTOR_SAMPLING_RATE = "samplingRate";
     private static final String DETECTOR_SAMPLING_RATE_TIME_UNIT = DETECTOR_SAMPLING_RATE + ".timeUnit";
 
-    public static AnomalyDetector create(RootsEnvironment environment, String application,
-                                         Properties properties) {
+    public static AnomalyDetector create(RootsEnvironment environment, Properties properties) {
+        String application = properties.getProperty(APPLICATION);
+        checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");
+
         String detectorType = properties.getProperty(DETECTOR);
         checkArgument(!Strings.isNullOrEmpty(detectorType), "Detector type is required");
 

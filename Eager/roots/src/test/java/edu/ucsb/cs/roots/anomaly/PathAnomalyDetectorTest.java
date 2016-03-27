@@ -12,11 +12,11 @@ public class PathAnomalyDetectorTest {
     public void testPathAnomalyDetector() throws Exception {
         RootsEnvironment environment = new RootsEnvironment("Test", new ConfigLoader() {
             @Override
-            public Stream<ItemConfig> loadItems(int type, boolean ignoreFaults) {
+            public Stream<Properties> loadItems(int type, boolean ignoreFaults) {
                 if (type == ConfigLoader.DATA_STORES) {
                     Properties properties = new Properties();
                     properties.setProperty("type", "RandomDataStore");
-                    return Stream.of(new ItemConfig("default", properties));
+                    return Stream.of(properties);
                 }
                 return Stream.empty();
             }

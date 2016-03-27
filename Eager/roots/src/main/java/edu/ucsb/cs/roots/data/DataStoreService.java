@@ -14,6 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class DataStoreService extends ManagedService {
 
+    private static final String DATA_STORE_NAME = "name";
     private static final String DATA_STORE_TYPE = "type";
     private static final String DATA_STORE_ES_HOST = "es.host";
     private static final String DATA_STORE_ES_PORT = "es.port";
@@ -26,8 +27,11 @@ public final class DataStoreService extends ManagedService {
     }
 
     public synchronized void doInit() {
-        environment.getConfigLoader().loadItems(ConfigLoader.DATA_STORES, false).forEach(i ->
-                dataStores.put(i.getName(), createDataStore(i.getProperties())));
+        environment.getConfigLoader().loadItems(ConfigLoader.DATA_STORES, false).forEach(p -> {
+            String name = p.getProperty(DATA_STORE_NAME);
+            checkArgument(!Strings.isNullOrEmpty(name), "Data store name is required");
+            dataStores.put(name, createDataStore(p));
+        });
         dataStores.values().stream().forEach(DataStore::init);
     }
 

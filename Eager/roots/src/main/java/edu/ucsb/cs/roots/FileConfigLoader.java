@@ -2,7 +2,6 @@ package edu.ucsb.cs.roots;
 
 import com.google.common.base.Strings;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +39,7 @@ public final class FileConfigLoader implements ConfigLoader {
     }
 
     @Override
-    public Stream<ItemConfig> loadItems(int type, boolean ignoreFaults) {
+    public Stream<Properties> loadItems(int type, boolean ignoreFaults) {
         if (type == DETECTORS) {
             return loadFromSubdirectory("detectors", "detector", ignoreFaults);
         } else if (type == DATA_STORES) {
@@ -49,7 +48,7 @@ public final class FileConfigLoader implements ConfigLoader {
         throw new IllegalArgumentException("Invalid item type: " + type);
     }
 
-    private Stream<ItemConfig> loadFromSubdirectory(String directory, String label, boolean ignoreFaults) {
+    private Stream<Properties> loadFromSubdirectory(String directory, String label, boolean ignoreFaults) {
         File subdirectory = new File(configDir, directory);
         if (!subdirectory.exists()) {
             return Stream.empty();
@@ -59,13 +58,12 @@ public final class FileConfigLoader implements ConfigLoader {
                 .filter(Objects::nonNull);
     }
 
-    private ItemConfig toItemConfig(File file, String label, boolean ignoreFaults) {
-        String name = FilenameUtils.removeExtension(file.getName());
+    private Properties toItemConfig(File file, String label, boolean ignoreFaults) {
         Properties properties = new Properties();
         try (FileInputStream in = FileUtils.openInputStream(file)) {
             log.info("Loading {} from: {}", label, file.getAbsolutePath());
             properties.load(in);
-            return new ItemConfig(name, properties);
+            return properties;
         } catch (Exception e) {
             if (ignoreFaults) {
                 log.warn("Error while loading {} from: {}", label, file.getAbsolutePath());
