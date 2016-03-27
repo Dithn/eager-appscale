@@ -8,7 +8,7 @@ import java.util.Properties;
 import java.util.stream.Stream;
 
 public class PathAnomalyDetectorTest {
-    
+
     public void testPathAnomalyDetector() throws Exception {
         RootsEnvironment environment = new RootsEnvironment("Test", new ConfigLoader() {
             @Override
@@ -29,8 +29,8 @@ public class PathAnomalyDetectorTest {
                     .setApplication("app")
                     .build(environment);
             for (int i = 0; i < 20; i++) {
-                detector.run(100000);
-                Thread.sleep(1000);
+                detector.run(100000 + i * 100);
+                Thread.sleep(100);
             }
         } finally {
             environment.destroy();
