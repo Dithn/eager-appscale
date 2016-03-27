@@ -41,7 +41,7 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
         return thisObj;
     }
 
-    public B setProperties(Properties properties) {
+    public final B setProperties(Properties properties) {
         this.properties.putAll(properties);
         return thisObj;
     }

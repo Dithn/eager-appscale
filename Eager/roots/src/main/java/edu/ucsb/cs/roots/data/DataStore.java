@@ -54,7 +54,7 @@ public interface DataStore {
     }
 
     default ImmutableMap<String,ImmutableList<ApplicationRequest>> getRequestInfo(
-            String application, long start, long end) {
+            String application, long start, long end) throws DataStoreException {
         throw new NotImplementedException();
     }
 
