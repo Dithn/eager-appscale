@@ -6,7 +6,6 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.AccessLogEntry;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
-import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 
 import java.util.*;
 
@@ -64,7 +63,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         }
 
         long cutoff = end - historyLengthInSeconds * 1000;
-        history.values().forEach(v -> cleanupOldData(cutoff, v));
+        history.values().forEach(v -> v.removeIf(l -> l.getTimestamp() < cutoff));
 
         int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.entrySet().stream()
@@ -88,13 +87,6 @@ public final class SLOBasedDetector extends AnomalyDetector {
             record.addAll(entry.getValue());
         }
         return ImmutableList.copyOf(summaries.keySet());
-    }
-
-    private void cleanupOldData(long cutoff, List<AccessLogEntry> summaries) {
-        ImmutableList<AccessLogEntry> oldData = summaries.stream()
-                .filter(s -> s.getTimestamp() < cutoff)
-                .collect(ImmutableCollectors.toList());
-        oldData.forEach(summaries::remove);
     }
 
     private void computeSLO(long start, long end, String key, Collection<AccessLogEntry> logEntries) {

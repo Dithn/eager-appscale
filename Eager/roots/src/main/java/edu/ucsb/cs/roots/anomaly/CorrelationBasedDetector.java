@@ -7,7 +7,6 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.rlang.RClient;
-import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 import org.rosuda.REngine.REXP;
 
 import java.io.File;
@@ -66,7 +65,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         }
 
         long cutoff = end - historyLengthInSeconds * 1000;
-        history.values().forEach(v -> cleanupOldData(cutoff, v));
+        history.values().forEach(v -> v.removeIf(s -> s.getTimestamp() < cutoff));
         history.entrySet().stream()
                 .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
                 .map(e -> computeCorrelation(e.getKey(), e.getValue()))
@@ -103,13 +102,6 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             record.add(entry.getValue());
         }
         return ImmutableList.copyOf(summaries.keySet());
-    }
-
-    private void cleanupOldData(long cutoff, List<ResponseTimeSummary> summaries) {
-        ImmutableList<ResponseTimeSummary> oldData = summaries.stream()
-                .filter(s -> s.getTimestamp() < cutoff)
-                .collect(ImmutableCollectors.toList());
-        oldData.forEach(summaries::remove);
     }
 
     private Correlation computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
