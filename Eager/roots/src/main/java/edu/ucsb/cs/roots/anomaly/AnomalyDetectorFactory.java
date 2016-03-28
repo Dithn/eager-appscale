@@ -40,6 +40,8 @@ public class AnomalyDetectorFactory {
             builder = initCorrelationBasedDetector(properties);
         } else if (SLOBasedDetector.class.getSimpleName().equals(detectorType)) {
             builder = initSLOBasedDetector(properties);
+        } else if (PathAnomalyDetector.class.getSimpleName().equals(detectorType)) {
+            builder = initPathAnomalyDetector(properties);
         } else {
             throw new IllegalArgumentException("Unknown anomaly detector type: " + detectorType);
         }
@@ -118,6 +120,18 @@ public class AnomalyDetectorFactory {
                     DETECTOR_SAMPLING_RATE_TIME_UNIT, "SECONDS"));
             builder.setSamplingIntervalInSeconds((int) samplingTimeUnit.toSeconds(
                     Integer.parseInt(samplingRate)));
+        }
+        return builder;
+    }
+
+    private static PathAnomalyDetector.Builder initPathAnomalyDetector(Properties properties) {
+        PathAnomalyDetector.Builder builder = PathAnomalyDetector.newBuilder();
+        String historyLength = properties.getProperty(DETECTOR_HISTORY_LENGTH);
+        if (!Strings.isNullOrEmpty(historyLength)) {
+            TimeUnit historyTimeUnit = TimeUnit.valueOf(properties.getProperty(
+                    DETECTOR_HISTORY_LENGTH_TIME_UNIT, "SECONDS"));
+            builder.setHistoryLengthInSeconds((int) historyTimeUnit.toSeconds(
+                    Integer.parseInt(historyLength)));
         }
         return builder;
     }
