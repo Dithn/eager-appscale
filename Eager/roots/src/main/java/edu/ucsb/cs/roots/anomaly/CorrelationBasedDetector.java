@@ -1,7 +1,9 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
@@ -17,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class CorrelationBasedDetector extends AnomalyDetector {
 
-    private final Map<String,List<ResponseTimeSummary>> history;
+    private final ListMultimap<String,ResponseTimeSummary> history;
     private final File scriptDirectory;
     private final double correlationThreshold;
     private final double dtwIncreaseThreshold;
@@ -33,7 +35,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 "Correlation threshold must be in the interval [-1,1]");
         checkArgument(builder.dtwIncreaseThreshold > 0,
                 "DTW increase percentage threshold must be positive");
-        this.history = new HashMap<>();
+        this.history = ArrayListMultimap.create();
         this.scriptDirectory = new File(builder.scriptDirectory);
         this.correlationThreshold = builder.correlationThreshold;
         this.dtwIncreaseThreshold = builder.dtwIncreaseThreshold;
@@ -65,10 +67,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         }
 
         long cutoff = end - historyLengthInSeconds * 1000;
-        history.values().forEach(v -> v.removeIf(s -> s.getTimestamp() < cutoff));
-        history.entrySet().stream()
-                .filter(e -> requestTypes.contains(e.getKey()) && e.getValue().size() > 2)
-                .map(e -> computeCorrelation(e.getKey(), e.getValue()))
+        history.values().removeIf(s -> s.getTimestamp() < cutoff);
+        history.keySet().stream()
+                .filter(k -> requestTypes.contains(k) && history.get(k).size() > 2)
+                .map(k -> computeCorrelation(k, history.get(k)))
                 .filter(Objects::nonNull)
                 .forEach(c -> checkForAnomalies(cutoff, end, c));
     }
@@ -79,10 +81,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         ImmutableMap<String,ImmutableList<ResponseTimeSummary>> summaries =
                 ds.getResponseTimeHistory(application, windowStart, windowEnd,
                         periodInSeconds * 1000);
-        summaries.forEach((k,v) -> history.put(k, new ArrayList<>(v)));
-        history.entrySet().stream()
-                .filter(e -> e.getValue().size() > 2)
-                .map(e -> computeCorrelation(e.getKey(), e.getValue()))
+        summaries.forEach(history::putAll);
+        history.keySet().stream()
+                .filter(k -> history.get(k).size() > 2)
+                .map(k -> computeCorrelation(k, history.get(k)))
                 .filter(Objects::nonNull)
                 .forEach(c -> prevDtw.put(c.key, c.dtw));
     }
@@ -93,14 +95,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableMap<String,ResponseTimeSummary> summaries = ds.getResponseTimeSummary(
                 application, windowStart, windowEnd);
-        for (Map.Entry<String,ResponseTimeSummary> entry : summaries.entrySet()) {
-            List<ResponseTimeSummary> record = history.get(entry.getKey());
-            if (record == null) {
-                record = new ArrayList<>();
-                history.put(entry.getKey(), record);
-            }
-            record.add(entry.getValue());
-        }
+        summaries.forEach(history::put);
         return ImmutableList.copyOf(summaries.keySet());
     }
 

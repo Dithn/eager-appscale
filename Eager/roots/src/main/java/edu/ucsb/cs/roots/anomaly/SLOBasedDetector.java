@@ -1,7 +1,9 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.AccessLogEntry;
 import edu.ucsb.cs.roots.data.DataStore;
@@ -14,7 +16,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public final class SLOBasedDetector extends AnomalyDetector {
 
     private final int samplingIntervalInSeconds;
-    private final Map<String,List<AccessLogEntry>> history;
+    private final ListMultimap<String,AccessLogEntry> history;
     private final int responseTimeUpperBound;
     private final double sloPercentage;
     private final double windowFillPercentage;
@@ -35,7 +37,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         checkArgument(builder.windowFillPercentage > 0 && builder.windowFillPercentage <= 100,
                 "Window fill percentage must be in the interval (0,100]");
         this.samplingIntervalInSeconds = builder.samplingIntervalInSeconds;
-        this.history = new HashMap<>();
+        this.history = ArrayListMultimap.create();
         this.responseTimeUpperBound = builder.responseTimeUpperBound;
         this.sloPercentage = builder.sloPercentage;
         this.windowFillPercentage = builder.windowFillPercentage;
@@ -63,13 +65,13 @@ public final class SLOBasedDetector extends AnomalyDetector {
         }
 
         long cutoff = end - historyLengthInSeconds * 1000;
-        history.values().forEach(v -> v.removeIf(l -> l.getTimestamp() < cutoff));
+        history.values().removeIf(l -> l.getTimestamp() < cutoff);
 
         int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
-        history.entrySet().stream()
-                .filter(e -> requestTypes.contains(e.getKey()) &&
-                        e.getValue().size() >= maxSamples * windowFillPercentage/100.0)
-                .forEach(e -> computeSLO(cutoff, end, e.getKey(), e.getValue()));
+        history.keySet().stream()
+                .filter(k -> requestTypes.contains(k) &&
+                        history.get(k).size() >= maxSamples * windowFillPercentage/100.0)
+                .forEach(k -> computeSLO(cutoff, end, k, history.get(k)));
     }
 
     private Collection<String> updateHistory(long windowStart,
@@ -78,14 +80,7 @@ public final class SLOBasedDetector extends AnomalyDetector {
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableMap<String,ImmutableList<AccessLogEntry>> summaries =
                 ds.getBenchmarkResults(application, windowStart, windowEnd);
-        for (Map.Entry<String,ImmutableList<AccessLogEntry>> entry : summaries.entrySet()) {
-            List<AccessLogEntry> record = history.get(entry.getKey());
-            if (record == null) {
-                record = new ArrayList<>();
-                history.put(entry.getKey(), record);
-            }
-            record.addAll(entry.getValue());
-        }
+        summaries.forEach(history::putAll);
         return ImmutableList.copyOf(summaries.keySet());
     }
 
