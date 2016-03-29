@@ -1,6 +1,8 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
@@ -12,7 +14,7 @@ import java.util.stream.Collectors;
 
 public final class PathAnomalyDetector extends AnomalyDetector {
 
-    private final Map<String,Map<String,List<PathRatio>>> history = new HashMap<>();
+    private final Map<String,ListMultimap<String,PathRatio>> history = new HashMap<>();
     private long end = -1L;
 
     private PathAnomalyDetector(RootsEnvironment environment, Builder builder) {
@@ -37,8 +39,8 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             end = tempEnd;
 
             long cutoff = end - historyLengthInSeconds * 1000;
-            history.values().forEach(opHistory -> opHistory.values().forEach(
-                    pathHistory -> pathHistory.removeIf(s -> s.timestamp < cutoff)));
+            history.values().forEach(opHistory -> opHistory.values().removeIf(
+                    s -> s.timestamp < cutoff));
             history.forEach(this::analyzePathDistributions);
         } catch (DataStoreException e) {
             String msg = "Error while retrieving data";
@@ -47,12 +49,13 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         }
     }
 
-    private void analyzePathDistributions(String op, Map<String,List<PathRatio>> pathData) {
-        pathData.forEach((path,values) -> {
+    private void analyzePathDistributions(String op, ListMultimap<String,PathRatio> pathData) {
+        pathData.keySet().stream().forEach(path -> {
             SummaryStatistics statistics = new SummaryStatistics();
-            values.forEach(v -> statistics.addValue(v.ratio));
+            List<PathRatio> pathRatios = pathData.get(path);
+            pathRatios.forEach(v -> statistics.addValue(v.ratio));
             log.info("{} {} - Mean: {}, Std.Dev: {}, Count: {}", op, path, statistics.getMean(),
-                    statistics.getStandardDeviation(), values.size());
+                    statistics.getStandardDeviation(), pathRatios.size());
         });
     }
 
@@ -62,27 +65,28 @@ public final class PathAnomalyDetector extends AnomalyDetector {
                 application, windowStart, windowEnd);
         requests.forEach((k,v) -> updateOperationHistory(k, v, windowStart));
 
-        history.keySet().stream().filter(k -> !requests.containsKey(k))
-                .forEach(k -> history.get(k).values()
-                        .forEach(v -> v.add(PathRatio.zero(windowStart))));
+        history.keySet().stream().filter(op -> !requests.containsKey(op)).forEach(op -> {
+            ListMultimap<String, PathRatio> pathData = history.get(op);
+            pathData.keySet().forEach(path -> pathData.put(path, PathRatio.zero(windowStart)));
+        });
     }
 
     private void updateOperationHistory(String op, ImmutableList<ApplicationRequest> perOpRequests,
                                         long windowStart) {
-        Map<String,List<PathRatio>> opHistory;
+        ListMultimap<String,PathRatio> opHistory;
         if (history.containsKey(op)) {
             opHistory = history.get(op);
         } else {
-            opHistory = new HashMap<>();
+            opHistory = ArrayListMultimap.create();
             history.put(op, opHistory);
         }
 
-        List<PathRatio> longestPathHistory = opHistory.values().stream().reduce((v1, v2) -> {
-            if (v1.size() > v2.size()) {
-                return v1;
+        List<PathRatio> longestPathHistory = opHistory.keySet().stream().reduce((k1, k2) -> {
+            if (opHistory.get(k1).size() > opHistory.get(k2).size()) {
+                return k1;
             }
-            return v2;
-        }).orElse(ImmutableList.of());
+            return k2;
+        }).map(opHistory::get).orElse(ImmutableList.of());
 
         Map<String,Integer> pathRequests = perOpRequests.stream()
                 .collect(Collectors.groupingBy(ApplicationRequest::getPathAsString))
@@ -91,21 +95,16 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         long totalRequests = pathRequests.values().stream()
                 .mapToInt(Integer::intValue).sum();
         pathRequests.forEach((path,count) -> {
-            List<PathRatio> pathHistory;
-            if (opHistory.containsKey(path)) {
-                pathHistory = opHistory.get(path);
-            } else {
+            if (!opHistory.containsKey(path)) {
                 log.info("New path detected. Application: {}; Operation: {}, Path: {}",
                         application, op, path);
-                pathHistory = new ArrayList<>();
-                longestPathHistory.forEach(p -> pathHistory.add(PathRatio.zero(p.timestamp)));
-                opHistory.put(path, pathHistory);
+                longestPathHistory.forEach(p -> opHistory.put(path, PathRatio.zero(p.timestamp)));
             }
-            pathHistory.add(new PathRatio(windowStart, count, totalRequests));
+            opHistory.put(path, new PathRatio(windowStart, count, totalRequests));
         });
         opHistory.keySet().stream()
                 .filter(k -> !pathRequests.containsKey(k))
-                .forEach(k -> opHistory.get(k).add(PathRatio.zero(windowStart)));
+                .forEach(k -> opHistory.put(k, PathRatio.zero(windowStart)));
     }
 
     private final static class PathRatio {

@@ -15,6 +15,7 @@ public class PathAnomalyDetectorTest {
             public Stream<Properties> loadItems(int type, boolean ignoreFaults) {
                 if (type == ConfigLoader.DATA_STORES) {
                     Properties properties = new Properties();
+                    properties.setProperty("name", "default");
                     properties.setProperty("type", "RandomDataStore");
                     return Stream.of(properties);
                 }
