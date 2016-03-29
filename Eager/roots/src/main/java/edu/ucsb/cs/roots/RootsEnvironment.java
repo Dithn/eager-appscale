@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 public final class RootsEnvironment {
 
+    public static final String EVENT_BUS_TYPE = "eventBus.type";
+
     private final String id;
     private final ConfigLoader configLoader;
 
@@ -48,8 +50,17 @@ public final class RootsEnvironment {
 
         this.properties = configLoader.loadGlobalProperties();
         this.activeServices = new Stack<>();
-        this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
-        this.eventBus = new AsyncEventBus(id, this.exec);
+
+        String eventBusType = this.properties.getProperty(EVENT_BUS_TYPE, "async");
+        checkArgument("async".equals(eventBusType) || "sync".equals(eventBusType),
+                "Invalid event bus type: %s", eventBusType);
+        if ("async".equals(eventBusType)) {
+            this.exec = Executors.newCachedThreadPool(new RootsThreadFactory(id + "-event-bus"));
+            this.eventBus = new AsyncEventBus(id, this.exec);
+        } else {
+            this.exec = null;
+            this.eventBus = new EventBus(id);
+        }
         this.state = State.STANDBY;
     }
 
@@ -87,7 +98,9 @@ public final class RootsEnvironment {
         while (!activeServices.isEmpty()) {
             activeServices.pop().destroy();
         }
-        exec.shutdownNow();
+        if (exec != null) {
+            exec.shutdownNow();
+        }
         properties.clear();
     }
 
