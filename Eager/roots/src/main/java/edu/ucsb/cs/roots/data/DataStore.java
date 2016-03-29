@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -33,7 +34,7 @@ public interface DataStore {
         throw new NotImplementedException();
     }
 
-    default ImmutableMap<String,ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
+    default ImmutableListMultimap<String,ResponseTimeSummary> getResponseTimeHistory(
             String application, long start, long end, long period) throws DataStoreException {
         throw new NotImplementedException();
     }
@@ -48,12 +49,12 @@ public interface DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and benchmark results for each type
      */
-    default ImmutableMap<String,ImmutableList<AccessLogEntry>> getBenchmarkResults(
+    default ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
         throw new NotImplementedException();
     }
 
-    default ImmutableMap<String,ImmutableList<ApplicationRequest>> getRequestInfo(
+    default ImmutableListMultimap<String,ApplicationRequest> getRequestInfo(
             String application, long start, long end) throws DataStoreException {
         throw new NotImplementedException();
     }

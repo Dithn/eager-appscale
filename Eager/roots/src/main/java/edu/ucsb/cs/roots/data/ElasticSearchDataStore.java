@@ -116,18 +116,6 @@ public class ElasticSearchDataStore implements DataStore {
         return new ResponseTimeSummary(timestamp, responseTime, requestCount);
     }
 
-    @Override
-    public ImmutableMap<String, ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
-            String application, long start, long end, long period) {
-        return null;
-    }
-
-    @Override
-    public ImmutableMap<String, ImmutableList<AccessLogEntry>> getBenchmarkResults(
-            String application, long start, long end) {
-        return null;
-    }
-
     private JsonElement makeHttpCall(String host, int port, String path,
                               String json) throws IOException, URISyntaxException {
         URI uri = new URI("http", null, host, port, path, null, null);

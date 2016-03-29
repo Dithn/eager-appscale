@@ -1,9 +1,6 @@
 package edu.ucsb.cs.roots.anomaly;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.*;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
@@ -78,10 +75,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private void initFullHistory(long windowStart, long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
-        ImmutableMap<String,ImmutableList<ResponseTimeSummary>> summaries =
+        ImmutableListMultimap<String,ResponseTimeSummary> summaries =
                 ds.getResponseTimeHistory(application, windowStart, windowEnd,
                         periodInSeconds * 1000);
-        summaries.forEach(history::putAll);
+        history.putAll(summaries);
         history.keySet().stream()
                 .filter(k -> history.get(k).size() > 2)
                 .map(k -> computeCorrelation(k, history.get(k)))

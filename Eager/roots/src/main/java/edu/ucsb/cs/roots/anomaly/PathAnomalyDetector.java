@@ -2,6 +2,7 @@ package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
@@ -61,9 +62,9 @@ public final class PathAnomalyDetector extends AnomalyDetector {
 
     private void updateHistory(long windowStart, long windowEnd) throws DataStoreException {
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
-        Map<String,ImmutableList<ApplicationRequest>> requests = ds.getRequestInfo(
+        ImmutableListMultimap<String,ApplicationRequest> requests = ds.getRequestInfo(
                 application, windowStart, windowEnd);
-        requests.forEach((k,v) -> updateOperationHistory(k, v, windowStart));
+        requests.keySet().forEach(k -> updateOperationHistory(k, requests.get(k), windowStart));
 
         history.keySet().stream().filter(op -> !requests.containsKey(op)).forEach(op -> {
             ListMultimap<String, PathRatio> pathData = history.get(op);

@@ -1,9 +1,6 @@
 package edu.ucsb.cs.roots.anomaly;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.*;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.AccessLogEntry;
 import edu.ucsb.cs.roots.data.DataStore;
@@ -78,9 +75,9 @@ public final class SLOBasedDetector extends AnomalyDetector {
                                              long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
-        ImmutableMap<String,ImmutableList<AccessLogEntry>> summaries =
+        ImmutableListMultimap<String,AccessLogEntry> summaries =
                 ds.getBenchmarkResults(application, windowStart, windowEnd);
-        summaries.forEach(history::putAll);
+        history.putAll(summaries);
         return ImmutableList.copyOf(summaries.keySet());
     }
 

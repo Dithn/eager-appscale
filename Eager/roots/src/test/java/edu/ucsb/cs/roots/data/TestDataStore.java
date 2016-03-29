@@ -1,7 +1,7 @@
 package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableListMultimap;
 import edu.ucsb.cs.roots.RootsEnvironment;
 
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ public class TestDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableMap<String, ImmutableList<AccessLogEntry>> getBenchmarkResults(
+    public ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
         calls.add(new DataStoreCall(start, end, GET_BENCHMARK_RESULTS, application));
-        return ImmutableMap.of();
+        return ImmutableListMultimap.of();
     }
 
     public int callCount() {

@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 
@@ -39,32 +40,35 @@ public class RandomDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableMap<String, ImmutableList<ResponseTimeSummary>> getResponseTimeHistory(
+    public ImmutableListMultimap<String,ResponseTimeSummary> getResponseTimeHistory(
             String application, long start, long end, long period) {
-        ImmutableMap<String, ResponseTimeSummary> lastPeriod = getResponseTimeSummary(
+        ImmutableMap<String,ResponseTimeSummary> lastPeriod = getResponseTimeSummary(
                 application, end - period, end);
-        ImmutableMap.Builder<String,ImmutableList<ResponseTimeSummary>> builder = ImmutableMap.builder();
-        lastPeriod.forEach((k,v) -> builder.put(k, ImmutableList.of(v)));
+        ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder = ImmutableListMultimap.builder();
+        lastPeriod.forEach(builder::put);
         return builder.build();
     }
 
     @Override
-    public ImmutableMap<String,ImmutableList<AccessLogEntry>> getBenchmarkResults(
+    public ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
             String application, long start, long end) {
         List<AccessLogEntry> logEntries = getAccessLogEntries(application, start, end, 2);
         Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
                 .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
-        ImmutableMap.Builder<String,ImmutableList<AccessLogEntry>> builder = ImmutableMap.builder();
-        groupedEntries.forEach((k,v) -> builder.put(k, ImmutableList.copyOf(v)));
+        ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
+        groupedEntries.forEach(builder::putAll);
         return builder.build();
     }
 
     @Override
-    public ImmutableMap<String, ImmutableList<ApplicationRequest>> getRequestInfo(
+    public ImmutableListMultimap<String,ApplicationRequest> getRequestInfo(
             String application, long start, long end) {
-        return ImmutableMap.of(
-                "GET /", getApplicationRequests(application, "GET /", start, end, RAND.nextInt(50), 3),
-                "POST /", getApplicationRequests(application, "POST /", start, end, RAND.nextInt(50), 2));
+        ImmutableListMultimap.Builder<String,ApplicationRequest> builder = ImmutableListMultimap.builder();
+        builder.putAll("GET /", getApplicationRequests(
+                application, "GET /", start, end, RAND.nextInt(50), 3));
+        builder.putAll("POST /", getApplicationRequests(
+                application, "POST /", start, end, RAND.nextInt(50), 2));
+        return builder.build();
     }
 
     private ImmutableList<ApplicationRequest> getApplicationRequests(
