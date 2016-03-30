@@ -35,12 +35,6 @@ public class TestDataStore implements DataStore {
         return builder.build();
     }
 
-    @Override
-    public ImmutableList<Double> getWorkloadSummary(
-            String application, String operation, long start, long end, long period) throws DataStoreException {
-        return ImmutableList.of();
-    }
-
     public int callCount() {
         return calls.size();
     }

@@ -3,7 +3,6 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public interface DataStore {
 
@@ -25,18 +24,18 @@ public interface DataStore {
      */
     default ImmutableMap<String,ResponseTimeSummary> getResponseTimeSummary(
             String application, long start, long end) throws DataStoreException {
-        throw new NotImplementedException();
+        return ImmutableMap.of();
+    }
+
+    default ImmutableListMultimap<String,ResponseTimeSummary> getResponseTimeHistory(
+            String application, long start, long end, long period) throws DataStoreException {
+        return ImmutableListMultimap.of();
     }
 
     default ImmutableList<Double> getWorkloadSummary(
             String application, String operation, long start, long end,
             long period) throws DataStoreException {
-        throw new NotImplementedException();
-    }
-
-    default ImmutableListMultimap<String,ResponseTimeSummary> getResponseTimeHistory(
-            String application, long start, long end, long period) throws DataStoreException {
-        throw new NotImplementedException();
+        return ImmutableList.of();
     }
 
     /**
@@ -51,12 +50,12 @@ public interface DataStore {
      */
     default ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
-        throw new NotImplementedException();
+        return ImmutableListMultimap.of();
     }
 
     default ImmutableListMultimap<String,ApplicationRequest> getRequestInfo(
             String application, long start, long end) throws DataStoreException {
-        throw new NotImplementedException();
+        return ImmutableListMultimap.of();
     }
 
 }
