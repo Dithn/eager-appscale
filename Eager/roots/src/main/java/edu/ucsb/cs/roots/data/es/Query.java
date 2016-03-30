@@ -1,4 +1,4 @@
-package edu.ucsb.cs.roots.data;
+package edu.ucsb.cs.roots.data.es;
 
 import org.apache.commons.io.IOUtils;
 
@@ -7,12 +7,12 @@ import java.io.InputStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ElasticSearchTemplates {
+public abstract class Query {
 
-    static final String RESPONSE_TIME_SUMMARY_QUERY = loadTemplate("response_time_summary_query.json");
+    public abstract String getJsonString();
 
-    private static String loadTemplate(String name) {
-        try (InputStream in = ElasticSearchTemplates.class.getResourceAsStream(name)) {
+    static String loadTemplate(String name) {
+        try (InputStream in = Query.class.getResourceAsStream(name)) {
             checkNotNull(in, "Failed to load resource: %s", name);
             return IOUtils.toString(in);
         } catch (IOException e) {

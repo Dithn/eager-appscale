@@ -2,11 +2,14 @@ package edu.ucsb.cs.roots.data;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import edu.ucsb.cs.roots.data.es.ResponseTimeHistoryQuery;
+import edu.ucsb.cs.roots.data.es.ResponseTimeSummaryQuery;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,6 +29,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -76,14 +80,42 @@ public class ElasticSearchDataStore implements DataStore {
     @Override
     public ImmutableMap<String, ResponseTimeSummary> getResponseTimeSummary(
             String application, long start, long end) throws DataStoreException {
-        String query = String.format(ElasticSearchTemplates.RESPONSE_TIME_SUMMARY_QUERY,
-                accessLogTimestampField, start, end, accessLogMethodField, accessLogPathField,
-                accessLogResponseTimeField);
+        String query = ResponseTimeSummaryQuery.newBuilder()
+                .setAccessLogTimestampField(accessLogTimestampField)
+                .setAccessLogMethodField(accessLogMethodField)
+                .setAccessLogPathField(accessLogPathField)
+                .setAccessLogResponseTimeField(accessLogResponseTimeField)
+                .setStart(start)
+                .setEnd(end)
+                .buildJsonString();
         String path = String.format("/%s/%s/_search", accessLogIndex, application);
         ImmutableMap.Builder<String,ResponseTimeSummary> builder = ImmutableMap.builder();
         try {
             JsonElement results = makeHttpCall(elasticSearchHost, elasticSearchPort, path, query);
             parseResponseTimeSummary(results, start, builder);
+        } catch (IOException | URISyntaxException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+        return builder.build();
+    }
+
+    @Override
+    public ImmutableListMultimap<String, ResponseTimeSummary> getResponseTimeHistory(
+            String application, long start, long end, long period) throws DataStoreException {
+        String query = ResponseTimeHistoryQuery.newBuilder()
+                .setAccessLogTimestampField(accessLogTimestampField)
+                .setAccessLogMethodField(accessLogMethodField)
+                .setAccessLogPathField(accessLogPathField)
+                .setAccessLogResponseTimeField(accessLogResponseTimeField)
+                .setStart(start)
+                .setEnd(end)
+                .setPeriod(period)
+                .buildJsonString();
+        String path = String.format("/%s/%s/_search", accessLogIndex, application);
+        ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder = ImmutableListMultimap.builder();
+        try {
+            JsonElement results = makeHttpCall(elasticSearchHost, elasticSearchPort, path, query);
+            parseResponseTimeHistory(results, builder);
         } catch (IOException | URISyntaxException e) {
             throw new DataStoreException("Error while querying ElasticSearch", e);
         }
@@ -105,6 +137,33 @@ public class ElasticSearchDataStore implements DataStore {
                 JsonObject path = paths.get(j).getAsJsonObject();
                 String key = methodName + " " + path.get("key").getAsString();
                 builder.put(key, newResponseTimeSummary(timestamp, path));
+            }
+        }
+    }
+
+    private void parseResponseTimeHistory(JsonElement element,
+                                          ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder) {
+        JsonArray methods = element.getAsJsonObject().getAsJsonObject("aggregations")
+                .getAsJsonObject("methods").getAsJsonArray("buckets");
+        for (int i = 0; i < methods.size(); i++) {
+            JsonObject method = methods.get(i).getAsJsonObject();
+            String methodName = method.get("key").getAsString().toUpperCase();
+            if (!METHODS.contains(methodName)) {
+                continue;
+            }
+            JsonArray paths = method.getAsJsonObject("paths").getAsJsonArray("buckets");
+            for (int j = 0; j < paths.size(); j++) {
+                JsonObject path = paths.get(j).getAsJsonObject();
+                String key = methodName + " " + path.get("key").getAsString();
+                JsonArray periods = path.getAsJsonObject("periods").getAsJsonArray("buckets");
+                for (int k = 0; k < periods.size(); k++) {
+                    JsonObject period = periods.get(k).getAsJsonObject();
+                    double count = period.get("doc_count").getAsDouble();
+                    if (count > 0) {
+                        long timestamp = period.get("key").getAsLong();
+                        builder.put(key, newResponseTimeSummary(timestamp, period));
+                    }
+                }
             }
         }
     }
@@ -205,20 +264,20 @@ public class ElasticSearchDataStore implements DataStore {
 
     public static void main(String[] args) throws DataStoreException {
         ElasticSearchDataStore dataStore = ElasticSearchDataStore.newBuilder()
-                .setElasticSearchHost("128.111.179.159")
+                .setElasticSearchHost("128.111.179.226")
                 .setElasticSearchPort(9200)
                 .setAccessLogIndex("nginx")
                 .build();
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(2015, Calendar.NOVEMBER, 01);
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal.set(2015, Calendar.NOVEMBER, 16, 0, 0, 0);
         Date start = cal.getTime();
-        cal.set(2015, Calendar.NOVEMBER, 30);
+        cal.set(2015, Calendar.NOVEMBER, 17, 0, 0, 0);
         Date end = cal.getTime();
-        ImmutableMap<String,ResponseTimeSummary> result = dataStore.getResponseTimeSummary(
-                "watchtower", start.getTime(), end.getTime());
-        result.forEach((k,v) -> System.out.println(k + " " + v.getMeanResponseTime()
-                + " " + v.getRequestCount()));
+        ImmutableListMultimap<String,ResponseTimeSummary> history =
+                dataStore.getResponseTimeHistory("watchtower", start.getTime(), end.getTime(), 2 * 3600000);
+        history.keySet().stream().forEach(k -> history.get(k)
+                .forEach(v -> System.out.println(k + " " + v.getRequestCount() + " " + v.getMeanResponseTime())));
         dataStore.destroy();
     }
 }
