@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ResponseTimeHistoryQuery extends Query {
+public final class ResponseTimeHistoryQuery extends Query {
 
     private static final String RESPONSE_TIME_HISTORY_QUERY = Query.loadTemplate(
             "response_time_history_query.json");

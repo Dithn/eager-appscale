@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
+import edu.ucsb.cs.roots.data.es.BenchmarkResultsQuery;
 import edu.ucsb.cs.roots.data.es.ResponseTimeHistoryQuery;
 import edu.ucsb.cs.roots.data.es.ResponseTimeSummaryQuery;
 import org.apache.commons.io.IOUtils;
@@ -45,6 +46,7 @@ public class ElasticSearchDataStore implements DataStore {
     private final String accessLogPathField;
     private final String accessLogResponseTimeField;
     private final String benchmarkIndex;
+    private final String benchmarkTimestampField;
 
     private final CloseableHttpClient httpClient;
 
@@ -62,6 +64,7 @@ public class ElasticSearchDataStore implements DataStore {
         this.accessLogPathField = builder.accessLogPathField;
         this.accessLogResponseTimeField = builder.accessLogResponseTimeField;
         this.benchmarkIndex = builder.benchmarkIndex;
+        this.benchmarkTimestampField = builder.benchmarkTimestampField;
     }
 
     @Override
@@ -110,6 +113,26 @@ public class ElasticSearchDataStore implements DataStore {
         try {
             JsonElement results = makeHttpCall(path, query);
             parseResponseTimeHistory(results, builder);
+        } catch (IOException | URISyntaxException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+        return builder.build();
+    }
+
+    @Override
+    public ImmutableListMultimap<String, AccessLogEntry> getBenchmarkResults(
+            String application, long start, long end) throws DataStoreException {
+        checkArgument(!Strings.isNullOrEmpty(benchmarkIndex), "Benchmark index is required");
+        String query = BenchmarkResultsQuery.newBuilder()
+                .setBenchmarkTimestampField(benchmarkTimestampField)
+                .setStart(start)
+                .setEnd(end)
+                .buildJsonString();
+        String path = String.format("/%s/%s/_search", benchmarkIndex, application);
+        ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
+        try {
+            JsonElement results = makeHttpCall(path, query);
+            parseBenchmarkResults(results, builder);
         } catch (IOException | URISyntaxException e) {
             throw new DataStoreException("Error while querying ElasticSearch", e);
         }
@@ -173,6 +196,21 @@ public class ElasticSearchDataStore implements DataStore {
         }
     }
 
+    private void parseBenchmarkResults(JsonElement element,
+                                          ImmutableListMultimap.Builder<String,AccessLogEntry> builder) {
+        JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
+                .getAsJsonArray("hits");
+        for (int i = 0; i < hits.size(); i++) {
+            JsonObject hit = hits.get(i).getAsJsonObject().getAsJsonObject("_source");
+            AccessLogEntry entry = new AccessLogEntry(hit.get(benchmarkTimestampField).getAsLong(),
+                    hit.get("application").getAsString(),
+                    hit.get("method").getAsString(),
+                    hit.get("path").getAsString(),
+                    hit.get("responseTime").getAsInt());
+            builder.put(entry.getRequestType(), entry);
+        }
+    }
+
     private ResponseTimeSummary newResponseTimeSummary(long timestamp, JsonObject bucket) {
         double responseTime = bucket.getAsJsonObject("avg_time").get("value")
                 .getAsDouble() * 1000.0;
@@ -223,6 +261,7 @@ public class ElasticSearchDataStore implements DataStore {
         private String accessLogPathField = "http_request.raw";
         private String accessLogResponseTimeField = "time_duration";
         private String benchmarkIndex;
+        private String benchmarkTimestampField = "timestamp";
 
         private Builder() {
         }
@@ -267,6 +306,11 @@ public class ElasticSearchDataStore implements DataStore {
             return this;
         }
 
+        public Builder setBenchmarkTimestampField(String benchmarkTimestampField) {
+            this.benchmarkTimestampField = benchmarkTimestampField;
+            return this;
+        }
+
         public ElasticSearchDataStore build() {
             return new ElasticSearchDataStore(this);
         }
@@ -285,10 +329,10 @@ public class ElasticSearchDataStore implements DataStore {
         Date start = cal.getTime();
         cal.set(2015, Calendar.NOVEMBER, 17, 0, 0, 0);
         Date end = cal.getTime();
-        ImmutableListMultimap<String,ResponseTimeSummary> history =
-                dataStore.getResponseTimeHistory("watchtower", start.getTime(), end.getTime(), 2 * 3600000);
+        ImmutableListMultimap<String,AccessLogEntry> history =
+                dataStore.getBenchmarkResults("foo", 0, System.currentTimeMillis());
         history.keySet().stream().forEach(k -> history.get(k)
-                .forEach(v -> System.out.println(k + " " + v.getRequestCount() + " " + v.getMeanResponseTime())));
+                .forEach(v -> System.out.println(k + " " + v.getResponseTime())));
 
         dataStore.recordBenchmarkResult(new AccessLogEntry(System.currentTimeMillis(),
                 "foo", "GET", "/", 10));
