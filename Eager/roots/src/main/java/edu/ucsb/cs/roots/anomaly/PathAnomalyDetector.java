@@ -24,7 +24,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
     }
 
     @Override
-    void run(long now) {
+    public void run(long now) {
         long tempStart, tempEnd;
         if (end < 0) {
             tempEnd = now - 60 * 1000;

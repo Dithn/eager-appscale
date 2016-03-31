@@ -3,6 +3,7 @@ package edu.ucsb.cs.roots;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 public abstract class ManagedService {
@@ -13,6 +14,7 @@ public abstract class ManagedService {
     private State state;
 
     public ManagedService(RootsEnvironment environment) {
+        checkNotNull(environment);
         this.environment = environment;
         this.state = State.STANDBY;
     }

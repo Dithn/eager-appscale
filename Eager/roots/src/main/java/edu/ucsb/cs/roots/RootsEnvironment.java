@@ -42,13 +42,13 @@ public final class RootsEnvironment {
         checkNotNull(configLoader);
         this.id = id;
         this.configLoader = configLoader;
+        this.properties = configLoader.loadGlobalProperties();
 
         this.dataStoreService = new DataStoreService(this);
         this.rService = new RService(this);
         this.workloadAnalyzerService = new WorkloadAnalyzerService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
 
-        this.properties = configLoader.loadGlobalProperties();
         this.activeServices = new Stack<>();
 
         String eventBusType = this.properties.getProperty(EVENT_BUS_TYPE, "async");
