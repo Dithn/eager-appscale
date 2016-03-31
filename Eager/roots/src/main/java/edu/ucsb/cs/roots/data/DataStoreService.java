@@ -16,9 +16,11 @@ public final class DataStoreService extends ManagedService {
 
     private static final String DATA_STORE_NAME = "name";
     private static final String DATA_STORE_TYPE = "type";
-    private static final String DATA_STORE_ES_HOST = "es.host";
-    private static final String DATA_STORE_ES_PORT = "es.port";
-    private static final String DATA_STORE_ES_ACCESS_LOG_INDEX = "es.accessLog.index";
+    private static final String DATA_STORE_ES_HOST = "host";
+    private static final String DATA_STORE_ES_PORT = "port";
+    private static final String DATA_STORE_ES_ACCESS_LOG_INDEX = "accessLog.index";
+    private static final String DATA_STORE_ES_BENCHMARK_INDEX = "benchmark.index";
+    private static final String DATA_STORE_ES_FIELD = "field.";
 
     private final Map<String,DataStore> dataStores = new ConcurrentHashMap<>();
 
@@ -55,11 +57,15 @@ public final class DataStoreService extends ManagedService {
         if (RandomDataStore.class.getSimpleName().equals(dataStore)) {
             return new RandomDataStore();
         } else if (ElasticSearchDataStore.class.getSimpleName().equals(dataStore)) {
-            return ElasticSearchDataStore.newBuilder()
+            ElasticSearchDataStore.Builder builder = ElasticSearchDataStore.newBuilder()
                     .setElasticSearchHost(getRequired(properties, DATA_STORE_ES_HOST))
                     .setElasticSearchPort(getRequiredInt(properties, DATA_STORE_ES_PORT))
                     .setAccessLogIndex(getRequired(properties, DATA_STORE_ES_ACCESS_LOG_INDEX))
-                    .build();
+                    .setBenchmarkIndex(getRequired(properties, DATA_STORE_ES_BENCHMARK_INDEX));
+            properties.stringPropertyNames().stream()
+                    .filter(k -> k.startsWith(DATA_STORE_ES_FIELD))
+                    .forEach(k -> builder.setFieldMapping(k, properties.getProperty(k)));
+            return builder.build();
         } else {
             throw new IllegalArgumentException("Unknown data store type: " + dataStore);
         }

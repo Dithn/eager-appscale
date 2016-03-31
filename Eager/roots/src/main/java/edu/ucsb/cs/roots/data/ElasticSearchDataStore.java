@@ -25,9 +25,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -37,16 +35,34 @@ public class ElasticSearchDataStore implements DataStore {
             "GET", "POST", "PUT", "DELETE");
     private static final Gson GSON = new Gson();
 
+    private static final String ACCESS_LOG_TIMESTAMP = "field.accessLog.timestamp";
+    private static final String ACCESS_LOG_METHOD = "field.accessLog.method";
+    private static final String ACCESS_LOG_PATH = "field.accessLog.path";
+    private static final String ACCESS_LOG_RESPONSE_TIME = "field.accessLog.responseTime";
+    private static final String BENCHMARK_TIMESTAMP = "field.benchmark.timestamp";
+    private static final String BENCHMARK_METHOD = "field.benchmark.method";
+    private static final String BENCHMARK_PATH = "field.benchmark.path";
+    private static final String BENCHMARK_RESPONSE_TIME = "field.benchmark.responseTime";
+
+    private static final ImmutableMap<String, String> DEFAULT_FIELD_MAPPINGS =
+            ImmutableMap.<String, String>builder()
+                    .put(ACCESS_LOG_TIMESTAMP, "@timestamp")
+                    .put(ACCESS_LOG_METHOD, "http_verb")
+                    .put(ACCESS_LOG_PATH, "http_request.raw")
+                    .put(ACCESS_LOG_RESPONSE_TIME, "time_duration")
+                    .put(BENCHMARK_TIMESTAMP, "timestamp")
+                    .put(BENCHMARK_METHOD, "method")
+                    .put(BENCHMARK_PATH, "path")
+                    .put(BENCHMARK_RESPONSE_TIME, "responseTime")
+                    .build();
+
     private final String elasticSearchHost;
     private final int elasticSearchPort;
 
     private final String accessLogIndex;
-    private final String accessLogTimestampField;
-    private final String accessLogMethodField;
-    private final String accessLogPathField;
-    private final String accessLogResponseTimeField;
     private final String benchmarkIndex;
-    private final String benchmarkTimestampField;
+
+    private final ImmutableMap<String,String> fieldMappings;
 
     private final CloseableHttpClient httpClient;
 
@@ -59,12 +75,8 @@ public class ElasticSearchDataStore implements DataStore {
         this.elasticSearchHost = builder.elasticSearchHost;
         this.elasticSearchPort = builder.elasticSearchPort;
         this.accessLogIndex = builder.accessLogIndex;
-        this.accessLogTimestampField = builder.accessLogTimestampField;
-        this.accessLogMethodField = builder.accessLogMethodField;
-        this.accessLogPathField = builder.accessLogPathField;
-        this.accessLogResponseTimeField = builder.accessLogResponseTimeField;
         this.benchmarkIndex = builder.benchmarkIndex;
-        this.benchmarkTimestampField = builder.benchmarkTimestampField;
+        this.fieldMappings = ImmutableMap.copyOf(builder.fieldMappings);
     }
 
     @Override
@@ -77,10 +89,10 @@ public class ElasticSearchDataStore implements DataStore {
             String application, long start, long end) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
         String query = ResponseTimeSummaryQuery.newBuilder()
-                .setAccessLogTimestampField(accessLogTimestampField)
-                .setAccessLogMethodField(accessLogMethodField)
-                .setAccessLogPathField(accessLogPathField)
-                .setAccessLogResponseTimeField(accessLogResponseTimeField)
+                .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
+                .setAccessLogResponseTimeField(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME))
                 .setStart(start)
                 .setEnd(end)
                 .buildJsonString();
@@ -100,10 +112,10 @@ public class ElasticSearchDataStore implements DataStore {
             String application, long start, long end, long period) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
         String query = ResponseTimeHistoryQuery.newBuilder()
-                .setAccessLogTimestampField(accessLogTimestampField)
-                .setAccessLogMethodField(accessLogMethodField)
-                .setAccessLogPathField(accessLogPathField)
-                .setAccessLogResponseTimeField(accessLogResponseTimeField)
+                .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
+                .setAccessLogResponseTimeField(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME))
                 .setStart(start)
                 .setEnd(end)
                 .setPeriod(period)
@@ -124,7 +136,7 @@ public class ElasticSearchDataStore implements DataStore {
             String application, long start, long end) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(benchmarkIndex), "Benchmark index is required");
         String query = BenchmarkResultsQuery.newBuilder()
-                .setBenchmarkTimestampField(benchmarkTimestampField)
+                .setBenchmarkTimestampField(fieldMappings.get(BENCHMARK_TIMESTAMP))
                 .setStart(start)
                 .setEnd(end)
                 .buildJsonString();
@@ -132,7 +144,7 @@ public class ElasticSearchDataStore implements DataStore {
         ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
         try {
             JsonElement results = makeHttpCall(path, query);
-            parseBenchmarkResults(results, builder);
+            parseBenchmarkResults(application, results, builder);
         } catch (IOException | URISyntaxException e) {
             throw new DataStoreException("Error while querying ElasticSearch", e);
         }
@@ -196,17 +208,18 @@ public class ElasticSearchDataStore implements DataStore {
         }
     }
 
-    private void parseBenchmarkResults(JsonElement element,
-                                          ImmutableListMultimap.Builder<String,AccessLogEntry> builder) {
+    private void parseBenchmarkResults(String application, JsonElement element,
+                                       ImmutableListMultimap.Builder<String,AccessLogEntry> builder) {
         JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
                 .getAsJsonArray("hits");
         for (int i = 0; i < hits.size(); i++) {
             JsonObject hit = hits.get(i).getAsJsonObject().getAsJsonObject("_source");
-            AccessLogEntry entry = new AccessLogEntry(hit.get(benchmarkTimestampField).getAsLong(),
-                    hit.get("application").getAsString(),
-                    hit.get("method").getAsString(),
-                    hit.get("path").getAsString(),
-                    hit.get("responseTime").getAsInt());
+            AccessLogEntry entry = new AccessLogEntry(
+                    hit.get(fieldMappings.get(BENCHMARK_TIMESTAMP)).getAsLong(),
+                    application,
+                    hit.get(fieldMappings.get(BENCHMARK_METHOD)).getAsString(),
+                    hit.get(fieldMappings.get(BENCHMARK_PATH)).getAsString(),
+                    hit.get(fieldMappings.get(BENCHMARK_RESPONSE_TIME)).getAsInt());
             builder.put(entry.getRequestType(), entry);
         }
     }
@@ -256,12 +269,8 @@ public class ElasticSearchDataStore implements DataStore {
         private String elasticSearchHost;
         private int elasticSearchPort;
         private String accessLogIndex;
-        private String accessLogTimestampField = "@timestamp";
-        private String accessLogMethodField = "http_verb";
-        private String accessLogPathField = "http_request.raw";
-        private String accessLogResponseTimeField = "time_duration";
         private String benchmarkIndex;
-        private String benchmarkTimestampField = "timestamp";
+        private final Map<String,String> fieldMappings = new HashMap<>(DEFAULT_FIELD_MAPPINGS);
 
         private Builder() {
         }
@@ -281,33 +290,13 @@ public class ElasticSearchDataStore implements DataStore {
             return this;
         }
 
-        public Builder setAccessLogTimestampField(String accessLogTimestampField) {
-            this.accessLogTimestampField = accessLogTimestampField;
-            return this;
-        }
-
-        public Builder setAccessLogMethodField(String accessLogMethodField) {
-            this.accessLogMethodField = accessLogMethodField;
-            return this;
-        }
-
-        public Builder setAccessLogPathField(String accessLogPathField) {
-            this.accessLogPathField = accessLogPathField;
-            return this;
-        }
-
-        public Builder setAccessLogResponseTimeField(String accessLogResponseTimeField) {
-            this.accessLogResponseTimeField = accessLogResponseTimeField;
-            return this;
-        }
-
         public Builder setBenchmarkIndex(String benchmarkIndex) {
             this.benchmarkIndex = benchmarkIndex;
             return this;
         }
 
-        public Builder setBenchmarkTimestampField(String benchmarkTimestampField) {
-            this.benchmarkTimestampField = benchmarkTimestampField;
+        public Builder setFieldMapping(String field, String mapping) {
+            fieldMappings.put(field, mapping);
             return this;
         }
 
@@ -329,10 +318,10 @@ public class ElasticSearchDataStore implements DataStore {
         Date start = cal.getTime();
         cal.set(2015, Calendar.NOVEMBER, 17, 0, 0, 0);
         Date end = cal.getTime();
-        ImmutableListMultimap<String,AccessLogEntry> history =
-                dataStore.getBenchmarkResults("foo", 0, System.currentTimeMillis());
-        history.keySet().stream().forEach(k -> history.get(k)
-                .forEach(v -> System.out.println(k + " " + v.getResponseTime())));
+        ImmutableMap<String,ResponseTimeSummary> history =
+                dataStore.getResponseTimeSummary("watchtower", start.getTime(), end.getTime());
+        history.forEach((k,v) -> System.out.println(k + " " + v.getMeanResponseTime() +
+                " " + v.getRequestCount()));
 
         dataStore.recordBenchmarkResult(new AccessLogEntry(System.currentTimeMillis(),
                 "foo", "GET", "/", 10));
