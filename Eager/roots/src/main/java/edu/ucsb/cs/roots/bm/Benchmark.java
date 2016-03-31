@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.AccessLogEntry;
 import edu.ucsb.cs.roots.data.DataStore;
+import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.scheduling.ScheduledItem;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
@@ -49,6 +50,9 @@ public final class Benchmark extends ScheduledItem {
             } catch (IOException e) {
                 log.error("Error while calling {} [{} {}]", application, c.getMethod(),
                         c.getPath(), e);
+            } catch (DataStoreException e) {
+                log.error("Error while recording benchmark result for {} [{} {}]", application,
+                        c.getMethod(), c.getPath(), e);
             }
         });
     }
