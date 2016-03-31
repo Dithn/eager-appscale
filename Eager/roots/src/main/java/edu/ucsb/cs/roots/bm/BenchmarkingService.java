@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class BenchmarkingService extends SchedulerService<Benchmark> {
 
     private static final String APPLICATION = "application";
@@ -22,10 +24,10 @@ public class BenchmarkingService extends SchedulerService<Benchmark> {
     private static final String BENCHMARK_DATA_STORE = "dataStore";
     private static final String BENCHMARK_CALL = "call.";
 
-
     private static final String BENCHMARK_GROUP = "benchmark";
     private static final String BENCHMARK_THREAD_POOL = "benchmark.threadPool";
     private static final String BENCHMARK_THREAD_COUNT = "benchmark.threadCount";
+    private static final String BENCHMARK_URL_PREFIX = "benchmark.urlPrefix";
 
     private final CloseableHttpClient client;
 
@@ -73,6 +75,11 @@ public class BenchmarkingService extends SchedulerService<Benchmark> {
         calls.forEach(call -> {
             String method = properties.getProperty(call + ".method");
             String url = properties.getProperty(call + ".url");
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                String prefix = environment.getProperty(BENCHMARK_URL_PREFIX, null);
+                checkArgument(!Strings.isNullOrEmpty(prefix), "Benchmark URL prefix not configured");
+                url = prefix + url;
+            }
             builder.addCall(new BenchmarkCall(method, url));
         });
         return builder.build(environment);
