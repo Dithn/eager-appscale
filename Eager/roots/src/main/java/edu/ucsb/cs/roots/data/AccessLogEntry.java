@@ -1,5 +1,9 @@
 package edu.ucsb.cs.roots.data;
 
+import com.google.common.base.Strings;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
 public final class AccessLogEntry {
 
     private final long timestamp;
@@ -10,6 +14,10 @@ public final class AccessLogEntry {
 
     public AccessLogEntry(long timestamp, String application, String method,
                           String path, int responseTime) {
+        checkArgument(!Strings.isNullOrEmpty(application), "Application is required");
+        checkArgument(!Strings.isNullOrEmpty(method), "Method is required");
+        checkArgument(!Strings.isNullOrEmpty(path), "Path is required");
+        checkArgument(responseTime >= 0, "Response time must be non-negative");
         this.timestamp = timestamp;
         this.application = application;
         this.method = method;

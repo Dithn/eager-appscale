@@ -8,6 +8,7 @@ import com.google.gson.*;
 import edu.ucsb.cs.roots.data.es.BenchmarkResultsQuery;
 import edu.ucsb.cs.roots.data.es.ResponseTimeHistoryQuery;
 import edu.ucsb.cs.roots.data.es.ResponseTimeSummaryQuery;
+import edu.ucsb.cs.roots.data.es.ScrollQuery;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -143,8 +144,17 @@ public class ElasticSearchDataStore implements DataStore {
         String path = String.format("/%s/%s/_search", benchmarkIndex, application);
         ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
         try {
-            JsonElement results = makeHttpCall(path, query);
-            parseBenchmarkResults(application, results, builder);
+            JsonElement results = makeHttpCall(path, "scroll=1m", query);
+            String scrollId = results.getAsJsonObject().get("_scroll_id").getAsString();
+            long total = results.getAsJsonObject().getAsJsonObject("hits").get("total").getAsLong();
+            long received = 0L;
+            while (true) {
+                received += parseBenchmarkResults(application, results, builder);
+                if (received >= total) {
+                    break;
+                }
+                results = makeHttpCall("/_search/scroll", ScrollQuery.build(scrollId));
+            }
         } catch (IOException | URISyntaxException e) {
             throw new DataStoreException("Error while querying ElasticSearch", e);
         }
@@ -208,7 +218,7 @@ public class ElasticSearchDataStore implements DataStore {
         }
     }
 
-    private void parseBenchmarkResults(String application, JsonElement element,
+    private int parseBenchmarkResults(String application, JsonElement element,
                                        ImmutableListMultimap.Builder<String,AccessLogEntry> builder) {
         JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
                 .getAsJsonArray("hits");
@@ -222,6 +232,7 @@ public class ElasticSearchDataStore implements DataStore {
                     hit.get(fieldMappings.get(BENCHMARK_RESPONSE_TIME)).getAsInt());
             builder.put(entry.getRequestType(), entry);
         }
+        return hits.size();
     }
 
     private ResponseTimeSummary newResponseTimeSummary(long timestamp, JsonObject bucket) {
@@ -231,8 +242,14 @@ public class ElasticSearchDataStore implements DataStore {
         return new ResponseTimeSummary(timestamp, responseTime, requestCount);
     }
 
-    private JsonElement makeHttpCall(String path, String json) throws IOException, URISyntaxException {
-        URI uri = new URI("http", null, elasticSearchHost, elasticSearchPort, path, null, null);
+    private JsonElement makeHttpCall(String path,
+                                     String json) throws IOException, URISyntaxException {
+        return makeHttpCall(path, null, json);
+    }
+
+    private JsonElement makeHttpCall(String path, String query,
+                                     String json) throws IOException, URISyntaxException {
+        URI uri = new URI("http", null, elasticSearchHost, elasticSearchPort, path, query, null);
         HttpPost post = new HttpPost(uri);
         post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
         return httpClient.execute(post, new ElasticSearchResponseHandler());
@@ -322,7 +339,6 @@ public class ElasticSearchDataStore implements DataStore {
                 dataStore.getResponseTimeSummary("watchtower", start.getTime(), end.getTime());
         history.forEach((k,v) -> System.out.println(k + " " + v.getMeanResponseTime() +
                 " " + v.getRequestCount()));
-
         dataStore.recordBenchmarkResult(new AccessLogEntry(System.currentTimeMillis(),
                 "foo", "GET", "/", 10));
         dataStore.destroy();
