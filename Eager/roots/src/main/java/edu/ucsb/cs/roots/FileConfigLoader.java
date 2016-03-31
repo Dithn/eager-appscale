@@ -44,6 +44,8 @@ public final class FileConfigLoader implements ConfigLoader {
             return loadFromSubdirectory("detectors", "detector", ignoreFaults);
         } else if (type == DATA_STORES) {
             return loadFromSubdirectory("dataStores", "data store", ignoreFaults);
+        } else if (type == BENCHMARKS) {
+            return loadFromSubdirectory("benchmarks", "benchmark", ignoreFaults);
         }
         throw new IllegalArgumentException("Invalid item type: " + type);
     }

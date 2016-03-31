@@ -7,6 +7,7 @@ public interface ConfigLoader {
 
     int DETECTORS = 100;
     int DATA_STORES = 101;
+    int BENCHMARKS = 102;
 
     default Properties loadGlobalProperties() throws Exception {
         return new Properties();

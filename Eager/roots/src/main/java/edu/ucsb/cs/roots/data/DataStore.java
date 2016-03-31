@@ -58,4 +58,7 @@ public interface DataStore {
         return ImmutableListMultimap.of();
     }
 
+    default void recordBenchmarkResult(AccessLogEntry entry) {
+    }
+
 }

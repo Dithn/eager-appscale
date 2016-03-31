@@ -4,11 +4,15 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class RandomDataStore implements DataStore {
+
+    private static final Logger log = LoggerFactory.getLogger(RandomDataStore.class);
 
     private static final Random RAND = new Random();
 
@@ -69,6 +73,12 @@ public class RandomDataStore implements DataStore {
         builder.putAll("POST /", getApplicationRequests(
                 application, "POST /", start, end, RAND.nextInt(50), 2));
         return builder.build();
+    }
+
+    @Override
+    public void recordBenchmarkResult(AccessLogEntry entry) {
+        log.info("Recording access log entry for {} {} {} {}", entry.getApplication(),
+                entry.getMethod(), entry.getPath(), entry.getResponseTime());
     }
 
     private ImmutableList<ApplicationRequest> getApplicationRequests(

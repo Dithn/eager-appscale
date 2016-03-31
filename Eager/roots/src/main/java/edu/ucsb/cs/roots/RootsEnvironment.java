@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import edu.ucsb.cs.roots.anomaly.AnomalyDetectorService;
+import edu.ucsb.cs.roots.bm.BenchmarkingService;
 import edu.ucsb.cs.roots.data.DataStoreService;
 import edu.ucsb.cs.roots.rlang.RService;
 import edu.ucsb.cs.roots.utils.RootsThreadFactory;
@@ -28,6 +29,7 @@ public final class RootsEnvironment {
     private final DataStoreService dataStoreService;
     private final RService rService;
     private final WorkloadAnalyzerService workloadAnalyzerService;
+    private final BenchmarkingService benchmarkingService;
     private final AnomalyDetectorService anomalyDetectorService;
 
     private final Properties properties;
@@ -47,6 +49,7 @@ public final class RootsEnvironment {
         this.dataStoreService = new DataStoreService(this);
         this.rService = new RService(this);
         this.workloadAnalyzerService = new WorkloadAnalyzerService(this);
+        this.benchmarkingService = new BenchmarkingService(this);
         this.anomalyDetectorService = new AnomalyDetectorService(this);
 
         this.activeServices = new Stack<>();
@@ -74,6 +77,7 @@ public final class RootsEnvironment {
             initService(dataStoreService);
             initService(rService);
             initService(workloadAnalyzerService);
+            initService(benchmarkingService);
             initService(anomalyDetectorService);
             state = State.INITIALIZED;
         } catch (Exception e) {
