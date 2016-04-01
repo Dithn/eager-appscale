@@ -2,7 +2,8 @@ package edu.ucsb.cs.roots.data.es;
 
 public class ScrollQuery extends Query {
 
-    public static final String SCROLL_QUERY = "{\"scroll_id\": \"%s\", \"scroll\": \"%s\"}";
+    private static final String SCROLL_QUERY = "{\"scroll_id\": \"%s\", \"scroll\": \"%s\"}";
+
     private final String scrollId;
     private final String scroll;
 

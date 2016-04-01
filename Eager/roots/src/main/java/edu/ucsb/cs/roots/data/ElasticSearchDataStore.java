@@ -5,10 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
-import edu.ucsb.cs.roots.data.es.BenchmarkResultsQuery;
-import edu.ucsb.cs.roots.data.es.ResponseTimeHistoryQuery;
-import edu.ucsb.cs.roots.data.es.ResponseTimeSummaryQuery;
-import edu.ucsb.cs.roots.data.es.ScrollQuery;
+import edu.ucsb.cs.roots.data.es.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -48,7 +45,7 @@ public class ElasticSearchDataStore implements DataStore {
     private static final ImmutableMap<String, String> DEFAULT_FIELD_MAPPINGS =
             ImmutableMap.<String, String>builder()
                     .put(ACCESS_LOG_TIMESTAMP, "@timestamp")
-                    .put(ACCESS_LOG_METHOD, "http_verb")
+                    .put(ACCESS_LOG_METHOD, "http_verb.raw")
                     .put(ACCESS_LOG_PATH, "http_request.raw")
                     .put(ACCESS_LOG_RESPONSE_TIME, "time_duration")
                     .put(BENCHMARK_TIMESTAMP, "timestamp")
@@ -162,6 +159,37 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     @Override
+    public ImmutableList<Double> getWorkloadSummary(
+            String application, String operation, long start,
+            long end, long period) throws DataStoreException {
+        checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
+        int separator = operation.indexOf(' ');
+        checkArgument(separator != -1, "Invalid operation string: %s", operation);
+        String query = WorkloadSummaryQuery.newBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .setPeriod(period)
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
+                .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
+                .setMethod(operation.substring(0, separator))
+                .setPath(operation.substring(separator + 1))
+                .buildJsonString();
+        String path = String.format("/%s/%s/_search", accessLogIndex, application);
+        ImmutableList.Builder<Double> builder = ImmutableList.builder();
+        try {
+            JsonElement results = makeHttpCall(path, query);
+            JsonArray periods = results.getAsJsonObject().getAsJsonObject("aggregations")
+                    .getAsJsonObject("periods").getAsJsonArray("buckets");
+            periods.forEach(p -> builder.add(
+                    p.getAsJsonObject().get("doc_count").getAsDouble()));
+        } catch (IOException | URISyntaxException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+        return builder.build();
+    }
+
+    @Override
     public void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(benchmarkIndex), "Benchmark index is required");
         String path = String.format("/%s/%s", benchmarkIndex, result.getApplication());
@@ -183,8 +211,8 @@ public class ElasticSearchDataStore implements DataStore {
                 continue;
             }
             JsonArray paths = method.getAsJsonObject("paths").getAsJsonArray("buckets");
-            for (int j = 0; j < paths.size(); j++) {
-                JsonObject path = paths.get(j).getAsJsonObject();
+            for (JsonElement pathElement : paths) {
+                JsonObject path = pathElement.getAsJsonObject();
                 String key = methodName + " " + path.get("key").getAsString();
                 builder.put(key, newResponseTimeSummary(timestamp, path));
             }
@@ -195,19 +223,19 @@ public class ElasticSearchDataStore implements DataStore {
                                           ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder) {
         JsonArray methods = element.getAsJsonObject().getAsJsonObject("aggregations")
                 .getAsJsonObject("methods").getAsJsonArray("buckets");
-        for (int i = 0; i < methods.size(); i++) {
-            JsonObject method = methods.get(i).getAsJsonObject();
+        for (JsonElement methodElement : methods) {
+            JsonObject method = methodElement.getAsJsonObject();
             String methodName = method.get("key").getAsString().toUpperCase();
             if (!METHODS.contains(methodName)) {
                 continue;
             }
             JsonArray paths = method.getAsJsonObject("paths").getAsJsonArray("buckets");
-            for (int j = 0; j < paths.size(); j++) {
-                JsonObject path = paths.get(j).getAsJsonObject();
+            for (JsonElement pathElement : paths) {
+                JsonObject path = pathElement.getAsJsonObject();
                 String key = methodName + " " + path.get("key").getAsString();
                 JsonArray periods = path.getAsJsonObject("periods").getAsJsonArray("buckets");
-                for (int k = 0; k < periods.size(); k++) {
-                    JsonObject period = periods.get(k).getAsJsonObject();
+                for (JsonElement periodElement : periods) {
+                    JsonObject period = periodElement.getAsJsonObject();
                     double count = period.get("doc_count").getAsDouble();
                     if (count > 0) {
                         long timestamp = period.get("key").getAsLong();
@@ -222,8 +250,8 @@ public class ElasticSearchDataStore implements DataStore {
                                        ImmutableListMultimap.Builder<String,BenchmarkResult> builder) {
         JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
                 .getAsJsonArray("hits");
-        for (int i = 0; i < hits.size(); i++) {
-            JsonObject hit = hits.get(i).getAsJsonObject().getAsJsonObject("_source");
+        for (JsonElement hitElement : hits) {
+            JsonObject hit = hitElement.getAsJsonObject().getAsJsonObject("_source");
             BenchmarkResult entry = new BenchmarkResult(
                     hit.get(fieldMappings.get(BENCHMARK_TIMESTAMP)).getAsLong(),
                     application,
@@ -341,6 +369,10 @@ public class ElasticSearchDataStore implements DataStore {
                 " " + v.getRequestCount()));
         dataStore.recordBenchmarkResult(new BenchmarkResult(System.currentTimeMillis(),
                 "foo", "GET", "/", 10));
+
+        List<Double> workload = dataStore.getWorkloadSummary("watchtower", "GET /benchmark",
+                start.getTime(), end.getTime(), 3600000);
+        workload.forEach(w -> System.out.println("Workload: " + w));
         dataStore.destroy();
     }
 }
