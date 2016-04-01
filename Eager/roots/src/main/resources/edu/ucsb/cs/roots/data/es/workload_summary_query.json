@@ -6,7 +6,7 @@
         "range": {
           "%s": {
             "gte": %d,
-            "lte": %d,
+            "lt": %d,
             "format": "epoch_millis"
           }
         }
