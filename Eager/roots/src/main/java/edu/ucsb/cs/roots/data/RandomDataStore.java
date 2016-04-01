@@ -19,9 +19,9 @@ public class RandomDataStore implements DataStore {
     @Override
     public ImmutableMap<String, ResponseTimeSummary> getResponseTimeSummary(
             String application, long start, long end) {
-        List<AccessLogEntry> logEntries = getAccessLogEntries(application, start, end);
-        Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
-                .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
+        List<BenchmarkResult> logEntries = generateRandomResults(application, start, end);
+        Map<String,List<BenchmarkResult>> groupedEntries = logEntries.stream()
+                .collect(Collectors.groupingBy(BenchmarkResult::getRequestType));
         return groupedEntries.entrySet().stream().collect(ImmutableCollectors.toMap(
                         Map.Entry::getKey, e -> new ResponseTimeSummary(start, e.getValue())));
     }
@@ -54,12 +54,12 @@ public class RandomDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
+    public ImmutableListMultimap<String,BenchmarkResult> getBenchmarkResults(
             String application, long start, long end) {
-        List<AccessLogEntry> logEntries = getAccessLogEntries(application, start, end, 2);
-        Map<String,List<AccessLogEntry>> groupedEntries = logEntries.stream()
-                .collect(Collectors.groupingBy(AccessLogEntry::getRequestType));
-        ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
+        List<BenchmarkResult> logEntries = generateRandomResults(application, start, end, 2);
+        Map<String,List<BenchmarkResult>> groupedEntries = logEntries.stream()
+                .collect(Collectors.groupingBy(BenchmarkResult::getRequestType));
+        ImmutableListMultimap.Builder<String,BenchmarkResult> builder = ImmutableListMultimap.builder();
         groupedEntries.forEach(builder::putAll);
         return builder.build();
     }
@@ -76,7 +76,7 @@ public class RandomDataStore implements DataStore {
     }
 
     @Override
-    public void recordBenchmarkResult(AccessLogEntry entry) {
+    public void recordBenchmarkResult(BenchmarkResult entry) {
         log.info("Recording access log entry for {} {} {} {}", entry.getApplication(),
                 entry.getMethod(), entry.getPath(), entry.getResponseTime());
     }
@@ -98,14 +98,14 @@ public class RandomDataStore implements DataStore {
         return builder.build();
     }
 
-    private List<AccessLogEntry> getAccessLogEntries(
+    private List<BenchmarkResult> generateRandomResults(
             String application, long start, long end) {
-        return getAccessLogEntries(application, start, end, RAND.nextInt(100));
+        return generateRandomResults(application, start, end, RAND.nextInt(100));
     }
 
-    private ImmutableList<AccessLogEntry> getAccessLogEntries(
+    private ImmutableList<BenchmarkResult> generateRandomResults(
             String application, long start, long end, int recordCount) {
-        ImmutableList.Builder<AccessLogEntry> builder = ImmutableList.builder();
+        ImmutableList.Builder<BenchmarkResult> builder = ImmutableList.builder();
         for (int i = 0; i < recordCount; i++) {
             long offset = RAND.nextInt((int) (end - start));
             String method;
@@ -114,7 +114,7 @@ public class RandomDataStore implements DataStore {
             } else {
                 method = "POST";
             }
-            AccessLogEntry record = new AccessLogEntry(start + offset, application,
+            BenchmarkResult record = new BenchmarkResult(start + offset, application,
                     method, "/", RAND.nextInt(50));
             builder.add(record);
         }

@@ -133,7 +133,7 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableListMultimap<String, AccessLogEntry> getBenchmarkResults(
+    public ImmutableListMultimap<String, BenchmarkResult> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(benchmarkIndex), "Benchmark index is required");
         String query = BenchmarkResultsQuery.newBuilder()
@@ -142,7 +142,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setEnd(end)
                 .buildJsonString();
         String path = String.format("/%s/%s/_search", benchmarkIndex, application);
-        ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
+        ImmutableListMultimap.Builder<String,BenchmarkResult> builder = ImmutableListMultimap.builder();
         try {
             JsonElement results = makeHttpCall(path, "scroll=1m", query);
             String scrollId = results.getAsJsonObject().get("_scroll_id").getAsString();
@@ -162,11 +162,11 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     @Override
-    public void recordBenchmarkResult(AccessLogEntry entry) throws DataStoreException {
+    public void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(benchmarkIndex), "Benchmark index is required");
-        String path = String.format("/%s/%s", benchmarkIndex, entry.getApplication());
+        String path = String.format("/%s/%s", benchmarkIndex, result.getApplication());
         try {
-            makeHttpCall(path, GSON.toJson(entry));
+            makeHttpCall(path, GSON.toJson(result));
         } catch (IOException | URISyntaxException e) {
             throw new DataStoreException("Error while querying ElasticSearch", e);
         }
@@ -219,12 +219,12 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     private int parseBenchmarkResults(String application, JsonElement element,
-                                       ImmutableListMultimap.Builder<String,AccessLogEntry> builder) {
+                                       ImmutableListMultimap.Builder<String,BenchmarkResult> builder) {
         JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
                 .getAsJsonArray("hits");
         for (int i = 0; i < hits.size(); i++) {
             JsonObject hit = hits.get(i).getAsJsonObject().getAsJsonObject("_source");
-            AccessLogEntry entry = new AccessLogEntry(
+            BenchmarkResult entry = new BenchmarkResult(
                     hit.get(fieldMappings.get(BENCHMARK_TIMESTAMP)).getAsLong(),
                     application,
                     hit.get(fieldMappings.get(BENCHMARK_METHOD)).getAsString(),
@@ -339,7 +339,7 @@ public class ElasticSearchDataStore implements DataStore {
                 dataStore.getResponseTimeSummary("watchtower", start.getTime(), end.getTime());
         history.forEach((k,v) -> System.out.println(k + " " + v.getMeanResponseTime() +
                 " " + v.getRequestCount()));
-        dataStore.recordBenchmarkResult(new AccessLogEntry(System.currentTimeMillis(),
+        dataStore.recordBenchmarkResult(new BenchmarkResult(System.currentTimeMillis(),
                 "foo", "GET", "/", 10));
         dataStore.destroy();
     }

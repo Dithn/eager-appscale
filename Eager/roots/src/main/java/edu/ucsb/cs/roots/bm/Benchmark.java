@@ -3,7 +3,7 @@ package edu.ucsb.cs.roots.bm;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.data.AccessLogEntry;
+import edu.ucsb.cs.roots.data.BenchmarkResult;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.scheduling.ScheduledItem;
@@ -44,9 +44,9 @@ public final class Benchmark extends ScheduledItem {
         calls.forEach(c -> {
             try {
                 long time = c.execute(client);
-                AccessLogEntry entry = new AccessLogEntry(now, application, c.getMethod(),
+                BenchmarkResult result = new BenchmarkResult(now, application, c.getMethod(),
                         c.getPath(), (int) time);
-                ds.recordBenchmarkResult(entry);
+                ds.recordBenchmarkResult(result);
             } catch (IOException e) {
                 log.error("Error while calling {} [{} {}]", application, c.getMethod(),
                         c.getPath(), e);

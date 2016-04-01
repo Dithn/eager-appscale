@@ -15,21 +15,21 @@ public class TestDataStore implements DataStore {
 
     private final List<DataStoreCall> calls = new ArrayList<>();
 
-    private ListMultimap<String,AccessLogEntry> benchmarkResults = ArrayListMultimap.create();
+    private ListMultimap<String,BenchmarkResult> benchmarkResults = ArrayListMultimap.create();
 
     public TestDataStore(RootsEnvironment environment, String name) {
         environment.getDataStoreService().put(name, this);
     }
 
-    public void addBenchmarkResult(String operation, AccessLogEntry entry) {
+    public void addBenchmarkResult(String operation, BenchmarkResult entry) {
         benchmarkResults.put(operation, entry);
     }
 
     @Override
-    public ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
+    public ImmutableListMultimap<String,BenchmarkResult> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
         calls.add(new DataStoreCall(start, end, GET_BENCHMARK_RESULTS, application));
-        ImmutableListMultimap.Builder<String,AccessLogEntry> builder = ImmutableListMultimap.builder();
+        ImmutableListMultimap.Builder<String,BenchmarkResult> builder = ImmutableListMultimap.builder();
         builder.putAll(benchmarkResults);
         benchmarkResults.clear();
         return builder.build();

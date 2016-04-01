@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public final class AccessLogEntry {
+public final class BenchmarkResult {
 
     private final long timestamp;
     private final String application;
@@ -12,8 +12,8 @@ public final class AccessLogEntry {
     private final String path;
     private final int responseTime;
 
-    public AccessLogEntry(long timestamp, String application, String method,
-                          String path, int responseTime) {
+    public BenchmarkResult(long timestamp, String application, String method,
+                           String path, int responseTime) {
         checkArgument(!Strings.isNullOrEmpty(application), "Application is required");
         checkArgument(!Strings.isNullOrEmpty(method), "Method is required");
         checkArgument(!Strings.isNullOrEmpty(path), "Path is required");

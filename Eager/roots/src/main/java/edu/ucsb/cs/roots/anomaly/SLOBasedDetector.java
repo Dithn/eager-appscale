@@ -2,7 +2,7 @@ package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.collect.*;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.data.AccessLogEntry;
+import edu.ucsb.cs.roots.data.BenchmarkResult;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 
@@ -13,7 +13,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public final class SLOBasedDetector extends AnomalyDetector {
 
     private final int samplingIntervalInSeconds;
-    private final ListMultimap<String,AccessLogEntry> history;
+    private final ListMultimap<String,BenchmarkResult> history;
     private final int responseTimeUpperBound;
     private final double sloPercentage;
     private final double windowFillPercentage;
@@ -75,17 +75,17 @@ public final class SLOBasedDetector extends AnomalyDetector {
                                              long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
-        ImmutableListMultimap<String,AccessLogEntry> summaries =
+        ImmutableListMultimap<String,BenchmarkResult> summaries =
                 ds.getBenchmarkResults(application, windowStart, windowEnd);
         history.putAll(summaries);
         return ImmutableList.copyOf(summaries.keySet());
     }
 
-    private void computeSLO(long start, long end, String key, Collection<AccessLogEntry> logEntries) {
-        long satisfied = logEntries.stream()
+    private void computeSLO(long start, long end, String key, Collection<BenchmarkResult> results) {
+        long satisfied = results.stream()
                 .filter(e -> e.getResponseTime() <= responseTimeUpperBound)
                 .count();
-        double sloSupported = satisfied * 100.0 / logEntries.size();
+        double sloSupported = satisfied * 100.0 / results.size();
         if (sloSupported < sloPercentage) {
             reportAnomaly(start, end, key, String.format("SLA satisfaction: %.4f", sloSupported));
         }

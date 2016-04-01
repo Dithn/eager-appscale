@@ -14,11 +14,11 @@ public final class ResponseTimeSummary {
         this.timestamp = timestamp;
     }
 
-    public ResponseTimeSummary(long timestamp, Collection<AccessLogEntry> entries) {
+    public ResponseTimeSummary(long timestamp, Collection<BenchmarkResult> entries) {
         this.timestamp = timestamp;
         if (entries.size() > 0) {
             meanResponseTime = entries.stream()
-                    .mapToDouble(AccessLogEntry::getResponseTime)
+                    .mapToDouble(BenchmarkResult::getResponseTime)
                     .average()
                     .getAsDouble();
         } else {

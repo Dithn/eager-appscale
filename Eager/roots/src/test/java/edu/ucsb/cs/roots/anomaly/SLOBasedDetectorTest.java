@@ -2,7 +2,7 @@ package edu.ucsb.cs.roots.anomaly;
 
 import edu.ucsb.cs.roots.ConfigLoader;
 import edu.ucsb.cs.roots.RootsEnvironment;
-import edu.ucsb.cs.roots.data.AccessLogEntry;
+import edu.ucsb.cs.roots.data.BenchmarkResult;
 import edu.ucsb.cs.roots.data.DataStoreCall;
 import edu.ucsb.cs.roots.data.TestDataStore;
 import junit.framework.Assert;
@@ -76,7 +76,7 @@ public class SLOBasedDetectorTest {
 
             detector.run(70000);
             for (int i = 0; i < 5; i++) {
-                dataStore.addBenchmarkResult("GET /", new AccessLogEntry((i+10) * 1000,
+                dataStore.addBenchmarkResult("GET /", new BenchmarkResult((i+10) * 1000,
                         "test-app", "GET", "/", 15));
                 detector.run(70000 + (i+1) * 1000);
                 Assert.assertTrue(recorder.getAndClearAnomalies().isEmpty());
@@ -84,10 +84,10 @@ public class SLOBasedDetectorTest {
 
             for (int i = 0; i < 5; i++) {
                 if (i == 4) {
-                    dataStore.addBenchmarkResult("GET /", new AccessLogEntry((i+15) * 1000,
+                    dataStore.addBenchmarkResult("GET /", new BenchmarkResult((i+15) * 1000,
                             "test-app", "GET", "/", 21));
                 } else {
-                    dataStore.addBenchmarkResult("GET /", new AccessLogEntry((i+15) * 1000,
+                    dataStore.addBenchmarkResult("GET /", new BenchmarkResult((i+15) * 1000,
                             "test-app", "GET", "/", 15));
                 }
                 detector.run(75000 + (i+1) * 1000);

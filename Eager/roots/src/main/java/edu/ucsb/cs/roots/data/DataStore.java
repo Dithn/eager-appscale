@@ -48,7 +48,7 @@ public interface DataStore {
      * @param end End time of the interval (exclusive)
      * @return A Map of request types (String) and benchmark results for each type
      */
-    default ImmutableListMultimap<String,AccessLogEntry> getBenchmarkResults(
+    default ImmutableListMultimap<String,BenchmarkResult> getBenchmarkResults(
             String application, long start, long end) throws DataStoreException {
         return ImmutableListMultimap.of();
     }
@@ -58,7 +58,7 @@ public interface DataStore {
         return ImmutableListMultimap.of();
     }
 
-    default void recordBenchmarkResult(AccessLogEntry entry) throws DataStoreException {
+    default void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
     }
 
 }
