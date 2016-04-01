@@ -37,10 +37,18 @@ public class ElasticSearchDataStore implements DataStore {
     private static final String ACCESS_LOG_METHOD = "field.accessLog.method";
     private static final String ACCESS_LOG_PATH = "field.accessLog.path";
     private static final String ACCESS_LOG_RESPONSE_TIME = "field.accessLog.responseTime";
+
     private static final String BENCHMARK_TIMESTAMP = "field.benchmark.timestamp";
     private static final String BENCHMARK_METHOD = "field.benchmark.method";
     private static final String BENCHMARK_PATH = "field.benchmark.path";
     private static final String BENCHMARK_RESPONSE_TIME = "field.benchmark.responseTime";
+
+    private static final String API_CALL_TIMESTAMP = "field.apiCall.timestamp";
+    private static final String API_CALL_APPLICATION = "field.apiCall.application";
+    private static final String API_CALL_SERVICE = "API_CALL_SERVICE";
+    private static final String API_CALL_OPERATION = "API_CALL_OPERATION";
+    private static final String API_CALL_RESPONSE_TIME = "API_CALL_RESPONSE_TIME";
+    private static final String API_CALL_REQ_ID = "API_CALL_REQ_ID";
 
     private static final ImmutableMap<String, String> DEFAULT_FIELD_MAPPINGS =
             ImmutableMap.<String, String>builder()
@@ -52,6 +60,12 @@ public class ElasticSearchDataStore implements DataStore {
                     .put(BENCHMARK_METHOD, "method")
                     .put(BENCHMARK_PATH, "path")
                     .put(BENCHMARK_RESPONSE_TIME, "responseTime")
+                    .put(API_CALL_TIMESTAMP, "timestamp")
+                    .put(API_CALL_APPLICATION, "appId")
+                    .put(API_CALL_SERVICE, "service")
+                    .put(API_CALL_OPERATION, "operation")
+                    .put(API_CALL_RESPONSE_TIME, "elapsed")
+                    .put(API_CALL_REQ_ID, "requestId")
                     .build();
 
     private final String elasticSearchHost;
@@ -59,6 +73,7 @@ public class ElasticSearchDataStore implements DataStore {
 
     private final String accessLogIndex;
     private final String benchmarkIndex;
+    private final String apiCallIndex;
 
     private final ImmutableMap<String,String> fieldMappings;
 
@@ -74,6 +89,7 @@ public class ElasticSearchDataStore implements DataStore {
         this.elasticSearchPort = builder.elasticSearchPort;
         this.accessLogIndex = builder.accessLogIndex;
         this.benchmarkIndex = builder.benchmarkIndex;
+        this.apiCallIndex = builder.apiCallIndex;
         this.fieldMappings = ImmutableMap.copyOf(builder.fieldMappings);
     }
 
@@ -190,6 +206,49 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     @Override
+    public ImmutableListMultimap<String, ApplicationRequest> getRequestInfo(
+            String application, long start, long end) throws DataStoreException {
+        checkArgument(!Strings.isNullOrEmpty(apiCallIndex), "API Call index is required");
+        String query = RequestInfoQuery.newBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .setApplication(application)
+                .setApiCallTimestampField(fieldMappings.get(API_CALL_TIMESTAMP))
+                .setApplicationField(fieldMappings.get(API_CALL_APPLICATION))
+                .buildJsonString();
+        // TODO: Store API calls under separate application types
+        String path = String.format("/%s/apicall/_search", apiCallIndex);
+        ImmutableListMultimap.Builder<String,ApiCall> builder = ImmutableListMultimap.builder();
+        try {
+            JsonElement results = makeHttpCall(path, "scroll=1m", query);
+            String scrollId = results.getAsJsonObject().get("_scroll_id").getAsString();
+            long total = results.getAsJsonObject().getAsJsonObject("hits").get("total").getAsLong();
+            long received = 0L;
+            while (true) {
+                received += parseApiCalls(results, builder);
+                if (received >= total) {
+                    break;
+                }
+                results = makeHttpCall("/_search/scroll", ScrollQuery.build(scrollId));
+            }
+        } catch (IOException | URISyntaxException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+        ImmutableListMultimap<String,ApiCall> apiCalls = builder.build();
+
+        ImmutableListMultimap.Builder<String,ApplicationRequest> resultBuilder = ImmutableListMultimap.builder();
+        apiCalls.keySet().forEach(k -> {
+            ImmutableList<ApiCall> calls = apiCalls.get(k);
+            // TODO: Get timestamp from request-level timestamp field
+            // TODO: Get operation from request-level data
+            ApplicationRequest req = new ApplicationRequest(calls.get(0).getTimestamp(),
+                    application, "GET /dummy", calls);
+            resultBuilder.put("GET /dummy", req);
+        });
+        return resultBuilder.build();
+    }
+
+    @Override
     public void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(benchmarkIndex), "Benchmark index is required");
         String path = String.format("/%s/%s", benchmarkIndex, result.getApplication());
@@ -252,13 +311,28 @@ public class ElasticSearchDataStore implements DataStore {
                 .getAsJsonArray("hits");
         for (JsonElement hitElement : hits) {
             JsonObject hit = hitElement.getAsJsonObject().getAsJsonObject("_source");
-            BenchmarkResult entry = new BenchmarkResult(
+            BenchmarkResult result = new BenchmarkResult(
                     hit.get(fieldMappings.get(BENCHMARK_TIMESTAMP)).getAsLong(),
                     application,
                     hit.get(fieldMappings.get(BENCHMARK_METHOD)).getAsString(),
                     hit.get(fieldMappings.get(BENCHMARK_PATH)).getAsString(),
                     hit.get(fieldMappings.get(BENCHMARK_RESPONSE_TIME)).getAsInt());
-            builder.put(entry.getRequestType(), entry);
+            builder.put(result.getRequestType(), result);
+        }
+        return hits.size();
+    }
+
+    private int parseApiCalls(JsonElement element, ImmutableListMultimap.Builder<String,ApiCall> builder) {
+        JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
+                .getAsJsonArray("hits");
+        for (JsonElement hitElement : hits) {
+            JsonObject hit = hitElement.getAsJsonObject().getAsJsonObject("_source");
+            ApiCall call = new ApiCall(
+                    hit.get(fieldMappings.get(API_CALL_TIMESTAMP)).getAsLong(),
+                    hit.get(fieldMappings.get(API_CALL_SERVICE)).getAsString(),
+                    hit.get(fieldMappings.get(API_CALL_OPERATION)).getAsString(),
+                    hit.get(fieldMappings.get(API_CALL_RESPONSE_TIME)).getAsInt());
+            builder.put(hit.get(fieldMappings.get(API_CALL_REQ_ID)).getAsString(), call);
         }
         return hits.size();
     }
@@ -315,6 +389,7 @@ public class ElasticSearchDataStore implements DataStore {
         private int elasticSearchPort;
         private String accessLogIndex;
         private String benchmarkIndex;
+        private String apiCallIndex;
         private final Map<String,String> fieldMappings = new HashMap<>(DEFAULT_FIELD_MAPPINGS);
 
         private Builder() {
@@ -340,6 +415,11 @@ public class ElasticSearchDataStore implements DataStore {
             return this;
         }
 
+        public Builder setApiCallIndex(String apiCallIndex) {
+            this.apiCallIndex = apiCallIndex;
+            return this;
+        }
+
         public Builder setFieldMapping(String field, String mapping) {
             fieldMappings.put(field, mapping);
             return this;
@@ -356,6 +436,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setElasticSearchPort(9200)
                 .setAccessLogIndex("nginx")
                 .setBenchmarkIndex("app-benchmarking")
+                .setApiCallIndex("appscale-internal")
                 .build();
 
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -370,9 +451,23 @@ public class ElasticSearchDataStore implements DataStore {
         dataStore.recordBenchmarkResult(new BenchmarkResult(System.currentTimeMillis(),
                 "foo", "GET", "/", 10));
 
+        System.out.println();
         List<Double> workload = dataStore.getWorkloadSummary("watchtower", "GET /benchmark",
                 start.getTime(), end.getTime(), 3600000);
         workload.forEach(w -> System.out.println("Workload: " + w));
+
+        System.out.println();
+        cal.set(2016, Calendar.JANUARY, 16, 0, 0, 0);
+        start = cal.getTime();
+        cal.set(2016, Calendar.JANUARY, 16, 1, 0, 0);
+        end = cal.getTime();
+        ImmutableListMultimap<String,ApplicationRequest> requests = dataStore.getRequestInfo(
+                "watchtower", start.getTime(), end.getTime());
+        requests.keySet().forEach(k -> {
+            List<ApplicationRequest> list = requests.get(k);
+            System.out.println("k >>>> " + list.size());
+            list.forEach(v -> System.out.println(v.getApiCalls().size()));
+        });
         dataStore.destroy();
     }
 }
