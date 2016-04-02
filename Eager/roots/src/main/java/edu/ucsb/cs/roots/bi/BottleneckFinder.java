@@ -6,6 +6,7 @@ import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
+import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;
 import org.rosuda.REngine.REXP;
@@ -35,13 +36,13 @@ public final class BottleneckFinder {
                     anomaly.getApplication(), anomaly.getOperation(), start, anomaly.getEnd());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
-
-        } catch (Exception e) {
-            log.error("Error while detecting bottlenecks", e);
+            perPathRequests.forEach(this::analyze);
+        } catch (DataStoreException e) {
+            log.error("Error while retrieving API call data", e);
         }
     }
 
-    private void analyze(String path, List<ApplicationRequest> requests) throws Exception {
+    private void analyze(String path, List<ApplicationRequest> requests) {
         List<ApiCall> apiCalls = requests.get(0).getApiCalls();
         int callCount = apiCalls.size();
         if (callCount == 0) {
@@ -79,6 +80,8 @@ public final class BottleneckFinder {
             for (int i = 0; i < results.length; i++) {
                 log.info("Relative importance: {}: {}", apiCalls.get(i).name(), results[i]);
             }
+        } catch (Exception e) {
+            log.error("Error while computing relative importance metrics", e);
         }
     }
 }

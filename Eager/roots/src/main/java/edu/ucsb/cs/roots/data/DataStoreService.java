@@ -20,6 +20,7 @@ public final class DataStoreService extends ManagedService {
     private static final String DATA_STORE_ES_PORT = "port";
     private static final String DATA_STORE_ES_ACCESS_LOG_INDEX = "accessLog.index";
     private static final String DATA_STORE_ES_BENCHMARK_INDEX = "benchmark.index";
+    private static final String DATA_STORE_ES_API_CALL_INDEX = "apiCall.index";
     private static final String DATA_STORE_ES_FIELD = "field.";
 
     private final Map<String,DataStore> dataStores = new ConcurrentHashMap<>();
@@ -60,8 +61,9 @@ public final class DataStoreService extends ManagedService {
             ElasticSearchDataStore.Builder builder = ElasticSearchDataStore.newBuilder()
                     .setElasticSearchHost(getRequired(properties, DATA_STORE_ES_HOST))
                     .setElasticSearchPort(getRequiredInt(properties, DATA_STORE_ES_PORT))
-                    .setAccessLogIndex(getRequired(properties, DATA_STORE_ES_ACCESS_LOG_INDEX))
-                    .setBenchmarkIndex(getRequired(properties, DATA_STORE_ES_BENCHMARK_INDEX));
+                    .setAccessLogIndex(properties.getProperty(DATA_STORE_ES_ACCESS_LOG_INDEX))
+                    .setBenchmarkIndex(properties.getProperty(DATA_STORE_ES_BENCHMARK_INDEX))
+                    .setApiCallIndex(properties.getProperty(DATA_STORE_ES_API_CALL_INDEX));
             properties.stringPropertyNames().stream()
                     .filter(k -> k.startsWith(DATA_STORE_ES_FIELD))
                     .forEach(k -> builder.setFieldMapping(k, properties.getProperty(k)));
