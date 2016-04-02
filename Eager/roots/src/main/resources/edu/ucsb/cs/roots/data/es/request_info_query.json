@@ -14,7 +14,7 @@
     }
   },
   "sort": {
-    "timestamp": "asc"
+    "%s": "asc"
   },
   "size": 4000
 }

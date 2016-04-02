@@ -30,7 +30,7 @@ public class RequestInfoQuery extends Query {
     @Override
     public String getJsonString() {
         return String.format(REQUEST_INFO_QUERY, applicationField, application,
-                apiCallTimestampField, start, end);
+                apiCallTimestampField, start, end, apiCallTimestampField);
     }
 
     public static Builder newBuilder() {
