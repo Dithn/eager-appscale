@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class RequestInfoQuery extends Query {
+public final class RequestInfoQuery extends Query {
 
     private static final String REQUEST_INFO_QUERY = Query.loadTemplate(
             "request_info_query.json");

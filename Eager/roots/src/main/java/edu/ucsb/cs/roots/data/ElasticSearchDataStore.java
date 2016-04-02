@@ -238,13 +238,58 @@ public class ElasticSearchDataStore implements DataStore {
         ImmutableListMultimap<String,ApiCall> apiCalls = builder.build();
 
         ImmutableListMultimap.Builder<String,ApplicationRequest> resultBuilder = ImmutableListMultimap.builder();
+        apiCalls.keySet().forEach(requestId -> {
+            ImmutableList<ApiCall> calls = apiCalls.get(requestId);
+            // TODO: Get timestamp from request-level timestamp field
+            // TODO: Get operation from request-level data
+            ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getTimestamp(),
+                    application, "GET /dummy", calls);
+            resultBuilder.put("GET /dummy", req);
+        });
+        return resultBuilder.build();
+    }
+
+    @Override
+    public ImmutableList<ApplicationRequest> getRequestInfo(
+            String application, String operation, long start, long end) throws DataStoreException {
+        checkArgument(!Strings.isNullOrEmpty(apiCallIndex), "API Call index is required");
+        String query = RequestInfoQuery.newBuilder()
+                .setStart(start)
+                .setEnd(end)
+                .setApplication(application)
+                .setApiCallTimestampField(fieldMappings.get(API_CALL_TIMESTAMP))
+                .setApplicationField(fieldMappings.get(API_CALL_APPLICATION))
+                .buildJsonString();
+        // TODO: Store API calls under separate application types
+        String path = String.format("/%s/apicall/_search", apiCallIndex);
+        ImmutableListMultimap.Builder<String,ApiCall> builder = ImmutableListMultimap.builder();
+        try {
+            JsonElement results = makeHttpCall(path, "scroll=1m", query);
+            String scrollId = results.getAsJsonObject().get("_scroll_id").getAsString();
+            long total = results.getAsJsonObject().getAsJsonObject("hits").get("total").getAsLong();
+            long received = 0L;
+            while (true) {
+                received += parseApiCalls(results, builder);
+                if (received >= total) {
+                    break;
+                }
+                results = makeHttpCall("/_search/scroll", ScrollQuery.build(scrollId));
+            }
+        } catch (IOException | URISyntaxException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+        ImmutableListMultimap<String,ApiCall> apiCalls = builder.build();
+
+        ImmutableList.Builder<ApplicationRequest> resultBuilder = ImmutableList.builder();
+        Random rand = new Random();
         apiCalls.keySet().forEach(k -> {
             ImmutableList<ApiCall> calls = apiCalls.get(k);
             // TODO: Get timestamp from request-level timestamp field
             // TODO: Get operation from request-level data
-            ApplicationRequest req = new ApplicationRequest(calls.get(0).getTimestamp(),
-                    application, "GET /dummy", calls);
-            resultBuilder.put("GET /dummy", req);
+            int total = calls.stream().mapToInt(ApiCall::getTimeElapsed).sum() + rand.nextInt(100);
+            ApplicationRequest req = new ApplicationRequest(k, calls.get(0).getTimestamp(),
+                    application, "GET /dummy", calls, total);
+            resultBuilder.add(req);
         });
         return resultBuilder.build();
     }

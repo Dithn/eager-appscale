@@ -13,6 +13,7 @@ public final class RConnectionPoolFactory extends BasePooledObjectFactory<RConne
         RConnection r = new RConnection();
         r.eval("library('dtw')");
         r.eval("library('changepoint')");
+        r.eval("library('relaimpo')");
         return r;
     }
 

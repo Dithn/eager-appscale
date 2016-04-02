@@ -15,9 +15,9 @@ public class ApplicationRequestTest {
     @Test
     public void testPathString0() {
         ImmutableList<ApiCall> calls = ImmutableList.of();
-        ApplicationRequest request = new ApplicationRequest(100, "app", "op", calls);
+        ApplicationRequest request = new ApplicationRequest("test", 100, "app", "op", calls);
         Assert.assertEquals("", request.getPathAsString());
-        Assert.assertEquals(0, request.getTotalTime());
+        Assert.assertEquals(0, request.getResponseTime());
     }
 
     @Test
@@ -25,9 +25,9 @@ public class ApplicationRequestTest {
         ImmutableList<ApiCall> calls = ImmutableList.of(
                 new ApiCall(100, "foo", "bar", 10)
         );
-        ApplicationRequest request = new ApplicationRequest(100, "app", "op", calls);
+        ApplicationRequest request = new ApplicationRequest("test", 100, "app", "op", calls);
         Assert.assertEquals("foo:bar", request.getPathAsString());
-        Assert.assertEquals(10, request.getTotalTime());
+        Assert.assertEquals(10, request.getResponseTime());
     }
 
     @Test
@@ -36,9 +36,9 @@ public class ApplicationRequestTest {
                 new ApiCall(100, "foo", "bar", 10),
                 new ApiCall(100, "foo", "baz", 10)
         );
-        ApplicationRequest request = new ApplicationRequest(100, "app", "op", calls);
+        ApplicationRequest request = new ApplicationRequest("test", 100, "app", "op", calls);
         Assert.assertEquals("foo:bar, foo:baz", request.getPathAsString());
-        Assert.assertEquals(20, request.getTotalTime());
+        Assert.assertEquals(20, request.getResponseTime());
     }
 
 }

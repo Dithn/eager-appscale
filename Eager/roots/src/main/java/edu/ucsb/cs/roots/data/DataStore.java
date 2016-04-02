@@ -58,6 +58,11 @@ public interface DataStore {
         return ImmutableListMultimap.of();
     }
 
+    default ImmutableList<ApplicationRequest> getRequestInfo(
+            String application, String operation, long start, long end) throws DataStoreException {
+        return ImmutableList.of();
+    }
+
     default void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
     }
 

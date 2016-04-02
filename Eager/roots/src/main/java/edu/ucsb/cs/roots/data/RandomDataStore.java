@@ -91,8 +91,8 @@ public class RandomDataStore implements DataStore {
             for (int j = 0; j < apiCalls; j++) {
                 callBuilder.add(new ApiCall(start + offset, "datastore", "op" + j, RAND.nextInt(30)));
             }
-            ApplicationRequest record = new ApplicationRequest(start + offset, application,
-                    operation, callBuilder.build());
+            ApplicationRequest record = new ApplicationRequest(UUID.randomUUID().toString(),
+                    start + offset, application, operation, callBuilder.build());
             builder.add(record);
         }
         return builder.build();
