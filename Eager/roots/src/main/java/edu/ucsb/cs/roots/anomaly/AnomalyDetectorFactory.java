@@ -13,7 +13,7 @@ public class AnomalyDetectorFactory {
     private static final String APPLICATION = "application";
     private static final String DETECTOR = "detector";
     private static final String DETECTOR_PERIOD = "period";
-    private static final String DETECTOR_PERIOD_TIME_UNIT = "timeUnit";
+    private static final String DETECTOR_PERIOD_TIME_UNIT = DETECTOR_PERIOD + ".timeUnit";
     private static final String DETECTOR_DATA_STORE = "dataStore";
 
     private static final String DETECTOR_HISTORY_LENGTH = "history";

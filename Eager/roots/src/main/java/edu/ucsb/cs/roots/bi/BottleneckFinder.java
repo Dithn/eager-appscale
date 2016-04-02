@@ -13,13 +13,14 @@ import org.rosuda.REngine.REXP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class BottleneckFinder {
 
     private static final Logger log = LoggerFactory.getLogger(BottleneckFinder.class);
+
+    private static final String LOCAL = "LOCAL";
 
     private final RootsEnvironment environment;
 
@@ -76,12 +77,62 @@ public final class BottleneckFinder {
             client.evalAndAssign("model", "lm(Total ~ ., data=df)");
             client.evalAndAssign("rankings", "calc.relimp(model, type=c('lmg'))");
             REXP rankings = client.eval("rankings$lmg");
-            double[] results = rankings.asDoubles();
-            for (int i = 0; i < results.length; i++) {
-                log.info("Relative importance: {}: {}", apiCalls.get(i).name(), results[i]);
-            }
+
+            List<RelativeImportance> result = getRelativeImportance(apiCalls, rankings.asDoubles());
+            log.info(getLogEntry(path, result));
         } catch (Exception e) {
             log.error("Error while computing relative importance metrics", e);
+        }
+    }
+
+    private List<RelativeImportance> getRelativeImportance(List<ApiCall> apiCalls, double[] rankings) {
+        List<RelativeImportance> result = new ArrayList<>(rankings.length);
+        for (int i = 0; i < rankings.length; i++) {
+            RelativeImportance ri = new RelativeImportance(apiCalls.get(i).name(), rankings[i]);
+            result.add(ri);
+        }
+        result.add(new RelativeImportance(LOCAL, 1.0 - result.stream()
+                .mapToDouble(r -> r.importance).sum()));
+
+        Map<RelativeImportance,Integer> indexMap = new TreeMap<>(Collections.reverseOrder());
+        result.forEach(r -> indexMap.put(r, 0));
+
+        int rank = 1;
+        for (RelativeImportance ri : indexMap.keySet()) {
+            ri.ranking = rank++;
+        }
+        return result;
+    }
+
+    private String getLogEntry(String path, List<RelativeImportance> result) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Relative importance metrics for path: ").append(path).append('\n');
+        result.forEach(r -> sb.append(r).append('\n'));
+        sb.append('\n');
+        sb.append("Total variance explained: ").append(result.stream()
+                .filter(r -> !r.apiCall.equals(LOCAL))
+                .mapToDouble(r -> r.importance).sum());
+        return sb.toString();
+    }
+
+    private static class RelativeImportance implements Comparable<RelativeImportance> {
+        private final String apiCall;
+        private final double importance;
+        private int ranking;
+
+        RelativeImportance(String apiCall, double importance) {
+            this.apiCall = apiCall;
+            this.importance = importance;
+        }
+
+        @Override
+        public int compareTo(RelativeImportance o) {
+            return Double.compare(this.importance, o.importance);
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[%2d] %s %f", ranking, apiCall, importance);
         }
     }
 }
