@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -466,7 +467,9 @@ public class ElasticSearchDataStore implements DataStore {
         requests.keySet().forEach(k -> {
             List<ApplicationRequest> list = requests.get(k);
             System.out.println("k >>>> " + list.size());
-            list.forEach(v -> System.out.println(v.getApiCalls().size()));
+            Map<String,List<ApplicationRequest>> grouped = list.stream().collect(
+                    Collectors.groupingBy(ApplicationRequest::getPathAsString));
+            grouped.forEach((k1,v1) -> System.out.println(k1 + " -> " + v1.size()));
         });
         dataStore.destroy();
     }
