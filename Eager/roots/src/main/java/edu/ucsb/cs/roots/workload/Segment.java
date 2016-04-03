@@ -18,6 +18,8 @@ public final class Segment {
      * @param data Array of data entries
      */
     public Segment(int start, int end, double[] data) {
+        checkArgument(start >= 0 && start < data.length, "Invalid segment start index");
+        checkArgument(end >= 0 && end <= data.length, "Invalid segment end index");
         checkArgument(start < end);
         this.start = start;
         this.end = end;

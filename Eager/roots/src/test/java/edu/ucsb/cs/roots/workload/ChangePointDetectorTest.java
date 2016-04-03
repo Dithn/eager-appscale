@@ -7,7 +7,7 @@ public class ChangePointDetectorTest {
 
     @Test
     public void testNoChangePoints() throws Exception {
-        TestDetector detector = new TestDetector(new int[]{-1});
+        TestDetector detector = new TestDetector(new int[]{});
         Segment[] segments = detector.computeSegments(new double[]{1,2,1,2});
         Assert.assertEquals(1, segments.length);
         Assert.assertEquals(0, segments[0].getStart());

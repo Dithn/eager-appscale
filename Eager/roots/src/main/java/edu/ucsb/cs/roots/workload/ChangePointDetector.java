@@ -6,7 +6,7 @@ public abstract class ChangePointDetector {
 
     public final Segment[] computeSegments(double[] data) throws Exception {
         int[] changePoints = computeChangePoints(data);
-        if (changePoints[0] == -1) {
+        if (changePoints.length == 0) {
             return new Segment[]{ new Segment(0, data.length, data) };
         }
         Segment[] segments = new Segment[changePoints.length + 1];
@@ -23,6 +23,5 @@ public abstract class ChangePointDetector {
         }
         return segments;
     }
-
 
 }

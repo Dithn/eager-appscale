@@ -23,7 +23,14 @@ public class PELTChangePointDetector extends ChangePointDetector {
             r.assign("x", data);
             r.evalAndAssign("result", getRCall());
             REXP result = r.eval("cpts(result)");
-            return Arrays.stream(result.asIntegers()).map(i -> i - 1).toArray();
+            int[] indices = result.asIntegers();
+            if (indices[0] == 0) {
+                return new int[]{};
+            }
+
+            // Indices returned by the 'changepoints' library represent
+            // the R indices of the last values of the segments.
+            return Arrays.stream(indices).map(i -> i - 1).toArray();
         }
     }
 
