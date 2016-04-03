@@ -10,7 +10,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A change point detector based on "Joint Estimation of Model Parameters and Outlier
- * Effects in Time Series" by Chen and Lui (1993). Uses the tsoutliers package of R.
+ * Effects in Time Series" by Chen and Liu (1993). Uses the tsoutliers package of R.
  */
 public class CLChangePointDetector extends ChangePointDetector {
 
