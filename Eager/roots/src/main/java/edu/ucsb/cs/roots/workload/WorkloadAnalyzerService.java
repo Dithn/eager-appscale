@@ -3,6 +3,7 @@ package edu.ucsb.cs.roots.workload;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.eventbus.Subscribe;
+import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
@@ -38,7 +39,7 @@ public final class WorkloadAnalyzerService extends ManagedService {
                 return;
             }
 
-            Segment[] segments = changePointDetector.computeSegments(summary);
+            Segment[] segments = changePointDetector.computeSegments(Doubles.toArray(summary));
             for (int i = 1; i < segments.length; i++) {
                 double percentageIncrease = segments[i-1].percentageIncrease(segments[i]);
                 // TODO: Find a more meaningful day to handle this information

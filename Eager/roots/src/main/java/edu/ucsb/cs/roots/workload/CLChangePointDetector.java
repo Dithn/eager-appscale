@@ -1,12 +1,10 @@
 package edu.ucsb.cs.roots.workload;
 
-import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;
 import org.rosuda.REngine.REXP;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -24,9 +22,9 @@ public class CLChangePointDetector extends ChangePointDetector {
     }
 
     @Override
-    public int[] computeChangePoints(List<Double> data) throws Exception {
+    public int[] computeChangePoints(double[] data) throws Exception {
         try (RClient client = new RClient(rService)) {
-            client.assign("x", Doubles.toArray(data));
+            client.assign("x", data);
             client.evalAndAssign("x_ts", "ts(x)");
             client.evalAndAssign("result", "tso(x_ts, types=c('LS'))");
             REXP result = client.eval("result$outliers[,2]");

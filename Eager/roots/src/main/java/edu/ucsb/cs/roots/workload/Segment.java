@@ -1,6 +1,6 @@
 package edu.ucsb.cs.roots.workload;
 
-import java.util.List;
+import java.util.Arrays;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -15,14 +15,13 @@ public final class Segment {
      *
      * @param start Start index for the data segment (inclusive)
      * @param end End index for the data segment (exclusive)
-     * @param data List of data entries
+     * @param data Array of data entries
      */
-    public Segment(int start, int end, List<Double> data) {
+    public Segment(int start, int end, double[] data) {
         checkArgument(start < end);
         this.start = start;
         this.end = end;
-        this.mean = data.subList(start, end).stream().mapToDouble(Double::doubleValue)
-                .average().getAsDouble();
+        this.mean = Arrays.stream(data, start, end).average().getAsDouble();
     }
 
     public int getStart() {
