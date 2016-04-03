@@ -14,6 +14,7 @@ public final class RConnectionPoolFactory extends BasePooledObjectFactory<RConne
         r.eval("library('dtw')");
         r.eval("library('changepoint')");
         r.eval("library('relaimpo')");
+        r.eval("library('tsoutliers')");
         return r;
     }
 

@@ -10,6 +10,13 @@ public final class Segment {
     private final int end;
     private final double mean;
 
+    /**
+     * Create a new data segment.
+     *
+     * @param start Start index for the data segment (inclusive)
+     * @param end End index for the data segment (exclusive)
+     * @param data List of data entries
+     */
     public Segment(int start, int end, List<Double> data) {
         checkArgument(start < end);
         this.start = start;
