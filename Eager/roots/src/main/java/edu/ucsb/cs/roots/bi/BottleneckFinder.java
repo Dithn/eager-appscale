@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.bi;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.data.ApiCall;
@@ -57,12 +58,7 @@ public final class BottleneckFinder {
         try (RClient client = new RClient(rService)) {
             client.evalAndAssign("df", "data.frame()");
             for (ApplicationRequest r : requests) {
-                double[] values = new double[callCount + 1];
-                for (int i = 0; i < callCount; i++) {
-                    values[i] = r.getApiCalls().get(i).getTimeElapsed();
-                }
-                values[callCount] = r.getResponseTime();
-                client.assign("x", values);
+                client.assign("x", getResponseTimeVector(r));
                 client.evalAndAssign("df", "rbind(df, x)");
             }
 
@@ -85,20 +81,26 @@ public final class BottleneckFinder {
         }
     }
 
+    private double[] getResponseTimeVector(ApplicationRequest request) {
+        List<Integer> vector = request.getApiCalls().stream().map(ApiCall::getTimeElapsed)
+                .collect(Collectors.toCollection(ArrayList::new));
+        vector.add(request.getResponseTime());
+        return Doubles.toArray(vector);
+    }
+
     private List<RelativeImportance> getRelativeImportance(List<ApiCall> apiCalls, double[] rankings) {
         List<RelativeImportance> result = new ArrayList<>(rankings.length);
         for (int i = 0; i < rankings.length; i++) {
-            RelativeImportance ri = new RelativeImportance(apiCalls.get(i).name(), rankings[i]);
-            result.add(ri);
+            result.add(new RelativeImportance(apiCalls.get(i).name(), rankings[i]));
         }
         result.add(new RelativeImportance(LOCAL, 1.0 - result.stream()
                 .mapToDouble(r -> r.importance).sum()));
 
-        Map<RelativeImportance,Integer> indexMap = new TreeMap<>(Collections.reverseOrder());
-        result.forEach(r -> indexMap.put(r, 0));
-
+        // Set rankings based on the importance score
+        Set<RelativeImportance> indexSet = new TreeSet<>(Collections.reverseOrder());
+        indexSet.addAll(result);
         int rank = 1;
-        for (RelativeImportance ri : indexMap.keySet()) {
+        for (RelativeImportance ri : indexSet) {
             ri.ranking = rank++;
         }
         return result;
@@ -135,4 +137,31 @@ public final class BottleneckFinder {
             return String.format("[%2d] %s %f", ranking, apiCall, importance);
         }
     }
+
+    /*public static void main(String[] args) throws Exception {
+        RootsEnvironment environment = new RootsEnvironment("Test", new FileConfigLoader("conf"));
+        environment.init();
+        Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {
+            @Override
+            public void run() {
+                environment.destroy();
+            }
+        });
+
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        cal.set(2016, Calendar.JANUARY, 16, 0, 0, 0);
+        Date start = cal.getTime();
+        cal.set(2016, Calendar.JANUARY, 16, 1, 0, 0);
+        Date end = cal.getTime();
+        CorrelationBasedDetector detector = CorrelationBasedDetector.newBuilder()
+                .setApplication("watchtower")
+                .setDataStore("elk")
+                .build(environment);
+        Anomaly anomaly = new Anomaly(detector, start.getTime(), end.getTime(), "GET /foo", "foo");
+
+        BottleneckFinder finder = new BottleneckFinder(environment);
+        finder.run(anomaly);
+
+        environment.waitFor();
+    }*/
 }
