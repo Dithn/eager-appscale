@@ -35,25 +35,34 @@ public final class WorkloadAnalyzerService extends ManagedService {
                     anomaly.getOperation(), start, anomaly.getEnd(),
                     anomaly.getPeriodInSeconds() * 1000);
             if (summary.size() == 0) {
-                log.warn("No workload data found for {}", anomaly.getApplication());
+                log.warn("No workload data found for {} [{}]", anomaly.getApplication(),
+                        anomaly.getOperation());
                 return;
             }
 
             Segment[] segments = changePointDetector.computeSegments(Doubles.toArray(summary));
-            if (segments.length == 1) {
-                log.info("No significant changes in workload to report");
-                return;
-            }
-            for (int i = 1; i < segments.length; i++) {
-                double percentageIncrease = segments[i-1].percentageIncrease(segments[i]);
-                // TODO: Find a more meaningful way to handle this information
-                if (percentageIncrease > 200) {
-                    log.info("Problematic workload increase at {}: {} --> {}", segments[i].getStart(),
-                            segments[i-1].getMean(), segments[i].getMean());
-                }
-            }
+            analyzeSegments(segments, anomaly);
         } catch (Exception e) {
             log.error("Error while computing workload changes for: {}", anomaly.getApplication(), e);
+        }
+    }
+
+    private void analyzeSegments(Segment[] segments, Anomaly anomaly) {
+        int length = segments.length;
+        if (length == 1) {
+            log.info("No significant changes in workload to report for {} [{}]",
+                    anomaly.getApplication(), anomaly.getOperation());
+            return;
+        }
+
+        log.info("Net change in workload: {} --> {} [{}%]",
+                segments[0].getMean(), segments[length-1].getMean(),
+                segments[0].percentageIncrease(segments[length - 1]));
+        if (length > 2) {
+            for (int i = 1; i < segments.length; i++) {
+                log.info("Workload level shift at {}: {} --> {}", segments[i].getStart(),
+                        segments[i-1].getMean(), segments[i].getMean());
+            }
         }
     }
 

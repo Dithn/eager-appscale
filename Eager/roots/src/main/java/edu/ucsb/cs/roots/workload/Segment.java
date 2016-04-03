@@ -2,7 +2,7 @@ package edu.ucsb.cs.roots.workload;
 
 import java.util.Arrays;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 public final class Segment {
 
@@ -18,9 +18,7 @@ public final class Segment {
      * @param data Array of data entries
      */
     public Segment(int start, int end, double[] data) {
-        checkArgument(start >= 0 && start < data.length, "Invalid segment start index");
-        checkArgument(end >= 0 && end <= data.length, "Invalid segment end index");
-        checkArgument(start < end);
+        checkPositionIndexes(start, end, data.length);
         this.start = start;
         this.end = end;
         this.mean = Arrays.stream(data, start, end).average().getAsDouble();
