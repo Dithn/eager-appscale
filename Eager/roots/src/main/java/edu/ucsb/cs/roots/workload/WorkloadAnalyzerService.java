@@ -55,15 +55,13 @@ public final class WorkloadAnalyzerService extends ManagedService {
             return;
         }
 
+        for (int i = 1; i < segments.length; i++) {
+            log.info("Workload level shift at {}: {} --> {}", segments[i].getStart(),
+                    segments[i-1].getMean(), segments[i].getMean());
+        }
         log.info("Net change in workload: {} --> {} [{}%]",
                 segments[0].getMean(), segments[length-1].getMean(),
                 segments[0].percentageIncrease(segments[length - 1]));
-        if (length > 2) {
-            for (int i = 1; i < segments.length; i++) {
-                log.info("Workload level shift at {}: {} --> {}", segments[i].getStart(),
-                        segments[i-1].getMean(), segments[i].getMean());
-            }
-        }
     }
 
     private ChangePointDetector getChangePointDetector(Anomaly anomaly) {
