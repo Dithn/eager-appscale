@@ -155,7 +155,6 @@ public final class BottleneckFinder {
         Date end = cal.getTime();
         CorrelationBasedDetector detector = CorrelationBasedDetector.newBuilder()
                 .setApplication("watchtower")
-                .setDataStore("elk")
                 .build(environment);
         Anomaly anomaly = new Anomaly(detector, start.getTime(), end.getTime(), "GET /foo", "foo");
 

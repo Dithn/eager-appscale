@@ -48,7 +48,8 @@ public class RandomDataStore implements DataStore {
             String application, long start, long end, long period) {
         ImmutableMap<String,ResponseTimeSummary> lastPeriod = getResponseTimeSummary(
                 application, end - period, end);
-        ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder = ImmutableListMultimap.builder();
+        ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder =
+                ImmutableListMultimap.builder();
         lastPeriod.forEach(builder::put);
         return builder.build();
     }
@@ -59,7 +60,8 @@ public class RandomDataStore implements DataStore {
         List<BenchmarkResult> logEntries = generateRandomResults(application, start, end, 2);
         Map<String,List<BenchmarkResult>> groupedEntries = logEntries.stream()
                 .collect(Collectors.groupingBy(BenchmarkResult::getRequestType));
-        ImmutableListMultimap.Builder<String,BenchmarkResult> builder = ImmutableListMultimap.builder();
+        ImmutableListMultimap.Builder<String,BenchmarkResult> builder =
+                ImmutableListMultimap.builder();
         groupedEntries.forEach(builder::putAll);
         return builder.build();
     }
@@ -67,12 +69,19 @@ public class RandomDataStore implements DataStore {
     @Override
     public ImmutableListMultimap<String,ApplicationRequest> getRequestInfo(
             String application, long start, long end) {
-        ImmutableListMultimap.Builder<String,ApplicationRequest> builder = ImmutableListMultimap.builder();
+        ImmutableListMultimap.Builder<String,ApplicationRequest> builder =
+                ImmutableListMultimap.builder();
         builder.putAll("GET /", getApplicationRequests(
                 application, "GET /", start, end, RAND.nextInt(50), 3));
         builder.putAll("POST /", getApplicationRequests(
                 application, "POST /", start, end, RAND.nextInt(50), 2));
         return builder.build();
+    }
+
+    @Override
+    public ImmutableList<ApplicationRequest> getRequestInfo(
+            String application, String operation, long start, long end) throws DataStoreException {
+        return getApplicationRequests(application, operation, start, end, RAND.nextInt(50), 3);
     }
 
     @Override
@@ -89,10 +98,14 @@ public class RandomDataStore implements DataStore {
             long offset = RAND.nextInt((int) (end - start));
             ImmutableList.Builder<ApiCall> callBuilder = ImmutableList.builder();
             for (int j = 0; j < apiCalls; j++) {
-                callBuilder.add(new ApiCall(start + offset, "datastore", "op" + j, RAND.nextInt(30)));
+                callBuilder.add(new ApiCall(start + offset, "datastore",
+                        "op" + j, RAND.nextInt(30)));
             }
+            ImmutableList<ApiCall> apiCallList = callBuilder.build();
+            int total = apiCallList.stream().mapToInt(ApiCall::getTimeElapsed).sum()
+                    + RAND.nextInt(10);
             ApplicationRequest record = new ApplicationRequest(UUID.randomUUID().toString(),
-                    start + offset, application, operation, callBuilder.build());
+                    start + offset, application, operation, apiCallList, total);
             builder.add(record);
         }
         return builder.build();
