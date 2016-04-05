@@ -3,12 +3,16 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class ApplicationRequest {
+
+    public static final Comparator<ApplicationRequest> TIME_ORDER = (o1, o2) ->
+            Long.compare(o1.getTimestamp(), o2.getTimestamp());
 
     private final String requestId;
     private final long timestamp;

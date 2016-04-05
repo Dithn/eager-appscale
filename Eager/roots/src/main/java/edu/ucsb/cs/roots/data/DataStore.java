@@ -3,6 +3,7 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedSet;
 
 public interface DataStore {
 
@@ -58,9 +59,9 @@ public interface DataStore {
         return ImmutableListMultimap.of();
     }
 
-    default ImmutableList<ApplicationRequest> getRequestInfo(
+    default ImmutableSortedSet<ApplicationRequest> getRequestInfo(
             String application, String operation, long start, long end) throws DataStoreException {
-        return ImmutableList.of();
+        return ImmutableSortedSet.of();
     }
 
     default void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {

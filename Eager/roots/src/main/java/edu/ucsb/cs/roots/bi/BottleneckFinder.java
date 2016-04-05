@@ -1,6 +1,6 @@
 package edu.ucsb.cs.roots.bi;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
@@ -10,8 +10,6 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;
-import edu.ucsb.cs.roots.workload.CLChangePointDetector;
-import edu.ucsb.cs.roots.workload.Segment;
 import org.rosuda.REngine.REXP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +34,7 @@ public final class BottleneckFinder {
         long start = anomaly.getEnd() - 2 * history;
         DataStore ds = environment.getDataStoreService().get(anomaly.getDataStore());
         try {
-            ImmutableList<ApplicationRequest> requests = ds.getRequestInfo(
+            ImmutableSortedSet<ApplicationRequest> requests = ds.getRequestInfo(
                     anomaly.getApplication(), anomaly.getOperation(), start, anomaly.getEnd());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
@@ -56,62 +54,61 @@ public final class BottleneckFinder {
             return;
         }
 
-        Map<ApiCall,double[]> importanceTrend = new HashMap<>();
         RService rService = environment.getRService();
         try (RClient client = new RClient(rService)) {
             client.evalAndAssign("df", "data.frame()");
-            client.evalAndAssign("df_r", "data.frame()");
+            List<RelativeImportance> init = null;
             for (int i = 0; i < requests.size(); i++) {
                 client.assign("x", getResponseTimeVector(requests.get(i)));
                 client.evalAndAssign("df", "rbind(df, x)");
                 if (i == 0) {
                     client.assign("df_names", getColumnNames(callCount, true));
                     client.eval("names(df) = df_names");
-                } else if (i > callCount) {
-                    client.evalAndAssign("model", "lm(Total ~ ., data=df)");
-                    client.evalAndAssign("rankings", "calc.relimp(model, type=c('lmg'))");
-                    client.evalAndAssign("df_r", "rbind(df_r, rankings$lmg)");
-                    if (i == callCount + 1) {
-                        client.assign("df_names", getColumnNames(callCount, false));
-                        client.eval("names(df_r) = df_names");
-                    }
+                } else if (i == callCount + 1) {
+                    init = computeRankings(client, apiCalls);
                 }
             }
 
-            for (int i = 0; i < apiCalls.size(); i++) {
-                REXP col = client.eval(String.format("df_r[,%d]", i + 1));
-                importanceTrend.put(apiCalls.get(i), col.asDoubles());
-            }
-
-            REXP rankings = client.eval("rankings$lmg");
-
-            List<RelativeImportance> result = getRelativeImportance(apiCalls, rankings.asDoubles());
+            List<RelativeImportance> result = computeRankings(client, apiCalls);
             log.info(getLogEntry(path, result));
+            if (init != null) {
+                for (int i = 0; i < apiCalls.size(); i++) {
+                    log.info("{}: {} --> {}", apiCalls.get(i).name(),
+                            init.get(i).importance, result.get(i).importance);
+                }
+            }
         } catch (Exception e) {
             log.error("Error while computing relative importance metrics", e);
         }
-
-        apiCalls.forEach(call -> analyzeTrend(rService, call.name(), importanceTrend.get(call)));
     }
 
-    private void analyzeTrend(RService rService, String call, double[] trend) {
-        try {
-            CLChangePointDetector cpd = new CLChangePointDetector(rService);
-            log.info("**** {}", Arrays.toString(trend));
-            Segment[] segments = cpd.computeSegments(trend);
-            if (segments.length == 1) {
-                log.info("{}: No significant changes in trend", call);
-            } else {
-                StringBuilder sb = new StringBuilder();
-                sb.append(segments[0].getMean());
-                for (int i = 1; i < segments.length; i++) {
-                    sb.append(" -> ").append(segments[i].getMean());
-                }
-                log.info("{}: {}", call, sb.toString());
-            }
-        } catch (Exception e) {
-            log.error("Error while analyzing relative importance trend", e);
+    /**
+     * Returns a List of RelativeImportance objects (one object per ApiCall). The returned list's
+     * order corresponds to the order of the input ApiCall list. The rankings attribute on each
+     * RelativeImportance instance is set according to the decreasing order of the relative
+     * importance metric.
+     */
+    private List<RelativeImportance> computeRankings(RClient client,
+                                                     List<ApiCall> apiCalls) throws Exception {
+        client.evalAndAssign("model", "lm(Total ~ ., data=df)");
+        client.evalAndAssign("rankings", "calc.relimp(model, type=c('lmg'))");
+        REXP rankingsExpr = client.eval("rankings$lmg");
+        double[] rankings = rankingsExpr.asDoubles();
+        List<RelativeImportance> result = new ArrayList<>(rankings.length);
+        for (int i = 0; i < rankings.length; i++) {
+            result.add(new RelativeImportance(apiCalls.get(i).name(), rankings[i]));
         }
+        result.add(new RelativeImportance(LOCAL, 1.0 - result.stream()
+                .mapToDouble(r -> r.importance).sum()));
+
+        // Set rankings based on the importance score
+        List<RelativeImportance> sorted = result.stream().sorted(Collections.reverseOrder())
+                .collect(Collectors.toList());
+        int rank = 1;
+        for (RelativeImportance ri : sorted) {
+            ri.ranking = rank++;
+        }
+        return result;
     }
 
     private String[] getColumnNames(int callCount, boolean total) {
@@ -133,24 +130,6 @@ public final class BottleneckFinder {
                 .collect(Collectors.toCollection(ArrayList::new));
         vector.add(request.getResponseTime());
         return Doubles.toArray(vector);
-    }
-
-    private List<RelativeImportance> getRelativeImportance(List<ApiCall> apiCalls, double[] rankings) {
-        List<RelativeImportance> result = new ArrayList<>(rankings.length);
-        for (int i = 0; i < rankings.length; i++) {
-            result.add(new RelativeImportance(apiCalls.get(i).name(), rankings[i]));
-        }
-        result.add(new RelativeImportance(LOCAL, 1.0 - result.stream()
-                .mapToDouble(r -> r.importance).sum()));
-
-        // Set rankings based on the importance score
-        Set<RelativeImportance> indexSet = new TreeSet<>(Collections.reverseOrder());
-        indexSet.addAll(result);
-        int rank = 1;
-        for (RelativeImportance ri : indexSet) {
-            ri.ranking = rank++;
-        }
-        return result;
     }
 
     private String getLogEntry(String path, List<RelativeImportance> result) {

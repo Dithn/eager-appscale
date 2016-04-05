@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.gson.*;
 import edu.ucsb.cs.roots.data.es.*;
 import org.apache.commons.io.IOUtils;
@@ -27,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 public class ElasticSearchDataStore implements DataStore {
 
@@ -234,7 +236,7 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableList<ApplicationRequest> getRequestInfo(
+    public ImmutableSortedSet<ApplicationRequest> getRequestInfo(
             String application, String operation, long start, long end) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(apiCallIndex), "API Call index is required");
         String query = RequestInfoQuery.newBuilder()
@@ -248,7 +250,8 @@ public class ElasticSearchDataStore implements DataStore {
         String path = String.format("/%s/apicall/_search", apiCallIndex);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
-        ImmutableList.Builder<ApplicationRequest> resultBuilder = ImmutableList.builder();
+        ImmutableSortedSet.Builder<ApplicationRequest> resultBuilder = ImmutableSortedSet.orderedBy(
+                ApplicationRequest.TIME_ORDER);
         Random rand = new Random();
         apiCalls.keySet().forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
@@ -496,15 +499,12 @@ public class ElasticSearchDataStore implements DataStore {
         start = cal.getTime();
         cal.set(2016, Calendar.JANUARY, 16, 1, 0, 0);
         end = cal.getTime();
-        ImmutableListMultimap<String,ApplicationRequest> requests = dataStore.getRequestInfo(
-                "watchtower", start.getTime(), end.getTime());
-        requests.keySet().forEach(op -> {
-            List<ApplicationRequest> list = requests.get(op);
-            System.out.println(op + " >>>> " + list.size());
-            Map<String,List<ApplicationRequest>> grouped = list.stream().collect(
-                    Collectors.groupingBy(ApplicationRequest::getPathAsString));
-            grouped.forEach((k1,v1) -> System.out.println(k1 + " -> " + v1.size()));
-        });
+        ImmutableSortedSet<ApplicationRequest> list = dataStore.getRequestInfo(
+                "watchtower", "/benchmark", start.getTime(), end.getTime());
+        Map<String,List<ApplicationRequest>> grouped = list.stream().collect(
+                Collectors.groupingBy(ApplicationRequest::getPathAsString));
+        grouped.forEach((k1,v1) -> System.out.println(k1 + " -> " + v1.size()));
+
         dataStore.destroy();
     }
 }
