@@ -28,7 +28,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 
 public class ElasticSearchDataStore implements DataStore {
 
@@ -48,10 +47,10 @@ public class ElasticSearchDataStore implements DataStore {
 
     private static final String API_CALL_TIMESTAMP = "field.apiCall.timestamp";
     private static final String API_CALL_APPLICATION = "field.apiCall.application";
-    private static final String API_CALL_SERVICE = "API_CALL_SERVICE";
-    private static final String API_CALL_OPERATION = "API_CALL_OPERATION";
-    private static final String API_CALL_RESPONSE_TIME = "API_CALL_RESPONSE_TIME";
-    private static final String API_CALL_REQ_ID = "API_CALL_REQ_ID";
+    private static final String API_CALL_SERVICE = "field.apiCall.service";
+    private static final String API_CALL_OPERATION = "field.apiCall.operation";
+    private static final String API_CALL_RESPONSE_TIME = "field.apiCall.responseTime";
+    private static final String API_CALL_REQ_ID = "field.apiCall.requestId";
 
     private static final ImmutableMap<String, String> DEFAULT_FIELD_MAPPINGS =
             ImmutableMap.<String, String>builder()
