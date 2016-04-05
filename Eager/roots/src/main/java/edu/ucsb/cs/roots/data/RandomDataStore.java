@@ -3,6 +3,7 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedSet;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +94,8 @@ public class RandomDataStore implements DataStore {
     private ImmutableList<ApplicationRequest> getApplicationRequests(
             String application, String operation, long start, long end, int recordCount,
             int apiCalls) {
-        ImmutableList.Builder<ApplicationRequest> builder = ImmutableList.builder();
+        ImmutableSortedSet.Builder<ApplicationRequest> builder = ImmutableSortedSet.orderedBy(
+                ApplicationRequest.TIME_ORDER);
         for (int i = 0; i < recordCount; i++) {
             long offset = RAND.nextInt((int) (end - start));
             ImmutableList.Builder<ApiCall> callBuilder = ImmutableList.builder();
@@ -108,7 +110,7 @@ public class RandomDataStore implements DataStore {
                     start + offset, application, operation, apiCallList, total);
             builder.add(record);
         }
-        return builder.build();
+        return ImmutableList.copyOf(builder.build());
     }
 
     private List<BenchmarkResult> generateRandomResults(

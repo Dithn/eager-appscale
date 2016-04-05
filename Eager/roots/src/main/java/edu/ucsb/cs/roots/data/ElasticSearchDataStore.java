@@ -1,10 +1,7 @@
 package edu.ucsb.cs.roots.data;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.*;
 import com.google.gson.*;
 import edu.ucsb.cs.roots.data.es.*;
 import org.apache.commons.io.IOUtils;
@@ -222,7 +219,8 @@ public class ElasticSearchDataStore implements DataStore {
         String path = String.format("/%s/apicall/_search", apiCallIndex);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
-        ImmutableListMultimap.Builder<String,ApplicationRequest> builder = ImmutableListMultimap.builder();
+        ImmutableSetMultimap.Builder<String,ApplicationRequest> builder = ImmutableSetMultimap
+                .<String,ApplicationRequest>builder().orderValuesBy(ApplicationRequest.TIME_ORDER);
         apiCalls.keySet().forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
             // TODO: Get timestamp from request-level timestamp field
@@ -231,7 +229,7 @@ public class ElasticSearchDataStore implements DataStore {
                     application, "GET /dummy", calls);
             builder.put("GET /dummy", req);
         });
-        return builder.build();
+        return ImmutableListMultimap.copyOf(builder.build());
     }
 
     @Override
@@ -258,7 +256,7 @@ public class ElasticSearchDataStore implements DataStore {
                     application, operation, calls, total);
             builder.add(req);
         });
-        return builder.build().asList();
+        return ImmutableList.copyOf(builder.build());
     }
 
     @Override

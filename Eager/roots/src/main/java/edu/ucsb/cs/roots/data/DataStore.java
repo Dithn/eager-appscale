@@ -3,7 +3,6 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedSet;
 
 public interface DataStore {
 
@@ -54,6 +53,16 @@ public interface DataStore {
         return ImmutableListMultimap.of();
     }
 
+    /**
+     * Retrieve the requests processed by the specified application, during the specified time
+     * interval. Returns a map of application requests keyed by the operations. ApplicationRequests
+     * for each operation are sorted by the timestamp.
+     *
+     * @param application Name of the application
+     * @param start Start time of the interval (inclusive)
+     * @param end End time of the interval (exclusive)
+     * @return A Map of operation names and sorted ApplicationRequest instances
+     */
     default ImmutableListMultimap<String,ApplicationRequest> getRequestInfo(
             String application, long start, long end) throws DataStoreException {
         return ImmutableListMultimap.of();
