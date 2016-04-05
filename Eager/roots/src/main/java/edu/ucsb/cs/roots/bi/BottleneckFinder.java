@@ -1,6 +1,9 @@
 package edu.ucsb.cs.roots.bi;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
@@ -38,13 +41,14 @@ public final class BottleneckFinder {
                     anomaly.getApplication(), anomaly.getOperation(), start, anomaly.getEnd());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
-            perPathRequests.forEach(this::analyze);
+            perPathRequests.forEach((path,list) -> analyze(path, list, start,
+                    anomaly.getPeriodInSeconds() * 1000));
         } catch (DataStoreException e) {
             log.error("Error while retrieving API call data", e);
         }
     }
 
-    private void analyze(String path, List<ApplicationRequest> requests) {
+    private void analyze(String path, List<ApplicationRequest> requests, long start, long period) {
         List<ApiCall> apiCalls = requests.get(0).getApiCalls();
         int callCount = apiCalls.size();
         if (callCount == 0) {
@@ -54,31 +58,44 @@ public final class BottleneckFinder {
             return;
         }
 
+        long requestCount = 0;
+        ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         RService rService = environment.getRService();
+        Map<Long,List<ApplicationRequest>> groupedByTime = requests.stream()
+                .collect(Collectors.groupingBy(r -> (r.getTimestamp() - start) / period,
+                        TreeMap::new, Collectors.toList()));
+
         try (RClient client = new RClient(rService)) {
             client.evalAndAssign("df", "data.frame()");
-            List<RelativeImportance> init = null;
-            for (int i = 0; i < requests.size(); i++) {
-                client.assign("x", getResponseTimeVector(requests.get(i)));
-                client.evalAndAssign("df", "rbind(df, x)");
-                if (i == 0) {
-                    client.assign("df_names", getColumnNames(callCount, true));
-                    client.eval("names(df) = df_names");
-                } else if (i == callCount + 1) {
-                    init = computeRankings(client, apiCalls);
+            for (long ts : groupedByTime.keySet()) {
+                for (ApplicationRequest request : groupedByTime.get(ts)) {
+                    client.assign("x", getResponseTimeVector(request));
+                    client.evalAndAssign("df", "rbind(df, x)");
+                    if (requestCount == 0) {
+                        client.assign("df_names", getColumnNames(callCount, true));
+                        client.eval("names(df) = df_names");
+                    }
+                    requestCount++;
                 }
-            }
 
-            List<RelativeImportance> result = computeRankings(client, apiCalls);
-            log.info(getLogEntry(path, result));
-            if (init != null) {
-                for (int i = 0; i < apiCalls.size(); i++) {
-                    log.info("{}: {} --> {}", apiCalls.get(i).name(),
-                            init.get(i).importance, result.get(i).importance);
+                if (requestCount > callCount + 1) {
+                    results.putAll(ts, computeRankings(client, apiCalls));
                 }
             }
         } catch (Exception e) {
             log.error("Error while computing relative importance metrics", e);
+        }
+
+        if (results.size() > 0) {
+            List<Long> sortedKeys = results.keySet().stream().sorted().collect(Collectors.toList());
+            log.info(getLogEntry(path, results.get(Iterables.getLast(sortedKeys))));
+            for (int i = 0; i < callCount; i++) {
+                int index = i;
+                String trend = sortedKeys.stream()
+                        .map(k -> String.valueOf(results.get(k).get(index).importance))
+                        .collect(Collectors.joining(", "));
+                log.info("{}: {}", apiCalls.get(i).name(), trend);
+            }
         }
     }
 
