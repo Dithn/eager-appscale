@@ -222,16 +222,16 @@ public class ElasticSearchDataStore implements DataStore {
         String path = String.format("/%s/apicall/_search", apiCallIndex);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
-        ImmutableListMultimap.Builder<String,ApplicationRequest> resultBuilder = ImmutableListMultimap.builder();
+        ImmutableListMultimap.Builder<String,ApplicationRequest> builder = ImmutableListMultimap.builder();
         apiCalls.keySet().forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
             // TODO: Get timestamp from request-level timestamp field
             // TODO: Get operation from request-level data
             ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getTimestamp(),
                     application, "GET /dummy", calls);
-            resultBuilder.put("GET /dummy", req);
+            builder.put("GET /dummy", req);
         });
-        return resultBuilder.build();
+        return builder.build();
     }
 
     @Override
@@ -245,23 +245,20 @@ public class ElasticSearchDataStore implements DataStore {
                 .setApiCallTimestampField(fieldMappings.get(API_CALL_TIMESTAMP))
                 .setApplicationField(fieldMappings.get(API_CALL_APPLICATION))
                 .buildJsonString();
-        // TODO: Store API calls under separate application types
         String path = String.format("/%s/apicall/_search", apiCallIndex);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
-        ImmutableSortedSet.Builder<ApplicationRequest> resultBuilder = ImmutableSortedSet.orderedBy(
+        ImmutableSortedSet.Builder<ApplicationRequest> builder = ImmutableSortedSet.orderedBy(
                 ApplicationRequest.TIME_ORDER);
         Random rand = new Random();
         apiCalls.keySet().forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
-            // TODO: Get timestamp from request-level timestamp field
-            // TODO: Get operation from request-level data
             int total = calls.stream().mapToInt(ApiCall::getTimeElapsed).sum() + rand.nextInt(100);
             ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getTimestamp(),
-                    application, "GET /dummy", calls, total);
-            resultBuilder.add(req);
+                    application, operation, calls, total);
+            builder.add(req);
         });
-        return resultBuilder.build();
+        return builder.build();
     }
 
     @Override
