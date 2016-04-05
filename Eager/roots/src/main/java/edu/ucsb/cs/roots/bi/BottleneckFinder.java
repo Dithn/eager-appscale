@@ -2,14 +2,18 @@ package edu.ucsb.cs.roots.bi;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Doubles;
+import edu.ucsb.cs.roots.FileConfigLoader;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
+import edu.ucsb.cs.roots.anomaly.CorrelationBasedDetector;
 import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;
+import edu.ucsb.cs.roots.workload.CLChangePointDetector;
+import edu.ucsb.cs.roots.workload.Segment;
 import org.rosuda.REngine.REXP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,24 +58,33 @@ public final class BottleneckFinder {
             return;
         }
 
+        Map<ApiCall,double[]> importanceTrend = new HashMap<>();
         RService rService = environment.getRService();
         try (RClient client = new RClient(rService)) {
             client.evalAndAssign("df", "data.frame()");
-            for (ApplicationRequest r : requests) {
-                client.assign("x", getResponseTimeVector(r));
+            client.evalAndAssign("df_r", "data.frame()");
+            for (int i = 0; i < requests.size(); i++) {
+                client.assign("x", getResponseTimeVector(requests.get(i)));
                 client.evalAndAssign("df", "rbind(df, x)");
+                if (i == 0) {
+                    client.assign("df_names", getColumnNames(callCount, true));
+                    client.eval("names(df) = df_names");
+                } else if (i > callCount) {
+                    client.evalAndAssign("model", "lm(Total ~ ., data=df)");
+                    client.evalAndAssign("rankings", "calc.relimp(model, type=c('lmg'))");
+                    client.evalAndAssign("df_r", "rbind(df_r, rankings$lmg)");
+                    if (i == callCount + 1) {
+                        client.assign("df_names", getColumnNames(callCount, false));
+                        client.eval("names(df_r) = df_names");
+                    }
+                }
             }
 
-            String[] names = new String[callCount + 1];
-            for (int i = 0; i < callCount; i++) {
-                names[i] = String.format("X%d", i + 1);
+            for (int i = 0; i < apiCalls.size(); i++) {
+                REXP col = client.eval(String.format("df_r[,%d]", i + 1));
+                importanceTrend.put(apiCalls.get(i), col.asDoubles());
             }
-            names[callCount] = "Total";
-            client.assign("df_names", names);
-            client.eval("names(df) = df_names");
 
-            client.evalAndAssign("model", "lm(Total ~ ., data=df)");
-            client.evalAndAssign("rankings", "calc.relimp(model, type=c('lmg'))");
             REXP rankings = client.eval("rankings$lmg");
 
             List<RelativeImportance> result = getRelativeImportance(apiCalls, rankings.asDoubles());
@@ -79,6 +92,42 @@ public final class BottleneckFinder {
         } catch (Exception e) {
             log.error("Error while computing relative importance metrics", e);
         }
+
+        apiCalls.forEach(call -> analyzeTrend(rService, call.name(), importanceTrend.get(call)));
+    }
+
+    private void analyzeTrend(RService rService, String call, double[] trend) {
+        try {
+            CLChangePointDetector cpd = new CLChangePointDetector(rService);
+            log.info("**** {}", Arrays.toString(trend));
+            Segment[] segments = cpd.computeSegments(trend);
+            if (segments.length == 1) {
+                log.info("{}: No significant changes in trend", call);
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append(segments[0].getMean());
+                for (int i = 1; i < segments.length; i++) {
+                    sb.append(" -> ").append(segments[i].getMean());
+                }
+                log.info("{}: {}", call, sb.toString());
+            }
+        } catch (Exception e) {
+            log.error("Error while analyzing relative importance trend", e);
+        }
+    }
+
+    private String[] getColumnNames(int callCount, boolean total) {
+        String[] names;
+        if (total) {
+            names = new String[callCount + 1];
+            names[callCount] = "Total";
+        } else {
+            names = new String[callCount];
+        }
+        for (int i = 0; i < callCount; i++) {
+            names[i] = String.format("X%d", i + 1);
+        }
+        return names;
     }
 
     private double[] getResponseTimeVector(ApplicationRequest request) {
@@ -138,7 +187,7 @@ public final class BottleneckFinder {
         }
     }
 
-    /*public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         RootsEnvironment environment = new RootsEnvironment("Test", new FileConfigLoader("conf"));
         environment.init();
         Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {
@@ -162,5 +211,5 @@ public final class BottleneckFinder {
         finder.run(anomaly);
 
         environment.waitFor();
-    }*/
+    }
 }
