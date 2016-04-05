@@ -61,17 +61,17 @@ public interface DataStore {
 
     /**
      * Retrieve the requests processed by the specified application and operation, during the
-     * specified time interval. Returns a set of application requests sorted by timestamp.
+     * specified time interval. Returns a list of application requests sorted by timestamp.
      *
      * @param application Name of the application
      * @param operation Name of the operation
      * @param start Start time of the interval (inclusive)
      * @param end End time of the interval (exclusive)
-     * @return A sorted set of ApplicationRequest instances
+     * @return A sorted list of ApplicationRequest instances
      */
-    default ImmutableSortedSet<ApplicationRequest> getRequestInfo(
+    default ImmutableList<ApplicationRequest> getRequestInfo(
             String application, String operation, long start, long end) throws DataStoreException {
-        return ImmutableSortedSet.of();
+        return ImmutableList.of();
     }
 
     default void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {

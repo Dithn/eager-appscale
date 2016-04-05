@@ -23,7 +23,8 @@ public final class BenchmarkResultsQuery extends Query {
 
     @Override
     public String getJsonString() {
-        return String.format(BENCHMARK_RESULTS_QUERY, benchmarkTimestampField, start, end);
+        return String.format(BENCHMARK_RESULTS_QUERY, benchmarkTimestampField, start, end,
+                benchmarkTimestampField);
     }
 
     public static Builder newBuilder() {

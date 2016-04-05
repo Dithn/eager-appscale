@@ -235,7 +235,7 @@ public class ElasticSearchDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableSortedSet<ApplicationRequest> getRequestInfo(
+    public ImmutableList<ApplicationRequest> getRequestInfo(
             String application, String operation, long start, long end) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(apiCallIndex), "API Call index is required");
         String query = RequestInfoQuery.newBuilder()
@@ -258,7 +258,7 @@ public class ElasticSearchDataStore implements DataStore {
                     application, operation, calls, total);
             builder.add(req);
         });
-        return builder.build();
+        return builder.build().asList();
     }
 
     @Override
@@ -495,7 +495,7 @@ public class ElasticSearchDataStore implements DataStore {
         start = cal.getTime();
         cal.set(2016, Calendar.JANUARY, 16, 1, 0, 0);
         end = cal.getTime();
-        ImmutableSortedSet<ApplicationRequest> list = dataStore.getRequestInfo(
+        ImmutableList<ApplicationRequest> list = dataStore.getRequestInfo(
                 "watchtower", "/benchmark", start.getTime(), end.getTime());
         Map<String,List<ApplicationRequest>> grouped = list.stream().collect(
                 Collectors.groupingBy(ApplicationRequest::getPathAsString));

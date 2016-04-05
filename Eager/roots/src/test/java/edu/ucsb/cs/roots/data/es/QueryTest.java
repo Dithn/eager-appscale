@@ -104,6 +104,8 @@ public class QueryTest {
                 .getAsJsonObject("range").getAsJsonObject("timestamp");
         Assert.assertEquals(0, timeRange.get("gte").getAsLong());
         Assert.assertEquals(100, timeRange.get("lt").getAsLong());
+
+        Assert.assertEquals("asc", element.getAsJsonObject("sort").get("timestamp").getAsString());
     }
 
     @Test

@@ -1,6 +1,6 @@
 package edu.ucsb.cs.roots.bi;
 
-import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
@@ -34,7 +34,7 @@ public final class BottleneckFinder {
         long start = anomaly.getEnd() - 2 * history;
         DataStore ds = environment.getDataStoreService().get(anomaly.getDataStore());
         try {
-            ImmutableSortedSet<ApplicationRequest> requests = ds.getRequestInfo(
+            ImmutableList<ApplicationRequest> requests = ds.getRequestInfo(
                     anomaly.getApplication(), anomaly.getOperation(), start, anomaly.getEnd());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));

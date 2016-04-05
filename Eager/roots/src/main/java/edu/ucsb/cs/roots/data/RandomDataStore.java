@@ -3,7 +3,6 @@ package edu.ucsb.cs.roots.data;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSortedSet;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +79,7 @@ public class RandomDataStore implements DataStore {
     }
 
     @Override
-    public ImmutableSortedSet<ApplicationRequest> getRequestInfo(
+    public ImmutableList<ApplicationRequest> getRequestInfo(
             String application, String operation, long start, long end) throws DataStoreException {
         return getApplicationRequests(application, operation, start, end, RAND.nextInt(50), 3);
     }
@@ -91,11 +90,10 @@ public class RandomDataStore implements DataStore {
                 entry.getMethod(), entry.getPath(), entry.getResponseTime());
     }
 
-    private ImmutableSortedSet<ApplicationRequest> getApplicationRequests(
+    private ImmutableList<ApplicationRequest> getApplicationRequests(
             String application, String operation, long start, long end, int recordCount,
             int apiCalls) {
-        ImmutableSortedSet.Builder<ApplicationRequest> builder = ImmutableSortedSet.orderedBy(
-                ApplicationRequest.TIME_ORDER);
+        ImmutableList.Builder<ApplicationRequest> builder = ImmutableList.builder();
         for (int i = 0; i < recordCount; i++) {
             long offset = RAND.nextInt((int) (end - start));
             ImmutableList.Builder<ApiCall> callBuilder = ImmutableList.builder();
