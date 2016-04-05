@@ -2,10 +2,8 @@ package edu.ucsb.cs.roots.bi;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Doubles;
-import edu.ucsb.cs.roots.FileConfigLoader;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
-import edu.ucsb.cs.roots.anomaly.CorrelationBasedDetector;
 import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
@@ -187,7 +185,7 @@ public final class BottleneckFinder {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    /*public static void main(String[] args) throws Exception {
         RootsEnvironment environment = new RootsEnvironment("Test", new FileConfigLoader("conf"));
         environment.init();
         Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {
@@ -211,5 +209,5 @@ public final class BottleneckFinder {
         finder.run(anomaly);
 
         environment.waitFor();
-    }
+    }*/
 }

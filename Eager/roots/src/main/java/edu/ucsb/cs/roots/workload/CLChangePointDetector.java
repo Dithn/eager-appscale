@@ -28,7 +28,7 @@ public class CLChangePointDetector extends ChangePointDetector {
             client.evalAndAssign("x_ts", "ts(x)");
             client.evalAndAssign("result", "tso(x_ts, types=c('LS'))");
             REXP result = client.eval("result$outliers[,2]");
-            return Arrays.stream(result.asIntegers()).map(i -> i - 2).toArray();
+            return Arrays.stream(result.asIntegers()).filter(i -> i > 1).map(i -> i - 2).toArray();
         }
     }
 }
