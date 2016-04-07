@@ -43,6 +43,7 @@ public class ElasticSearchDataStore implements DataStore {
     private static final String BENCHMARK_RESPONSE_TIME = "field.benchmark.responseTime";
 
     private static final String API_CALL_REQ_TIMESTAMP = "field.apiCall.requestTimestamp";
+    private static final String API_CALL_REQ_OPERATION_RAW = "field.apiCall.requestOperationRaw";
     private static final String API_CALL_REQ_OPERATION = "field.apiCall.requestOperation";
     private static final String API_CALL_TIMESTAMP = "field.apiCall.timestamp";
     private static final String API_CALL_SEQ_NUMBER = "field.apiCall.sequenceNumber";
@@ -64,7 +65,8 @@ public class ElasticSearchDataStore implements DataStore {
                     .put(BENCHMARK_RESPONSE_TIME, "responseTime")
                     .put(API_CALL_TIMESTAMP, "timestamp")
                     .put(API_CALL_REQ_TIMESTAMP, "requestTimestamp")
-                    .put(API_CALL_REQ_OPERATION, "requestOperation.raw")
+                    .put(API_CALL_REQ_OPERATION_RAW, "requestOperation.raw")
+                    .put(API_CALL_REQ_OPERATION, "requestOperation")
                     .put(API_CALL_SEQ_NUMBER, "sequenceNumber")
                     .put(API_CALL_APPLICATION, "appId")
                     .put(API_CALL_SERVICE, "service")
@@ -243,7 +245,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setStart(start)
                 .setEnd(end)
                 .setRequestOperation(operation)
-                .setRequestOperationField(fieldMappings.get(API_CALL_REQ_OPERATION))
+                .setRequestOperationField(fieldMappings.get(API_CALL_REQ_OPERATION_RAW))
                 .setApiCallSequenceNumberField(fieldMappings.get(API_CALL_SEQ_NUMBER))
                 .setApiCallRequestTimestampField(fieldMappings.get(API_CALL_REQ_TIMESTAMP))
                 .buildJsonString();

@@ -191,13 +191,15 @@ public final class BottleneckFinder {
             }
         });
 
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.set(2016, Calendar.JANUARY, 16, 0, 0, 0);
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
+        cal.set(2016, Calendar.APRIL, 7, 15, 30, 0);
         Date start = cal.getTime();
-        cal.set(2016, Calendar.JANUARY, 16, 1, 0, 0);
+        cal.set(2016, Calendar.APRIL, 7, 16, 0, 0);
         Date end = cal.getTime();
         CorrelationBasedDetector detector = CorrelationBasedDetector.newBuilder()
                 .setApplication("watchtower")
+                .setPeriodInSeconds(600)
+                .setDataStore("elk")
                 .build(environment);
         Anomaly anomaly = new Anomaly(detector, start.getTime(), end.getTime(), "GET /foo", "foo");
 
