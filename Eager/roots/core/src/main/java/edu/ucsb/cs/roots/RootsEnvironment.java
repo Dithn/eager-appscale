@@ -9,6 +9,8 @@ import edu.ucsb.cs.roots.data.DataStoreService;
 import edu.ucsb.cs.roots.rlang.RService;
 import edu.ucsb.cs.roots.utils.RootsThreadFactory;
 import edu.ucsb.cs.roots.workload.WorkloadAnalyzerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.Stack;
@@ -20,6 +22,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 public final class RootsEnvironment {
+
+    private static final Logger log = LoggerFactory.getLogger(RootsEnvironment.class);
 
     public static final String EVENT_BUS_TYPE = "eventBus.type";
 
@@ -73,6 +77,7 @@ public final class RootsEnvironment {
 
     public synchronized void init() throws Exception {
         checkState(state == State.STANDBY);
+        log.info("Initializing Roots environment.");
         try {
             initService(dataStoreService);
             initService(rService);
@@ -93,6 +98,7 @@ public final class RootsEnvironment {
 
     public synchronized void destroy() {
         checkState(state == State.INITIALIZED);
+        log.info("Terminating Roots environment.");
         cleanupForExit();
         state = State.DESTROYED;
         this.notifyAll();

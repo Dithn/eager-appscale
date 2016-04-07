@@ -8,16 +8,13 @@ import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.rlang.RClient;
 import org.rosuda.REngine.REXP;
 
-import java.io.File;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private final ListMultimap<String,ResponseTimeSummary> history;
-    private final File scriptDirectory;
     private final double correlationThreshold;
     private final double dtwIncreaseThreshold;
 
@@ -27,19 +24,13 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private CorrelationBasedDetector(RootsEnvironment environment, Builder builder) {
         super(environment, builder.application, builder.periodInSeconds,
                 builder.historyLengthInSeconds, builder.dataStore, builder.properties);
-        checkNotNull(builder.scriptDirectory, "Script directory path must not be null");
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");
         checkArgument(builder.dtwIncreaseThreshold > 0,
                 "DTW increase percentage threshold must be positive");
         this.history = ArrayListMultimap.create();
-        this.scriptDirectory = new File(builder.scriptDirectory);
         this.correlationThreshold = builder.correlationThreshold;
         this.dtwIncreaseThreshold = builder.dtwIncreaseThreshold;
-        checkArgument(scriptDirectory.exists(), "Script directory path does not exist: %s",
-                scriptDirectory.getAbsolutePath());
-        checkArgument(scriptDirectory.isDirectory(), "%s is not a directory",
-                scriptDirectory.getAbsolutePath());
     }
 
     @Override
@@ -153,16 +144,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
     public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedDetector,Builder> {
 
-        private String scriptDirectory = "r";
         private double correlationThreshold = 0.5;
         private double dtwIncreaseThreshold = 20.0;
 
         private Builder() {
-        }
-
-        public Builder setScriptDirectory(String scriptDirectory) {
-            this.scriptDirectory = scriptDirectory;
-            return this;
         }
 
         public Builder setCorrelationThreshold(double correlationThreshold) {

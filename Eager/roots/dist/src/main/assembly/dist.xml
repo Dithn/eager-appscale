@@ -1,0 +1,31 @@
+<assembly>
+    <id>bin</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <files>
+        <file>
+            <source>src/main/assembly/roots.sh</source>
+            <outputDirectory>roots-${project.version}/bin</outputDirectory>
+            <fileMode>775</fileMode>
+        </file>
+        <file>
+            <source>src/main/assembly/log4j.properties</source>
+            <outputDirectory>roots-${project.version}/lib</outputDirectory>
+        </file>
+        <file>
+            <source>src/main/assembly/roots.properties</source>
+            <outputDirectory>roots-${project.version}/conf</outputDirectory>
+        </file>
+    </files>
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>roots-${project.version}/lib</outputDirectory>
+            <excludes>
+                <exclude>commons-logging:commons-logging</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+</assembly>

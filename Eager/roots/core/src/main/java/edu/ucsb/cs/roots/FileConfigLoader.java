@@ -21,7 +21,7 @@ public final class FileConfigLoader implements ConfigLoader {
 
     public FileConfigLoader(String configDirPath) {
         checkArgument(!Strings.isNullOrEmpty(configDirPath), "Config directory path is required");
-        configDir = new File(configDirPath);
+        configDir = new File(configDirPath).getAbsoluteFile();
         checkArgument(configDir.exists(), "Config directory %s does not exist",
                 configDir.getAbsolutePath());
         checkArgument(configDir.isDirectory(), "Path %s does not point to a directory",
