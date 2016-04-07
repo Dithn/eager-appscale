@@ -1,5 +1,5 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..844ea31 100644
+index 1a15112..34fea4e 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 @@ -32,6 +32,26 @@ import com.google.apphosting.api.ApiProxy.Environment;
@@ -29,7 +29,7 @@ index 1a15112..844ea31 100644
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +77,145 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +77,150 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -63,7 +63,12 @@ index 1a15112..844ea31 100644
 +
 +        public ApiCallEvent(Environment environment, long timestamp, String service, 
 +                            String operation, byte[] requestBytes) {
-+            this.requestTimestamp = (long) environment.getAttributes().get("edu.ucsb.cs.eager.RequestTimestamp");
++            Long rts = (Long) environment.getAttributes().get("edu.ucsb.cs.eager.RequestTimestamp");
++            if (rts != null) {
++              this.requestTimestamp = (long) rts;
++            } else {
++              this.requestTimestamp = timestamp;
++            }
 +            this.requestOperation = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestOperation");
 +            this.requestId = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestId");
 +            if (environment instanceof LocalHttpRequestEnvironment) {
@@ -175,7 +180,7 @@ index 1a15112..844ea31 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +224,23 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +229,23 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -199,7 +204,7 @@ index 1a15112..844ea31 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +269,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +274,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -227,7 +232,7 @@ index 1a15112..844ea31 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,14 +502,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,14 +507,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
@@ -249,7 +254,7 @@ index 1a15112..844ea31 100644
              LocalRpcService service = getService(this.packageName);
  
              if (service == null) {
-@@ -332,6 +532,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -332,6 +537,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
              try {
                  Class<?> requestClass = method.getParameterTypes()[1];
                  Object request = convertBytesToPb(this.requestBytes, requestClass);
