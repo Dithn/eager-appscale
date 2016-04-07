@@ -155,6 +155,61 @@ public class QueryTest {
         Assert.assertEquals("1m", element.get("scroll").getAsString());
     }
 
+    @Test
+    public void testRequestInfoQuery() {
+        String string = RequestInfoQuery.newBuilder()
+                .setStart(0)
+                .setEnd(100)
+                .setApiCallRequestTimestampField("requestTimestamp")
+                .setApiCallSequenceNumberField("sequenceNumber")
+                .buildJsonString();
+        JsonObject element = parseString(string);
+        Assert.assertEquals(4000, element.get("size").getAsInt());
+
+        JsonObject timeRange = element.getAsJsonObject("query")
+                .getAsJsonObject("bool").getAsJsonObject("filter")
+                .getAsJsonObject("range").getAsJsonObject("requestTimestamp");
+        Assert.assertEquals(0, timeRange.get("gte").getAsLong());
+        Assert.assertEquals(100, timeRange.get("lt").getAsLong());
+
+        JsonArray sort = element.getAsJsonArray("sort");
+        Assert.assertEquals("asc", sort.get(0).getAsJsonObject().get("requestTimestamp")
+                .getAsString());
+        Assert.assertEquals("asc", sort.get(1).getAsJsonObject().get("sequenceNumber")
+                .getAsString());
+    }
+
+    @Test
+    public void testRequestInfoByOperationQuery() {
+        String string = RequestInfoByOperationQuery.newBuilder()
+                .setStart(0)
+                .setEnd(100)
+                .setApiCallRequestTimestampField("requestTimestamp")
+                .setApiCallSequenceNumberField("sequenceNumber")
+                .setRequestOperationField("requestOperation.raw")
+                .setRequestOperation("GET /")
+                .buildJsonString();
+        JsonObject element = parseString(string);
+        Assert.assertEquals(4000, element.get("size").getAsInt());
+
+        String termFilter = element.getAsJsonObject("query")
+                .getAsJsonObject("bool").getAsJsonObject("must")
+                .getAsJsonObject("term").get("requestOperation.raw").getAsString();
+        Assert.assertEquals("GET /", termFilter);
+
+        JsonObject timeRange = element.getAsJsonObject("query")
+                .getAsJsonObject("bool").getAsJsonObject("filter")
+                .getAsJsonObject("range").getAsJsonObject("requestTimestamp");
+        Assert.assertEquals(0, timeRange.get("gte").getAsLong());
+        Assert.assertEquals(100, timeRange.get("lt").getAsLong());
+
+        JsonArray sort = element.getAsJsonArray("sort");
+        Assert.assertEquals("asc", sort.get(0).getAsJsonObject().get("requestTimestamp")
+                .getAsString());
+        Assert.assertEquals("asc", sort.get(1).getAsJsonObject().get("sequenceNumber")
+                .getAsString());
+    }
+
     private JsonObject parseString(String s) {
         JsonParser parser = new JsonParser();
         return parser.parse(s).getAsJsonObject();

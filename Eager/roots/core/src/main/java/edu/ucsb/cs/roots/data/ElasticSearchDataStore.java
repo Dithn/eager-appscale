@@ -42,7 +42,10 @@ public class ElasticSearchDataStore implements DataStore {
     private static final String BENCHMARK_PATH = "field.benchmark.path";
     private static final String BENCHMARK_RESPONSE_TIME = "field.benchmark.responseTime";
 
+    private static final String API_CALL_REQ_TIMESTAMP = "field.apiCall.requestTimestamp";
+    private static final String API_CALL_REQ_OPERATION = "field.apiCall.requestOperation";
     private static final String API_CALL_TIMESTAMP = "field.apiCall.timestamp";
+    private static final String API_CALL_SEQ_NUMBER = "field.apiCall.sequenceNumber";
     private static final String API_CALL_APPLICATION = "field.apiCall.application";
     private static final String API_CALL_SERVICE = "field.apiCall.service";
     private static final String API_CALL_OPERATION = "field.apiCall.operation";
@@ -60,6 +63,9 @@ public class ElasticSearchDataStore implements DataStore {
                     .put(BENCHMARK_PATH, "path")
                     .put(BENCHMARK_RESPONSE_TIME, "responseTime")
                     .put(API_CALL_TIMESTAMP, "timestamp")
+                    .put(API_CALL_REQ_TIMESTAMP, "requestTimestamp")
+                    .put(API_CALL_REQ_OPERATION, "requestOperation.raw")
+                    .put(API_CALL_SEQ_NUMBER, "sequenceNumber")
                     .put(API_CALL_APPLICATION, "appId")
                     .put(API_CALL_SERVICE, "service")
                     .put(API_CALL_OPERATION, "operation")
@@ -211,23 +217,20 @@ public class ElasticSearchDataStore implements DataStore {
         String query = RequestInfoQuery.newBuilder()
                 .setStart(start)
                 .setEnd(end)
-                .setApplication(application)
-                .setApiCallTimestampField(fieldMappings.get(API_CALL_TIMESTAMP))
-                .setApplicationField(fieldMappings.get(API_CALL_APPLICATION))
+                .setApiCallSequenceNumberField(fieldMappings.get(API_CALL_SEQ_NUMBER))
+                .setApiCallRequestTimestampField(fieldMappings.get(API_CALL_REQ_TIMESTAMP))
                 .buildJsonString();
-        // TODO: Store API calls under separate application types
-        String path = String.format("/%s/apicall/_search", apiCallIndex);
+        String path = String.format("/%s/%s/_search", apiCallIndex, application);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
         ImmutableSetMultimap.Builder<String,ApplicationRequest> builder = ImmutableSetMultimap
                 .<String,ApplicationRequest>builder().orderValuesBy(ApplicationRequest.TIME_ORDER);
         apiCalls.keySet().forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
-            // TODO: Get timestamp from request-level timestamp field
-            // TODO: Get operation from request-level data
-            ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getTimestamp(),
-                    application, "GET /dummy", calls);
-            builder.put("GET /dummy", req);
+            ApiCall firstCall = calls.get(0);
+            ApplicationRequest req = new ApplicationRequest(requestId, firstCall.getRequestTimestamp(),
+                    application, firstCall.getRequestOperation(), calls);
+            builder.put(firstCall.getRequestOperation(), req);
         });
         return ImmutableListMultimap.copyOf(builder.build());
     }
@@ -236,23 +239,25 @@ public class ElasticSearchDataStore implements DataStore {
     public ImmutableList<ApplicationRequest> getRequestInfo(
             String application, String operation, long start, long end) throws DataStoreException {
         checkArgument(!Strings.isNullOrEmpty(apiCallIndex), "API Call index is required");
-        String query = RequestInfoQuery.newBuilder()
+        String query = RequestInfoByOperationQuery.newBuilder()
                 .setStart(start)
                 .setEnd(end)
-                .setApplication(application)
-                .setApiCallTimestampField(fieldMappings.get(API_CALL_TIMESTAMP))
-                .setApplicationField(fieldMappings.get(API_CALL_APPLICATION))
+                .setRequestOperation(operation)
+                .setRequestOperationField(fieldMappings.get(API_CALL_REQ_OPERATION))
+                .setApiCallSequenceNumberField(fieldMappings.get(API_CALL_SEQ_NUMBER))
+                .setApiCallRequestTimestampField(fieldMappings.get(API_CALL_REQ_TIMESTAMP))
                 .buildJsonString();
-        String path = String.format("/%s/apicall/_search", apiCallIndex);
+        String path = String.format("/%s/%s/_search", apiCallIndex, application);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
         ImmutableSortedSet.Builder<ApplicationRequest> builder = ImmutableSortedSet.orderedBy(
                 ApplicationRequest.TIME_ORDER);
+        // TODO: Get total time from access logs
         Random rand = new Random();
         apiCalls.keySet().forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
             int total = calls.stream().mapToInt(ApiCall::getTimeElapsed).sum() + rand.nextInt(100);
-            ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getTimestamp(),
+            ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getRequestTimestamp(),
                     application, operation, calls, total);
             builder.add(req);
         });
@@ -359,11 +364,14 @@ public class ElasticSearchDataStore implements DataStore {
                 .getAsJsonArray("hits");
         for (JsonElement hitElement : hits) {
             JsonObject hit = hitElement.getAsJsonObject().getAsJsonObject("_source");
-            ApiCall call = new ApiCall(
-                    hit.get(fieldMappings.get(API_CALL_TIMESTAMP)).getAsLong(),
-                    hit.get(fieldMappings.get(API_CALL_SERVICE)).getAsString(),
-                    hit.get(fieldMappings.get(API_CALL_OPERATION)).getAsString(),
-                    hit.get(fieldMappings.get(API_CALL_RESPONSE_TIME)).getAsInt());
+            ApiCall call = ApiCall.newBuilder()
+                    .setRequestTimestamp(hit.get(fieldMappings.get(API_CALL_REQ_TIMESTAMP)).getAsLong())
+                    .setRequestOperation(hit.get(fieldMappings.get(API_CALL_REQ_OPERATION)).getAsString())
+                    .setTimestamp(hit.get(fieldMappings.get(API_CALL_TIMESTAMP)).getAsLong())
+                    .setService(hit.get(fieldMappings.get(API_CALL_SERVICE)).getAsString())
+                    .setOperation(hit.get(fieldMappings.get(API_CALL_OPERATION)).getAsString())
+                    .setTimeElapsed(hit.get(fieldMappings.get(API_CALL_RESPONSE_TIME)).getAsInt())
+                    .build();
             builder.put(hit.get(fieldMappings.get(API_CALL_REQ_ID)).getAsString(), call);
         }
         return hits.size();

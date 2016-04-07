@@ -100,8 +100,15 @@ public class RandomDataStore implements DataStore {
             long offset = RAND.nextInt((int) (end - start));
             ImmutableList.Builder<ApiCall> callBuilder = ImmutableList.builder();
             for (int j = 0; j < apiCalls; j++) {
-                callBuilder.add(new ApiCall(start + offset, "datastore",
-                        "op" + j, RAND.nextInt(30)));
+                ApiCall call = ApiCall.newBuilder()
+                        .setService("datastore")
+                        .setOperation("op" + j)
+                        .setRequestTimestamp(start + offset)
+                        .setTimeElapsed(RAND.nextInt(30))
+                        .setTimestamp(start + offset)
+                        .setRequestOperation(operation)
+                        .build();
+                callBuilder.add(call);
             }
             ImmutableList<ApiCall> apiCallList = callBuilder.build();
             int total = apiCallList.stream().mapToInt(ApiCall::getTimeElapsed).sum()

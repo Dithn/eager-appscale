@@ -6,9 +6,20 @@ import org.junit.Test;
 
 public class ApplicationRequestTest {
 
+    private ApiCall newApiCall(long timestamp, String service, String op, int timeElapsed) {
+        return ApiCall.newBuilder()
+                .setRequestTimestamp(timestamp)
+                .setTimestamp(timestamp)
+                .setService(service)
+                .setOperation(op)
+                .setTimeElapsed(timeElapsed)
+                .setRequestOperation("GET /test")
+                .build();
+    }
+
     @Test
     public void testApiCall() {
-        ApiCall call = new ApiCall(100, "foo", "bar", 10);
+        ApiCall call = newApiCall(100, "foo", "bar", 10);
         Assert.assertEquals("foo:bar", call.name());
     }
 
@@ -23,7 +34,7 @@ public class ApplicationRequestTest {
     @Test
     public void testPathString1() {
         ImmutableList<ApiCall> calls = ImmutableList.of(
-                new ApiCall(100, "foo", "bar", 10)
+                newApiCall(100, "foo", "bar", 10)
         );
         ApplicationRequest request = new ApplicationRequest("test", 100, "app", "op", calls);
         Assert.assertEquals("foo:bar", request.getPathAsString());
@@ -33,8 +44,8 @@ public class ApplicationRequestTest {
     @Test
     public void testPathString2() {
         ImmutableList<ApiCall> calls = ImmutableList.of(
-                new ApiCall(100, "foo", "bar", 10),
-                new ApiCall(100, "foo", "baz", 10)
+                newApiCall(100, "foo", "bar", 10),
+                newApiCall(100, "foo", "baz", 10)
         );
         ApplicationRequest request = new ApplicationRequest("test", 100, "app", "op", calls);
         Assert.assertEquals("foo:bar, foo:baz", request.getPathAsString());
