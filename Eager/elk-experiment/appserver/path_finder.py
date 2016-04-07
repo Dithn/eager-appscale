@@ -50,17 +50,16 @@ def get_request_info(server, port, index, app, time_window):
     start_time = end_time - time_window
     filtered_query = {
       'filtered' : {
-         'query' : { 'term' : { 'appId' : app }},
-         'filter' : { 'range' : { 'timestamp' : { 'gte' : start_time, 'lte': end_time }}}
+         'filter' : { 'range' : { 'requestTimestamp' : { 'gte' : start_time, 'lte': end_time }}}
        }
     }
     query = {
       'query' : filtered_query,
       'size' : 2000,
-      'sort': { 'timestamp' : { 'order' : 'asc'}}
+      'sort': [{ 'requestTimestamp' : { 'order' : 'asc'}}, {'sequenceNumber' : { 'order' : 'asc' }}]
     }
 
-    path = '/{0}/apicall/_search?scroll=1m'.format(index)
+    path = '/{0}/{1}/_search?scroll=1m'.format(index, app)
     output = make_http_call(server, port, path, query)
     total_hits = output['hits']['total']
     scroll_id = output['_scroll_id']
