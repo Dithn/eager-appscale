@@ -7,6 +7,7 @@ import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
+import edu.ucsb.cs.roots.anomaly.AnomalyLog;
 import edu.ucsb.cs.roots.data.DataStore;
 
 public final class WorkloadAnalyzerService extends ManagedService {
@@ -14,8 +15,11 @@ public final class WorkloadAnalyzerService extends ManagedService {
     private static final String WORKLOAD_ANALYZER = "workload.analyzer";
     private static final String DEFAULT_CHANGE_POINT_DETECTOR = "PELT";
 
+    private final AnomalyLog anomalyLog;
+
     public WorkloadAnalyzerService(RootsEnvironment environment) {
         super(environment);
+        this.anomalyLog = new AnomalyLog(log);
     }
 
     @Override
@@ -35,31 +39,29 @@ public final class WorkloadAnalyzerService extends ManagedService {
                     anomaly.getOperation(), start, anomaly.getEnd(),
                     anomaly.getPeriodInSeconds() * 1000);
             if (summary.size() == 0) {
-                log.warn("No workload data found for {} [{}]", anomaly.getApplication(),
-                        anomaly.getOperation());
+                anomalyLog.warn(anomaly, "No workload data found");
                 return;
             }
 
             Segment[] segments = changePointDetector.computeSegments(Doubles.toArray(summary));
             analyzeSegments(segments, anomaly);
         } catch (Exception e) {
-            log.error("Error while computing workload changes for: {}", anomaly.getApplication(), e);
+            anomalyLog.error(anomaly, "Error while computing workload changes", e);
         }
     }
 
     private void analyzeSegments(Segment[] segments, Anomaly anomaly) {
         int length = segments.length;
         if (length == 1) {
-            log.info("No significant changes in workload to report for {} [{}]",
-                    anomaly.getApplication(), anomaly.getOperation());
+            anomalyLog.info(anomaly, "No significant changes in workload to report");
             return;
         }
 
         for (int i = 1; i < segments.length; i++) {
-            log.info("Workload level shift at {}: {} --> {}", segments[i].getStart(),
+            anomalyLog.info(anomaly, "Workload level shift at {}: {} --> {}", segments[i].getStart(),
                     segments[i-1].getMean(), segments[i].getMean());
         }
-        log.info("Net change in workload: {} --> {} [{}%]",
+        anomalyLog.info(anomaly, "Net change in workload: {} --> {} [{}%]",
                 segments[0].getMean(), segments[length-1].getMean(),
                 segments[0].percentageIncrease(segments[length - 1]));
     }
