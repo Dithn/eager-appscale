@@ -1,5 +1,5 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..6d66d12 100644
+index 1a15112..47e25dd 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 @@ -32,6 +32,24 @@ import com.google.apphosting.api.ApiProxy.Environment;
@@ -27,7 +27,7 @@ index 1a15112..6d66d12 100644
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +75,130 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +75,136 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -46,6 +46,8 @@ index 1a15112..6d66d12 100644
 +        
 +        private static final Gson gson = new Gson();
 +        
++        private final long requestTimestamp;
++        private final String requestOperation;
 +        private final long timestamp;
 +        private final String requestId;
 +        private final String appId;
@@ -55,11 +57,13 @@ index 1a15112..6d66d12 100644
 +        private Object requestObject;
 +        private long endTime = -1L;
 +
-+        public ApiCallEvent(long timestamp, String requestId, String appId, String service, 
++        public ApiCallEvent(Environment environment, long timestamp, String service, 
 +                            String operation, byte[] requestBytes) {
++            this.requestTimestamp = (long) environment.getAttributes().get("edu.ucsb.cs.eager.RequestTimestamp");
++            this.requestOperation = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestOperation");
++            this.requestId = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestId");
++            this.appId = ((LocalEnvironment) environment).getAppId();
 +            this.timestamp = timestamp;
-+            this.requestId = requestId;
-+            this.appId = appId;
 +            this.service = service;
 +            this.operation = operation;
 +            this.requestBytes = requestBytes;
@@ -76,6 +80,8 @@ index 1a15112..6d66d12 100644
 +        @Override
 +        public String toString() {
 +            Map<String,Object> event = new HashMap<>();
++            event.put("requestTimestamp", requestTimestamp);
++            event.put("requestOperation", requestOperation);
 +            event.put("timestamp", timestamp);
 +            event.put("requestId", requestId);
 +            event.put("appId", appId);
@@ -107,12 +113,12 @@ index 1a15112..6d66d12 100644
 +                    }
 +                    StringBuilder sb = new StringBuilder();
 +                    for (ApiCallEvent e : buffer) {
-+                        sb.append("\n{\"index\" : {}}");
++                        sb.append("\n{\"index\" : {\"_type\":\"" + e.appId + "\"}}");
 +                        sb.append("\n").append(e.toString());
 +                    }
 +                    sb.append("\n");
 +                    buffer.clear();
-+                    reportToElasticSearch(sb, "appscale-internal", "apicall");
++                    reportToElasticSearch(sb, "appscale-internal");
 +                    lastReport = System.currentTimeMillis();
 +                } catch (Exception ignored) {
 +                }
@@ -137,9 +143,9 @@ index 1a15112..6d66d12 100644
 +        }
 +    }
 +
-+    private void reportToElasticSearch(StringBuilder sb, String index, String type) {
++    private void reportToElasticSearch(StringBuilder sb, String index) {
 +        HttpClient client = new HttpClient();
-+        PostMethod method = new PostMethod("http://128.111.179.159:9200/" + index + "/" + type + "/_bulk");
++        PostMethod method = new PostMethod("http://128.111.179.226:9200/" + index + "/_bulk");
 +        method.setRequestEntity(new ByteArrayRequestEntity(sb.toString().getBytes(), "application/x-www-form-urlencoded"));
 +        try {
 +            int status = client.executeMethod(method);
@@ -158,7 +164,7 @@ index 1a15112..6d66d12 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +207,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +213,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -166,7 +172,7 @@ index 1a15112..6d66d12 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +236,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +242,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -194,14 +200,12 @@ index 1a15112..6d66d12 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,14 +469,21 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,14 +475,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
 +            long start = System.currentTimeMillis();
-+            String requestId = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestId");
-+            String appId = ((LocalEnvironment) environment).getAppId();
-+            ApiCallEvent event = new ApiCallEvent(start, requestId, appId, this.packageName, this.methodName, this.requestBytes);
++            ApiCallEvent event = new ApiCallEvent(environment, start, this.packageName, this.methodName, this.requestBytes);
              try {
 -                return callInternal();
 +                return callInternal(event);
@@ -218,7 +222,7 @@ index 1a15112..6d66d12 100644
              LocalRpcService service = getService(this.packageName);
  
              if (service == null) {
-@@ -332,6 +501,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -332,6 +505,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
              try {
                  Class<?> requestClass = method.getParameterTypes()[1];
                  Object request = convertBytesToPb(this.requestBytes, requestClass);
@@ -227,7 +231,7 @@ index 1a15112..6d66d12 100644
                  return convertPbToBytes(method.invoke(service, new Object[] { status, request }));
              } catch (IllegalAccessException e) {
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
-index 13d3b92..5b7af7b 100644
+index 13d3b92..2ed60ff 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 @@ -12,6 +12,7 @@ import java.util.Enumeration;
@@ -238,7 +242,7 @@ index 13d3b92..5b7af7b 100644
  
  public class LocalHttpRequestEnvironment extends LocalEnvironment
  {
-@@ -60,6 +61,12 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
+@@ -60,6 +61,14 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
              this.attributes.put("com.google.appengine.request.offline", Boolean.TRUE);
          }
  
@@ -247,6 +251,8 @@ index 13d3b92..5b7af7b 100644
 +          requestId = "autogen:" + UUID.randomUUID().toString();
 +        }
 +        this.attributes.put("edu.ucsb.cs.eager.RequestId", requestId);
++        this.attributes.put("edu.ucsb.cs.eager.RequestTimestamp", System.currentTimeMillis());
++        this.attributes.put("edu.ucsb.cs.eager.RequestOperation", request.getMethod() + " /foo");
 +
          // AppScale: The metadata parameter is set in the Blobstore server before a blob upload callback request.
          String metadata = request.getParameter("blob_info_metadata");
