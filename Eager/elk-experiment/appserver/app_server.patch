@@ -1,8 +1,8 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..c0a703f 100644
+index 1a15112..844ea31 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-@@ -32,6 +32,24 @@ import com.google.apphosting.api.ApiProxy.Environment;
+@@ -32,6 +32,26 @@ import com.google.apphosting.api.ApiProxy.Environment;
  import com.google.apphosting.api.ApiProxy.LogRecord;
  import com.google.apphosting.api.ApiProxy.UnknownException;
  
@@ -15,7 +15,9 @@ index 1a15112..c0a703f 100644
 +import java.util.concurrent.Executors;
 +import java.util.concurrent.LinkedBlockingQueue;
 +import java.util.concurrent.ThreadFactory;
++import java.util.Properties;
 +import java.io.InputStream;
++import java.io.FileInputStream;
 +import java.io.OutputStreamWriter;
 +import java.net.HttpURLConnection;
 +import java.net.URL;
@@ -27,7 +29,7 @@ index 1a15112..c0a703f 100644
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +75,143 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +77,145 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -40,6 +42,7 @@ index 1a15112..c0a703f 100644
 +            return t;
 +        }
 +    });
++    private final String elasticSearchUrl;
 +
 +
 +    private static class ApiCallEvent {
@@ -111,22 +114,23 @@ index 1a15112..c0a703f 100644
 +    private class ApiCallEventReporter implements Runnable {
 +        @Override
 +        public void run() {
-+            long lastReport = System.currentTimeMillis();
 +            List<ApiCallEvent> buffer = new ArrayList<>();
 +            while (true) {
 +                try {
 +                    if (drain(buffer, 100, 10, TimeUnit.SECONDS) == 0) {
 +                        continue;
 +                    }
-+                    StringBuilder sb = new StringBuilder();
-+                    for (ApiCallEvent e : buffer) {
-+                        sb.append("\n{\"index\" : {\"_type\":\"" + e.appId + "\"}}");
-+                        sb.append("\n").append(e.toString());
++
++                    if (elasticSearchUrl != null) {
++                      StringBuilder sb = new StringBuilder();
++                      for (ApiCallEvent e : buffer) {
++                          sb.append("\n{\"index\" : {\"_type\":\"" + e.appId + "\"}}");
++                          sb.append("\n").append(e.toString());
++                      }
++                      sb.append("\n");
++                      reportToElasticSearch(sb);
 +                    }
-+                    sb.append("\n");
 +                    buffer.clear();
-+                    reportToElasticSearch(sb, "appscale-internal");
-+                    lastReport = System.currentTimeMillis();
 +                } catch (Exception ignored) {
 +                }
 +            }
@@ -150,9 +154,9 @@ index 1a15112..c0a703f 100644
 +        }
 +    }
 +
-+    private void reportToElasticSearch(StringBuilder sb, String index) {
++    private void reportToElasticSearch(StringBuilder sb) {
 +        HttpClient client = new HttpClient();
-+        PostMethod method = new PostMethod("http://128.111.179.226:9200/" + index + "/_bulk");
++        PostMethod method = new PostMethod(elasticSearchUrl + "/_bulk");
 +        method.setRequestEntity(new ByteArrayRequestEntity(sb.toString().getBytes(), "application/x-www-form-urlencoded"));
 +        try {
 +            int status = client.executeMethod(method);
@@ -171,15 +175,31 @@ index 1a15112..c0a703f 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +220,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +224,23 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
 +        this.exec.submit(new ApiCallEventReporter());
++        Properties esProps = new Properties();
++        FileInputStream in = null;
++        try {
++            in = new FileInputStream("/etc/appscale/elasticsearch.properties");
++            esProps.load(in);
++        } catch (IOException e) {
++            logger.log(Level.WARNING, "Failed to load ElasticSearch config", e);
++        } finally {
++            if (in != null) {
++                try {
++                    in.close();
++                } catch (IOException ignored) {
++                }
++            }
++        }
++        this.elasticSearchUrl = esProps.getProperty("url");
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +249,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +269,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -207,7 +227,7 @@ index 1a15112..c0a703f 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,14 +482,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,14 +502,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
@@ -229,7 +249,7 @@ index 1a15112..c0a703f 100644
              LocalRpcService service = getService(this.packageName);
  
              if (service == null) {
-@@ -332,6 +512,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -332,6 +532,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
              try {
                  Class<?> requestClass = method.getParameterTypes()[1];
                  Object request = convertBytesToPb(this.requestBytes, requestClass);
