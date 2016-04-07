@@ -1,5 +1,5 @@
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
-index 1a15112..47e25dd 100644
+index 1a15112..c0a703f 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/ApiProxyLocalImpl.java
 @@ -32,6 +32,24 @@ import com.google.apphosting.api.ApiProxy.Environment;
@@ -27,7 +27,7 @@ index 1a15112..47e25dd 100644
  /**
   * Implements ApiProxy.Delegate such that the requests are dispatched to local
   * service implementations. Used for both the
-@@ -57,6 +75,136 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -57,6 +75,143 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
      private final LocalServiceContext context;
      private Clock clock = Clock.DEFAULT;
  
@@ -49,6 +49,7 @@ index 1a15112..47e25dd 100644
 +        private final long requestTimestamp;
 +        private final String requestOperation;
 +        private final long timestamp;
++        private final int sequenceNumber;
 +        private final String requestId;
 +        private final String appId;
 +        private final String service;
@@ -62,6 +63,11 @@ index 1a15112..47e25dd 100644
 +            this.requestTimestamp = (long) environment.getAttributes().get("edu.ucsb.cs.eager.RequestTimestamp");
 +            this.requestOperation = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestOperation");
 +            this.requestId = (String) environment.getAttributes().get("edu.ucsb.cs.eager.RequestId");
++            if (environment instanceof LocalHttpRequestEnvironment) {
++              this.sequenceNumber = ((LocalHttpRequestEnvironment) environment).getApiCallNumber();
++            } else {
++              this.sequenceNumber = 0;
++            }
 +            this.appId = ((LocalEnvironment) environment).getAppId();
 +            this.timestamp = timestamp;
 +            this.service = service;
@@ -82,6 +88,7 @@ index 1a15112..47e25dd 100644
 +            Map<String,Object> event = new HashMap<>();
 +            event.put("requestTimestamp", requestTimestamp);
 +            event.put("requestOperation", requestOperation);
++            event.put("sequenceNumber", sequenceNumber);
 +            event.put("timestamp", timestamp);
 +            event.put("requestId", requestId);
 +            event.put("appId", appId);
@@ -164,7 +171,7 @@ index 1a15112..47e25dd 100644
      /**
       * Creates the local proxy in a given context
       * 
-@@ -65,6 +213,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -65,6 +220,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
       */
      protected ApiProxyLocalImpl(LocalServerEnvironment environment) {
          this.context = new LocalServiceContextImpl(environment);
@@ -172,7 +179,7 @@ index 1a15112..47e25dd 100644
      }
  
      public void log(Environment environment, LogRecord record) {
-@@ -93,8 +242,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -93,8 +249,27 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
      }
  
@@ -200,7 +207,7 @@ index 1a15112..47e25dd 100644
          Semaphore semaphore = (Semaphore) environment.getAttributes().get(LocalEnvironment.API_CALL_SEMAPHORE);
  
          if (semaphore != null) {
-@@ -307,14 +475,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -307,14 +482,19 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
          }
  
          public byte[] call() {
@@ -222,7 +229,7 @@ index 1a15112..47e25dd 100644
              LocalRpcService service = getService(this.packageName);
  
              if (service == null) {
-@@ -332,6 +505,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
+@@ -332,6 +512,7 @@ class ApiProxyLocalImpl implements ApiProxyLocal {
              try {
                  Class<?> requestClass = method.getParameterTypes()[1];
                  Object request = convertBytesToPb(this.requestBytes, requestClass);
@@ -231,18 +238,28 @@ index 1a15112..47e25dd 100644
                  return convertPbToBytes(method.invoke(service, new Object[] { status, request }));
              } catch (IllegalAccessException e) {
 diff --git a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
-index 13d3b92..2ed60ff 100644
+index 13d3b92..96c9894 100644
 --- a/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
 +++ b/AppServer_Java/src/com/google/appengine/tools/development/LocalHttpRequestEnvironment.java
-@@ -12,6 +12,7 @@ import java.util.Enumeration;
+@@ -12,6 +12,8 @@ import java.util.Enumeration;
  import java.util.HashMap;
  import java.util.List;
  import java.util.Map;
 +import java.util.UUID;
++import java.util.concurrent.atomic.AtomicInteger;
  
  public class LocalHttpRequestEnvironment extends LocalEnvironment
  {
-@@ -60,6 +61,14 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
+@@ -34,6 +36,8 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
+     private String                                    DEVEL_FAKE_IS_ADMIN_RAW_HEADER = "X-AppEngine-Fake-Is-Admin";
+     private String                                    DEVEL_PAYLOAD_RAW_HEADER = "HTTP_X_APPENGINE_DEVELOPMENT_PAYLOAD";
+ 
++    private final AtomicInteger apiCallCounter = new AtomicInteger(0);
++
+      public LocalHttpRequestEnvironment(String appId, String serverName, String majorVersionId, int instance, HttpServletRequest request, Long deadlineMillis, ServersFilterHelper serversFilterHelper)
+      {
+         super(appId, majorVersionId, deadlineMillis);
+@@ -60,6 +64,14 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
              this.attributes.put("com.google.appengine.request.offline", Boolean.TRUE);
          }
  
@@ -257,3 +274,14 @@ index 13d3b92..2ed60ff 100644
          // AppScale: The metadata parameter is set in the Blobstore server before a blob upload callback request.
          String metadata = request.getParameter("blob_info_metadata");
          if(request.getParameter("blob_info_metadata") != null) {
+@@ -92,6 +104,10 @@ public class LocalHttpRequestEnvironment extends LocalEnvironment
+         this.attributes.put("com.google.appengine.tools.development.servers_filter_helper", serversFilterHelper);
+     }
+ 
++    public int getApiCallNumber() {
++        return apiCallCounter.incrementAndGet();
++    }
++
+     public boolean isLoggedIn()
+     {
+         if(this.FORCE_ADMIN)
