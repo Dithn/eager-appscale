@@ -26,5 +26,4 @@ done
 
 ROOTS_CLASSPATH=$ROOTS_CLASSPATH:$ROOTS_HOME/lib
 
-echo $ROOTS_HOME
 java -Duser.dir=$ROOTS_HOME -classpath $ROOTS_CLASSPATH edu.ucsb.cs.roots.RootsEnvironment $*

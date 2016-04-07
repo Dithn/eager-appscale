@@ -15,8 +15,24 @@
             <outputDirectory>roots-${project.version}/lib</outputDirectory>
         </file>
         <file>
-            <source>src/main/assembly/roots.properties</source>
+            <source>src/main/assembly/conf/roots.properties</source>
             <outputDirectory>roots-${project.version}/conf</outputDirectory>
+        </file>
+        <file>
+            <source>src/main/assembly/conf/dataStores/default.properties</source>
+            <outputDirectory>roots-${project.version}/conf/dataStores</outputDirectory>
+        </file>
+        <file>
+            <source>src/main/assembly/conf/dataStores/README.txt</source>
+            <outputDirectory>roots-${project.version}/conf/dataStores</outputDirectory>
+        </file>
+        <file>
+            <source>src/main/assembly/conf/benchmarks/README.txt</source>
+            <outputDirectory>roots-${project.version}/conf/benchmarks</outputDirectory>
+        </file>
+        <file>
+            <source>src/main/assembly/conf/detectors/README.txt</source>
+            <outputDirectory>roots-${project.version}/conf/detectors</outputDirectory>
         </file>
     </files>
     <dependencySets>
