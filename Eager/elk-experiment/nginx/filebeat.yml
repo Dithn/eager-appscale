@@ -2,11 +2,18 @@ filebeat:
   prospectors:
     -
       paths:
-        - /var/log/nginx/watchtower.access.log
-      document_type: watchtower
+        - /var/log/nginx/javabook.access.log
+      input_type: log
+      document_type: javabook
+
+  registry_file: /var/lib/filebeat/registry
 
 output:
   logstash:
-    enabled: true
+    hosts: ["128.111.179.246:5044"]
 
-    hosts: ["10.2.250.251:5044"]
+shipper:
+
+logging:
+  files:
+    rotateeverybytes: 10485760 # = 10MB
