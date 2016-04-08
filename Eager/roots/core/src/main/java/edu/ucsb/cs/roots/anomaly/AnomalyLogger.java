@@ -1,6 +1,7 @@
 package edu.ucsb.cs.roots.anomaly;
 
 import com.google.common.eventbus.Subscribe;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
@@ -10,7 +11,9 @@ public final class AnomalyLogger {
     private final AnomalyLog anomalyLog;
 
     AnomalyLogger() {
-        this.anomalyLog = new AnomalyLog(LoggerFactory.getLogger(AnomalyLogger.class));
+        Logger log = LoggerFactory.getLogger(AnomalyLogger.class);
+        log.info("Initializing AnomalyLogger");
+        this.anomalyLog = new AnomalyLog(log);
     }
 
     @Subscribe
