@@ -1,0 +1,70 @@
+diff --git a/AppController/lib/nginx.rb b/AppController/lib/nginx.rb
+index 83cf454..518c346 100644
+--- a/AppController/lib/nginx.rb
++++ b/AppController/lib/nginx.rb
+@@ -321,6 +321,7 @@ location / {
+       proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header  X-Forwarded-Proto $scheme;
+       proxy_set_header  X-Forwarded-Ssl $ssl;
++      proxy_set_header  X-Request-Id $uuid;
+       proxy_set_header Host $http_host;
+       proxy_redirect off;
+       proxy_pass http://gae_ssl_#{app_name};
+@@ -341,6 +342,7 @@ location / {
+       proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header  X-Forwarded-Proto $scheme;
+       proxy_set_header  X-Forwarded-Ssl $ssl;
++      proxy_set_header  X-Request-Id $uuid;
+       proxy_set_header Host $http_host;
+       proxy_redirect off;
+       proxy_pass http://gae_#{app_name};
+@@ -376,9 +378,9 @@ server {
+     server_name #{my_public_ip}-#{app_name};
+     #root /var/apps/#{app_name}/app;
+     # Uncomment these lines to enable logging, and comment out the following two
+-    #access_log  /var/log/nginx/#{app_name}.access.log upstream;
++    access_log  /var/log/nginx/#{app_name}.access.log logstash;
+     error_log  /var/log/nginx/#{app_name}.error.log;
+-    access_log off;
++    access_log on;
+     #error_log /dev/null crit;
+     ignore_invalid_headers off;
+ 
+@@ -448,9 +450,9 @@ server {
+ 
+     #root /var/apps/#{app_name}/app;
+     # Uncomment these lines to enable logging, and comment out the following two
+-    #access_log  /var/log/nginx/#{app_name}.access.log upstream;
++    access_log  /var/log/nginx/#{app_name}.access.log logstash;
+     error_log  /var/log/nginx/#{app_name}.error.log;
+-    access_log off;
++    access_log on;
+     #error_log /dev/null crit;
+     ignore_invalid_headers off;
+ 
+@@ -782,10 +784,25 @@ http {
+ 
+     access_log  /var/log/nginx/access.log;
+ 
++    perl_require "Data/UUID.pm";
++    perl_set $uuid 'sub {
++
++  $ug = new Data::UUID;
++  $str = $ug->create_str();
++  return $str;
++               }';
++
+     log_format upstream '$remote_addr - - [$time_local] "$request" status $status '
+                         'upstream $upstream_response_time request $request_time '
+                         '[for $host via $upstream_addr]';
+ 
++    log_format logstash '$uuid $http_host '
++                    '$remote_addr [$time_local] '
++                    '"$request" $status $body_bytes_sent '
++                    '"$http_referer" "$http_user_agent" '
++                    '$request_time '
++                    '$upstream_response_time';
++
+     sendfile        on;
+     #tcp_nopush     on;
+ 
