@@ -37,7 +37,8 @@ public final class ResponseTimeHistoryQuery extends Query {
     public String getJsonString() {
         return String.format(RESPONSE_TIME_HISTORY_QUERY,
                 accessLogTimestampField, start, end, accessLogMethodField, accessLogPathField,
-                accessLogTimestampField, period, start, end - period, accessLogResponseTimeField);
+                accessLogTimestampField, period, start % period, start, end - period,
+                accessLogResponseTimeField);
     }
 
     public static Builder newBuilder() {

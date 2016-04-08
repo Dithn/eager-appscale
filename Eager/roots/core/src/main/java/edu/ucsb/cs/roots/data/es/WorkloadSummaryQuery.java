@@ -40,7 +40,7 @@ public class WorkloadSummaryQuery extends Query {
     public String getJsonString() {
         return String.format(WORKLOAD_SUMMARY_QUERY, accessLogMethodField, method,
                 accessLogPathField, path, accessLogTimestampField, start, end,
-                accessLogTimestampField, period, start, end - period);
+                accessLogTimestampField, period, start % period, start, end - period);
     }
 
     public static Builder newBuilder() {

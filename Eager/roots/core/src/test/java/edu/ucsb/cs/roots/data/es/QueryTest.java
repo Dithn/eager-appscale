@@ -78,6 +78,7 @@ public class QueryTest {
                 .getAsJsonObject("histogram");
         Assert.assertEquals("timestamp", histogram.get("field").getAsString());
         Assert.assertEquals(10, histogram.get("interval").getAsLong());
+        Assert.assertEquals(0, histogram.get("offset").getAsLong());
         Assert.assertEquals(0, histogram.getAsJsonObject("extended_bounds").get("min").getAsLong());
         Assert.assertEquals(100 - 10, histogram.getAsJsonObject("extended_bounds").get("max").getAsLong());
 
@@ -143,6 +144,7 @@ public class QueryTest {
                 .getAsJsonObject("histogram");
         Assert.assertEquals("timestamp", histogram.get("field").getAsString());
         Assert.assertEquals(10, histogram.get("interval").getAsLong());
+        Assert.assertEquals(0, histogram.get("offset").getAsLong());
         Assert.assertEquals(0, histogram.getAsJsonObject("extended_bounds").get("min").getAsLong());
         Assert.assertEquals(100 - 10, histogram.getAsJsonObject("extended_bounds").get("max").getAsLong());
     }

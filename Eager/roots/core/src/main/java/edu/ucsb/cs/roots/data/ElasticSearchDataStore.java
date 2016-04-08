@@ -15,6 +15,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,6 +29,8 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class ElasticSearchDataStore implements DataStore {
+
+    private static final Logger log = LoggerFactory.getLogger(ElasticSearchDataStore.class);
 
     private static final ImmutableList<String> METHODS = ImmutableList.of(
             "GET", "POST", "PUT", "DELETE");
@@ -394,6 +398,7 @@ public class ElasticSearchDataStore implements DataStore {
     private JsonElement makeHttpCall(String path, String query,
                                      String json) throws IOException, URISyntaxException {
         URI uri = new URI("http", null, elasticSearchHost, elasticSearchPort, path, query, null);
+        log.debug("URL: {}; Payload: {}", uri, json);
         HttpPost post = new HttpPost(uri);
         post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
         return httpClient.execute(post, new ElasticSearchResponseHandler());

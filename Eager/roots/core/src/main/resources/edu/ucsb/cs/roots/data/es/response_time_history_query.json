@@ -24,6 +24,7 @@
               "histogram": {
                 "field": "%s",
                 "interval": %d,
+                "offset": %d,
                 "extended_bounds": {
                   "min": %d,
                   "max": %d

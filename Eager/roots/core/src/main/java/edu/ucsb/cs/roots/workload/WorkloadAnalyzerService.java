@@ -10,6 +10,9 @@ import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.anomaly.AnomalyLog;
 import edu.ucsb.cs.roots.data.DataStore;
 
+import java.util.Arrays;
+import java.util.Date;
+
 public final class WorkloadAnalyzerService extends ManagedService {
 
     private static final String WORKLOAD_ANALYZER = "workload.analyzer";
@@ -32,8 +35,13 @@ public final class WorkloadAnalyzerService extends ManagedService {
         long history = anomaly.getEnd() - anomaly.getStart();
         long start = anomaly.getEnd() - 2 * history;
 
+        if (log.isDebugEnabled()) {
+            log.debug("Loading workload history from: {}, to: {}", new Date(start),
+                    new Date(anomaly.getEnd()));
+        }
         DataStore dataStore = environment.getDataStoreService().get(anomaly.getDataStore());
         ChangePointDetector changePointDetector = getChangePointDetector(anomaly);
+        double[] data = null;
         try {
             ImmutableList<Double> summary = dataStore.getWorkloadSummary(anomaly.getApplication(),
                     anomaly.getOperation(), start, anomaly.getEnd(),
@@ -43,10 +51,19 @@ public final class WorkloadAnalyzerService extends ManagedService {
                 return;
             }
 
-            Segment[] segments = changePointDetector.computeSegments(Doubles.toArray(summary));
+            data = Doubles.toArray(summary);
+            if (log.isDebugEnabled()) {
+                log.debug("Workload data: {}", Arrays.toString(data));
+            }
+            Segment[] segments = changePointDetector.computeSegments(data);
             analyzeSegments(segments, anomaly);
         } catch (Exception e) {
-            anomalyLog.error(anomaly, "Error while computing workload changes", e);
+            if (data != null) {
+                anomalyLog.error(anomaly, "Error while computing workload changes: {}",
+                        Arrays.toString(data), e);
+            } else {
+                anomalyLog.error(anomaly, "Error while computing workload changes", e);
+            }
         }
     }
 
