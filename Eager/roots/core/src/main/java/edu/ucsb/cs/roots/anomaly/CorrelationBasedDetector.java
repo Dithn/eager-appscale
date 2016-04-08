@@ -65,6 +65,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private void initFullHistory(long windowStart, long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
+        if (log.isDebugEnabled()) {
+            log.debug("Initializing history for {} ({} - {})", application, new Date(windowStart),
+                    new Date(windowEnd));
+        }
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableListMultimap<String,ResponseTimeSummary> summaries =
                 ds.getResponseTimeHistory(application, windowStart, windowEnd,
@@ -80,6 +84,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private Collection<String> updateHistory(long windowStart,
                                              long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
+        if (log.isDebugEnabled()) {
+            log.debug("Updating history for {} ({} - {})", application, new Date(windowStart),
+                    new Date(windowEnd));
+        }
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableMap<String,ResponseTimeSummary> summaries = ds.getResponseTimeSummary(
                 application, windowStart, windowEnd);
@@ -94,6 +102,11 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             ResponseTimeSummary s = summaries.get(i);
             requests[i] = s.getRequestCount();
             responseTime[i] = s.getMeanResponseTime();
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("Request Counts: {}", Arrays.toString(requests));
+            log.debug("Response Times: {}", Arrays.toString(responseTime));
         }
 
         try (RClient r = new RClient(environment.getRService())) {
