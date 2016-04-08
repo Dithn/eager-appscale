@@ -294,7 +294,7 @@ index 13d3b92..96c9894 100644
 +        }
 +        this.attributes.put("edu.ucsb.cs.eager.RequestId", requestId);
 +        this.attributes.put("edu.ucsb.cs.eager.RequestTimestamp", System.currentTimeMillis());
-+        this.attributes.put("edu.ucsb.cs.eager.RequestOperation", request.getMethod() + " /foo");
++        this.attributes.put("edu.ucsb.cs.eager.RequestOperation", request.getMethod() + " " + request.getRequestURI());
 +
          // AppScale: The metadata parameter is set in the Blobstore server before a blob upload callback request.
          String metadata = request.getParameter("blob_info_metadata");
