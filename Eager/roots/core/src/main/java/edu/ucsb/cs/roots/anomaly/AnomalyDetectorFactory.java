@@ -19,8 +19,8 @@ public class AnomalyDetectorFactory {
     private static final String DETECTOR_HISTORY_LENGTH = "history";
     private static final String DETECTOR_HISTORY_LENGTH_TIME_UNIT = DETECTOR_HISTORY_LENGTH + ".timeUnit";
     private static final String DETECTOR_CORRELATION_THRESHOLD = "correlationThreshold";
-    private static final String DETECTOR_DTW_INCREASE_THRESHOLD = "dtwIncreaseThreshold";
-    private static final String DETECTOR_THRESHOLD_BASED_DTW_CHECK = "thresholdBasedDtwCheck";
+    private static final String DETECTOR_DTW_THRESHOLD = "dtwThreshold";
+    private static final String DETECTOR_DTW_ANALYSIS = "dtwAnalysis";
 
     private static final String DETECTOR_RESPONSE_TIME_UPPER_BOUND = "responseTimeUpperBound";
     private static final String DETECTOR_SLO_PERCENTAGE = "sloPercentage";
@@ -77,14 +77,14 @@ public class AnomalyDetectorFactory {
             builder.setCorrelationThreshold(Double.parseDouble(correlationThreshold));
         }
 
-        String dtwIncreaseThreshold = properties.getProperty(DETECTOR_DTW_INCREASE_THRESHOLD);
-        if (!Strings.isNullOrEmpty(dtwIncreaseThreshold)) {
-            builder.setDtwIncreaseThreshold(Double.parseDouble(dtwIncreaseThreshold));
+        String dtwThreshold = properties.getProperty(DETECTOR_DTW_THRESHOLD);
+        if (!Strings.isNullOrEmpty(dtwThreshold)) {
+            builder.setDtwThreshold(Double.parseDouble(dtwThreshold));
         }
 
-        String thresholdBasedDtwCheck = properties.getProperty(DETECTOR_THRESHOLD_BASED_DTW_CHECK);
-        if (!Strings.isNullOrEmpty(thresholdBasedDtwCheck)) {
-            builder.setThresholdBasedDtwCheck(Boolean.parseBoolean(thresholdBasedDtwCheck));
+        String dtwAnalysis = properties.getProperty(DETECTOR_DTW_ANALYSIS);
+        if (!Strings.isNullOrEmpty(dtwAnalysis)) {
+            builder.setDtwAnalysis(dtwAnalysis);
         }
         return builder;
     }

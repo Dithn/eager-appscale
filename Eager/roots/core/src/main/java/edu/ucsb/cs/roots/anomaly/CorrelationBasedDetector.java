@@ -1,5 +1,6 @@
 package edu.ucsb.cs.roots.anomaly;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.*;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.DataStore;
@@ -15,11 +16,26 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public final class CorrelationBasedDetector extends AnomalyDetector {
 
+    /**
+     * Detect DTW increase by comparing the new value to the last computed DTW
+     * distance, and calculating the percentage change.
+     */
+    private static final String DTW_ANALYSIS_COMPARE_TO_LAST = "compare.to.last";
+
+    /**
+     * Detect DTW increase by comparing the new value to the mean of the all previously
+     * calculated DTW distances.
+     */
+    private static final String DTW_ANALYSIS_COMPARE_TO_ALL = "compare.to.all";
+
+    private static final ImmutableSet<String> DTW_ANALYSIS =
+            ImmutableSet.of(DTW_ANALYSIS_COMPARE_TO_LAST, DTW_ANALYSIS_COMPARE_TO_ALL);
+
     private final ListMultimap<String,ResponseTimeSummary> history;
     private final ListMultimap<String,DTWDistance> dtwTrends;
     private final double correlationThreshold;
-    private final double dtwIncreaseThreshold;
-    private final boolean thresholdBasedDtwCheck;
+    private final String dtwAnalysis;
+    private final double dtwThreshold;
 
     private long end = -1L;
 
@@ -28,13 +44,15 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 builder.historyLengthInSeconds, builder.dataStore, builder.properties);
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");
-        checkArgument(builder.dtwIncreaseThreshold > 0,
-                "DTW increase percentage threshold must be positive");
+        checkArgument(!Strings.isNullOrEmpty(builder.dtwAnalysis), "DTW analysis method is required");
+        checkArgument(DTW_ANALYSIS.contains(builder.dtwAnalysis),
+                "Unsupported DTW analysis method: %s", builder.dtwAnalysis);
+        checkArgument(builder.dtwThreshold > 0, "DTW threshold must be positive");
         this.history = ArrayListMultimap.create();
         this.dtwTrends = ArrayListMultimap.create();
         this.correlationThreshold = builder.correlationThreshold;
-        this.dtwIncreaseThreshold = builder.dtwIncreaseThreshold;
-        this.thresholdBasedDtwCheck = builder.thresholdBasedDtwCheck;
+        this.dtwAnalysis = builder.dtwAnalysis;
+        this.dtwThreshold = builder.dtwThreshold;
     }
 
     @Override
@@ -157,15 +175,15 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         trend.forEach(d -> statistics.addValue(d.dtw));
 
         boolean dtwIncreased = false;
-        if (thresholdBasedDtwCheck) {
+        if (DTW_ANALYSIS_COMPARE_TO_LAST.equals(dtwAnalysis)) {
             if (trend.size() > 2) {
                 double penultimate = trend.get(trend.size() - 2).dtw;
                 double increase = (correlation.dtw - penultimate) * 100.0 / penultimate;
                 log.debug("DTW increase from the last value: {}%", increase);
-                dtwIncreased = increase > dtwIncreaseThreshold;
+                dtwIncreased = increase > dtwThreshold;
             }
         } else {
-            double limit = statistics.getMean() + 2 * statistics.getStandardDeviation();
+            double limit = statistics.getMean() + dtwThreshold * statistics.getStandardDeviation();
             log.debug("DTW threshold: {}, Current: {}", limit, correlation.dtw);
             dtwIncreased = correlation.dtw > limit;
         }
@@ -210,8 +228,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedDetector,Builder> {
 
         private double correlationThreshold = 0.5;
-        private double dtwIncreaseThreshold = 20.0;
-        private boolean thresholdBasedDtwCheck = false;
+        private String dtwAnalysis = DTW_ANALYSIS_COMPARE_TO_ALL;
+        private double dtwThreshold = 2.0;
 
         private Builder() {
         }
@@ -221,13 +239,13 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             return this;
         }
 
-        public Builder setDtwIncreaseThreshold(double dtwIncreaseThreshold) {
-            this.dtwIncreaseThreshold = dtwIncreaseThreshold;
+        public Builder setDtwAnalysis(String dtwAnalysis) {
+            this.dtwAnalysis = dtwAnalysis;
             return this;
         }
 
-        public Builder setThresholdBasedDtwCheck(boolean thresholdBasedDtwCheck) {
-            this.thresholdBasedDtwCheck = thresholdBasedDtwCheck;
+        public Builder setDtwThreshold(double dtwThreshold) {
+            this.dtwThreshold = dtwThreshold;
             return this;
         }
 
