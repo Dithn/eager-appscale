@@ -99,7 +99,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         history.putAll(summaries);
         history.keySet().stream()
                 .filter(op -> history.get(op).size() > 2)
-                .map(op -> dtwTrends.putAll(op, computeDTWTrend(history.get(op))));
+                .forEach(op -> dtwTrends.putAll(op, computeDTWTrend(history.get(op))));
     }
 
     private Collection<String> updateHistory(long windowStart,
