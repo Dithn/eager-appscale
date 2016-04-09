@@ -6,6 +6,7 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.rlang.RClient;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.rosuda.REngine.REXP;
 
 import java.util.*;
@@ -15,22 +16,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 public final class CorrelationBasedDetector extends AnomalyDetector {
 
     private final ListMultimap<String,ResponseTimeSummary> history;
+    private final ListMultimap<String,DTWDistance> dtwTrends;
     private final double correlationThreshold;
-    private final double dtwIncreaseThreshold;
 
     private long end = -1L;
-    private Map<String,Double> prevDtw = new HashMap<>();
 
     private CorrelationBasedDetector(RootsEnvironment environment, Builder builder) {
         super(environment, builder.application, builder.periodInSeconds,
                 builder.historyLengthInSeconds, builder.dataStore, builder.properties);
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");
-        checkArgument(builder.dtwIncreaseThreshold > 0,
-                "DTW increase percentage threshold must be positive");
         this.history = ArrayListMultimap.create();
+        this.dtwTrends = ArrayListMultimap.create();
         this.correlationThreshold = builder.correlationThreshold;
-        this.dtwIncreaseThreshold = builder.dtwIncreaseThreshold;
     }
 
     @Override
@@ -56,6 +54,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
 
         long cutoff = end - historyLengthInSeconds * 1000;
         history.values().removeIf(s -> s.getTimestamp() < cutoff);
+        dtwTrends.values().removeIf(d -> d.timestamp < cutoff);
         history.keySet().stream()
                 .filter(k -> requestTypes.contains(k) && history.get(k).size() > 2)
                 .map(k -> computeCorrelation(k, history.get(k)))
@@ -76,9 +75,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         history.putAll(summaries);
         history.keySet().stream()
                 .filter(op -> history.get(op).size() > 2)
-                .map(op -> computeCorrelation(op, history.get(op)))
-                .filter(Objects::nonNull)
-                .forEach(c -> prevDtw.put(c.operation, c.dtw));
+                .map(op -> dtwTrends.putAll(op, computeDTWTrend(history.get(op))));
     }
 
     private Collection<String> updateHistory(long windowStart,
@@ -124,18 +121,41 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         }
     }
 
+    private List<DTWDistance> computeDTWTrend(List<ResponseTimeSummary> summaries) {
+        ImmutableList.Builder<DTWDistance> trend = ImmutableList.builder();
+        try (RClient r = new RClient(environment.getRService())) {
+            r.evalAndAssign("x", "c()");
+            r.evalAndAssign("y", "c()");
+            int count = 0;
+            for (ResponseTimeSummary summary : summaries) {
+                r.evalAndAssign("x", String.format("c(x,%f)", summary.getRequestCount()));
+                r.evalAndAssign("y", String.format("c(y,%f)", summary.getMeanResponseTime()));
+                if (++count > 2) {
+                    r.evalAndAssign("time_warp", "dtw(x, y)");
+                    REXP distance = r.eval("time_warp$distance");
+                    trend.add(new DTWDistance(summary.getTimestamp(), distance.asDouble()));
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error computing the DTW trend", e);
+        }
+        return trend.build();
+    }
+
     private void checkForAnomalies(long start, long end, Correlation correlation) {
-        double lastDtw = prevDtw.getOrDefault(correlation.operation, -1.0);
-        if (correlation.rValue < correlationThreshold && lastDtw >= 0) {
+        dtwTrends.put(correlation.operation, new DTWDistance(end - periodInSeconds * 1000, correlation.dtw));
+        SummaryStatistics statistics = new SummaryStatistics();
+        dtwTrends.get(correlation.operation).forEach(d -> statistics.addValue(d.dtw));
+        double limit = statistics.getMean() + 2 * statistics.getStandardDeviation();
+        log.debug("DTW threshold: {}, Current: {}", limit, correlation.dtw);
+
+        if (correlation.rValue < correlationThreshold && correlation.dtw > limit) {
             // If the correlation has dropped and the DTW distance has increased, we
             // might be looking at a performance anomaly.
-            double dtwIncrease = (correlation.dtw - lastDtw)*100.0/lastDtw;
-            if (dtwIncrease > dtwIncreaseThreshold) {
-                reportAnomaly(start, end, correlation.operation, String.format(
-                        "Correlation: %.4f; DTW-Increase: %.4f%%", correlation.rValue, dtwIncrease));
-            }
+            double dtwIncrease = (correlation.dtw - statistics.getMean())*100.0/statistics.getMean();
+            reportAnomaly(start, end, correlation.operation, String.format(
+                    "Correlation: %.4f; DTW-Increase: %.4f%%", correlation.rValue, dtwIncrease));
         }
-        prevDtw.put(correlation.operation, correlation.dtw);
     }
 
     private static class Correlation {
@@ -151,6 +171,17 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         }
     }
 
+    private static class DTWDistance {
+
+        private final long timestamp;
+        private final double dtw;
+
+        private DTWDistance(long timestamp, double dtw) {
+            this.timestamp = timestamp;
+            this.dtw = dtw;
+        }
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -158,18 +189,12 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedDetector,Builder> {
 
         private double correlationThreshold = 0.5;
-        private double dtwIncreaseThreshold = 20.0;
 
         private Builder() {
         }
 
         public Builder setCorrelationThreshold(double correlationThreshold) {
             this.correlationThreshold = correlationThreshold;
-            return this;
-        }
-
-        public Builder setDtwIncreaseThreshold(double dtwIncreaseThreshold) {
-            this.dtwIncreaseThreshold = dtwIncreaseThreshold;
             return this;
         }
 
