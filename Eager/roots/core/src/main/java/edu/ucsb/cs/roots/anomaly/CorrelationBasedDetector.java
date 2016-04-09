@@ -18,6 +18,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private final ListMultimap<String,ResponseTimeSummary> history;
     private final ListMultimap<String,DTWDistance> dtwTrends;
     private final double correlationThreshold;
+    private final double dtwIncreaseThreshold;
+    private final boolean thresholdBasedDtwCheck;
 
     private long end = -1L;
 
@@ -26,9 +28,13 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 builder.historyLengthInSeconds, builder.dataStore, builder.properties);
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");
+        checkArgument(builder.dtwIncreaseThreshold > 0,
+                "DTW increase percentage threshold must be positive");
         this.history = ArrayListMultimap.create();
         this.dtwTrends = ArrayListMultimap.create();
         this.correlationThreshold = builder.correlationThreshold;
+        this.dtwIncreaseThreshold = builder.dtwIncreaseThreshold;
+        this.thresholdBasedDtwCheck = builder.thresholdBasedDtwCheck;
     }
 
     @Override
@@ -143,13 +149,28 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     }
 
     private void checkForAnomalies(long start, long end, Correlation correlation) {
-        dtwTrends.put(correlation.operation, new DTWDistance(end - periodInSeconds * 1000, correlation.dtw));
-        SummaryStatistics statistics = new SummaryStatistics();
-        dtwTrends.get(correlation.operation).forEach(d -> statistics.addValue(d.dtw));
-        double limit = statistics.getMean() + 2 * statistics.getStandardDeviation();
-        log.debug("DTW threshold: {}, Current: {}", limit, correlation.dtw);
+        dtwTrends.put(correlation.operation, new DTWDistance(
+                end - periodInSeconds * 1000, correlation.dtw));
 
-        if (correlation.rValue < correlationThreshold && correlation.dtw > limit) {
+        List<DTWDistance> trend = dtwTrends.get(correlation.operation);
+        SummaryStatistics statistics = new SummaryStatistics();
+        trend.forEach(d -> statistics.addValue(d.dtw));
+
+        boolean dtwIncreased = false;
+        if (thresholdBasedDtwCheck) {
+            if (trend.size() > 2) {
+                double penultimate = trend.get(trend.size() - 2).dtw;
+                double increase = (correlation.dtw - penultimate) * 100.0 / penultimate;
+                log.debug("DTW increase from the last value: {}%", increase);
+                dtwIncreased = increase > dtwIncreaseThreshold;
+            }
+        } else {
+            double limit = statistics.getMean() + 2 * statistics.getStandardDeviation();
+            log.debug("DTW threshold: {}, Current: {}", limit, correlation.dtw);
+            dtwIncreased = correlation.dtw > limit;
+        }
+
+        if (correlation.rValue < correlationThreshold && dtwIncreased) {
             // If the correlation has dropped and the DTW distance has increased, we
             // might be looking at a performance anomaly.
             double dtwIncrease = (correlation.dtw - statistics.getMean())*100.0/statistics.getMean();
@@ -189,12 +210,24 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     public static class Builder extends AnomalyDetectorBuilder<CorrelationBasedDetector,Builder> {
 
         private double correlationThreshold = 0.5;
+        private double dtwIncreaseThreshold = 20.0;
+        private boolean thresholdBasedDtwCheck = false;
 
         private Builder() {
         }
 
         public Builder setCorrelationThreshold(double correlationThreshold) {
             this.correlationThreshold = correlationThreshold;
+            return this;
+        }
+
+        public Builder setDtwIncreaseThreshold(double dtwIncreaseThreshold) {
+            this.dtwIncreaseThreshold = dtwIncreaseThreshold;
+            return this;
+        }
+
+        public Builder setThresholdBasedDtwCheck(boolean thresholdBasedDtwCheck) {
+            this.thresholdBasedDtwCheck = thresholdBasedDtwCheck;
             return this;
         }
 
