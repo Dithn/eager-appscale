@@ -75,10 +75,10 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                         periodInSeconds * 1000);
         history.putAll(summaries);
         history.keySet().stream()
-                .filter(k -> history.get(k).size() > 2)
-                .map(k -> computeCorrelation(k, history.get(k)))
+                .filter(op -> history.get(op).size() > 2)
+                .map(op -> computeCorrelation(op, history.get(op)))
                 .filter(Objects::nonNull)
-                .forEach(c -> prevDtw.put(c.key, c.dtw));
+                .forEach(c -> prevDtw.put(c.operation, c.dtw));
     }
 
     private Collection<String> updateHistory(long windowStart,
@@ -95,7 +95,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         return ImmutableList.copyOf(summaries.keySet());
     }
 
-    private Correlation computeCorrelation(String key, List<ResponseTimeSummary> summaries) {
+    private Correlation computeCorrelation(String operation, List<ResponseTimeSummary> summaries) {
         double[] requests = new double[summaries.size()];
         double[] responseTime = new double[summaries.size()];
         for (int i = 0; i < summaries.size(); i++) {
@@ -115,9 +115,9 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             REXP correlation = r.eval("cor(x, y, method='pearson')");
             r.evalAndAssign("time_warp", "dtw(x, y)");
             REXP distance = r.eval("time_warp$distance");
-            log.info("Correlation analysis output [{}]: {} {} {}", key, correlation.asDouble(),
+            log.info("Correlation analysis output [{}]: {} {} {}", operation, correlation.asDouble(),
                     distance.asDouble(), requests.length);
-            return new Correlation(key, correlation.asDouble(), distance.asDouble());
+            return new Correlation(operation, correlation.asDouble(), distance.asDouble());
         } catch (Exception e) {
             log.error("Error computing the correlation statistics", e);
             return null;
@@ -125,27 +125,27 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     }
 
     private void checkForAnomalies(long start, long end, Correlation correlation) {
-        double lastDtw = prevDtw.getOrDefault(correlation.key, -1.0);
+        double lastDtw = prevDtw.getOrDefault(correlation.operation, -1.0);
         if (correlation.rValue < correlationThreshold && lastDtw >= 0) {
             // If the correlation has dropped and the DTW distance has increased, we
             // might be looking at a performance anomaly.
             double dtwIncrease = (correlation.dtw - lastDtw)*100.0/lastDtw;
             if (dtwIncrease > dtwIncreaseThreshold) {
-                reportAnomaly(start, end, correlation.key, String.format(
+                reportAnomaly(start, end, correlation.operation, String.format(
                         "Correlation: %.4f; DTW-Increase: %.4f%%", correlation.rValue, dtwIncrease));
             }
         }
-        prevDtw.put(correlation.key, correlation.dtw);
+        prevDtw.put(correlation.operation, correlation.dtw);
     }
 
     private static class Correlation {
 
-        private final String key;
+        private final String operation;
         private final double rValue;
         private final double dtw;
 
-        private Correlation(String key, double rValue, double dtw) {
-            this.key = key;
+        private Correlation(String operation, double rValue, double dtw) {
+            this.operation = operation;
             this.rValue = rValue;
             this.dtw = dtw;
         }
