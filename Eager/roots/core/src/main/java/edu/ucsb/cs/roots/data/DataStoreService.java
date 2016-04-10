@@ -18,6 +18,8 @@ public final class DataStoreService extends ManagedService {
     private static final String DATA_STORE_TYPE = "type";
     private static final String DATA_STORE_ES_HOST = "host";
     private static final String DATA_STORE_ES_PORT = "port";
+    private static final String DATA_STORE_ES_CONNECT_TIMEOUT = "connect.timeout";
+    private static final String DATA_STORE_ES_SO_TIMEOUT = "socket.timeout";
     private static final String DATA_STORE_ES_ACCESS_LOG_INDEX = "accessLog.index";
     private static final String DATA_STORE_ES_BENCHMARK_INDEX = "benchmark.index";
     private static final String DATA_STORE_ES_API_CALL_INDEX = "apiCall.index";
@@ -64,6 +66,14 @@ public final class DataStoreService extends ManagedService {
                     .setAccessLogIndex(properties.getProperty(DATA_STORE_ES_ACCESS_LOG_INDEX))
                     .setBenchmarkIndex(properties.getProperty(DATA_STORE_ES_BENCHMARK_INDEX))
                     .setApiCallIndex(properties.getProperty(DATA_STORE_ES_API_CALL_INDEX));
+            String timeout = properties.getProperty(DATA_STORE_ES_CONNECT_TIMEOUT);
+            if (!Strings.isNullOrEmpty(timeout)) {
+                builder.setConnectTimeout(Integer.parseInt(timeout));
+            }
+            timeout = properties.getProperty(DATA_STORE_ES_SO_TIMEOUT);
+            if (!Strings.isNullOrEmpty(timeout)) {
+                builder.setSocketTimeout(Integer.parseInt(timeout));
+            }
             properties.stringPropertyNames().stream()
                     .filter(k -> k.startsWith(DATA_STORE_ES_FIELD))
                     .forEach(k -> builder.setFieldMapping(k, properties.getProperty(k)));
