@@ -3,10 +3,13 @@ package edu.ucsb.cs.roots.bm;
 import com.google.common.base.Strings;
 import edu.ucsb.cs.roots.ConfigLoader;
 import edu.ucsb.cs.roots.RootsEnvironment;
+import edu.ucsb.cs.roots.scheduling.RootsJob;
 import edu.ucsb.cs.roots.scheduling.SchedulerService;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.quartz.Job;
+import org.quartz.SimpleScheduleBuilder;
 
 import java.util.Properties;
 import java.util.Set;
@@ -16,7 +19,7 @@ import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class BenchmarkingService extends SchedulerService<Benchmark> {
+public final class BenchmarkingService extends SchedulerService<Benchmark> {
 
     private static final String APPLICATION = "application";
     private static final String BENCHMARK_PERIOD = "period";
@@ -83,5 +86,10 @@ public class BenchmarkingService extends SchedulerService<Benchmark> {
             builder.addCall(new BenchmarkCall(method, url));
         });
         return builder.build(environment);
+    }
+
+    @Override
+    protected Class<? extends Job> jobClass() {
+        return RootsJob.class;
     }
 }

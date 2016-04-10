@@ -99,22 +99,32 @@ public abstract class SchedulerService<T extends ScheduledItem> extends ManagedS
     }
 
     private void scheduleItem(Properties properties) throws SchedulerException {
-        T detector = createItem(environment, properties);
-        JobDetail jobDetail = JobBuilder.newJob(RootsJob.class)
-                .withIdentity(getJobKey(detector.getApplication()))
+        T item = createItem(environment, properties);
+        JobDetail jobDetail = JobBuilder.newJob(jobClass())
+                .withIdentity(getJobKey(item.getApplication()))
                 .build();
         JobDataMap jobDataMap = jobDetail.getJobDataMap();
-        jobDataMap.put(RootsJob.SCHEDULED_ITEM_INSTANCE, detector);
+        jobDataMap.put(RootsJob.SCHEDULED_ITEM_INSTANCE, item);
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(getTriggerKey(detector.getApplication()))
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withMisfireHandlingInstructionIgnoreMisfires()
-                        .repeatForever().withIntervalInSeconds(detector.getPeriodInSeconds()))
+                .withIdentity(getTriggerKey(item.getApplication()))
+                .withSchedule(scheduleBuilder(item.getPeriodInSeconds()))
                 .startNow()
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
-        items.add(detector);
-        log.info("Scheduled job for: {}", detector.getApplication());
+        items.add(item);
+        log.info("Scheduled job for: {}", item.getApplication());
+    }
+
+    protected Class<? extends Job> jobClass() {
+        return SynchronizedRootsJob.class;
+    }
+
+    protected SimpleScheduleBuilder scheduleBuilder(int periodInSeconds) {
+        // Immediately run misfired triggers, and continue on schedule.
+        return SimpleScheduleBuilder.simpleSchedule()
+                .withMisfireHandlingInstructionIgnoreMisfires()
+                .repeatForever()
+                .withIntervalInSeconds(periodInSeconds);
     }
 }
