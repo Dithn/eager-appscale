@@ -149,6 +149,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     }
 
     private List<DTWDistance> computeDTWTrend(List<ResponseTimeSummary> summaries) {
+        log.debug("Computing historical DTW trend with {} data points", summaries.size());
         List<DTWDistance> trend = new ArrayList<>();
         try (RClient r = new RClient(environment.getRService())) {
             r.evalAndAssign("x", "c()");

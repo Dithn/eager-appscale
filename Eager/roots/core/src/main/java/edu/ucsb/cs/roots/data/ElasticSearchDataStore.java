@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -95,7 +96,13 @@ public class ElasticSearchDataStore implements DataStore {
                 "ElasticSearch host is required");
         checkArgument(builder.elasticSearchPort > 0 && builder.elasticSearchPort < 65535,
                 "ElasticSearch port number is invalid");
-        this.httpClient = HttpClients.createDefault();
+        checkArgument(builder.connectTimeout >= -1);
+        checkArgument(builder.socketTimeout >= -1);
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(builder.connectTimeout)
+                .setSocketTimeout(builder.socketTimeout)
+                .build();
+        this.httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
         this.elasticSearchHost = builder.elasticSearchHost;
         this.elasticSearchPort = builder.elasticSearchPort;
         this.accessLogIndex = builder.accessLogIndex;
@@ -437,6 +444,9 @@ public class ElasticSearchDataStore implements DataStore {
         private String accessLogIndex;
         private String benchmarkIndex;
         private String apiCallIndex;
+        private int connectTimeout = -1;
+        private int socketTimeout = -1;
+
         private final Map<String,String> fieldMappings = new HashMap<>(DEFAULT_FIELD_MAPPINGS);
 
         private Builder() {
@@ -464,6 +474,16 @@ public class ElasticSearchDataStore implements DataStore {
 
         public Builder setApiCallIndex(String apiCallIndex) {
             this.apiCallIndex = apiCallIndex;
+            return this;
+        }
+
+        public Builder setConnectTimeout(int connectTimeout) {
+            this.connectTimeout = connectTimeout;
+            return this;
+        }
+
+        public Builder setSocketTimeout(int socketTimeout) {
+            this.socketTimeout = socketTimeout;
             return this;
         }
 

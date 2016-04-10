@@ -9,7 +9,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.quartz.Job;
-import org.quartz.SimpleScheduleBuilder;
 
 import java.util.Properties;
 import java.util.Set;
@@ -83,13 +82,17 @@ public final class BenchmarkingService extends SchedulerService<Benchmark> {
                 checkArgument(!Strings.isNullOrEmpty(prefix), "Benchmark URL prefix not configured");
                 url = prefix + url;
             }
-            builder.addCall(new BenchmarkCall(method, url));
+            String timeout = properties.getProperty(call + ".timeout", "60");
+            builder.addCall(new BenchmarkCall(method, url, Integer.parseInt(timeout)));
         });
         return builder.build(environment);
     }
 
     @Override
     protected Class<? extends Job> jobClass() {
+        // A Benchmark may have a timeout longer than its period. If that is the case, and
+        // if the Benchmark does get blocked for a long time, we need to allow subsequent
+        // triggers to run concurrently.
         return RootsJob.class;
     }
 }

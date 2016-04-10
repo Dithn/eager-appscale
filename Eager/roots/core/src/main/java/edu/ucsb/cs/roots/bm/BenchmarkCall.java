@@ -2,9 +2,9 @@ package edu.ucsb.cs.roots.bm;
 
 import com.google.common.base.Strings;
 import org.apache.http.HttpHost;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.*;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -18,12 +18,15 @@ public final class BenchmarkCall {
 
     private final String method;
     private final URI url;
+    private final int timeoutInSeconds;
 
-    public BenchmarkCall(String method, String url) {
+    public BenchmarkCall(String method, String url, int timeoutInSeconds) {
         checkArgument(!Strings.isNullOrEmpty(method), "HTTP method is required");
         checkArgument(!Strings.isNullOrEmpty(url), "HTTP URL is required");
+        checkArgument(timeoutInSeconds > 0, "Timeout must be greater than zero");
         this.method = method;
         this.url = URI.create(url);
+        this.timeoutInSeconds = timeoutInSeconds;
     }
 
     public String getMethod() {
@@ -46,9 +49,13 @@ public final class BenchmarkCall {
             throw new IllegalArgumentException("Unsupported HTTP method: " + method);
         }
 
+        HttpClientContext context = HttpClientContext.create();
+        context.setRequestConfig(RequestConfig.custom()
+                .setSocketTimeout(timeoutInSeconds * 1000).build());
+
         HttpHost host = URIUtils.extractHost(url);
         long start = System.nanoTime();
-        try (CloseableHttpResponse response = client.execute(host, request)) {
+        try (CloseableHttpResponse response = client.execute(host, request, context)) {
             EntityUtils.consumeQuietly(response.getEntity());
             long end = System.nanoTime();
             return Math.floorDiv(end - start, 1000000L);
