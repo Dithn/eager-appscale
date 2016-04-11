@@ -6,15 +6,10 @@ import org.rosuda.REngine.REXP;
 
 import java.util.Arrays;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-public class PELTChangePointDetector extends ChangePointDetector {
-
-    private final RService rService;
+public class PELTChangePointDetector extends RChangePointDetector {
 
     public PELTChangePointDetector(RService rService) {
-        checkNotNull(rService, "RService is required");
-        this.rService = rService;
+        super(rService);
     }
 
     @Override

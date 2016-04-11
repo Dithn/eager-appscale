@@ -6,19 +6,14 @@ import org.rosuda.REngine.REXP;
 
 import java.util.Arrays;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * A change point detector based on "Joint Estimation of Model Parameters and Outlier
  * Effects in Time Series" by Chen and Liu (1993). Uses the tsoutliers package of R.
  */
-public class CLChangePointDetector extends ChangePointDetector {
-
-    private final RService rService;
+public class CLChangePointDetector extends RChangePointDetector {
 
     public CLChangePointDetector(RService rService) {
-        checkNotNull(rService, "RService is required");
-        this.rService = rService;
+        super(rService);
     }
 
     @Override

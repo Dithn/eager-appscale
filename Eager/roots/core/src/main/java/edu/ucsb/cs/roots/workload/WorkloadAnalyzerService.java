@@ -100,6 +100,8 @@ public final class WorkloadAnalyzerService extends ManagedService {
                 return new BinSegChangePointDetector(environment.getRService());
             case "CL":
                 return new CLChangePointDetector(environment.getRService());
+            case "AdvancedCL":
+                return new AdvancedCLChangePointDetector(environment.getRService());
             default:
                 throw new IllegalArgumentException("Unknown workload analyzer: " + cpType);
         }
