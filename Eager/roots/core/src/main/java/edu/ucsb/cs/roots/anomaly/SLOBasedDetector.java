@@ -74,6 +74,10 @@ public final class SLOBasedDetector extends AnomalyDetector {
     private Collection<String> updateHistory(long windowStart,
                                              long windowEnd) throws DataStoreException {
         checkArgument(windowStart < windowEnd, "Start time must precede end time");
+        if (log.isDebugEnabled()) {
+            log.debug("Updating history for {} ({} - {})", application, new Date(windowStart),
+                    new Date(windowEnd));
+        }
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableListMultimap<String,BenchmarkResult> summaries =
                 ds.getBenchmarkResults(application, windowStart, windowEnd);
@@ -83,10 +87,12 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
     private void computeSLO(long start, long end, String operation,
                             Collection<BenchmarkResult> results) {
+        log.debug("Calculating SLO with {} data points.", results.size());
         long satisfied = results.stream()
                 .filter(e -> e.getResponseTime() <= responseTimeUpperBound)
                 .count();
         double sloSupported = satisfied * 100.0 / results.size();
+        log.info("SLO metrics. Supported: {}, Expected: {}", sloSupported, sloPercentage);
         if (sloSupported < sloPercentage) {
             reportAnomaly(start, end, Anomaly.TYPE_PERFORMANCE, operation,
                     String.format("SLA satisfaction: %.4f", sloSupported));

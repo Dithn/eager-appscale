@@ -72,6 +72,10 @@ public final class PathAnomalyDetector extends AnomalyDetector {
     }
 
     private void updateHistory(long windowStart, long windowEnd) throws DataStoreException {
+        if (log.isDebugEnabled()) {
+            log.debug("Updating history for {} ({} - {})", application, new Date(windowStart),
+                    new Date(windowEnd));
+        }
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableListMultimap<String,ApplicationRequest> requests = ds.getRequestInfo(
                 application, windowStart, windowEnd);
@@ -112,7 +116,9 @@ public final class PathAnomalyDetector extends AnomalyDetector {
                         application, op, path);
                 longestPathHistory.forEach(p -> opHistory.put(path, PathRatio.zero(p.timestamp)));
             }
-            opHistory.put(path, new PathRatio(windowStart, count, totalRequests));
+            PathRatio pr = new PathRatio(windowStart, count, totalRequests);
+            log.debug("Path ratio update. {}: {}", path, pr.ratio);
+            opHistory.put(path, pr);
         });
         opHistory.keySet().stream()
                 .filter(k -> !pathRequests.containsKey(k))
