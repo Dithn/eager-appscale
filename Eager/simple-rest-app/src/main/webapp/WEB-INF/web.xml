@@ -30,6 +30,10 @@
         <servlet-name>InMemoryStudentServlet</servlet-name>
         <servlet-class>edu.ucsb.cs.InMemoryStudentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MultiPathStudentServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.MultiPathStudentServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
@@ -42,5 +46,9 @@
     <servlet-mapping>
         <servlet-name>InMemoryStudentServlet</servlet-name>
         <url-pattern>/test_no_jaxrs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MultiPathStudentServlet</servlet-name>
+        <url-pattern>/multipath</url-pattern>
     </servlet-mapping>
 </web-app>

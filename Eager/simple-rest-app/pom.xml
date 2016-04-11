@@ -10,7 +10,7 @@
 
     <properties>
         <appengine.app.version>1</appengine.app.version>
-        <appengine.target.version>1.7.5</appengine.target.version>
+        <appengine.target.version>1.9.17</appengine.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -43,6 +43,11 @@
             <artifactId>jersey-json</artifactId>
             <version>1.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
 
         <!-- Test Dependencies -->
         <dependency>
@@ -66,37 +71,10 @@
                 <version>2.5.1</version>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>generate-service-docs</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <doclet>com.hypnoticocelot.jaxrs.doclet.ServiceDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>com.hypnoticocelot</groupId>
-                                <artifactId>jaxrs-doclet</artifactId>
-                                <version>0.0.3-ucsbrace</version>
-                            </docletArtifact>
-                            <reportOutputDirectory>${project.build.directory}</reportOutputDirectory>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <additionalparam>-enableApiNames -apiVersion 1.0 -apiBasePath /resources</additionalparam>
-                        </configuration>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -108,14 +86,6 @@
                             <directory>${basedir}/src/main/webapp/WEB-INF</directory>
                             <filtering>true</filtering>
                             <targetPath>WEB-INF</targetPath>
-                        </resource>
-                        <resource>
-                            <directory>${project.build.directory}/apidocs</directory>
-                            <includes>
-                                <include>**/*.json</include>
-                            </includes>
-                            <filtering>true</filtering>
-                            <targetPath>WEB-INF/specs</targetPath>
                         </resource>
                     </webResources>
                 </configuration>
