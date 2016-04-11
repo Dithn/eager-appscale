@@ -68,12 +68,12 @@ public abstract class SchedulerService<T extends ScheduledItem> extends ManagedS
         return Stream.empty();
     }
 
-    private JobKey getJobKey(String application) {
-        return JobKey.jobKey(application + "-job", group);
+    private JobKey getJobKey(ScheduledItem item) {
+        return JobKey.jobKey(item.getId(), group);
     }
 
-    private TriggerKey getTriggerKey(String application) {
-        return TriggerKey.triggerKey(application + "-job", group);
+    private TriggerKey getTriggerKey(ScheduledItem item) {
+        return TriggerKey.triggerKey(item.getId(), group);
     }
 
     private Scheduler initScheduler() throws SchedulerException {
@@ -90,30 +90,33 @@ public abstract class SchedulerService<T extends ScheduledItem> extends ManagedS
 
     private void cancelItem(T item) {
         try {
-            scheduler.unscheduleJob(getTriggerKey(item.getApplication()));
+            scheduler.unscheduleJob(getTriggerKey(item));
             items.remove(item);
-            log.info("Cancelled detector job for: {}", item.getApplication());
+            log.info("Cancelled job for: {} [{}]", item.getApplication(),
+                    item.getClass().getSimpleName());
         } catch (SchedulerException e) {
-            log.warn("Error while cancelling the detector for: {}", item.getApplication(), e);
+            log.warn("Error while cancelling the job for: {} [{}]", item.getApplication(),
+                    item.getClass().getSimpleName(), e);
         }
     }
 
     private void scheduleItem(Properties properties) throws SchedulerException {
         T item = createItem(environment, properties);
         JobDetail jobDetail = JobBuilder.newJob(jobClass())
-                .withIdentity(getJobKey(item.getApplication()))
+                .withIdentity(getJobKey(item))
                 .build();
         JobDataMap jobDataMap = jobDetail.getJobDataMap();
         jobDataMap.put(RootsJob.SCHEDULED_ITEM_INSTANCE, item);
 
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(getTriggerKey(item.getApplication()))
+                .withIdentity(getTriggerKey(item))
                 .withSchedule(scheduleBuilder(item.getPeriodInSeconds()))
                 .startNow()
                 .build();
         scheduler.scheduleJob(jobDetail, trigger);
         items.add(item);
-        log.info("Scheduled job for: {}", item.getApplication());
+        log.info("Scheduled job for: {} [{}]", item.getApplication(),
+                item.getClass().getSimpleName());
     }
 
     protected Class<? extends Job> jobClass() {
