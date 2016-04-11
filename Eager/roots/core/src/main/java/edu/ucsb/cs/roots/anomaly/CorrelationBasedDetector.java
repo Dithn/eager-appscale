@@ -7,7 +7,7 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.rlang.RClient;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import edu.ucsb.cs.roots.utils.StatSummary;
 import org.rosuda.REngine.REXP;
 
 import java.util.*;
@@ -164,8 +164,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                     double dtw = distance.asDouble();
                     trend.add(new DTWDistance(summary.getTimestamp(), dtw));
 
-                    SummaryStatistics statistics = new SummaryStatistics();
-                    trend.forEach(d -> statistics.addValue(d.dtw));
+                    StatSummary statistics = StatSummary.calculate(trend.stream()
+                            .mapToDouble(d -> d.dtw));
                     cleanUpDTWTrend(trend, statistics, summary.getTimestamp());
                 }
             }
@@ -180,8 +180,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         dtwTrends.put(correlation.operation, new DTWDistance(currentTimestamp, correlation.dtw));
 
         List<DTWDistance> trend = dtwTrends.get(correlation.operation);
-        SummaryStatistics statistics = new SummaryStatistics();
-        trend.forEach(d -> statistics.addValue(d.dtw));
+        StatSummary statistics = StatSummary.calculate(trend.stream().mapToDouble(d -> d.dtw));
 
         boolean dtwIncreased = false;
         if (DTW_ANALYSIS_COMPARE_TO_LAST.equals(dtwAnalysis)) {
@@ -192,7 +191,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 dtwIncreased = increase > dtwIncreaseThreshold;
             }
         } else {
-            double upper = statistics.getMean() + dtwMeanThreshold * statistics.getStandardDeviation();
+            double upper = statistics.getUpperBound(dtwMeanThreshold);
             log.debug("DTW threshold: {}, Current: {}", upper, correlation.dtw);
             dtwIncreased = correlation.dtw > upper;
             cleanUpDTWTrend(trend, statistics, currentTimestamp);
@@ -208,13 +207,9 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     }
 
     private void cleanUpDTWTrend(
-            List<DTWDistance> trend, SummaryStatistics statistics, long timestamp) {
-        final double upper = statistics.getMean() +
-                dtwMeanThreshold * statistics.getStandardDeviation();
-        final double lower = statistics.getMean() -
-                dtwMeanThreshold * statistics.getStandardDeviation();
+            List<DTWDistance> trend, StatSummary statistics, long timestamp) {
         final double dtw = Iterables.getLast(trend).dtw;
-        if (dtw > upper || dtw < lower) {
+        if (statistics.isAnomaly(dtw, dtwMeanThreshold)) {
             log.debug("Cleaning up DTW history up to {}", timestamp);
             trend.removeIf(d -> d.timestamp < timestamp);
         }
