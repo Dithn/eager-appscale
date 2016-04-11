@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public final class PathAnomalyDetector extends AnomalyDetector {
 
-    private final Map<String,ListMultimap<String,PathRatio>> history = new HashMap<>();
+    private final Map<String,ListMultimap<String,PathRatio>> pathLevelHistory = new HashMap<>();
     private final double meanThreshold;
 
     private long end = -1L;
@@ -43,9 +43,9 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             end = tempEnd;
 
             long cutoff = end - historyLengthInSeconds * 1000;
-            history.values().forEach(opHistory -> opHistory.values().removeIf(
-                    s -> s.timestamp < cutoff));
-            history.forEach((op,data) -> analyzePathDistributions(cutoff, end, op, data));
+            pathLevelHistory.values().forEach(opHistory -> opHistory.values()
+                    .removeIf(pr -> pr.timestamp < cutoff));
+            pathLevelHistory.forEach((op, data) -> analyzePathDistributions(cutoff, end, op, data));
         } catch (DataStoreException e) {
             String msg = "Error while retrieving data";
             log.error(msg, e);
@@ -79,11 +79,11 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         DataStore ds = environment.getDataStoreService().get(this.dataStore);
         ImmutableListMultimap<String,ApplicationRequest> requests = ds.getRequestInfo(
                 application, windowStart, windowEnd);
-        requests.keySet().forEach(k -> updateOperationHistory(k, requests.get(k), windowStart));
+        requests.keySet().forEach(op -> updateOperationHistory(op, requests.get(op), windowStart));
 
-        history.keySet().stream().filter(op -> !requests.containsKey(op)).forEach(op -> {
+        pathLevelHistory.keySet().stream().filter(op -> !requests.containsKey(op)).forEach(op -> {
             // Inject 0's for operations not invoked in this window
-            ListMultimap<String, PathRatio> pathData = history.get(op);
+            ListMultimap<String, PathRatio> pathData = pathLevelHistory.get(op);
             pathData.keySet().forEach(path -> pathData.put(path, PathRatio.zero(windowStart)));
         });
     }
@@ -91,11 +91,11 @@ public final class PathAnomalyDetector extends AnomalyDetector {
     private void updateOperationHistory(String op, ImmutableList<ApplicationRequest> perOpRequests,
                                         long windowStart) {
         ListMultimap<String,PathRatio> opHistory;
-        if (history.containsKey(op)) {
-            opHistory = history.get(op);
+        if (pathLevelHistory.containsKey(op)) {
+            opHistory = pathLevelHistory.get(op);
         } else {
             opHistory = ArrayListMultimap.create();
-            history.put(op, opHistory);
+            pathLevelHistory.put(op, opHistory);
         }
 
         List<PathRatio> longestPathHistory = opHistory.keySet().stream().reduce((k1, k2) -> {
