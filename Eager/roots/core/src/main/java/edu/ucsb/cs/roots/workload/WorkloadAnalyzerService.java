@@ -32,6 +32,10 @@ public final class WorkloadAnalyzerService extends ManagedService {
 
     @Subscribe
     public void analyzeWorkload(Anomaly anomaly) {
+        if (anomaly.getType() == Anomaly.TYPE_WORKLOAD) {
+            return;
+        }
+
         long history = anomaly.getEnd() - anomaly.getStart();
         long start = anomaly.getEnd() - 2 * history;
 

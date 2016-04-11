@@ -9,14 +9,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class Anomaly {
 
+    public static final int TYPE_PERFORMANCE = 100;
+    public static final int TYPE_WORKLOAD = 101;
+
     private final String id;
     private final AnomalyDetector detector;
     private final long start;
     private final long end;
+    private final int type;
     private final String operation;
     private final String description;
 
-    Anomaly(AnomalyDetector detector, long start, long end, String operation, String description) {
+    Anomaly(AnomalyDetector detector, long start, long end, int type, String operation, String description) {
         checkNotNull(detector, "Detector is required");
         checkArgument(start > 0 && end > 0 && start < end, "Time interval is invalid");
         checkArgument(!Strings.isNullOrEmpty(operation), "Operation is required");
@@ -25,6 +29,7 @@ public final class Anomaly {
         this.detector = detector;
         this.start = start;
         this.end = end;
+        this.type = type;
         this.operation = operation;
         this.description = description;
     }
@@ -39,6 +44,10 @@ public final class Anomaly {
 
     public long getEnd() {
         return end;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public String getApplication() {

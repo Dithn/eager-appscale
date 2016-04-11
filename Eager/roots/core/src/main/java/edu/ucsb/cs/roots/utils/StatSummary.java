@@ -18,6 +18,10 @@ public final class StatSummary {
         return mean;
     }
 
+    public double getStandardDeviation() {
+        return standardDeviation;
+    }
+
     public double getUpperBound(double factor) {
         return mean + factor * standardDeviation;
     }
@@ -28,6 +32,10 @@ public final class StatSummary {
 
     public boolean isAnomaly(double value, double factor) {
         return value > getUpperBound(factor) || value < getLowerBound(factor);
+    }
+
+    public double percentageDifference(double value) {
+        return (value - mean)*100.0 / mean;
     }
 
     public static StatSummary calculate(DoubleStream stream) {

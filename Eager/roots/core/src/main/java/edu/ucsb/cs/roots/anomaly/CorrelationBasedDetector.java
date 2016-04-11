@@ -200,9 +200,9 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
         if (correlation.rValue < correlationThreshold && dtwIncreased) {
             // If the correlation has dropped and the DTW distance has increased, we
             // might be looking at a performance anomaly.
-            double dtwIncrease = (correlation.dtw - statistics.getMean())*100.0/statistics.getMean();
-            reportAnomaly(start, end, correlation.operation, String.format(
-                    "Correlation: %.4f; DTW-Increase: %.4f%%", correlation.rValue, dtwIncrease));
+            String desc = String.format("Correlation: %.4f; DTW-Increase: %.4f%%",
+                    correlation.rValue, statistics.percentageDifference(correlation.dtw));
+            reportAnomaly(start, end, Anomaly.TYPE_PERFORMANCE, correlation.operation, desc);
         }
     }
 

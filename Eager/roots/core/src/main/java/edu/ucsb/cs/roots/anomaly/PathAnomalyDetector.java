@@ -1,26 +1,29 @@
 package edu.ucsb.cs.roots.anomaly;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.*;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import edu.ucsb.cs.roots.utils.StatSummary;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public final class PathAnomalyDetector extends AnomalyDetector {
 
     private final Map<String,ListMultimap<String,PathRatio>> history = new HashMap<>();
+    private final double meanThreshold;
+
     private long end = -1L;
 
     private PathAnomalyDetector(RootsEnvironment environment, Builder builder) {
         super(environment, builder.application, builder.periodInSeconds,
                 builder.historyLengthInSeconds, builder.dataStore, builder.properties);
+        checkArgument(builder.meanThreshold > 0, "Mean threshold must be positive");
+        this.meanThreshold = builder.meanThreshold;
     }
 
     @Override
@@ -42,7 +45,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             long cutoff = end - historyLengthInSeconds * 1000;
             history.values().forEach(opHistory -> opHistory.values().removeIf(
                     s -> s.timestamp < cutoff));
-            history.forEach(this::analyzePathDistributions);
+            history.forEach((op,data) -> analyzePathDistributions(cutoff, end, op, data));
         } catch (DataStoreException e) {
             String msg = "Error while retrieving data";
             log.error(msg, e);
@@ -50,13 +53,21 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         }
     }
 
-    private void analyzePathDistributions(String op, ListMultimap<String,PathRatio> pathData) {
+    private void analyzePathDistributions(long start, long end, String op,
+                                          ListMultimap<String,PathRatio> pathData) {
         pathData.keySet().stream().forEach(path -> {
-            SummaryStatistics statistics = new SummaryStatistics();
             List<PathRatio> pathRatios = pathData.get(path);
-            pathRatios.forEach(v -> statistics.addValue(v.ratio));
+            StatSummary statistics = StatSummary.calculate(pathRatios.stream()
+                    .mapToDouble(v -> v.ratio));
             log.info("{} {} - Mean: {}, Std.Dev: {}, Count: {}", op, path, statistics.getMean(),
                     statistics.getStandardDeviation(), pathRatios.size());
+            PathRatio last = Iterables.getLast(pathRatios);
+            if (statistics.isAnomaly(last.ratio, meanThreshold)) {
+                String desc = String.format("Path distribution change for: %s [%f%%]", path,
+                        statistics.percentageDifference(last.ratio));
+                pathRatios.removeIf(v -> v.timestamp < last.timestamp);
+                reportAnomaly(start, end, Anomaly.TYPE_WORKLOAD, op, desc);
+            }
         });
     }
 
@@ -128,7 +139,14 @@ public final class PathAnomalyDetector extends AnomalyDetector {
 
     public static class Builder extends AnomalyDetectorBuilder<PathAnomalyDetector,Builder> {
 
+        private double meanThreshold = 2.0;
+
         private Builder() {
+        }
+
+        public Builder setMeanThreshold(double meanThreshold) {
+            this.meanThreshold = meanThreshold;
+            return this;
         }
 
         @Override

@@ -43,8 +43,9 @@ public abstract class AnomalyDetector extends ScheduledItem {
         return properties.getProperty(key, def);
     }
 
-    protected final void reportAnomaly(long start, long end, String key, String description) {
-        environment.publishEvent(new Anomaly(this, start, end, key, description));
+    protected final void reportAnomaly(long start, long end, int type,
+                                       String operation, String description) {
+        environment.publishEvent(new Anomaly(this, start, end, type, operation, description));
     }
 
 }

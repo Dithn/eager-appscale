@@ -29,6 +29,8 @@ public class AnomalyDetectorFactory {
     private static final String DETECTOR_SAMPLING_RATE = "samplingRate";
     private static final String DETECTOR_SAMPLING_RATE_TIME_UNIT = DETECTOR_SAMPLING_RATE + ".timeUnit";
 
+    private static final String DETECTOR_MEAN_THRESHOLD = "meanThreshold";
+
     public static AnomalyDetector create(RootsEnvironment environment, Properties properties) {
         String application = properties.getProperty(APPLICATION);
         checkArgument(!Strings.isNullOrEmpty(application), "Application name is required");
@@ -138,6 +140,11 @@ public class AnomalyDetectorFactory {
                     DETECTOR_HISTORY_LENGTH_TIME_UNIT, "SECONDS"));
             builder.setHistoryLengthInSeconds((int) historyTimeUnit.toSeconds(
                     Integer.parseInt(historyLength)));
+        }
+
+        String meanThreshold = properties.getProperty(DETECTOR_MEAN_THRESHOLD);
+        if (!Strings.isNullOrEmpty(meanThreshold)) {
+            builder.setMeanThreshold(Double.parseDouble(meanThreshold));
         }
         return builder;
     }

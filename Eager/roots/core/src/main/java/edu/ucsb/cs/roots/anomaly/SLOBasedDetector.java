@@ -66,9 +66,9 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
         int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.keySet().stream()
-                .filter(k -> requestTypes.contains(k) &&
-                        history.get(k).size() >= maxSamples * windowFillPercentage/100.0)
-                .forEach(k -> computeSLO(cutoff, end, k, history.get(k)));
+                .filter(op -> requestTypes.contains(op) &&
+                        history.get(op).size() >= maxSamples * windowFillPercentage/100.0)
+                .forEach(op -> computeSLO(cutoff, end, op, history.get(op)));
     }
 
     private Collection<String> updateHistory(long windowStart,
@@ -81,13 +81,15 @@ public final class SLOBasedDetector extends AnomalyDetector {
         return ImmutableList.copyOf(summaries.keySet());
     }
 
-    private void computeSLO(long start, long end, String key, Collection<BenchmarkResult> results) {
+    private void computeSLO(long start, long end, String operation,
+                            Collection<BenchmarkResult> results) {
         long satisfied = results.stream()
                 .filter(e -> e.getResponseTime() <= responseTimeUpperBound)
                 .count();
         double sloSupported = satisfied * 100.0 / results.size();
         if (sloSupported < sloPercentage) {
-            reportAnomaly(start, end, key, String.format("SLA satisfaction: %.4f", sloSupported));
+            reportAnomaly(start, end, Anomaly.TYPE_PERFORMANCE, operation,
+                    String.format("SLA satisfaction: %.4f", sloSupported));
         }
     }
 
