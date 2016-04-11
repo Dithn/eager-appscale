@@ -59,8 +59,8 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             List<PathRatio> pathRatios = pathData.get(path);
             StatSummary statistics = StatSummary.calculate(pathRatios.stream()
                     .mapToDouble(v -> v.ratio));
-            log.info("{} {} - Mean: {}, Std.Dev: {}, Count: {}", op, path, statistics.getMean(),
-                    statistics.getStandardDeviation(), pathRatios.size());
+            log.info("[{}: {}] {} - Mean: {}, Std.Dev: {}, Count: {}", application, op, path,
+                    statistics.getMean(), statistics.getStandardDeviation(), pathRatios.size());
             PathRatio last = Iterables.getLast(pathRatios);
             if (statistics.isAnomaly(last.ratio, meanThreshold)) {
                 String desc = String.format("Path distribution change for: %s [%f%%]", path,
@@ -82,6 +82,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         requests.keySet().forEach(k -> updateOperationHistory(k, requests.get(k), windowStart));
 
         history.keySet().stream().filter(op -> !requests.containsKey(op)).forEach(op -> {
+            // Inject 0's for operations not invoked in this window
             ListMultimap<String, PathRatio> pathData = history.get(op);
             pathData.keySet().forEach(path -> pathData.put(path, PathRatio.zero(windowStart)));
         });
@@ -120,6 +121,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             log.debug("Path ratio update. {}: {}", path, pr.ratio);
             opHistory.put(path, pr);
         });
+        // Inject 0's for paths not invoked in this window
         opHistory.keySet().stream()
                 .filter(k -> !pathRequests.containsKey(k))
                 .forEach(k -> opHistory.put(k, PathRatio.zero(windowStart)));
