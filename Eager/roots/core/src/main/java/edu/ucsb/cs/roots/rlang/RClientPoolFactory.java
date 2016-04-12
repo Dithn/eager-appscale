@@ -4,7 +4,7 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
-public class RConnectionPoolFactory extends BasePooledObjectFactory<RClient> {
+public class RClientPoolFactory extends BasePooledObjectFactory<RClient> {
 
     @Override
     public RClient create() throws Exception {
