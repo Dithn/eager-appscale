@@ -17,6 +17,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
     private final Map<String,ListMultimap<String,PathRatio>> pathLevelHistory = new HashMap<>();
     private final ListMultimap<String,PathRatio> operationLevelHistory = ArrayListMultimap.create();
     private final double meanThreshold;
+    private final boolean operationAnomalies;
 
     private long end = -1L;
 
@@ -25,6 +26,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
                 builder.historyLengthInSeconds, builder.dataStore, builder.properties);
         checkArgument(builder.meanThreshold > 0, "Mean threshold must be positive");
         this.meanThreshold = builder.meanThreshold;
+        this.operationAnomalies = builder.operationAnomalies;
     }
 
     @Override
@@ -54,9 +56,11 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         operationLevelHistory.values().removeIf(pr -> pr.timestamp < cutoff);
         pathLevelHistory.forEach((op, data) ->
                 analyzePathDistributions(cutoff, end, op, data));
-        operationLevelHistory.keySet().forEach(op ->
-                analyzePathRatioTrend(String.format("Operation [%s: %s]", application, op),
-                        operationLevelHistory.get(op), cutoff, end));
+        if (operationAnomalies) {
+            operationLevelHistory.keySet().forEach(op ->
+                    analyzePathRatioTrend(String.format("Operation [%s: %s]", application, op),
+                            operationLevelHistory.get(op), cutoff, end));
+        }
     }
 
     private void analyzePathDistributions(long start, long end, String op,
@@ -183,12 +187,18 @@ public final class PathAnomalyDetector extends AnomalyDetector {
     public static class Builder extends AnomalyDetectorBuilder<PathAnomalyDetector,Builder> {
 
         private double meanThreshold = 2.0;
+        private boolean operationAnomalies = false;
 
         private Builder() {
         }
 
         public Builder setMeanThreshold(double meanThreshold) {
             this.meanThreshold = meanThreshold;
+            return this;
+        }
+
+        public Builder setOperationAnomalies(boolean operationAnomalies) {
+            this.operationAnomalies = operationAnomalies;
             return this;
         }
 
