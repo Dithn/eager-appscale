@@ -15,6 +15,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 public final class PathAnomalyDetector extends AnomalyDetector {
 
     private final Map<String,ListMultimap<String,PathRatio>> pathLevelHistory = new HashMap<>();
+    private final ListMultimap<String,PathRatio> operationLevelHistory = ArrayListMultimap.create();
     private final double meanThreshold;
 
     private long end = -1L;
@@ -41,34 +42,44 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         try {
             updateHistory(tempStart, tempEnd);
             end = tempEnd;
-
-            long cutoff = end - historyLengthInSeconds * 1000;
-            pathLevelHistory.values().forEach(opHistory -> opHistory.values()
-                    .removeIf(pr -> pr.timestamp < cutoff));
-            pathLevelHistory.forEach((op, data) -> analyzePathDistributions(cutoff, end, op, data));
         } catch (DataStoreException e) {
             String msg = "Error while retrieving data";
             log.error(msg, e);
             throw new RuntimeException(msg, e);
         }
+
+        long cutoff = end - historyLengthInSeconds * 1000;
+        pathLevelHistory.values().forEach(opHistory -> opHistory.values()
+                .removeIf(pr -> pr.timestamp < cutoff));
+        operationLevelHistory.values().removeIf(pr -> pr.timestamp < cutoff);
+        pathLevelHistory.forEach((op, data) ->
+                analyzePathDistributions(cutoff, end, op, data));
+        operationLevelHistory.keySet().forEach(op ->
+                analyzePathRatioTrend(String.format("[%s: %s]", application, op),
+                        operationLevelHistory.get(op), cutoff, end));
     }
 
     private void analyzePathDistributions(long start, long end, String op,
                                           ListMultimap<String,PathRatio> pathData) {
-        pathData.keySet().stream().forEach(path -> {
+        pathData.keySet().forEach(path -> {
             List<PathRatio> pathRatios = pathData.get(path);
-            StatSummary statistics = StatSummary.calculate(pathRatios.stream()
-                    .mapToDouble(v -> v.ratio));
-            log.info("[{}: {}] {} - Mean: {}, Std.Dev: {}, Count: {}", application, op, path,
-                    statistics.getMean(), statistics.getStandardDeviation(), pathRatios.size());
-            PathRatio last = Iterables.getLast(pathRatios);
-            if (statistics.isAnomaly(last.ratio, meanThreshold)) {
-                String desc = String.format("Path distribution change for: %s [%f%%]", path,
-                        statistics.percentageDifference(last.ratio));
-                pathRatios.removeIf(v -> v.timestamp < last.timestamp);
-                reportAnomaly(start, end, Anomaly.TYPE_WORKLOAD, op, desc);
-            }
+            analyzePathRatioTrend(String.format("[%s: %s] %s", application, op, path),
+                    pathRatios, start, end);
         });
+    }
+
+    private void analyzePathRatioTrend(String label, List<PathRatio> ratios, long start, long end) {
+        StatSummary statistics = StatSummary.calculate(ratios.stream()
+                .mapToDouble(v -> v.ratio));
+        log.info("{} - Mean: {}, Std.Dev: {}, Count: {}", label, statistics.getMean(),
+                statistics.getStandardDeviation(), ratios.size());
+        PathRatio last = Iterables.getLast(ratios);
+        if (statistics.isAnomaly(last.ratio, meanThreshold)) {
+            String desc = String.format("Request distribution changed for: %s [%f%%]", label,
+                    statistics.percentageDifference(last.ratio));
+            ratios.removeIf(v -> v.timestamp < last.timestamp);
+            reportAnomaly(start, end, Anomaly.TYPE_WORKLOAD, label, desc);
+        }
     }
 
     private void updateHistory(long windowStart, long windowEnd) throws DataStoreException {
@@ -84,8 +95,35 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         pathLevelHistory.keySet().stream().filter(op -> !requests.containsKey(op)).forEach(op -> {
             // Inject 0's for operations not invoked in this window
             ListMultimap<String, PathRatio> pathData = pathLevelHistory.get(op);
-            pathData.keySet().forEach(path -> pathData.put(path, PathRatio.zero(windowStart)));
+            pathData.keySet().forEach(path -> {
+                log.debug("No requests found for operation: {}, path: {}", op, path);
+                pathData.put(path, PathRatio.zero(windowStart));
+            });
         });
+
+        long total = requests.size();
+        List<PathRatio> longestPathHistory = getLongestHistory(operationLevelHistory);
+        requests.keySet().forEach(op -> {
+            if (!operationLevelHistory.containsKey(op)) {
+                log.info("New operation detected. Application: {}; Operation: {}", application, op);
+                longestPathHistory.forEach(p -> operationLevelHistory.put(op, PathRatio.zero(p.timestamp)));
+            }
+            operationLevelHistory.put(op, new PathRatio(windowStart, requests.get(op).size(), total));
+        });
+
+        // Inject 0's for operations not invoked in this window
+        operationLevelHistory.keySet().stream()
+                .filter(op -> !requests.containsKey(op))
+                .forEach(op -> operationLevelHistory.put(op, PathRatio.zero(windowStart)));
+    }
+
+    private List<PathRatio> getLongestHistory(ListMultimap<String,PathRatio> map) {
+        return map.keySet().stream().reduce((k1, k2) -> {
+            if (map.get(k1).size() > map.get(k2).size()) {
+                return k1;
+            }
+            return k2;
+        }).map(map::get).orElse(ImmutableList.of());
     }
 
     private void updateOperationHistory(String op, ImmutableList<ApplicationRequest> perOpRequests,
@@ -98,19 +136,12 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             pathLevelHistory.put(op, opHistory);
         }
 
-        List<PathRatio> longestPathHistory = opHistory.keySet().stream().reduce((k1, k2) -> {
-            if (opHistory.get(k1).size() > opHistory.get(k2).size()) {
-                return k1;
-            }
-            return k2;
-        }).map(opHistory::get).orElse(ImmutableList.of());
-
+        List<PathRatio> longestPathHistory = getLongestHistory(opHistory);
         Map<String,Integer> pathRequests = perOpRequests.stream()
                 .collect(Collectors.groupingBy(ApplicationRequest::getPathAsString))
                 .entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().size()));
-        long totalRequests = pathRequests.values().stream()
-                .mapToInt(Integer::intValue).sum();
+        long totalRequests = pathRequests.values().stream().mapToInt(Integer::intValue).sum();
         pathRequests.forEach((path,count) -> {
             if (!opHistory.containsKey(path)) {
                 log.info("New path detected. Application: {}; Operation: {}, Path: {}",
@@ -123,8 +154,11 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         });
         // Inject 0's for paths not invoked in this window
         opHistory.keySet().stream()
-                .filter(k -> !pathRequests.containsKey(k))
-                .forEach(k -> opHistory.put(k, PathRatio.zero(windowStart)));
+                .filter(path -> !pathRequests.containsKey(path))
+                .forEach(path -> {
+                    log.debug("No requests found for operation: {}, path: {}", op, path);
+                    opHistory.put(path, PathRatio.zero(windowStart));
+                });
     }
 
     private final static class PathRatio {
@@ -132,6 +166,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         private final double ratio;
 
         PathRatio(long timestamp, long count, long total) {
+            checkArgument(total > 0, "Division by zero");
             this.timestamp = timestamp;
             this.ratio = (count * 100.0)/total;
         }
