@@ -55,7 +55,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
         pathLevelHistory.forEach((op, data) ->
                 analyzePathDistributions(cutoff, end, op, data));
         operationLevelHistory.keySet().forEach(op ->
-                analyzePathRatioTrend(String.format("[%s: %s]", application, op),
+                analyzePathRatioTrend(String.format("Operation [%s: %s]", application, op),
                         operationLevelHistory.get(op), cutoff, end));
     }
 
@@ -63,7 +63,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
                                           ListMultimap<String,PathRatio> pathData) {
         pathData.keySet().forEach(path -> {
             List<PathRatio> pathRatios = pathData.get(path);
-            analyzePathRatioTrend(String.format("[%s: %s] %s", application, op, path),
+            analyzePathRatioTrend(String.format("Path [%s: %s] %s", application, op, path),
                     pathRatios, start, end);
         });
     }
@@ -75,7 +75,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
                 statistics.getStandardDeviation(), ratios.size());
         PathRatio last = Iterables.getLast(ratios);
         if (statistics.isAnomaly(last.ratio, meanThreshold)) {
-            String desc = String.format("Request distribution changed for: %s [%f%%]", label,
+            String desc = String.format("Request distribution changed for - %s [%f%%]", label,
                     statistics.percentageDifference(last.ratio));
             ratios.removeIf(v -> v.timestamp < last.timestamp);
             reportAnomaly(start, end, Anomaly.TYPE_WORKLOAD, label, desc);
