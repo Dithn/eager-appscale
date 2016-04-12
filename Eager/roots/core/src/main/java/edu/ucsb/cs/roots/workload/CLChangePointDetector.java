@@ -2,7 +2,6 @@ package edu.ucsb.cs.roots.workload;
 
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;
-import org.rosuda.REngine.REXP;
 
 import java.util.Arrays;
 
@@ -18,12 +17,15 @@ public class CLChangePointDetector extends RChangePointDetector {
 
     @Override
     public int[] computeChangePoints(double[] data) throws Exception {
-        try (RClient client = new RClient(rService)) {
+        RClient client = rService.borrow();
+        try {
             client.assign("x", data);
             client.evalAndAssign("x_ts", "ts(x)");
             client.evalAndAssign("result", "tso(x_ts, types=c('LS'))");
-            REXP result = client.eval("result$outliers[,2]");
-            return Arrays.stream(result.asIntegers()).filter(i -> i > 1).map(i -> i - 2).toArray();
+            int[] result = client.evalToInts("result$outliers[,2]");
+            return Arrays.stream(result).filter(i -> i > 1).map(i -> i - 2).toArray();
+        } finally {
+            rService.release(client);
         }
     }
 }

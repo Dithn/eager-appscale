@@ -3,7 +3,6 @@ package edu.ucsb.cs.roots.rlang;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.rosuda.REngine.Rserve.RConnection;
 
 public final class RService extends ManagedService {
 
@@ -11,20 +10,24 @@ public final class RService extends ManagedService {
     private static final String R_MAX_IDLE = "r.maxIdle";
     private static final String R_MIN_IDLE_TIME_MILLIS = "r.minIdleTimeMillis";
 
-    private final GenericObjectPool<RConnection> rConnectionPool;
+    private final GenericObjectPool<RClient> rConnectionPool;
 
     public RService(RootsEnvironment environment) {
         super(environment);
         this.rConnectionPool = new GenericObjectPool<>(new RConnectionPoolFactory());
     }
 
-    RConnection borrow() throws Exception {
-        return rConnectionPool.borrowObject();
+    public RClient borrow() {
+        try {
+            return rConnectionPool.borrowObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    void release(RConnection connection) {
-        if (connection != null) {
-            rConnectionPool.returnObject(connection);
+    public void release(RClient client) {
+        if (client != null) {
+            rConnectionPool.returnObject(client);
         }
     }
 

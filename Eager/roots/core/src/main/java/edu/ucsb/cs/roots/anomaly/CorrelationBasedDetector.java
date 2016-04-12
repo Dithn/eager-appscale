@@ -8,7 +8,6 @@ import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.data.ResponseTimeSummary;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.utils.StatSummary;
-import org.rosuda.REngine.REXP;
 
 import java.util.*;
 
@@ -133,25 +132,29 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             log.debug("Response Times: {}", Arrays.toString(responseTime));
         }
 
-        try (RClient r = new RClient(environment.getRService())) {
+        RClient r = environment.getRService().borrow();
+        try {
             r.assign("x", requests);
             r.assign("y", responseTime);
-            REXP correlation = r.eval("cor(x, y, method='pearson')");
+            double correlation = r.evalToDouble("cor(x, y, method='pearson')");
             r.evalAndAssign("time_warp", "dtw(x, y)");
-            REXP distance = r.eval("time_warp$distance");
-            log.info("Correlation analysis output [{}]: {} {} {}", operation, correlation.asDouble(),
-                    distance.asDouble(), requests.length);
-            return new Correlation(operation, correlation.asDouble(), distance.asDouble());
+            double distance = r.evalToDouble("time_warp$distance");
+            log.info("Correlation analysis output [{}]: {} {} {}", operation, correlation,
+                    distance, requests.length);
+            return new Correlation(operation, correlation, distance);
         } catch (Exception e) {
             log.error("Error computing the correlation statistics", e);
             return null;
+        } finally {
+            environment.getRService().release(r);
         }
     }
 
     private List<DTWDistance> computeDTWTrend(List<ResponseTimeSummary> summaries) {
         log.debug("Computing historical DTW trend with {} data points", summaries.size());
         List<DTWDistance> trend = new ArrayList<>();
-        try (RClient r = new RClient(environment.getRService())) {
+        RClient r = environment.getRService().borrow();
+        try {
             r.evalAndAssign("x", "c()");
             r.evalAndAssign("y", "c()");
             int count = 0;
@@ -160,8 +163,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
                 r.evalAndAssign("y", String.format("c(y,%f)", summary.getMeanResponseTime()));
                 if (++count > 2) {
                     r.evalAndAssign("time_warp", "dtw(x, y)");
-                    REXP distance = r.eval("time_warp$distance");
-                    double dtw = distance.asDouble();
+                    double dtw = r.evalToDouble("time_warp$distance");
                     trend.add(new DTWDistance(summary.getTimestamp(), dtw));
 
                     StatSummary statistics = StatSummary.calculate(trend.stream()
@@ -171,6 +173,8 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             }
         } catch (Exception e) {
             log.error("Error computing the DTW trend", e);
+        } finally {
+            environment.getRService().release(r);
         }
         return ImmutableList.copyOf(trend);
     }

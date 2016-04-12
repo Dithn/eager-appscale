@@ -13,7 +13,6 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;
-import org.rosuda.REngine.REXP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +64,8 @@ public final class BottleneckFinder {
                 .collect(Collectors.groupingBy(r -> (r.getTimestamp() - start) / period,
                         TreeMap::new, Collectors.toList()));
 
-        try (RClient client = new RClient(rService)) {
+        RClient client = rService.borrow();
+        try {
             client.evalAndAssign("df", "data.frame()");
             for (long ts : groupedByTime.keySet()) {
                 for (ApplicationRequest request : groupedByTime.get(ts)) {
@@ -84,6 +84,8 @@ public final class BottleneckFinder {
             }
         } catch (Exception e) {
             log.error("Error while computing relative importance metrics", e);
+        } finally {
+            rService.release(client);
         }
 
         if (results.size() > 0) {
@@ -109,8 +111,7 @@ public final class BottleneckFinder {
                                                      List<ApiCall> apiCalls) throws Exception {
         client.evalAndAssign("model", "lm(Total ~ ., data=df)");
         client.evalAndAssign("rankings", "calc.relimp(model, type=c('lmg'))");
-        REXP rankingsExpr = client.eval("rankings$lmg");
-        double[] rankings = rankingsExpr.asDoubles();
+        double[] rankings = client.evalToDoubles("rankings$lmg");
         List<RelativeImportance> result = new ArrayList<>(rankings.length);
         for (int i = 0; i < rankings.length; i++) {
             result.add(new RelativeImportance(apiCalls.get(i).name(), rankings[i]));

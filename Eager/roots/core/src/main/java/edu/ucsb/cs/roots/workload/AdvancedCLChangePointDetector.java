@@ -13,17 +13,20 @@ public class AdvancedCLChangePointDetector extends RChangePointDetector {
 
     @Override
     public int[] computeChangePoints(double[] data) throws Exception {
-        try (RClient client = new RClient(rService)) {
+        RClient client = rService.borrow();
+        try {
             client.assign("x", data);
             client.evalAndAssign("x_ts", "ts(x)");
             client.evalAndAssign("result", "tso(x_ts, maxit.iloop=10)");
-            String[] labels = client.eval("result$outliers[,1]").asStrings();
-            int[] indices = client.eval("result$outliers[,2]").asIntegers();
+            String[] labels = client.evalToStrings("result$outliers[,1]");
+            int[] indices = client.evalToInts("result$outliers[,2]");
             return IntStream.range(0, labels.length)
                     .filter(i -> labels[i].equals("LS"))
                     .map(i -> indices[i] - 2)
                     .filter(i -> i >= 0)
                     .toArray();
+        } finally {
+            rService.release(client);
         }
     }
 }

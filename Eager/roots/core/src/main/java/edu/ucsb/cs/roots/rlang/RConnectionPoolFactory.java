@@ -3,28 +3,27 @@ package edu.ucsb.cs.roots.rlang;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
 
-public final class RConnectionPoolFactory extends BasePooledObjectFactory<RConnection> {
+public class RConnectionPoolFactory extends BasePooledObjectFactory<RClient> {
 
     @Override
-    public RConnection create() throws RserveException {
-        RConnection r = new RConnection();
-        r.eval("library('dtw')");
-        r.eval("library('changepoint')");
-        r.eval("library('relaimpo')");
-        r.eval("library('tsoutliers')");
-        return r;
+    public RClient create() throws Exception {
+        return new RServeClient();
     }
 
     @Override
-    public PooledObject<RConnection> wrap(RConnection rConnection) {
-        return new DefaultPooledObject<>(rConnection);
+    public final PooledObject<RClient> wrap(RClient rClient) {
+        return new DefaultPooledObject<>(rClient);
     }
 
     @Override
-    public void destroyObject(PooledObject<RConnection> p) throws Exception {
+    public final void passivateObject(PooledObject<RClient> p) throws Exception {
+        super.passivateObject(p);
+        p.getObject().cleanup();
+    }
+
+    @Override
+    public final void destroyObject(PooledObject<RClient> p) throws Exception {
         super.destroyObject(p);
         p.getObject().close();
     }
