@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public final class BenchmarkResult {
+public class BenchmarkResult {
 
     private final long timestamp;
     private final String application;
@@ -25,27 +25,27 @@ public final class BenchmarkResult {
         this.responseTime = responseTime;
     }
 
-    public String getRequestType() {
+    public final String getRequestType() {
         return method + " " + path;
     }
 
-    public long getTimestamp() {
+    public final long getTimestamp() {
         return timestamp;
     }
 
-    public String getApplication() {
+    public final String getApplication() {
         return application;
     }
 
-    public String getMethod() {
+    public final String getMethod() {
         return method;
     }
 
-    public String getPath() {
+    public final String getPath() {
         return path;
     }
 
-    public int getResponseTime() {
+    public final int getResponseTime() {
         return responseTime;
     }
 }

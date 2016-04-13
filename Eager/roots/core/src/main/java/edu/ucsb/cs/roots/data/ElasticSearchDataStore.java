@@ -24,8 +24,9 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -37,7 +38,10 @@ public class ElasticSearchDataStore implements DataStore {
             "GET", "POST", "PUT", "DELETE");
     private static final Gson GSON = new Gson();
 
+    private static final String ACCESS_LOG_REQ_ID = "field.accessLog.requestId";
     private static final String ACCESS_LOG_TIMESTAMP = "field.accessLog.timestamp";
+    private static final String ACCESS_LOG_METHOD_RAW = "field.accessLog.methodRaw";
+    private static final String ACCESS_LOG_PATH_RAW = "field.accessLog.pathRaw";
     private static final String ACCESS_LOG_METHOD = "field.accessLog.method";
     private static final String ACCESS_LOG_PATH = "field.accessLog.path";
     private static final String ACCESS_LOG_RESPONSE_TIME = "field.accessLog.responseTime";
@@ -61,8 +65,11 @@ public class ElasticSearchDataStore implements DataStore {
     private static final ImmutableMap<String, String> DEFAULT_FIELD_MAPPINGS =
             ImmutableMap.<String, String>builder()
                     .put(ACCESS_LOG_TIMESTAMP, "@timestamp")
-                    .put(ACCESS_LOG_METHOD, "http_verb.raw")
-                    .put(ACCESS_LOG_PATH, "http_request.raw")
+                    .put(ACCESS_LOG_REQ_ID, "request_id")
+                    .put(ACCESS_LOG_METHOD_RAW, "http_verb.raw")
+                    .put(ACCESS_LOG_PATH_RAW, "http_request.raw")
+                    .put(ACCESS_LOG_METHOD, "http_verb")
+                    .put(ACCESS_LOG_PATH, "http_request")
                     .put(ACCESS_LOG_RESPONSE_TIME, "time_duration")
                     .put(BENCHMARK_TIMESTAMP, "timestamp")
                     .put(BENCHMARK_METHOD, "method")
@@ -88,6 +95,7 @@ public class ElasticSearchDataStore implements DataStore {
     private final String apiCallIndex;
 
     private final ImmutableMap<String,String> fieldMappings;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private final CloseableHttpClient httpClient;
 
@@ -122,8 +130,8 @@ public class ElasticSearchDataStore implements DataStore {
         checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
         String query = ResponseTimeSummaryQuery.newBuilder()
                 .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
-                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
-                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD_RAW))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH_RAW))
                 .setAccessLogResponseTimeField(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME))
                 .setStart(start)
                 .setEnd(end)
@@ -145,8 +153,8 @@ public class ElasticSearchDataStore implements DataStore {
         checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
         String query = ResponseTimeHistoryQuery.newBuilder()
                 .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
-                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
-                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD_RAW))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH_RAW))
                 .setAccessLogResponseTimeField(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME))
                 .setStart(start)
                 .setEnd(end)
@@ -203,8 +211,8 @@ public class ElasticSearchDataStore implements DataStore {
                 .setStart(start)
                 .setEnd(end)
                 .setPeriod(period)
-                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
-                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD_RAW))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH_RAW))
                 .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
                 .setMethod(operation.substring(0, separator))
                 .setPath(operation.substring(separator + 1))
@@ -263,15 +271,21 @@ public class ElasticSearchDataStore implements DataStore {
         String path = String.format("/%s/%s/_search", apiCallIndex, application);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
 
+        query = BenchmarkResultsQuery.newBuilder()
+                .setBenchmarkTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
+                .setStart(start)
+                .setEnd(end)
+                .buildJsonString();
+        path = String.format("/%s/%s/_search", accessLogIndex, application);
+        ImmutableMap<String,AccessLogEntry> accessLogEntries = getAccessLogEntries(
+                application, path, query);
+
         ImmutableSortedSet.Builder<ApplicationRequest> builder = ImmutableSortedSet.orderedBy(
                 ApplicationRequest.TIME_ORDER);
-        // TODO: Get total time from access logs
-        Random rand = new Random();
-        apiCalls.keySet().forEach(requestId -> {
+        apiCalls.keySet().stream().filter(accessLogEntries::containsKey).forEach(requestId -> {
             ImmutableList<ApiCall> calls = apiCalls.get(requestId);
-            int total = calls.stream().mapToInt(ApiCall::getTimeElapsed).sum() + rand.nextInt(100);
             ApplicationRequest req = new ApplicationRequest(requestId, calls.get(0).getRequestTimestamp(),
-                    application, operation, calls, total);
+                    application, operation, calls, accessLogEntries.get(requestId).getResponseTime());
             builder.add(req);
         });
         return ImmutableList.copyOf(builder.build());
@@ -372,6 +386,28 @@ public class ElasticSearchDataStore implements DataStore {
         }
     }
 
+    private ImmutableMap<String,AccessLogEntry> getAccessLogEntries(
+            String application, String path, String query) throws DataStoreException {
+
+        ImmutableMap.Builder<String,AccessLogEntry> builder = ImmutableMap.builder();
+        try {
+            JsonElement results = makeHttpCall(path, "scroll=1m", query);
+            String scrollId = results.getAsJsonObject().get("_scroll_id").getAsString();
+            long total = results.getAsJsonObject().getAsJsonObject("hits").get("total").getAsLong();
+            long received = 0L;
+            while (true) {
+                received += parseAccessLogEntries(application, results, builder);
+                if (received >= total) {
+                    break;
+                }
+                results = makeHttpCall("/_search/scroll", ScrollQuery.build(scrollId));
+            }
+            return builder.build();
+        } catch (IOException | URISyntaxException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+    }
+
     private int parseApiCalls(JsonElement element, ImmutableListMultimap.Builder<String,ApiCall> builder) {
         JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
                 .getAsJsonArray("hits");
@@ -386,6 +422,30 @@ public class ElasticSearchDataStore implements DataStore {
                     .setTimeElapsed(hit.get(fieldMappings.get(API_CALL_RESPONSE_TIME)).getAsInt())
                     .build();
             builder.put(hit.get(fieldMappings.get(API_CALL_REQ_ID)).getAsString(), call);
+        }
+        return hits.size();
+    }
+
+    private int parseAccessLogEntries(String application, JsonElement element,
+                                      ImmutableMap.Builder<String,AccessLogEntry> builder) {
+        JsonArray hits = element.getAsJsonObject().getAsJsonObject("hits")
+                .getAsJsonArray("hits");
+        for (JsonElement hitElement : hits) {
+            JsonObject hit = hitElement.getAsJsonObject().getAsJsonObject("_source");
+            String timeString = hit.get(fieldMappings.get(ACCESS_LOG_TIMESTAMP)).getAsString();
+            try {
+                Date timestamp = dateFormat.parse(timeString);
+                AccessLogEntry entry = new AccessLogEntry(
+                        hit.get(fieldMappings.get(ACCESS_LOG_REQ_ID)).getAsString(),
+                        timestamp.getTime(),
+                        application,
+                        hit.get(fieldMappings.get(ACCESS_LOG_METHOD)).getAsString(),
+                        hit.get(fieldMappings.get(ACCESS_LOG_PATH)).getAsString(),
+                        (int) (hit.get(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME)).getAsDouble() * 1000));
+                builder.put(entry.getRequestId(), entry);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
         return hits.size();
     }
@@ -495,45 +555,5 @@ public class ElasticSearchDataStore implements DataStore {
         public ElasticSearchDataStore build() {
             return new ElasticSearchDataStore(this);
         }
-    }
-
-    public static void main(String[] args) throws DataStoreException {
-        ElasticSearchDataStore dataStore = ElasticSearchDataStore.newBuilder()
-                .setElasticSearchHost("128.111.179.226")
-                .setElasticSearchPort(9200)
-                .setAccessLogIndex("nginx")
-                .setBenchmarkIndex("app-benchmarking")
-                .setApiCallIndex("appscale-internal")
-                .build();
-
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        cal.set(2015, Calendar.NOVEMBER, 16, 0, 0, 0);
-        Date start = cal.getTime();
-        cal.set(2015, Calendar.NOVEMBER, 17, 0, 0, 0);
-        Date end = cal.getTime();
-        ImmutableMap<String,ResponseTimeSummary> history =
-                dataStore.getResponseTimeSummary("watchtower", start.getTime(), end.getTime());
-        history.forEach((k,v) -> System.out.println(k + " " + v.getMeanResponseTime() +
-                " " + v.getRequestCount()));
-        dataStore.recordBenchmarkResult(new BenchmarkResult(System.currentTimeMillis(),
-                "foo", "GET", "/", 10));
-
-        System.out.println();
-        List<Double> workload = dataStore.getWorkloadSummary("watchtower", "GET /benchmark",
-                start.getTime(), end.getTime(), 3600000);
-        workload.forEach(w -> System.out.println("Workload: " + w));
-
-        System.out.println();
-        cal.set(2016, Calendar.JANUARY, 16, 0, 0, 0);
-        start = cal.getTime();
-        cal.set(2016, Calendar.JANUARY, 16, 1, 0, 0);
-        end = cal.getTime();
-        ImmutableList<ApplicationRequest> list = dataStore.getRequestInfo(
-                "watchtower", "/benchmark", start.getTime(), end.getTime());
-        Map<String,List<ApplicationRequest>> grouped = list.stream().collect(
-                Collectors.groupingBy(ApplicationRequest::getPathAsString));
-        grouped.forEach((k1,v1) -> System.out.println(k1 + " -> " + v1.size()));
-
-        dataStore.destroy();
     }
 }
