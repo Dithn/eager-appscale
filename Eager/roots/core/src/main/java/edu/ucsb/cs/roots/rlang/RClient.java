@@ -18,8 +18,14 @@ public interface RClient {
 
     String[] evalToStrings(String cmd) throws Exception;
 
+    /**
+     * Clean up the RClient instance for reuse
+     */
     void cleanup() throws Exception;
 
+    /**
+     * Permanently terminate the RClient instance
+     */
     void close();
 
 }
