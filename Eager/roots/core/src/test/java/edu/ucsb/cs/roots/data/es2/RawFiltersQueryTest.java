@@ -1,23 +1,30 @@
-package edu.ucsb.cs.roots.data.es;
+package edu.ucsb.cs.roots.data.es2;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import edu.ucsb.cs.roots.data.ElasticSearchConfig;
 import junit.framework.Assert;
 import org.junit.Test;
 
-public class QueryTest {
+public class RawFiltersQueryTest {
+
+    private static final ElasticSearchConfig config = ElasticSearchConfig.newBuilder()
+            .setHost("test.host.com")
+            .setPort(9200)
+            .setFieldMapping(ResponseTimeSummaryQuery.ACCESS_LOG_TIMESTAMP, "timestamp")
+            .setFieldMapping(ResponseTimeSummaryQuery.ACCESS_LOG_METHOD, "method")
+            .setFieldMapping(ResponseTimeSummaryQuery.ACCESS_LOG_PATH, "path")
+            .setFieldMapping(ResponseTimeSummaryQuery.ACCESS_LOG_RESPONSE_TIME, "responseTime")
+            .build();
 
     @Test
     public void testResponseTimeSummaryQuery() {
         String string = ResponseTimeSummaryQuery.newBuilder()
                 .setStart(0)
                 .setEnd(100)
-                .setAccessLogTimestampField("timestamp")
-                .setAccessLogMethodField("method")
-                .setAccessLogPathField("path")
-                .setAccessLogResponseTimeField("responseTime")
-                .buildJsonString();
+                .setApplication("foo")
+                .build().jsonString(config);
         JsonObject element = parseString(string);
         Assert.assertEquals(0, element.get("size").getAsInt());
 
@@ -29,12 +36,12 @@ public class QueryTest {
 
         String method = element.getAsJsonObject("aggs").getAsJsonObject("methods")
                 .getAsJsonObject("terms").get("field").getAsString();
-        Assert.assertEquals("method", method);
+        Assert.assertEquals("method.raw", method);
 
         String path = element.getAsJsonObject("aggs").getAsJsonObject("methods")
                 .getAsJsonObject("aggs").getAsJsonObject("paths")
                 .getAsJsonObject("terms").get("field").getAsString();
-        Assert.assertEquals("path", path);
+        Assert.assertEquals("path.raw", path);
 
         String responseTime = element.getAsJsonObject("aggs").getAsJsonObject("methods")
                 .getAsJsonObject("aggs").getAsJsonObject("paths")
@@ -49,11 +56,8 @@ public class QueryTest {
                 .setStart(0)
                 .setEnd(100)
                 .setPeriod(10)
-                .setAccessLogTimestampField("timestamp")
-                .setAccessLogMethodField("method")
-                .setAccessLogPathField("path")
-                .setAccessLogResponseTimeField("responseTime")
-                .buildJsonString();
+                .setApplication("foo")
+                .build().jsonString(config);
         JsonObject element = parseString(string);
         Assert.assertEquals(0, element.get("size").getAsInt());
 
@@ -65,12 +69,12 @@ public class QueryTest {
 
         String method = element.getAsJsonObject("aggs").getAsJsonObject("methods")
                 .getAsJsonObject("terms").get("field").getAsString();
-        Assert.assertEquals("method", method);
+        Assert.assertEquals("method.raw", method);
 
         String path = element.getAsJsonObject("aggs").getAsJsonObject("methods")
                 .getAsJsonObject("aggs").getAsJsonObject("paths")
                 .getAsJsonObject("terms").get("field").getAsString();
-        Assert.assertEquals("path", path);
+        Assert.assertEquals("path.raw", path);
 
         JsonObject histogram = element.getAsJsonObject("aggs").getAsJsonObject("methods")
                 .getAsJsonObject("aggs").getAsJsonObject("paths")
@@ -95,8 +99,8 @@ public class QueryTest {
         String string = BenchmarkResultsQuery.newBuilder()
                 .setStart(0)
                 .setEnd(100)
-                .setBenchmarkTimestampField("timestamp")
-                .buildJsonString();
+                .setApplication("foo")
+                .build().jsonString(config);
         JsonObject element = parseString(string);
         Assert.assertEquals(4000, element.get("size").getAsInt());
 
@@ -115,12 +119,10 @@ public class QueryTest {
                 .setStart(0)
                 .setEnd(100)
                 .setPeriod(10)
-                .setAccessLogTimestampField("timestamp")
-                .setAccessLogMethodField("method")
-                .setAccessLogPathField("path")
                 .setMethod("GET")
                 .setPath("/benchmark")
-                .buildJsonString();
+                .setApplication("foo")
+                .build().jsonString(config);
         JsonObject element = parseString(string);
         Assert.assertEquals(0, element.get("size").getAsInt());
 
@@ -134,10 +136,10 @@ public class QueryTest {
                 .getAsJsonObject("bool").getAsJsonArray("must");
         Assert.assertEquals(2, termFilters.size());
         String method = termFilters.get(0).getAsJsonObject().getAsJsonObject("term")
-                .get("method").getAsString();
+                .get("method.raw").getAsString();
         Assert.assertEquals("GET", method);
         String path = termFilters.get(1).getAsJsonObject().getAsJsonObject("term")
-                .get("path").getAsString();
+                .get("path.raw").getAsString();
         Assert.assertEquals("/benchmark", path);
 
         JsonObject histogram = element.getAsJsonObject("aggs").getAsJsonObject("periods")
@@ -150,21 +152,12 @@ public class QueryTest {
     }
 
     @Test
-    public void testScrollQuery() {
-        String string = ScrollQuery.build("test-scroll-id");
-        JsonObject element = parseString(string);
-        Assert.assertEquals("test-scroll-id", element.get("scroll_id").getAsString());
-        Assert.assertEquals("1m", element.get("scroll").getAsString());
-    }
-
-    @Test
     public void testRequestInfoQuery() {
         String string = RequestInfoQuery.newBuilder()
                 .setStart(0)
                 .setEnd(100)
-                .setApiCallRequestTimestampField("requestTimestamp")
-                .setApiCallSequenceNumberField("sequenceNumber")
-                .buildJsonString();
+                .setApplication("foo")
+                .build().jsonString(config);
         JsonObject element = parseString(string);
         Assert.assertEquals(4000, element.get("size").getAsInt());
 
@@ -186,11 +179,9 @@ public class QueryTest {
         String string = RequestInfoByOperationQuery.newBuilder()
                 .setStart(0)
                 .setEnd(100)
-                .setApiCallRequestTimestampField("requestTimestamp")
-                .setApiCallSequenceNumberField("sequenceNumber")
-                .setRequestOperationField("requestOperation.raw")
-                .setRequestOperation("GET /")
-                .buildJsonString();
+                .setApplication("foo")
+                .setOperation("GET /")
+                .build().jsonString(config);
         JsonObject element = parseString(string);
         Assert.assertEquals(4000, element.get("size").getAsInt());
 
@@ -216,5 +207,4 @@ public class QueryTest {
         JsonParser parser = new JsonParser();
         return parser.parse(s).getAsJsonObject();
     }
-
 }

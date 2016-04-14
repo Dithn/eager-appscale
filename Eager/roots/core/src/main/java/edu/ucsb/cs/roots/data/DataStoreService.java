@@ -61,9 +61,9 @@ public final class DataStoreService extends ManagedService {
         if (RandomDataStore.class.getSimpleName().equals(dataStore)) {
             return new RandomDataStore();
         } else if (ElasticSearchDataStore.class.getSimpleName().equals(dataStore)) {
-            ElasticSearchDataStore.Builder builder = ElasticSearchDataStore.newBuilder()
-                    .setElasticSearchHost(getRequired(properties, DATA_STORE_ES_HOST))
-                    .setElasticSearchPort(getRequiredInt(properties, DATA_STORE_ES_PORT))
+            ElasticSearchConfig.Builder builder = ElasticSearchConfig.newBuilder()
+                    .setHost(getRequired(properties, DATA_STORE_ES_HOST))
+                    .setPort(getRequiredInt(properties, DATA_STORE_ES_PORT))
                     .setAccessLogIndex(properties.getProperty(DATA_STORE_ES_ACCESS_LOG_INDEX))
                     .setBenchmarkIndex(properties.getProperty(DATA_STORE_ES_BENCHMARK_INDEX))
                     .setApiCallIndex(properties.getProperty(DATA_STORE_ES_API_CALL_INDEX));
@@ -78,12 +78,12 @@ public final class DataStoreService extends ManagedService {
 
             String rawFilter = properties.getProperty(DATA_STORE_ES_RAW_STRING_FILTER);
             if (!Strings.isNullOrEmpty(rawFilter)) {
-                builder.setRawStringFilter(Boolean.parseBoolean(rawFilter));
+                builder.setRawStringFilters(Boolean.parseBoolean(rawFilter));
             }
             properties.stringPropertyNames().stream()
                     .filter(k -> k.startsWith(DATA_STORE_ES_FIELD))
                     .forEach(k -> builder.setFieldMapping(k, properties.getProperty(k)));
-            return builder.build();
+            return new ElasticSearchDataStore(builder);
         } else {
             throw new IllegalArgumentException("Unknown data store type: " + dataStore);
         }
