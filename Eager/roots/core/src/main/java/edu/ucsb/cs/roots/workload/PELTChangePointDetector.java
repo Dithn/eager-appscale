@@ -18,7 +18,7 @@ public class PELTChangePointDetector extends RChangePointDetector {
             r.assign("x", data);
             r.evalAndAssign("result", getRCall());
             int[] indices = r.evalToInts("cpts(result)");
-            if (indices[0] == 0) {
+            if (indices.length == 0 || indices[0] == 0) {
                 return new int[]{};
             }
 

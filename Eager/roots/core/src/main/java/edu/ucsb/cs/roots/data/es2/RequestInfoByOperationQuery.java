@@ -13,7 +13,6 @@ import edu.ucsb.cs.roots.data.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -99,24 +98,24 @@ public class RequestInfoByOperationQuery extends Query<ImmutableList<Application
                 .getAsJsonArray("hits");
         for (JsonElement hitElement : hits) {
             JsonObject hit = hitElement.getAsJsonObject().getAsJsonObject("_source");
-            String timeString = hit.get(
-                    es.field(ResponseTimeSummaryQuery.ACCESS_LOG_TIMESTAMP, "@timestamp")).getAsString();
+            JsonElement requestIdElem = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_REQ_ID,
+                    "request_id"));
+            if (requestIdElem == null) {
+                continue;
+            }
+            String requestId = requestIdElem.getAsString();
+            String timeString = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_TIMESTAMP,
+                    "@timestamp")).getAsString();
+            String method = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_METHOD,
+                    "http_verb")).getAsString();
+            String path = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_PATH,
+                    "http_request")).getAsString();
+            int timeDuration = (int) (hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_RESPONSE_TIME,
+                    "time_duration")).getAsDouble() * 1000);
             try {
-                Date timestamp = dateFormat.parse(timeString);
-                JsonElement requestIdElem = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_REQ_ID,
-                        "request_id"));
-                if (requestIdElem == null) {
-                    continue;
-                }
-                String requestId = requestIdElem.getAsString();
-                String method = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_METHOD,
-                        "http_verb")).getAsString();
-                String path = hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_PATH,
-                        "http_request")).getAsString();
-                int timeDuration = (int) (hit.get(es.field(ResponseTimeSummaryQuery.ACCESS_LOG_RESPONSE_TIME,
-                        "time_duration")).getAsDouble() * 1000);
-                AccessLogEntry entry = new AccessLogEntry(requestId, timestamp.getTime(),
-                        application, method, path, timeDuration);
+                AccessLogEntry entry = new AccessLogEntry(requestId,
+                        dateFormat.parse(timeString).getTime(), application,
+                        method, path, timeDuration);
                 builder.put(entry.getRequestId(), entry);
             } catch (ParseException e) {
                 throw new RuntimeException(e);

@@ -24,6 +24,14 @@ public class ElasticSearchDataStore implements DataStore {
         es.cleanup();
     }
 
+    private <T> T runQuery(Query<T> query) throws DataStoreException {
+        try {
+            return query.run(es);
+        } catch (IOException e) {
+            throw new DataStoreException("Error while querying ElasticSearch", e);
+        }
+    }
+
     @Override
     public ImmutableMap<String,ResponseTimeSummary> getResponseTimeSummary(
             String application, long start, long end) throws DataStoreException {
@@ -32,11 +40,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setEnd(end)
                 .setApplication(application)
                 .build();
-        try {
-            return query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        return runQuery(query);
     }
 
     @Override
@@ -48,11 +52,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setPeriod(period)
                 .setApplication(application)
                 .build();
-        try {
-            return query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        return runQuery(query);
     }
 
     @Override
@@ -63,11 +63,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setEnd(end)
                 .setApplication(application)
                 .build();
-        try {
-            return query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        return runQuery(query);
     }
 
     @Override
@@ -84,11 +80,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setPath(operation.substring(separator + 1))
                 .setApplication(application)
                 .build();
-        try {
-            return query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        return runQuery(query);
     }
 
     @Override
@@ -99,11 +91,7 @@ public class ElasticSearchDataStore implements DataStore {
                 .setEnd(end)
                 .setApplication(application)
                 .build();
-        try {
-            return query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        return runQuery(query);
     }
 
     @Override
@@ -115,21 +103,13 @@ public class ElasticSearchDataStore implements DataStore {
                 .setApplication(application)
                 .setOperation(operation)
                 .build();
-        try {
-            return query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        return runQuery(query);
     }
 
     @Override
     public void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
         RecordBenchmarkResultQuery query = new RecordBenchmarkResultQuery(result);
-        try {
-            query.run(es);
-        } catch (IOException e) {
-            throw new DataStoreException("Error while querying ElasticSearch", e);
-        }
+        runQuery(query);
     }
 
     public static void main(String[] args) throws Exception {
@@ -145,7 +125,7 @@ public class ElasticSearchDataStore implements DataStore {
         long start = cal.getTime().getTime();
         cal.set(2016, Calendar.APRIL, 13, 23, 0, 0);
         long end = cal.getTime().getTime();
-        Object summary = dataStore.getBenchmarkResults("javabook", start, end);
+        dataStore.getBenchmarkResults("javabook", start, end);
         dataStore.destroy();
     }
 }
