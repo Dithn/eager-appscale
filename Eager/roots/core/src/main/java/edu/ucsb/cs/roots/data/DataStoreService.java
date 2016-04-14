@@ -24,6 +24,7 @@ public final class DataStoreService extends ManagedService {
     private static final String DATA_STORE_ES_BENCHMARK_INDEX = "benchmark.index";
     private static final String DATA_STORE_ES_API_CALL_INDEX = "apiCall.index";
     private static final String DATA_STORE_ES_FIELD = "field.";
+    private static final String DATA_STORE_ES_RAW_STRING_FILTER = "raw.filter";
 
     private final Map<String,DataStore> dataStores = new ConcurrentHashMap<>();
 
@@ -73,6 +74,11 @@ public final class DataStoreService extends ManagedService {
             timeout = properties.getProperty(DATA_STORE_ES_SO_TIMEOUT);
             if (!Strings.isNullOrEmpty(timeout)) {
                 builder.setSocketTimeout(Integer.parseInt(timeout));
+            }
+
+            String rawFilter = properties.getProperty(DATA_STORE_ES_RAW_STRING_FILTER);
+            if (!Strings.isNullOrEmpty(rawFilter)) {
+                builder.setRawStringFilter(Boolean.parseBoolean(rawFilter));
             }
             properties.stringPropertyNames().stream()
                     .filter(k -> k.startsWith(DATA_STORE_ES_FIELD))

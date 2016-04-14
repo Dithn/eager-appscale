@@ -40,8 +40,6 @@ public class ElasticSearchDataStore implements DataStore {
 
     private static final String ACCESS_LOG_REQ_ID = "field.accessLog.requestId";
     private static final String ACCESS_LOG_TIMESTAMP = "field.accessLog.timestamp";
-    private static final String ACCESS_LOG_METHOD_RAW = "field.accessLog.methodRaw";
-    private static final String ACCESS_LOG_PATH_RAW = "field.accessLog.pathRaw";
     private static final String ACCESS_LOG_METHOD = "field.accessLog.method";
     private static final String ACCESS_LOG_PATH = "field.accessLog.path";
     private static final String ACCESS_LOG_RESPONSE_TIME = "field.accessLog.responseTime";
@@ -52,7 +50,6 @@ public class ElasticSearchDataStore implements DataStore {
     private static final String BENCHMARK_RESPONSE_TIME = "field.benchmark.responseTime";
 
     private static final String API_CALL_REQ_TIMESTAMP = "field.apiCall.requestTimestamp";
-    private static final String API_CALL_REQ_OPERATION_RAW = "field.apiCall.requestOperationRaw";
     private static final String API_CALL_REQ_OPERATION = "field.apiCall.requestOperation";
     private static final String API_CALL_TIMESTAMP = "field.apiCall.timestamp";
     private static final String API_CALL_SEQ_NUMBER = "field.apiCall.sequenceNumber";
@@ -66,8 +63,6 @@ public class ElasticSearchDataStore implements DataStore {
             ImmutableMap.<String, String>builder()
                     .put(ACCESS_LOG_TIMESTAMP, "@timestamp")
                     .put(ACCESS_LOG_REQ_ID, "request_id")
-                    .put(ACCESS_LOG_METHOD_RAW, "http_verb.raw")
-                    .put(ACCESS_LOG_PATH_RAW, "http_request.raw")
                     .put(ACCESS_LOG_METHOD, "http_verb")
                     .put(ACCESS_LOG_PATH, "http_request")
                     .put(ACCESS_LOG_RESPONSE_TIME, "time_duration")
@@ -77,7 +72,6 @@ public class ElasticSearchDataStore implements DataStore {
                     .put(BENCHMARK_RESPONSE_TIME, "responseTime")
                     .put(API_CALL_TIMESTAMP, "timestamp")
                     .put(API_CALL_REQ_TIMESTAMP, "requestTimestamp")
-                    .put(API_CALL_REQ_OPERATION_RAW, "requestOperation.raw")
                     .put(API_CALL_REQ_OPERATION, "requestOperation")
                     .put(API_CALL_SEQ_NUMBER, "sequenceNumber")
                     .put(API_CALL_APPLICATION, "appId")
@@ -95,6 +89,7 @@ public class ElasticSearchDataStore implements DataStore {
     private final String apiCallIndex;
 
     private final ImmutableMap<String,String> fieldMappings;
+    private final boolean rawStringFilter;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private final CloseableHttpClient httpClient;
@@ -117,6 +112,7 @@ public class ElasticSearchDataStore implements DataStore {
         this.benchmarkIndex = builder.benchmarkIndex;
         this.apiCallIndex = builder.apiCallIndex;
         this.fieldMappings = ImmutableMap.copyOf(builder.fieldMappings);
+        this.rawStringFilter = builder.rawStringFilter;
     }
 
     @Override
@@ -130,11 +126,12 @@ public class ElasticSearchDataStore implements DataStore {
         checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
         String query = ResponseTimeSummaryQuery.newBuilder()
                 .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
-                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD_RAW))
-                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH_RAW))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
                 .setAccessLogResponseTimeField(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME))
                 .setStart(start)
                 .setEnd(end)
+                .setRawStringFilter(rawStringFilter)
                 .buildJsonString();
         String path = String.format("/%s/%s/_search", accessLogIndex, application);
         ImmutableMap.Builder<String,ResponseTimeSummary> builder = ImmutableMap.builder();
@@ -153,12 +150,13 @@ public class ElasticSearchDataStore implements DataStore {
         checkArgument(!Strings.isNullOrEmpty(accessLogIndex), "Access log index is required");
         String query = ResponseTimeHistoryQuery.newBuilder()
                 .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
-                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD_RAW))
-                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH_RAW))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
                 .setAccessLogResponseTimeField(fieldMappings.get(ACCESS_LOG_RESPONSE_TIME))
                 .setStart(start)
                 .setEnd(end)
                 .setPeriod(period)
+                .setRawStringFilter(rawStringFilter)
                 .buildJsonString();
         String path = String.format("/%s/%s/_search", accessLogIndex, application);
         ImmutableListMultimap.Builder<String,ResponseTimeSummary> builder = ImmutableListMultimap.builder();
@@ -211,11 +209,12 @@ public class ElasticSearchDataStore implements DataStore {
                 .setStart(start)
                 .setEnd(end)
                 .setPeriod(period)
-                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD_RAW))
-                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH_RAW))
+                .setAccessLogMethodField(fieldMappings.get(ACCESS_LOG_METHOD))
+                .setAccessLogPathField(fieldMappings.get(ACCESS_LOG_PATH))
                 .setAccessLogTimestampField(fieldMappings.get(ACCESS_LOG_TIMESTAMP))
                 .setMethod(operation.substring(0, separator))
                 .setPath(operation.substring(separator + 1))
+                .setRawStringFilter(rawStringFilter)
                 .buildJsonString();
         String path = String.format("/%s/%s/_search", accessLogIndex, application);
         ImmutableList.Builder<Double> builder = ImmutableList.builder();
@@ -264,9 +263,10 @@ public class ElasticSearchDataStore implements DataStore {
                 .setStart(start)
                 .setEnd(end)
                 .setRequestOperation(operation)
-                .setRequestOperationField(fieldMappings.get(API_CALL_REQ_OPERATION_RAW))
+                .setRequestOperationField(fieldMappings.get(API_CALL_REQ_OPERATION))
                 .setApiCallSequenceNumberField(fieldMappings.get(API_CALL_SEQ_NUMBER))
                 .setApiCallRequestTimestampField(fieldMappings.get(API_CALL_REQ_TIMESTAMP))
+                .setRawStringFilter(rawStringFilter)
                 .buildJsonString();
         String path = String.format("/%s/%s/_search", apiCallIndex, application);
         ImmutableListMultimap<String,ApiCall> apiCalls = getRequestInfo(path, query);
@@ -506,6 +506,7 @@ public class ElasticSearchDataStore implements DataStore {
         private String apiCallIndex;
         private int connectTimeout = -1;
         private int socketTimeout = -1;
+        private boolean rawStringFilter = true;
 
         private final Map<String,String> fieldMappings = new HashMap<>(DEFAULT_FIELD_MAPPINGS);
 
@@ -549,6 +550,11 @@ public class ElasticSearchDataStore implements DataStore {
 
         public Builder setFieldMapping(String field, String mapping) {
             fieldMappings.put(field, mapping);
+            return this;
+        }
+
+        public Builder setRawStringFilter(boolean rawStringFilter) {
+            this.rawStringFilter = rawStringFilter;
             return this;
         }
 

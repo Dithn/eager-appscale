@@ -17,6 +17,7 @@ public final class RequestInfoByOperationQuery extends Query {
     private final long end;
 
     private RequestInfoByOperationQuery(Builder builder) {
+        super(builder.rawStringFilter);
         checkArgument(!Strings.isNullOrEmpty(builder.requestOperationField));
         checkArgument(!Strings.isNullOrEmpty(builder.requestOperation));
         checkArgument(!Strings.isNullOrEmpty(builder.apiCallRequestTimestampField));
@@ -32,8 +33,9 @@ public final class RequestInfoByOperationQuery extends Query {
 
     @Override
     public String getJsonString() {
-        return String.format(REQUEST_INFO_QUERY, requestOperationField, requestOperation,
-                apiCallRequestTimestampField, start, end, apiCallRequestTimestampField, apiCallSequenceNumberField);
+        return String.format(REQUEST_INFO_QUERY, stringFieldName(requestOperationField),
+                requestOperation, apiCallRequestTimestampField, start, end,
+                apiCallRequestTimestampField, apiCallSequenceNumberField);
     }
 
     public static Builder newBuilder() {
@@ -48,6 +50,7 @@ public final class RequestInfoByOperationQuery extends Query {
         private String apiCallSequenceNumberField;
         private long start;
         private long end;
+        private boolean rawStringFilter;
 
         private Builder() {
         }
@@ -79,6 +82,11 @@ public final class RequestInfoByOperationQuery extends Query {
 
         public Builder setEnd(long end) {
             this.end = end;
+            return this;
+        }
+
+        public Builder setRawStringFilter(boolean rawStringFilter) {
+            this.rawStringFilter = rawStringFilter;
             return this;
         }
 

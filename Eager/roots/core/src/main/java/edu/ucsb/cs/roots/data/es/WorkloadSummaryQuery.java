@@ -19,6 +19,7 @@ public class WorkloadSummaryQuery extends Query {
     private final String accessLogPathField;
 
     private WorkloadSummaryQuery(Builder builder) {
+        super(builder.rawStringFilter);
         checkArgument(builder.start <= builder.end);
         checkArgument(builder.period > 0);
         checkArgument(!Strings.isNullOrEmpty(builder.method));
@@ -38,8 +39,8 @@ public class WorkloadSummaryQuery extends Query {
 
     @Override
     public String getJsonString() {
-        return String.format(WORKLOAD_SUMMARY_QUERY, accessLogMethodField, method,
-                accessLogPathField, path, accessLogTimestampField, start, end,
+        return String.format(WORKLOAD_SUMMARY_QUERY, stringFieldName(accessLogMethodField), method,
+                stringFieldName(accessLogPathField), path, accessLogTimestampField, start, end,
                 accessLogTimestampField, period, start % period, start, end - period);
     }
 
@@ -56,6 +57,7 @@ public class WorkloadSummaryQuery extends Query {
         private String accessLogTimestampField;
         private String accessLogMethodField;
         private String accessLogPathField;
+        private boolean rawStringFilter;
 
         private Builder() {
         }
@@ -100,6 +102,10 @@ public class WorkloadSummaryQuery extends Query {
             return this;
         }
 
+        public Builder setRawStringFilter(boolean rawStringFilter) {
+            this.rawStringFilter = rawStringFilter;
+            return this;
+        }
 
         public String buildJsonString() {
             return new WorkloadSummaryQuery(this).getJsonString();

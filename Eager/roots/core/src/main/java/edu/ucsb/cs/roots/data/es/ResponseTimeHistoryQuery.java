@@ -18,6 +18,7 @@ public final class ResponseTimeHistoryQuery extends Query {
     private final String accessLogResponseTimeField;
 
     private ResponseTimeHistoryQuery(Builder builder) {
+        super(builder.rawStringFilter);
         checkArgument(builder.start <= builder.end);
         checkArgument(builder.period > 0);
         checkArgument(!Strings.isNullOrEmpty(builder.accessLogTimestampField));
@@ -36,7 +37,8 @@ public final class ResponseTimeHistoryQuery extends Query {
     @Override
     public String getJsonString() {
         return String.format(RESPONSE_TIME_HISTORY_QUERY,
-                accessLogTimestampField, start, end, accessLogMethodField, accessLogPathField,
+                accessLogTimestampField, start, end, stringFieldName(accessLogMethodField),
+                stringFieldName(accessLogPathField),
                 accessLogTimestampField, period, start % period, start, end - period,
                 accessLogResponseTimeField);
     }
@@ -53,6 +55,7 @@ public final class ResponseTimeHistoryQuery extends Query {
         private String accessLogMethodField;
         private String accessLogPathField;
         private String accessLogResponseTimeField;
+        private boolean rawStringFilter;
 
         private Builder() {
         }
@@ -89,6 +92,11 @@ public final class ResponseTimeHistoryQuery extends Query {
 
         public Builder setAccessLogResponseTimeField(String accessLogResponseTimeField) {
             this.accessLogResponseTimeField = accessLogResponseTimeField;
+            return this;
+        }
+
+        public Builder setRawStringFilter(boolean rawStringFilter) {
+            this.rawStringFilter = rawStringFilter;
             return this;
         }
 

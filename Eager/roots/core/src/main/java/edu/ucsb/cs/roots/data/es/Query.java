@@ -9,7 +9,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class Query {
 
+    private final boolean rawStringFilter;
+
+    public Query() {
+        this(false);
+    }
+
+    public Query(boolean rawStringFilter) {
+        this.rawStringFilter = rawStringFilter;
+    }
+
     public abstract String getJsonString();
+
+    protected final String stringFieldName(String field) {
+        if (rawStringFilter) {
+            return field + ".raw";
+        }
+        return field;
+    }
 
     static String loadTemplate(String name) {
         try (InputStream in = Query.class.getResourceAsStream(name)) {
