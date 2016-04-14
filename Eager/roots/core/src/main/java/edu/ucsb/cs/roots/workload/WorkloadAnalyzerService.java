@@ -60,7 +60,7 @@ public final class WorkloadAnalyzerService extends ManagedService {
                 log.debug("Workload data: {}", Arrays.toString(data));
             }
             Segment[] segments = changePointDetector.computeSegments(data);
-            analyzeSegments(segments, anomaly);
+            analyzeSegments(segments, anomaly, start);
         } catch (Exception e) {
             if (data != null) {
                 anomalyLog.error(anomaly, "Error while computing workload changes: {}",
@@ -71,20 +71,26 @@ public final class WorkloadAnalyzerService extends ManagedService {
         }
     }
 
-    private void analyzeSegments(Segment[] segments, Anomaly anomaly) {
+    private void analyzeSegments(Segment[] segments, Anomaly anomaly, long start) {
         int length = segments.length;
         if (length == 1) {
             anomalyLog.info(anomaly, "No significant changes in workload to report");
             return;
         }
 
+        long period = anomaly.getPeriodInSeconds() * 1000;
         for (int i = 1; i < segments.length; i++) {
-            anomalyLog.info(anomaly, "Workload level shift at {}: {} --> {}", segments[i].getStart(),
+            anomalyLog.info(anomaly, "Workload level shift at {}: {} --> {}",
+                    getStartTime(segments[i], start, period),
                     segments[i-1].getMean(), segments[i].getMean());
         }
         anomalyLog.info(anomaly, "Net change in workload: {} --> {} [{}%]",
                 segments[0].getMean(), segments[length-1].getMean(),
                 segments[0].percentageIncrease(segments[length - 1]));
+    }
+
+    private Date getStartTime(Segment s, long start, long period) {
+        return new Date(start + s.getStart() * period);
     }
 
     private ChangePointDetector getChangePointDetector(Anomaly anomaly) {

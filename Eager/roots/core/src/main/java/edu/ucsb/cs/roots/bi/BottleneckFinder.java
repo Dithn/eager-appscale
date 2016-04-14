@@ -4,7 +4,9 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
+import com.google.common.eventbus.Subscribe;
 import com.google.common.primitives.Doubles;
+import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.anomaly.AnomalyLog;
@@ -19,20 +21,33 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class BottleneckFinder {
+public final class BottleneckFinder extends ManagedService {
 
     private static final Logger log = LoggerFactory.getLogger(BottleneckFinder.class);
 
     private static final String LOCAL = "LOCAL";
 
-    private final RootsEnvironment environment;
     private final AnomalyLog anomalyLog = new AnomalyLog(log);
 
     public BottleneckFinder(RootsEnvironment environment) {
-        this.environment = environment;
+        super(environment);
     }
 
+    @Override
+    protected void doInit() throws Exception {
+        environment.subscribe(this);
+    }
+
+    @Override
+    protected void doDestroy() {
+    }
+
+    @Subscribe
     public void run(Anomaly anomaly) {
+        if (anomaly.getType() == Anomaly.TYPE_WORKLOAD) {
+            return;
+        }
+
         long history = anomaly.getEnd() - anomaly.getStart();
         long start = anomaly.getEnd() - 2 * history;
         DataStore ds = environment.getDataStoreService().get(anomaly.getDataStore());
