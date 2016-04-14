@@ -7,12 +7,12 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
+import edu.ucsb.cs.roots.anomaly.AnomalyLog;
 import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
-import edu.ucsb.cs.roots.rlang.RService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +26,7 @@ public final class BottleneckFinder {
     private static final String LOCAL = "LOCAL";
 
     private final RootsEnvironment environment;
+    private final AnomalyLog anomalyLog = new AnomalyLog(log);
 
     public BottleneckFinder(RootsEnvironment environment) {
         this.environment = environment;
@@ -38,38 +39,43 @@ public final class BottleneckFinder {
         try {
             ImmutableList<ApplicationRequest> requests = ds.getRequestInfo(
                     anomaly.getApplication(), anomaly.getOperation(), start, anomaly.getEnd());
+            log.debug("Received {} requests for analysis", requests.size());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
-            perPathRequests.forEach((path,list) -> analyze(path, list, start,
-                    anomaly.getPeriodInSeconds() * 1000));
+            perPathRequests.forEach((path,list) -> analyze(anomaly, path, list, start));
         } catch (DataStoreException e) {
-            log.error("Error while retrieving API call data", e);
+            anomalyLog.error(anomaly, "Error while retrieving API call data", e);
         }
     }
 
-    private void analyze(String path, List<ApplicationRequest> requests, long start, long period) {
+    private void analyze(Anomaly anomaly, String path, List<ApplicationRequest> requests,
+                         long start) {
         List<ApiCall> apiCalls = requests.get(0).getApiCalls();
         int callCount = apiCalls.size();
         if (callCount == 0) {
             return;
         } else if (requests.size() < callCount + 2) {
-            log.warn("Insufficient data to perform a bottleneck identification");
+            anomalyLog.warn(anomaly, "Insufficient data to perform a bottleneck identification");
             return;
         }
 
         long requestCount = 0;
         ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
-        RService rService = environment.getRService();
+        long period = anomaly.getPeriodInSeconds() * 1000;
         Map<Long,List<ApplicationRequest>> groupedByTime = requests.stream()
                 .collect(Collectors.groupingBy(r -> (r.getTimestamp() - start) / period,
                         TreeMap::new, Collectors.toList()));
 
-        RClient client = rService.borrow();
+        RClient client = environment.getRService().borrow();
         try {
             client.evalAndAssign("df", "data.frame()");
             for (long ts : groupedByTime.keySet()) {
                 for (ApplicationRequest request : groupedByTime.get(ts)) {
-                    client.assign("x", getResponseTimeVector(request));
+                    double[] responseTimeVector = getResponseTimeVector(request);
+                    if (log.isDebugEnabled()) {
+                        log.debug("Response time vector: {}", Arrays.toString(responseTimeVector));
+                    }
+                    client.assign("x", responseTimeVector);
                     client.evalAndAssign("df", "rbind(df, x)");
                     if (requestCount == 0) {
                         client.assign("df_names", getColumnNames(callCount, true));
@@ -79,24 +85,25 @@ public final class BottleneckFinder {
                 }
 
                 if (requestCount > callCount + 1) {
+                    log.debug("Computing relative importance for path: {}", path);
                     results.putAll(ts, computeRankings(client, apiCalls));
                 }
             }
         } catch (Exception e) {
-            log.error("Error while computing relative importance metrics", e);
+            anomalyLog.error(anomaly, "Error while computing relative importance metrics", e);
         } finally {
-            rService.release(client);
+            environment.getRService().release(client);
         }
 
         if (results.size() > 0) {
             List<Long> sortedKeys = results.keySet().stream().sorted().collect(Collectors.toList());
-            log.info(getLogEntry(path, results.get(Iterables.getLast(sortedKeys))));
+            anomalyLog.info(anomaly, getLogEntry(path, results.get(Iterables.getLast(sortedKeys))));
             for (int i = 0; i < callCount; i++) {
                 int index = i;
                 String trend = sortedKeys.stream()
                         .map(k -> String.valueOf(results.get(k).get(index).importance))
                         .collect(Collectors.joining(", "));
-                log.info("{}: {}", apiCalls.get(i).name(), trend);
+                anomalyLog.info(anomaly, "Historical trend for {}: {}", apiCalls.get(i).name(), trend);
             }
         }
     }
@@ -193,13 +200,13 @@ public final class BottleneckFinder {
         });
 
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
-        cal.set(2016, Calendar.APRIL, 13, 15, 56, 0);
+        cal.set(2016, Calendar.APRIL, 13, 16, 0, 0);
         Date start = cal.getTime();
-        cal.set(2016, Calendar.APRIL, 13, 16, 2, 0);
+        cal.set(2016, Calendar.APRIL, 13, 16, 30, 0);
         Date end = cal.getTime();
         CorrelationBasedDetector detector = CorrelationBasedDetector.newBuilder()
                 .setApplication("javabook")
-                .setPeriodInSeconds(600)
+                .setPeriodInSeconds(60)
                 .setDataStore("elk")
                 .build(environment);
         Anomaly anomaly = new Anomaly(detector, start.getTime(), end.getTime(),
