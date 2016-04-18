@@ -207,33 +207,4 @@ public final class BottleneckFinderService extends ManagedService {
             return String.format("[%2d] %s %f", ranking, apiCall, importance);
         }
     }
-
-    /*public static void main(String[] args) throws Exception {
-        RootsEnvironment environment = new RootsEnvironment("Test", new FileConfigLoader("conf"));
-        environment.init();
-        Runtime.getRuntime().addShutdownHook(new Thread("RootsShutdownHook") {
-            @Override
-            public void run() {
-                environment.destroy();
-            }
-        });
-
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
-        cal.set(2016, Calendar.APRIL, 13, 16, 0, 0);
-        Date start = cal.getTime();
-        cal.set(2016, Calendar.APRIL, 13, 16, 30, 0);
-        Date end = cal.getTime();
-        CorrelationBasedDetector detector = CorrelationBasedDetector.newBuilder()
-                .setApplication("javabook")
-                .setPeriodInSeconds(60)
-                .setDataStore("elk")
-                .build(environment);
-        Anomaly anomaly = new Anomaly(detector, start.getTime(), end.getTime(),
-                Anomaly.TYPE_PERFORMANCE, "GET /", "foo");
-
-        BottleneckFinderService finder = new BottleneckFinderService(environment);
-        finder.run(anomaly);
-
-        environment.waitFor();
-    }*/
 }

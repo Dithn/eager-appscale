@@ -4,8 +4,6 @@ import com.google.common.collect.*;
 import edu.ucsb.cs.roots.data.es.*;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -110,22 +108,5 @@ public class ElasticSearchDataStore implements DataStore {
     public void recordBenchmarkResult(BenchmarkResult result) throws DataStoreException {
         RecordBenchmarkResultQuery query = new RecordBenchmarkResultQuery(result);
         runQuery(query);
-    }
-
-    public static void main(String[] args) throws Exception {
-        ElasticSearchConfig.Builder builder = ElasticSearchConfig.newBuilder()
-                .setHost("128.111.179.246")
-                .setPort(9200)
-                .setBenchmarkIndex("appscale-benchmarks")
-                .setApiCallIndex("appscale-apicalls")
-                .setAccessLogIndex("appscale-logs");
-        ElasticSearchDataStore dataStore = new ElasticSearchDataStore(builder);
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
-        cal.set(2016, Calendar.APRIL, 13, 22, 0, 0);
-        long start = cal.getTime().getTime();
-        cal.set(2016, Calendar.APRIL, 13, 23, 0, 0);
-        long end = cal.getTime().getTime();
-        dataStore.getBenchmarkResults("javabook", start, end);
-        dataStore.destroy();
     }
 }
