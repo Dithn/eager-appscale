@@ -1,4 +1,4 @@
-package edu.ucsb.cs.roots.data.es2;
+package edu.ucsb.cs.roots.data.es;
 
 import com.google.gson.Gson;
 import edu.ucsb.cs.roots.data.BenchmarkResult;

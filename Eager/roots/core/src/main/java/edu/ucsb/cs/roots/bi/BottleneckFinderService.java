@@ -21,15 +21,15 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class BottleneckFinder extends ManagedService {
+public final class BottleneckFinderService extends ManagedService {
 
-    private static final Logger log = LoggerFactory.getLogger(BottleneckFinder.class);
+    private static final Logger log = LoggerFactory.getLogger(BottleneckFinderService.class);
 
     private static final String LOCAL = "LOCAL";
 
     private final AnomalyLog anomalyLog = new AnomalyLog(log);
 
-    public BottleneckFinder(RootsEnvironment environment) {
+    public BottleneckFinderService(RootsEnvironment environment) {
         super(environment);
     }
 
@@ -101,7 +101,11 @@ public final class BottleneckFinder extends ManagedService {
 
                 if (requestCount > callCount + 1) {
                     log.debug("Computing relative importance for path: {}", path);
-                    results.putAll(ts, computeRankings(client, apiCalls));
+                    try {
+                        results.putAll(ts, computeRankings(client, apiCalls));
+                    } catch (Exception e) {
+                        anomalyLog.warn(anomaly, "Failed to compute rankings", e);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -227,7 +231,7 @@ public final class BottleneckFinder extends ManagedService {
         Anomaly anomaly = new Anomaly(detector, start.getTime(), end.getTime(),
                 Anomaly.TYPE_PERFORMANCE, "GET /", "foo");
 
-        BottleneckFinder finder = new BottleneckFinder(environment);
+        BottleneckFinderService finder = new BottleneckFinderService(environment);
         finder.run(anomaly);
 
         environment.waitFor();

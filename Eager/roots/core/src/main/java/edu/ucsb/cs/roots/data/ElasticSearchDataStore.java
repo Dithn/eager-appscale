@@ -1,7 +1,7 @@
 package edu.ucsb.cs.roots.data;
 
 import com.google.common.collect.*;
-import edu.ucsb.cs.roots.data.es2.*;
+import edu.ucsb.cs.roots.data.es.*;
 
 import java.io.IOException;
 import java.util.Calendar;
