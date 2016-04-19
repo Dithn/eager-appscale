@@ -74,14 +74,36 @@ public final class BottleneckFinderService extends ManagedService {
             return;
         }
 
-        long requestCount = 0;
         long period = anomaly.getPeriodInSeconds() * 1000;
         Map<Long,List<ApplicationRequest>> groupedByTime = requests.stream()
                 .collect(Collectors.groupingBy(r -> (r.getTimestamp() - start) / period,
                         TreeMap::new, Collectors.toList()));
+        try {
+            ListMultimap<Long,RelativeImportance> results = computeRankings(apiCalls, groupedByTime);
+            if (results.isEmpty()) {
+                return;
+            }
+            List<Long> sortedKeys = results.keySet().stream()
+                    .sorted().collect(Collectors.toList());
+            anomalyLog.info(anomaly, getLogEntry(path, results.get(Iterables.getLast(sortedKeys))));
+            for (int i = 0; i < callCount; i++) {
+                int index = i;
+                String trend = sortedKeys.stream()
+                        .map(k -> String.valueOf(results.get(k).get(index).importance))
+                        .collect(Collectors.joining(", "));
+                anomalyLog.info(anomaly, "Historical trend for {}: {}",
+                        apiCalls.get(i).name(), trend);
+            }
+        } catch (Exception e) {
+            anomalyLog.error(anomaly, "Error while computing rankings", e);
+        }
+    }
+
+    private ListMultimap<Long,RelativeImportance> computeRankings(
+            List<ApiCall> apiCalls, Map<Long, List<ApplicationRequest>> groupedByTime) throws Exception {
+        long requestCount = 0;
         ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         List<Exception> rankingErrors = new ArrayList<>();
-
         RClient client = environment.getRService().borrow();
         try {
             client.evalAndAssign("df", "data.frame()");
@@ -94,14 +116,13 @@ public final class BottleneckFinderService extends ManagedService {
                     client.assign("x", responseTimeVector);
                     client.evalAndAssign("df", "rbind(df, x)");
                     if (requestCount == 0) {
-                        client.assign("df_names", getColumnNames(callCount, true));
+                        client.assign("df_names", getColumnNames(apiCalls.size(), true));
                         client.eval("names(df) = df_names");
                     }
                     requestCount++;
                 }
 
-                if (requestCount > callCount + 1) {
-                    log.debug("Computing relative importance for path: {}", path);
+                if (requestCount > apiCalls.size() + 1) {
                     try {
                         results.putAll(ts, computeRankings(client, apiCalls));
                     } catch (Exception e) {
@@ -109,26 +130,15 @@ public final class BottleneckFinderService extends ManagedService {
                     }
                 }
             }
-        } catch (Exception e) {
-            anomalyLog.error(anomaly, "Error while computing relative importance metrics", e);
         } finally {
             environment.getRService().release(client);
         }
 
-        if (results.size() > 0) {
-            List<Long> sortedKeys = results.keySet().stream().sorted().collect(Collectors.toList());
-            anomalyLog.info(anomaly, getLogEntry(path, results.get(Iterables.getLast(sortedKeys))));
-            for (int i = 0; i < callCount; i++) {
-                int index = i;
-                String trend = sortedKeys.stream()
-                        .map(k -> String.valueOf(results.get(k).get(index).importance))
-                        .collect(Collectors.joining(", "));
-                anomalyLog.info(anomaly, "Historical trend for {}: {}", apiCalls.get(i).name(), trend);
-            }
-        } else if (!rankingErrors.isEmpty()) {
-            anomalyLog.error(anomaly, "{} errors encountered while computing ranks",
-                    rankingErrors.size(), Iterables.getLast(rankingErrors));
+        if (results.isEmpty() && !rankingErrors.isEmpty()) {
+            throw new RuntimeException(rankingErrors.size() + " errors encountered",
+                    Iterables.getLast(rankingErrors));
         }
+        return results;
     }
 
     /**
