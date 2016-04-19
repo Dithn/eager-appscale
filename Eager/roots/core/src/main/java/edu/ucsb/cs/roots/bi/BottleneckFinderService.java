@@ -75,11 +75,12 @@ public final class BottleneckFinderService extends ManagedService {
         }
 
         long requestCount = 0;
-        ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         long period = anomaly.getPeriodInSeconds() * 1000;
         Map<Long,List<ApplicationRequest>> groupedByTime = requests.stream()
                 .collect(Collectors.groupingBy(r -> (r.getTimestamp() - start) / period,
                         TreeMap::new, Collectors.toList()));
+        ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
+        List<Exception> rankingErrors = new ArrayList<>();
 
         RClient client = environment.getRService().borrow();
         try {
@@ -104,7 +105,7 @@ public final class BottleneckFinderService extends ManagedService {
                     try {
                         results.putAll(ts, computeRankings(client, apiCalls));
                     } catch (Exception e) {
-                        anomalyLog.warn(anomaly, "Failed to compute rankings", e);
+                        rankingErrors.add(e);
                     }
                 }
             }
@@ -124,6 +125,9 @@ public final class BottleneckFinderService extends ManagedService {
                         .collect(Collectors.joining(", "));
                 anomalyLog.info(anomaly, "Historical trend for {}: {}", apiCalls.get(i).name(), trend);
             }
+        } else if (!rankingErrors.isEmpty()) {
+            anomalyLog.error(anomaly, "{} errors encountered while computing ranks",
+                    rankingErrors.size(), Iterables.getLast(rankingErrors));
         }
     }
 
