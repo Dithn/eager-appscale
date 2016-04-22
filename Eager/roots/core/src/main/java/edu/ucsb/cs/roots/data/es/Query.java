@@ -42,7 +42,7 @@ public abstract class Query<T> {
 
     protected JsonElement makeHttpCall(ElasticSearchConfig es, String uri, String json) throws IOException {
         String fullUri = String.format("http://%s:%d%s", es.getHost(), es.getPort(), uri);
-        log.info("URL: {}; Payload: {}", fullUri, json);
+        log.debug("URL: {}; Payload: {}", fullUri, json);
         HttpPost post = new HttpPost(fullUri);
         post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
         return es.getClient().execute(post, new ElasticSearchResponseHandler());

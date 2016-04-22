@@ -44,6 +44,10 @@ public final class Benchmark extends ScheduledItem {
         calls.forEach(c -> {
             try {
                 long time = c.execute(client);
+                if (log.isDebugEnabled()) {
+                    log.debug("Benchmark result for {} [{} {}]: {}ms", application, c.getMethod(),
+                            c.getPath(), time);
+                }
                 BenchmarkResult result = new BenchmarkResult(now, application, c.getMethod(),
                         c.getPath(), (int) time);
                 ds.recordBenchmarkResult(result);
