@@ -1,0 +1,157 @@
+Cloud computing has revolutionized the way programmers develop and deploy applications.
+By running computations and storing data on large, managed infrastructures and 
+programming platforms, cloud computing ensures scalability and high-availability of 
+user applications. Moreover, by offering such compute infrastructures and programming 
+platforms as services, cloud computing is able to facilitate a cost-effective, on-demand
+resource provisioning model that greatly enhances user productivity.
+
+Over the last decade cloud computing technologies have enjoyed explosive growth 
+and near universal adoption due to their many benefits and promises. Core cloud 
+functionalities are available from a large and growing number of service providers. 
+Some of these service providers offer hosted cloud solutions that can be used
+via the web to deploy applications without installing any physical hardware 
+(e.g. Amazon AWS, Google App Engine, Microsoft Azure). Others
+provide cloud technologies as downloadable software, which users can install
+on their computers or data centers to set up their own private clouds 
+(e.g. Eucalyptus, AppScale, OpenShift). 
+
+Both the IT industry and the academia have responded very positively to this new 
+model of application 
+development. Many business organizations are currently in the process of migrating
+their IT infrastructure to the cloud. A large number of organizations
+run their entire business as a cloud-based operation (e.g. Netflix, Snapchat). For startups
+and academic researchers who don't have a large IT budget or a staff, the cost-effective 
+on-demand resource provisioning model of the cloud has proved to be indispensable.
+The growing number of academic conferences and journals dedicated to discussing
+cloud computing is further evidence that cloud is an essential branch in the field
+of computer science.
+
+Despite its many benefits, cloud computing has also given rise to a number of application
+development and maintenance issues that have gone unaddressed for many years. 
+First and foremost, cloud platforms do not enforce any of the developer best practices
+the software engineering community has established over the last half-century. This
+includes code reuse, proper versioning of software artifacts, dependency management
+between application components and backward compatible code updates. In
+some cases organizations require certain conventions/standards to be enforced on
+all production software. Cloud platforms do not provide any facilities for reaching
+such administrative conformance on cloud-deployed applications. Instead, cloud platforms
+are making it extremely simple and quick to deploy new applications or update existing
+applications. The resulting speed-up of the development cycles combined with the lack of 
+oversight and enforcement, makes it extremely difficult for 
+IT personnel to manage large volumes of cloud-deployed applications.
+
+This rapidly proliferating model of application development and IT operation
+is designed to scale, both in the number of applications, 
+and in the number of web services that must be
+hosted and curated.  Each web service exports one or more Application Programming
+Interfaces (APIs) that must be accessible by users, applications, and/or
+other services.
+Because applications encode their logic in terms of
+remote ``calls'' to web services,
+these APIs define functional boundaries that must be incorporated into the
+application architecture.  
+
+From an IT management perspective, the vast collection of web APIs must be
+governed as critical infrastructure components or else ``client'' applications
+will encounter problems when the APIs they depend on change or fail.  
+Further, web services often make API calls to each other 
+creating dependencies between APIs that must be carefully managed.
+Moreover, the APIs have a software life cycle that is
+independent and longer than the life cycle of the services themselves. 
+As technological improvements make better service implementations possible, IT
+management must upgrade these services while keeping the APIs unchanged.
+Similarly, as new API versions emerge to increase functionality, backward
+compatibility must be maintained in a way that takes into
+account the strategic objectives of the organization.  
+
+Today's cloud platforms severely lag behind in 
+API governance. Typical cloud environments impose restrictions
+on applications and web services in order to guarantee scalability
+and high availability (e.g. Google App Engine~\cite{gae} prevents applications from accessing
+the file system). 
+However, they do not prevent the developers from violating
+software development and maintenance policies. 
+Consequently, developers often violate naming and versioning conventions
+when naming digital assets, take dependencies
+on incorrect or deprecated APIs, and very often end up re-implementing program logic
+from the scratch instead of reusing extant APIs that provide the required functionality.
+This lack of API governance also leads to many security vulnerabilities (e.g. DoS attacks
+by malicious or poorly coded clients), violations of IP rights and licensing terms, and in
+some cases, even financial losses. 
+
+Web APIs also play a key role in managing and enforcing service level agreements (SLAs).
+Ideally, any public API should be exposed with a well-defined
+SLA detailing its performance and quality of service (QoS) characteristics. Without proper means
+of API governance, developers that host services in cloud settings have no way of enforcing
+competitive SLAs on their APIs, or even getting a thorough idea of what kind of SLAs
+their services can uphold. Today, developers have to perform a lot of offline
+and online testing to learn the performance characteristics of their APIs.
+Furthermore, developers often have to be content with basic SLA monitoring 
+as opposed to comprehensive SLA enforcement. 
+
+{\bf My research focuses on designing and implementing systems for defining and
+implementing 
+API governance as a cloud-native feature.}  API management is often a
+documentary function (e.g. ~\cite{apigee,layer7,wso2am} that does not include the ability to
+enforce policies, particularly at scale in a cloud setting. 
+My research agenda focuses on making API governance a ``first-class'' cloud
+service that is fully integrated
+with the core of the cloud and the cloud management tools. 
+In a cloud-based IT context, APIs must be governed by
+policies that are defined by the organization to ensure predictable
+operation of the web services hosted by the cloud. Additionally,
+there should be automated mechanisms in place for easily developing new
+APIs, discovering existing APIs, analyzing the syntactic and semantic features
+of APIs, and porting applications across APIs. My research will make 
+it trivial for developers to consume, combine and leverage APIs to create powerful
+applications, while adhering to tried and tested software engineering 
+best practices. They will be able to quickly learn
+the QoS properties of APIs and enforce competitive SLAs through the cloud
+with clear and accurate levels of certainty. My plan is to
+\begin{itemize}
+%\item develop new {\bf policy specification languages for web
+%services} that
+%enables governance enforcement during service development, 
+%and at runtime,
+\item develop a distributed {\bf cloud-integrated service for enforcing IT 
+management policies} governing
+web APIs when operating at scale in cloud settings,
+\item develop automated mechanisms for discovering, analyzing, comparing and reasoning
+about web APIs, in order to {\bf simplify the API-based development model}, and,
+\item develop methods for {\bf automated QoS and performance analysis} of web services
+to formulate and enforce competitive SLAs for APIs hosted in clouds.
+\end{itemize}
+
+My research spans a number of prominent research areas in computer
+science including programming languages, 
+distributed systems and software engineering. The proposed policy enforcement
+platform motivates new research on innovative new ways of using existing
+distributed consensus, scalability and high availability techniques. It also calls for
+more research in novel policy specification languages that
+are developer-friendly, and can be verified and executed efficiently in cloud settings.
+Automated performance analysis requires more research in using
+static analysis methods (e.g. abstract interpretation, WCET analysis, etc.), system modeling,
+and simulations for analyzing a wide range of services deployed in modern cloud platforms.
+Above all, since the primary target of this
+work are cloud platforms, there needs to be a strong focus towards making all these 
+proposed mechanisms scale to handle thousands of APIs, policies, client applications and users.
+
+\subsection{Outcomes and Assessment}
+
+The outcome of this research plan,
+I believe, will be new advances in services computing, IT management, cloud
+computing, API policy enforcement, and SLA management.
+If successful, the research will be transformative since APIs are rapidly
+becoming the most valuable digital asset hosted in cloud settings
+and my work enables scalable management of these assets.
+
+In addition,
+as a cloud systems researcher I intend to use open source, on-premise clouds (AppScale~\cite{krintzappscale13}
+and Eucalyptus~\cite{eucalyptus09}) to produce research and educational artifacts (data sets, demos and test applications, 
+code repositories, etc.) to my colleagues, 
+and the wider research community.  
+I also plan to make my systems, tools and mechanisms available as persistent software artifacts to
+the wider research community and to monitor its uptake.  Because of their design
+and their use of open source cloud technologies, results of my research will be readily available
+to researchers and educators who wish to develop new artifacts and curricula
+for cloud computing. 
