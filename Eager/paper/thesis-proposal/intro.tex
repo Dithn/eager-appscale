@@ -78,8 +78,8 @@ following thesis question.
 administrative conformance, developer best practices, and performance objectives through 
 automated analysis and diagnostics?} 
 
-Governance is the mechanism by which the acceptable operational parameters are specified
-and maintained in a system. This involves multiple steps:
+Governance can be defined as the mechanism by which the acceptable operational parameters 
+are specified and maintained in a system. This involves multiple steps:
 \begin{itemize}
 \item Specifying the acceptable operational parameters
 \item Enforcing the specified parameters
@@ -93,7 +93,8 @@ parameters, which establishes the general laws and the rights of the people. Suc
 parameters are then
 enforced by various authorities. When some person or a group deviates from those parameters,
 it is detected and corrective action is taken by bringing the responsible party to the justice.
-Similar governance protocols have been designed and implemented for software systems in
+
+Automated governance protocols have been designed and implemented for software systems in
 the past, specially in classic web services and SOA applications. Such systems enable specifying
 acceptable behavior via machine readable policies, which are then automatically enforced by
 a policy enforcement agent. Monitoring agents watch the system carefully to detect any deviations from
@@ -102,14 +103,11 @@ procedures. I propose that the same
 concepts be applied in the context of cloud-hosted applications to enforce good programming
 practices and various other performance objectives. However, in order for this approach to be
 useful and meaningful within the scope of the cloud, we must be able to meet two additional
-goals.
-
-\begin{itemize}
-\item Efficiency
-\item Automation
-\end{itemize}
-
-
+goals. First, the governance system should be efficient in the sense that it should not introduce
+a significant runtime overhead to the cloud-hosted applications, and it should scale up to
+handle large volumes of applications and policies. Secondly, the governance system should be
+fully automated. Since cloud platforms are comprised of thousands of applications and components,
+it is not practical for a human administrator to be involved in the governance process at any level.
 
 {\bf My research focuses on designing and implementing systems for defining and
 implementing 
