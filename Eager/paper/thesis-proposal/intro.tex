@@ -76,17 +76,40 @@ following thesis question.
 
 {\bf Can we efficiently enforce governance on cloud-based web applications to achieve 
 administrative conformance, developer best practices, and performance objectives through 
-automated analysis and diagnostics?}  
+automated analysis and diagnostics?} 
 
-Web APIs also play a key role in managing and enforcing service level agreements (SLAs).
-Ideally, any public API should be exposed with a well-defined
-SLA detailing its performance and quality of service (QoS) characteristics. Without proper means
-of API governance, developers that host services in cloud settings have no way of enforcing
-competitive SLAs on their APIs, or even getting a thorough idea of what kind of SLAs
-their services can uphold. Today, developers have to perform a lot of offline
-and online testing to learn the performance characteristics of their APIs.
-Furthermore, developers often have to be content with basic SLA monitoring 
-as opposed to comprehensive SLA enforcement. 
+Governance is the mechanism by which the acceptable operational parameters are specified
+and maintained in a system. This involves multiple steps:
+\begin{itemize}
+\item Specifying the acceptable operational parameters
+\item Enforcing the specified parameters
+\item Monitoring the system to detect deviations from the acceptable behavior
+\item Taking preventive or corrective action when necessary
+\end{itemize}
+
+The concept of software system governance as defined here is very similar to the traditional 
+notion of governing a country. In a country too we should specify the acceptable
+parameters, which establishes the general laws and the rights of the people. Such 
+parameters are then
+enforced by various authorities. When some person or a group deviates from those parameters,
+it is detected and corrective action is taken by bringing the responsible party to the justice.
+Similar governance protocols have been designed and implemented for software systems in
+the past, specially in classic web services and SOA applications. Such systems enable specifying
+acceptable behavior via machine readable policies, which are then automatically enforced by
+a policy enforcement agent. Monitoring agents watch the system carefully to detect any deviations from
+the acceptable behavior (policy violations), and alert users or follow predefined corrective
+procedures. I propose that the same
+concepts be applied in the context of cloud-hosted applications to enforce good programming
+practices and various other performance objectives. However, in order for this approach to be
+useful and meaningful within the scope of the cloud, we must be able to meet two additional
+goals.
+
+\begin{itemize}
+\item Efficiency
+\item Automation
+\end{itemize}
+
+
 
 {\bf My research focuses on designing and implementing systems for defining and
 implementing 
