@@ -34,50 +34,49 @@ includes code reuse, proper versioning of software artifacts, dependency managem
 between application components and backward compatible code updates. In
 some cases organizations require certain conventions/standards to be enforced on
 all production software. Cloud platforms do not provide any facilities for reaching
-such administrative conformance on cloud-deployed applications. Instead, cloud platforms
+such administrative conformance on cloud-hosted applications. Instead, cloud platforms
 are making it extremely simple and quick to deploy new applications or update existing
 applications. The resulting speed-up of the development cycles combined with the lack of 
 oversight and enforcement, makes it extremely difficult for 
-IT personnel to manage large volumes of cloud-deployed applications.
+IT personnel to manage large volumes of cloud-hosted applications.
 
-This rapidly proliferating model of application development and IT operation
-is designed to scale, both in the number of applications, 
-and in the number of web services that must be
-hosted and curated.  Each web service exports one or more Application Programming
-Interfaces (APIs) that must be accessible by users, applications, and/or
-other services.
-Because applications encode their logic in terms of
-remote ``calls'' to web services,
-these APIs define functional boundaries that must be incorporated into the
-application architecture.  
+Secondly, today's cloud platforms do not provide any support for reasoning about the 
+performance of the deployed applications. When an application is implemented for
+a given cloud platform, one must subject it to extensive performance testing in order
+to realize its performance limits; a process that is both 
+tedious and time consuming. The difficulty in understanding the performance 
+traits of cloud-hosted applications is primarily due to the very high level of 
+abstraction provided by the cloud platforms. These abstractions shield many details 
+concerning the application runtime, and without visibility into such low level application 
+execution details it is impossible
+to build a robust performance model for a cloud-hosted application. Because of the same
+limitation, it is also not possible to formulate performance service-level agreements (SLAs)
+for cloud-hosted applications. Consequently, existing cloud platforms only offer
+availability SLAs.  However, performance SLAs are an absolute necessity for
+mission critical applications, interactive applications and most web and mobile applications.
 
-From an IT management perspective, the vast collection of web APIs must be
-governed as critical infrastructure components or else ``client'' applications
-will encounter problems when the APIs they depend on change or fail.  
-Further, web services often make API calls to each other 
-creating dependencies between APIs that must be carefully managed.
-Moreover, the APIs have a software life cycle that is
-independent and longer than the life cycle of the services themselves. 
-As technological improvements make better service implementations possible, IT
-management must upgrade these services while keeping the APIs unchanged.
-Similarly, as new API versions emerge to increase functionality, backward
-compatibility must be maintained in a way that takes into
-account the strategic objectives of the organization.  
+Thirdly, cloud platforms provide very poor support for performance debugging
+user applications. Most cloud platforms only provide the simplest monitoring and logging features,
+and do not provide any mechanisms for detecting performance anomalies or identifying
+bottlenecks in the application code or the underlying cloud platform. This limitation has given rise
+to a new class of third party service providers that specialize in monitoring cloud applications
+(e.g. New Relic, Datadog). But these third party solutions require additional configuration 
+and are expensive.
+Furthermore, they only have a restricted view of the user application and the underlying
+cloud platform, which limits their capabilities in terms of the type of analyses they can carry out.
+Today's cloud platforms are also very large and complex with many interacting components.
+An external monitoring service cannot see all this complexity, and hence cannot pinpoint
+the component that might be responsible for an observed application performance anomaly.
 
-Today's cloud platforms severely lag behind in 
-API governance. Typical cloud environments impose restrictions
-on applications and web services in order to guarantee scalability
-and high availability (e.g. Google App Engine~\cite{gae} prevents applications from accessing
-the file system). 
-However, they do not prevent the developers from violating
-software development and maintenance policies. 
-Consequently, developers often violate naming and versioning conventions
-when naming digital assets, take dependencies
-on incorrect or deprecated APIs, and very often end up re-implementing program logic
-from the scratch instead of reusing extant APIs that provide the required functionality.
-This lack of API governance also leads to many security vulnerabilities (e.g. DoS attacks
-by malicious or poorly coded clients), violations of IP rights and licensing terms, and in
-some cases, even financial losses. 
+In order to make cloud computing more reliable and dependable for the users as well
+as the cloud service providers, the above limitations need to be addressed satisfactorily.
+Doing so will also greatly simplify the tasks of developing cloud applications, and maintaining 
+them in the long run. As a means of reaching this goal, I would like to propose and explore the
+following thesis question.
+
+{\bf Can we efficiently enforce governance on cloud-based web applications to achieve 
+administrative conformance, developer best practices, and performance objectives through 
+automated analysis and diagnostics?}  
 
 Web APIs also play a key role in managing and enforcing service level agreements (SLAs).
 Ideally, any public API should be exposed with a well-defined
