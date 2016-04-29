@@ -1,8 +1,10 @@
 Cloud computing has revolutionized the way programmers develop and deploy applications.
+Cloud computing turns compute infrastructures, programming platforms and software systems
+into online utility services that can be easily shared with many users.
 By running computations and storing data on large, managed infrastructures and 
 programming platforms, cloud computing ensures scalability and high-availability of 
-user applications. Moreover, by offering such compute infrastructures and programming 
-platforms as services, cloud computing is able to facilitate a cost-effective, on-demand
+user applications. Moreover, by offering such resources
+as utility services, cloud computing is able to facilitate a cost-effective, on-demand
 resource provisioning model that greatly enhances user productivity.
 
 Over the last decade cloud computing technologies have enjoyed explosive growth 
@@ -51,9 +53,20 @@ concerning the application runtime, and without visibility into such low level a
 execution details it is impossible
 to build a robust performance model for a cloud-hosted application. Because of the same
 limitation, it is also not possible to formulate performance service-level agreements (SLAs)
-for cloud-hosted applications. Consequently, existing cloud platforms only offer
-availability SLAs.  However, performance SLAs are an absolute necessity for
+for cloud-hosted applications. 
+
+An SLA is a contract between a service provider and a consumer, that dictates the minimum
+service levels that the service provider is obligated to maintain, along with the 
+penalties for failing to maintain those service levels. The minimum service levels are sometimes
+referred to as service-level objectives (SLOs), and they may be related to various quality of service
+parameters such as availability, response time (latency), and throughput. A performance SLA for 
+a cloud-hosted application
+would specify upper bounds on the application response time, and the likelihood those limits
+are valid. Such contracts are an absolute necessity for
 mission critical applications, interactive applications and most web and mobile applications.
+However, without a systematic mechanism to determine the performance limits of the cloud-hosted
+applications, it is impossible to formulate SLOs or SLAs.
+Consequently, existing cloud platforms only offer SLAs regarding service availability (uptime). 
 
 Thirdly, cloud platforms provide very poor support for performance debugging
 user applications. Most cloud platforms only provide the simplest monitoring and logging features,
@@ -78,8 +91,9 @@ following thesis question.
 administrative conformance, developer best practices, and performance objectives through 
 automated analysis and diagnostics?} 
 
-Governance can be defined as the mechanism by which the acceptable operational parameters 
-are specified and maintained in a system. This involves multiple steps:
+Governance in this context can be defined as the mechanism by which the acceptable 
+operational parameters are specified and maintained in a software system. This involves 
+multiple steps:
 \begin{itemize}
 \item Specifying the acceptable operational parameters
 \item Enforcing the specified parameters
@@ -87,9 +101,9 @@ are specified and maintained in a system. This involves multiple steps:
 \item Taking preventive or corrective action when necessary
 \end{itemize}
 
-The concept of software system governance as defined here is very similar to the traditional 
+The concept of software system governance as defined here is very similar to the
 notion of governing a country. In a country too we should specify the acceptable
-parameters, which establishes the general laws and the rights of the people. Such 
+parameters, which establishes the general laws and the rights of the citizens. Such 
 parameters are then
 enforced by various authorities. When some person or a group deviates from those parameters,
 it is detected and corrective action is taken by bringing the responsible party to the justice.
@@ -97,17 +111,23 @@ it is detected and corrective action is taken by bringing the responsible party 
 Automated governance protocols have been designed and implemented for software systems in
 the past, specially in classic web services and SOA applications. Such systems enable specifying
 acceptable behavior via machine readable policies, which are then automatically enforced by
-a policy enforcement agent. Monitoring agents watch the system carefully to detect any deviations from
-the acceptable behavior (policy violations), and alert users or follow predefined corrective
-procedures. I propose that the same
-concepts be applied in the context of cloud-hosted applications to enforce good programming
-practices and various other performance objectives. However, in order for this approach to be
+a policy enforcement agent. Monitoring agents watch the system to detect any deviations from
+the acceptable behavior (i.e. policy violations), and alert users or follow predefined corrective
+procedures. We can envision similar facilities being implemented in a cloud platform to 
+enforce good programming practices and various performance objectives. The operational
+parameters in this case may include coding and packaging conventions for the cloud-hosted
+applications, and their performance limits.
+
+In order for governance to be
 useful and meaningful within the scope of the cloud, we must be able to meet two additional
 goals. First, the governance system should be efficient in the sense that it should not introduce
 a significant runtime overhead to the cloud-hosted applications, and it should scale up to
-handle large volumes of applications and policies. Secondly, the governance system should be
+handle a large number of applications and policies. Secondly, the governance system should be
 fully automated. Since cloud platforms are comprised of thousands of applications and components,
 it is not practical for a human administrator to be involved in the governance process at any level.
+
+Extending on the above thesis question, and the vision for efficient, automated governance for
+cloud-hosted applications, I propose the following research plan:
 
 {\bf My research focuses on designing and implementing systems for defining and
 implementing 
