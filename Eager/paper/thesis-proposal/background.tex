@@ -1,0 +1,39 @@
+\subsection{Cloud Computing}
+
+Cloud computing is a form of distributed computing that turns compute infrastructure, programming
+platforms and software systems into scalable utility services. By exposing various compute and programming
+resources as utility services, cloud computing promotes resource sharing at scale via the Internet.
+Depending on the type of resources
+offered as services, cloud computing platforms can be categorized into three main categories:
+
+\begin{description}
+\item [Infrastructure-as-a-Service clouds (IaaS)]
+Offers low-level compute, storage and networking
+resources as a service. Compute resources are typically provided in the form of on-demand virtual machines 
+with specific CPU, memory and disk configurations (e.g. Amazon EC2, Google Compute Engine, Eucalyptus). 
+\item [Platform-as-a-Service clouds (PaaS)]
+Offers a programming platform as a service, that can be used to develop and deploy applications at scale 
+(e.g. Google App Engine, Heroku, Amazon Elastic Beanstalk).
+\item [Software-as-a-Service clouds (SaaS)]
+Offers a collection of software applications and tools as a service, that can be directly consumed by
+application endusers (e.g. Salesforce, Workday, Citrix go2meeting). This can be thought of as a new way 
+of delivering software to
+endusers. Instead of prompting the users to download and install any software, SaaS enables the users
+to consume software via the Internet.  
+\end{description}
+
+Due to the benefits associated with cloud computing (scalability, high availability, productivity enhancement etc.),
+many developers and organizations have adopted the cloud as their preferred means of developing, deploying and
+delivering software applications. Such cloud-hosted applications expose one or more web application programming 
+interfaces (web APIs) through which users can remotely interact with the applications. A cloud-hosted 
+application may
+also consume web APIs exposed by other cloud-hosted applications. Thus, cloud-hosted applications
+form an intricate graph of inter-dependencies among them, where each application can service a set of
+applications, while being dependent on a set of other applications. However, in general, each cloud-hosted
+application directly depends on the core services offered by the underlying cloud platform for compute and storage
+resources and scalability.
+
+In the next subsection we take a closer look at a specific type of cloud platforms -- Platform-as-a-Service clouds.
+We use PaaS clouds as a case study and a testbed in a number of our explorations.
+
+\subsection{Platform-as-a-Service Cloud}
