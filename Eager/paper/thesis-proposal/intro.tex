@@ -65,7 +65,7 @@ would specify upper bounds on the application response time, and the likelihood 
 are valid. Such contracts are an absolute necessity for
 mission critical applications, interactive applications and most web and mobile applications.
 However, without a systematic mechanism to determine the performance limits of the cloud-hosted
-applications, it is impossible to formulate SLOs or SLAs.
+applications, it is impossible to formulate performance SLOs or SLAs.
 Consequently, existing cloud platforms only offer SLAs regarding service availability (uptime). 
 
 Thirdly, cloud platforms provide very poor support for performance debugging
@@ -129,69 +129,28 @@ it is not practical for a human administrator to be involved in the governance p
 Extending on the above thesis question, and the vision for efficient, automated governance for
 cloud-hosted applications, I propose the following research plan:
 
-{\bf My research focuses on designing and implementing systems for defining and
-implementing 
-API governance as a cloud-native feature.}  API management is often a
-documentary function (e.g. ~\cite{apigee,layer7,wso2am} that does not include the ability to
-enforce policies, particularly at scale in a cloud setting. 
-My research agenda focuses on making API governance a ``first-class'' cloud
-service that is fully integrated
-with the core of the cloud and the cloud management tools. 
-In a cloud-based IT context, APIs must be governed by
-policies that are defined by the organization to ensure predictable
-operation of the web services hosted by the cloud. Additionally,
-there should be automated mechanisms in place for easily developing new
-APIs, discovering existing APIs, analyzing the syntactic and semantic features
-of APIs, and porting applications across APIs. My research will make 
-it trivial for developers to consume, combine and leverage APIs to create powerful
-applications, while adhering to tried and tested software engineering 
-best practices. They will be able to quickly learn
-the QoS properties of APIs and enforce competitive SLAs through the cloud
-with clear and accurate levels of certainty. My plan is to
 \begin{itemize}
-%\item develop new {\bf policy specification languages for web
-%services} that
-%enables governance enforcement during service development, 
-%and at runtime,
-\item develop a distributed {\bf cloud-integrated service for enforcing IT 
-management policies} governing
-web APIs when operating at scale in cloud settings,
-\item develop automated mechanisms for discovering, analyzing, comparing and reasoning
-about web APIs, in order to {\bf simplify the API-based development model}, and,
-\item develop methods for {\bf automated QoS and performance analysis} of web services
-to formulate and enforce competitive SLAs for APIs hosted in clouds.
+\item Design and implement a scalable, low-overhead governance framework for cloud platforms,
+complete with a policy specification language and a policy engine. The governance framework should be
+built into the cloud platforms, and must
+strive to keep the runtime overhead of the user applications to a minimum while enforcing
+common developer best practices and other organizational conventions.
+\item Design and implement a methodology for formulating performance SLAs for cloud-hosted 
+ web applications, without
+ subjecting them to extensive performance testing or instrumentation. The formulated
+ performance SLAs must be correct, tight and durable in the face of changing
+ conditions of the cloud.
+ \item Design and implement a scalable cloud application monitoring framework for detecting
+application performance anomalies, SLA violations and diagnosing potential root causes. 
+The framework should support collecting
+ a wide range of runtime and usage data from the user applications and the underlying cloud platform
+ without instrumenting the user code, and without introducing significant runtime overheads.
+ It should further facilitate employing a number of new and existing statistical methods
+ and algorithms to analyze the gathered data in near realtime.
 \end{itemize}
 
-My research spans a number of prominent research areas in computer
-science including programming languages, 
-distributed systems and software engineering. The proposed policy enforcement
-platform motivates new research on innovative new ways of using existing
-distributed consensus, scalability and high availability techniques. It also calls for
-more research in novel policy specification languages that
-are developer-friendly, and can be verified and executed efficiently in cloud settings.
-Automated performance analysis requires more research in using
-static analysis methods (e.g. abstract interpretation, WCET analysis, etc.), system modeling,
-and simulations for analyzing a wide range of services deployed in modern cloud platforms.
-Above all, since the primary target of this
-work are cloud platforms, there needs to be a strong focus towards making all these 
-proposed mechanisms scale to handle thousands of APIs, policies, client applications and users.
-
-\subsection{Outcomes and Assessment}
-
-The outcome of this research plan,
-I believe, will be new advances in services computing, IT management, cloud
-computing, API policy enforcement, and SLA management.
-If successful, the research will be transformative since APIs are rapidly
-becoming the most valuable digital asset hosted in cloud settings
-and my work enables scalable management of these assets.
-
-In addition,
-as a cloud systems researcher I intend to use open source, on-premise clouds (AppScale~\cite{krintzappscale13}
-and Eucalyptus~\cite{eucalyptus09}) to produce research and educational artifacts (data sets, demos and test applications, 
-code repositories, etc.) to my colleagues, 
-and the wider research community.  
-I also plan to make my systems, tools and mechanisms available as persistent software artifacts to
-the wider research community and to monitor its uptake.  Because of their design
-and their use of open source cloud technologies, results of my research will be readily available
-to researchers and educators who wish to develop new artifacts and curricula
-for cloud computing. 
+Following section provides the background details regarding cloud computing and governance.
+Next three sections further elaborate on the above three research goals respectively. 
+Each section details our designs, assumptions and related work. Implementation details,
+preliminary results and future work are also discussed where appropriate. Final section
+summarizes and concludes this proposal.
