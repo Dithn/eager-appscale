@@ -103,11 +103,11 @@ goals of IT governance are three fold:
 
 A number of frameworks, models and even certification systems have emerged over time to help organizations 
 implement IT governance. When the software engineering community started gravitating towards web services and
-service-oriented architecture (SOA), a new type of digital assets rose to prominence within corporate IT 
+service-oriented computing (SOC), a new type of digital assets rose to prominence within corporate IT 
 infrastructures -- ``services''. Aggregates of loosely-coupled, reusable, modular services soon replaced 
 large monolithic software
 installations. Services required new forms of governance for managing their performance
-and risks. Hence the notion of SOA governance came into existence. 
+and risks. Hence the notion of service-oriented architecture (SOA) governance came into existence. 
 
 Multiple definitions of SOA governance
 are in circulation, but most of them agree that the purpose of SOA governance is to exercise control over
@@ -124,8 +124,39 @@ of some entity. The entity could be a department, a software system, a service o
 human process such as developing
 a new application. In SOA governance, policies state how services should be developed, how they are to be
 deployed, how to secure them and what level of quality-of-service to maintain while a service is in operation.
-SOA governance tools enable administrators to specify acceptable behavior as policies, and
+SOA governance tools enable administrators to specify acceptable service behavior and life-cycle as policies, and
 a software policy enforcement agent automatically enacts those policies to control various aspects of the 
 services. 
 
 \subsubsection{Governance for Cloud-hosted Applications}
+Cloud computing can be thought of as a heightened version of service-oriented computing. While classic
+SOC strives to offer data and application functionality as services, cloud computing offers a variety
+of additional computing resources
+as services including hardware infrastructure (compute power, storage space and networking) and programming
+platforms. Moreover, the applications deployed on cloud platforms are typically implemented as services with
+separate implementation and interface components. The web APIs exposed by these applications play the
+role of the service interface.
+Much like classic services, each cloud-hosted application 
+can be a dependency for another
+co-located cloud application, or an application running elsewhere (e.g. a mobile agent). 
+Due to this resemblance, many concepts related to SOA governance are
+directly applicable to cloud platforms and cloud-hosted applications. For instance, we can envision an 
+automated policy enforcement agent enacting a 
+set of policies that control the behavior and the life-cycle of cloud-hosted applications.
+
+More specifically, we are interested in using policies to control the following aspects of cloud-hosted 
+applications.
+\begin{enumerate}
+\item Development and deployment conventions (including dependency management, naming and packaging
+standards and backward compatibility)
+\item Performance SLAs offered to the users
+\item Diagnosing performance bugs and bottlenecks
+\end{enumerate}
+
+Our research focuses on using automated policy enforcement, diagnostics and other related 
+governance features to ensure that
+cloud-hosted applications adhere to developer best practices and administrative conventions, while
+consistently meeting performance expectations of the developers and the users. We strive to design
+governance mechanisms that scale up well to handle cloud workloads -- i.e. large numbers of applications
+and policies. We build on existing SOC and cloud computing research, and introduce novel methods
+where existing governance and detection methods fall short. 
