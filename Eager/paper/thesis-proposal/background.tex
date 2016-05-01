@@ -89,6 +89,17 @@ the systems we design and implement. Furthermore, there are currently over a mil
 in App Engine, with a significant proportion of them being open source applications. Therefore we have access
 to a large number of real world PaaS applications to experiment with.
 
+PaaS-hosted applications are typically developed and tested outside the cloud (on a developer's workstation), 
+and then later uploaded to the cloud. Therefore PaaS-hosted applications typically undergo three phases 
+during their life-cycle:
+\begin{description}
+\item[Development-time] The application is being developed and tested on a developer's workstation
+\item[Deployment-time] The finished application is being uploaded to the PaaS cloud for deployment
+\item[Run-time] Application is running, and processing user requests
+\end{description}
+We explore ways to use these different phases to our advantage so as to minimize the governance
+overhead on running applications. 
+
 \subsection{Governance}
 \subsubsection{IT and SOA Governance}
 Traditionally, information and technology (IT) governance~\cite{brown2005framing} has been a branch of 
@@ -116,18 +127,18 @@ services and associated processes (service development, testing, monitoring etc)
 of SOA governance is ensuring and validating that service artifacts within the architecture are operating
 as expected and maintaining a certain level of quality~\cite{gartner-soa-gov}.
 Consequently, a number of tools that help organizations implement SOA governance 
-have also evolved~\cite{Schepers:2008:LAS:1363686.1363932,4730489,6478236}.
+have also evolved~\cite{Schepers:2008:LAS:1363686.1363932,4730489,6478236,5577268}.
 Since web services are the mostly widely used form of services in SOA-driven systems, most of these
 SOA governance tools have a strong focus on controlling web services. 
 
 Policies play a crucial role in all forms of governance. A policy is a specification of the acceptable behavior
-of some entity. The entity could be a department, a software system, a service or a 
+and the life-cycle of some entity. The entity could be a department, a software system, a service or a 
 human process such as developing
 a new application. In SOA governance, policies state how services should be developed, how they are to be
 deployed, how to secure them and what level of quality-of-service to maintain while a service is in operation.
 SOA governance tools enable administrators to specify acceptable service behavior and life-cycle as policies, and
 a software policy enforcement agent automatically enacts those policies to control various aspects of the 
-services~\cite{5976827,4483228,4279691,5577268}. 
+services~\cite{5976827,4483228,4279691}. 
 
 \subsubsection{Governance for Cloud-hosted Applications}
 Cloud computing can be thought of as a heightened version of service-oriented computing. While classic

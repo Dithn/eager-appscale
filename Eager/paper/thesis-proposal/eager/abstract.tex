@@ -1,0 +1,61 @@
+Cloud computing has revolutionized the way software is
+developed, deployed, and consumed.  As a consequence, there has been a
+proliferation of cloud-hosted applications, which developers make accessible to users via
+web application programming interfaces (web APIs).
+Because this model significantly simplifies and expedites
+deployment of web APIs, it also poses new software maintenance and evolution
+challenges.  In particular, it becomes difficult to track, control, and compel
+reuse of web APIs, inadequately tested services can be
+deployed into production, and API changes can be introduced that
+break API-user code or that breach security or organizational procedures.
+
+To address these challenges, we investigate a new approach to API governance
+in the cloud -- combined policy, implementation, and deployment control of APIs for
+software and data deployed as cloud-hosted applications.  Our approach, called EAGER,
+provides a software architecture that can be easily integrated into cloud
+platforms as a cloud-native feature, and supports system-wide, 
+deployment-time enforcement of API governance policies.
+Specifically, EAGER can check for and
+prevent backward incompatible API changes from
+being deployed into production,
+enforces service reuse, and facilitates enforcement of other best practices
+in software maintenance via policies.  We also describe a prototype
+EAGER implementation that
+integrates with an open source platform-as-a-service cloud and
+evaluate its feasibility, efficiency,
+scalability, and effectiveness for enforcing cloud-based API governance.
+
+\ignore{
+Web services and cloud computing have
+revolutionized the way software is developed and maintained. Increasingly,
+cloud-based applications take the form of network-accessible services that export
+web application programming interfaces (web APIs).  Application
+clients and users compose the functionality they require by making calls
+to these published interfaces. 
+
+As cloud deployments scale, the effective use of this flexible programming
+architecture
+poses new software maintenance and
+evolution challenges.  Especially when the web services themselves
+make use of APIs exported by other services, the problem of governance -- policy
+design and implementation that ensures predictable behavior of the overall
+system -- becomes critical.
+Without reliable and consistent API governance,
+services, applications, and users, must manage explicitly 
+software maintenance issues such as poorly developed
+code going into production unchecked, API changes breaking existing 
+applications, and API dependency management.
+
+In this paper, we describe EAGER -- a model and 
+software architecture that extends existing cloud platforms
+to provide enforced API governance at a fundamental level. Using policies
+specified
+by the cloud maintenance team, EAGER can check for and
+prevent backward incompatible API changes from being deployed into the cloud. EAGER
+also enforces code reuse and a variety of other software maintenance best practices
+via its comprehensive policy enforcement support. We detail EAGER's 
+functionality using an open source
+Platform-as-a-Service (PaaS) cloud as an example service venue
+and demonstrate its feasibility, efficiency, scalability and
+effectiveness as an API governance system for clouds.
+}

@@ -1,0 +1,76 @@
+Our research builds upon advances in the areas of SOA governance and
+service management. 
+Guan et al introduced FASWSM~\cite{1607141} a web service management
+framework for application servers. FASWSM uses an adaptation technique that
+wraps web services in a way so they can be managed by the underlying
+application server platform. Wu et al introduced DART-Man~\cite{1504267} a web
+service management system based on semantic web concepts.  Zhu and Wang
+proposed a model that uses Hadoop and HBase to store web service metadata and
+process them to implement a variety of management functions~\cite{5959326}.
+Our work is different 
+from these past approaches in that EAGER targets policy \textit{enforcement} 
+and we focus on doing so by extending extant
+cloud platforms (e.g. PaaS) to provide an integrated and scalable governance
+solution.
+
+Lin et al proposed a service management system for clouds that monitors all
+service interactions via special ``hooks'' that are connected to the
+cloud-hosted services~\cite{5616981}. These hooks monitor and record service
+invocations, and also provide an interface so that the individual service
+artifacts can be managed remotely. However, this system only supports run-time
+service management and provides no support for deployment-time policy checking
+and enforcement.  Kikuchi and Aoki~\cite{6525502} proposed a technique
+based on model checking to evaluate the operational vulnerabilities and fault
+propagation patterns in cloud services. However, this system provides no
+active monitoring or enforcement functionality.
+Sun et al proposed a reference architecture for monitoring and managing cloud
+services~\cite{5579654}. This too lacks deployment-time governance, policy
+validation support, and the ability to intercept and act upon API calls which
+limits its use as a comprehensive governance solution for clouds.
+
+Other researchers have shown that policies can be
+used to perform a wide range of governance tasks for SOA such as access
+control~\cite{4279630,5713420}, fault diagnosis~\cite{6154236},
+customization~\cite{4027138},
+composition~\cite{1592403,Erradi:2006:PMS:1515984.1515990} and
+management~\cite{Suleiman:2009:IUM:1564601.1564730,6481237,4028029}. We build
+upon the foundation of these past efforts and use policies to govern
+RESTful web APIs deployed in cloud settings. 
+Our work is also different in that it defines an executable
+policy language (implemented as a subset of Python in the EAGER prototype)
+% that employs a simple, developer-friendly syntax
+%based upon the Python language (vs XML), 
+which is capable of capturing
+a wide range of governance requirements.
+
+Peng, Lui and Chen showed that
+the major concerns associated with SOA governance 
+involve retaining the high reliability of services, recording how many services
+are available on the platform to serve, and making sure all the available 
+services are operating within an acceptable service
+level~\cite{4730489}. EAGER attempts to satisfy similar requirements for 
+modern RESTful web APIs deployed in cloud environments. 
+However, EAGER's Metadata Manager and ADP record and keep track of all deployed APIs 
+in a simple, extensible, and comprehensive manner.  Moreover, EAGER's policy
+validation, dependency management, and API change management features 
+``fail fast'' to detect violations immediately making
+diagnosis and remediation less complex, and prevent
+the system from ever entering a non-compliant state.
+
+API management has been a popular topic in the industry over the last few years, resulting
+in many commercial and open source API management solutions~\cite{wso2am,apigee,layer7,mashery}. These products facilitate
+API lifecycle management, traffic shaping, access control, monitoring and a variety of other
+important API-related functionality. However, these tools do not support deep integration with
+cloud environments in which many web applications and APIs are deployed today. 
+EAGER is also different in that it combined deployment time and run-time
+enforcement.  Previous systems either work exclusively at run-time or do not
+include an enforcement capability (i.e. they are advisory).
+%
+%These API
+%management products either run as stand-alone entities or are layered on top of existing clouds
+%thus leading to many maintenance, reliability and integration issues. Also, the support provided by these
+%tools to specify and enforce policies in a flexible manner is very limited. EAGER is complementary
+%to such tools, providing very deep integration with PaaS clouds thereby facilitating API governance
+%as a core cloud-native feature. Indeed, EAGER can embed and enhance some of these tools to
+%obtain the required API governance support in the cloud. In fact, the EAGER prototype we have
+%implemented makes extensive use of an existing open source API management product~\cite{wso2am}.
