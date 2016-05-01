@@ -4,8 +4,8 @@ API governance policy enforcement, in a cloud setting, is a tradeoff between
 application intrusiveness and policy expressibility.  Detailed, fine-grained
 policies that penetrate the application provide maximal expressibility.
 In the logical extreme, building policy into the application to govern each of
-its internal operations or instructions is maximally expressive.  However, this 
-expressivity
+its internal operations or instructions is maximally intrusive.  However, this 
+intrusiveness
 introduces complexity and performance overhead that may overshadow its
 benefit.  Alternatively, policy enforcement outside the application
 necessarily limits what can be enforced.  For example, ensuring that an
@@ -21,7 +21,7 @@ application that consists of API calls to services that, in turn, make calls
 to other services, run-time policy enforcement can make violations difficult
 to resolve, especially when the interaction between services is
 non-deterministic.  When a specific violation occurs, it may be ``buried'' in a
-lattice of API invocations that is difficult to traverse, especially of the
+lattice of API invocations that is difficult to traverse, especially if the
 application itself is designed to handle large-scale request traffic loads.
 
 Ideally, then, enforcement takes place as non-intrusively as possible before
