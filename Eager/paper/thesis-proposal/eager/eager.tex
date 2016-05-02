@@ -17,16 +17,16 @@ In this section, we
 overview the high-level design of EAGER, describe its main
 components and the policy language.  Our goal in its design is two fold.
 First, we wished to verify that the integration between policy specification,
-api specification,
+API specification,
 deployment control, and run-time control is feasible in a cloud setting.
 Secondly, we wished to use the design as the basis for a prototype
 implementation that we could use to evaluate the impact of API governance
 empirically.
 
-EAGER is designed to be integrated with cloud platforms that provide PaaS services. 
-PaaS platforms accept code (uploaded via a well-defined API) that is then
+EAGER is designed to be integrated with PaaS clouds. 
+PaaS clouds accept code that is then
 deployed within the platform so that it may make calls to existing services
-(each via a separate API) supported by the platform.
+(cloud SDK) supported by the platform.
 EAGER is designed to intercept all events related to application 
 deployment within the cloud
 and enforces deployment-time governance checks and
@@ -49,7 +49,7 @@ deployed).  It tries to maintain the cloud
 in a ``governed'' state at all times.  That is, with EAGER active, the cloud
 is
 automatically prevented from transitioning out of policy compliance due to a
-change in the APIs it hosts.
+change in the applications it hosts.
 
 %In this work we focus on the deployment-time governance capabilities of EAGER. 
 %At present, it also implements the same run-time governance features that are
@@ -88,7 +88,7 @@ behalf.
 
 Architecturally, the deployment action requires three inputs: the policy
 specification governing the deployment, the code to be deployed, and a
-specification of the APIs that the code exercises and exports.
+specification of the APIs that the code exports.
 EAGER assumes that cloud administrators have developed and installed policies
 (stored in the Metadata Manager)
 that are to be checked against all deployments.  API specifications for the
@@ -230,7 +230,7 @@ policy independently of others (i.e. each policy must be self-contained and
 access no external state).  All other language constructs and 
 language features can be used to specify policies in EAGER.
 
-To accommodate built-in APIs that the administrators trust by {\em fiat},
+To accommodate built-in language APIs that the administrators trust by {\em fiat},
 all module and function restrictions of the EAGER policy language are enforced
 through a configurable white-list. The policy engine evaluates each module and function
 reference against this white-list to determine whether they are allowed in the context of
@@ -294,8 +294,7 @@ d = filter(lambda dep: dep.name == `Direction',\
 if g and d:
   g_api, d_api = g[0], d[0]
   if compare_versions(g_api.version, `3.0') >= 0:
-    assert_true(compare_versions(d_api.version, 
-    	`4.0') >= 0)
+    assert_true(compare_versions(d_api.version, `4.0') >= 0)
 \end{lstlisting}
 }
 \vspace{0.05in}
@@ -359,7 +358,7 @@ violates the assertion in question.
 The next example is a relatively simple policy file 
 that prevents developers from introducing
 dependencies on deprecated web APIs. Deprecated APIs 
-are the those that have been flagged
+are those that have been flagged
 by their respective authors for removal 
 in the near future. Therefore introducing dependencies on such
 APIs is not recommended. The following policy will 
@@ -476,7 +475,7 @@ approves and deploys a new application, it registers all the APIs exported by
 the application in ADP.  EAGER mandates that any developer interested in using
 an API, first subscribe to that API and obtain the proper credentials (API
 keys) from the ADP. The API keys issued by the ADP can consist of an
-OAuth%~\cite{oauth2}
+OAuth~\cite{oauth2}
 access
 token (as is typical of many commercial REST-based web services) 
 or a similar authorization credential, which can be used to identify the
