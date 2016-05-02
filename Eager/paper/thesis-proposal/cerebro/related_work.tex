@@ -18,7 +18,7 @@ Ermedahl et al describe SWEET~\cite{ermedahl2007loop}, a WCET analysis tool that
  of a program. 
 %Program slicing helps to reduce the amount of code and program states that need to be 
  %analyzed by SWEET. 
-Program slicing used in this prior work to limit the amount of code being analized is similar in its goal as our focus on cloud SDK invocations.
+Program slicing used in this prior work to limit the amount of code being analyzed is similar in its goal to our focus on cloud SDK invocations.
  %SWEET uses abstract interpretation in interval and congruence domains to identify
  %the set of values that can be assigned to key control variables of a program. These sets are then
  %used to calculate exact loop bounds for most data-independent loops in the code. Invariant analysis  is
@@ -83,12 +83,47 @@ Also, instead of using probabilistic distributions
 with fixed parameters, Cerebro uses actual historical performance metrics of cloud SDK operations. This enables
 Cerebro to generate more accurate results, that reflect the dynamic nature of the cloud platform.
 
+In PROSDIN~\cite{Mahbub:2011:PSN:2061042.2062022}, a proactive service discovery and negotiation
+framework, the SLA negotiation occurs during the service discovery phase. This is similar to how
+Cerebro establishes an initial SLA with an API consumer, when the consumer subscribes to an API. PROSDIN also
+establishes a fixed SLA validity period upon negotiation, and triggers an SLA renegotiation when this time period has 
+elapsed. Cerebro on the other hand continuously monitors the cloud platform,
+and periodically re-evaluates the response time SLAs of web APIs 
+to determine when a re-negotiation is needed.
+Similarly, researchers have investigated the notions of SLA brokering~\cite{6546098}, and the automatic SLA negotiation
+between intelligent agents~\cite{Yaqub:2014:ONS:2680847.2681496}, ideas that can complement the
+simple SLA negotiation model of Cerebro to make it more powerful and flexible.
+
+Meryn~\cite{Dib:2013:MOS:2465823.2465825} is an SLA-driven PaaS system that attempts to maximize cloud
+provider profit, while providing the best possible quality of service to the cloud users. It supports
+SLA negotiation at application deployment, and SLA monitoring to detect
+violations. However, it does not automatically determine what SLAs are
+feasible or address SLA renegotiation, 
+and employs a policy-based mechanism coupled
+with a penalty cost charged against the cloud provider to
+handle SLA violations. Also, Meryn formulates SLAs in terms of the computing resources (CPU, memory,
+storage etc.) allocated to applications. It assumes a batch processing environment where the
+execution time of an application is approximated based on a detailed description of the application provided
+by the developer. In contrast, Cerebro handles SLAs for interactive web applications. It predicts
+the response time of applications using static analysis, without any input from the application developer. 
+Cerebro also supports automatic SLA renegotiation, with possible room for economic incentives.
+
+Iosup et al showed via empirical analysis, that production cloud platforms like Google App Engine and AWS regularly
+undergo performance variations, thus impacting the response time of the applications deployed in such
+cloud platforms~\cite{5948601}. Some of these cloud platforms even exhibit temporal patterns 
+in their performance variations (weekly, monthly, annual or seasonal). Cerebro and the associated API performance
+forecasting model acknowledge this fact, and periodically re-evaluate the predicted response time upper bounds.
+It detects when a previously predicted upper bound becomes invalid, and prompts the API clients to renegotiate their
+SLAs accordingly. Indeed, one of Cerebro's strength's is its ability to detect change points in the input time series
+data (periodically collected cloud SDK benchmark results), and generate up-to-date predictions that are not 
+affected by old obsolete observations that were gathered prior to a change point.
+
 There has also been prior work in the area of predicting 
 SLA violations~\cite{Leitner10,6976585,Duan:2006:PIP:1142473.1142582}. 
 These systems take an existing SLA and historical performance data of a service, and predict when the 
 service might violate the given SLA in the future. 
 %They employ some form of statistical analysis and/or machine learning to make such predictions. 
-Cerebro's notion of prediction validity period has some relation to this line of research. However,
+Cerebro's notion of SLA validity period has some relation to this line of research. However,
 Cerebro's main goal is to make SLA predictions for web APIs \textit{before} 
 they are deployed and executed. We believe that
 some of these existing SLA violation predictors can complement our 
