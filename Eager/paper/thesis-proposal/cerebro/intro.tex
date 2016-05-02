@@ -47,6 +47,33 @@ a PaaS administrator to determine what response time service level agreement (SL
 fulfilled by each web API operation exported by the applications
 hosted in the PaaS.  
 
+We use the term ``SLA'' to refer to the minimum service level promised by the
+service provider regarding some non-functional property of the service such as
+its availability or performance (response time). Such SLAs are explicitly
+stated by the service provider, and are associated with a correctness probability,
+which can be described as the likelihood the service will meet the promised
+minimum service level. An availability SLA that follows this notion
+takes the form: ``the service will be available $p\%$ of the time''.
+Here the value $p\%$ is the correctness probability of the SLA. Similarly, a
+response time SLA would take the form of the statement: ``the service will respond 
+under $Q$ milliseconds, $p\%$ of the time. Naturally, $p$ should be a value close
+to $100$, for this type of SLAs to be useful in practice. 
+
+In a corporate setting, an 
+SLA would consist of additional clauses describing what happens if and when the
+service fails to meet the promised minimum service level (for example, if the
+service is only available $p^\prime\%$ of the time, where $p^\prime < p$). This
+typically boils down to service provider paying some penalty (a refund), or 
+providing some form of free service credits for the users. We do not consider such
+legal and social obligations of an SLA in this work, and simply focus on the
+minimum service levels and the associated correctness probabilities, since those
+are the things that matter from a performance and capacity planning point of view
+of an application. Some authors use the term Service Level Objective (SLO) to
+refer to promised minimum service levels, and reserve the term SLA for the
+aggregate of SLOs and other action clauses~\cite{Keller:2003:WFS:635430.635442}.
+Since we are only looking at the minimum service levels, we disregard this
+separation, and make liberal use of the term SLA.
+
 SLAs typically specify a minimum service level, and a
 probability (usually large) that the minimum service level will be
 maintained. Cerebro uses a combination of static analysis of the hosted web APIs, 
