@@ -77,7 +77,7 @@ bars are two standard deviations, and the units are seconds.}
 Figure~\ref{fig:overhead_by_app} shows the average time in seconds taken by EAGER to validate and 
 verify each application.  We record these results on an EAGER deployment without any policies 
 deployed, and without any prior metadata recorded in the API Metadata Manager 
-(that is, an unpopulated database of policies).
+(that is, an unpopulated database of APIs).
 We present the values as absolute measurements (here and henceforth) because
 of the significant difference between them and 
 deployment times on AppScale without EAGER (100's of milliseconds compared to 10's of seconds).  
@@ -103,7 +103,7 @@ Figure~\ref{fig:overhead_by_apis} shows that EAGER overhead grows linearly
 with the number of APIs exported by an application.  This scaling occurs
 because the current prototype implementation iterates through the APIs in the
 application sequentially and records the API metadata in the Metadata Manager.
-Then EAGER publishes each API to the ADP and API Gateway. This sequencing
+Then EAGER publishes each API to the ADP and API Gateway. This sequencing of
 individual EAGER events, each of which generates a separate web service call,
 represents an optimization opportunity via parallelization in future implementations.
 
@@ -200,13 +200,15 @@ do not impact EAGER overhead significantly. It is only when the active
 policy count approaches $1000$ that we can see a small increase in the
 overhead. Even then, the increase in deployment time is under $0.1$ seconds. 
 
-This result due to the fact that EAGER loads policy content into memory at system
+This result is due to the fact that EAGER loads policy content into memory at system
 startup (or when a new policy is deployed), and executes them from memory each
 time an application is deployed. Since policy files are typically small (at
 most a few kilobytes), this is a viable option. The overhead of validating the
 simple-jaxrs-app is higher than that of the guestbook-py because,
 simple-jaxrs-app exports web APIs. This means the third assertion in the
-policy set is executed for this app and not for guestbook-py. 
+policy set is executed for this app and not for guestbook-py. Also additional
+interactions with the Metadata Manager is needed in case of simple-jaxrs-app
+in order to persist the API metadata for future use.
 
 Our results indicate that EAGER scales well to hundreds of policies. That is,
 there is no significant overhead associated with simply having a large number
