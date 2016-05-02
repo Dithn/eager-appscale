@@ -14,7 +14,7 @@ private settings.
 
 Consequently, web APIs are rapidly 
 proliferating.  At the time of this writing, 
-ProgrammableWeb~\cite{pweb} indexes over $13,000$
+ProgrammableWeb~\cite{pweb} indexes over $15,000$
 publicly available web APIs.
 These APIs increasingly employ the REST (Representational State Transfer) 
 architectural style~\cite{Fielding:2000:ASD:932295}, and target both
@@ -125,7 +125,7 @@ that dominate the response time of web APIs. By surveying a collection of
 web applications developed for a PaaS cloud, we show
 that such applications indeed spend majority of their execution time on cloud SDK
 invocations. Further, they do not have many branches and loops, which
-makes them amenable to static analysis (section~\ref{sec:approach}). Independently,
+makes them amenable to static analysis (section~\ref{sec:cerebro_approach}). Independently,
 Cerebro also maintains a running history of cloud SDK response time 
 performance.  It uses
 QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} -- a forecasting methodology
@@ -212,14 +212,14 @@ notified by the platform when such SLAs require renegotiation.
 %it precludes the need for deployment, load testing, and
 %instrumentation of the web APIs being analyzed.
 
-We structure the rest of this paper as follows.
+We structure the rest of this section as follows.
 We first characterize the domain of 
 PaaS-hosted web APIs for GAE and AppScale 
-in Section~\ref{sec:approach}.   
-We then present the design of Cerebro in Section~\ref{sec:design}
+in Section~\ref{sec:cerebro_approach}.   
+We then present the design of Cerebro in Section~\ref{sec:cerebro_design}
 and overview our software architecture and prototype implementation.
 Next, we
 present our empirical evaluation of Cerebro in 
-Section~\ref{sec:results}.
-Finally,  we discuss related work (Section~\ref{sec:related_work}) and 
-conclude (Section~\ref{sec:conclusions}).
+Section~\ref{sec:cerebro_results}.
+Finally,  we discuss related work (Section~\ref{sec:cerebro_related_work}) and 
+conclude (Section~\ref{sec:cerebro_conclusions}).
