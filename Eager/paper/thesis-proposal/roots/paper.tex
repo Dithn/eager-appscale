@@ -110,7 +110,7 @@ various components of the APM, and provide our rationale and intuition behind ch
 \label{fig:paas_architecture}
 \end{figure}
 
-Figure~\ref{fig:paas_architecture} shows the key system layers of a typical PaaS cloud. Arrows indicate
+Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. Arrows indicate
 the flow of data and control in response to application requests.
 
 At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
@@ -134,19 +134,26 @@ for receiving all application requests, filtering them and routing them to an ap
 server instance for further execution. As the fronted server, it is the entry point for PaaS-deployed
 applications for all application clients.
 
-\subsection{Cloud APM Architecture}
-\subsubsection{Key Functions}
+Each of the above layers can span multiple processes, running over multiple physical or virtual
+machines. Therefore the execution of a single application request typically involves cooperation
+of multiple distributed processes and/or machines. In order to perform comprehensive monitoring
+and root cause analysis, we need to be able to monitor each of the above layers along with their
+enclosed components. Further we need to be able to trace the flow of data and control
+across different layers and components.
+
+\subsection{Roots Cloud APM Architecture}
+\subsubsection{Key Functions and Requirements}
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_functions}
-\caption{Key functions of the APM.}
+\caption{Key functions of the Roots APM.}
 \label{fig:apm_functions}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_layout}
-\caption{Deployment view of the APM functions.}
+\caption{Deployment view of the Roots APM functions.}
 \label{fig:apm_layout}
 \end{figure}
 
@@ -156,27 +163,33 @@ logical organization of these functions in the APM, and various tasks that fall 
 Figure~\ref{fig:apm_layout} shows a physical deployment view of the said functions. Arrows indicate
 the flow of information through the APM.
 
-Data collection is performed by various sensors and agents that instrument the applications and the
-core components of the PaaS cloud. While sensors are very primitive in their capability to monitor
+Data collection is performed by various sensors and agents that instrument the
+core components of the PaaS cloud.
+While sensors are very primitive in their capability to monitor
 a given component, an agent may intelligently adapt to changing conditions, making decisions on
-what information to capture and how often. Monitoring and instrumentation should be lightweight and as non-intrusive
+what information to capture and how often. 
+Monitoring and instrumentation should be lightweight and as non-intrusive
 as possible so their existence does not impose additional overhead 
-on the applications.
+on the applications. Specifically, we avoid instrumenting application code in Roots to prevent
+introducing an additional overhead to the application execution. 
 
 Data storage components should be capable of
 dealing with potentially very high volumes of data. The data must be organized and indexed
 to facilitate efficient retrieval, and replicated to maintain reliability and high availability. 
+Additionally, Roots should also support timely removal of old data (i.e. garbage collection)
+in an efficient and non-invasive manner.
 
 Data processing components should also be capable of processing large volumes of data in near real-time,
 while supporting a wide range of data analytics features such as filters, projections and aggregations. 
 They will employ various statistical and perhaps even machine learning methods to understand the
-data, detect anomalies and identify bottlenecks in the system.
+data, detect anomalies and identify bottlenecks in the system. Roots should also provide high-level
+abstractions so that new data analysis methods can be implemented when necessary.
 
 Data visualization layer mainly consists of graphical interfaces (dashboards) for displaying various
 metrics computed by the data processing components. Additionally it may also have APIs to export
 the calculated results and trigger alerts. 
 
-\subsubsection{APM Architecture and Integration with PaaS}
+\subsubsection{APM Architecture and Integration with PaaS Clouds}
 \begin{figure}
 \centering
 \includegraphics[scale=0.35]{apm_architecture}
@@ -199,9 +212,11 @@ connections, invalid access attempts and other errors.
 
 From the application server layer we intend to collect basic application logs as well as any other logs and 
 metrics that can be easily collected from the application runtime. This may include some process level
-metrics indicating the resource usage of the individual application instances. If deeper insight into the 
-application execution becomes necessary, more intrusive instrumentation can be introduced to the 
-application server (perhaps selectively or adaptively). 
+metrics indicating the resource usage of the individual application instances. Additionally Roots
+employs a collection per-application benchmarking processes, that periodically probes applications
+to measure their performance. These are lightweight, stateless processes managed by the Roots framework.
+Data collected by these processes will also be sent to data storage component, and will be available
+for analysis as per-application timeseries data.
 
 At the PaaS kernel layer we employ instrumentation to record information regarding all kernel invocations
 made by the applications. This instrumentation must be applied carefully as to not introduce a noticeable
@@ -222,42 +237,55 @@ Finally, at the lowest infrastructure level, we can collect information related 
 and their resource usage. We can also gather metrics on network usage by individual components which
 might be useful in a number of traffic engineering use cases. Where appropriate we can also scrape
 hypervisor and container manager logs to get an idea of how resources are allocated and released over
-time.
+time. However, we will not investigate data collected at this level in our immediate future work.
+To begin with we wish to perform anomaly detection at the frontend and application server levels, and conduct
+root cause analysis at the PaaS kernel level.
 
-To summarize, the types of services and resources that this APM will be able
-to monitor include the following. Moreover, our design of the data collection layer is abstract and thus easily extended to permit monitoring of new services and PaaS components as they become available in the future.
+To summarize, the types of services and resources that Roots will be able
+to monitor include the following. Moreover, our design of the Roots data collection 
+layer is abstract and thus easily extended to permit monitoring of new services 
+and PaaS components as they become available in the future.
 \begin{itemize}
 \item Cloud Infrastructure: 
-\begin{itemize}
-\item CPU, memory, disk, network
-\item Linux containers, virtual machines
-\end{itemize}
+  \begin{itemize}
+  \item CPU, memory, disk, network
+  \item Linux containers, virtual machines
+  \end{itemize}
 \item PaaS Kernel (including PaaS cloud SDK)
-\begin{itemize}
-\item Task queues, security components (user/developer tracking and authentication and authorization), enterprise service bus
-\item Data caches (memcache), datastores (key value, NoSQL), databases (fixed schema, SQL).
-\end{itemize}
+  \begin{itemize}
+  \item Task queues, security components (user/developer tracking and authentication and authorization)
+  \item Data caches, datastores (key value, NoSQL), databases (fixed schema, SQL).
+  \end{itemize}
 \item Application servers
-\begin{itemize}
-\item Per-language runtime systems
-\item Our APM will target the Java language
-\end{itemize}
+  \begin{itemize}
+  \item language-specific runtime systems
+  \end{itemize}
 \item Front-end components
-\begin{itemize}
-\item HTTP/s request serving 
-\item Load balancing and rate limiting components
+  \begin{itemize}
+  \item HTTP/S request serving 
+  \item Load balancing and rate limiting components
+  \end{itemize}
 \end{itemize}
-\end{itemize}
+
+To avoid introducing delays to the application request processing flow, we implement
+all Roots agents and sensors as asynchronous tasks. That is, none of them would
+suspend application request processing to report data to the data storage components.
+We make sure that all expensive I/O tasks related to data collection and storage is
+executed out of the request processing flow.
+In particular, all data is collected into log files or memory buffers that are local to the components being
+monitored. This locally collected (or buffered) data will be periodically sent
+to the data storage components of Roots using separate background tasks and batch communication
+operations.
 
 \subsubsection{Cross-layer Data Correlation}
 Previous subsection details how the APM collects useful monitoring data at each layer of the cloud
-stack. To make most out of the gathered data, and use them to perform complex analyses, we must be able to correlate data records collected at different layers of the PaaS. For example consider
+stack. To make most out of the gathered data, and use them to perform complex analyses, 
+we must be able to correlate data records collected at different layers of the PaaS. For example consider
 the execution of a single application request. This single event results in following data records at
 different layers of the cloud, which will be collected and stored by the APM as separate entities.
 
 \begin{itemize}
 \item A front-end server access log entry
-\item An application server log entry
 \item Zero or more application log entries
 \item Zero or more PaaS kernel invocation records
 \end{itemize}
@@ -272,6 +300,62 @@ This request identifier can be attached to HTTP requests as a header which is vi
 internal to the PaaS cloud. All data collecting agents can then be configured to record the request identifiers
 whenever recording an event. At the data processing layer APM can aggregate the data by request identifiers
 to efficiently group the related records.
+
+\subsubsection{Data Analysis}
+Roots data analysis layer uses two basic abstractions:
+\begin{itemize}
+\item Anomaly detector
+\item Anomaly handler
+\end{itemize}
+
+Anomaly detectors are processes that periodically analyze the data collected for
+each deployed application. Roots supports multiple detector implementations, where each implementation
+uses a different statistical method to look for performance anomalies. Detectors are configured
+at application level making is possible for different applications to use different anomaly 
+detectors. Roots also supports multiple concurrent anomaly detectors on the same application, which can be used
+to evaluate the efficiency of different detection strategies for any given application. Each
+anomaly detector has an execution schedule (e.g. run every 60 seonds), and a sliding window 
+(e.g. from 10 minutes ago to now)
+associated with it. The boundaries and the length of the window determines the time range
+of the data processed by the detector at any round of execution. Window is updated 
+after each round of execution.
+
+In addition to the various statistical anomaly detectors, Roots provides a special
+``path anomaly detector'', that can be configured on any application. This detector
+analyzes the sequences of PaaS SDK calls made by an application, and identifies the
+different paths of execution that has resulted due to application request processing.
+Each SDK call sequence corresponds to a path of execution through the application code.
+This detector computes the frequency distribution of different paths (i.e. how often each path
+gets executed), and checks how the distribution changes over time. By doing so the path anomaly
+detector can identify the occurance of new paths (a type of novelty detection), most
+frequently executed paths and
+significant changes in the path frequency distribution. Such changes are usually
+the results of changes in the nature of the application workload (e.g. from a readonly
+workload to a readwrite workload). This level of deep insight into application
+performance and workload is possible in Roots only due to its systemwide data
+collection and aggregation capabilities.
+
+When an anomaly detector finds an anomaly in application performance, it sends an event
+to a collection of anomaly handlers. The event encapsulates a unique anomaly identifier, 
+timestamp, application identifier and the source detector's sliding window that correspond to the
+anomaly. Anomaly handlers are configured globally (i.e. each handler
+receives events from all detectors), but they can decide to not handle certain types
+of anomaly events. Similar with detectors, Roots supports multiple anomaly handler
+implementations -- one for logging anomalies, one for sending alert emails, one
+for updating a dashboard etc. Additionally, Roots provides two special anomaly handler
+implementations.
+\begin{itemize}
+\item Workload change analyzer
+\item Root cause analyzer
+\end{itemize}
+
+The workload change analyzer analyzes the historical workload trends of the applications to
+check if a particular anomaly is correlated with a recent change in the workload.
+This is done by running a suite of changepoint detection algorithms on the workload
+data captured by the Roots data collection layer. The root cause analyzer evaluates
+the historical trend of PaaS SDK calls made by the application, and attempts to
+determine the most likely components of the cloud (in the PaaS kernel) that may have 
+attributed to the detected anomaly.
 
 \subsection{Implementation}
 \begin{figure}
