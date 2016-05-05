@@ -479,7 +479,8 @@ If the correlation drops below a certain threshold, an anomaly has been detected
 We will experiment with other detector implementations, and evaluate their effectiveness
 in various application monitoring scenarios. Similarly we plan to support a wide range
 of changepoint detection mechanisms in workload change analyzer. The basic Roots implementation
-will support binary segmentation, PELT method and Chen and Lui algorithm. We also wish
+will support binary segmentation, PELT method and Chen and Lui algorithm~\cite{killick2012optimal, cl93}. 
+We also wish
 to investigate the feasibility of using linear regression to model the relationship 
 between the time spent on PaaS SDK calls, and the total response time of application
 requests. That way we can use an existing relative importance metric for multiple
@@ -503,8 +504,9 @@ scale in the presence of very large number of applications, and request loads.
 Monitoring is a fundamental requirement for any large scale software installation.
 Over the decades many monitoring frameworks have been designed and implemented to
 support gathering and analyzing data to draw insights about system performance,
-availability and faults. We studied a number of such frameworks including Nagios,
-OpenNMS, Shinken and Zabbix. While all of them support data collection, storage,
+availability and faults. We studied a number of such frameworks including Nagios~\cite{nagios},
+OpenNMS~\cite{opennms}, Shinken~\cite{shinken} and Zabbix~\cite{zabbix}. 
+While all of them support data collection, storage,
 analysis and visualization to varying degrees, none of them are designed
 to operate as part of a cloud platform. Their data storage mechanisms (schema and query system),
 APIs and configuration model are targetted at monitoring servers or 
@@ -523,20 +525,27 @@ and visualization.
 
 Cloud platform monitoring is a rapidly evolving area with a number of 
 competitive third party solutions already in the market. Platforms such
-as New Relic, Datadog and Dynatrace provide hosted solutions with
+as New Relic~\cite{newrelic}, Datadog~\cite{datadog} and Dynatrace~\cite{dynatrace} 
+provide hosted solutions with
 agents for widely used cloud platforms such as Amazon AWS and Azure.
+They provide comprehensive support for monitoring software
+systems deployed on IaaS clouds, by planting agents on virtual
+machines running the user code.
 They are particularly strong in their ability to monitor transaction
-processing systems, and some of them even facilitate monitoring
-all the way down to code fragments and SQL queries in user applications.
+processing systems, and some of them even facilitate (via code instrumentation) 
+monitoring all the way down to code fragments and SQL queries in user applications.
 But since these are third party monitoring frameworks, they cannot
 monitor any parameters that are not exposed by the
-cloud providers. Therefore they are not able to trace request flow or 
-the cloud SDK calls
-efficiently like Roots does. As a result they cannot pinpoint potential
-performance bottlenecks in the underlying cloud platform.
+cloud providers. This makes their use particularly questionable in
+PaaS clouds.  
+Also these systems require additional configuration effort, and are expensive
+which might preclude their use in some scenarios. Roots operates as part
+of the PaaS cloud, does not require additional configuration or code
+instrumentation.
 
 Dautov, Paraskasis and Stannett showed that a cloud platform monitor
-can be organized as a sensor network. They argue that cloud platforms are 
+can be organized as a sensor network~\cite{Dautov2014}. 
+They argue that cloud platforms are 
 dynamic (continuous change and evolution), distributed, have a high-volume
 of applications and data, and heterogenous. To handle this complexity
 they propose instrumenting different components of the cloud with
@@ -549,7 +558,7 @@ detectors and anomaly handlers analyze the stored data in near
 real-time.
 
 Corradi et al designed and implemented a integrated monitoring
-framework for the CloudFoundry PaaS. This solution is organized
+framework for the CloudFoundry PaaS~\cite{6912627}. This solution is organized
 into two modules -- an availability monitor, and a performance
 monitor. The availability monitor uses periodic heartbeats to
 track the continuous operation of deployed applications. The
@@ -560,8 +569,9 @@ performance anomalies, it provides no support for workload change
 detection or root cause analysis.
 
 Magalhaes et al have designed a series of systems for detecting
-performance anomalies in web applications. Some of their work
-also addresses root cause analysis to some extent. They use
+performance anomalies in web applications~\cite{5598229}. Some of their work
+also addresses root cause analysis to some extent~\cite{Magalhaes:2011:RAP:1982185.1982234}. 
+They use
 various statistical methods (correlation analysis, dynamic time
 warping etc) to detect anomalies in observed application
 performance. Then they try to look for any correlations between
@@ -583,23 +593,29 @@ While this might be a reasonable assumption for classic web application
 deployments, in the cloud where the underlying platform is shared
 this is not a robust assumption. We therefore improve on their
 root cause analysis techniques by using regression models that are
-resistant to multicollinearity.
+resistant to multicollinearity~\cite{JSSv017i01}.
 
 Changepoint analysis plays a big role when it comes to detecting
 sudden changes in application performance and workload. This is a well
 understood area in statistics, and we use a number of wellknown 
-change point detection methods in the Roots implementation. 
+change point detection methods in the Roots implementation~\cite{killick2012optimal,cl93}. 
 In general, we strive to support multiple statistical methods for
 both anomaly detection, workload analysis and root cause analysis
 thereby making it possible to compare and contrast different techniques.
 
 Performance anomaly detection and bottleneck identification (PADBI) systems
-have been studied by a number of researchers in the past. However,
+have been studied by a number of researchers in the past~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
+However,
 the community agrees that the scale, multi-tenancy, complexity,
 dynamic behavior and the autonomy of cloud platforms make PADBI a
-difficult problem to solve. Roots is one step towards this direction,
+difficult problem to solve in the cloud. Roots is one step towards this direction,
 and by making monitoring an integrated part of the cloud we believe
-that we can deal with all the above challenges satisfactorily. 
+that we can deal with all the above challenges satisfactorily. In 
+particular, an integrated solution like Roots has the advantage of
+having full visibility into all the layers, components and interactions
+in the cloud platform. This enables Roots to trace application-level
+events and anomalies all the way down to the core services provided
+by the cloud platform.
 
 \subsection{Conclusions}
 As PaaS increased in popularity and use, the need 
