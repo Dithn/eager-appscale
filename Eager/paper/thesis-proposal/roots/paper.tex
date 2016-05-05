@@ -544,6 +544,19 @@ which might preclude their use in some scenarios. Roots operates as a part
 of the PaaS cloud, does not require additional configuration effort or code
 instrumentation.
 
+Anwar et al studied the monitoring facilities currently available in
+open source cloud platforms like OpenStack~\cite{Anwar:2015:ACM:2797022.2797039}. 
+They showed that these
+frameworks use globally configured sampling rates for collecting data,
+and provide poor support for policy-based monitoring. Roots attempts
+to address these limitations by making it possible to configure
+benchmarkers and anomaly detectors at application level. Each benchmarker 
+and detector can have its own sampling rate and monitoring policy.
+This allows fine tuning the monitoring support according to the
+needs of the individual user applications.
+Roots can also support changing sampling rates and monitoring
+policies for applications at runtime if needed.
+
 Dautov, Paraskasis and Stannett showed that a cloud platform monitor
 can be organized as a sensor network~\cite{Dautov2014}. 
 They argue that cloud platforms are 
