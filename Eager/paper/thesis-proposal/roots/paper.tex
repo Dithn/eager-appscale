@@ -28,7 +28,7 @@ do not have access to low-level data regarding the cloud thereby rendering them 
 of performing systemwide root cause analysis.
 
 Moreover, performance monitoring for cloud applications needs to be highly customizable. Different
-applications have different monitoring requirements in terms of data gathering frequency, 
+applications have different monitoring requirements in terms of data gathering frequency (sampling rate), 
 length of the history to consider when performing statistical analysis, and the performance 
 SLAs to maintain over time and check for violations. It should also be possible to easily extend
 cloud application monitoring frameworks with
@@ -632,25 +632,42 @@ events and anomalies all the way down to the core services provided
 by the cloud platform.
 
 \subsection{Conclusions}
-As PaaS increased in popularity and use, the need 
-for technologies to monitor and analyze the performance and behavior of
-deployed applications has also grown. 
-However, most PaaS clouds available today do not provide adequate support
-for such analysis.
-Therefore, we propose an application platform monitoring system that 
-is able to take advantage of PaaS cloud features, but that is portable
-across them.
+As more and more applications are deployed in cloud platforms, the need
+for comprehensive performance monitoring and root cause analysis 
+in cloud environments continues to grow in significance. However,
+cloud platforms are large, complex systems with high levels of
+programming abstractions. This makes it challenging to collect,
+correlate and analyze data in a way that is amenable to detecting
+performance anomalies and diagnosing bottlenecks. The existing
+monitoring frameworks for cloud platforms are not integrated
+well into the cloud platforms, which makes them incapable of
+performing full stack monitoring, and diagnosing problems
+outside user code in the core components of the cloud platform.
 
-To provide comprehensive full stack monitoring and analytics, 
-the APM we propose provides four major functions:
-data collecting, data storage, data processing, and data visualization. 
-We describe the necessary organization of
-these functions, and illustrate how these functions work as 
-a component in the system. Also, by providing the
-architecture of typical PaaS and proposed APM, we illustrate how these functions can be built as components that
-make APM can be easily integrated with any PaaS.
+We propose Roots, a monitoring framework built into PaaS clouds
+that can monitor all aspects of the cloud platform from the top
+level front-end servers to PaaS kernel services of the lowest level.
+Moreover, Roots supports correlating events that occur at different
+levels of the cloud platform in response to user requests. This
+in turns enables tracing the flow of user requests through the
+cloud stack, thereby facilitating root cause analysis in a very
+fine-grained manner. Roots is also highly extensible, and
+encourages configuration at the granularity of individual
+user applications. 
 
-After investigating popular application performance data collection and analysis tools, we choose ElasticSearch for data management.
-ElasticSearch provides powerful, easy to use indexing features and scalability. We also choose to collect data via custom agents and Logstash.
-Logstash supports a variety of standard log formants,
-and is easy to customize the configuration to collect a variety of key data.
+Roots collects data efficiently using a 
+collection of passive sensors/agents, and avoids instrumenting
+user code. The data analysis layer of Roots is organized as 
+self-contained pods of lightweight processes. Pods can be
+deployed in a distributed manner (with sharding), and is
+amenable to replication thereby providing high levels of
+scalability and availability. 
+
+We are currently in the process of implementing a Roots
+prototype for the AppScale open source PaaS cloud. We
+use ElasticSearch as the primary data storage component in
+our implementation. We plan to evaluate the effectiveness
+of Roots using a wide range anomaly detection and root
+cause analysis mechanisms. We also plan on testing the
+overhaed and scalability of Roots using real world applications
+and workloads.
