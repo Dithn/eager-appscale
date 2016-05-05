@@ -530,17 +530,18 @@ provide hosted solutions with
 agents for widely used cloud platforms such as Amazon AWS and Azure.
 They provide comprehensive support for monitoring software
 systems deployed on IaaS clouds, by planting agents on virtual
-machines running the user code.
+machines that execute the user code.
 They are particularly strong in their ability to monitor transaction
 processing systems, and some of them even facilitate (via code instrumentation) 
-monitoring all the way down to code fragments and SQL queries in user applications.
+tracing observed events all the way down to code fragments and 
+SQL queries in user applications.
 But since these are third party monitoring frameworks, they cannot
 monitor any parameters that are not exposed by the
-cloud providers. This makes their use particularly questionable in
-PaaS clouds.  
+cloud providers. This inhibits their use in PaaS clouds, that hide
+many details of the cloud platform and the application runtime.  
 Also these systems require additional configuration effort, and are expensive
-which might preclude their use in some scenarios. Roots operates as part
-of the PaaS cloud, does not require additional configuration or code
+which might preclude their use in some scenarios. Roots operates as a part
+of the PaaS cloud, does not require additional configuration effort or code
 instrumentation.
 
 Dautov, Paraskasis and Stannett showed that a cloud platform monitor
@@ -580,7 +581,7 @@ they attempt to perform root cause analysis. However, their
 solution requires instrumenting application code, so that
 backend API calls (e.g. database calls) can be intercepted and timed. To further
 enable this they also require implementing the applications 
-using an aspect-oriented programming (AOP) framework. Provided
+using an aspect-oriented programming (AOP) framework. Provided that
 the application meets these requirements, their system is able to
 pinpoint the bottleneck backend API calls using a linear regression
 model. We incorporate some of their statistical methods into Roots,
@@ -591,14 +592,14 @@ backend API call performance is independent, and shows no correlations
 (i.e. no multicollinearity).
 While this might be a reasonable assumption for classic web application
 deployments, in the cloud where the underlying platform is shared
-this is not a robust assumption. We therefore improve on their
-root cause analysis techniques by using regression models that are
+this assumption may not always hold. We therefore improve on their
+root cause analysis technique by using regression models that are
 resistant to multicollinearity~\cite{JSSv017i01}.
 
 Changepoint analysis plays a big role when it comes to detecting
 sudden changes in application performance and workload. This is a well
 understood area in statistics, and we use a number of wellknown 
-change point detection methods in the Roots implementation~\cite{killick2012optimal,cl93}. 
+change point detection methods in the Roots implementation~\cite{killick2012optimal,cl93,bereznay2006did}. 
 In general, we strive to support multiple statistical methods for
 both anomaly detection, workload analysis and root cause analysis
 thereby making it possible to compare and contrast different techniques.
