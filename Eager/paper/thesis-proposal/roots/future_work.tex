@@ -1,0 +1,47 @@
+We are currently in the process of implementing the proposed Roots APM for the open
+source AppScale private cloud. Most of the data collection agents and sensors are already
+in place, and we have been able to successfully integrate ElasticSearch into
+the AppScale cloud platform. Some minimal changes to the AppScale cloud SDK implementation were needed to
+support collecting cloud SDK call data, and reporting them to ElasticSearch efficiently.
+
+AppScale uses Nginx as the frontend server all incoming user requests. We have been
+successful at configuring Nginx to tag all user requests with unique identifiers for cross-layer
+data correlation. The tags inserted by Nginx are used by other internal sensors and agents 
+in the PaaS when reporting events, and we are able to execute queries against ElasticSearch
+that aggregate events by request identifiers.
+ 
+The simplest anomaly detector we wish to provide uses response time measurements gathered by periodic
+application benchmarkers. These measurements are used to compute the level of SLA satisfaction
+with respect to a predefined SLA. For example, assume a predefined application SLA which states
+at least 95\% of the application requests should be processed under 50ms. Then for some fixed-length
+of the sliding window, Roots can compute the proportion of benchmark results under 50ms. If this
+proportion is less than 95\%, the detector can trigger an anomaly event.
+
+Another anomaly detector will periodically compute the correlation between average response time and
+the workload (number of requests per unit time) of the applications. Past work has employed
+statistical tools such as Pearson's R and dynamic time warping to compute this correlation.
+If the correlation drops below a certain threshold, an anomaly has been detected.
+
+We will experiment with other detector implementations, and evaluate their effectiveness
+in various application monitoring scenarios. Similarly we plan to support a wide range
+of changepoint detection mechanisms in workload change analyzer. The basic Roots implementation
+will support binary segmentation, PELT method and Chen and Lui algorithm~\cite{killick2012optimal, cl93}. 
+We also wish
+to investigate the feasibility of using linear regression to model the relationship 
+between the time spent on PaaS SDK calls, and the total response time of application
+requests. That way we can use an existing relative importance metric for multiple
+linear regression for root cause analysis.
+
+We plan to conduct a wide range of experiments using our Roots implementation for the
+AppScale cloud. We will use real world App Engine applications where possible (AppScale
+is API compatible with App Engine, and hence supports the same applications). To
+further evaluate the effectiveness of our design choices, we will also test with
+artificial applications that are specifically programmed to exhibit performance
+anomalies in a deterministic way. This way we can verify whether Roots is
+capable of detecting performance anomalies.
+We will also inject faults into the underlying cloud platform (the PaaS kernel),
+and test whether Roots can detect the resulting anomalies, and trace them to
+exact fault injection point.
+
+We will also evaluate the overhead of Roots, and report on how well Roots can
+scale in the presence of very large number of applications, and request loads.
