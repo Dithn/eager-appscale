@@ -275,7 +275,8 @@ executed out of the request processing flow.
 In particular, all data is collected into log files or memory buffers that are local to the components being
 monitored. This locally collected (or buffered) data will be periodically sent
 to the data storage components of Roots using separate background tasks and batch communication
-operations.
+operations. Also special care is taken to isolate the activities in the cloud from potential
+faults and failures in the Roots data collection or storage layers. 
 
 \subsubsection{Cross-layer Data Correlation}
 Previous subsection details how the APM collects useful monitoring data at each layer of the cloud
@@ -331,7 +332,8 @@ detector can identify the occurance of new paths (a type of novelty detection), 
 frequently executed paths and
 significant changes in the path frequency distribution. Such changes are usually
 the results of changes in the nature of the application workload (e.g. from a readonly
-workload to a readwrite workload). This level of deep insight into application
+workload to a readwrite workload in a data management application). 
+This level of deep insight into application
 performance and workload is possible in Roots only due to its systemwide data
 collection and aggregation capabilities.
 
@@ -355,7 +357,44 @@ This is done by running a suite of changepoint detection algorithms on the workl
 data captured by the Roots data collection layer. The root cause analyzer evaluates
 the historical trend of PaaS SDK calls made by the application, and attempts to
 determine the most likely components of the cloud (in the PaaS kernel) that may have 
-attributed to the detected anomaly.
+attributed to a detected anomaly.
+
+The extensibility of Roots is primarily achieved through the abstractions of anomaly
+detectors and handlers. Roots makes it simple to implement new detectors and handlers,
+and plug them into the system. Both the detectors and the handlers are executed
+as lightweight processes that do not interfere with the rest of the processes in
+the cloud platform. Therefore failures in detectors and handlers have no impact
+on the cloud platform or the deployed applications.
+
+\subsubsection{Roots Process Management}
+Most data collection activities in Roots can be treated as passive -- i.e. they
+happen automatically as the applications receive and process requests in the cloud
+platform. They do not require explicit scheduling or management. In contrast,
+application benchmarking and data analysis are active processes that require
+explicit scheduling and management.  This is achieved by grouping benchmarking
+and data analysis processes into units called Roots pods. 
+
+Each Roots pod is responsible for starting and maintainig a preconfigured set of
+benchmarkers and data analysis processes (i.e. anomaly detectors and handlers). 
+Each of these processes are light enough, so as to pack a large number of them
+into a single pod. Pods are self-contained entities, and there is no inter-communication
+between pods. Processes in a pod can efficiently communicate with each other 
+(using shared memory), and call out to the Roots data storage to retrieve 
+collected performance data for analysis. This enables starting and stopping 
+Roots pods with minimal impact on the overall monitoring system. Furthermore, pods
+can be replicated for high availability, and application load can be distributed
+among multiple pods for scalability. For example, in a cloud platform with
+1 million deployed applications, 100 pods can be used with each pod responsible
+for running benchmarkers and analyzers for 10,000 applications.
+
+To automate the process of managing pods, they can be tied into the core
+process management framework of the PaaS cloud. That way whenever the cloud
+platform initializes, a collection of pods can be started automatically.
+Application deployment process of the PaaS cloud can be easily augmented
+to register each new application with one of the available pods, so that the
+benchmarkers and anomaly detectors can start running on the application.
+Moreover, pods can be moved around or restarted as needed in response
+to errors and autoscaling events that occur in the cloud platform.
 
 \subsection{Implementation}
 \begin{figure}
