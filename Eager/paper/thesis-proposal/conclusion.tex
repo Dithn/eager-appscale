@@ -60,7 +60,8 @@ The framework should support collecting
  and algorithms to analyze the gathered data in near realtime.
 \end{enumerate}
 
-We design and implement EAGER~\cite{6903538, eager-fop15} as a means of achieving the first goal. EAGER is a lightweight
+We design and implement EAGER~\cite{6903538, eager-fop15} as a means of 
+achieving the first goal. EAGER is a lightweight
 governance framework built into PaaS clouds. It supports defining policies using a simple syntax
 based on the popular Python programming language. EAGER promotes deployment-time
 policy enforcement, where policies are enforced on user applications (and APIs) every time
@@ -74,7 +75,8 @@ handle thousands of user applications and policies. Overall, we show that integr
 for cloud-hosted applications is not only feasible, but also can be implemented with very
 little overhead and effort.
 
-To achieve the second goal of formulating performance SLAs, we design and implement Cerebro --
+To achieve the second goal of formulating performance SLAs, we design and implement 
+Cerebro~\cite{Jayathilaka:2015:RTS:2806777.2806842} --
 a system that can predict bounds on the response time of web applications developed for PaaS clouds.
 Cerebro is able to analyze a given web application, and determine a bound on its response time without
 subjecting the application to any testing or runtime instrumentation. This is achieved by a mechanism
@@ -89,4 +91,29 @@ and AppScale private cloud. Our experiments with real world PaaS applications sh
 is able to determine accurate performance SLAs that closely reflect the actual response time
 of the applications. Furthermore, we show that Cerebro predicted SLAs are not easily affected by
 the dynamic nature of the cloud platform, and they remain valid for long durations. More specifically, 
-Cerebro predictions remain correct for more than 12 days on average. 
+Cerebro predictions remain correct for more than 12 days on average~\cite{7396174}. 
+
+Finally, we design and implement Roots to address our third goal. Roots is a performance monitoring and root
+cause analysis system built into PaaS clouds. It collects data from all the different layers of the
+PaaS stack -- from load balancers to low level PaaS kernel service implementations. However,
+it does so efficiently, without instrumenting user code and without introducing a significant
+overhead to the application request processing flow. Data gathered at different layers can
+be correlated easily thereby enabling tracing of application requests through the PaaS stack.
+Roots is also extensible in the sense that 
+any number of statistical analysis methods can be incorporated into Roots for performance
+anomaly detection and diagnosis. Furthermore, it facilitates configuring monitoring requirements
+at the granularity of user applications, thereby allowing different applications to be monitored
+and analyzed differently. Roots also supports executing multiple different analysis methods on the same
+application concurrently. When an anomaly has been detected, Roots is able to determine if
+the anomaly was caused by a change in the application workload or due to a performance 
+bug in one of the underlying PaaS kernel services. A low overhead, integrated, full stack monitoring
+framework of this nature is a novel contribution in the cloud space (especially with respect
+to PaaS clouds, which abstract out many runtime details from the user). 
+
+We have already made much progress with respect to the first and second goals discussed above.
+We have implemented significant parts of EAGER and Cerebro, and demonstrated various results
+and contributions in our past work. Roots is largely an ongoing project, and much of its implementation
+and experimentation is left for future work. We plan to get an initial set of results on Roots out
+by the Fall of 2016. Then we plan on working towards consolidating all our research contributions
+into a single thesis focused on governance for cloud-hosted applications, and defending it
+by the end of 2016. 
