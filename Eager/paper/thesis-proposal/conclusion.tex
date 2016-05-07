@@ -1,14 +1,14 @@
-Cloud computing is a way of delivering infrastructure resources, programming platforms, and software
+Cloud computing delivers IT infrastructure resources, programming platforms, and software
 applications as shared utility services. Enterprises and developers increasingly deploy applications 
 on cloud platforms due to the scalability, high availability and many other
-productivity enhancing features the cloud is able to offer. Cloud-hosted applications 
+productivity enhancing features of the cloud. Cloud-hosted applications 
 depend on the core services provided
 by the cloud platform for resources. In some cases they use the services provided by the cloud to implement most of
 the application functionality as well (e.g. PaaS-hosted applications). 
 Cloud-hosted applications are typically
 accessed over the Internet, via the web APIs exposed by the applications.
 
-As the number of applications hosted in cloud platforms continues to increase, the need for enforcing
+As the applications hosted in cloud platforms continue to increase in number, the need for enforcing
 governance on them becomes accentuated. We define governance as the mechanism by which the 
 acceptable operational parameters are specified and maintained for a cloud-hosted application.
 Governance enables specifying the acceptable
@@ -25,14 +25,51 @@ and lack of performance debugging support.
 
 This proposal is aimed at exploring the feasibility of efficiently enforcing governance on cloud-hosted
 applications, and evaluating the effectiveness of governance as a means of achieving administrative
-conformance, developer best practices and performance objectives. Considering the scale of
-today's cloud platforms we wish to automate much of the governance tasks in the cloud through
+conformance, developer best practices and performance objectives in the cloud. Considering the scale of
+today's cloud platforms in terms of the number of users and the applications, 
+we wish to automate much of the governance tasks through
 automated analysis and diagnostics. To achieve efficiency, we put more emphasis on deployment-time
-policy enforcement and non-invasive passive observation of cloud platforms, thereby keeping the 
+policy enforcement and non-invasive passive monitoring of cloud platforms, thereby keeping the 
 governance overhead
 to a minimum. We avoid run-time enforcement and invasive instrumentation of cloud applications 
 as much as possible. We also focus on building governance systems that are deeply integrated with
-the cloud platforms. This enables using the existing scalability and high availability features of the cloud
-to provide an efficient governance solution that can control all application events in a very fine-grained
+the cloud platforms themselves. This enables using the existing scalability and high availability features of the cloud
+to provide an efficient governance solution that can control all application events in a fine-grained
 manner. Furthermore, such integrated solutions relieve the users from having to maintain and pay
-for an additional, external governance solution.
+for additional, external governance and monitoring solutions.
+
+With the goal of efficient, integrated and automated governance for cloud-hosted applications in mind,
+we propose the following three research goals.
+\begin{enumerate}
+\item Design and implement a scalable, low-overhead governance framework for cloud platforms,
+complete with a policy specification language and a policy engine. The governance framework should be
+integrated into the cloud platforms, and must
+strive to keep the runtime overhead of the user applications to a minimum while enforcing
+common developer best practices and other organizational conventions.
+\item Design and implement a methodology for formulating performance SLAs for cloud-hosted 
+ web applications, without
+ subjecting them to extensive performance testing or instrumentation. The formulated
+ performance SLAs must be correct, tight and durable in the face of changing
+ conditions of the cloud.
+ \item Design and implement a scalable cloud application monitoring framework for detecting
+application performance anomalies, SLA violations and diagnosing potential root causes. 
+The framework should support collecting
+ a wide range of performance and usage data from the user applications and the underlying cloud platform
+ without instrumenting the user code, and without introducing significant runtime overheads.
+ It should further facilitate employing a number of new and existing statistical methods
+ and algorithms to analyze the gathered data in near realtime.
+\end{enumerate}
+
+We design and implement EAGER~\cite{eager-fop15} as a means of achieving the first goal. EAGER is a lightweight
+governance framework built into PaaS clouds. It supports defining policies using a simple syntax
+based on the popular Python programming language. EAGER promotes deployment-time
+policy enforcement, where policies are enforced on user applications (and APIs) every time
+an application is uploaded to the cloud. By carrying out policy validations at
+application deployment-time, and refusing to deploy applications that violate policies,
+ we provide fail-fast semantics which ensure that deployed applications are fully policy compliant. 
+EAGER architecture also provides the necessary provisions for facilitating run-time policy
+enforcement (through an API gateway proxy) if necessary. Our experimental results show
+that EAGER validation and policy enforcement overhead is very small, and it scales well to
+handle thousands of user applications and policies. Overall, we show that integrated governance
+for cloud-hosted applications is not only feasible, but also can be implemented with very
+little overhead and effort.
