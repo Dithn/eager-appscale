@@ -60,7 +60,7 @@ The framework should support collecting
  and algorithms to analyze the gathered data in near realtime.
 \end{enumerate}
 
-We design and implement EAGER~\cite{eager-fop15} as a means of achieving the first goal. EAGER is a lightweight
+We design and implement EAGER~\cite{6903538, eager-fop15} as a means of achieving the first goal. EAGER is a lightweight
 governance framework built into PaaS clouds. It supports defining policies using a simple syntax
 based on the popular Python programming language. EAGER promotes deployment-time
 policy enforcement, where policies are enforced on user applications (and APIs) every time
@@ -73,3 +73,20 @@ that EAGER validation and policy enforcement overhead is very small, and it scal
 handle thousands of user applications and policies. Overall, we show that integrated governance
 for cloud-hosted applications is not only feasible, but also can be implemented with very
 little overhead and effort.
+
+To achieve the second goal of formulating performance SLAs, we design and implement Cerebro --
+a system that can predict bounds on the response time of web applications developed for PaaS clouds.
+Cerebro is able to analyze a given web application, and determine a bound on its response time without
+subjecting the application to any testing or runtime instrumentation. This is achieved by a mechanism
+that combines static analysis of application source code with runtime monitoring of the underlying
+cloud platform (PaaS SDK to be specific). Cerebro is fast, can be invoked at the deployment-time 
+of an application, and does not require any human input or intervention. 
+The bounds predicted by Cerebro can be used as statistical guarantees (with well defined correctness
+probabilities) to form performance SLAs. Cerebro's SLA prediction capability, coupled with a policy
+enforcement framework such as EAGER, can facilitate specification and enforcement of performance-related
+policies for cloud-hosted applications. We implement Cerebro for Google App Engine public cloud
+and AppScale private cloud. Our experiments with real world PaaS applications show that Cerebro
+is able to determine accurate performance SLAs that closely reflect the actual response time
+of the applications. Furthermore, we show that Cerebro predicted SLAs are not easily affected by
+the dynamic nature of the cloud platform, and they remain valid for long durations. More specifically, 
+Cerebro predictions remain correct for more than 12 days on average. 
