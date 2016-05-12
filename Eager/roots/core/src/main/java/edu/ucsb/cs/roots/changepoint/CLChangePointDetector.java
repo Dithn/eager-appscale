@@ -1,4 +1,4 @@
-package edu.ucsb.cs.roots.workload;
+package edu.ucsb.cs.roots.changepoint;
 
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.rlang.RService;

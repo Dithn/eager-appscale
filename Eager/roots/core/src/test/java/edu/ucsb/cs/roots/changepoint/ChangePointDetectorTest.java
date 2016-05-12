@@ -1,4 +1,4 @@
-package edu.ucsb.cs.roots.workload;
+package edu.ucsb.cs.roots.changepoint;
 
 import junit.framework.Assert;
 import org.junit.Test;

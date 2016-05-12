@@ -8,6 +8,7 @@ import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.anomaly.AnomalyLog;
+import edu.ucsb.cs.roots.changepoint.*;
 import edu.ucsb.cs.roots.data.DataStore;
 
 import java.util.Arrays;
