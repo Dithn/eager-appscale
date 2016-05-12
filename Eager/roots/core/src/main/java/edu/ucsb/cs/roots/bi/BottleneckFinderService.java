@@ -76,7 +76,7 @@ public final class BottleneckFinderService extends ManagedService {
 
         long period = anomaly.getPeriodInSeconds() * 1000;
         Map<Long,List<ApplicationRequest>> groupedByTime = requests.stream()
-                .collect(Collectors.groupingBy(r -> (r.getTimestamp() - start) / period,
+                .collect(Collectors.groupingBy(r -> groupByTime(r, start, period),
                         TreeMap::new, Collectors.toList()));
         try {
             ListMultimap<Long,RelativeImportance> results = computeRankings(apiCalls, groupedByTime);
@@ -97,6 +97,11 @@ public final class BottleneckFinderService extends ManagedService {
         } catch (Exception e) {
             anomalyLog.error(anomaly, "Error while computing rankings", e);
         }
+    }
+
+    private long groupByTime(ApplicationRequest r, long start, long period) {
+        long index = (r.getTimestamp() - start) / period;
+        return index * period + start;
     }
 
     private ListMultimap<Long,RelativeImportance> computeRankings(
