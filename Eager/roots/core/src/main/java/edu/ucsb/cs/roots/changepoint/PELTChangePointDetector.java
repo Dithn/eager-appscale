@@ -12,7 +12,7 @@ public class PELTChangePointDetector extends RChangePointDetector {
     }
 
     @Override
-    public int[] computeChangePoints(double[] data) throws Exception {
+    public final int[] computeChangePoints(double[] data) throws Exception {
         RClient r = rService.borrow();
         try {
             r.assign("x", data);
