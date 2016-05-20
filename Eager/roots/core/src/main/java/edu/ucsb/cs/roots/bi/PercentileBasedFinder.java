@@ -84,6 +84,9 @@ public class PercentileBasedFinder extends BottleneckFinder {
             stats.get(apiCalls.size()).addValue(r.getResponseTime() - total);
         });
 
+        if (log.isDebugEnabled()) {
+            log.debug("Percentiles computed using {} data points", stats.get(0).getN());
+        }
         return stats.stream().mapToDouble(s -> s.getPercentile(percentile)).toArray();
     }
 
