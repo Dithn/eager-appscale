@@ -5,8 +5,12 @@ import com.google.common.eventbus.Subscribe;
 import edu.ucsb.cs.roots.ManagedService;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class BottleneckFinderService extends ManagedService {
+
+    private static final Logger log = LoggerFactory.getLogger(BottleneckFinderService.class);
 
     public static final String BI_FINDERS = "bi.finders";
     public static final String BI_PERCENTILE = "bi.percentile";
@@ -41,7 +45,11 @@ public final class BottleneckFinderService extends ManagedService {
         }
 
         for (BottleneckFinder finder : findersBuilder.build()) {
-            finder.analyze(anomaly);
+            try {
+                finder.analyze(anomaly);
+            } catch (Exception e) {
+                log.error("Error during bottleneck identification", e);
+            }
         }
     }
 
