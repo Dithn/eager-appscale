@@ -56,7 +56,8 @@ public class PercentileBasedFinder extends BottleneckFinder {
             int timeElapsed = r.getApiCalls().get(i).getTimeElapsed();
             total += timeElapsed;
             if (timeElapsed > percentiles[i]) {
-                anomalyLog.info(anomaly, "Anomalous API call execution in path {} at {}: {} [> {} ({}p)]",
+                anomalyLog.info(
+                        anomaly, "Anomalous API call execution in path {} at {}: {} [> {} ({}p)]",
                         path, r.getApiCalls().get(i).name(), timeElapsed, percentiles[i],
                         percentile);
             }
@@ -64,7 +65,8 @@ public class PercentileBasedFinder extends BottleneckFinder {
 
         int localExecTime = r.getResponseTime() - total;
         if (localExecTime > percentiles[apiCalls]) {
-            anomalyLog.info(anomaly, "Anomalous local execution in path {} at LOCAL: {} [> {} ({}p)]",
+            anomalyLog.info(
+                    anomaly, "Anomalous local execution in path {} at LOCAL: {} [> {} ({}p)]",
                     path, localExecTime, percentiles[apiCalls], percentile);
         }
     }
