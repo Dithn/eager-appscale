@@ -9,6 +9,7 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,6 +46,9 @@ public class PercentileBasedFinder extends BottleneckFinder {
     private void analyze(Anomaly anomaly, String path, List<ApplicationRequest> requests) {
         ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
         double[] percentiles = computePercentiles(anomaly, requests);
+        if (log.isDebugEnabled()) {
+            log.debug("Percentiles: {}", Arrays.toString(percentiles));
+        }
         requests.stream().filter(r -> r.getTimestamp() >= anomaly.getStart())
                 .forEach(r -> checkForAnomalies(r, apiCalls.size(), percentiles, anomaly, path));
     }
