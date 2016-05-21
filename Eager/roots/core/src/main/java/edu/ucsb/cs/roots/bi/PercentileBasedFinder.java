@@ -8,11 +8,13 @@ import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -22,7 +24,7 @@ public class PercentileBasedFinder extends BottleneckFinder {
 
     public PercentileBasedFinder(RootsEnvironment environment, double percentile) {
         super(environment);
-        checkArgument(percentile > 0 && percentile < 1, "Percentile must be in the interval (0,1)");
+        checkArgument(percentile > 0 && percentile < 100, "Percentile must be in the interval (0,100)");
         this.percentile = percentile;
     }
 
@@ -79,13 +81,18 @@ public class PercentileBasedFinder extends BottleneckFinder {
         ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
         ImmutableList<DescriptiveStatistics> stats = initStatistics(apiCalls);
         requests.stream().filter(r -> r.getTimestamp() < anomaly.getStart()).forEach(r -> {
-            int total = 0;
+            int[] timeValues = new int[apiCalls.size() + 1];
             for (int i = 0; i < apiCalls.size(); i++) {
-                int timeElapsed = r.getApiCalls().get(i).getTimeElapsed();
-                stats.get(i).addValue(timeElapsed);
-                total += timeElapsed;
+                timeValues[i] = r.getApiCalls().get(i).getTimeElapsed();
             }
-            stats.get(apiCalls.size()).addValue(r.getResponseTime() - total);
+            timeValues[apiCalls.size()] = r.getResponseTime() - IntStream.of(timeValues).sum();
+            if (log.isDebugEnabled()) {
+                log.debug("Response time vector: {}", Arrays.toString(timeValues));
+            }
+
+            for (int i = 0; i < timeValues.length; i++) {
+                stats.get(i).addValue(timeValues[i]);
+            }
         });
 
         if (log.isDebugEnabled()) {
@@ -98,7 +105,10 @@ public class PercentileBasedFinder extends BottleneckFinder {
         int size = apiCalls.size() + 1;
         ImmutableList.Builder<DescriptiveStatistics> stats = ImmutableList.builder();
         for (int i = 0; i < size; i++) {
-            stats.add(new DescriptiveStatistics());
+            DescriptiveStatistics statistics = new DescriptiveStatistics();
+            statistics.setPercentileImpl(new Percentile()
+                    .withEstimationType(Percentile.EstimationType.R_7));
+            stats.add(statistics);
         }
         return stats.build();
     }

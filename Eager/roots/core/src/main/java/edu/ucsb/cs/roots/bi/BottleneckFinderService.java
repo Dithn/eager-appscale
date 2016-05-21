@@ -59,7 +59,7 @@ public final class BottleneckFinderService extends ManagedService {
         } else if ("Percentile".equals(type)) {
             String percentile = anomaly.getDetectorProperty(BI_PERCENTILE, null);
             if (percentile == null) {
-                percentile = environment.getProperty(BI_PERCENTILE, "0.95");
+                percentile = environment.getProperty(BI_PERCENTILE, "95.0");
             }
             return new PercentileBasedFinder(environment, Double.parseDouble(percentile));
         } else {
