@@ -12,6 +12,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class PercentileBasedFinder extends BottleneckFinder {
+public final class PercentileBasedFinder extends BottleneckFinder {
 
     private final double percentile;
 
@@ -47,7 +48,10 @@ public class PercentileBasedFinder extends BottleneckFinder {
     }
 
     private void analyze(Anomaly anomaly, String path, List<ApplicationRequest> requests) {
-        ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
+        if (log.isDebugEnabled()) {
+            log.debug("Analyzing program path: {} ({})", path, path.hashCode());
+        }
+
         ImmutableList<ApplicationRequest> oldRequests = requests.stream()
                 .filter(r -> r.getTimestamp() < anomaly.getStart())
                 .collect(ImmutableCollectors.toList());
@@ -57,45 +61,55 @@ public class PercentileBasedFinder extends BottleneckFinder {
         }
         double[] percentiles = computePercentiles(oldRequests);
         if (log.isDebugEnabled()) {
-            log.debug("Percentiles: {}", Arrays.toString(percentiles));
+            log.debug("Percentiles computed using {} data points: {}",
+                    Arrays.toString(percentiles), oldRequests.size());
         }
         requests.stream().filter(r -> r.getTimestamp() >= anomaly.getStart())
-                .forEach(r -> checkForAnomalies(r, apiCalls.size(), percentiles, anomaly, path));
+                .forEach(r -> checkForAnomalies(r, percentiles, anomaly, path));
     }
 
-    private void checkForAnomalies(ApplicationRequest r, int apiCalls, double[] percentiles,
-                                   Anomaly anomaly, String path) {
-        int total = 0;
+    private int[] getResponseTimeVector(ApplicationRequest r) {
+        int apiCalls = r.getApiCalls().size();
+        int[] timeValues = new int[apiCalls + 1];
         for (int i = 0; i < apiCalls; i++) {
-            int timeElapsed = r.getApiCalls().get(i).getTimeElapsed();
-            total += timeElapsed;
-            if (timeElapsed > percentiles[i]) {
+            timeValues[i] = r.getApiCalls().get(i).getTimeElapsed();
+        }
+        timeValues[apiCalls] = r.getResponseTime() - IntStream.of(timeValues).sum();
+        return timeValues;
+    }
+
+    private void checkForAnomalies(ApplicationRequest r, double[] percentiles,
+                                   Anomaly anomaly, String path) {
+        int[] timeValues = getResponseTimeVector(r);
+        if (log.isDebugEnabled()) {
+            log.debug("Response time vector (check): {}", Arrays.toString(timeValues));
+        }
+
+        int apiCalls = r.getApiCalls().size();
+        for (int i = 0; i < apiCalls; i++) {
+            if (timeValues[i] > percentiles[i]) {
                 anomalyLog.info(
-                        anomaly, "Anomalous API call execution in path {} at {}: {} [> {} ({}p)]",
-                        path, r.getApiCalls().get(i).name(), timeElapsed, percentiles[i],
-                        percentile);
+                        anomaly, "Anomalous API call execution in path {} at {} in {}: {} [> {} ({}p)]",
+                        path.hashCode(), new Date(r.getTimestamp()), r.getApiCalls().get(i).name(),
+                        timeValues[i], percentiles[i], percentile);
             }
         }
 
-        int localExecTime = r.getResponseTime() - total;
-        if (localExecTime > percentiles[apiCalls]) {
+        if (timeValues[apiCalls] > percentiles[apiCalls]) {
             anomalyLog.info(
-                    anomaly, "Anomalous local execution in path {} at LOCAL: {} [> {} ({}p)]",
-                    path, localExecTime, percentiles[apiCalls], percentile);
+                    anomaly, "Anomalous local execution in path {} at {} in LOCAL: {} [> {} ({}p)]",
+                    path.hashCode(), new Date(r.getTimestamp()), timeValues[apiCalls],
+                    percentiles[apiCalls], percentile);
         }
     }
 
     private double[] computePercentiles(List<ApplicationRequest> requests) {
         ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
-        ImmutableList<DescriptiveStatistics> stats = initStatistics(apiCalls);
+        ImmutableList<DescriptiveStatistics> stats = initStatistics(apiCalls.size());
         requests.forEach(r -> {
-            int[] timeValues = new int[apiCalls.size() + 1];
-            for (int i = 0; i < apiCalls.size(); i++) {
-                timeValues[i] = r.getApiCalls().get(i).getTimeElapsed();
-            }
-            timeValues[apiCalls.size()] = r.getResponseTime() - IntStream.of(timeValues).sum();
+            int[] timeValues = getResponseTimeVector(r);
             if (log.isDebugEnabled()) {
-                log.debug("Response time vector: {}", Arrays.toString(timeValues));
+                log.debug("Response time vector (learn): {}", Arrays.toString(timeValues));
             }
 
             for (int i = 0; i < timeValues.length; i++) {
@@ -103,14 +117,11 @@ public class PercentileBasedFinder extends BottleneckFinder {
             }
         });
 
-        if (log.isDebugEnabled()) {
-            log.debug("Percentiles computed using {} data points", stats.get(0).getN());
-        }
         return stats.stream().mapToDouble(s -> s.getPercentile(percentile)).toArray();
     }
 
-    private ImmutableList<DescriptiveStatistics> initStatistics(List<ApiCall> apiCalls) {
-        int size = apiCalls.size() + 1;
+    private ImmutableList<DescriptiveStatistics> initStatistics(int apiCalls) {
+        int size = apiCalls + 1;
         ImmutableList.Builder<DescriptiveStatistics> stats = ImmutableList.builder();
         for (int i = 0; i < size; i++) {
             DescriptiveStatistics statistics = new DescriptiveStatistics();
