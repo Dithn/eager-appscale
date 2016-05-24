@@ -7,6 +7,7 @@ import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
+import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
@@ -47,7 +48,14 @@ public class PercentileBasedFinder extends BottleneckFinder {
 
     private void analyze(Anomaly anomaly, String path, List<ApplicationRequest> requests) {
         ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
-        double[] percentiles = computePercentiles(anomaly, requests);
+        ImmutableList<ApplicationRequest> oldRequests = requests.stream()
+                .filter(r -> r.getTimestamp() < anomaly.getStart())
+                .collect(ImmutableCollectors.toList());
+        if (oldRequests.isEmpty()) {
+            log.warn("Insufficient data to compute percentiles");
+            return;
+        }
+        double[] percentiles = computePercentiles(oldRequests);
         if (log.isDebugEnabled()) {
             log.debug("Percentiles: {}", Arrays.toString(percentiles));
         }
@@ -77,10 +85,10 @@ public class PercentileBasedFinder extends BottleneckFinder {
         }
     }
 
-    private double[] computePercentiles(Anomaly anomaly, List<ApplicationRequest> requests) {
+    private double[] computePercentiles(List<ApplicationRequest> requests) {
         ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
         ImmutableList<DescriptiveStatistics> stats = initStatistics(apiCalls);
-        requests.stream().filter(r -> r.getTimestamp() < anomaly.getStart()).forEach(r -> {
+        requests.forEach(r -> {
             int[] timeValues = new int[apiCalls.size() + 1];
             for (int i = 0; i < apiCalls.size(); i++) {
                 timeValues[i] = r.getApiCalls().get(i).getTimeElapsed();
