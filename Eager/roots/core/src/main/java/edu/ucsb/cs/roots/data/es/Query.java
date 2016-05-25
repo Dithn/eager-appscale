@@ -40,7 +40,7 @@ public abstract class Query<T> {
         return makeHttpCall(es, "/_search/scroll", json);
     }
 
-    protected JsonElement makeHttpCall(ElasticSearchConfig es, String uri, String json) throws IOException {
+    protected final JsonElement makeHttpCall(ElasticSearchConfig es, String uri, String json) throws IOException {
         String fullUri = String.format("http://%s:%d%s", es.getHost(), es.getPort(), uri);
         log.debug("URL: {}; Payload: {}", fullUri, json);
         HttpPost post = new HttpPost(fullUri);
