@@ -6,3 +6,5 @@ History length: 1hour
 SLO: 95% (at 75% window fill)
 
 Root cause analysis: RelativeImportance, Percentile (0.99)
+
+NOTE: Same set up as 6 except with some logging improvements
