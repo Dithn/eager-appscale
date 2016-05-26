@@ -59,13 +59,13 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             if (results.isEmpty()) {
                 return;
             }
-            List<Long> sortedKeys = results.keySet().stream()
+            List<Long> sortedTimestamps = results.keySet().stream()
                     .sorted().collect(Collectors.toList());
-            anomalyLog.info(anomaly, getLogEntry(path, results.get(Iterables.getLast(sortedKeys))));
+            anomalyLog.info(anomaly, getLogEntry(path, results.get(Iterables.getLast(sortedTimestamps))));
             for (int i = 0; i < callCount; i++) {
                 int index = i;
-                String trend = sortedKeys.stream()
-                        .map(k -> String.valueOf(results.get(k).get(index).importance))
+                String trend = sortedTimestamps.stream()
+                        .map(timestamp -> String.valueOf(results.get(timestamp).get(index).importance))
                         .collect(Collectors.joining(", "));
                 anomalyLog.info(anomaly, "Historical trend for {}: {}",
                         apiCalls.get(i).name(), trend);
@@ -88,8 +88,8 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         RClient client = environment.getRService().borrow();
         try {
             client.evalAndAssign("df", "data.frame()");
-            for (long ts : groupedByTime.keySet()) {
-                for (ApplicationRequest request : groupedByTime.get(ts)) {
+            for (long timestamp : groupedByTime.keySet()) {
+                for (ApplicationRequest request : groupedByTime.get(timestamp)) {
                     double[] responseTimeVector = getResponseTimeVector(request);
                     if (log.isDebugEnabled()) {
                         log.debug("Response time vector: {}", Arrays.toString(responseTimeVector));
@@ -105,7 +105,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
                 if (requestCount > apiCalls.size() + 1) {
                     try {
-                        results.putAll(ts, computeRankings(client, apiCalls));
+                        results.putAll(timestamp, computeRankings(client, apiCalls));
                     } catch (Exception e) {
                         rankingErrors.add(e);
                     }
