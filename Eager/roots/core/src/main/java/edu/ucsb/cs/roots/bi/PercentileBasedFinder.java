@@ -62,7 +62,7 @@ public final class PercentileBasedFinder extends BottleneckFinder {
         double[] percentiles = computePercentiles(oldRequests);
         if (log.isDebugEnabled()) {
             log.debug("Percentiles computed using {} data points: {}",
-                    Arrays.toString(percentiles), oldRequests.size());
+                    oldRequests.size(), Arrays.toString(percentiles));
         }
         requests.stream().filter(r -> r.getTimestamp() >= anomaly.getStart())
                 .forEach(r -> checkForAnomalies(r, percentiles, anomaly, path));

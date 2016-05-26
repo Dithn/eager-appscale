@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     with open(args.file, 'r') as fp:
         for line in fp:
-            start = line.index('vector: [') + 9
+            start = line.index(': [') + 3
             end = line.index(']', start)
             numbers = [float(x) for x in line[start:end].split(',')]
             total = 0
