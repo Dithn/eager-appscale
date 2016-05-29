@@ -1,0 +1,8 @@
+PercentileBasedDetector
+======================
+
+Events flagged: 4365
+Unexpected RunQuery anomalies: 991
+LOCAL anomalies: 732
+
+Potential accuracy rate: 60.53% 
