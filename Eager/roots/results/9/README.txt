@@ -8,3 +8,8 @@ SLO: 95% under 32ms (at 75% window fill)
 
 Root cause analysis: RelativeImportance, Percentile (0.99)
 
+Results Summary
+===============
+Anomalies detected: 376
+Root cause events detected: 4313
+Confirmed false positives (LOCAL and datastore anomalies): 951
