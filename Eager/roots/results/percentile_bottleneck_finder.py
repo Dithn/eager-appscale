@@ -20,7 +20,7 @@ def compute_percentiles(history, percentile):
         percentiles.append(value)
     return percentiles
 
-def check_data(line, percentiles, limit):
+def check_data(line, percentiles, limit, id):
     if '(check)' not in line:
         return
     index = line.index('(check): [') + 10
@@ -31,7 +31,7 @@ def check_data(line, percentiles, limit):
         print line
         for i in range(len(numbers)):
             if numbers[i] > percentiles[i]:
-                print '\tAnomalous execution at index {0}: {1} > {2}'.format(i, numbers[i], percentiles[i])
+                print '\t[{3}] Anomalous execution at index {0}: {1} > {2}'.format(i, numbers[i], percentiles[i], id)
     
 
 if __name__ == '__main__':
@@ -57,6 +57,7 @@ if __name__ == '__main__':
     state = STATE_STANDBY
     history = {}
     percentiles = []
+    id = 1
     with open(args.file, 'r') as fp:
         for line in fp:
             if state == STATE_STANDBY:
@@ -69,7 +70,8 @@ if __name__ == '__main__':
                     percentiles = compute_percentiles(history, args.percentile)
                     print 'Computed percentiles:', percentiles                
             if state == STATE_CHECK:
-                check_data(line.strip(), percentiles, args.limit)
+                check_data(line.strip(), percentiles, args.limit, id)
+                id += 1
                 if 'Detected' in line:
                     state = STATE_STANDBY
                     history = {}
