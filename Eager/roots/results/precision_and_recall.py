@@ -19,15 +19,21 @@ if __name__ == '__main__':
         sys.exit(1)
 
     anomaly = False
+    merge = False
     anomalous_events = 0.0
     identified_events = 0.0
     correct_identifications = 0.0
     with open(args.file, 'r') as fp:
         for line in fp:
             if 'PercentileBasedFinder Anomaly' in line:
+                if merge:
+                    continue
+                merge = True
                 identified_events += 1
                 if anomaly:
                     correct_identifications += 1
+            else:
+                merge = False
             anomaly = False
             if '(check)' in line:
                 vector = parse_line(line.strip())
