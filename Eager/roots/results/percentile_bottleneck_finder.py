@@ -64,19 +64,21 @@ if __name__ == '__main__':
                 if '(learn)' in line:
                     state = STATE_LEARN            
             if state == STATE_LEARN:
-                learn_data(line.strip(), history)
                 if '(check)' in line:
                     state = STATE_CHECK
                     percentiles = compute_percentiles(history, args.percentile)
-                    print 'Computed percentiles:', percentiles                
+                    print 'Computed percentiles:', percentiles
+                else:
+                    learn_data(line.strip(), history)
             if state == STATE_CHECK:
-                check_data(line.strip(), percentiles, args.limit, id)
-                id += 1
                 if 'Detected' in line:
                     state = STATE_STANDBY
                     history = {}
                     percentiles = []
                     print
+                else:
+                    check_data(line.strip(), percentiles, args.limit, id)
+                    id += 1
                 
             
         
