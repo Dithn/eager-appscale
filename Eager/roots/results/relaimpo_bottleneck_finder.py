@@ -8,24 +8,36 @@ def parse_line(line):
     vector = line[index:line.index(']', index)]
     return map(lambda x: float(x.strip()), vector.split(','))
 
-def compute_importance(vectors, limit, percentile=99.0):
+def check_for_anomalies(key, value, low, high, anomalies):
+    result = ''
+    if value < low:
+        result += '1'
+    else:
+        result += '0'
+    if value > high:
+        result += '1'
+    else:
+        result += '0'
+    if key in anomalies:
+        result += '1'
+    else:
+        result += '0'
+    return result
+
+def compute_importance(vectors, limit, threshold=1.0):
     anomalies, results = compute_importance_step1(vectors, limit)
     full_results = compute_importance_step2(vectors)
-    print anomalies
-    for i in sorted(full_results.keys()):
-        print i, '    ', results.get(i, 'Anomaly'), '   ', full_results[i]
-
     training_data = [ v for k,v in results.items() if k >= 60 and isinstance(v, list) ]
     for api in range(len(vectors[0]) - 1):
         data = [ i[api] for i in training_data ]
-        p = numpy.percentile(data, percentile)
-        print 'API{0} Percentile: {1}'.format(api, p)
-        for i in anomalies:
-            val = full_results[i][api]
-            s = ''
-            if val > p:
-                s = '***'
-            print '\t{0} {1} {2}'.format(i, val, s)
+        high_p = numpy.percentile(data, 100.0 - threshold)
+        low_p = numpy.percentile(data, threshold)
+        print 'API{0} Percentiles: ({1} - {2})'.format(api, low_p, high_p)
+        for i in sorted(full_results.keys()):
+            if not isinstance(full_results[i], list):
+                continue
+            result = check_for_anomalies(i, full_results[i][api], low_p, high_p, anomalies)
+            print '\t{0} {1} [{2}]'.format(i, full_results[i][api], result)
     sys.exit(1)
 
 def compute_importance_step1(vectors, limit):
