@@ -38,7 +38,6 @@ def compute_importance(vectors, limit, threshold=1.0):
                 continue
             result = check_for_anomalies(i, full_results[i][api], low_p, high_p, anomalies)
             print '\t{0} {1} [{2}]'.format(i, full_results[i][api], result)
-    sys.exit(1)
 
 def compute_importance_step1(vectors, limit):
     conn = pyRserve.connect()
@@ -122,9 +121,11 @@ if __name__ == '__main__':
     vectors = []
     with open(args.file, 'r') as fp:
         for line in fp:
+            if 'Detected' in line:
+                print '\n', line.strip()
             if 'RelativeImportanceBasedFinder Received ' in line:
                 if vectors:
-                    print '\nData points:', len(vectors)
+                    print 'Data points:', len(vectors)
                     compute_importance(vectors, args.limit)
                     vectors = []
             if 'RelativeImportanceBasedFinder Response time vector' in line:
