@@ -72,7 +72,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             List<RelativeImportance> lastRankings = results.get(lastTimestamp);
             anomalyLog.info(anomaly, getLogEntry(path, lastRankings));
 
-            for (int i = 0; i < callCount; i++) {
+            for (int i = 0; i < callCount + 1; i++) {
                 final int position = i + 1;
                 OptionalInt result = IntStream.range(0, callCount)
                         .filter(index -> lastRankings.get(index).ranking == position)
