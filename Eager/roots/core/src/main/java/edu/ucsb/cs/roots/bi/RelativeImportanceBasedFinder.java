@@ -22,8 +22,11 @@ import java.util.stream.IntStream;
 
 public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
-    public RelativeImportanceBasedFinder(RootsEnvironment environment) {
+    private final double peltPenalty;
+
+    public RelativeImportanceBasedFinder(RootsEnvironment environment, double peltPenalty) {
         super(environment);
+        this.peltPenalty = peltPenalty;
     }
 
     @Override
@@ -103,7 +106,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 .mapToDouble(timestamp -> results.get(timestamp).get(index).importance)
                 .toArray();
         CustomPELTChangePointDetector changePointDetector = new CustomPELTChangePointDetector(
-                environment.getRService(), 0.1);
+                environment.getRService(), peltPenalty);
         try {
             Segment[] segments = changePointDetector.computeSegments(trend);
             analyzeSegments(anomaly, sortedTimestamps, offset, segments);

@@ -47,7 +47,7 @@ public class RequestInfoByOperationQuery extends Query<ImmutableList<Application
 
         String json = String.format(ACCESS_LOG_QUERY,
                 es.field(ResponseTimeSummaryQuery.ACCESS_LOG_TIMESTAMP, "@timestamp"),
-                start, end, es.field(ResponseTimeSummaryQuery.ACCESS_LOG_TIMESTAMP, "timestamp"));
+                start, end, es.field(ResponseTimeSummaryQuery.ACCESS_LOG_TIMESTAMP, "@timestamp"));
         path = String.format("/%s/%s/_search?scroll=1m", es.getAccessLogIndex(), application);
         ImmutableMap<String,AccessLogEntry> accessLogEntries = getAccessLogEntries(
                 es, application, path, json);

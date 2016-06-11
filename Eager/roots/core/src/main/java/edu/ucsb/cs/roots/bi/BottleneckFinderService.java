@@ -13,6 +13,7 @@ public final class BottleneckFinderService extends ManagedService {
     private static final Logger log = LoggerFactory.getLogger(BottleneckFinderService.class);
 
     public static final String BI_FINDERS = "bi.finders";
+    public static final String BI_PELT_PENALTY = "bi.pelt.penalty";
     public static final String BI_PERCENTILE = "bi.percentile";
 
     public BottleneckFinderService(RootsEnvironment environment) {
@@ -55,7 +56,11 @@ public final class BottleneckFinderService extends ManagedService {
 
     private BottleneckFinder newFinder(Anomaly anomaly, String type) {
         if ("RelativeImportance".equals(type)) {
-            return new RelativeImportanceBasedFinder(environment);
+            String peltPenalty = anomaly.getDetectorProperty(BI_PELT_PENALTY, null);
+            if (peltPenalty == null) {
+                peltPenalty = environment.getProperty(BI_PELT_PENALTY, "0.1");
+            }
+            return new RelativeImportanceBasedFinder(environment, Double.parseDouble(peltPenalty));
         } else if ("Percentile".equals(type)) {
             String percentile = anomaly.getDetectorProperty(BI_PERCENTILE, null);
             if (percentile == null) {
