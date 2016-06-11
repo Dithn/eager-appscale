@@ -6,7 +6,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public final class CustomPELTChangePointDetector extends PELTChangePointDetector {
 
-    private double penaltyValue = 0.1;
+    private final double penaltyValue;
 
     public CustomPELTChangePointDetector(RService rService, double penaltyValue) {
         super(rService);

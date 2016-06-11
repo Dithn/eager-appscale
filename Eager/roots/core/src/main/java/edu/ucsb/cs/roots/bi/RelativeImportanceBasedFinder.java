@@ -7,14 +7,18 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.primitives.Doubles;
 import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
+import edu.ucsb.cs.roots.changepoint.CustomPELTChangePointDetector;
+import edu.ucsb.cs.roots.changepoint.Segment;
 import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
+import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
@@ -59,9 +63,22 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             if (results.isEmpty()) {
                 return;
             }
-            List<Long> sortedTimestamps = results.keySet().stream()
-                    .sorted().collect(Collectors.toList());
-            anomalyLog.info(anomaly, getLogEntry(path, results.get(Iterables.getLast(sortedTimestamps))));
+            ImmutableList<Long> sortedTimestamps = results.keySet().stream()
+                    .sorted().collect(ImmutableCollectors.toList());
+            Long lastTimestamp = Iterables.getLast(sortedTimestamps);
+            List<RelativeImportance> lastRankings = results.get(lastTimestamp);
+            anomalyLog.info(anomaly, getLogEntry(path, lastRankings));
+
+            for (int i = 0; i < callCount; i++) {
+                final int position = i + 1;
+                OptionalInt result = IntStream.range(0, callCount)
+                        .filter(index -> lastRankings.get(index).ranking == position)
+                        .findFirst();
+                if (result.isPresent()) {
+                    analyzeHistory(anomaly, results, sortedTimestamps, position, result.getAsInt());
+                }
+            }
+
             for (int i = 0; i < callCount; i++) {
                 int index = i;
                 String trend = sortedTimestamps.stream()
@@ -73,6 +90,43 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         } catch (Exception e) {
             anomalyLog.error(anomaly, "Error while computing rankings", e);
         }
+    }
+
+    private void analyzeHistory(Anomaly anomaly, ListMultimap<Long, RelativeImportance> results,
+                                List<Long> sortedTimestamps, int position, int index) {
+        log.debug("Analyzing historical trend for API call at index {} with ranking {}",
+                index, position);
+        int offset = (int) sortedTimestamps.stream()
+                .filter(timestamp -> timestamp < anomaly.getStart())
+                .count();
+        double[] trend = sortedTimestamps.subList(offset, sortedTimestamps.size()).stream()
+                .mapToDouble(timestamp -> results.get(timestamp).get(index).importance)
+                .toArray();
+        CustomPELTChangePointDetector changePointDetector = new CustomPELTChangePointDetector(
+                environment.getRService(), 0.1);
+        try {
+            Segment[] segments = changePointDetector.computeSegments(trend);
+            analyzeSegments(anomaly, sortedTimestamps, offset, segments);
+        } catch (Exception e) {
+            anomalyLog.error(anomaly, "Error while computing trends", e);
+        }
+    }
+
+    private void analyzeSegments(Anomaly anomaly, List<Long> sortedTimestamps,
+                                 int offset, Segment[] segments) {
+        int length = segments.length;
+        if (length == 1) {
+            anomalyLog.info(anomaly, "No significant changes in relative importance to report");
+            return;
+        }
+        for (int i = 1; i < length; i++) {
+            anomalyLog.info(anomaly, "Relative importance level shift at {}: {} --> {}",
+                    new Date(sortedTimestamps.get(offset + segments[i].getStart())),
+                    segments[i-1].getMean(), segments[i].getMean());
+        }
+        anomalyLog.info(anomaly, "Net change in relative importance: {} --> {} [{}%]",
+                segments[0].getMean(), segments[length -1].getMean(),
+                segments[0].percentageIncrease(segments[length - 1]));
     }
 
     private long groupByTime(ApplicationRequest r, long start, long period) {
