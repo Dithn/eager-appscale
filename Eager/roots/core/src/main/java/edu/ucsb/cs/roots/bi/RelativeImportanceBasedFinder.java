@@ -78,7 +78,12 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                         .filter(index -> lastRankings.get(index).ranking == position)
                         .findFirst();
                 if (result.isPresent()) {
-                    analyzeHistory(anomaly, results, sortedTimestamps, position, result.getAsInt());
+                    int index = result.getAsInt();
+                    if (log.isDebugEnabled()) {
+                        log.debug("Analyzing historical trend for API call {} with ranking {}",
+                                apiCalls.get(index), position);
+                    }
+                    analyzeHistory(anomaly, results, sortedTimestamps, index);
                 }
             }
 
@@ -96,15 +101,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
     }
 
     private void analyzeHistory(Anomaly anomaly, ListMultimap<Long, RelativeImportance> results,
-                                List<Long> sortedTimestamps, int position, int index) {
-        log.debug("Analyzing historical trend for API call at index {} with ranking {}",
-                index, position);
+                                List<Long> sortedTimestamps, int index) {
         int offset = (int) sortedTimestamps.stream()
                 .filter(timestamp -> timestamp < anomaly.getStart())
                 .count();
         double[] trend = sortedTimestamps.subList(offset, sortedTimestamps.size()).stream()
                 .mapToDouble(timestamp -> results.get(timestamp).get(index).importance)
                 .toArray();
+        log.debug("Performing change point analysis using {} data points", trend.length);
         CustomPELTChangePointDetector changePointDetector = new CustomPELTChangePointDetector(
                 environment.getRService(), peltPenalty);
         try {
