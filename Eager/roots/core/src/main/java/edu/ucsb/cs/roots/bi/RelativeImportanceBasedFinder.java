@@ -40,14 +40,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             log.debug("Received {} requests for analysis", requests.size());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
-            perPathRequests.forEach((path,list) -> analyze(anomaly, path, list, start));
+            perPathRequests.forEach((path,list) -> analyzePath(anomaly, path, list, start));
         } catch (DataStoreException e) {
             anomalyLog.error(anomaly, "Error while retrieving API call data", e);
         }
     }
 
-    private void analyze(Anomaly anomaly, String path, List<ApplicationRequest> requests,
-                         long start) {
+    private void analyzePath(Anomaly anomaly, String path, List<ApplicationRequest> requests,
+                             long start) {
         List<ApiCall> apiCalls = requests.get(0).getApiCalls();
         int callCount = apiCalls.size();
         if (callCount == 0) {
