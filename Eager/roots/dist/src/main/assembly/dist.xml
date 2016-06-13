@@ -11,6 +11,15 @@
             <fileMode>775</fileMode>
         </file>
         <file>
+            <source>src/main/assembly/setup_elasticsearch.sh</source>
+            <outputDirectory>roots-${project.version}/bin</outputDirectory>
+            <fileMode>775</fileMode>
+        </file>
+        <file>
+            <source>src/main/assembly/es_template.json</source>
+            <outputDirectory>roots-${project.version}/bin</outputDirectory>
+        </file>
+        <file>
             <source>src/main/assembly/log4j.properties</source>
             <outputDirectory>roots-${project.version}/lib</outputDirectory>
         </file>
