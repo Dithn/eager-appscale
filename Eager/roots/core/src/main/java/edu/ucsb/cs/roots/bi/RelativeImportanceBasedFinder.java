@@ -81,7 +81,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                     int index = result.getAsInt();
                     if (log.isDebugEnabled()) {
                         log.debug("Analyzing historical trend for API call {} with ranking {}",
-                                apiCalls.get(index), position);
+                                apiCalls.get(index).name(), position);
                     }
                     analyzeHistory(anomaly, results, sortedTimestamps, index);
                 }
