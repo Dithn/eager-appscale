@@ -11,6 +11,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -19,6 +20,7 @@ public final class BenchmarkCall {
     private final String method;
     private final URI url;
     private final int timeoutInSeconds;
+    private final AtomicBoolean firstExecution;
 
     public BenchmarkCall(String method, String url, int timeoutInSeconds) {
         checkArgument(!Strings.isNullOrEmpty(method), "HTTP method is required");
@@ -27,6 +29,7 @@ public final class BenchmarkCall {
         this.method = method;
         this.url = URI.create(url);
         this.timeoutInSeconds = timeoutInSeconds;
+        this.firstExecution = new AtomicBoolean(true);
     }
 
     public String getMethod() {
@@ -54,12 +57,18 @@ public final class BenchmarkCall {
                 .setSocketTimeout(timeoutInSeconds * 1000).build());
 
         HttpHost host = URIUtils.extractHost(url);
+        long timeElapsed;
         long start = System.nanoTime();
         try (CloseableHttpResponse response = client.execute(host, request, context)) {
             EntityUtils.consumeQuietly(response.getEntity());
             long end = System.nanoTime();
-            return Math.floorDiv(end - start, 1000000L);
+            timeElapsed = Math.floorDiv(end - start, 1000000L);
         }
+
+        if (firstExecution.compareAndSet(true, false)) {
+            return execute(client);
+        }
+        return timeElapsed;
     }
 
 }
