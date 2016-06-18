@@ -3,8 +3,7 @@
 08 19.31 - 19.38 (Ranks correct; No changepoints detected - insufficient history)
 
 2016-06-15
-09 11.37 - 11.45 (Ranks incorrect?; Changepoints detected correctly - results skewed by outlier)
-21 11.46 - 12.06 (Ranks incorrect?; Some changepoints incorrect - results skewed by outlier)
+30 11.37 - 12.06 (Ranks partially correct; Changepoints detected correctly - results skewed by outlier)
 10 16.31 - 16.40 (Ranks correct; No changepoints detected - insufficient history)
 04 19.30 - 19.33 (Ranks correct; No changepoints detected - insufficient history)
 
@@ -20,4 +19,4 @@ Only onset time identified: 9 (2.67%)
 Potential incorrect diagnosis: 21 (6.23%)
 
 Root cause identified correctly: 91.10%
-
+Root cause identified partially:  8.90%
