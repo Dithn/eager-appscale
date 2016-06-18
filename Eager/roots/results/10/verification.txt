@@ -3,7 +3,10 @@
 08 19.31 - 19.38 (Ranks correct; No changepoints detected - insufficient history)
 
 2016-06-15
-30 11.37 - 12.06 (Ranks partially correct; Changepoints detected correctly - results skewed by outlier)
+07 11.37 - 11.43 (Ranks correct; Changepoints detected correctly)
+02 11.44 - 11.45 (Ranks partially correct -- may lead to incorrect diagnosis; Changepoints detected correctly)
+17 11.46 - 12.02 (Ranks partially correct; Changepoints detected correctly - results skewed by outlier)
+05 12.03 - 12.07 (Ranks partially correct -- may lead to incorrect diagnosis; Changepoints detected correctly)  
 10 16.31 - 16.40 (Ranks correct; No changepoints detected - insufficient history)
 04 19.30 - 19.33 (Ranks correct; No changepoints detected - insufficient history)
 
@@ -13,10 +16,6 @@
 
 
 Total anomalies: 337
-Root cause identified with onset time: 223 (66.17%)
-Root cause identified without onset time: 84 (24.93%)
-Only onset time identified: 9 (2.67%)
-Potential incorrect diagnosis: 21 (6.23%)
-
-Root cause identified correctly: 91.10%
-Root cause identified partially:  8.90%
+Root cause identified with onset time: 222 + 7 + 17 = 246 (73.00%)
+Root cause identified without onset time: 38 + 8 + 10 + 4 + 3 + 21 = 84 (24.93%)
+Potential incorrect diagnosis: 2 + 5 = 7 (2.08%)
