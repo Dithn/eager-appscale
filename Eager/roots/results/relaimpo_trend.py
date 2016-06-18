@@ -61,7 +61,9 @@ if __name__ == '__main__':
                 vectors.append(parse_line(line.strip()))
 
     results = compute_importance(vectors)
-    for i in range(len(results[0])):
-        print '\nRelative importance trend for API', i
-        for result in results:
-            print result[i]
+    index = 1
+    for key in range(len(results)):
+        value = results[key]
+        if isinstance(value, list):
+            print index, str(vectors[key]).translate(None, ' '), str(value).translate(None, '[,]')
+            index += 1
