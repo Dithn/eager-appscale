@@ -74,17 +74,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
             for (int i = 0; i < callCount + 1; i++) {
                 final int position = i + 1;
-                OptionalInt result = IntStream.range(0, callCount)
+                int indexAtPos = IntStream.range(0, callCount + 1)
                         .filter(index -> lastRankings.get(index).ranking == position)
-                        .findFirst();
-                if (result.isPresent()) {
-                    int index = result.getAsInt();
-                    if (log.isDebugEnabled()) {
-                        log.debug("Analyzing historical trend for API call {} with ranking {}",
-                                apiCalls.get(index).name(), position);
-                    }
-                    analyzeHistory(anomaly, results, sortedTimestamps, index);
+                        .findFirst().getAsInt();
+                if (log.isDebugEnabled()) {
+                    log.debug("Analyzing historical trend for API call {} with ranking {}",
+                            lastRankings.get(indexAtPos).apiCall, position);
                 }
+                analyzeHistory(anomaly, results, sortedTimestamps, indexAtPos);
             }
 
             for (int i = 0; i < callCount; i++) {
