@@ -77,11 +77,12 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 int indexAtPos = IntStream.range(0, callCount + 1)
                         .filter(index -> lastRankings.get(index).ranking == position)
                         .findFirst().getAsInt();
+                String apiCall = lastRankings.get(indexAtPos).apiCall;
                 if (log.isDebugEnabled()) {
                     log.debug("Analyzing historical trend for API call {} with ranking {}",
-                            lastRankings.get(indexAtPos).apiCall, position);
+                            apiCall, position);
                 }
-                analyzeHistory(anomaly, results, sortedTimestamps, indexAtPos);
+                analyzeHistory(anomaly, results, sortedTimestamps, indexAtPos, apiCall);
             }
 
             for (int i = 0; i < callCount; i++) {
@@ -98,7 +99,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
     }
 
     private void analyzeHistory(Anomaly anomaly, ListMultimap<Long, RelativeImportance> results,
-                                List<Long> sortedTimestamps, int index) {
+                                List<Long> sortedTimestamps, int index, String apiCall) {
         int offset = (int) sortedTimestamps.stream()
                 .filter(timestamp -> timestamp < anomaly.getStart())
                 .count();
@@ -110,26 +111,27 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 environment.getRService(), peltPenalty);
         try {
             Segment[] segments = changePointDetector.computeSegments(trend);
-            analyzeSegments(anomaly, sortedTimestamps, offset, segments);
+            analyzeSegments(anomaly, sortedTimestamps, offset, segments, apiCall);
         } catch (Exception e) {
             anomalyLog.error(anomaly, "Error while computing trends", e);
         }
     }
 
     private void analyzeSegments(Anomaly anomaly, List<Long> sortedTimestamps,
-                                 int offset, Segment[] segments) {
+                                 int offset, Segment[] segments, String apiCall) {
         int length = segments.length;
         if (length == 1) {
-            anomalyLog.info(anomaly, "No significant changes in relative importance to report");
+            anomalyLog.info(anomaly,
+                    "No significant changes in relative importance to report for {}", apiCall);
             return;
         }
         for (int i = 1; i < length; i++) {
-            anomalyLog.info(anomaly, "Relative importance level shift at {}: {} --> {}",
-                    new Date(sortedTimestamps.get(offset + segments[i].getStart())),
+            anomalyLog.info(anomaly, "Relative importance level shift at {} for {}: {} --> {}",
+                    new Date(sortedTimestamps.get(offset + segments[i].getStart())), apiCall,
                     segments[i-1].getMean(), segments[i].getMean());
         }
-        anomalyLog.info(anomaly, "Net change in relative importance: {} --> {} [{}%]",
-                segments[0].getMean(), segments[length -1].getMean(),
+        anomalyLog.info(anomaly, "Net change in relative importance for {}: {} --> {} [{}%]",
+                apiCall, segments[0].getMean(), segments[length -1].getMean(),
                 segments[0].percentageIncrease(segments[length - 1]));
     }
 
