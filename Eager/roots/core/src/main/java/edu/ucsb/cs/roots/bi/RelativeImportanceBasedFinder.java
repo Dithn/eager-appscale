@@ -75,9 +75,9 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             for (int i = 0; i < callCount + 1; i++) {
                 final int position = i + 1;
                 int indexAtPos = IntStream.range(0, callCount + 1)
-                        .filter(index -> lastRankings.get(index).ranking == position)
+                        .filter(index -> lastRankings.get(index).getRanking() == position)
                         .findFirst().getAsInt();
-                String apiCall = lastRankings.get(indexAtPos).apiCall;
+                String apiCall = lastRankings.get(indexAtPos).getApiCall();
                 if (log.isDebugEnabled()) {
                     log.debug("Analyzing historical trend for API call {} with ranking {}",
                             apiCall, position);
@@ -88,7 +88,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             for (int i = 0; i < callCount; i++) {
                 int index = i;
                 String trend = sortedTimestamps.stream()
-                        .map(timestamp -> String.valueOf(results.get(timestamp).get(index).importance))
+                        .map(timestamp -> String.valueOf(results.get(timestamp).get(index).getImportance()))
                         .collect(Collectors.joining(", "));
                 anomalyLog.info(anomaly, "Historical trend for {}: {}",
                         apiCalls.get(i).name(), trend);
@@ -104,7 +104,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 .filter(timestamp -> timestamp < anomaly.getStart())
                 .count();
         double[] trend = sortedTimestamps.subList(offset, sortedTimestamps.size()).stream()
-                .mapToDouble(timestamp -> results.get(timestamp).get(index).importance)
+                .mapToDouble(timestamp -> results.get(timestamp).get(index).getImportance())
                 .toArray();
         log.debug("Performing change point analysis using {} data points", trend.length);
         CustomPELTChangePointDetector changePointDetector = new CustomPELTChangePointDetector(
@@ -198,14 +198,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             result.add(new RelativeImportance(apiCalls.get(i).name(), rankings[i]));
         }
         result.add(new RelativeImportance(LOCAL, 1.0 - result.stream()
-                .mapToDouble(r -> r.importance).sum()));
+                .mapToDouble(RelativeImportance::getImportance).sum()));
 
         // Set rankings based on the importance score
         List<RelativeImportance> sorted = result.stream().sorted(Collections.reverseOrder())
                 .collect(Collectors.toList());
         int rank = 1;
         for (RelativeImportance ri : sorted) {
-            ri.ranking = rank++;
+            ri.setRanking(rank++);
         }
         return result;
     }
@@ -237,29 +237,8 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         result.forEach(r -> sb.append(r).append('\n'));
         sb.append('\n');
         sb.append("Total variance explained: ").append(result.stream()
-                .filter(r -> !r.apiCall.equals(LOCAL))
-                .mapToDouble(r -> r.importance).sum());
+                .filter(r -> !r.getApiCall().equals(LOCAL))
+                .mapToDouble(RelativeImportance::getImportance).sum());
         return sb.toString();
-    }
-
-    private static class RelativeImportance implements Comparable<RelativeImportance> {
-        private final String apiCall;
-        private final double importance;
-        private int ranking;
-
-        RelativeImportance(String apiCall, double importance) {
-            this.apiCall = apiCall;
-            this.importance = importance;
-        }
-
-        @Override
-        public int compareTo(RelativeImportance o) {
-            return Double.compare(this.importance, o.importance);
-        }
-
-        @Override
-        public String toString() {
-            return String.format("[%2d] %s %f", ranking, apiCall, importance);
-        }
     }
 }
