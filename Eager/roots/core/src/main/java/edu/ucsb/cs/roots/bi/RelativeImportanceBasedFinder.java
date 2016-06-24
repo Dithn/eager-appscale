@@ -77,28 +77,29 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             List<RelativeImportance> lastRankings = results.get(lastTimestamp);
             anomalyLog.info(anomaly, getLogEntry(path, lastRankings));
 
-            Date onsetTime = null;
+            Bottleneck bottleneck = null;
             for (int i = 0; i < callCount + 1; i++) {
-                final int position = i + 1;
-                int indexAtPos = findIndexByRank(lastRankings, position);
+                final int rank = i + 1;
+                int indexAtPos = findIndexByRank(lastRankings, rank);
                 String apiCall = lastRankings.get(indexAtPos).getApiCall();
                 if (log.isDebugEnabled()) {
                     log.debug("Analyzing historical trend for API call {} with ranking {}",
-                            apiCall, position);
+                            apiCall, rank);
                 }
-                onsetTime = analyzeHistory(results, sortedTimestamps, indexAtPos, apiCall);
+                Date onsetTime = analyzeHistory(results, sortedTimestamps, indexAtPos, apiCall);
                 if (onsetTime != null) {
-                    anomalyLog.info(anomaly, "Root cause identified; index: {}, apiCall: {}, onsetTime: {}",
-                            indexAtPos, apiCall, onsetTime);
+                    bottleneck = new Bottleneck(apiCall, onsetTime);
+                    anomalyLog.info(anomaly, "Bottleneck identified; index: {}, {}", indexAtPos,
+                            bottleneck.toString());
                     break;
                 }
             }
 
-            if (onsetTime == null) {
+            if (bottleneck == null) {
                 int indexAtPos = findIndexByRank(lastRankings, 1);
-                String apiCall = lastRankings.get(indexAtPos).getApiCall();
-                anomalyLog.info(anomaly, "Root cause identified; index: {}, apiCall: {}, onsetTime: Unknown",
-                        indexAtPos, apiCall);
+                bottleneck = new Bottleneck(lastRankings.get(indexAtPos).getApiCall());
+                anomalyLog.info(anomaly, "Bottleneck identified; index: {}, {}", indexAtPos,
+                        bottleneck.toString());
             }
 
             for (int i = 0; i < callCount; i++) {

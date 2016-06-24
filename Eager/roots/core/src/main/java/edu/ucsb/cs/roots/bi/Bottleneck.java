@@ -28,4 +28,10 @@ public final class Bottleneck {
     public Date getOnsetTime() {
         return onsetTime;
     }
+
+    @Override
+    public String toString() {
+        return String.format("apiCall: %s, onsetTime: %s", apiCall,
+                onsetTime != null ? onsetTime.toString() : "Unknown");
+    }
 }
