@@ -22,15 +22,21 @@ import java.util.stream.IntStream;
 
 public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
+    public static final String BI_PELT_PENALTY = "bi.pelt.penalty";
+
     private final double peltPenalty;
 
-    public RelativeImportanceBasedFinder(RootsEnvironment environment, double peltPenalty) {
-        super(environment);
-        this.peltPenalty = peltPenalty;
+    public RelativeImportanceBasedFinder(RootsEnvironment environment, Anomaly anomaly) {
+        super(environment, anomaly);
+        String peltPenaltyStr = anomaly.getDetectorProperty(BI_PELT_PENALTY, null);
+        if (peltPenaltyStr == null) {
+            peltPenaltyStr = environment.getProperty(BI_PELT_PENALTY, "0.1");
+        }
+        this.peltPenalty = Double.parseDouble(peltPenaltyStr);
     }
 
     @Override
-    void analyze(Anomaly anomaly) {
+    void analyze() {
         long history = anomaly.getEnd() - anomaly.getStart();
         long start = anomaly.getEnd() - 2 * history;
         DataStore ds = environment.getDataStoreService().get(anomaly.getDataStore());
@@ -40,14 +46,13 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             log.debug("Received {} requests for analysis", requests.size());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
-            perPathRequests.forEach((path,list) -> analyzePath(anomaly, path, list, start));
+            perPathRequests.forEach((path,list) -> analyzePath(path, list, start));
         } catch (DataStoreException e) {
             anomalyLog.error(anomaly, "Error while retrieving API call data", e);
         }
     }
 
-    private void analyzePath(Anomaly anomaly, String path, List<ApplicationRequest> requests,
-                             long start) {
+    private void analyzePath(String path, List<ApplicationRequest> requests, long start) {
         List<ApiCall> apiCalls = requests.get(0).getApiCalls();
         int callCount = apiCalls.size();
         if (callCount == 0) {
@@ -82,7 +87,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                     log.debug("Analyzing historical trend for API call {} with ranking {}",
                             apiCall, position);
                 }
-                analyzeHistory(anomaly, results, sortedTimestamps, indexAtPos, apiCall);
+                analyzeHistory(results, sortedTimestamps, indexAtPos, apiCall);
             }
 
             for (int i = 0; i < callCount; i++) {
@@ -98,7 +103,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         }
     }
 
-    private void analyzeHistory(Anomaly anomaly, ListMultimap<Long, RelativeImportance> results,
+    private void analyzeHistory(ListMultimap<Long, RelativeImportance> results,
                                 List<Long> sortedTimestamps, int index, String apiCall) {
         int offset = (int) sortedTimestamps.stream()
                 .filter(timestamp -> timestamp < anomaly.getStart())
@@ -111,13 +116,13 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 environment.getRService(), peltPenalty);
         try {
             Segment[] segments = changePointDetector.computeSegments(trend);
-            analyzeSegments(anomaly, sortedTimestamps, offset, segments, apiCall);
+            analyzeSegments(sortedTimestamps, offset, segments, apiCall);
         } catch (Exception e) {
             anomalyLog.error(anomaly, "Error while computing trends", e);
         }
     }
 
-    private void analyzeSegments(Anomaly anomaly, List<Long> sortedTimestamps,
+    private void analyzeSegments(List<Long> sortedTimestamps,
                                  int offset, Segment[] segments, String apiCall) {
         int length = segments.length;
         if (length == 1) {

@@ -11,14 +11,16 @@ public abstract class BottleneckFinder {
     protected static final String LOCAL = "LOCAL";
 
     protected final RootsEnvironment environment;
+    protected final Anomaly anomaly;
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
     protected final AnomalyLog anomalyLog = new AnomalyLog(log);
 
-    public BottleneckFinder(RootsEnvironment environment) {
+    public BottleneckFinder(RootsEnvironment environment, Anomaly anomaly) {
         this.environment = environment;
+        this.anomaly = anomaly;
     }
 
-    abstract void analyze(Anomaly anomaly);
+    abstract void analyze();
 
 }

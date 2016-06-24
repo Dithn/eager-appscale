@@ -22,16 +22,23 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public final class PercentileBasedFinder extends BottleneckFinder {
 
+    public static final String BI_PERCENTILE = "bi.percentile";
+
     private final double percentile;
 
-    public PercentileBasedFinder(RootsEnvironment environment, double percentile) {
-        super(environment);
-        checkArgument(percentile > 0 && percentile < 100, "Percentile must be in the interval (0,100)");
-        this.percentile = percentile;
+    public PercentileBasedFinder(RootsEnvironment environment, Anomaly anomaly) {
+        super(environment, anomaly);
+        String percentileStr = anomaly.getDetectorProperty(BI_PERCENTILE, null);
+        if (percentileStr == null) {
+            percentileStr = environment.getProperty(BI_PERCENTILE, "95.0");
+        }
+        this.percentile = Double.parseDouble(percentileStr);
+        checkArgument(this.percentile > 0 && this.percentile < 100,
+                "Percentile must be in the interval (0,100)");
     }
 
     @Override
-    void analyze(Anomaly anomaly) {
+    void analyze() {
         long history = anomaly.getEnd() - anomaly.getStart();
         long start = anomaly.getEnd() - 3 * history;
         DataStore ds = environment.getDataStoreService().get(anomaly.getDataStore());
@@ -41,13 +48,13 @@ public final class PercentileBasedFinder extends BottleneckFinder {
             log.debug("Received {} requests for analysis", requests.size());
             Map<String,List<ApplicationRequest>> perPathRequests = requests.stream().collect(
                     Collectors.groupingBy(ApplicationRequest::getPathAsString));
-            perPathRequests.forEach((path,list) -> analyze(anomaly, path, list));
+            perPathRequests.forEach(this::analyze);
         } catch (DataStoreException e) {
             anomalyLog.error(anomaly, "Error while retrieving API call data", e);
         }
     }
 
-    private void analyze(Anomaly anomaly, String path, List<ApplicationRequest> requests) {
+    private void analyze(String path, List<ApplicationRequest> requests) {
         if (log.isDebugEnabled()) {
             log.debug("Analyzing program path: {} ({})", path, path.hashCode());
         }
@@ -65,7 +72,7 @@ public final class PercentileBasedFinder extends BottleneckFinder {
                     oldRequests.size(), Arrays.toString(percentiles));
         }
         requests.stream().filter(r -> r.getTimestamp() >= anomaly.getStart())
-                .forEach(r -> checkForAnomalies(r, percentiles, anomaly, path));
+                .forEach(r -> checkForAnomalies(r, percentiles, path));
     }
 
     private int[] getResponseTimeVector(ApplicationRequest r) {
@@ -78,8 +85,7 @@ public final class PercentileBasedFinder extends BottleneckFinder {
         return timeValues;
     }
 
-    private void checkForAnomalies(ApplicationRequest r, double[] percentiles,
-                                   Anomaly anomaly, String path) {
+    private void checkForAnomalies(ApplicationRequest r, double[] percentiles, String path) {
         int[] timeValues = getResponseTimeVector(r);
         if (log.isDebugEnabled()) {
             log.debug("Response time vector (check): {}", Arrays.toString(timeValues));
