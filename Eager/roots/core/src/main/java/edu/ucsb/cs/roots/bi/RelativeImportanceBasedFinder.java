@@ -80,9 +80,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             Date onsetTime = null;
             for (int i = 0; i < callCount + 1; i++) {
                 final int position = i + 1;
-                int indexAtPos = IntStream.range(0, callCount + 1)
-                        .filter(index -> lastRankings.get(index).getRanking() == position)
-                        .findFirst().getAsInt();
+                int indexAtPos = findIndexByRank(lastRankings, position);
                 String apiCall = lastRankings.get(indexAtPos).getApiCall();
                 if (log.isDebugEnabled()) {
                     log.debug("Analyzing historical trend for API call {} with ranking {}",
@@ -97,9 +95,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             }
 
             if (onsetTime == null) {
-                int indexAtPos = IntStream.range(0, callCount + 1)
-                        .filter(index -> lastRankings.get(index).getRanking() == 1)
-                        .findFirst().getAsInt();
+                int indexAtPos = findIndexByRank(lastRankings, 1);
                 String apiCall = lastRankings.get(indexAtPos).getApiCall();
                 anomalyLog.info(anomaly, "Root cause identified; index: {}, apiCall: {}, onsetTime: Unknown",
                         indexAtPos, apiCall);
@@ -116,6 +112,12 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         } catch (Exception e) {
             anomalyLog.error(anomaly, "Error while computing rankings", e);
         }
+    }
+
+    private int findIndexByRank(List<RelativeImportance> lastRankings, int position) {
+        return IntStream.range(0, lastRankings.size())
+                .filter(index -> lastRankings.get(index).getRanking() == position)
+                .findFirst().getAsInt();
     }
 
     private Date analyzeHistory(ListMultimap<Long, RelativeImportance> results,
