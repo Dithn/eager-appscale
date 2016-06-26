@@ -28,11 +28,7 @@ public final class PercentileBasedFinder extends BottleneckFinder {
 
     public PercentileBasedFinder(RootsEnvironment environment, Anomaly anomaly) {
         super(environment, anomaly);
-        String percentileStr = anomaly.getDetectorProperty(BI_PERCENTILE, null);
-        if (percentileStr == null) {
-            percentileStr = environment.getProperty(BI_PERCENTILE, "95.0");
-        }
-        this.percentile = Double.parseDouble(percentileStr);
+        this.percentile = getDoubleProperty(BI_PERCENTILE, 95.0);
         checkArgument(this.percentile > 0 && this.percentile < 100,
                 "Percentile must be in the interval (0,100)");
     }
@@ -75,7 +71,7 @@ public final class PercentileBasedFinder extends BottleneckFinder {
                 .forEach(r -> checkForAnomalies(r, percentiles, path));
     }
 
-    private int[] getResponseTimeVector(ApplicationRequest r) {
+    static int[] getResponseTimeVector(ApplicationRequest r) {
         int apiCalls = r.getApiCalls().size();
         int[] timeValues = new int[apiCalls + 1];
         for (int i = 0; i < apiCalls; i++) {
@@ -126,7 +122,7 @@ public final class PercentileBasedFinder extends BottleneckFinder {
         return stats.stream().mapToDouble(s -> s.getPercentile(percentile)).toArray();
     }
 
-    private ImmutableList<DescriptiveStatistics> initStatistics(int apiCalls) {
+    static ImmutableList<DescriptiveStatistics> initStatistics(int apiCalls) {
         int size = apiCalls + 1;
         ImmutableList.Builder<DescriptiveStatistics> stats = ImmutableList.builder();
         for (int i = 0; i < size; i++) {

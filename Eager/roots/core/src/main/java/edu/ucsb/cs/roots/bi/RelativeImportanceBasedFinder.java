@@ -20,19 +20,22 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
     public static final String BI_PELT_PENALTY = "bi.pelt.penalty";
+    public static final String BI_VERIFY_PERCENTILE = "bi.verify.percentile";
 
     private final double peltPenalty;
+    private final double verifyPercentile;
 
     public RelativeImportanceBasedFinder(RootsEnvironment environment, Anomaly anomaly) {
         super(environment, anomaly);
-        String peltPenaltyStr = anomaly.getDetectorProperty(BI_PELT_PENALTY, null);
-        if (peltPenaltyStr == null) {
-            peltPenaltyStr = environment.getProperty(BI_PELT_PENALTY, "0.1");
-        }
-        this.peltPenalty = Double.parseDouble(peltPenaltyStr);
+        this.peltPenalty = getDoubleProperty(BI_PELT_PENALTY, 0.1);
+        this.verifyPercentile = getDoubleProperty(BI_VERIFY_PERCENTILE, 95.0);
+        checkArgument(this.verifyPercentile > 0 && this.verifyPercentile < 100,
+                "Verify percentile must be in the interval (0,100)");
     }
 
     @Override
@@ -53,7 +56,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
     }
 
     private void analyzePath(String path, List<ApplicationRequest> requests, long start) {
-        List<ApiCall> apiCalls = requests.get(0).getApiCalls();
+        ImmutableList<ApiCall> apiCalls = requests.get(0).getApiCalls();
         int callCount = apiCalls.size();
         if (callCount == 0) {
             return;
@@ -88,7 +91,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 }
                 Date onsetTime = analyzeHistory(results, sortedTimestamps, indexAtPos, apiCall);
                 if (onsetTime != null) {
-                    bottleneck = new Bottleneck(apiCall, onsetTime);
+                    bottleneck = new Bottleneck(anomaly, apiCall, indexAtPos, onsetTime);
                     anomalyLog.info(anomaly, "Bottleneck identified; index: {}, {}", indexAtPos,
                             bottleneck.toString());
                     break;
@@ -97,10 +100,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
 
             if (bottleneck == null) {
                 int indexAtPos = findIndexByRank(lastRankings, 1);
-                bottleneck = new Bottleneck(lastRankings.get(indexAtPos).getApiCall());
+                bottleneck = new Bottleneck(anomaly, lastRankings.get(indexAtPos).getApiCall(),
+                        indexAtPos);
                 anomalyLog.info(anomaly, "Bottleneck identified; index: {}, {}", indexAtPos,
                         bottleneck.toString());
             }
+            PercentileBasedVerifier verifier = new PercentileBasedVerifier(groupedByTime,
+                    bottleneck, anomalyLog, apiCalls, verifyPercentile);
+            verifier.verify();
 
             for (int i = 0; i < callCount; i++) {
                 int index = i;
