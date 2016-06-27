@@ -51,6 +51,7 @@ public class PercentileBasedVerifier {
             });
         }
 
+        double[] percentileResults = new double[stats.size()];
         for (int i = 0; i < stats.size(); i++) {
             double value = stats.get(i).getPercentile(percentile);
             String apiCall;
@@ -59,8 +60,20 @@ public class PercentileBasedVerifier {
             } else {
                 apiCall = "LOCAL";
             }
+            percentileResults[i] = value;
             anomalyLog.info(anomaly, "{}p for {}: {}", percentile, apiCall, value);
         }
+
+        int maxIndex = -1;
+        double maxValue = -1D;
+        for (int i = 0; i < percentileResults.length; i++) {
+            if (percentileResults[i] > maxValue) {
+                maxIndex = i;
+                maxValue = percentileResults[i];
+            }
+        }
+        anomalyLog.info(anomaly, "Verification result; percentiles: {} ri: {} match: {}",
+                maxIndex, bottleneck.getIndex(), maxIndex == bottleneck.getIndex());
     }
 
 }
