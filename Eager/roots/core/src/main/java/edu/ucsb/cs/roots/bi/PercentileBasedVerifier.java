@@ -1,12 +1,14 @@
 package edu.ucsb.cs.roots.bi;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import edu.ucsb.cs.roots.anomaly.Anomaly;
 import edu.ucsb.cs.roots.anomaly.AnomalyLog;
 import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,7 @@ public class PercentileBasedVerifier {
         }
 
         ImmutableList<DescriptiveStatistics> stats = PercentileBasedFinder.initStatistics(apiCalls.size());
+        ApplicationRequest cutoff = null;
         for (long timestamp : requests.keySet()) {
             if (timestamp > onsetTime.getTime()) {
                 break;
@@ -49,6 +52,11 @@ public class PercentileBasedVerifier {
                     stats.get(i).addValue(timeValues[i]);
                 }
             });
+            cutoff = Iterables.getLast(batch);
+        }
+        if (cutoff != null) {
+            anomalyLog.info(anomaly, "Cut off request vector: {}",
+                    Arrays.toString(PercentileBasedFinder.getResponseTimeVector(cutoff)));
         }
 
         double[] percentileResults = new double[stats.size()];
