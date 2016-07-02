@@ -33,7 +33,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
     public RelativeImportanceBasedFinder(RootsEnvironment environment, Anomaly anomaly) {
         super(environment, anomaly);
         this.peltPenalty = getDoubleProperty(BI_PELT_PENALTY, 0.1);
-        this.verifyPercentile = getDoubleProperty(BI_VERIFY_PERCENTILE, 95.0);
+        this.verifyPercentile = getDoubleProperty(BI_VERIFY_PERCENTILE, 99.0);
         checkArgument(this.verifyPercentile > 0 && this.verifyPercentile < 100,
                 "Verify percentile must be in the interval (0,100)");
     }
@@ -259,7 +259,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         return names;
     }
 
-    private double[] getResponseTimeVector(ApplicationRequest request) {
+    static double[] getResponseTimeVector(ApplicationRequest request) {
         List<Integer> vector = request.getApiCalls().stream().map(ApiCall::getTimeElapsed)
                 .collect(Collectors.toCollection(ArrayList::new));
         vector.add(request.getResponseTime());

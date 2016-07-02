@@ -36,13 +36,12 @@ public class PercentileBasedVerifier {
         Date onsetTime = bottleneck.getOnsetTime();
         if (onsetTime == null) {
             anomalyLog.info(anomaly, "Onset time not available for verification");
-            return;
         }
 
         ImmutableList<DescriptiveStatistics> stats = PercentileBasedFinder.initStatistics(apiCalls.size());
         ApplicationRequest cutoff = null;
         for (long timestamp : requests.keySet()) {
-            if (timestamp > onsetTime.getTime()) {
+            if (onsetTime != null && timestamp > onsetTime.getTime()) {
                 break;
             }
             List<ApplicationRequest> batch = requests.get(timestamp);
@@ -56,7 +55,7 @@ public class PercentileBasedVerifier {
         }
         if (cutoff != null) {
             anomalyLog.info(anomaly, "Cut off request vector: {}",
-                    Arrays.toString(PercentileBasedFinder.getResponseTimeVector(cutoff)));
+                    Arrays.toString(RelativeImportanceBasedFinder.getResponseTimeVector(cutoff)));
         }
 
         double[] percentileResults = new double[stats.size()];
@@ -80,8 +79,8 @@ public class PercentileBasedVerifier {
                 maxValue = percentileResults[i];
             }
         }
-        anomalyLog.info(anomaly, "Verification result; percentiles: {} ri: {} match: {}",
-                maxIndex, bottleneck.getIndex(), maxIndex == bottleneck.getIndex());
+        anomalyLog.info(anomaly, "Verification result; onset: {}, percentiles: {} ri: {} match: {}",
+                onsetTime != null, maxIndex, bottleneck.getIndex(), maxIndex == bottleneck.getIndex());
     }
 
 }
