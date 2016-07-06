@@ -1,0 +1,11 @@
+Total root cause analysis events: 2774
+Verifier agreed: 2124 (76.57%)
+Verifier disagreed: 650 (23.43%)
+
+Disagreed Root Causes
+======================
+Root cause user API: 290 (10.45%)
+Root cause datastore API: 160 (5.77%)
+     Possibly correct events: ~68
+Root cause local: 200 (7.21%)
+     Possibly correct events: ~162
