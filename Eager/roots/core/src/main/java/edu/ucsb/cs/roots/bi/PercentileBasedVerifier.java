@@ -8,10 +8,7 @@ import edu.ucsb.cs.roots.data.ApiCall;
 import edu.ucsb.cs.roots.data.ApplicationRequest;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PercentileBasedVerifier {
 
@@ -41,8 +38,8 @@ public class PercentileBasedVerifier {
         ImmutableList<DescriptiveStatistics> stats = PercentileBasedFinder.initStatistics(apiCalls.size());
         ApplicationRequest cutoff = null;
         for (long timestamp : requests.keySet()) {
-            if (onsetTime != null && timestamp > onsetTime.getTime()) {
-                break;
+            if (timestamp < anomaly.getStart()) {
+                continue;
             }
             List<ApplicationRequest> batch = requests.get(timestamp);
             batch.forEach(r -> {
@@ -81,6 +78,71 @@ public class PercentileBasedVerifier {
         }
         anomalyLog.info(anomaly, "Verification result; onset: {}, percentiles: {} ri: {} match: {}",
                 onsetTime != null, maxIndex, bottleneck.getIndex(), maxIndex == bottleneck.getIndex());
+        comparePercentiles(percentileResults, maxIndex, bottleneck.getAnomaly());
+    }
+
+    private void comparePercentiles(double[] percentileResults, int maxIndex, Anomaly anomaly) {
+        List<AnomalousValue> anomalousValues = new ArrayList<>();
+        for (long timestamp : requests.keySet()) {
+            if (timestamp < anomaly.getStart()) {
+                continue;
+            }
+            List<ApplicationRequest> batch = requests.get(timestamp);
+            batch.forEach(r -> {
+                int[] vector = PercentileBasedFinder.getResponseTimeVector(r);
+                for (int i = 0; i < vector.length; i++) {
+                    if (vector[i] > percentileResults[i]) {
+                        anomalousValues.add(new AnomalousValue(i, vector[i], percentileResults[i],
+                                r.getTimestamp()));
+                    }
+                }
+            });
+        }
+        Collections.sort(anomalousValues, Collections.reverseOrder());
+        for (int i = 0; i < 5; i++) {
+            if (anomalousValues.size() > i) {
+                anomalyLog.info(anomaly, "Top {} anomalous value; {}", i + 1,
+                        anomalousValues.get(i).toString());
+            }
+        }
+
+        if (!anomalousValues.isEmpty()) {
+            AnomalousValue top = anomalousValues.get(0);
+            anomalyLog.info(anomaly, "Secondary verification result; percentiles: {} " +
+                    "percentiles2: {} ri: {} match: {}", maxIndex, top.index, bottleneck.getIndex(),
+                    top.index == bottleneck.getIndex());
+        }
+    }
+
+    private static class AnomalousValue implements Comparable<AnomalousValue> {
+        private final int index;
+        private final double value;
+        private final double percentile;
+        private final long timestamp;
+
+        private AnomalousValue(int index, double value, double percentile, long timstamp) {
+            this.index = index;
+            this.value = value;
+            this.percentile = percentile;
+            this.timestamp = timstamp;
+        }
+
+        private double getPercentageIncrease() {
+            return (value - percentile)*100.0/percentile;
+        }
+
+        @Override
+        public int compareTo(AnomalousValue other) {
+            return Double.compare(getPercentageIncrease(), other.getPercentageIncrease());
+        }
+
+        @Override
+        public String toString() {
+            return new StringBuilder("index: ").append(index)
+                    .append(" timestamp: ").append(new Date(timestamp))
+                    .append(" values: ").append(percentile).append(" --> ").append(value)
+                    .toString();
+        }
     }
 
 }
