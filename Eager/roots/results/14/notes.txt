@@ -1,0 +1,4 @@
+* RI is sensitive to pattern anomalies (recurring anomalies). If some API call is consistently slow, RI can detect it.
+* RI can also detect point anomalies, IF the anomaly occurred in a non-dominating API call.
+* If a dominating API call becomes further slow, we can use percentile analysis.
+* Percentile analysis is sensitive to point anomalies.
