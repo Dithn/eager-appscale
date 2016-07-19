@@ -15,6 +15,7 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 import edu.ucsb.cs.roots.rlang.RClient;
 import edu.ucsb.cs.roots.utils.ImmutableCollectors;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -105,18 +106,11 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 anomalyLog.info(anomaly, "Bottleneck identified; index: {}, {}", indexAtPos,
                         bottleneck.toString());
             }
+
             PercentileBasedVerifier verifier = new PercentileBasedVerifier(groupedByTime,
                     bottleneck, anomalyLog, apiCalls, verifyPercentile);
             verifier.verify();
 
-            for (int i = 0; i < callCount; i++) {
-                int index = i;
-                String trend = sortedTimestamps.stream()
-                        .map(timestamp -> String.valueOf(results.get(timestamp).get(index).getImportance()))
-                        .collect(Collectors.joining(", "));
-                anomalyLog.info(anomaly, "Historical trend for {}: {}",
-                        apiCalls.get(i).name(), trend);
-            }
         } catch (Exception e) {
             anomalyLog.error(anomaly, "Error while computing rankings", e);
         }
@@ -178,6 +172,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
     private ListMultimap<Long,RelativeImportance> computeRankings(
             List<ApiCall> apiCalls, Map<Long, List<ApplicationRequest>> groupedByTime) throws Exception {
         long requestCount = 0;
+
+        SummaryStatistics totalSummary = new SummaryStatistics();
+        groupedByTime.keySet().stream().forEach(timestamp -> {
+            groupedByTime.get(timestamp).forEach(r -> totalSummary.addValue(r.getResponseTime()));
+        });
+        double upperLimit = totalSummary.getMean() + 4 * totalSummary.getStandardDeviation();
+        log.debug("Using upper limit value on total response time: {}", upperLimit);
+
         ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         List<Exception> rankingErrors = new ArrayList<>();
         RClient client = environment.getRService().borrow();
@@ -186,6 +188,12 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             for (long timestamp : groupedByTime.keySet()) {
                 for (ApplicationRequest request : groupedByTime.get(timestamp)) {
                     double[] responseTimeVector = getResponseTimeVector(request);
+                    if (request.getResponseTime() > upperLimit) {
+                        if (log.isDebugEnabled()) {
+                            log.debug("Response time vector: {} (skipped)", Arrays.toString(responseTimeVector));
+                        }
+                        continue;
+                    }
                     if (log.isDebugEnabled()) {
                         log.debug("Response time vector: {}", Arrays.toString(responseTimeVector));
                     }

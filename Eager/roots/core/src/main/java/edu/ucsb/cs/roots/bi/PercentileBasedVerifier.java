@@ -109,8 +109,9 @@ public class PercentileBasedVerifier {
         if (!anomalousValues.isEmpty()) {
             AnomalousValue top = anomalousValues.get(0);
             anomalyLog.info(anomaly, "Secondary verification result; percentiles: {} " +
-                    "percentiles2: {} ri: {} match: {}", maxIndex, top.index, bottleneck.getIndex(),
-                    top.index == bottleneck.getIndex());
+                    "percentiles2: {} ri: {} match: {} ri_onset: {}", maxIndex, top.index,
+                    bottleneck.getIndex(), top.index == bottleneck.getIndex(),
+                    bottleneck.getOnsetTime() != null);
         }
     }
 
@@ -120,11 +121,11 @@ public class PercentileBasedVerifier {
         private final double percentile;
         private final long timestamp;
 
-        private AnomalousValue(int index, double value, double percentile, long timstamp) {
+        private AnomalousValue(int index, double value, double percentile, long timestamp) {
             this.index = index;
             this.value = value;
             this.percentile = percentile;
-            this.timestamp = timstamp;
+            this.timestamp = timestamp;
         }
 
         private double getPercentageIncrease() {
