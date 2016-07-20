@@ -11,11 +11,23 @@ def handle_event(line):
         count += 1
     if p == p2:
         count += 1
-    print id, '[' + str(count) + ']', ri == p, ri == p2, p == p2, p, p2, ri, onset
+    scores = {}
+    scores[ri] = scores.get(ri, 0) + 4
+    if onset:
+        scores[ri] = scores.get(ri, 0) + 4
+    scores[p] = scores.get(p, 0) + 3
+    scores[p2] = scores.get(p2, 0) + 3
+    max_score = 0
+    max_index = None
+    for k,v in scores.items():
+        if v > max_score:
+            max_score = v
+            max_index = k
+    print id, '[' + str(count) + ']', ri == p, ri == p2, p == p2, p, p2, ri, onset, max_index, max_score
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print 'Usahe: secondary_verifier.py <file>'
+        print 'Usage: weighted_bi_finder.py <file>'
         sys.exit(1)
     with open(sys.argv[1], 'r') as f:
         for line in f:
