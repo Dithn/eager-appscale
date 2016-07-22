@@ -22,8 +22,7 @@ public final class PathAnomalyDetector extends AnomalyDetector {
     private long end = -1L;
 
     private PathAnomalyDetector(RootsEnvironment environment, Builder builder) {
-        super(environment, builder.application, builder.periodInSeconds,
-                builder.historyLengthInSeconds, builder.dataStore, builder.properties);
+        super(environment, builder);
         checkArgument(builder.meanThreshold > 0, "Mean threshold must be positive");
         this.meanThreshold = builder.meanThreshold;
         this.operationAnomalies = builder.operationAnomalies;

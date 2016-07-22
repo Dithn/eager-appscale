@@ -19,20 +19,18 @@ public abstract class AnomalyDetector extends ScheduledItem {
     protected final Properties properties;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    public AnomalyDetector(RootsEnvironment environment, String application,
-                           int periodInSeconds, int historyLengthInSeconds, String dataStore,
-                           Properties properties) {
-        super(application, periodInSeconds);
+    public AnomalyDetector(RootsEnvironment environment, AnomalyDetectorBuilder builder) {
+        super(builder.application, builder.periodInSeconds);
         checkNotNull(environment, "Environment must not be null");
-        checkArgument(historyLengthInSeconds > 0, "Period must be a positive integer");
-        checkArgument(historyLengthInSeconds % periodInSeconds == 0,
+        checkArgument(builder.historyLengthInSeconds > 0, "Period must be a positive integer");
+        checkArgument(builder.historyLengthInSeconds % builder.periodInSeconds == 0,
                 "History length must be a multiple of period");
-        checkArgument(!Strings.isNullOrEmpty(dataStore), "DataStore name is required");
-        checkNotNull(properties, "Properties must not be null");
+        checkArgument(!Strings.isNullOrEmpty(builder.dataStore), "DataStore name is required");
+        checkNotNull(builder.properties, "Properties must not be null");
         this.environment = environment;
-        this.historyLengthInSeconds = historyLengthInSeconds;
-        this.dataStore = dataStore;
-        this.properties = properties;
+        this.historyLengthInSeconds =builder.historyLengthInSeconds;
+        this.dataStore = builder.dataStore;
+        this.properties = builder.properties;
     }
 
     public final String getDataStore() {

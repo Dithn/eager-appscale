@@ -40,8 +40,7 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
     private long end = -1L;
 
     private CorrelationBasedDetector(RootsEnvironment environment, Builder builder) {
-        super(environment, builder.application, builder.periodInSeconds,
-                builder.historyLengthInSeconds, builder.dataStore, builder.properties);
+        super(environment, builder);
         checkArgument(builder.correlationThreshold >= -1 && builder.correlationThreshold <= 1,
                 "Correlation threshold must be in the interval [-1,1]");
         checkArgument(!Strings.isNullOrEmpty(builder.dtwAnalysis), "DTW analysis method is required");
