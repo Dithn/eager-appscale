@@ -47,6 +47,10 @@ public final class Anomaly {
         return end;
     }
 
+    public long getPreviousAnomalyTime() {
+        return detector.getLastAnomalyTime(operation);
+    }
+
     public int getType() {
         return type;
     }

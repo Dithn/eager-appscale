@@ -7,7 +7,6 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

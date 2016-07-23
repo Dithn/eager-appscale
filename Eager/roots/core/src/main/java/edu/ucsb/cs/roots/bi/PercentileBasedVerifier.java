@@ -9,6 +9,7 @@ import edu.ucsb.cs.roots.data.ApplicationRequest;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PercentileBasedVerifier {
 
@@ -83,12 +84,14 @@ public class PercentileBasedVerifier {
 
     private void comparePercentiles(double[] percentileResults, int maxIndex, Anomaly anomaly) {
         List<AnomalousValue> anomalousValues = new ArrayList<>();
+        AtomicInteger counter = new AtomicInteger(0);
         for (long timestamp : requests.keySet()) {
             if (timestamp < anomaly.getStart()) {
                 continue;
             }
             List<ApplicationRequest> batch = requests.get(timestamp);
             batch.forEach(r -> {
+                counter.incrementAndGet();
                 int[] vector = PercentileBasedFinder.getResponseTimeVector(r);
                 for (int i = 0; i < vector.length; i++) {
                     if (vector[i] > percentileResults[i]) {
@@ -109,9 +112,9 @@ public class PercentileBasedVerifier {
         if (!anomalousValues.isEmpty()) {
             AnomalousValue top = anomalousValues.get(0);
             anomalyLog.info(anomaly, "Secondary verification result; percentiles: {} " +
-                    "percentiles2: {} ri: {} match: {} ri_onset: {}", maxIndex, top.index,
-                    bottleneck.getIndex(), top.index == bottleneck.getIndex(),
-                    bottleneck.getOnsetTime() != null);
+                    "percentiles2: {} ri: {} match: {} ri_onset: {} data_points: {}",
+                    maxIndex, top.index, bottleneck.getIndex(), top.index == bottleneck.getIndex(),
+                    bottleneck.getOnsetTime() != null, counter.get());
         }
     }
 

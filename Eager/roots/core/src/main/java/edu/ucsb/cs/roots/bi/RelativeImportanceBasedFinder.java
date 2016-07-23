@@ -42,7 +42,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
     @Override
     void analyze() {
         long history = anomaly.getEnd() - anomaly.getStart();
-        long start = anomaly.getEnd() - 2 * history;
+        long start = Math.max(anomaly.getEnd() - 2 * history, anomaly.getPreviousAnomalyTime());
         DataStore ds = environment.getDataStoreService().get(anomaly.getDataStore());
         try {
             ImmutableList<ApplicationRequest> requests = ds.getRequestInfo(
