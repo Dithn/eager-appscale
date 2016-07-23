@@ -10,6 +10,7 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
     protected int periodInSeconds = 60;
     protected int historyLengthInSeconds = 60 * 60;
     protected String dataStore = "default";
+    protected boolean enableWaiting = false;
     protected final Properties properties = new Properties();
 
     private final B thisObj;
@@ -43,6 +44,11 @@ public abstract class AnomalyDetectorBuilder<T extends AnomalyDetector, B extend
 
     public final B setProperties(Properties properties) {
         this.properties.putAll(properties);
+        return thisObj;
+    }
+
+    public B setEnableWaiting(boolean enableWaiting) {
+        this.enableWaiting = enableWaiting;
         return thisObj;
     }
 }

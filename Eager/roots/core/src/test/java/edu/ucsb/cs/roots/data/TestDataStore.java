@@ -17,8 +17,15 @@ public class TestDataStore implements DataStore {
 
     private ListMultimap<String,BenchmarkResult> benchmarkResults = ArrayListMultimap.create();
 
+    private final String name;
+
     public TestDataStore(RootsEnvironment environment, String name) {
+        this.name = name;
         environment.getDataStoreService().put(name, this);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addBenchmarkResult(String operation, BenchmarkResult entry) {

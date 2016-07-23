@@ -7,6 +7,7 @@ import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -63,10 +64,8 @@ public final class SLOBasedDetector extends AnomalyDetector {
         long cutoff = end - historyLengthInSeconds * 1000;
         history.values().removeIf(l -> l.getTimestamp() < cutoff);
 
-        int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.keySet().stream()
-                .filter(op -> requestTypes.contains(op) &&
-                        history.get(op).size() >= maxSamples * windowFillPercentage/100.0)
+                .filter(requestTypes::contains)
                 .forEach(op -> computeSLO(cutoff, end, op, history.get(op)));
     }
 
@@ -86,9 +85,28 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
     private void computeSLO(long start, long end, String operation,
                             Collection<BenchmarkResult> results) {
-        log.debug("Calculating SLO with {} data points.", results.size());
-        long satisfied = results.stream()
-                .filter(e -> e.getResponseTime() <= responseTimeUpperBound)
+        if (isWaiting(operation, end)) {
+            log.debug("Wait period in progress for {}:{}", application, operation);
+            return;
+        }
+        Collection<BenchmarkResult> filtered;
+        long lastAnomalyAt = getLastAnomalyTime(operation);
+        if (lastAnomalyAt > 0) {
+            filtered = results.stream().filter(r -> r.getTimestamp() > lastAnomalyAt)
+                    .collect(Collectors.toList());
+        } else {
+            filtered = results;
+        }
+
+        int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
+        if (filtered.size() < maxSamples * windowFillPercentage/100.0) {
+            log.debug("Insufficient data points ({}) to perform SLO calculation", filtered.size());
+            return;
+        }
+
+        log.debug("Calculating SLO with {} data points.", filtered.size());
+        long satisfied = filtered.stream()
+                .filter(r -> r.getResponseTime() <= responseTimeUpperBound)
                 .count();
         double sloSupported = satisfied * 100.0 / results.size();
         log.info("SLO metrics. Supported: {}, Expected: {}", sloSupported, sloPercentage);
@@ -96,6 +114,13 @@ public final class SLOBasedDetector extends AnomalyDetector {
             reportAnomaly(start, end, Anomaly.TYPE_PERFORMANCE, operation,
                     String.format("SLA satisfaction: %.4f", sloSupported));
         }
+    }
+
+    @Override
+    protected long getWaitDuration(String operation) {
+        // TODO: Parameterize this calculation from detector properties
+        double minutes = Math.log(0.5)/Math.log(0.95);
+        return (long) minutes * 60L * 1000L;
     }
 
     public static Builder newBuilder() {
