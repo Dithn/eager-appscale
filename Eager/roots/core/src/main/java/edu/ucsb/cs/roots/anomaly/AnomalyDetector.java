@@ -61,9 +61,10 @@ public abstract class AnomalyDetector extends ScheduledItem {
         return -1L;
     }
 
-    protected final void reportAnomaly(long start, long end, int type,
-                                       String operation, String description) {
+    protected final void reportAnomaly(Anomaly anomaly) {
+        String operation = anomaly.getOperation();
         if (enableWaiting) {
+            long end = anomaly.getEnd();
             if (isWaiting(operation, end)) {
                 log.info("Wait period in progress for {}:{}", application, operation);
                 return;
@@ -76,7 +77,7 @@ public abstract class AnomalyDetector extends ScheduledItem {
                 waitPeriods.put(operation, waitPeriod);
             }
         }
-        environment.publishEvent(new Anomaly(this, start, end, type, operation, description));
+        environment.publishEvent(anomaly);
     }
 
     protected long getWaitDuration(String operation) {

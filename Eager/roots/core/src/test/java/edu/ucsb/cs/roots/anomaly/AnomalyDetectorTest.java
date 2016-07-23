@@ -24,7 +24,10 @@ public class AnomalyDetectorTest {
                     .setHistoryLengthInSeconds(5)
                     .setDataStore(dataStore.getName())
                     .setFunction((now,d) ->
-                            d.reportAnomaly(1, now, Anomaly.TYPE_PERFORMANCE, "foo", "test"))
+                            d.reportAnomaly(Anomaly.newBuilder().setStart(1).setEnd(now)
+                                    .setDetector(d).setType(Anomaly.TYPE_PERFORMANCE)
+                                    .setOperation("foo").setDescription("test")
+                                    .build()))
                     .setWaitDuration(10 * 1000L)
                     .build(environment);
 
@@ -60,7 +63,10 @@ public class AnomalyDetectorTest {
                     .setHistoryLengthInSeconds(5)
                     .setDataStore(dataStore.getName())
                     .setFunction((now,d) ->
-                            d.reportAnomaly(1, now, Anomaly.TYPE_PERFORMANCE, "foo", "test"))
+                            d.reportAnomaly(Anomaly.newBuilder().setStart(1).setEnd(now)
+                                    .setDetector(d).setType(Anomaly.TYPE_PERFORMANCE)
+                                    .setOperation("foo").setDescription("test")
+                                    .build()))
                     .setEnableWaiting(true)
                     .setWaitDuration(10 * 1000L)
                     .build(environment);

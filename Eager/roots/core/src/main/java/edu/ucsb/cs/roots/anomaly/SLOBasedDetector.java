@@ -64,8 +64,10 @@ public final class SLOBasedDetector extends AnomalyDetector {
         long cutoff = end - historyLengthInSeconds * 1000;
         history.values().removeIf(l -> l.getTimestamp() < cutoff);
 
+        int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.keySet().stream()
-                .filter(requestTypes::contains)
+                .filter(op -> requestTypes.contains(op) &&
+                        history.get(op).size() >= maxSamples * windowFillPercentage/100.0)
                 .forEach(op -> computeSLO(cutoff, end, op, history.get(op)));
     }
 
@@ -89,30 +91,23 @@ public final class SLOBasedDetector extends AnomalyDetector {
             log.debug("Wait period in progress for {}:{}", application, operation);
             return;
         }
-        Collection<BenchmarkResult> filtered;
-        long lastAnomalyAt = getLastAnomalyTime(operation);
-        if (lastAnomalyAt > 0) {
-            filtered = results.stream().filter(r -> r.getTimestamp() > lastAnomalyAt)
-                    .collect(Collectors.toList());
-        } else {
-            filtered = results;
-        }
 
-        int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
-        if (filtered.size() < maxSamples * windowFillPercentage/100.0) {
-            log.debug("Insufficient data points ({}) to perform SLO calculation", filtered.size());
-            return;
-        }
-
-        log.debug("Calculating SLO with {} data points.", filtered.size());
-        long satisfied = filtered.stream()
+        log.debug("Calculating SLO with {} data points.", results.size());
+        long satisfied = results.stream()
                 .filter(r -> r.getResponseTime() <= responseTimeUpperBound)
                 .count();
         double sloSupported = satisfied * 100.0 / results.size();
         log.info("SLO metrics. Supported: {}, Expected: {}", sloSupported, sloPercentage);
         if (sloSupported < sloPercentage) {
-            reportAnomaly(start, end, Anomaly.TYPE_PERFORMANCE, operation,
-                    String.format("SLA satisfaction: %.4f", sloSupported));
+            Anomaly anomaly = Anomaly.newBuilder()
+                    .setDetector(this)
+                    .setStart(start)
+                    .setEnd(end)
+                    .setType(Anomaly.TYPE_PERFORMANCE)
+                    .setOperation(operation)
+                    .setDescription(String.format("SLA satisfaction: %.4f", sloSupported))
+                    .build();
+            reportAnomaly(anomaly);
         }
     }
 

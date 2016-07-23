@@ -81,7 +81,15 @@ public final class PathAnomalyDetector extends AnomalyDetector {
             String desc = String.format("Request distribution changed for - %s [%f%%]", label,
                     statistics.percentageDifference(last.ratio));
             ratios.removeIf(v -> v.timestamp < last.timestamp);
-            reportAnomaly(start, end, Anomaly.TYPE_WORKLOAD, label, desc);
+            Anomaly anomaly = Anomaly.newBuilder()
+                    .setDetector(this)
+                    .setStart(start)
+                    .setEnd(end)
+                    .setType(Anomaly.TYPE_WORKLOAD)
+                    .setDescription(desc)
+                    .setOperation(label)
+                    .build();
+            reportAnomaly(anomaly);
         }
     }
 

@@ -20,18 +20,19 @@ public final class Anomaly {
     private final String operation;
     private final String description;
 
-    Anomaly(AnomalyDetector detector, long start, long end, int type, String operation, String description) {
-        checkNotNull(detector, "Detector is required");
-        checkArgument(start > 0 && end > 0 && start < end, "Time interval is invalid");
-        checkArgument(!Strings.isNullOrEmpty(operation), "Operation is required");
-        checkArgument(!Strings.isNullOrEmpty(description), "Description is required");
+    private Anomaly(Builder builder) {
+        checkNotNull(builder.detector, "Detector is required");
+        checkArgument(builder.start > 0 && builder.end > 0 && builder.start < builder.end,
+                "Time interval is invalid");
+        checkArgument(!Strings.isNullOrEmpty(builder.operation), "Operation is required");
+        checkArgument(!Strings.isNullOrEmpty(builder.description), "Description is required");
         this.id = UUID.randomUUID().toString();
-        this.detector = detector;
-        this.start = start;
-        this.end = end;
-        this.type = type;
-        this.operation = operation;
-        this.description = description;
+        this.detector = builder.detector;
+        this.start = builder.start;
+        this.end = builder.end;
+        this.type = builder.type;
+        this.operation = builder.operation;
+        this.description = builder.description;
     }
 
     public String getId() {
@@ -72,5 +73,56 @@ public final class Anomaly {
 
     public String getDetectorProperty(String key, String def) {
         return detector.getProperty(key, def);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private AnomalyDetector detector;
+        private long start;
+        private long end;
+        private int type;
+        private String operation;
+        private String description;
+
+        private Builder() {
+        }
+
+        public Builder setDetector(AnomalyDetector detector) {
+            this.detector = detector;
+            return this;
+        }
+
+        public Builder setStart(long start) {
+            this.start = start;
+            return this;
+        }
+
+        public Builder setEnd(long end) {
+            this.end = end;
+            return this;
+        }
+
+        public Builder setType(int type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder setOperation(String operation) {
+            this.operation = operation;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Anomaly build() {
+            return new Anomaly(this);
+        }
     }
 }

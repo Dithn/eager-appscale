@@ -205,7 +205,15 @@ public final class CorrelationBasedDetector extends AnomalyDetector {
             // might be looking at a performance anomaly.
             String desc = String.format("Correlation: %.4f; DTW-Increase: %.4f%%",
                     correlation.rValue, statistics.percentageDifference(correlation.dtw));
-            reportAnomaly(start, end, Anomaly.TYPE_PERFORMANCE, correlation.operation, desc);
+            Anomaly anomaly = Anomaly.newBuilder()
+                    .setDetector(this)
+                    .setStart(start)
+                    .setEnd(end)
+                    .setType(Anomaly.TYPE_PERFORMANCE)
+                    .setOperation(correlation.operation)
+                    .setDescription(desc)
+                    .build();
+            reportAnomaly(anomaly);
         }
     }
 
