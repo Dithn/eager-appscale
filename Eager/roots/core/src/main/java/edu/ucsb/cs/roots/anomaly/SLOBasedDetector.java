@@ -98,12 +98,8 @@ public final class SLOBasedDetector extends AnomalyDetector {
         double sloSupported = satisfied * 100.0 / results.size();
         log.info("SLO metrics. Supported: {}, Expected: {}", sloSupported, sloPercentage);
         if (sloSupported < sloPercentage) {
-            Anomaly anomaly = Anomaly.newBuilder()
-                    .setDetector(this)
-                    .setStart(start)
-                    .setEnd(end)
+            Anomaly anomaly = newAnomaly(start, end, operation)
                     .setType(Anomaly.TYPE_PERFORMANCE)
-                    .setOperation(operation)
                     .setDescription(String.format("SLA satisfaction: %.4f", sloSupported))
                     .build();
             reportAnomaly(anomaly);

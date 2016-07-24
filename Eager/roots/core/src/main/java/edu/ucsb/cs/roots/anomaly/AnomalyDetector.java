@@ -53,12 +53,21 @@ public abstract class AnomalyDetector extends ScheduledItem {
         return waitPeriod != null && waitPeriod.isWaiting(now);
     }
 
-    protected final long getLastAnomalyTime(String operation) {
+    private long getLastAnomalyTime(String operation) {
         WaitPeriod waitPeriod = waitPeriods.get(operation);
         if (waitPeriod != null) {
             return waitPeriod.from;
         }
         return -1L;
+    }
+
+    protected final Anomaly.Builder newAnomaly(long start, long end, String operation) {
+        return Anomaly.newBuilder()
+                .setDetector(this)
+                .setStart(start)
+                .setEnd(end)
+                .setOperation(operation)
+                .setPreviousAnomalyTime(getLastAnomalyTime(operation));
     }
 
     protected final void reportAnomaly(Anomaly anomaly) {

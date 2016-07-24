@@ -19,6 +19,7 @@ public final class Anomaly {
     private final int type;
     private final String operation;
     private final String description;
+    private final long previousAnomalyTime;
 
     private Anomaly(Builder builder) {
         checkNotNull(builder.detector, "Detector is required");
@@ -33,6 +34,7 @@ public final class Anomaly {
         this.type = builder.type;
         this.operation = builder.operation;
         this.description = builder.description;
+        this.previousAnomalyTime = builder.previousAnomalyTime;
     }
 
     public String getId() {
@@ -48,7 +50,7 @@ public final class Anomaly {
     }
 
     public long getPreviousAnomalyTime() {
-        return detector.getLastAnomalyTime(operation);
+        return previousAnomalyTime;
     }
 
     public int getType() {
@@ -91,6 +93,7 @@ public final class Anomaly {
         private int type;
         private String operation;
         private String description;
+        private long previousAnomalyTime = -1L;
 
         private Builder() {
         }
@@ -122,6 +125,11 @@ public final class Anomaly {
 
         public Builder setDescription(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder setPreviousAnomalyTime(long previousAnomalyTime) {
+            this.previousAnomalyTime = previousAnomalyTime;
             return this;
         }
 

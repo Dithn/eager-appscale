@@ -6,6 +6,7 @@ import edu.ucsb.cs.roots.data.TestDataStore;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Properties;
 
 public class AnomalyDetectorTest {
@@ -33,17 +34,14 @@ public class AnomalyDetectorTest {
 
             detector.run(70000);
             Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-            Assert.assertEquals(-1L, detector.getLastAnomalyTime("foo"));
 
             Assert.assertFalse(detector.isWaiting("foo", 75000));
             detector.run(75000);
             Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-            Assert.assertEquals(-1L, detector.getLastAnomalyTime("foo"));
 
             Assert.assertFalse(detector.isWaiting("foo", 80000));
             detector.run(80000);
             Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-            Assert.assertEquals(-1L, detector.getLastAnomalyTime("foo"));
         } finally {
             environment.destroy();
         }
@@ -72,18 +70,67 @@ public class AnomalyDetectorTest {
                     .build(environment);
 
             detector.run(70000);
-            Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-            Assert.assertEquals(70000, detector.getLastAnomalyTime("foo"));
+            List<Anomaly> anomalies = recorder.getAndClearAnomalies();
+            Assert.assertEquals(1, anomalies.size());
 
             Assert.assertTrue(detector.isWaiting("foo", 75000));
             detector.run(75000);
             Assert.assertEquals(0, recorder.getAndClearAnomalies().size());
-            Assert.assertEquals(70000, detector.getLastAnomalyTime("foo"));
 
             Assert.assertFalse(detector.isWaiting("foo", 80000));
             detector.run(80000);
-            Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-            Assert.assertEquals(80000, detector.getLastAnomalyTime("foo"));
+            anomalies = recorder.getAndClearAnomalies();
+            Assert.assertEquals(1, anomalies.size());
+        } finally {
+            environment.destroy();
+        }
+    }
+
+    @Test
+    public void testNewAnomaly() throws Exception {
+        RootsEnvironment environment = getEnvironment();
+        try {
+            environment.init();
+            AnomalyRecorder recorder = new AnomalyRecorder();
+            environment.subscribe(recorder);
+            TestDataStore dataStore = new TestDataStore(environment, "default");
+            TestAnomalyDetector detector = TestAnomalyDetector.newBuilder()
+                    .setApplication("test-app")
+                    .setPeriodInSeconds(1)
+                    .setHistoryLengthInSeconds(5)
+                    .setDataStore(dataStore.getName())
+                    .setFunction((now,d) ->
+                            d.reportAnomaly(d.newAnomaly(1, now, "foo")
+                                    .setType(Anomaly.TYPE_PERFORMANCE)
+                                    .setDescription("test")
+                                    .build()))
+                    .setEnableWaiting(true)
+                    .setWaitDuration(10 * 1000L)
+                    .build(environment);
+
+            detector.run(70000);
+            List<Anomaly> anomalies = recorder.getAndClearAnomalies();
+            Assert.assertEquals(1, anomalies.size());
+            Anomaly anomaly = anomalies.get(0);
+            Assert.assertEquals(1, anomaly.getStart());
+            Assert.assertEquals(70000, anomaly.getEnd());
+            Assert.assertEquals("foo", anomaly.getOperation());
+            Assert.assertEquals(-1L, anomaly.getPreviousAnomalyTime());
+
+
+            Assert.assertTrue(detector.isWaiting("foo", 75000));
+            detector.run(75000);
+            Assert.assertEquals(0, recorder.getAndClearAnomalies().size());
+
+            Assert.assertFalse(detector.isWaiting("foo", 80000));
+            detector.run(80000);
+            anomalies = recorder.getAndClearAnomalies();
+            Assert.assertEquals(1, anomalies.size());
+            anomaly = anomalies.get(0);
+            Assert.assertEquals(1, anomaly.getStart());
+            Assert.assertEquals(80000, anomaly.getEnd());
+            Assert.assertEquals("foo", anomaly.getOperation());
+            Assert.assertEquals(70000, anomaly.getPreviousAnomalyTime());
         } finally {
             environment.destroy();
         }
