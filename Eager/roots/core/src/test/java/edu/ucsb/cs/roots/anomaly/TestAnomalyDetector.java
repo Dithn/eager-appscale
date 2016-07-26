@@ -20,11 +20,6 @@ public final class TestAnomalyDetector extends AnomalyDetector {
         }
     }
 
-    @Override
-    protected long getWaitDuration(String operation) {
-        return waitDuration;
-    }
-
     public static Builder newBuilder() {
         return new Builder();
     }

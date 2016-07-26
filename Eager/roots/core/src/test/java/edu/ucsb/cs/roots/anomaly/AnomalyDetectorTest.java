@@ -12,7 +12,7 @@ import java.util.Properties;
 public class AnomalyDetectorTest {
 
     @Test
-    public void testNoWaitDuration() throws Exception {
+    public void testLastAnomalyTime() throws Exception {
         RootsEnvironment environment = getEnvironment();
         try {
             environment.init();
@@ -25,62 +25,31 @@ public class AnomalyDetectorTest {
                     .setHistoryLengthInSeconds(5)
                     .setDataStore(dataStore.getName())
                     .setFunction((now,d) ->
-                            d.reportAnomaly(Anomaly.newBuilder().setStart(1).setEnd(now)
-                                    .setDetector(d).setType(Anomaly.TYPE_PERFORMANCE)
-                                    .setOperation("foo").setDescription("test")
+                            d.reportAnomaly(d.newAnomaly(1, now, "foo")
+                                    .setType(Anomaly.TYPE_PERFORMANCE)
+                                    .setDescription("test")
                                     .build()))
                     .setWaitDuration(10 * 1000L)
                     .build(environment);
 
+            Assert.assertEquals(-1L, detector.getLastAnomalyTime("foo"));
             detector.run(70000);
-            Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-
-            Assert.assertFalse(detector.isWaiting("foo", 75000));
-            detector.run(75000);
-            Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-
-            Assert.assertFalse(detector.isWaiting("foo", 80000));
-            detector.run(80000);
-            Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
-        } finally {
-            environment.destroy();
-        }
-    }
-
-    @Test
-    public void testWaitDuration() throws Exception {
-        RootsEnvironment environment = getEnvironment();
-        try {
-            environment.init();
-            AnomalyRecorder recorder = new AnomalyRecorder();
-            environment.subscribe(recorder);
-            TestDataStore dataStore = new TestDataStore(environment, "default");
-            TestAnomalyDetector detector = TestAnomalyDetector.newBuilder()
-                    .setApplication("test-app")
-                    .setPeriodInSeconds(1)
-                    .setHistoryLengthInSeconds(5)
-                    .setDataStore(dataStore.getName())
-                    .setFunction((now,d) ->
-                            d.reportAnomaly(Anomaly.newBuilder().setStart(1).setEnd(now)
-                                    .setDetector(d).setType(Anomaly.TYPE_PERFORMANCE)
-                                    .setOperation("foo").setDescription("test")
-                                    .build()))
-                    .setEnableWaiting(true)
-                    .setWaitDuration(10 * 1000L)
-                    .build(environment);
-
-            detector.run(70000);
+            Assert.assertEquals(70000, detector.getLastAnomalyTime("foo"));
             List<Anomaly> anomalies = recorder.getAndClearAnomalies();
             Assert.assertEquals(1, anomalies.size());
+            Assert.assertEquals(-1L, anomalies.get(0).getPreviousAnomalyTime());
 
-            Assert.assertTrue(detector.isWaiting("foo", 75000));
             detector.run(75000);
-            Assert.assertEquals(0, recorder.getAndClearAnomalies().size());
-
-            Assert.assertFalse(detector.isWaiting("foo", 80000));
-            detector.run(80000);
+            Assert.assertEquals(75000, detector.getLastAnomalyTime("foo"));
             anomalies = recorder.getAndClearAnomalies();
             Assert.assertEquals(1, anomalies.size());
+            Assert.assertEquals(70000L, anomalies.get(0).getPreviousAnomalyTime());
+
+            detector.run(80000);
+            Assert.assertEquals(80000, detector.getLastAnomalyTime("foo"));
+            anomalies = recorder.getAndClearAnomalies();
+            Assert.assertEquals(1, anomalies.size());
+            Assert.assertEquals(75000L, anomalies.get(0).getPreviousAnomalyTime());
         } finally {
             environment.destroy();
         }
@@ -117,12 +86,9 @@ public class AnomalyDetectorTest {
             Assert.assertEquals("foo", anomaly.getOperation());
             Assert.assertEquals(-1L, anomaly.getPreviousAnomalyTime());
 
-
-            Assert.assertTrue(detector.isWaiting("foo", 75000));
             detector.run(75000);
-            Assert.assertEquals(0, recorder.getAndClearAnomalies().size());
+            Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
 
-            Assert.assertFalse(detector.isWaiting("foo", 80000));
             detector.run(80000);
             anomalies = recorder.getAndClearAnomalies();
             Assert.assertEquals(1, anomalies.size());
@@ -130,7 +96,7 @@ public class AnomalyDetectorTest {
             Assert.assertEquals(1, anomaly.getStart());
             Assert.assertEquals(80000, anomaly.getEnd());
             Assert.assertEquals("foo", anomaly.getOperation());
-            Assert.assertEquals(70000, anomaly.getPreviousAnomalyTime());
+            Assert.assertEquals(75000, anomaly.getPreviousAnomalyTime());
         } finally {
             environment.destroy();
         }

@@ -26,9 +26,7 @@ public class AnomalyDetectorFactory {
 
     private static final String DETECTOR_RESPONSE_TIME_UPPER_BOUND = "responseTimeUpperBound";
     private static final String DETECTOR_SLO_PERCENTAGE = "sloPercentage";
-    private static final String DETECTOR_WINDOW_FILL_PERCENTAGE = "windowFillPercentage";
-    private static final String DETECTOR_SAMPLING_RATE = "samplingRate";
-    private static final String DETECTOR_SAMPLING_RATE_TIME_UNIT = DETECTOR_SAMPLING_RATE + ".timeUnit";
+    private static final String DETECTOR_MIN_SAMPLES = "minimumSamples";
 
     private static final String DETECTOR_MEAN_THRESHOLD = "meanThreshold";
     private static final String DETECTOR_OPERATION_ANOMALIES = "operationAnomalies";
@@ -122,18 +120,11 @@ public class AnomalyDetectorFactory {
             builder.setSloPercentage(Double.parseDouble(sloPercentage));
         }
 
-        String windowFillPercentage = properties.getProperty(DETECTOR_WINDOW_FILL_PERCENTAGE);
-        if (!Strings.isNullOrEmpty(windowFillPercentage)) {
-            builder.setWindowFillPercentage(Double.parseDouble(windowFillPercentage));
+        String minimumSamples = properties.getProperty(DETECTOR_MIN_SAMPLES);
+        if (!Strings.isNullOrEmpty(minimumSamples)) {
+            builder.setMinimumSamples(Integer.parseInt(minimumSamples));
         }
 
-        String samplingRate = properties.getProperty(DETECTOR_SAMPLING_RATE);
-        if (!Strings.isNullOrEmpty(samplingRate)) {
-            TimeUnit samplingTimeUnit = TimeUnit.valueOf(properties.getProperty(
-                    DETECTOR_SAMPLING_RATE_TIME_UNIT, "SECONDS"));
-            builder.setSamplingIntervalInSeconds((int) samplingTimeUnit.toSeconds(
-                    Integer.parseInt(samplingRate)));
-        }
         return builder;
     }
 

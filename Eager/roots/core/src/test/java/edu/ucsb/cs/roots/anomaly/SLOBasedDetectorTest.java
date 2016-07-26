@@ -23,7 +23,6 @@ public class SLOBasedDetectorTest {
                     .setApplication("test-app")
                     .setPeriodInSeconds(1)
                     .setHistoryLengthInSeconds(5)
-                    .setSamplingIntervalInSeconds(1)
                     .setResponseTimeUpperBound(20)
                     .setDataStore("test-ds")
                     .build(environment);
@@ -69,7 +68,7 @@ public class SLOBasedDetectorTest {
                     .setApplication("test-app")
                     .setPeriodInSeconds(1)
                     .setHistoryLengthInSeconds(5)
-                    .setSamplingIntervalInSeconds(1)
+                    .setMinimumSamples(5)
                     .setResponseTimeUpperBound(20)
                     .setDataStore("test-ds")
                     .build(environment);
@@ -103,6 +102,46 @@ public class SLOBasedDetectorTest {
                     Assert.assertEquals(1, anomaly.getPeriodInSeconds());
                 } else {
                     Assert.assertTrue(recorder.getAndClearAnomalies().isEmpty());
+                }
+            }
+        } finally {
+            environment.destroy();
+        }
+    }
+
+    @Test
+    public void testMinimumSamples() throws Exception {
+        RootsEnvironment environment = new RootsEnvironment("Test", new ConfigLoader(){
+            @Override
+            public Properties loadGlobalProperties() throws Exception {
+                Properties properties = new Properties();
+                properties.setProperty(RootsEnvironment.EVENT_BUS_TYPE, "sync");
+                return properties;
+            }
+        });
+        try {
+            environment.init();
+            AnomalyRecorder recorder = new AnomalyRecorder();
+            environment.subscribe(recorder);
+            TestDataStore dataStore = new TestDataStore(environment, "test-ds");
+            SLOBasedDetector detector = SLOBasedDetector.newBuilder()
+                    .setApplication("test-app")
+                    .setPeriodInSeconds(1)
+                    .setHistoryLengthInSeconds(5)
+                    .setMinimumSamples(5)
+                    .setResponseTimeUpperBound(20)
+                    .setDataStore("test-ds")
+                    .build(environment);
+
+            detector.run(70000);
+            for (int i = 0; i < 10; i++) {
+                dataStore.addBenchmarkResult("GET /", new BenchmarkResult((i+10) * 1000,
+                        "test-app", "GET", "/", 21));
+                detector.run(70000 + (i+1) * 1000);
+                if (i != 4 && i != 9) {
+                    Assert.assertTrue(recorder.getAndClearAnomalies().isEmpty());
+                } else {
+                    Assert.assertEquals(1, recorder.getAndClearAnomalies().size());
                 }
             }
         } finally {

@@ -5,6 +5,7 @@ import edu.ucsb.cs.roots.RootsEnvironment;
 import edu.ucsb.cs.roots.data.BenchmarkResult;
 import edu.ucsb.cs.roots.data.DataStore;
 import edu.ucsb.cs.roots.data.DataStoreException;
+import edu.ucsb.cs.roots.utils.ImmutableCollectors;
 
 import java.util.*;
 
@@ -12,31 +13,25 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public final class SLOBasedDetector extends AnomalyDetector {
 
-    private final int samplingIntervalInSeconds;
     private final ListMultimap<String,BenchmarkResult> history;
     private final int responseTimeUpperBound;
     private final double sloPercentage;
-    private final double windowFillPercentage;
+    private final double minimumSamples;
 
     private long end = -1L;
 
     private SLOBasedDetector(RootsEnvironment environment, Builder builder) {
         super(environment, builder);
         checkArgument(builder.historyLengthInSeconds > 0, "History length must be positive");
-        checkArgument(builder.samplingIntervalInSeconds > 0, "Sampling interval must be positive");
-        checkArgument(builder.historyLengthInSeconds > builder.samplingIntervalInSeconds,
-                "History length must be larger than sampling interval");
+        checkArgument(builder.minimumSamples > 0, "Minimum samples must be positive");
         checkArgument(builder.responseTimeUpperBound > 0,
                 "Response time upper bound must be positive");
         checkArgument(builder.sloPercentage > 0 && builder.sloPercentage < 100,
                 "SLO percentage must be in the interval (0,100)");
-        checkArgument(builder.windowFillPercentage > 0 && builder.windowFillPercentage <= 100,
-                "Window fill percentage must be in the interval (0,100]");
-        this.samplingIntervalInSeconds = builder.samplingIntervalInSeconds;
         this.history = ArrayListMultimap.create();
         this.responseTimeUpperBound = builder.responseTimeUpperBound;
         this.sloPercentage = builder.sloPercentage;
-        this.windowFillPercentage = builder.windowFillPercentage;
+        this.minimumSamples = builder.minimumSamples;
     }
 
     @Override
@@ -62,11 +57,9 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
         long cutoff = end - historyLengthInSeconds * 1000;
         history.values().removeIf(l -> l.getTimestamp() < cutoff);
-
-        int maxSamples = historyLengthInSeconds / samplingIntervalInSeconds;
         history.keySet().stream()
                 .filter(op -> requestTypes.contains(op) &&
-                        history.get(op).size() >= maxSamples * windowFillPercentage/100.0)
+                        history.get(op).size() >= minimumSamples)
                 .forEach(op -> computeSLO(cutoff, end, op, history.get(op)));
     }
 
@@ -86,16 +79,22 @@ public final class SLOBasedDetector extends AnomalyDetector {
 
     private void computeSLO(long start, long end, String operation,
                             Collection<BenchmarkResult> results) {
-        if (isWaiting(operation, end)) {
-            log.debug("Wait period in progress for {}:{}", application, operation);
+        long lastAnomaly = getLastAnomalyTime(operation);
+        ImmutableList<BenchmarkResult> filteredResults = results.stream()
+                .filter(r -> r.getTimestamp() >= lastAnomaly)
+                .collect(ImmutableCollectors.toList());
+
+        int sampleSize = filteredResults.size();
+        if (sampleSize < minimumSamples) {
+            log.debug("Insufficient samples to calculate SLO. Required {}, got {}",
+                    minimumSamples, sampleSize);
             return;
         }
-
-        log.debug("Calculating SLO with {} data points.", results.size());
-        long satisfied = results.stream()
+        log.debug("Calculating SLO with {} data points.", sampleSize);
+        long satisfied = filteredResults.stream()
                 .filter(r -> r.getResponseTime() <= responseTimeUpperBound)
                 .count();
-        double sloSupported = satisfied * 100.0 / results.size();
+        double sloSupported = satisfied * 100.0 / sampleSize;
         log.info("SLO metrics. Supported: {}, Expected: {}", sloSupported, sloPercentage);
         if (sloSupported < sloPercentage) {
             Anomaly anomaly = newAnomaly(start, end, operation)
@@ -106,30 +105,17 @@ public final class SLOBasedDetector extends AnomalyDetector {
         }
     }
 
-    @Override
-    protected long getWaitDuration(String operation) {
-        // TODO: Parameterize this calculation from detector properties
-        double minutes = Math.log(0.5)/Math.log(0.95);
-        return (long) minutes * 60L * 1000L;
-    }
-
     public static Builder newBuilder() {
         return new Builder();
     }
 
     public static class Builder extends AnomalyDetectorBuilder<SLOBasedDetector, Builder> {
 
-        private int samplingIntervalInSeconds = 60;
         private int responseTimeUpperBound;
         private double sloPercentage = 95.0;
-        private double windowFillPercentage = 95.0;
+        private int minimumSamples = 30;
 
         private Builder() {
-        }
-
-        public Builder setSamplingIntervalInSeconds(int samplingIntervalInSeconds) {
-            this.samplingIntervalInSeconds = samplingIntervalInSeconds;
-            return this;
         }
 
         public Builder setResponseTimeUpperBound(int responseTimeUpperBound) {
@@ -142,8 +128,8 @@ public final class SLOBasedDetector extends AnomalyDetector {
             return this;
         }
 
-        public Builder setWindowFillPercentage(double windowFillPercentage) {
-            this.windowFillPercentage = windowFillPercentage;
+        public Builder setMinimumSamples(int minimumSamples) {
+            this.minimumSamples = minimumSamples;
             return this;
         }
 
