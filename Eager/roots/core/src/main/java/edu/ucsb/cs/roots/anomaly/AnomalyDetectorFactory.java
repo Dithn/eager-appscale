@@ -15,7 +15,6 @@ public class AnomalyDetectorFactory {
     private static final String DETECTOR_PERIOD = "period";
     private static final String DETECTOR_PERIOD_TIME_UNIT = DETECTOR_PERIOD + ".timeUnit";
     private static final String DETECTOR_DATA_STORE = "dataStore";
-    private static final String DETECTOR_ENABLE_WAITING = "enableWaiting";
 
     private static final String DETECTOR_HISTORY_LENGTH = "history";
     private static final String DETECTOR_HISTORY_LENGTH_TIME_UNIT = DETECTOR_HISTORY_LENGTH + ".timeUnit";
@@ -61,8 +60,6 @@ public class AnomalyDetectorFactory {
             builder.setDataStore(dataStore);
         }
 
-        builder.setEnableWaiting(Boolean.parseBoolean(
-                properties.getProperty(DETECTOR_ENABLE_WAITING, "false")));
         return builder.setApplication(application)
                 .setProperties(properties).build(environment);
     }
