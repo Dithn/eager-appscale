@@ -73,7 +73,6 @@ public class AnomalyDetectorTest {
                                     .setType(Anomaly.TYPE_PERFORMANCE)
                                     .setDescription("test")
                                     .build()))
-                    .setEnableWaiting(true)
                     .setWaitDuration(10 * 1000L)
                     .build(environment);
 

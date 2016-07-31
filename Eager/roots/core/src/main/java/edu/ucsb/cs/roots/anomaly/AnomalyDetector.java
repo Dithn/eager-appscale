@@ -19,7 +19,6 @@ public abstract class AnomalyDetector extends ScheduledItem {
     protected final int historyLengthInSeconds;
     protected final String dataStore;
     protected final Properties properties;
-    protected final boolean enableWaiting;
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     private final Map<String,Long> lastAnomalyAt = new HashMap<>();
@@ -35,7 +34,6 @@ public abstract class AnomalyDetector extends ScheduledItem {
         this.environment = environment;
         this.historyLengthInSeconds = builder.historyLengthInSeconds;
         this.dataStore = builder.dataStore;
-        this.enableWaiting = builder.enableWaiting;
         this.properties = builder.properties;
     }
 
