@@ -1,0 +1,8 @@
+Total events: 56
+Total data pointes (all time): 17515
+Skipped data points (all time): 122 (0.70%)
+
+All agreed: 25 (44.64%)
+RI + 1 percentile: 31 (55.36%)
+percentile only: 0
+RI only: 0
