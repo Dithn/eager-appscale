@@ -174,11 +174,18 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         long requestCount = 0;
 
         SummaryStatistics totalSummary = new SummaryStatistics();
-        groupedByTime.keySet().stream().forEach(timestamp -> {
-            groupedByTime.get(timestamp).forEach(r -> totalSummary.addValue(r.getResponseTime()));
-        });
-        double upperLimit = totalSummary.getMean() + 4 * totalSummary.getStandardDeviation();
-        log.debug("Using upper limit value on total response time: {}", upperLimit);
+        groupedByTime.keySet().stream().forEach(timestamp ->
+            groupedByTime.get(timestamp).forEach(r -> totalSummary.addValue(r.getResponseTime()))
+        );
+
+        final double coefficientOfVariation = totalSummary.getStandardDeviation() / totalSummary.getMean();
+        final double upperLimit;
+        if (coefficientOfVariation >= 1) {
+            upperLimit = totalSummary.getMean() + 2 * totalSummary.getStandardDeviation();
+            log.debug("Using upper limit value on total response time: {}", upperLimit);
+        } else {
+            upperLimit = -1D;
+        }
 
         ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         List<Exception> rankingErrors = new ArrayList<>();
@@ -188,9 +195,10 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             for (long timestamp : groupedByTime.keySet()) {
                 for (ApplicationRequest request : groupedByTime.get(timestamp)) {
                     double[] responseTimeVector = getResponseTimeVector(request);
-                    if (request.getResponseTime() > upperLimit) {
+                    if (upperLimit > 0 && request.getResponseTime() > upperLimit) {
                         if (log.isDebugEnabled()) {
-                            log.debug("Response time vector: {} (skipped)", Arrays.toString(responseTimeVector));
+                            log.debug("Response time vector: {} (skipped)",
+                                    Arrays.toString(responseTimeVector));
                         }
                         continue;
                     }
