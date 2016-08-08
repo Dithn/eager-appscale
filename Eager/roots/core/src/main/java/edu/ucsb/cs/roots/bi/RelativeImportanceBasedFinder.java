@@ -173,19 +173,10 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             List<ApiCall> apiCalls, Map<Long, List<ApplicationRequest>> groupedByTime) throws Exception {
         long requestCount = 0;
 
-        SummaryStatistics totalSummary = new SummaryStatistics();
+        VectorDataSummary vectorSummary = new VectorDataSummary(apiCalls.size() + 1);
         groupedByTime.keySet().stream().forEach(timestamp ->
-            groupedByTime.get(timestamp).forEach(r -> totalSummary.addValue(r.getResponseTime()))
+            groupedByTime.get(timestamp).forEach(vectorSummary::add)
         );
-
-        final double coefficientOfVariation = totalSummary.getStandardDeviation() / totalSummary.getMean();
-        final double upperLimit;
-        if (coefficientOfVariation >= 1) {
-            upperLimit = totalSummary.getMean() + 2 * totalSummary.getStandardDeviation();
-            log.debug("Using upper limit value on total response time: {}", upperLimit);
-        } else {
-            upperLimit = -1D;
-        }
 
         ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         List<Exception> rankingErrors = new ArrayList<>();
@@ -195,7 +186,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             for (long timestamp : groupedByTime.keySet()) {
                 for (ApplicationRequest request : groupedByTime.get(timestamp)) {
                     double[] responseTimeVector = getResponseTimeVector(request);
-                    if (upperLimit > 0 && request.getResponseTime() > upperLimit) {
+                    if (isOutlier(responseTimeVector)) {
                         if (log.isDebugEnabled()) {
                             log.debug("Response time vector: {} (skipped)",
                                     Arrays.toString(responseTimeVector));
@@ -291,5 +282,57 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 .filter(r -> !r.getApiCall().equals(LOCAL))
                 .mapToDouble(RelativeImportance::getImportance).sum());
         return sb.toString();
+    }
+
+    private boolean isOutlier(double[] vector) {
+        double apiCalls = 0D;
+        for (int i = 0; i < vector.length - 1; i++) {
+            apiCalls += vector[i];
+        }
+        double apiCallPercentage = (apiCalls * 100D) / vector[vector.length - 1];
+        return apiCallPercentage < 10D;
+    }
+
+    private static class VectorDataSummary {
+
+        private final List<SummaryStatistics> stats;
+
+        public VectorDataSummary(int size) {
+            stats = new ArrayList<SummaryStatistics>(size){{
+                for (int i = 0; i < size; i++) {
+                    add(new SummaryStatistics());
+                }
+            }};
+        }
+
+        public void add(ApplicationRequest r) {
+            double[] vector = getResponseTimeVector(r);
+            checkArgument(vector.length == stats.size(), "Invalid vector size");
+            for (int i = 0; i < vector.length; i++) {
+                stats.get(i).addValue(vector[i]);
+            }
+        }
+
+        public boolean isOutlier(double[] vector) {
+            checkArgument(vector.length == stats.size(), "Invalid vector size");
+            SummaryStatistics totalSummary = Iterables.getLast(stats);
+            double coefficientOfVariation = totalSummary.getStandardDeviation() / totalSummary.getMean();
+            if (coefficientOfVariation > 1D) {
+                double limit = totalSummary.getMean() + 2 * totalSummary.getStandardDeviation();
+                if (vector[vector.length - 1] > limit) {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < vector.length; i++) {
+                SummaryStatistics summary = stats.get(i);
+                double limit = summary.getMean() + 2 * summary.getStandardDeviation();
+                if (limit >= vector[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }
 }
