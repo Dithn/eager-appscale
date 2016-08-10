@@ -173,10 +173,13 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             List<ApiCall> apiCalls, Map<Long, List<ApplicationRequest>> groupedByTime) throws Exception {
         long requestCount = 0;
 
-        VectorDataSummary vectorSummary = new VectorDataSummary(apiCalls.size() + 1);
+        VectorDataSummary vectorSummary = new VectorDataSummary();
         groupedByTime.keySet().stream().forEach(timestamp ->
             groupedByTime.get(timestamp).forEach(vectorSummary::add)
         );
+        if (log.isDebugEnabled()) {
+            log.debug("Cutoff limit on local: {}", vectorSummary.getLimit());
+        }
 
         ListMultimap<Long,RelativeImportance> results = ArrayListMultimap.create();
         List<Exception> rankingErrors = new ArrayList<>();
@@ -186,7 +189,7 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
             for (long timestamp : groupedByTime.keySet()) {
                 for (ApplicationRequest request : groupedByTime.get(timestamp)) {
                     double[] responseTimeVector = getResponseTimeVector(request);
-                    if (isOutlier(responseTimeVector)) {
+                    if (vectorSummary.isOutlier(responseTimeVector)) {
                         if (log.isDebugEnabled()) {
                             log.debug("Response time vector: {} (skipped)",
                                     Arrays.toString(responseTimeVector));
@@ -284,54 +287,23 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         return sb.toString();
     }
 
-    private boolean isOutlier(double[] vector) {
-        double apiCalls = 0D;
-        for (int i = 0; i < vector.length - 1; i++) {
-            apiCalls += vector[i];
-        }
-        double apiCallPercentage = (apiCalls * 100D) / vector[vector.length - 1];
-        return apiCallPercentage < 10D;
-    }
-
     private static class VectorDataSummary {
 
-        private final List<SummaryStatistics> stats;
-
-        public VectorDataSummary(int size) {
-            stats = new ArrayList<SummaryStatistics>(size){{
-                for (int i = 0; i < size; i++) {
-                    add(new SummaryStatistics());
-                }
-            }};
-        }
+        private final SummaryStatistics totalSummary = new SummaryStatistics();
 
         public void add(ApplicationRequest r) {
-            double[] vector = getResponseTimeVector(r);
-            checkArgument(vector.length == stats.size(), "Invalid vector size");
-            for (int i = 0; i < vector.length; i++) {
-                stats.get(i).addValue(vector[i]);
-            }
+            int[] vector = PercentileBasedFinder.getResponseTimeVector(r);
+            totalSummary.addValue(vector[vector.length - 1]);
+        }
+
+        private double getLimit() {
+            return totalSummary.getMean() + 1.65 * totalSummary.getStandardDeviation();
         }
 
         public boolean isOutlier(double[] vector) {
-            checkArgument(vector.length == stats.size(), "Invalid vector size");
-            SummaryStatistics totalSummary = Iterables.getLast(stats);
-            double coefficientOfVariation = totalSummary.getStandardDeviation() / totalSummary.getMean();
-            if (coefficientOfVariation > 1D) {
-                double limit = totalSummary.getMean() + 2 * totalSummary.getStandardDeviation();
-                if (vector[vector.length - 1] > limit) {
-                    return true;
-                }
-            }
-
-            for (int i = 0; i < vector.length; i++) {
-                SummaryStatistics summary = stats.get(i);
-                double limit = summary.getMean() + 2 * summary.getStandardDeviation();
-                if (limit >= vector[i]) {
-                    return false;
-                }
-            }
-            return true;
+            double local = vector[vector.length - 1] - IntStream.range(0, vector.length - 1)
+                    .mapToDouble(i -> vector[i]).sum();
+            return local > getLimit();
         }
 
     }

@@ -71,6 +71,11 @@ public final class PercentileBasedFinder extends BottleneckFinder {
                 .forEach(r -> checkForAnomalies(r, percentiles, path));
     }
 
+    /**
+     * Returns an array of length n+1 where the first n entries correspond to the response time of
+     * n API calls made by the request. The last entry corresponds to the LOCAL response time
+     * (i.e. Total - sum(apiCalls)).
+     */
     static int[] getResponseTimeVector(ApplicationRequest r) {
         int apiCalls = r.getApiCalls().size();
         int[] timeValues = new int[apiCalls + 1];
