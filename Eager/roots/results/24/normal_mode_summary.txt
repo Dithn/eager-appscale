@@ -1,0 +1,29 @@
+All data points summary
+=======================
+Data points: 21541
+Min: 14
+Max: 117330
+Mean: 197.00733485
+Std Dev: 3379.99936342
+95th Percentile: 27.0
+99th Percentile: 43.0
+
+Filterd (< 1000) data points summary
+====================================
+Data points: 21461
+Min: 14
+Max: 167
+Mean: 21.1197987046
+Std Dev: 4.76052977625
+95th Percentile: 27.0
+99th Percentile: 37.0
+
+Filtered (< mean + 2sd) data points summary
+===========================================
+Data points: 21467
+Min: 14
+Max: 6956
+Mean: 22.155541063
+Std Dev: 68.5974563268
+95th Percentile: 27.0
+99th Percentile: 37.34
