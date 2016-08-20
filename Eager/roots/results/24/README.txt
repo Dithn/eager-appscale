@@ -4,7 +4,10 @@ Glitch: 45ms delay
 
 Benchmark frequency: 15s
 History length: 1hour
-SLO: 95% under 45ms
+SLO: 95% under (45ms, 31ms)
+
+5s: 45ms
+2s: 31ms
 
 Root cause analysis: RelativeImportance (with primary and seconday percentile verifications at 99th percentile)
 New filter on (mean + 1.65 sd on local)
