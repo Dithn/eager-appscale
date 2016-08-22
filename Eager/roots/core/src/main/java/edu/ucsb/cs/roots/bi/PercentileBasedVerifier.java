@@ -112,9 +112,9 @@ public class PercentileBasedVerifier {
         if (!anomalousValues.isEmpty()) {
             AnomalousValue top = anomalousValues.get(0);
             anomalyLog.info(anomaly, "Secondary verification result; percentiles: {} " +
-                    "percentiles2: {} ri: {} match: {} ri_onset: {} data_points: {}",
+                    "percentiles2: {} ri: {} match: {} ri_onset: {} ri_top: {} data_points: {}",
                     maxIndex, top.index, bottleneck.getIndex(), top.index == bottleneck.getIndex(),
-                    bottleneck.getOnsetTime() != null, counter.get());
+                    bottleneck.getOnsetTime() != null, bottleneck.getDetail(), counter.get());
         }
     }
 

@@ -99,13 +99,14 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
                 }
             }
 
+            int indexAtPos = findIndexByRank(lastRankings, 1);
             if (bottleneck == null) {
-                int indexAtPos = findIndexByRank(lastRankings, 1);
                 bottleneck = new Bottleneck(anomaly, lastRankings.get(indexAtPos).getApiCall(),
                         indexAtPos);
                 anomalyLog.info(anomaly, "Bottleneck identified; index: {}, {}", indexAtPos,
                         bottleneck.toString());
             }
+            bottleneck.setDetail(indexAtPos);
 
             PercentileBasedVerifier verifier = new PercentileBasedVerifier(groupedByTime,
                     bottleneck, anomalyLog, apiCalls, verifyPercentile);

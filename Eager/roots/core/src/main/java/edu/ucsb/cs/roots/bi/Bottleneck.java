@@ -14,6 +14,7 @@ public final class Bottleneck {
     private final String apiCall;
     private final int index;
     private final Date onsetTime;
+    private Object detail;
 
     public Bottleneck(Anomaly anomaly, String apiCall, int index, Date onsetTime) {
         checkNotNull(anomaly, "Anomaly is required");
@@ -27,6 +28,15 @@ public final class Bottleneck {
 
     public Bottleneck(Anomaly anomaly, String apiCall, int index) {
         this(anomaly, apiCall, index, null);
+    }
+
+    public Object getDetail() {
+        return detail;
+    }
+
+    public Bottleneck setDetail(Object detail) {
+        this.detail = detail;
+        return this;
     }
 
     public Anomaly getAnomaly() {
