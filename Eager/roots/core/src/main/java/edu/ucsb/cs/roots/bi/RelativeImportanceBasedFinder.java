@@ -64,12 +64,16 @@ public final class RelativeImportanceBasedFinder extends BottleneckFinder {
         } else if (requests.size() < callCount + 2) {
             anomalyLog.warn(anomaly, "Insufficient data to perform a bottleneck identification");
             return;
+        } else if (!requests.stream().anyMatch(r -> r.getTimestamp() >= anomaly.getStart())) {
+            anomalyLog.info(anomaly, "No data points in anomaly window");
+            return;
         }
 
         long period = anomaly.getPeriodInSeconds() * 1000;
         Map<Long,List<ApplicationRequest>> groupedByTime = requests.stream()
                 .collect(Collectors.groupingBy(r -> groupByTime(r, start, period),
                         TreeMap::new, Collectors.toList()));
+
         try {
             ListMultimap<Long,RelativeImportance> results = computeRankings(apiCalls, groupedByTime);
             if (results.isEmpty()) {
