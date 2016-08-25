@@ -7,8 +7,17 @@
         <servlet-name>StudentServlet</servlet-name>
         <servlet-class>edu.ucsb.cs.StudentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CachingStudentServlet</servlet-name>
+        <servlet-class>edu.ucsb.cs.CachingStudentServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>StudentServlet</servlet-name>
         <url-pattern>/student</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CachingStudentServlet</servlet-name>
+        <url-pattern>/caching</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -1,6 +1,8 @@
 package edu.ucsb.cs;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
 
     private String studentId;
     private String firstName;
