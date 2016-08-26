@@ -10,9 +10,9 @@ cloud-hosted applications, the cloud platforms must be equipped with powerful in
 data gathering and analysis capabilities that span the entire stack of the cloud. 
 However, most cloud technologies available
 today either do not provide any application monitoring support, or only provide primitive
-monitoring features such as application-level logging. Hence, they are not capable of performing
-performance anomaly detection, which requires much more fine-grained, low-level
-and systemwide data collection and analytics. 
+monitoring features such as application-level logging. Hence, they are not capable of conducting
+performance anomaly detection, which requires much more fine-grained
+data collection and analytics across the entire cloud platform.
 
 Further compounding this problem, today's cloud platforms are very large and complex. They are
 comprised of many layers, where each layer may consist of a multitude of interacting components.
@@ -22,7 +22,7 @@ Facilitating this level of comprehensive root cause analysis requires
 data collection at different layers of the cloud, and mechanisms for correlating events at
 different layers and components. Today's cloud platforms do not support such deeply integrated
 data collection. The plethora of existing third party cloud monitoring solutions
-do not have access to low-level data regarding the cloud thereby rendering them incapable
+do not have visibility into the low-level activities of the cloud thereby rendering them incapable
 of performing systemwide root cause analysis.
 
 Moreover, performance monitoring for cloud applications needs to be highly customizable. Different
@@ -31,9 +31,7 @@ length of the history to consider when performing statistical analysis, and the 
 SLOs (service level objectives) to maintain over time and check for violations. Cloud monitoring
 should be able to facilitate these diverse requirements at the granularity of the applications, and
 their client-facing APIs.
-It should also be possible to easily extend cloud application monitoring frameworks with
-new statistical analysis methods and algorithms for detecting application performance
-anomalies, and performing root cause analysis. Designing such customizable and extensible performance
+Designing such customizable and extensible performance
 monitoring frameworks that are built into the cloud platforms is a novel yet challenging undertaking.
 
 To address these needs, we present the design of 
@@ -57,9 +55,11 @@ can be easily brought into the framework by building on the high-level abstracti
 that Roots provides. This enables us to experiment with different combinations of
 statistical methods to determine which analysis works best for a given application or
 SLO scenario. Roots collects most of the data it requires by instrumenting 
-various components of the cloud platform. However, it takes special care to keep the data
-collection overhead to a minimum. To this end it does not instrument any user code (i.e. applications)
-deployed in the cloud. On a related note, it also does not impose any restrictions on the user code.
+various components of the cloud platform. In addition to high-level metrics like request throughput
+and request latency, Roots also records the internal PaaS services invoked by user applications,
+and the latency of those internal service calls. However, Roots takes special care to keep the data
+collection overhead to a minimum. Specifically, it does not instrument any user code (i.e. applications)
+deployed in the cloud. It also does not impose any restrictions on the user code.
 That is, the developer does not have to write code using some Roots-specific API or link their
 code with a Roots-specific library.
 
