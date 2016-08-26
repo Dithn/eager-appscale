@@ -8,11 +8,10 @@ to monitor the availability of the deployed applications, track application perf
 application and system anomalies as they occur. To obtain this level of deep operational insight into
 cloud-hosted applications, the cloud platforms must be equipped with powerful instrumentation,
 data gathering and analysis capabilities that span the entire stack of the cloud. 
-Moreover, clouds must provide comprehensive
-data visualization and notification mechanisms. However, most cloud technologies available
+However, most cloud technologies available
 today either do not provide any application monitoring support, or only provide primitive
 monitoring features such as application-level logging. Hence, they are not capable of performing
-powerful predictive analyses or anomaly detection, which require much more fine-grained, low-level
+performance anomaly detection, which requires much more fine-grained, low-level
 and systemwide data collection and analytics. 
 
 Further compounding this problem, today's cloud platforms are very large and complex. They are
@@ -29,15 +28,17 @@ of performing systemwide root cause analysis.
 Moreover, performance monitoring for cloud applications needs to be highly customizable. Different
 applications have different monitoring requirements in terms of data gathering frequency (sampling rate), 
 length of the history to consider when performing statistical analysis, and the performance 
-SLAs to maintain over time and check for violations. It should also be possible to easily extend
-cloud application monitoring frameworks with
+SLOs (service level objectives) to maintain over time and check for violations. Cloud monitoring
+should be able to facilitate these diverse requirements at the granularity of the applications, and
+their client-facing APIs.
+It should also be possible to easily extend cloud application monitoring frameworks with
 new statistical analysis methods and algorithms for detecting application performance
 anomalies, and performing root cause analysis. Designing such customizable and extensible performance
 monitoring frameworks that are built into the cloud platforms is a novel yet challenging undertaking.
 
 To address these needs, we present the design of 
 a comprehensive application platform 
-monitor (APM) called Roots that can be easily integrated with a wide variety of cloud Platform-as-a-Service 
+monitor (APM) called Roots that can be easily built into a wide variety of cloud Platform-as-a-Service 
 (PaaS) technologies. The proposed
 APM is not an external system that monitors a cloud platform from the outside (as most APM systems today). 
 Rather, it integrates with
@@ -49,39 +50,30 @@ able to take advantage of the scaling, efficiency, deployment, fault tolerance, 
 and control features that the underlying cloud offers, 
 (ii) while providing low overhead end-to-end monitoring and analysis of cloud applications.
 
-PaaS clouds execute web-accessible (HTTP/S) applications, to which they provide 
-high levels of scalability, availability, and execution management. 
-PaaS clouds provide scalability by automatically allocating resources 
-for applications on the fly (auto scaling), and provide availability through
-the execution of multiple instances of the application and/or the PaaS
-services they employ for their functionality.
-Consequently, viable PaaS technologies as well as
-PaaS-enabled applications continue to increase rapidly in number~\cite{paas-growth}.
-PaaS clouds provide a high level of abstraction to the application developer that effectively hides
-all the infra\-structure-level details such as physical resource allocation (CPU, memory, disk etc), operating
-system,
-and network configuration. This enables application developers to focus solely on the programming
-aspects of their applications, without having to be concerned about deployment issues. But
-due to this high level of abstraction, performance monitoring and root cause analysis
-is particularly challenging in PaaS clouds. Due to this reason, and the large number of 
-PaaS applications available for testing, we design Roots APM to operate within PaaS
-clouds.
-
 Roots is highly customizable so that different monitoring policies can be
-configured at the application level. It also facilitates a number of statistical analysis
+configured at the application and web API level. It also facilitates a number of statistical analysis
 methods for anomaly detection and root cause analysis. New analysis methods
 can be easily brought into the framework by building on the high-level abstractions
 that Roots provides. This enables us to experiment with different combinations of
 statistical methods to determine which analysis works best for a given application or
-SLA scenario. Roots collects most of the data it requires by instrumenting 
+SLO scenario. Roots collects most of the data it requires by instrumenting 
 various components of the cloud platform. However, it takes special care to keep the data
 collection overhead to a minimum. To this end it does not instrument any user code (i.e. applications)
 deployed in the cloud. On a related note, it also does not impose any restrictions on the user code.
 That is, the developer does not have to write code using some Roots-specific API or link their
-code with a Roots-specific library. Any application that can run on the cloud platform without Roots, can
-be monitored and analyzed by Roots with no code changes necessary. 
+code with a Roots-specific library.
 
-Roots uses batch operations and asynchonous 
+When Roots detects a performance anomaly in an application, it attempts to uncover the
+root cause of the anomaly by analyzing the workload data,
+and the performance of the internal PaaS cloud services the application depends on. 
+This way Roots can determine if the detected anomaly was caused by a change in the
+application workload (e.g. a sudden spike in the number of client requests), or an internal
+bottleneck in the cloud platform (e.g. a slow database query). To this end we also propose
+a statistical method that uses a combination of quantile analysis, change point detection
+and linear regression to perform root cause analysis. We demonstrate that this approach is
+capable of detecting the root causes of performance anomalies with nearly 100\% accuracy. 
+
+Roots uses batch operations and asynchronous 
 communication whenever possible to record events in a manner that does not introduce
 delays to the application request processing activities carried out by the 
 PaaS cloud. 
