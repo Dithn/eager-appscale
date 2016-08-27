@@ -60,12 +60,14 @@ Our work concentrate on the web applications deployed in PaaS clouds. An applica
 exposes one or more web application programming interfaces (web APIs) through which clients can
 interact with it. The web APIs accept HTTP/S requests sent by remote clients, and respond with
 machine readable responses (e.g. HTML, JSON, XML, Protocol Buffers). This type of applications tend to be highly
-interactive, and clients typically have tight expectations on the application response time. The PaaS 
-cloud on which an application is running on may impose additional constraints on the application
+interactive, and clients typically have tight expectations on the application response time. Some
+reports have demonstrated that poor application response time may even lead to loss in company
+revenue. Additionally, the PaaS 
+cloud on which an application is running may impose additional constraints on the application
 response time for scalability reasons. For example Google App Engine requires that no application
 request takes more than 60 seconds to execute.
 
-PaaS-hosted web applications also rely on the various PaaS kernel services offered by the underlying
+PaaS-hosted web applications also rely on various PaaS kernel services offered by the underlying
 cloud platform. By offloading common application functionality such as data storage, caching,
 user management, and security to a set of managed cloud services, application developers
 can greatly reduce the amount of code they have to write. It also eliminates the need to install, run and
@@ -79,9 +81,40 @@ into the application execution. Since most of the application functionality is p
 of PaaS kernel services that are in cloud provider's domain, the application
 developer does not have total control over application performance. If the application 
 response time becomes too slow, the application developer is not in a position to determine
-where in the entire cloud platform, the performance bottleneck is. One way to circumvent this 
+where in the entire cloud platform the performance bottleneck is due to the opacity of the cloud
+platform's internal implementation. One way to circumvent this 
 limitation is to instrument application code, and continuously monitor the time taken by various
 parts of the application. But this is tedious on the part of the application developer, and
-the additional code instrumentation slows down the entire application.
+the additional code instrumentation slows down the entire application. Therefore we need
+novel mechanisms that provide deep insight into the execution of cloud-hosted web
+applications without compromising the integrity and the security of the cloud platform.
 
 \subsection{Performance Anomalies}
+A performance anomaly is an unexpected event that alters the performance level of an
+application in a way that adversely impacts the user experience of the application. In the context
+of cloud-hosted web applications this mainly refers to sudden increases in application
+response time, that lasts for some time so as to impact many users. Such anomalies 
+may occur due to several reasons such as changes in
+application workload, a performance bug in the user code or a performance bug somewhere
+in the underlying cloud platform.
+
+In order to maintain a satisfactory level of user experience and adhere to any previously
+agreed upon performance SLOs, application developers and cloud administrators wish
+to detect significant performance anomalies as soon as they occur. When detected they
+must perform root cause analysis to identify the cause of the anomaly and take some
+corrective and/or preventive action. This is a two step process. First one must determine
+whether the anomaly was caused due to a change in the workload (e.g. a sudden 
+increase in the number of client requests). If that is the case
+the resolution typically involves allocating more resources to the application or spawning
+more instances of the application for load balancing purposes. If the anomaly cannot be 
+attributed to a workload change, one must try to find the cloud component or the PaaS kernel
+service that has given rise to the issue at hand.
+
+Detecting performance anomalies
+requires continuous monitoring of application performance which could be tedious with
+cloud platforms in use today. It is even more challenging to perform root cause analysis
+due to the complexity and the blackbox nature of the cloud platforms. There are several
+third party cloud monitoring solutions available today which provide some performance
+anomaly detection support. However, they require additional configuration, are expensive
+and cannot support root cause analysis across the entire cloud stack since they do not
+have visibility into all components of the cloud platform.
