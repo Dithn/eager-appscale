@@ -1,8 +1,8 @@
 package edu.ucsb.cs;
 
 import com.google.appengine.api.datastore.*;
-import com.google.appengine.repackaged.com.google.api.client.util.Strings;
-import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.common.base.Strings;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
-import static com.google.appengine.repackaged.com.google.api.client.util.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class StudentServlet extends HttpServlet {
 

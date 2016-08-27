@@ -4,8 +4,8 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.repackaged.com.google.api.client.util.Strings;
-import com.google.appengine.repackaged.com.google.gson.Gson;
+import com.google.common.base.Strings;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.google.appengine.repackaged.com.google.api.client.util.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class CachingStudentServlet extends HttpServlet {
 
@@ -37,7 +37,7 @@ public class CachingStudentServlet extends HttpServlet {
                 student.setFirstName((String) entity.getProperty("firstName"));
                 student.setLastName((String) entity.getProperty("lastName"));
                 student.setStudentId(id);
-                cache.put(id, student, Expiration.byDeltaSeconds(60));
+                cache.put(id, student, Expiration.byDeltaSeconds(30));
             } catch (EntityNotFoundException e) {
                 resp.sendError(404);
             }
