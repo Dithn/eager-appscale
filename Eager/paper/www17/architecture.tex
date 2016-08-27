@@ -1,0 +1,16 @@
+The key intuition behind Roots is that
+the cloud platform can aid the developer in anomaly detection and root cause analysis.
+The cloud platform has full visibility into all the activities that occur in various layers of the cloud,
+including all invocations of the PaaS kernel services. Therefore
+it can automatically collect data regarding events that are related to application request processing. 
+The cloud platform can then process the collected data offline (but in near realtime) to detect 
+performance anomalies and identify root causes.
+
+We argue that data collection can be implemented efficiently in the cloud platform so as to not
+introduce a significant overhead to deployed applications.
+Moreover, data collection can be always active in the cloud thus relieving the application developers
+from having to instrument their code, or setting up external monitoring.
+The data processing can benefit from the vast amount of compute
+resources available in the cloud platform. The offline processing ensures that application request
+processing is not impacted by monitoring, and the near realtime analysis ensures that developers
+and other interested parties are notified of performance anomalies urgently. 
