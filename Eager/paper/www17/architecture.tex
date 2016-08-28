@@ -3,19 +3,19 @@ the cloud platform can aid the developer detect anomalies in deployed applicatio
 The cloud platform has full visibility into all the activities that occur in various layers of the cloud,
 including all invocations of the PaaS kernel services. Therefore
 it can automatically collect data regarding events that are related to application request processing. 
-The cloud platform can then process the collected data offline (but in near realtime) to detect 
+The cloud platform can then analyze the collected data offline (but in near realtime) to detect 
 performance anomalies and identify root causes.
 
 We argue that data collection can be implemented efficiently in the cloud platform so as to not
 introduce a significant overhead to deployed applications.
 Moreover, data collection can be always active in the cloud thus relieving the application developers
 from having to instrument their code, or setting up external monitoring.
-The data processing can benefit from the vast amount of compute
+The data analysis can benefit from the vast amount of compute
 resources available in the cloud platform. The offline processing ensures that application request
 processing is not impacted by monitoring, and the near realtime analysis ensures that developers
 and other interested parties are notified of performance anomalies urgently. 
 
-\subsubsection{High-level Architecture and PaaS Integration}
+\subsubsection{Data Collection and Storage}
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_architecture}
@@ -96,7 +96,7 @@ different layers of the cloud, which will be collected and stored by the APM as 
 \item Zero or more PaaS kernel invocation records
 \end{itemize}
 
-We require a mechanism to tie these disparate records together, so the data processing components can easily
+We require a mechanism to tie these disparate records together, so the data analysis components can easily
 aggregate the related information. For instance, we must be able to retrieve via an
 aggregation query, all PaaS kernel invocations made by a specific application request.
 
@@ -104,10 +104,10 @@ To facilitate this requirement we propose that the front-end server tags all inc
 with unique identifiers.
 This request identifier can be attached to HTTP requests as a header which is visible to all components 
 internal to the PaaS cloud. All data collecting agents can then be configured to record the request identifiers
-whenever recording an event. At the data processing layer Roots can aggregate the data by request identifiers
+whenever recording an event. At the data analysis components Roots can aggregate the data by request identifiers
 to efficiently group the related records.
 
-\subsubsection{Data Processing}
+\subsubsection{Data Analysis}
 Roots data analysis component uses two basic abstractions: \textit{anomaly detectors} 
 and \textit{anomaly handlers}.
 
@@ -144,3 +144,31 @@ and plug them into the system. Both the detectors and the handlers are executed
 as lightweight processes that do not interfere with the rest of the processes in
 the cloud platform. Therefore failures in detectors and handlers have no impact
 on the cloud platform or the deployed applications.
+
+\subsubsection{Roots Process Management}
+Most data collection activities in Roots can be treated as passive -- i.e. they
+happen automatically as the applications receive and process requests in the cloud
+platform. They do not require explicit scheduling or management. In contrast,
+application benchmarking and data analysis are active processes that require
+explicit scheduling and management.  This is achieved by grouping benchmarking
+and data analysis processes into units called Roots pods. 
+
+Each Roots pod is responsible for starting and maintaining a preconfigured set of
+benchmarkers and data analysis processes (i.e. anomaly detectors and handlers). 
+Each of these processes are light enough, so as to pack a large number of them
+into a single pod. Pods are self-contained entities, and there is no inter-communication
+between pods. Processes in a pod can efficiently communicate with each other 
+(using shared memory), and call out to the Roots data storage to retrieve 
+collected performance data for analysis. This enables starting and stopping 
+Roots pods with minimal impact on the overall monitoring system. Furthermore, pods
+can be replicated for high availability, and application load can be distributed
+among multiple pods for scalability.
+
+To automate the process of managing pods, they can be tied into the core
+process management framework of the PaaS cloud. That way whenever the cloud
+platform initializes, a collection of pods can be started automatically.
+Application deployment process of the PaaS cloud can be easily augmented
+to register each new application with one of the available pods, so that the
+benchmarkers and anomaly detectors can start running on the application.
+Moreover, pods can be moved around or restarted as needed in response
+to errors and autoscaling events that occur in the cloud platform.
