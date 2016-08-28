@@ -39,4 +39,35 @@ and analytics. Some of the more sophisticated statistical analysis tasks (e.g. c
 linear regression) are implemented in R language,
 and the Java-based Roots pods integrate with R using the Rserve protocol.
 
+\subsection{SLO-based Anomaly Detector}
+We implement a performance SLO checker as the primary anomaly detector in Roots. This anomaly detector
+allows application developers to specify simple performance SLOs for deployed applications. A
+performance SLO consists of an upper bound on the application response time ($T$), and the probability ($p$)
+that the application response time falls under the specified upper bound. Therefore, a general performance 
+SLO can be stated as: ``application responds under $T$ milliseconds $p$\% of the time''.
 
+When activated for a given application this anomaly detector starts a benchmarking process
+that periodically measures the response time of the target application. The detector then periodically
+analyzes the collected response time measurements to check if the application meets the specified performance
+SLO. Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. It would also
+purge any past response time measurements (up to the anomaly) from the memory 
+when this happens.
+
+The SLO-based anomaly detector supports following configuration parameters:
+\begin{itemize}
+\item Performance SLO: Response time upper bound ($T$), and the probability ($p$).
+\item Sampling rate: Rate at which the target application is benchmarked.
+\item Analysis rate: Rate at which the anomaly detector checks whether the application has failed to meet the SLO.
+\item Minimum samples: Minimum number of samples to collect before checking for SLO violations.
+\item Window size: Length of the sliding window (in time) to consider when checking for SLO violations. This
+acts as a limit on the number of samples to keep in memory.
+\end{itemize}
+
+Since the detector purges past measurements when an anomaly is detected, it is not able to
+check for further SLO violations until the minimum number of samples is collected. Therefore,
+each anomaly is followed by a ``warm up'' period. With a sampling rate of 15 seconds, and a minimum
+samples count of 100, the warm up period can last up to 25 minutes. The detector cannot find new
+anomalies during this period. However, it prevents the same anomaly from being needlessly
+reported multiple times.
+
+\subsection{Path Distribution Analysis}
