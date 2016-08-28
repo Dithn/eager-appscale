@@ -1,6 +1,6 @@
 We implemented a Roots prototype for the AppScale cloud platform. AppScale is an open
 source PaaS cloud, API compatible with the popular Google App Engine (GAE) cloud platform.
-Due to the API compatibility, any application developed for the GAE cloud can be deployed
+Due to the API compatibility, any application developed for GAE can be deployed
 and executed on AppScale with no code changes. Since AppScale is open source software, we
 were able to modify parts of its implementation to integrate the Roots APM into it. AppScale also
 turned out to be a great test environment since we could deploy it locally, and run a number of
@@ -70,4 +70,38 @@ samples count of 100, the warm up period can last up to 25 minutes. The detector
 anomalies during this period. However, it prevents the same anomaly from being needlessly
 reported multiple times.
 
-\subsection{Path Distribution Analysis}
+\subsection{Path Distribution Analyzer}
+Path distribution analyzer is another special anomaly detector we implement in Roots. This
+anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
+By aggregating the PaaS kernel invocations by application request identifiers, and then sorting them by
+their sequence numbers, this anomaly detector is able to identify the sequence of
+PaaS kernel invocations made by each application request. 
+Each identified invocation sequence corresponds to a path of
+execution through the application code (i.e. a path through the control flow graph of the application). 
+Then the anomaly detector evaluates the number of requests
+that invoked the same PaaS kernel invocation sequence. From that the anomaly detector
+computes the distribution of different execution paths of an application.
+
+The path distribution is an indicator of the type of request workload handled by an application.
+For example consider a data management application that has a read-only execution path, and a read-write 
+execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
+execute the read-write path, we may characterize the request workload as mostly read-only. 
+Roots path distribution analyzer facilitates computing this path distribution for each application
+with no static analysis or runtime instrumentation on the application code.
+
+Roots path distribution analyzer periodically computes the path distribution for a given application.
+If it detects that the latest path distribution is significantly different from the distributions seen in the 
+past, it triggers an anomaly. This is done by computing the mean request proportion for each path
+(over a sliding window of past data),
+and then comparing the latest request proportion values against the means. If the latest proportion
+is off by more than $n$ standard deviations from its mean, the detector considers it to be an
+anomaly. The sensitivity of the detector can be configured by changing the value of $n$, which
+defaults to 2. 
+
+This anomaly detector enables developers to know when the nature of their application request
+workload changes. For example in the previous data management application, if suddenly 90\%
+of the requests start executing the read-write path, the Roots path distribution analyzer will
+detect the change as an anomaly. Similarly it is also able to detect when new paths of execution
+are being invoked by requests (a form of novelty detection).
+
+\subsection{Workload Change Analyzer}
