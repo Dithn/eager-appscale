@@ -147,6 +147,12 @@ the cloud platform. Therefore failures in detectors and handlers have no impact
 on the cloud platform or the deployed applications.
 
 \subsubsection{Roots Process Management}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{roots_pod}
+\caption{Anatomy of a Roots pod.}
+\label{fig:roots_pod}
+\end{figure}
 Most data collection activities in Roots can be treated as passive -- i.e. they
 happen automatically as the applications receive and process requests in the cloud
 platform. They do not require explicit scheduling or management. In contrast,
@@ -164,6 +170,12 @@ collected performance data for analysis. This enables starting and stopping
 Roots pods with minimal impact on the overall monitoring system. Furthermore, pods
 can be replicated for high availability, and application load can be distributed
 among multiple pods for scalability.
+
+Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
+It consists of two benchmarking processes, three anomaly detectors and 
+two anomaly handlers. The anomaly detectors and handlers communicate
+using an internal communication bus, so that events triggered by one anymaly
+detector flow into all handlers. 
 
 To automate the process of managing pods, they can be tied into the core
 process management framework of the PaaS cloud. That way whenever the cloud
