@@ -34,6 +34,9 @@ public final class BottleneckFinderService extends ManagedService {
         }
 
         String findersProperty = anomaly.getDetectorProperty(BI_FINDERS, null);
+        if ("none".equals(findersProperty)) {
+            return;
+        }
         if (findersProperty == null) {
             findersProperty = environment.getProperty(BI_FINDERS, "RelativeImportance");
         }
