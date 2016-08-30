@@ -19,6 +19,12 @@ public class StudentServlet extends HttpServlet {
     private static final Gson gson = new Gson();
 
     @Override
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req,
                           HttpServletResponse resp) throws ServletException, IOException {
         String operation = req.getParameter("operation");

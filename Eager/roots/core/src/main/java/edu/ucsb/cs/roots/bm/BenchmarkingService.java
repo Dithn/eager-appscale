@@ -82,8 +82,15 @@ public final class BenchmarkingService extends SchedulerService<Benchmark> {
                 checkArgument(!Strings.isNullOrEmpty(prefix), "Benchmark URL prefix not configured");
                 url = prefix + url;
             }
-            String timeout = properties.getProperty(call + ".timeout", "60");
-            builder.addCall(new BenchmarkCall(method, url, Integer.parseInt(timeout)));
+            int timeout = Integer.parseInt(properties.getProperty(call + ".timeout", "60"));
+            String payload = properties.getProperty(call + ".payload");
+            if (payload != null) {
+                String contentType = properties.getProperty(call + ".contentType");
+                RequestContent requestContent = new RequestContent(payload, contentType);
+                builder.addCall(new BenchmarkCall(method, url, timeout, requestContent));
+            } else {
+                builder.addCall(new BenchmarkCall(method, url, timeout));
+            }
         });
         return builder.build(environment);
     }
