@@ -146,10 +146,45 @@ directly in the application server.
 Suppose an application makes $n$ PaaS kernel invocations ($X_1, X_2, ... X_n$). For each user request processed
 by the application Roots captures the time spent on each kernel invocation ($T_{X1}, T_{X2}, ... T_{Xn}$), and the 
 total response time ($T_{total}$) of the request. These time values are related by the formula
-$T_{total} = T_{X1} + T_{X2} + ... + T_{Xn} + R$, where $R$ is all the time spent not invoking any PaaS kernel
+$T_{total} = T_{X1} + T_{X2} + ... + T_{Xn} + r$, where $r$ is all the time spent not invoking any PaaS kernel
 services. $R$ is mainly the time spent in the resident application server executing user code, and it is not
 directly measured in Roots. In our previous
 work we have shown that PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
-Therefore we have $R \ll T_{X1} + T_{X2} + ... + T_{Xn}$.
+Therefore we have $r \ll T_{X1} + T_{X2} + ... + T_{Xn}$.
 
- 
+Roots bottleneck identification mechanism uses above parameters to compute four metrics. These four metrics
+are then further evaluated by a weighted algorithm to determine the bottleneck in the cloud platform. We
+first describe the four metrics computed by Roots.
+
+\subsubsection{Relative Importance of PaaS Kernel Invocations} 
+The purpose of this metric is to find the service call that is contributing mostly towards the variance in the total
+response time. We start by selecting a window $W$ in time which includes a sufficient number of application requests,
+and ending at the point when the performance anomaly was detected. Note that for each application request
+in $W$, we can find the total response time ($T_{total}$), and the time spent on individual PaaS kernel
+services ($T_{Xn}$).
+
+Then we take all the $T_{total}$ values
+and the corresponding $T_{Xn}$ values in $W$, and fit them to the linear regression model
+$T_{total} = T_{X1} + T_{X2} + ... + T_{Xn}$. Here we leave $r$ out deliberately, since it is typically small. To prevent
+any bad data from skewing the model, we also filter out requests where the $r$ value is too high. This
+is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ over the selected window, and removing 
+any requests where $r > \mu_r + 1.65\sigma_r$.
+
+Once the regression model has been computed, we run a relative importance algorithm to rank each of the
+regressors (i.e. $T_{Xn}$ values) based on their contribution to the variance of $T_{total}$. 
+We use the LMG method which is resistant to multicolinearity, and provides a break down of the $R^2$ value of
+the regression according to how strongly each regressor is influencing the variance of the dependent variable.
+The kernel invocation associated with the highest ranked regressor (i.e. the one that contributes mostly 
+towards the variance) is a very strong candidate
+for the bottleneck that we are looking for. Statistically, this is the kernel invocation that causes the application
+response time to vary the most.
+
+\subsubsection{Historical Trend of Relative Importance}
+This is a simple extension of the previous metric. We divide the time window $W$ into equal-sized continuous segments,
+and compute the relative importance metrics for regressors within each segment. This way we can
+obtain a time series of relative importance values for each regressor. These time series
+represent how the relative importance of each variable has changed over time.
+
+We subject each time series to change point analysis to detect if the relative importance of any particular
+regressor has increased recently. If such a regressor can be found, then the PaaS kernel invocation
+associated with that variable is also a potential candidate for the bottleneck. 
