@@ -130,3 +130,26 @@ request buffers to fill up, and hog server-side resources for extended periods o
 causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
+This is the primary root cause identification mechanism in our implementation of Roots. Like the workload
+change analyzer, this is also implemented
+as an anomaly handler. When a performance anomaly is detected, this mechanism attempts to find the
+most likely component in the PaaS kernel that may have caused the anomaly. AppScale PaaS kernel
+consists of the same core services present in the Google App Engine public cloud (datastore, memcache,
+urlfetch, blobstore, user management etc.). The purpose of bottleneck identification is to find, out of all
+the PaaS kernel services used in an application, the one service that is most likely to have caused 
+application performance to deteriorate. We use a fine grained approach so that when an application
+invokes the same service multiple times, our implementation can pinpoint the exact service call that
+contributed towards the performance anomaly. If none of the service calls cannot be associated with
+the anomaly, we attribute the anomaly to the rest of the application code executed
+directly in the application server.
+
+Suppose an application makes $n$ PaaS kernel invocations ($X_1, X_2, ... X_n$). For each user request processed
+by the application Roots captures the time spent on each kernel invocation ($T_{X1}, T_{X2}, ... T_{Xn}$), and the 
+total response time ($T_{total}$) of the request. These time values are related by the formula
+$T_{total} = T_{X1} + T_{X2} + ... + T_{Xn} + R$, where $R$ is all the time spent not invoking any PaaS kernel
+services. $R$ is mainly the time spent in the resident application server executing user code, and it is not
+directly measured in Roots. In our previous
+work we have shown that PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
+Therefore we have $R \ll T_{X1} + T_{X2} + ... + T_{Xn}$.
+
+ 
