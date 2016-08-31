@@ -1,0 +1,30 @@
+{
+  "query": {
+    "bool": {
+      "must": [{"term": { "http_verb.raw": "POST" }}, {"term": { "http_request.raw": "/student" }}],
+      "filter": {
+        "range": {
+          "@timestamp": {
+            "gte": 1472585432000,
+            "lt": 1472621432000,
+            "format": "epoch_millis"
+          }
+        }
+      }
+    }
+  },
+  "size": 0,
+  "aggs" : {
+    "periods": {
+      "histogram": {
+        "field": "@timestamp",
+        "interval": 60000,
+        "offset": 32000,
+        "extended_bounds": {
+          "min": 1472585432000,
+          "max": 1472621372000
+        }
+      }
+    }
+  }
+}
