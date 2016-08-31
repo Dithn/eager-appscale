@@ -1,6 +1,6 @@
 Stocks (trendsapi) app 
 AppScale fault injection once every 2 hours (Even numbered hours on minutes 0, 1, 2)
-Fault: 45ms delay to first RunQuery operations
+Fault: 45ms delay to (first|second) RunQuery operations
 
 Benchmark frequency: 15s
 History length: 1hour
