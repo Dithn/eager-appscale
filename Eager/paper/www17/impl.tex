@@ -131,60 +131,110 @@ causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
 This is the primary root cause identification mechanism in our implementation of Roots. Like the workload
-change analyzer, this is also implemented
-as an anomaly handler. When a performance anomaly is detected, this mechanism attempts to find the
-most likely component in the PaaS kernel that may have caused the anomaly. AppScale PaaS kernel
-consists of the same core services present in the Google App Engine public cloud (datastore, memcache,
-urlfetch, blobstore, user management etc.). The purpose of bottleneck identification is to find, out of all
-the PaaS kernel services used in an application, the one service that is most likely to have caused 
-application performance to deteriorate. We use a fine grained approach so that when an application
-invokes the same service multiple times, our implementation can pinpoint the exact service call that
-contributed towards the performance anomaly. If none of the service calls cannot be associated with
-the anomaly, we attribute the anomaly to the rest of the application code executed
-directly in the application server.
+change analyzer, this is also implemented as an anomaly handler. Applications running in the cloud 
+consist of user code executed on the application server, and remote 
+service calls to various PaaS kernel services. AppScale cloud
+consists of the same kernel services present in the Google App Engine public cloud (datastore, memcache,
+urlfetch, blobstore, user management etc.).
+We consider each PaaS kernel invocation, and the code running on the application server as 
+separate \textit{components}. Each application request causes one or more components to
+execute, and any one of the components can become a bottleneck to cause performance anomalies.  
+The purpose of bottleneck identification is to find, out of all
+the components executed by an application, the one component that is most likely to have caused 
+application performance to deteriorate.
 
-Suppose an application makes $n$ PaaS kernel invocations ($X_1, X_2, ... X_n$). For each user request processed
-by the application Roots captures the time spent on each kernel invocation ($T_{X1}, T_{X2}, ... T_{Xn}$), and the 
+Suppose an application makes $n$ PaaS kernel invocations ($X_1, X_2, ... X_n$) for each request. 
+For any given application request,
+Roots captures the time spent on each kernel invocation ($T_{X_1}, T_{X_2}, ... T_{X_n}$), and the 
 total response time ($T_{total}$) of the request. These time values are related by the formula
-$T_{total} = T_{X1} + T_{X2} + ... + T_{Xn} + r$, where $r$ is all the time spent not invoking any PaaS kernel
-services. $R$ is mainly the time spent in the resident application server executing user code, and it is not
-directly measured in Roots. In our previous
+$T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$, where $r$ is all the time spent in the resident 
+application server executing user code. $r$ is not
+directly measured in Roots, but it can be computed from the above formula 
+since Roots captures $T_{total}$ and all other $T_{Xn}$ values. In our previous
 work we have shown that PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
-Therefore we have $r \ll T_{X1} + T_{X2} + ... + T_{Xn}$.
+Therefore we may state that $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
 
-Roots bottleneck identification mechanism uses above parameters to compute four metrics. These four metrics
-are then further evaluated by a weighted algorithm to determine the bottleneck in the cloud platform. We
-first describe the four metrics computed by Roots.
+Roots bottleneck identification mechanism selects up to four components as possible candidates
+for the bottleneck. These four candidates are then further evaluated by a weighted algorithm to
+determine the actual bottleneck in the cloud platform. We first describe how Roots selects the
+bottleneck candidates.
 
 \subsubsection{Relative Importance of PaaS Kernel Invocations} 
-The purpose of this metric is to find the service call that is contributing mostly towards the variance in the total
+The purpose of this metric is to find the component that is contributing mostly towards the variance in the total
 response time. We start by selecting a window $W$ in time which includes a sufficient number of application requests,
 and ending at the point when the performance anomaly was detected. Note that for each application request
-in $W$, we can find the total response time ($T_{total}$), and the time spent on individual PaaS kernel
-services ($T_{Xn}$).
+in $W$, we can fetch the total response time ($T_{total}$), and the time spent on individual PaaS kernel
+services ($T_{X_n}$) from the Roots data storage.
 
 Then we take all the $T_{total}$ values
-and the corresponding $T_{Xn}$ values in $W$, and fit them to the linear regression model
-$T_{total} = T_{X1} + T_{X2} + ... + T_{Xn}$. Here we leave $r$ out deliberately, since it is typically small. To prevent
+and the corresponding $T_{X_n}$ values in $W$, and fit them to the linear regression model
+$T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$. Here we leave $r$ out deliberately, since it is typically small. To prevent
 any bad data from skewing the model, we also filter out requests where the $r$ value is too high. This
 is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ over the selected window, and removing 
 any requests where $r > \mu_r + 1.65\sigma_r$.
 
 Once the regression model has been computed, we run a relative importance algorithm to rank each of the
-regressors (i.e. $T_{Xn}$ values) based on their contribution to the variance of $T_{total}$. 
-We use the LMG method which is resistant to multicolinearity, and provides a break down of the $R^2$ value of
+regressors (i.e. $T_{X_n}$ values) based on their contribution to the variance of $T_{total}$. 
+We use the LMG method which is resistant to multicollinearity, and provides a break down of the $R^2$ value of
 the regression according to how strongly each regressor is influencing the variance of the dependent variable.
-The kernel invocation associated with the highest ranked regressor (i.e. the one that contributes mostly 
-towards the variance) is a very strong candidate
-for the bottleneck that we are looking for. Statistically, this is the kernel invocation that causes the application
+The relative importance values of the regressors add up to the $R^2$ of the linear regression. We consider
+$1 - R^2$ (the portion of variance in $T_{total}$ not explained by the PaaS kernel invocations) as the relative importance of $r$. 
+The component associated with the highest ranked regressor is a strong candidate
+for the bottleneck that we are looking for. Statistically, this is the component that causes the application
 response time to vary the most.
 
 \subsubsection{Historical Trend of Relative Importance}
-This is a simple extension of the previous metric. We divide the time window $W$ into equal-sized continuous segments,
-and compute the relative importance metrics for regressors within each segment. This way we can
-obtain a time series of relative importance values for each regressor. These time series
-represent how the relative importance of each variable has changed over time.
+This is a simple extension of the previous metric. We divide the time window $W$ into equal-sized segments,
+and compute the relative importance metrics for regressors within each segment. We also compute the
+relative importance of $r$ within each segment. This way we can
+obtain a time series of relative importance values for each regressor and $r$. These time series
+represent how the relative importance of each component has changed over time.
 
 We subject each time series to change point analysis to detect if the relative importance of any particular
-regressor has increased recently. If such a regressor can be found, then the PaaS kernel invocation
+variable has increased recently. If such a variable can be found, then the component
 associated with that variable is also a potential candidate for the bottleneck. 
+The candidate selected by this method represents is
+a component whose performance has been stable in the past, and has become variable recently. 
+
+\subsubsection{High Quantiles}
+Next we turn our attention to the individual distributions of the $T_{X_n}$ and $r$. 
+Recall that for each PaaS kernel invocation
+$X_k$, we have a distribution of $T_{X_k}$ values in the window $W$. Similarly we
+can also extract a distribution of $r$ values from $W$. Out of all the available distributions
+we wish to find the one whose quantile values are the largest.
+Specifically, we compute a high
+quantile (e.g. 0.99 quantile) for each distribution. The component, whose distribution 
+contains the largest quantile value
+is chosen as another potential candidate for the bottleneck. This component can be considered
+as taking a long time to execute in general.
+
+\subsubsection{Tail End Values}
+Finally, we further analyze each $T_{X_n}$ distribution and $r$ distribution to detect which one has the largest tail end values.
+We are particularly interested in the values that are larger than a certain high quantile, such as the 0.99 quantile.
+For each tail end value $t$, we compute the metric $P^q_t$. This is the percentage difference between $t$ and the
+$q$ quantile of the corresponding distribution. The component, whose distribution distribution has
+the largest $P^q_t$ is chosen as another potential performance bottleneck.
+This is the case where a component has rare outliers which are much larger than the rest of 
+the values in its distribution (i.e. point anomalies).
+
+\subsubsection{Selecting the Performance Bottleneck}
+Above four mechanisms can choose up to four candidates for the performance bottleneck. The number of
+chosen candidates can be less than four, since the same candidate can get selected from more than
+one mechanism. Note that each of the above four mechanisms are designed to look for different
+types of bottlenecks. The relative importance method looks for a component that has consistently
+high variance. The historical trend of relative importance facilitates finding a component whose
+performance has only recently become highly variable. The high quantile method is good at
+finding a component which is slow in general. The last method finds a component with poor
+tail latency. If more than one of these methods choose the same candidate for the bottleneck,
+we can claim it to the actual bottleneck with high confidence.
+
+Based on the above intuition, we design a simple weighting mechanism to find the actual
+bottleneck from the selected candidates. Any component chosen by the relative importance
+method gets 4 points. Components chosen by the other three methods get 3 points each. 
+We sum up the points assigned to each component, and the component with the highest
+score is declared to be the bottleneck. The relative importance method acts as a tie breaker
+in case the four methods select four different candidates. The performance anomalies we
+are interested in are typically caused by long lasting performance issues in the system 
+(pattern anomalies). Since the relative importance method looks for components with
+consistently high variance, it is somewhat better at finding components
+with lasting performance issues.
