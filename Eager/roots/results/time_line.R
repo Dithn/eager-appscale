@@ -1,12 +1,14 @@
 ts_data <- read.table('times.txt', sep=',')
 times <- as.POSIXct(ts_data[,1], format='%Y-%m-%d %H:%M:%S')
 
-dev.new(width=6, height=2.5)
+dev.new(width=6, height=2)
 
 start <- as.POSIXct('2016-08-19 12:30:00', format='%Y-%m-%d %H:%M:%S')
 end <- as.POSIXct('2016-08-19 22:30:00', format='%Y-%m-%d %H:%M:%S')
 range_times <- c(start, end)
 ticks <- seq(start, end, by = "hours")
+
+par(mar=c(5,1,1,1))
 plot(NA, ylim=c(0,1), xlim=range_times, ann=FALSE, axes=FALSE, xlab='Time')
 abline(h=0, lwd=2, col="#5B7FA3")
 
