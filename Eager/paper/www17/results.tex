@@ -25,7 +25,7 @@ period of 10 hours.
 \begin{center}
 \begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
 \hline
-Faulty Service & $\mu + 2\sigma$ & $\mu + 3\sigma$ & $\mu + 5\sigma$ \\ \hline
+Faulty Service & $\mu + 2\sigma$ (31ms) & $\mu + 3\sigma$ (36ms) & $\mu + 5\sigma$ (45ms) \\ \hline
 datastore & 18 & 11 & 10 \\ \hline
 user management & 19 & 15 & 10 \\ \hline
 \end{tabular}
@@ -44,3 +44,25 @@ caused by our hourly fault injection mechanism. As the SLO is tightened by lower
 Roots detects additional anomalies. These additional anomalies
 result from a combination of injected faults, and other naturally occurring faults
 in the system.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{time_line_guestbook_2s}
+\caption{Anomaly detection in guestbook application (timeline).}
+\label{fig:time_line_guestbook_2s}
+\end{figure}
+
+Next we analyze how fast and often Roots can detect anomalies in an application. We
+first consider the case where we use $\mu + 2\sigma$ as the application SLO, and 
+inject faults into the datastore service. Figure~\ref{fig:time_line_guestbook_2s} shows
+anomalies detected in guestbook as events on a time line. The horizontal axis represents 
+passage of time. The red markers indicate the time windows in which we injected faults into
+AppScale. Each window is 3 minutes wide, and therefore appears thin in the full 10 hour scale
+of the plot. The tall blue lines indicate the Roots anomaly detection events.
+Note that every fault injection window is immediately followed by an anomaly
+detection event, implying near real time reaction from Roots. The only exception is the fault
+injection window at 20:00 hours which is not immediately followed by an anomaly 
+detection event. Roots detected another naturally occurring anomaly at 19:52 hours
+which caused the anomaly detector to go into the warm up mode. Therefore Roots
+did not detect the faults injected at 20:00 hours. But as soon as the detector became
+active again at 20:17, it detected the anomaly.
