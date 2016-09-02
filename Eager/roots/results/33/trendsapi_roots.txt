@@ -1,0 +1,161 @@
+n = 10000; c = 1
+=================
+
+Benchmarking 128.111.179.239 (be patient)
+Completed 1000 requests
+Completed 2000 requests
+Completed 3000 requests
+Completed 4000 requests
+Completed 5000 requests
+Completed 6000 requests
+Completed 7000 requests
+Completed 8000 requests
+Completed 9000 requests
+Completed 10000 requests
+Finished 10000 requests
+
+
+Server Software:        nginx/1.4.6
+Server Hostname:        128.111.179.239
+Server Port:            8081
+
+Document Path:          /buy?userId=roots&stockId=777&numShares=1&shareVal=1
+Document Length:        Variable
+
+Concurrency Level:      1
+Time taken for tests:   1492.274 seconds
+Complete requests:      10000
+Failed requests:        0
+Total transferred:      2270000 bytes
+HTML transferred:       110000 bytes
+Requests per second:    6.70 [#/sec] (mean)
+Time per request:       149.227 [ms] (mean)
+Time per request:       149.227 [ms] (mean, across all concurrent requests)
+Transfer rate:          1.49 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.6      0      38
+Processing:   117  149  81.2    138    2170
+Waiting:      117  149  81.2    138    2170
+Total:        117  149  81.2    138    2171
+
+Percentage of the requests served within a certain time (ms)
+  50%    138
+  66%    142
+  75%    146
+  80%    148
+  90%    156
+  95%    168
+  98%    205
+  99%    638
+ 100%   2171 (longest request)
+
+n = 10000; c = 50
+=================
+
+Benchmarking 128.111.179.239 (be patient)
+Completed 1000 requests
+Completed 2000 requests
+Completed 3000 requests
+Completed 4000 requests
+Completed 5000 requests
+Completed 6000 requests
+Completed 7000 requests
+Completed 8000 requests
+Completed 9000 requests
+Completed 10000 requests
+Finished 10000 requests
+
+
+Server Software:        nginx/1.4.6
+Server Hostname:        128.111.179.239
+Server Port:            8080
+
+Document Path:          /buy?userId=roots&stockId=777&numShares=1&shareVal=1
+Document Length:        Variable
+
+Concurrency Level:      50
+Time taken for tests:   625.606 seconds
+Complete requests:      10000
+Failed requests:        0
+Non-2xx responses:      74
+Total transferred:      2462036 bytes
+HTML transferred:       299261 bytes
+Requests per second:    15.98 [#/sec] (mean)
+Time per request:       3128.031 [ms] (mean)
+Time per request:       62.561 [ms] (mean, across all concurrent requests)
+Transfer rate:          3.84 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.5      0      34
+Processing:   256 3120 609.3   2923    7941
+Waiting:      256 3120 609.3   2923    7941
+Total:        258 3121 609.3   2924    7941
+
+Percentage of the requests served within a certain time (ms)
+  50%   2924
+  66%   3140
+  75%   3287
+  80%   3395
+  90%   3837
+  95%   4375
+  98%   5029
+  99%   5454
+ 100%   7941 (longest request)
+
+n = 10000; c = 100
+==================
+
+Benchmarking 128.111.179.239 (be patient)
+Completed 1000 requests
+Completed 2000 requests
+Completed 3000 requests
+Completed 4000 requests
+Completed 5000 requests
+Completed 6000 requests
+Completed 7000 requests
+Completed 8000 requests
+Completed 9000 requests
+Completed 10000 requests
+Finished 10000 requests
+
+
+Server Software:        nginx/1.4.6
+Server Hostname:        128.111.179.239
+Server Port:            8080
+
+Document Path:          /buy?userId=roots&stockId=777&numShares=1&shareVal=1
+Document Length:        Variable
+
+Concurrency Level:      100
+Time taken for tests:   664.441 seconds
+Complete requests:      10000
+Failed requests:        0
+Non-2xx responses:      58
+Total transferred:      2391144 bytes
+HTML transferred:       228769 bytes
+Requests per second:    15.05 [#/sec] (mean)
+Time per request:       6644.409 [ms] (mean)
+Time per request:       66.444 [ms] (mean, across all concurrent requests)
+Transfer rate:          3.51 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.4      0      18
+Processing:   291 6601 915.8   6368   12307
+Waiting:      291 6601 915.8   6368   12307
+Total:        295 6601 915.7   6369   12307
+
+Percentage of the requests served within a certain time (ms)
+  50%   6369
+  66%   6794
+  75%   7069
+  80%   7272
+  90%   7807
+  95%   8322
+  98%   8865
+  99%   9307
+ 100%  12307 (longest request)
+
