@@ -1,3 +1,18 @@
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Faulty Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
+datastore & 18 & 11 & 10 \\ \hline
+user management & 19 & 15 & 10 \\ \hline
+\end{tabular}
+\end{center}
+\caption{Number of anomalies detected in guestbook app under different SLOs 
+($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
+\label{tab:anomaly_counts}
+}
+\end{table}
+
 We first evaluate the effectiveness of Roots as an anomaly detection mechanism. We experiment with
 the SLO-based anomaly detector, using a simple HTML-producing web application called ``guestbook''.
 This application allows users to login, and post comments. It uses the datastore service to save
@@ -22,21 +37,6 @@ to $\mu_g + 5\sigma_g$. Therefore this delay is sufficient to violate all three 
 We run a similar set of experiments where we inject faults into the user management service of
 AppScale. Each experiment is run for a period of 10 hours.
 
-\begin{table}
-\begin{center}
-\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
-\hline
-Faulty Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
-datastore & 18 & 11 & 10 \\ \hline
-user management & 19 & 15 & 10 \\ \hline
-\end{tabular}
-\end{center}
-\caption{Number of anomalies detected in guestbook app under different SLOs 
-($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
-\label{tab:anomaly_counts}
-}
-\end{table}
-
 Table~\ref{tab:anomaly_counts} shows how the number of anomalies detected by 
 Roots in a 10 hour period varies when the SLO is changed. The number of anomalies
 drops noticeably when the response time upper bound is increased. When the $L_3$
@@ -45,20 +45,6 @@ caused by our hourly fault injection mechanism. As the SLO is tightened by lower
 Roots detects additional anomalies. These additional anomalies
 result from a combination of injected faults, and other naturally occurring faults
 in the system.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{time_line_guestbook_2s}
-\caption{Anomaly detection in guestbook application (timeline).}
-\label{fig:time_line_guestbook_2s}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.6]{time_line_guestbook_2s_user}
-\caption{Anomaly detection in guestbook application (timeline).}
-\label{fig:time_line_guestbook_2s_user}
-\end{figure}
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
 first consider the performance of guestbook under the $L_1$ SLO while 
@@ -75,8 +61,45 @@ which caused the anomaly detector to go into the warm up mode. Therefore Roots
 did not immediately react to the faults injected at 20:00 hours. But as soon as the detector became
 active again at 20:17, it detected the anomaly.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{time_line_guestbook_2s}
+\caption{Anomaly detection in guestbook application (timeline).}
+\label{fig:time_line_guestbook_2s}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{time_line_guestbook_2s_user}
+\caption{Anomaly detection in guestbook application (timeline).}
+\label{fig:time_line_guestbook_2s_user}
+\end{figure}
+
 Figure~\ref{fig:time_line_guestbook_2s_user} shows the anomaly detection time line for the 
 same application and SLO, while faults are being injected into the user management service.
 Here too we see that Roots detects anomalies immediately following each fault injection window.
 
-Next we evaluate the Roots workload change analyzer.
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{workload_change_trace}
+\caption{Workload size over time for the guestbook application. The test client randomly sends
+large bursts of traffic causing the spikes in the plot. Roots anomaly detection events are shown
+in red dashed lines.}
+\label{fig:workload_change}
+\end{figure}
+
+Next we evaluate the Roots workload change analyzer. In this experiment we run a varying workload
+against the guestbook application for 10 hours. The load generating client is programmed
+to maintain a mean workload level of 500 requests per minute. However, the client
+is also programmed to randomly send large bursts of traffic at times of its choosing. During these bursts 
+the client may send more than 1000 requests a minute, thus impacting the performance of
+the application server that hosts the guestbook application. Figure~\ref{fig:workload_change} shows how
+the application workload has changed over time. The workload generator has produced 6 large bursts of traffic during the 
+period of the experiment, which appear as tall spikes in the plot.
+Note that each burst is immediately followed by a Roots anomaly detection event (shown by red dashed lines). 
+In each of these 6 cases, the increase in workload caused a violation of the application performance SLO.
+Roots detected the corresponding anomalies, and determined them to be caused by changes in the workload size.
+Even though the bursts of traffic appear to be momentary
+spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on the application performance.
+The PELT change point detection method used in this experimental set up is ideally suited for detecting
+such lasting changes in the workload level.
