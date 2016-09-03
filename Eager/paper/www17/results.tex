@@ -81,6 +81,41 @@ Here too we see that Roots detects anomalies immediately following each fault in
 
 \begin{figure}
 \centering
+\includegraphics[scale=0.55]{time_line_caching}
+\caption{Anomaly detection in caching application (timeline).}
+\label{fig:time_line_caching}
+\end{figure}
+
+Next we evaluate the effectiveness and accuracy of the path distribution analyzer. For this we 
+employ two applications.
+\begin{description}
+\item[key-value store] Provides the functionality of an online key-value store.  It allows 
+users to store data objects in the cloud where each object is given a unique key. The objects can then be 
+retrieved, updated or deleted using their keys. Different operations
+(create, retrieve, update and delete) of the application are implemented as separate paths of
+execution in the application source code.
+\item[cached key-value store] A simple extension of the regular key-value store, which adds
+caching to the read operation using the AppScale's memcache service. The application contains
+separate paths of execution for cache hits and cache misses.
+\end{description}
+
+We first deploy the key-value store on AppScale, and populate it with a number of data objects. Then we
+run a test client against it which generates a mostly-read workload. On average this workload
+consists of 90\% read requests and 10\% write requests (create and update). The test client
+is also programmed to randomly send bursts of mostly-write workloads. These bursts consist
+of 90\% write requests on average, and each burst lasts up to 2 minutes.
+
+Then we deploy the cached key-value store on AppScale, and run a test client that generates a workload
+that is mostly served from the cache. This is done by repeatedly executing read requests on a small
+selected set of object keys. However, the client randomly sends bursts of traffic requesting keys that
+are not likely to be in the application cache, thus resulting in many cache misses. Each burst
+lasts up to 2 minutes. As shown in 
+figure~\ref{fig:time_line_caching}, Roots path distribution analyzer correctly detects the change 
+in the workload (from many cache hits to many cache misses), every time the test client injects a 
+burst of traffic that triggers the cache miss path of the application to get executed.
+
+\begin{figure}
+\centering
 \includegraphics[scale=0.5]{workload_change_trace}
 \caption{Workload size over time for the guestbook application. The test client randomly sends
 large bursts of traffic causing the spikes in the plot. Roots anomaly detection events are shown
