@@ -3,7 +3,7 @@ times <- as.POSIXct(ts_data[,1], format='%Y-%m-%d %H:%M:%S')
 
 dev.new(width=6, height=1.8)
 
-start <- as.POSIXct('2016-08-27 02:00:00', format='%Y-%m-%d %H:%M:%S')
+start <- as.POSIXct('2016-08-27 14:00:00', format='%Y-%m-%d %H:%M:%S')
 end <- as.POSIXct('2016-08-28 00:00:00', format='%Y-%m-%d %H:%M:%S')
 range_times <- c(start, end)
 ticks <- seq(start, end, by = "hours")
