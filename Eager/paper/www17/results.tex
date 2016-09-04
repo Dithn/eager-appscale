@@ -176,3 +176,44 @@ anomaly detected at 04:30 hours, Roots determined that local execution time is t
 In this case too the server hosting the guestbook application became slow
 during the 04:23 - 04:25 time window, and Roots correctly identified the bottleneck as the local
 application server.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.55]{time_line_stocks_1}
+\caption{Anomaly detection in stock-trader application (timeline).}
+\label{fig:time_line_stocks_1}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.55]{time_line_stocks_2}
+\caption{Anomaly detection in stock-trader application (timeline).}
+\label{fig:time_line_stocks_2}
+\end{figure}
+
+In order to evaluate how the bottleneck identification performs when an application makes more than 2
+PaaS kernel invocations, we conduct another experiment using an application called ``stock-trader''.
+This application allows setting up organizations, and simulating trading of stocks between the
+organizations. The two main operations in this application are \textit{buy} and \textit{sell}. Each of
+these operations makes 8 calls to the AppScale datastore. 
+According to our previous work, 8 kernel invocations in the
+same path of execution is very rare in web applications developed for a PaaS cloud. The probability
+of finding an execution path with more than 5 kernel invocations in a sample of PaaS-hosted
+applications is less than 1\%. Therefore the stock-trader application is a good extreme case
+example to test the Roots bottleneck identification support.
+We execute a number of experimental runs using this application,
+and here we present the results from two of them. In all experiments we configure the anomaly
+detector to check for the response time SLO of 177ms with 95\% success probability.
+
+In one of our experimental runs we inject faults into the first datastore query executed by the buy operation
+of stock-trader. The fault injection logic runs every two hours, and we run the experiment for 10 hours. 
+Figure~\ref{fig:time_line_stocks_1} shows the resulting event sequence. Note that every fault injection
+event is immediately followed by a Roots anomaly detection event. For all the anomalies detected
+in this test, Roots correctly selected the first datastore call in the application code as the bottleneck. 
+Figure~\ref{fig:time_line_stocks_2} shows the results from a similar experiment where we inject
+faults into the second datastore query executed by the operation. Here also Roots detects all the
+artificially induced anomalies. All of them, except for one, are determined to be caused by the second
+datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
+is attributed to the fourth datastore query executed by the application. We have manually verified this
+conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), this datastore
+query has frequently taken a long time to execute, which resulted in an SLO violation at 08:56 hours.
