@@ -134,18 +134,18 @@ multiple bursts are clumped together, in which case only the first first raises 
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{workload_change_trace}
-\caption{Workload size over time for the guestbook application. The test client randomly sends
+\caption{Workload size over time for the key-value store application. The test client randomly sends
 large bursts of traffic causing the spikes in the plot. Roots anomaly detection events are shown
 in red dashed lines.}
 \label{fig:workload_change}
 \end{figure}
 
 Next we evaluate the Roots workload change analyzer. In this experiment we run a varying workload
-against the guestbook application for 10 hours. The load generating client is programmed
+against the key-value store application for 10 hours. The load generating client is programmed
 to maintain a mean workload level of 500 requests per minute. However, the client
 is also programmed to randomly send large bursts of traffic at times of its choosing. During these bursts 
 the client may send more than 1000 requests a minute, thus impacting the performance of
-the application server that hosts the guestbook application. Figure~\ref{fig:workload_change} shows how
+the application server that hosts the key-value store. Figure~\ref{fig:workload_change} shows how
 the application workload has changed over time. The workload generator has produced 6 large bursts of traffic during the 
 period of the experiment, which appear as tall spikes in the plot.
 Note that each burst is immediately followed by a Roots anomaly detection event (shown by red dashed lines). 
