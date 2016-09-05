@@ -217,3 +217,58 @@ datastore query of the buy operation. The anomaly detected at 08:56 (marked with
 is attributed to the fourth datastore query executed by the application. We have manually verified this
 conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), this datastore
 query has frequently taken a long time to execute, which resulted in an SLO violation at 08:56 hours.
+
+Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
+cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
+invocations made by each application, since this feature requires some changes to the PaaS SDK. 
+We deploy a number of applications on a vanilla
+AppScale cloud (with no Roots), and measure their request latencies. We use
+the popular Apache Bench tool to measure the request latency under a
+varying number of concurrent clients. We then take the same measurements
+on an AppScale cloud with Roots, and compare the results against the ones obtained
+from the vanilla AppScale cloud. In both environments we disable the auto-scaling
+support of AppScale, so that all client requests are served from a single application
+server instance. The PaaS SDK libraries we have instrumented for Roots reside within
+the application server. Therefore, the kernel invocation events get buffered in
+the application server before they are sent to the Roots data storage. We wish to
+explore how this feature performs when the application server is under heavy load.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|}
+\hline &
+      \multicolumn{2}{c|}{Without Roots} &
+      \multicolumn{2}{c|}{With Roots} \\ \hline
+    App./Concurrency & Mean (ms) & SD & Mean (ms) & SD\\
+
+\hline
+guestbook/1 & 12 & 3.9 & 12 & 3.7 \\ \hline
+guestbook/50 & 375 & 51.4 & 374 & 53 \\ \hline
+stock-trader/1 & 151 & 13 & 145 & 13.7 \\ \hline
+stock-trader/50 & 3631 & 690.8 & 3120 & 609.3 \\ \hline
+kv store/1 & 7 & 1.5 & 8 & 2.2 \\ \hline
+kv store/50 & 169 & 26.7  & 150 & 25.4  \\ \hline
+cached kv store/1 & 3 & 2.8 & 2 & 3.3 \\ \hline
+cached kv store/50 & 101 & 24.8 & 97 & 35.1  \\ \hline
+\end{tabular}
+\end{center}
+\caption{Latency comparison of applications when running on
+a vanilla AppScale cloud vs when running on a Roots-enabled
+AppScale cloud.
+\label{tab:perf_overhead}
+}
+\end{table}
+
+Table~\ref{tab:perf_overhead} shows the comparison of request 
+latencies. We discover that Roots does not add a significant overhead
+to the request latency in any of the scenarios considered. In all the cases,
+the mean request latency when Roots is in use, is within one standard deviation
+from the mean request latency when Roots is not in use. Also in a number
+of cases the mean request latency is slightly lower when Roots is in use.
+The request latency increases when the number of concurrent clients is
+increased from 1 to 50 (since all requests are handled by a single
+application server), but still there is no sign of any detrimental overhead
+from Roots even under load. Since we buffer PaaS kernel invocation
+events in memory, and report them to ElasticSearch asynchronously, and
+out of the request processing flow, there is no measurable impact on
+the request latency from Roots.
