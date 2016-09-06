@@ -218,6 +218,26 @@ is attributed to the fourth datastore query executed by the application. We have
 conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), this datastore
 query has frequently taken a long time to execute, which resulted in an SLO violation at 08:56 hours.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{bottleneck_scores}
+\caption{Frequency of different bottleneck scores.}
+\label{fig:bottleneck_scores}
+\end{figure}
+
+Recall that the bottleneck identification algorithm in Roots
+selects up to four candidate components for each performance anomaly detected, and then ranks them
+by assigning scores to identify the most likely bottleneck. Figure~\ref{fig:bottleneck_scores} shows the breakdown of 407 anomalies
+detected over a period of 3 weeks. X-axis represents the different scores given to candidate components
+by our algorithm. Y-axis shows the number of times a particular score was the highest. 
+According to this result, on 13 occasions Roots determined the bottleneck based on the highest score
+of 4 (score given to the component identified by the relative importance metric). 
+This happens when the algorithm chooses four different candidates
+for the bottleneck. However, this constitutes only 3.2\% of all the anomalies. In 96.8\% of the time Roots saw
+at least two of the four candidates to be the same (score values 6 or higher). This implies that most of the time Roots is able to
+identify bottlenecks with a high level of confidence since two or more candidate detection methods
+agree on their results.
+
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
 invocations made by each application, since this feature requires some changes to the PaaS SDK. 
@@ -245,7 +265,7 @@ explore how this feature performs when the application server is under heavy loa
 guestbook/1 & 12 & 3.9 & 12 & 3.7 \\ \hline
 guestbook/50 & 375 & 51.4 & 374 & 53 \\ \hline
 stock-trader/1 & 151 & 13 & 145 & 13.7 \\ \hline
-stock-trader/50 & 3631 & 690.8 & 3120 & 609.3 \\ \hline
+stock-trader/50 & 3631 & 690.8 & 3552 & 667.7 \\ \hline
 kv store/1 & 7 & 1.5 & 8 & 2.2 \\ \hline
 kv store/50 & 169 & 26.7  & 150 & 25.4  \\ \hline
 cached kv store/1 & 3 & 2.8 & 2 & 3.3 \\ \hline

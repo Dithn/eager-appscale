@@ -77,34 +77,34 @@ Document Path:          /buy?userId=roots&stockId=777&numShares=1&shareVal=1
 Document Length:        Variable
 
 Concurrency Level:      50
-Time taken for tests:   625.606 seconds
+Time taken for tests:   713.107 seconds
 Complete requests:      10000
 Failed requests:        0
-Non-2xx responses:      74
-Total transferred:      2462036 bytes
-HTML transferred:       299261 bytes
-Requests per second:    15.98 [#/sec] (mean)
-Time per request:       3128.031 [ms] (mean)
-Time per request:       62.561 [ms] (mean, across all concurrent requests)
-Transfer rate:          3.84 [Kbytes/sec] received
+Non-2xx responses:      75
+Total transferred:      2464438 bytes
+HTML transferred:       301527 bytes
+Requests per second:    14.02 [#/sec] (mean)
+Time per request:       3565.535 [ms] (mean)
+Time per request:       71.311 [ms] (mean, across all concurrent requests)
+Transfer rate:          3.37 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.5      0      34
-Processing:   256 3120 609.3   2923    7941
-Waiting:      256 3120 609.3   2923    7941
-Total:        258 3121 609.3   2924    7941
+Connect:        0    0   0.5      0      14
+Processing:   299 3552 667.7   3335    8264
+Waiting:      299 3552 667.7   3335    8264
+Total:        301 3552 667.7   3336    8264
 
 Percentage of the requests served within a certain time (ms)
-  50%   2924
-  66%   3140
-  75%   3287
-  80%   3395
-  90%   3837
-  95%   4375
-  98%   5029
-  99%   5454
- 100%   7941 (longest request)
+  50%   3336
+  66%   3606
+  75%   3822
+  80%   3990
+  90%   4411
+  95%   4890
+  98%   5545
+  99%   5912
+ 100%   8264 (longest request)
 
 n = 10000; c = 100
 ==================
