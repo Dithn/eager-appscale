@@ -196,7 +196,7 @@ PaaS kernel invocations, we conduct another experiment using an application call
 This application allows setting up organizations, and simulating trading of stocks between the
 organizations. The two main operations in this application are \textit{buy} and \textit{sell}. Each of
 these operations makes 8 calls to the AppScale datastore. 
-According to our previous work, 8 kernel invocations in the
+According to our previous work~\cite{Jayathilaka:2015:RTS:2806777.2806842}, 8 kernel invocations in the
 same path of execution is very rare in web applications developed for a PaaS cloud. The probability
 of finding an execution path with more than 5 kernel invocations in a sample of PaaS-hosted
 applications is less than 1\%. Therefore the stock-trader application is a good extreme case

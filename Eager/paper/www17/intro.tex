@@ -51,8 +51,12 @@ able to take advantage of the scaling, efficiency, deployment, fault tolerance, 
 and control features that the underlying cloud offers, 
 (ii) while providing low overhead end-to-end monitoring of cloud applications.
 
-Roots is highly customizable so that different monitoring policies can be
-configured at the application and web API level. It also facilitates a number of statistical analysis
+Previous work has outlined several key requirements that need to be taken into consideration when
+designing a cloud monitoring system~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. 
+These include scalability, autonomy and dynamic resource management. We strive to incorporate
+these features into our design as much as possible.
+Roots is also customizable so that different monitoring policies can be
+configured at the application and web API level. It facilitates a number of statistical analysis
 methods for anomaly detection and root cause analysis. New analysis methods
 can be easily brought into the framework by building on the high-level abstractions
 that Roots provides. This enables us to experiment with different combinations of
