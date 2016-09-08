@@ -1,12 +1,12 @@
-We implemented a Roots prototype for the AppScale cloud platform. AppScale is an open
-source PaaS cloud, API compatible with the popular Google App Engine (GAE) cloud platform.
+We implemented a Roots prototype for the AppScale cloud platform~\cite{6488671}. AppScale is an open
+source PaaS cloud, API compatible with the popular Google App Engine (GAE) cloud platform~\cite{gae}.
 Due to the API compatibility, any application developed for GAE can be deployed
 and executed on AppScale with no code changes. Since AppScale is open source software, we
 were able to modify parts of its implementation to integrate the Roots APM into it. AppScale also
 turned out to be a great test environment since we could deploy it locally, and run a number of
 existing App Engine applications on it.
 
-We use ElasticSearch as the data storage component of our prototype. ElasticSearch is ideal 
+We use ElasticSearch~\cite{elasticsearch} as the data storage component of our prototype. ElasticSearch is ideal 
 for storing large volumes of structured and semi-structured data. It supports scalability and 
 high availability via sharding and replication.
 ElasticSearch continuously organizes and indexes data, making the information available 
@@ -23,7 +23,7 @@ from the same application.
 We implement a number of data collecting agents in AppScale to gather runtime information
 from all major components. These agents buffer data locally, and store them in ElasticSearch
 in batches. For scraping server logs and storing the extracted entries in ElasticSearch,
-we use the Logstash tool. Logstash supports scraping a wide range of standard log formats (e.g. 
+we use the Logstash tool~\cite{logstash}. Logstash supports scraping a wide range of standard log formats (e.g. 
 Apache HTTPD access logs), and other custom log formats can be supported via a simple configuration.
 It also integrates naturally with ElasticSearch.
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS SDK implementation,
@@ -123,8 +123,9 @@ Workload change analyzer uses change point detection algorithms to analyze the h
 the application workload. We use the ``number of requests
 per unit time'' as the metric of workload size. This information can be obtained from the Roots
 data storage as a time series. Our implementation of Roots supports a number of well known change point
-detection algorithms (PELT, binary segmentation and CL method), any of which can be used to detect level shifts in the
-workload size. These algorithms favor long lasting shifts (plateaus) in the workload trend, over momentary spikes.
+detection algorithms (PELT~\cite{doi:10.1080/01621459.2012.737745}, binary segmentation 
+and CL method~\cite{chen1993joint}), any of which can be used to detect level shifts in the
+workload size. Algorithms like PELT favor long lasting shifts (plateaus) in the workload trend, over momentary spikes.
 We expect momentary spikes to be fairly common in workload data. But it's the plateaus that cause
 request buffers to fill up, and hog server-side resources for extended periods of time thus
 causing noticeable performance anomalies.
@@ -173,9 +174,9 @@ any bad data from skewing the model, we also filter out requests where the $r$ v
 is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ over the selected window, and removing 
 any requests where $r > \mu_r + 1.65\sigma_r$.
 
-Once the regression model has been computed, we run a relative importance algorithm to rank each of the
+Once the regression model has been computed, we run a relative importance algorithm~\cite{JSSv017i01} to rank each of the
 regressors (i.e. $T_{X_n}$ values) based on their contribution to the variance of $T_{total}$. 
-We use the LMG method which is resistant to multicollinearity, and provides a break down of the $R^2$ value of
+We use the LMG method~\cite{lmg80} which is resistant to multicollinearity, and provides a break down of the $R^2$ value of
 the regression according to how strongly each regressor is influencing the variance of the dependent variable.
 The relative importance values of the regressors add up to the $R^2$ of the linear regression. We consider
 $1 - R^2$ (the portion of variance in $T_{total}$ not explained by the PaaS kernel invocations) as the relative importance of $r$. 

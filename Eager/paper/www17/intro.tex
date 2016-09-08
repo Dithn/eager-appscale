@@ -1,9 +1,11 @@
 Over the last decade cloud computing has become a popular approach for deploying
-applications at scale. Many organizations, academic institutions, and hobbyists make use of public
+applications at scale~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}. 
+Many organizations, academic institutions, and hobbyists make use of public
 and/or private clouds to deploy their applications.
 This rapid growth in cloud technology has intensified the need 
 for new techniques to
-monitor applications deployed in cloud platforms. Application developers and users wish
+monitor applications deployed in cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
+Application developers and users wish
 to monitor the availability of the deployed applications, track application performance, and detect 
 application and system anomalies as they occur. To obtain this level of deep operational insight into
 cloud-hosted applications, the cloud platforms must be equipped with powerful instrumentation,
@@ -14,7 +16,8 @@ monitoring features such as application-level logging. Hence, they are not capab
 performance anomaly detection, which requires much more fine-grained
 data collection and analytics across the entire cloud platform.
 
-Further compounding this problem, today's cloud platforms are very large and complex. They are
+Further compounding this problem, today's cloud platforms are very 
+large and complex~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. They are
 comprised of many layers, where each layer may consist of a multitude of interacting components.
 Therefore when a performance anomaly manifests in a user application, it is rather challenging 
 to determine the exact layer or the component of the cloud platform that may be responsible for it. 
@@ -46,7 +49,7 @@ We believe that this design decision is a key differentiator over existing cloud
 application monitoring systems because (i) it is
 able to take advantage of the scaling, efficiency, deployment, fault tolerance, security, 
 and control features that the underlying cloud offers, 
-(ii) while providing low overhead end-to-end monitoring and analysis of cloud applications.
+(ii) while providing low overhead end-to-end monitoring of cloud applications.
 
 Roots is highly customizable so that different monitoring policies can be
 configured at the application and web API level. It also facilitates a number of statistical analysis
