@@ -4,7 +4,8 @@ of a running system or application, while collecting vital measurements at discr
 models of typical system behaviors~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
 Such systems play a crucial role in achieving guaranteed service reliability, performance and
 quality of service by detecting performance issues in a timely manner before they escalate into major outages
-or SLO violations. PADBI systems are thoroughly researched, and well understood in the context of traditional standalone and
+or SLO violations~\cite{6045942}. 
+PADBI systems are thoroughly researched, and well understood in the context of traditional standalone and
 network applications. Many system administrators are familiar with frameworks like Nagios, Open NMS and Zabbix which
 can be used to collect data from a wide range of applications and devices. The collected data can be
 subjected to statistical analysis and/or machine learning to detect performance anomalies. 
@@ -77,8 +78,38 @@ level issue. We take a similar approach in Roots, in that we capture the PaaS ke
 made by user applications. We use application response time (latency) as an indicator of anomalies,
 and group PaaS kernel invocations into application requests to perform bottleneck identification.
 
-Prior work in anomaly detection and root cause analysis can be classified as statistical
-methods and machine learning methods. While we use many statistical methods
+Nguyen et al presented PAL, another anomaly detection and localization mechanism targeting
+distributed applications deployed on IaaS clouds~\cite{Nguyen:2011:PPR:2038633.2038634}. 
+Similar to Roots, they also use an SLO monitoring approach to detect application
+performance anomalies. When an anomaly is detected, they perform change point analysis
+on gathered resource usage data (CPU, memory and network) to identify the anomaly onset time.
+Having detected one or more anomaly onset events in different components of the
+distributed application, they sort the events by time to determine
+the propagation pattern of the anomaly.
+
+Magalhaes and Silva have made significant contributions in the area of anomaly detection
+and root cause analysis in web applications~\cite{Magalhaes:2010:DPA:1906485.1906774, Magalhaes:2011:RAP:1982185.1982234}. 
+They compute the correlation between application
+workload and latency. If the level of correlation drops significantly, they consider it to be an
+anomaly. A similar correlation analysis between workload and other system parameters 
+(e.g. CPU and memory usage) is used to check whether an anomaly was caused by a workload
+change. They also use an aspect-oriented programming model in their target applications, which
+allows them to easily instrument application code, and gather metrics regarding various 
+remote services (e.g. database) invoked by the application. This data is subjected to a 
+series of simple linear regressions to perform root cause analysis. This approach assumes
+that remote services are independent of each other. However, in a cloud platform where
+kernel services are deployed in the same shared infrastructure, this assumption might not
+hold true. Therefore we improve on their methodology, and use multiple linear regression
+with relative importance to identify cloud platform bottlenecks. Relative importance
+is resistant to multicollinearity, and therefore does not require the independence assumption.
+
+Anomaly detection is a general problem not restricted to performance analysis. Researchers
+have studied anomaly detection from many different points of view, and as a result many
+viable algorithms and solutions have emerged over time~\cite{Chandola:2009:ADS:1541880.1541882}.
+Prior work in performance anomaly detection and root cause analysis can be classified as statistical
+methods (e.g. \cite{6311395,Malkowski:2007:BDU:1783374.1783389,Magalhaes:2011:RAP:1982185.1982234,Nguyen:2011:PPR:2038633.2038634}) 
+and machine learning methods (e.g. \cite{Cohen:2004:CID:1251254.1251270,Yu:2013:SNA:2494621.2494643,bhaduri2011detecting}).
+While we use many statistical methods
 in our work (change point analysis, relative importance, quantile analysis), Roots is not tied to any of these
 techniques. Rather, we provide a framework on top of which new anomaly detectors and anomaly
 handlers can be built. It is indeed possible to build an anomaly detector that trains a model
