@@ -1,0 +1,59 @@
+Roots falls into the category of performance anomaly detection and bottleneck identification (PADBI) systems.
+A PADBI system is an entity that observes, in real time, the performance behaviors
+of a running system or application, while collecting vital measurements at discrete time intervals to create baseline
+models of typical system behaviors~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
+Such systems play a crucial role in achieving guaranteed service reliability, performance and
+quality of service by detecting performance issues in a timely manner before they escalate into major outages
+or SLO violations. PADBI systems are thoroughly researched, and well understood in the context of traditional standalone and
+network applications. Many system administrators are familiar with frameworks like Nagios, Open NMS and Zabbix which
+can be used to collect data from a wide range of applications and devices. The collected data can be
+subjected to statistical analysis and/or machine learning to detect performance anomalies. 
+
+However, the paradigm of cloud computing, being relatively new, is yet to be
+fully penetrated by PADBI systems research. The size, complexity and the dynamic nature of 
+cloud platforms make performance monitoring a particularly challenging problem.
+The existing technologies like Amazon CloudWatch
+and New Relic facilitate monitoring cloud applications in IaaS clouds by observing low level
+cloud resources (e.g. virtual machines), and instrumenting application code. But such technologies
+are neither viable nor sufficient in
+PaaS and SaaS clouds where the low level cloud resources are hidden under layers of managed
+services and SDKs, and the application code is executed in sandboxed environments that are not
+amenable to instrumentation. The added configuration overhead and the financial cost of such monitoring
+solutions may further preclude their use in some cases. Roots on the other hand is built into the 
+fabric of the PaaS cloud giving it full visibility into all the activities that take place in the entire
+software stack. It does not require additional
+code instrumentation or configuration on the part of the application developer. Roots is always on,
+and active as long as the underlying cloud platform is. It is uniquely capable of tracing application 
+performance anomalies to components deep within the cloud stack, that are not 
+usually exposed to external monitoring or probing.
+
+Ibidunmoye et al showed that a PADBI system designed for the cloud should take several key 
+properties of cloud applications into consideration~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
+We account for all these factors in our design of Roots:
+\begin{description}
+\item[Scalability] Roots is extremely lightweight, and does not cause any noticeable overhead in 
+application performance. It puts strict upper  bounds on the volume of data kept in memory. 
+The persistent data is accessed on demand, and can be removed after their usefulness has expired.
+\item[Multitenancy] Roots facilitates configuring anomaly detectors at the granularity of individual applications.
+Users can employ different statistical analysis methods to process the monitoring data in ways that are 
+most suitable for their applications.
+\item[Complex application architecture] We design Roots to collect data from the entire cloud stack 
+(load balancers, app servers, PaaS kernel services etc.). Roots is able to correlate data gathered
+from different parts of the cloud platform, and perform systemwide bottleneck identification.
+\item[Dynamic resource management] Cloud platforms are dynamic in terms of their magnitude 
+and topology. By augmenting all the key components along the request processing path of the cloud platform,
+we make sure that Roots capture all the critical runtime data. When new processes/components
+spring to life in the cloud platform, they inherit the same augmentations, and start reporting to Roots automatically.
+\item[Autonomous operation] Roots is designed to detect performance anomalies online, without manual intervention.
+When Roots detects a problem, it attempts to automatically identify the root cause by analyzing
+available workload and service invocation data. 
+\end{description}
+The same survey highlights the importance of multilevel bottleneck identification as an open research
+question. This is the ability to
+identify bottlenecks from a set of top-level application service components, and further down through the 
+virtualization layer to system resource bottlenecks. Our plan for Roots is very much in sync with this
+vision. We currently support identifying bottlenecks from a set of services provided by the PaaS kernel.
+As a part of our future work, we plan to extend this support towards the virtualization layer and the
+physical resources of the cloud platform.
+
+ 
