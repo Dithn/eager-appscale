@@ -1,3 +1,12 @@
+%% complexity and convenience make diagnosing PaaS application performance hard
+%% -- PaaS is opaque to programmers
+%% -- PaaS services must operate at scale (asynchronous, distributed)
+%% new PaaS service for performance diagnotics
+%% -- can't require application instrumentation to be a PaaS service
+%% -- must be fully automated
+%% -- must be integrated with the runtime system 
+%% diagnosis => after the fact
+%% -- can use asynchronous, but must be able to time correlate
 Over the last decade cloud computing has become a popular approach for deploying
 applications at scale~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}. 
 Many organizations, academic institutions, and hobbyists make use of public
