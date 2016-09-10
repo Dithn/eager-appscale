@@ -45,6 +45,9 @@ caused by our hourly fault injection mechanism. As the SLO is tightened by lower
 Roots detects additional anomalies. These additional anomalies
 result from a combination of injected faults, and other naturally occurring faults
 in the system.
+\textcolor{blue}{You need some discussion of whether these additional
+non-injected faults are ``false positives,'' ``natural anomalies,'' or actual
+``performance faults'' that caused an SLO violation.}
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
 first consider the performance of guestbook under the $L_1$ SLO while 
@@ -119,7 +122,8 @@ bursts are clustered together in time (e.g. three bursts between 17:04 and 17:24
 case Roots detects the very first burst, and then goes into the warm up mode to collect more data. Therefore
 the bursts that immediately follow do not raise an alarm. Between 20:30 and 21:00 hours we also
 had two instances where the write request proportion increased slightly (from 10\% to 20\%) due to random
-chance. These also resulted in two anomaly detection events as shown in the figure.
+chance. \textcolor{blue}{Again, are these false positives or actual SLO
+violations that you simply did not inject?}  These also resulted in two anomaly detection events as shown in the figure.
 
 We conduct a similar experiment using the cached key-value store. Here, we run a test client that generates a workload
 that is mostly served from the cache. This is done by repeatedly executing read requests on a small
@@ -156,6 +160,10 @@ spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on 
 The PELT change point detection method used in this experimental set up is ideally suited for detecting
 such lasting changes in the workload level.
 
+\textcolor{blue}{Here is a discussion of the ``false positive'' issue.
+Perhaps move this up to just after the discussion of
+figures~\ref{fig:time_line_guestbook_2s} and
+~\ref{fig:time_line_guestbook_2s_user} to make this clearer.} 
 Now we evaluate the bottleneck identification capability of Roots. In the experimental run illustrated in 
 figure~\ref{fig:time_line_guestbook_2s}, Roots determined that all the detected anomalies except for one were 
 caused by the AppScale datastore service. This is consistent with our expectations since in this experiment we 
@@ -193,6 +201,11 @@ application server.
 
 In order to evaluate how the bottleneck identification performs when an application makes more than 2
 PaaS kernel invocations, we conduct another experiment using an application called ``stock-trader''.
+\textcolor{blue}{First, I don't think it was clear that there are only two
+PaaS kernel invocations in the previous experiments.  You should emphasize
+that when you present the initial experiments (which are easier to analyze)
+and then say that you'll show
+results for a more complex application later.}
 This application allows setting up organizations, and simulating trading of stocks between the
 organizations. The two main operations in this application are \textit{buy} and \textit{sell}. Each of
 these operations makes 8 calls to the AppScale datastore. 
@@ -209,7 +222,10 @@ In one of our experimental runs we inject faults into the first datastore query 
 of stock-trader. The fault injection logic runs every two hours, and we run the experiment for 10 hours. 
 Figure~\ref{fig:time_line_stocks_1} shows the resulting event sequence. Note that every fault injection
 event is immediately followed by a Roots anomaly detection event. For all the anomalies detected
-in this test, Roots correctly selected the first datastore call in the application code as the bottleneck. 
+in this test, Roots correctly selected the first datastore call in the
+application code as the bottleneck. \textcolor{blue}{But it also looks like
+there are a couple of non-injected detections.  Is this true?  Were they true
+violations and did we detect the cause?}
 Figure~\ref{fig:time_line_stocks_2} shows the results from a similar experiment where we inject
 faults into the second datastore query executed by the operation. Here also Roots detects all the
 artificially induced anomalies. All of them, except for one, are determined to be caused by the second

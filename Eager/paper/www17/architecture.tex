@@ -1,3 +1,11 @@
+\textcolor{blue}{Suggest merging the architecure and correlation subsections.
+Start with a discussion of the problem (1) layers each maintain state that
+idenfifies internal state, (2) Roots need to identify the state change
+events that are triggered by a specific event's processing.  Change the figure
+to reflect this requirement and discuss how this architecture allow
+Roots to correlate state change events with individual request processing.}
+
+
 The key intuition behind Roots is that
 the cloud platform can aid the developer detect anomalies in deployed applications.
 The cloud platform has full visibility into all the activities that occur in various layers of the cloud,
@@ -109,6 +117,19 @@ whenever recording an event. At the data analysis components Roots can aggregate
 to efficiently group the related records.
 
 \subsubsection{Data Analysis}
+
+\textit{blue}{From a generality perspective, detectors and handlers aren't
+enough.  You also need rules that trigger actions
+(or do not trigger actions) based on a sequence of
+detectors and handler results.  
+For example, in your current implementation of roots, when 
+you detect an anaomaly in the response time and also an analomaly 
+in the workload, you trigger a root cause identification analysis.  There
+needs to be some program that expresse this conditional relationship as well.
+Probably need to say that the Roots programmer needs to write this program
+explicitly.}
+
+
 Roots data analysis component uses two basic abstractions: \textit{anomaly detectors} 
 and \textit{anomaly handlers}.
 
@@ -187,6 +208,11 @@ Moreover, pods can be moved around or restarted as needed in response
 to errors and autoscaling events that occur in the cloud platform.
 
 \subsubsection{Appropriateness for Cloud Environments}
+
+\textcolor{blue}{This argument for Roots probably belongs in the introduction.
+Also, the lead bullet is scalability.  The reader thus expects some set of
+scalability experiments to be in the results section.}
+
 Roots architecture is heavily inspired by previous work that highlight the key features of cloud
 monitoring frameworks~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}.
 We incorporate many of these features into our design:

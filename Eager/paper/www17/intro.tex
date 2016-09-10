@@ -5,6 +5,14 @@
 %% -- can't require application instrumentation to be a PaaS service
 %% -- must be fully automated
 %% -- must be integrated with the runtime system 
+%% this paper: anaomaly detection and root cause identification
+%% -- anaomaly: change in performance that results in SLA violation
+%% -- root cause: diagnosis of the reason for the anomaly as either a change
+%%    in workload, increased latency an application component, or increased
+%%    latency in a PaaS service and the identification of which one
+%% -- Roots is more general with respect to detectors and handlers but we
+%%    investigate anomaly detection and root cause identification defined
+%%    above in this paper
 %% diagnosis => after the fact
 %% -- can use asynchronous, but must be able to time correlate
 Over the last decade cloud computing has become a popular approach for deploying

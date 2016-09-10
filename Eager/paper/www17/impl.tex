@@ -1,10 +1,16 @@
-We implemented a Roots prototype for the AppScale cloud platform~\cite{6488671}. AppScale is an open
-source PaaS cloud, API compatible with the popular Google App Engine (GAE) cloud platform~\cite{gae}.
-Due to the API compatibility, any application developed for GAE can be deployed
-and executed on AppScale with no code changes. Since AppScale is open source software, we
-were able to modify parts of its implementation to integrate the Roots APM into it. AppScale also
-turned out to be a great test environment since we could deploy it locally, and run a number of
-existing App Engine applications on it.
+\textcolor{blue}{This section shows that Roots is more than just a good idea.
+Perhaps a figure showing the implementaion components and architecture would
+help make that point stronger.}
+
+We implemented a Roots prototype for the AppScale cloud
+platform~\cite{6488671}. AppScale is an open source PaaS cloud, API compatible
+with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  Due to
+the API compatibility, any application developed for GAE can be deployed and
+executed on AppScale with no code changes. Since AppScale is open source
+software, we were able to modify parts of its implementation to integrate the
+Roots APM into it. AppScale also turned out to be a great test environment
+since we could deploy it locally, and run a number of existing App Engine
+applications on it.
 
 We use ElasticSearch~\cite{elasticsearch} as the data storage component of our prototype. ElasticSearch is ideal 
 for storing large volumes of structured and semi-structured data. It supports scalability and 
@@ -63,6 +69,16 @@ The SLO-based anomaly detector supports following configuration parameters:
 acts as a limit on the number of samples to keep in memory.
 \end{itemize}
 
+\textcolor{blue}{Discuss this next paragraph as a performance tradeoff.  
+Either you can purge each time an anomaly is detected and wait until you have
+a statisticlly significant sample again (warm up period), OR you can redetect
+the anomaly because you are analyzing the same data OR you can try to identify
+which pieces of data in the past were responsible for an anomaly detection so
+you can detect duplicates.  This last alternative is potentially
+computationally expensive because it would mean that you would need to record
+the specific entries associated with an anomaly in your DB each time and them
+compare this set each time.  You chose warm up.  Say why.}
+ 
 Since the detector purges past measurements when an anomaly is detected, it is not able to
 check for further SLO violations until the minimum number of samples is collected. Therefore,
 each anomaly is followed by a ``warm up'' period. With a sampling rate of 15 seconds, and a minimum
@@ -71,6 +87,14 @@ anomalies during this period. However, it prevents the same anomaly from being n
 reported multiple times.
 
 \subsection{Path Distribution Analyzer}
+
+\textcolor{blue}{Need to say that paths are generated via static analysis and
+which tools you use.  The output of this analysis must be available to the
+input of this anomaly detector.  You should also include this relationship in
+your implementation architecture since it isn't obvious how Roots get call
+path information or whether it is a comonent of Roots or a components of a
+specific anomaly detector.}
+
 Path distribution analyzer is another special anomaly detector we implement in Roots. This
 anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
 By aggregating the PaaS kernel invocations by application request identifiers, and then sorting them by
@@ -115,7 +139,8 @@ To check if the workload of an application has changed recently, Roots uses a wo
 This is implemented as an anomaly handler, which gets executed every time an anomaly detector
 notifies of a performance anomaly. Note that this is different from the path distribution analyzer,
 which is implemented as an anomaly detector. While the path distribution analyzer looks for changes in the
-\textit{type} of the workload, the workload change analyzer looks for changes in the workload \textit{size}.
+\textit{type} of the workload, the workload change analyzer looks for changes
+in the workload \textit{size}. \textcolor{blue}{Is it size or is it rate?}
 In other words, it determines if the target application has received more requests than usual, which
 may have caused a performance degradation.
 
@@ -131,6 +156,19 @@ request buffers to fill up, and hog server-side resources for extended periods o
 causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
+
+\textcolor{blue}{Okay -- so thus far, the paper has been about Roots as a
+system.  Now it seems to have shifted to be about analysis which is independent
+of Roots.  If this is the intention, then the intro needs to say that there
+are two sets of results here: a description of a working system for doing
+performance diagnostics as a PaaS service and a set of algorithms that
+implement diagnosis of performance failures.  It must also defend against the
+criticism that the generality of Roots is not demonstrated (this is the only
+diagnostic we present).  Another way to go is to present Roots and the
+diagnostic together and then to discuss generality at the end, in a discussion
+section, or as future work.  Also, you will probably need a figure that shows
+the three analysis methods and how you combine them.} 
+
 This is the primary root cause identification mechanism in our implementation of Roots. Like the workload
 change analyzer, this is also implemented as an anomaly handler. Applications running in the cloud 
 consist of user code executed on the application server, and remote 

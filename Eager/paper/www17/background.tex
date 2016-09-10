@@ -1,21 +1,22 @@
 \subsection{Platform-as-a-Service (PaaS)}
-PaaS clouds host web-accessible (HTTP/S) applications, to which they provide 
-high levels of scalability, availability, and sandboxed execution. 
-PaaS clouds provide scalability by automatically allocating resources 
-for applications on the fly (auto scaling), and provide availability through
-the execution of multiple instances of the application and/or the PaaS
-services they employ for their functionality.
-PaaS clouds provide a high level of abstraction to the application developer that effectively hides
-all the infra\-structure-level details such as physical resource allocation (CPU, memory, disk etc), operating
-system,
-and network configuration. This enables application developers to focus solely on the programming
-aspects of their applications, without having to be concerned about deployment issues. 
-Consequently, viable PaaS technologies as well as
-PaaS-hosted applications have been increasing rapidly in number~\cite{paas-growth,paas-growth2}.
-But due to the high level of abstraction, performance monitoring and root cause analysis
-is particularly challenging in PaaS clouds. Due to this reason, and the large number of 
-PaaS applications available for testing, we design Roots APM to operate within PaaS
-clouds.
+
+PaaS clouds host web-accessible (HTTP/S) applications, to which they provide
+high levels of scalability, availability, and sandboxed execution.  PaaS
+clouds provide scalability by automatically allocating resources for
+applications on the fly (auto scaling), and provide availability through the
+execution of multiple instances of the application and/or the PaaS services
+they employ for their functionality.  PaaS clouds provide a high level of
+abstraction to the application developer that effectively hides all the
+infra\-structure-level details such as physical resource allocation (CPU,
+memory, disk etc), operating system, and network configuration. This enables
+application developers to focus solely on the programming aspects of their
+applications, without having to be concerned about deployment issues.
+Consequently, viable PaaS technologies as well as PaaS-hosted applications
+have been increasing rapidly in number~\cite{paas-growth,paas-growth2}.  But
+due to the high level of abstraction, performance monitoring and root cause
+analysis is particularly challenging in PaaS clouds. Due to this reason, and
+the large number of PaaS applications available for testing, we design Roots
+APM to operate within PaaS clouds.
 
 \begin{figure}
 \centering
@@ -55,18 +56,25 @@ and root cause analysis, we need to be able to monitor each of the above layers 
 enclosed components. Further we need to be able to trace the flow of data and control
 across different layers and components.
 
-\subsection{Cloud-hosted Web Applications}
-Our work concentrate on the web applications deployed in PaaS clouds. An application of this nature
-exposes one or more web application programming interfaces (web APIs) through which clients can
-interact with it. The web APIs accept HTTP/S requests sent by remote clients, and respond with
-machine readable responses (e.g. HTML, JSON, XML, Protocol Buffers). This type of applications tend to be highly
-interactive, and clients typically have tight expectations on the application response time. Some
-reports have demonstrated that poor application response time may even lead to loss in company
-revenue. Additionally, the PaaS 
-cloud on which an application is running may impose additional constraints on the application
-response time for scalability reasons~\cite{azure-limits,gae-limits}. 
-For example Google App Engine requires that no application
-request takes more than 60 seconds to execute.
+\subsection{Cloud-hosted Web Applications} 
+
+\textcolor{blue}{You might want to move some of this discussion into the
+introduction since it allows the reader to understand the focus of the work we
+present.}
+
+Our work concentrates on the web
+applications deployed in PaaS clouds. An application of this nature exposes
+one or more web application programming interfaces (web APIs) through which
+clients can interact with it. The web APIs accept HTTP/S requests sent by
+remote clients, and respond with machine readable responses (e.g. HTML, JSON,
+XML, Protocol Buffers). This type of applications tend to be highly
+interactive, and clients typically have tight expectations on the application
+response time. Some reports have demonstrated that poor application response
+time may even lead to loss in company revenue. Additionally, the PaaS cloud on
+which an application is running may impose additional constraints on the
+application response time for scalability
+reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine
+requires that no application request takes more than 60 seconds to execute.
 
 PaaS-hosted web applications also rely on various PaaS kernel services offered by the underlying
 cloud platform. By offloading common application functionality such as data storage, caching,
@@ -89,8 +97,16 @@ parts of the application. But this is tedious on the part of the application dev
 the additional code instrumentation slows down the entire application. Therefore we need
 novel mechanisms that provide deep insight into the execution of cloud-hosted web
 applications without compromising the integrity and the security of the cloud platform.
+\textcolor{blue}{Also -- there is no way to enforce a consistent use of the
+instrumentation API in the applications.  That is, the platform administrator
+must ``trust'' the application developer to be gathering and storing 
+instrumentation information correctly or the analysis will be inaccurate.
+Building analysis into the PaaS as a servce without application
+instrumentation allows the analysis to be a ``curated'' service that is
+maintained by the PaaS (like the datastore).}
 
 \subsection{Performance Anomalies}
+
 A performance anomaly is an unexpected event that alters the performance level of an
 application in a way that adversely impacts the user experience of the application. In the context
 of cloud-hosted web applications this mainly refers to sudden increases in application
