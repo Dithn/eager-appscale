@@ -88,12 +88,15 @@ reported multiple times.
 
 \subsection{Path Distribution Analyzer}
 
-\textcolor{blue}{Need to say that paths are generated via static analysis and
-which tools you use.  The output of this analysis must be available to the
-input of this anomaly detector.  You should also include this relationship in
-your implementation architecture since it isn't obvious how Roots get call
-path information or whether it is a comonent of Roots or a components of a
-specific anomaly detector.}
+%\textcolor{blue}{Need to say that paths are generated via static analysis and
+%which tools you use.  The output of this analysis must be available to the
+%input of this anomaly detector.  You should also include this relationship in
+%your implementation architecture since it isn't obvious how Roots get call
+%path information or whether it is a comonent of Roots or a components of a
+%specific anomaly detector.}
+
+%% We don't use any static analysis in Roots. Paths are identified from the data collected
+%% on the SDK calls, using the approach described in the next paragraph.
 
 Path distribution analyzer is another special anomaly detector we implement in Roots. This
 anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.

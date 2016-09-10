@@ -27,10 +27,9 @@ APM to operate within PaaS clouds.
 
 Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. Arrows indicate
 the flow of data and control in response to application requests.
-
 At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
 and networking resources. How this infrastructure is set up may vary from a simple cluster of physical 
-machines to a comprehensive Infrastructure-as-a-Service (IaaS) solution. In large scale PaaS clouds,
+machines to a comprehensive Infrastructure-as-a-Service (IaaS) cloud. In large scale PaaS clouds,
 this layer typically consists of many virtual machines and/or containers with the ability to acquire more
 resources on the fly.
 
@@ -58,9 +57,10 @@ across different layers and components.
 
 \subsection{Cloud-hosted Web Applications} 
 
-\textcolor{blue}{You might want to move some of this discussion into the
-introduction since it allows the reader to understand the focus of the work we
-present.}
+%\textcolor{blue}{You might want to move some of this discussion into the
+%introduction since it allows the reader to understand the focus of the work we
+%present.}
+%Added more details about PaaS services to the intro
 
 Our work concentrates on the web
 applications deployed in PaaS clouds. An application of this nature exposes
@@ -68,7 +68,7 @@ one or more web application programming interfaces (web APIs) through which
 clients can interact with it. The web APIs accept HTTP/S requests sent by
 remote clients, and respond with machine readable responses (e.g. HTML, JSON,
 XML, Protocol Buffers). This type of applications tend to be highly
-interactive, and clients typically have tight expectations on the application
+interactive, and clients typically have strict expectations on the application
 response time. Some reports have demonstrated that poor application response
 time may even lead to loss in company revenue. Additionally, the PaaS cloud on
 which an application is running may impose additional constraints on the
@@ -94,16 +94,13 @@ where in the entire cloud platform the performance bottleneck is due to the opac
 platform's internal implementation. One way to circumvent this 
 limitation is to instrument application code, and continuously monitor the time taken by various
 parts of the application. But this is tedious on the part of the application developer, and
-the additional code instrumentation slows down the entire application. Therefore we need
-novel mechanisms that provide deep insight into the execution of cloud-hosted web
-applications without compromising the integrity and the security of the cloud platform.
-\textcolor{blue}{Also -- there is no way to enforce a consistent use of the
-instrumentation API in the applications.  That is, the platform administrator
-must ``trust'' the application developer to be gathering and storing 
-instrumentation information correctly or the analysis will be inaccurate.
-Building analysis into the PaaS as a servce without application
-instrumentation allows the analysis to be a ``curated'' service that is
-maintained by the PaaS (like the datastore).}
+the additional code instrumentation slows down the entire application. 
+Also there is no way to enforce correct, and consistent instrumentation of application code.  
+That is, the application developers must be careful in gathering and storing the appropriate
+runtime data. Otherwise their analyses will be inaccurate.
+Implementing data collection and analysis as a service built into the PaaS cloud allows 
+anomaly detection and bottleneck identification to be a ``curated'' service that is 
+reliably managed by the cloud platform.
 
 \subsection{Performance Anomalies}
 

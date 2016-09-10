@@ -22,15 +22,14 @@ and/or private clouds to deploy their applications.
 This rapid growth in cloud technology has intensified the need 
 for new techniques to
 monitor applications deployed in cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
-Application developers and users wish
-to monitor the availability of the deployed applications, track application performance, and detect 
-application and system anomalies as they occur. To obtain this level of deep operational insight into
-cloud-hosted applications, the cloud platforms must be equipped with powerful instrumentation,
+Application developers and users wish to monitor application performance, detect 
+anomalies, and identify system bottlenecks. To obtain this level of deep operational insight into
+cloud-hosted applications, the cloud platforms must be equipped with powerful
 data gathering and analysis capabilities that span the entire stack of the cloud. 
 However, most cloud technologies available
 today either do not provide any application monitoring support, or only provide primitive
 monitoring features such as application-level logging. Hence, they are not capable of conducting
-performance anomaly detection, which requires much more fine-grained
+performance anomaly detection or bottleneck identification, which requires much more fine-grained
 data collection and analytics across the entire cloud platform.
 
 Further compounding this problem, today's cloud platforms are very 
@@ -40,8 +39,8 @@ Therefore when a performance anomaly manifests in a user application, it is rath
 to determine the exact layer or the component of the cloud platform that may be responsible for it. 
 Facilitating this level of comprehensive root cause analysis requires
 data collection at different layers of the cloud, and mechanisms for correlating events at
-different layers and components. Today's cloud platforms do not support such deeply integrated
-data collection. The plethora of existing third party cloud monitoring solutions
+different layers and components. Today's cloud platforms do not support such fine-grained
+data collection across he board. The plethora of existing third party cloud monitoring solutions
 do not have visibility into the low-level activities of the cloud thereby rendering them incapable
 of performing systemwide root cause analysis.
 
@@ -49,45 +48,75 @@ Moreover, performance monitoring for cloud applications needs to be highly custo
 applications have different monitoring requirements in terms of data gathering frequency (sampling rate), 
 length of the history to consider when performing statistical analysis, and the performance 
 SLOs (service level objectives) to maintain over time and check for violations. Cloud monitoring
-should be able to facilitate these diverse requirements at the granularity of the applications, and
-their client-facing APIs.
+should be able to facilitate these diverse requirements at the granularity of the applications.
 Designing such customizable and extensible performance
 monitoring frameworks that are built into the cloud platforms is a novel and challenging undertaking.
 
-To address these needs, we present the design of 
-a comprehensive application platform 
-monitor (APM) called Roots that can be easily built into a wide variety of cloud Platform-as-a-Service 
-(PaaS) technologies. The proposed
-APM is not an external system that monitors a cloud platform from the outside (as most APM systems today). 
-Rather, it integrates with
-the PaaS cloud from within thereby extending and augmenting the existing components of the PaaS cloud
-to provide comprehensive full stack monitoring and analytics. 
-We believe that this design decision is a key differentiator over existing cloud 
-application monitoring systems because (i) it is
-able to take advantage of the scaling, efficiency, deployment, fault tolerance, security, 
-and control features that the underlying cloud offers, 
-(ii) while providing low overhead end-to-end monitoring of cloud applications.
+To address these needs, we present the design of  a comprehensive application platform 
+monitor (APM) called Roots that can be built into a wide variety of cloud Platform-as-a-Service (PaaS) technologies. 
+PaaS clouds provide a very high level of abstraction that hides most of the details concerning application
+runtime. They provide a set of managed services, which developers compose into applications.
+The implementation and deployment details of these services are completely opaque to the developers. 
+However, the existing cloud monitoring techniques rely on being able to capture data from all components 
+of an application, all the way down to the virtual machines that host them. Such methods are
+therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
+To overcome this barrier, we design Roots as another managed service built into the PaaS cloud.
+It operates at the same level as the other services offered by the cloud platform. This way Roots can collect data
+directly from the service implementations internal to the cloud platform, thus gaining full visibility into all the 
+critical runtime events of an application. It also enables Roots to operate fully automatically in the background without
+requiring instrumentation of application code. Roots can intercept and record all the important runtime events as the
+application code invokes various service implementations of the PaaS cloud.
+
+%The proposed
+%APM is not an external system that monitors a cloud platform from the outside (as most APM systems today). 
+%Rather, it integrates with
+%the PaaS cloud from within thereby extending and augmenting the existing components of the PaaS cloud
+%to provide comprehensive full stack monitoring. 
+%We believe that this design decision is a key differentiator over existing cloud 
+%application monitoring systems because (i) it is
+%able to take advantage of the scaling, efficiency, deployment, fault tolerance, security, 
+%and control features that the underlying cloud offers, 
+%(ii) while providing low overhead end-to-end monitoring of cloud applications.
 
 Previous work has outlined several key requirements that need to be taken into consideration when
 designing a cloud monitoring system~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. 
-These include scalability, autonomy and dynamic resource management. We strive to incorporate
-these features into our design as much as possible.
-Roots is also customizable so that different monitoring policies can be
-configured at the application and web API level. It facilitates a number of statistical analysis
-methods for anomaly detection and root cause analysis. New analysis methods
-can be easily brought into the framework by building on the high-level abstractions
-that Roots provides. This enables us to experiment with different combinations of
-statistical methods to determine which analysis works best for a given application or
-SLO scenario. 
+We incorporate many of these features into our design:
+\begin{description}
+\item[Scalability] Roots is extremely lightweight, and does not cause any noticeable overhead in 
+application performance. It puts strict upper bounds on the volume of data kept in memory. 
+The persistent data is accessed on demand, and can be removed after their usefulness has expired.
+\item[Multitenancy] Roots facilitates configuring monitoring policies at the granularity of individual applications.
+Users can employ different statistical analysis methods to process the monitoring data in ways that are 
+most suitable for their applications.
+\item[Complex application architecture] We design Roots to collect data from the entire cloud stack 
+(load balancers, app servers, PaaS kernel services etc.). Roots is able to correlate data gathered
+from different parts of the cloud platform, and perform systemwide bottleneck identification.
+\item[Dynamic resource management] Cloud platforms are dynamic in terms of their magnitude 
+and topology. By augmenting all the key components along the request processing path of the cloud platform,
+we make sure that Roots capture all the critical runtime data. When new processes/components
+spring to life in the cloud platform, they inherit the same augmentations, and start reporting to Roots automatically.
+\item[Autonomy] Roots is designed to detect performance anomalies online, without manual intervention.
+When Roots detects a problem, it attempts to automatically identify the root cause by analyzing
+available workload and service invocation data. Data collection begins automatically for new
+applications as they are deployed.
+\end{description}
 
-Roots collects most of the data it requires by instrumenting 
-various components of the cloud platform. In addition to high-level metrics like request throughput
+Roots collects most of the data it requires by instrumenting various internal components 
+of the cloud platform. In addition to high-level metrics like request throughput
 and request latency, Roots also records the internal PaaS services invoked by user applications,
-and the latency of those internal service calls. However, Roots takes special care to keep the data
-collection overhead to a minimum. Specifically, it does not instrument any user code (i.e. applications)
-deployed in the cloud. It also does not impose any restrictions on the user code.
-That is, the developer does not have to write code using some Roots-specific API or link their
-code with a Roots-specific library.
+and the latency of those internal service calls. It uses batch operations and asynchronous 
+communication to record events in a manner that does not introduce a
+delay to the application request processing activities. 
+In addition, Roots employs a collection of lightweight  benchmarking
+processes to collect performance data regarding user applications. Both
+the benchmarking processes, and the data analysis processes are executed 
+out of the request processing flow of the cloud platform. Such processes can be
+grouped together, and managed as a single entity called a
+``Roots Pod''. Pods keep minimum state
+information regarding the applications they monitor and analyze. This enables
+a single pod to monitor a large number of applications. Each pod is self-contained,
+and therefore scalability and high availability can be achieved by running multiple pods (sharding),
+and running multiple replicas of the same pod.
 
 When Roots detects a performance anomaly in an application, it attempts to uncover the
 root cause of the anomaly by analyzing the workload data,
@@ -95,26 +124,14 @@ and the performance of the internal PaaS cloud services the application depends 
 This way Roots can determine if the detected anomaly was caused by a change in the
 application workload (e.g. a sudden spike in the number of client requests), or an internal
 bottleneck in the cloud platform (e.g. a slow database query). To this end we also propose
-a statistical method that uses a combination of quantile analysis, change point detection
+a statistical bottleneck identification method as part of this work. 
+It uses a combination of quantile analysis, change point detection
 and linear regression to perform root cause analysis. We demonstrate that this approach is
 capable of detecting the root causes of performance anomalies with nearly 100\% accuracy. 
+At the same time we emphasize that this is one of the many bottleneck identification methods
+that can be implemented on top of Roots.
 
-Roots uses batch operations and asynchronous 
-communication to record events in a manner that does not introduce
-delays to the application request processing activities of the 
-cloud. 
-Additionally, Roots employs a collection of lightweight continuous application benchmarking
-processes to collect performance data regarding user applications. Both
-the benchmarking processes, and the data analysis processes are executed 
-out of the request processing flow of the cloud platform. Such processes can be
-grouped together, and managed by a single deployable entity known as a
-``Roots Pod''. Pods are specifically designed to keep minimum state
-information regarding the applications they monitor and analyze. This enables
-a single pod to monitor a large number of applications. Each pod is self-contained,
-and therefore scalability and high availability can be achieved by running multiple pods (sharding),
-and running multiple replicas of the same pod.
-
-The following subsections detail the architecture of Roots APM, and how it integrates with a typical PaaS
+The following sections detail the architecture of Roots APM, and how it integrates with a typical PaaS
 cloud. We describe individual components of the APM, their functions and how they interact with each
 other. Where appropriate, we also detail the concrete technologies (tools and products) that we plan to use to implement
 various components of the APM, and provide our rationale and intuition behind choosing these technologies.
