@@ -1,0 +1,6 @@
+dev.new(height=5, width=7.5)
+data <- read.table('input_pod_performance.txt', header=TRUE)
+par(mai=c(1,1,0.7,1))
+barplot(t(as.matrix(cbind(data[,'Memory'], data[,'CPU']*8))), beside=T, ylim=c(0,800), col=c('red','blue'), names.arg=c(100, 1000, 10000), xlab='Number of Detectors', ylab='Average Memory Usage (MB)')
+axis(4, at = seq(0, 800, length.out = 11), labels = round(seq(0, 100, length.out = 11), 2))
+mtext(side=4, 'Average CPU Usage (%)', line = 2.75)
