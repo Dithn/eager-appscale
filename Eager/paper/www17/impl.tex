@@ -55,10 +55,7 @@ SLO can be stated as: ``application responds under $T$ milliseconds $p$\% of the
 When activated for a given application this anomaly detector starts a benchmarking process
 that periodically measures the response time of the target application. The detector then periodically
 analyzes the collected response time measurements to check if the application meets the specified performance
-SLO. Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. It would also
-purge any past response time measurements (up to the anomaly) from the memory 
-when this happens.
-
+SLO. Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. 
 The SLO-based anomaly detector supports following configuration parameters:
 \begin{itemize}
 \item Performance SLO: Response time upper bound ($T$), and the probability ($p$).
@@ -69,34 +66,16 @@ The SLO-based anomaly detector supports following configuration parameters:
 acts as a limit on the number of samples to keep in memory.
 \end{itemize}
 
-\textcolor{blue}{Discuss this next paragraph as a performance tradeoff.  
-Either you can purge each time an anomaly is detected and wait until you have
-a statisticlly significant sample again (warm up period), OR you can redetect
-the anomaly because you are analyzing the same data OR you can try to identify
-which pieces of data in the past were responsible for an anomaly detection so
-you can detect duplicates.  This last alternative is potentially
-computationally expensive because it would mean that you would need to record
-the specific entries associated with an anomaly in your DB each time and them
-compare this set each time.  You chose warm up.  Say why.}
- 
-Since the detector purges past measurements when an anomaly is detected, it is not able to
-check for further SLO violations until the minimum number of samples is collected. Therefore,
-each anomaly is followed by a ``warm up'' period. With a sampling rate of 15 seconds, and a minimum
-samples count of 100, the warm up period can last up to 25 minutes. The detector cannot find new
-anomalies during this period. However, it prevents the same anomaly from being needlessly
-reported multiple times.
+Once the anomaly detector comes across an SLO violation, it will continue to see the violation
+until the historical data which contains the anomaly drops off from the sliding window. 
+In order to prevent the detector from needlessly reporting the same anomaly multiple times,
+we purge all the data from anomaly detector's sliding window whenever it detects an SLO violation.
+However, the detector cannot check for further SLO violations until it repopulates the sliding window 
+with the minimum number of samples. This implies that each anomaly is followed by a ``warm up'' period.
+For instance, with a sampling rate of 15 seconds, and a minimum
+samples count of 100, the warm up period can last up to 25 minutes.
 
 \subsection{Path Distribution Analyzer}
-
-%\textcolor{blue}{Need to say that paths are generated via static analysis and
-%which tools you use.  The output of this analysis must be available to the
-%input of this anomaly detector.  You should also include this relationship in
-%your implementation architecture since it isn't obvious how Roots get call
-%path information or whether it is a comonent of Roots or a components of a
-%specific anomaly detector.}
-
-%% We don't use any static analysis in Roots. Paths are identified from the data collected
-%% on the SDK calls, using the approach described in the next paragraph.
 
 Path distribution analyzer is another special anomaly detector we implement in Roots. This
 anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
@@ -116,7 +95,7 @@ For example consider a data management application that has a read-only executio
 execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
 execute the read-write path, we may characterize the request workload as mostly read-only. 
 Roots path distribution analyzer facilitates computing the path distribution for each application
-with no static analysis or runtime instrumentation on the application code.
+with no static analysis, by only analyzing the runtime data gathered from the applications.
 
 Roots path distribution analyzer periodically computes the path distribution for a given application.
 If it detects that the latest path distribution is significantly different from the distributions seen in the 
@@ -159,23 +138,15 @@ request buffers to fill up, and hog server-side resources for extended periods o
 causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
+Now we describe our algorithm for identifying performance bottlenecks. It uses a combination
+of quantile analysis, linear regression and change point detection. While Roots can
+support many different bottleneck identification algorithms, we use
+the algorithm proposed here in all of our experiments, and show that it produces accurate results nearly
+100\% of the time. It has been carefully designed to identify the true bottleneck from a number
+of candidates, and it is a major contribution associated with this work.
 
-\textcolor{blue}{Okay -- so thus far, the paper has been about Roots as a
-system.  Now it seems to have shifted to be about analysis which is independent
-of Roots.  If this is the intention, then the intro needs to say that there
-are two sets of results here: a description of a working system for doing
-performance diagnostics as a PaaS service and a set of algorithms that
-implement diagnosis of performance failures.  It must also defend against the
-criticism that the generality of Roots is not demonstrated (this is the only
-diagnostic we present).  Another way to go is to present Roots and the
-diagnostic together and then to discuss generality at the end, in a discussion
-section, or as future work.  Also, you will probably need a figure that shows
-the three analysis methods and how you combine them.} 
-
-This is the primary root cause identification mechanism in our implementation of Roots. Like the workload
-change analyzer, this is also implemented as an anomaly handler. Applications running in the cloud 
-consist of user code executed on the application server, and remote 
-service calls to various PaaS kernel services. AppScale cloud
+Applications running in the cloud consist of user code executed on the application server, 
+and remote service calls to various PaaS kernel services. AppScale cloud
 consists of the same kernel services present in the Google App Engine public cloud (datastore, memcache,
 urlfetch, blobstore, user management etc.).
 We consider each PaaS kernel invocation, and the code running on the application server as 
