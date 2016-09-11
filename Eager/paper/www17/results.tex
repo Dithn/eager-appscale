@@ -47,9 +47,9 @@ caused by our hourly fault injection mechanism. As the SLO is tightened by lower
 Roots detects additional anomalies. These additional anomalies
 result from a combination of injected faults, and other naturally occurring faults
 in the system. That is, Roots detected some naturally occurring
-faults (temporary spikes in application latency), when some of the injected faults
+faults (temporary spikes in application latency), when a number of injected faults
 were still in the sliding window of the anomaly detector. Together these two types of
-faults caused an SLO violation, usually several minutes after the fault injection period
+faults caused SLO violations, usually several minutes after the fault injection period
 has expired.
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
@@ -216,19 +216,24 @@ and here we present the results from two of them. In all experiments we configur
 detector to check for the response time SLO of 177ms with 95\% success probability.
 
 In one of our experimental runs we inject faults into the first datastore query executed by the buy operation
-of stock-trader. The fault injection logic runs every two hours, and we run the experiment for 10 hours. 
+of stock-trader. The fault injection logic runs every two hours, and lasts for 3 minutes. The duration of
+the full experiment is 10 hours. 
 Figure~\ref{fig:time_line_stocks_1} shows the resulting event sequence. Note that every fault injection
-event is immediately followed by a Roots anomaly detection event. For all the anomalies detected
-in this test, Roots correctly selected the first datastore call in the
-application code as the bottleneck. \textcolor{blue}{But it also looks like
-there are a couple of non-injected detections.  Is this true?  Were they true
-violations and did we detect the cause?}
+event is immediately followed by a Roots anomaly detection event. There are also four additional
+anomalies in the time line which were SLO violations caused by a combination of injected faults, and
+naturally occurring faults in the system. For all the anomalies detected
+in this test, Roots correctly selected the first datastore call in the application code as the bottleneck. 
+The additional four anomalies occurred because a large number of injected faults were in the sliding window
+of the detector. Therefore, it is accurate to attribute those anomalies also to the first datastore query
+of the application.
+
 Figure~\ref{fig:time_line_stocks_2} shows the results from a similar experiment where we inject
 faults into the second datastore query executed by the operation. Here also Roots detects all the
-artificially induced anomalies. All of them, except for one, are determined to be caused by the second
+artificially induced anomalies along with a few extras. All the anomalies, except for one, 
+are determined to be caused by the second
 datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
 is attributed to the fourth datastore query executed by the application. We have manually verified this
-conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), this datastore
+conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), the fourth datastore
 query has frequently taken a long time to execute, which resulted in an SLO violation at 08:56 hours.
 
 \begin{figure}
