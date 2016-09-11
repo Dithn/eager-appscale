@@ -103,26 +103,28 @@ anomaly detection and bottleneck identification to be a ``curated'' service that
 reliably managed by the cloud platform.
 
 \subsection{Performance Anomalies}
-
-A performance anomaly is an unexpected event that alters the performance level of an
-application in a way that adversely impacts the user experience of the application. In the context
-of cloud-hosted web applications this mainly refers to sudden increases in application
-response time, that lasts for some time so as to impact many users. Such anomalies 
-may occur due to several reasons such as changes in
-application workload, a performance bug in the user code or a performance bug somewhere
-in the underlying cloud platform.
+In this work we define \textit{anomalies} as application performance change events that cause
+one or more performance SLOs to be violated. Our approach associates each application with
+a set of performance SLOs. We consider SLOs concerning the application response time
+(latency), which get violated when an application becomes too slow.
+If the performance of an application deteriorates to the
+point that at least one of its SLOs get violated, we treat it as an anomaly. Moreover, the process
+of diagnosing the reason for an anomaly is referred to as \textit{root cause analysis}.
+For a given anomaly, the root cause could be a change in the application workload or
+a \textit{bottleneck} in the application runtime. Bottlenecks may occur in the application code, 
+or in the PaaS services that the application rely on.
 
 In order to maintain a satisfactory level of user experience and adhere to any previously
 agreed upon performance SLOs, application developers and cloud administrators wish
-to detect significant performance anomalies as soon as they occur. When detected they
+to detect performance anomalies as soon as they occur. When detected they
 must perform root cause analysis to identify the cause of the anomaly and take some
 corrective and/or preventive action. This is a two step process. First one must determine
-whether the anomaly was caused due to a change in the workload (e.g. a sudden 
-increase in the number of client requests). If that is the case
+whether the anomaly was caused by a change in the workload (e.g. a sudden 
+increase in the number of client requests). If that is the case,
 the resolution typically involves allocating more resources to the application or spawning
 more instances of the application for load balancing purposes. If the anomaly cannot be 
-attributed to a workload change, one must try to find the cloud component or the PaaS kernel
-service that has given rise to the issue at hand.
+attributed to a workload change, one must go another step to find the bottleneck component
+that has given rise to the issue at hand.
 
 Detecting performance anomalies
 requires continuous monitoring of application performance which could be tedious with
