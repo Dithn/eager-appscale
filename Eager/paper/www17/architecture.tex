@@ -118,21 +118,8 @@ to efficiently group the related records.
 
 \subsubsection{Data Analysis}
 
-\textit{blue}{From a generality perspective, detectors and handlers aren't
-enough.  You also need rules that trigger actions
-(or do not trigger actions) based on a sequence of
-detectors and handler results.  
-For example, in your current implementation of roots, when 
-you detect an anaomaly in the response time and also an analomaly 
-in the workload, you trigger a root cause identification analysis.  There
-needs to be some program that expresse this conditional relationship as well.
-Probably need to say that the Roots programmer needs to write this program
-explicitly.}
-
-
 Roots data analysis component uses two basic abstractions: \textit{anomaly detectors} 
 and \textit{anomaly handlers}.
-
 \textit{Anomaly detectors} are processes that periodically analyze the data collected for
 each deployed application. Roots supports multiple detector implementations, where each implementation
 uses a different statistical method to look for performance anomalies. Detectors are configured
@@ -143,28 +130,40 @@ anomaly detector has an execution schedule (e.g. run every 60 seconds), and a sl
 (e.g. from 10 minutes ago to now)
 associated with it. The boundaries of the window determines the time range
 of the data processed by the detector at any round of execution. Window is updated 
-after each round of execution.
+after each round of execution. Our anomaly detector abstraction is general
+enough to support detecting a wide range of anomalies. However, in our work we
+mainly focus on anomaly detectors that check for violations of performance SLOs.
 
 When an anomaly detector finds an anomaly in application performance, it sends an event
 to a collection of \textit{anomaly handlers}. The event encapsulates a unique anomaly identifier, 
 timestamp, application identifier and the source detector's sliding window that correspond to the
 anomaly. Anomaly handlers are configured globally (i.e. each handler
-receives events from all detectors), but they can choose to not handle certain types
-of anomalies. Similar with detectors, Roots supports multiple anomaly handler
+receives events from all detectors), but each handler can can be programmed to handle only
+certain types of events. Furthermore, they can fire their own events, which are also delivered to
+all the listening anomaly handlers. Similar to detectors, Roots supports multiple anomaly handler
 implementations -- one for logging anomalies, one for sending alert emails, one
 for updating a dashboard etc. Additionally, Roots provides two special anomaly handler
-implementations: a workload change analyzer, and a root cause analyzer.
+implementations: a workload change analyzer, and a bottleneck identifier.
+
+The ability of anomaly handlers to fire their own events, coupled with their support
+for responding to a filtered subset of incoming events enables constructing
+elaborate event flows with sophisticated logic. For example, the workload
+change analyzer can run some analysis upon receiving an anomaly event
+from any anomaly detector. If an anomaly cannot be associated with a workload
+change, it can fire a different type of event. The bottleneck identifier, can
+be programmed to only execute its analysis upon receiving this second type of event.
+This way we perform the workload change analysis first, and perform the
+systemwide bottleneck identification only when it is required to do so.
 
 Both the anomaly detectors and anomaly handlers work with fix-sized sliding windows.
 They can discard any old data as the sliding window moves along the time line.
 Therefore the amount of state information these entities must keep in memory has
 a strict upper bound. 
-
 The extensibility of Roots is primarily achieved through the abstractions of anomaly
 detectors and handlers. Roots makes it simple to implement new detectors and handlers,
 and plug them into the system. Both the detectors and the handlers are executed
 as lightweight processes that do not interfere with the rest of the processes in
-the cloud platform. Therefore failures in detectors and handlers have no impact
+the cloud platform. Failures in detectors and handlers have no impact
 on the cloud platform or the deployed applications.
 
 \subsubsection{Roots Process Management}
@@ -195,7 +194,7 @@ among multiple pods for scalability.
 Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
 It consists of two benchmarking processes, three anomaly detectors and 
 two anomaly handlers. The anomaly detectors and handlers communicate
-using an internal communication bus, so that events triggered by one anymaly
+using an internal communication bus, so that events triggered by one anomaly
 detector flow into all handlers. 
 
 To automate the process of managing pods, they can be tied into the core
