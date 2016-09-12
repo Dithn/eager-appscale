@@ -322,19 +322,18 @@ Finally, to demonstrate how lightweight and scalable Roots is, we deploy
 a Roots pod on a virtual machine with 4 CPU cores and 4GB memory.
 To simulate monitoring multiple applications, we run multiple concurrent anomaly
 detectors in the pod. Each detector is configured with a 1 hour sliding window.
-We also enable workload change analysis, and bottleneck identification 
-support in the pod. We vary the number of concurrent anomaly
+We vary the number of concurrent
 detectors between 100 and 10000, and run each configuration for
-2 hours. We track the memory usage and the percentage CPU usage of the
-pod during each of these runs. 
+2 hours. We track the memory and CPU usage of the
+pod during each of these runs using the jstat and pidstat tools. 
 
 Figure~\ref{fig:pod_performance}
-illustrates the resource utilization of the Roots pod for different counts of
-concurrent anomaly detectors. We see that even with 10000 concurrent
-detectors, the average CPU usage is at 40\%, and the average memory usage is
-at 429 MB. The highest memory usage observed in these experiments is
-785 MB. Since each detector operates with a fixed-sized window, and they
-bring additional data into memory only when required, the overall memory
-usage of the Roots pod stays low. This implies that we can monitor thousands 
+illustrates the maximum resource utilization of the Roots pod for different counts of
+concurrent anomaly detectors. We see that with 10000 concurrent
+detectors, the maximum CPU usage is 238\%, where 400\% is the available limit
+for 4 CPU cores. The maximum memory usage in this case is only 778 MB. 
+Since each anomaly detector operates with a fixed-sized window, and they
+bring additional data into memory only when required, the memory
+usage of the Roots pod generally stays low. This result implies that we can monitor thousands 
 of applications using a single pod, thereby scaling up to a very large number
 of applications using only a handful of pods.
