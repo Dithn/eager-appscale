@@ -34,5 +34,5 @@ for (i in c(1:nrow(ts_data))) {
     }
 }
 
-legend('top', legend=c('G1 anomaly', 'G2 anomaly', 'G3 anomaly'), pch=c(4,4,4), col=c('blue', 'darkgreen', 'darkmagenta'), horiz=T, cex=0.8, bty='n')
+legend('top', legend=c('G4 anomaly', 'G6 anomaly', 'G7 anomaly'), pch=c(4,4,4), col=c('blue', 'darkgreen', 'darkmagenta'), horiz=T, cex=0.8, bty='n')
 legend('topleft', legend=c('Fault injection'), col=c('red'), lty=1:1, horiz=T, cex=0.8, bty='n', lwd=2)

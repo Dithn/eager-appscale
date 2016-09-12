@@ -256,6 +256,41 @@ at least two of the four candidates to be the same (score values 6 or higher). T
 identify bottlenecks with a high level of confidence since two or more candidate detection methods
 agree on their results.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.55]{time_line_g1g8}
+\caption{Anomaly detection in 8 applications deployed in a clustered AppScale cloud.}
+\label{fig:time_line_g1g8}
+\end{figure}
+
+So far we have been experimenting with a simple AppScale cloud deployed on a single virtual machine.
+To demonstrate how Roots can be used in a multi-node environment, we set up an AppScale cloud
+on a cluster of 10 virtual machines (VMs). VMs are provisioned by a Eucalyptus (IaaS)
+cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
+to deploy 8 instancesof the guestbook application on AppScale. We use the multitenant support
+in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). This means each instance
+is hosted on a separate application server instance, and has its own private namespace on the AppScale
+datastore. Each application instance can be accessed via its own public URL. We disable auto-scaling support in 
+the AppScale cloud, and inject faults into the datastore service of AppScale in such a way that queries
+issued from a particular VM, are processed with a 100ms delay. We identify the VM by its IP address
+in our test environment, and shall refer to it as $V_f$ in the discussion. We trigger
+the fault injection every 2 hours, and when activated it lasts for up to 5 minutes. Then we monitor
+the applications using Roots for a period of 10 hours. Each anomaly detector is configured
+to check for the 75ms response time SLO with 95\% success rate. 
+ElasticSearch, Logstash and the Roots pod are deployed on a separate VM. 
+
+Figure~\ref{fig:time_line_g1g8} shows the resulting event sequence. Note that we detect anomalies 
+in 3 applications ($G4$, $G6$ and $G7$) immediately after each fault injection. Inspecting the 
+topology of our AppScale cluster revealed that these were the only 3 applications that were 
+hosted on $V_f$. As a result, our bi-hourly fault injection caused their SLOs to
+get violated. Other applications did not exhibit any SLO violations since we are monitoring against
+a very high response time upper bound. In each case Roots detected the SLO violations 2-3 minutes into the fault injection
+period. As soon as that happened, the anomaly detectors of $G4$, $G6$ and $G7$ entered the warmup mode.
+But our fault injection logic kept injecting faults for at least 2 more minutes. Therefore when the anomaly detectors
+reactivated after 25 minutes (time to collect the minimum sample count), they each saw another SLO
+violation. This is why we see another set of detection events approximately half an hour after the
+original fault injection events.
+
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
 invocations made by each application, since this feature requires some changes to the PaaS SDK. 
