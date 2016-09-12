@@ -310,3 +310,31 @@ from Roots even under load. Since we buffer PaaS kernel invocation
 events in memory, and report them to ElasticSearch asynchronously, and
 out of the request processing flow, there is no measurable impact on
 the request latency from Roots.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.45]{pod_performance}
+\caption{Resource utilization of a Roots pod.}
+\label{fig:pod_performance}
+\end{figure}
+
+Finally, to demonstrate how lightweight and scalable Roots is, we deploy
+a Roots pod on a virtual machine with 4 CPU cores and 4GB memory.
+To simulate monitoring multiple applications, we run multiple concurrent anomaly
+detectors in the pod. Each detector is configured with a 1 hour sliding window.
+We also enable workload change analysis, and bottleneck identification 
+support in the pod. We vary the number of concurrent anomaly
+detectors between 100 and 10000, and run each configuration for
+2 hours. We track the memory usage and the percentage CPU usage of the
+pod during each of these runs. 
+
+Figure~\ref{fig:pod_performance}
+illustrates the resource utilization of the Roots pod for different counts of
+concurrent anomaly detectors. We see that even with 10000 concurrent
+detectors, the average CPU usage is at 40\%, and the average memory usage is
+at 434 MB. The highest memory usage observed in these experiments is
+785 MB. Since each detector operates with a fixed-sized window, and they
+bring additional data into memory only when required, the overall memory
+usage of the Roots pod stays low. This implies that we can monitor thousands 
+of applications using a single pod, thereby scaling up to a very large number
+of applications using only a handful of pods.
