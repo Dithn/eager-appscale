@@ -369,6 +369,10 @@ detectors, the maximum CPU usage is 238\%, where 400\% is the available limit
 for 4 CPU cores. The maximum memory usage in this case is only 778 MB. 
 Since each anomaly detector operates with a fixed-sized window, and they
 bring additional data into memory only when required, the memory
-usage of the Roots pod generally stays low. This result implies that we can monitor thousands 
+usage of the Roots pod generally stays low. In particular, the average resource usage
+is far less than the maximum usage values shown in figure~\ref{fig:pod_performance}. 
+For example, in case of 10000 detectors, the average CPU usage is only 32\%, and 
+the average memory usage is 507 MB.
+This result implies that we can monitor thousands 
 of applications using a single pod, thereby scaling up to a very large number
 of applications using only a handful of pods.
