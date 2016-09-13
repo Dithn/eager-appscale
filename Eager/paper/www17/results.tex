@@ -372,7 +372,9 @@ bring additional data into memory only when required, the memory
 usage of the Roots pod generally stays low. In particular, the average resource usage
 is far less than the maximum usage values shown in figure~\ref{fig:pod_performance}. 
 For example, in case of 10000 detectors, the average CPU usage is only 32\%, and 
-the average memory usage is 507 MB.
-This result implies that we can monitor thousands 
+the average memory usage is 507 MB. We also experimented with larger concurrent
+detector counts, and we were able to pack up to 40000 detectors into the pod before
+getting constrained by the CPU capacity of our quad-core VM.
+This result implies that we can monitor tens of thousands 
 of applications using a single pod, thereby scaling up to a very large number
 of applications using only a handful of pods.
