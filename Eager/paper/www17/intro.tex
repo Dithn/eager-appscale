@@ -28,13 +28,12 @@ cloud-hosted applications, the cloud platforms must be equipped with powerful
 data gathering and analysis capabilities that span the entire stack of the cloud. 
 However, most cloud technologies available
 today either do not provide any application monitoring support, or only provide primitive
-monitoring features such as application-level logging. Hence, they are not capable of conducting
-performance anomaly detection and bottleneck identification, which require much more fine-grained
-data collection and analytics across the entire cloud platform.
+monitoring features such as application-level logging. Hence, their support for performance
+anomaly detection and bottleneck identification is severely limited.
 
 Further compounding this problem, today's cloud platforms are very 
 large and complex~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. They are
-comprised of many layers, where each layer may consist of a multitude of interacting components.
+comprised of many layers, where each layer may consist of many interacting components.
 Therefore when a performance anomaly manifests in a user application, it is rather challenging 
 to determine the exact layer or the component of the cloud platform that may be responsible for it. 
 Facilitating this level of comprehensive root cause analysis requires
@@ -62,8 +61,8 @@ of an application, all the way down to the virtual machines that host them. Such
 therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
 To overcome this barrier, we design Roots as another managed service built into the PaaS cloud.
 It operates at the same level as the other services offered by the cloud platform. This way Roots can collect data
-directly from the service implementations internal to the cloud platform, thus gaining full visibility into all the 
-inner workings of an application. It also enables Roots to operate fully automatically in the background without
+directly from the internal service implementations of the cloud platform, thus gaining full visibility into all the 
+inner workings of an application. It also enables Roots to operate fully automatically in the background, without
 requiring instrumentation of application code. Roots can intercept and record all the important runtime events as the
 application code invokes various service implementations of the PaaS cloud.
 

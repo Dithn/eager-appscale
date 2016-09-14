@@ -1,11 +1,3 @@
-\textcolor{blue}{Suggest merging the architecure and correlation subsections.
-Start with a discussion of the problem (1) layers each maintain state that
-idenfifies internal state, (2) Roots need to identify the state change
-events that are triggered by a specific event's processing.  Change the figure
-to reflect this requirement and discuss how this architecture allow
-Roots to correlate state change events with individual request processing.}
-
-
 The key intuition behind Roots is that
 the cloud platform can aid the developer detect anomalies in deployed applications.
 The cloud platform has full visibility into all the activities that occur in various layers of the cloud,
@@ -19,11 +11,44 @@ introduce a significant overhead to deployed applications.
 Moreover, data collection can be always active in the cloud thus relieving the application developers
 from having to instrument their code, or setting up external monitoring.
 The data analysis can benefit from the vast amount of compute
-resources available in the cloud platform. The offline processing ensures that application request
-processing is not impacted by monitoring, and the near realtime analysis ensures that developers
+resources available in the cloud platform. The offline processing ensures that request
+latency is not impacted by monitoring, and the near realtime analysis ensures that developers
 and other interested parties are notified of performance anomalies urgently. 
 
-\subsubsection{Data Collection and Storage}
+\subsubsection{Data Collection and Correlation}
+
+There are two issues that need to be addressed when designing a monitoring framework for
+a system as complex as a PaaS cloud.
+\begin{enumerate}
+\item Collecting data from multiple different layers.
+\item Correlating data collected from different layers.
+\end{enumerate}
+
+Each individual layer of the cloud platform is only able to collect data regarding the
+state changes that are local to them. They cannot monitor state changes
+in other layers due to the level of encapsulation provided by each layer. However,
+processing an application request involves cooperation of multiple 
+layers. For example, an application request gets routed through the front-end server before
+it reaches the application server. The application server may then invoke one or more PaaS kernel
+services. Depending on how the kernel services are implemented,
+even more layers may get involved in processing the request. 
+In order to facilitate systemwide monitoring and
+bottleneck identification, we should be able to gather data from all the different layers involved
+in processing a request. Then we should be able to correlate the collected data, and tie the events that
+are related to the same request together.
+
+To facilitate these requirements we start by augmenting the front-end server of the cloud platform. 
+Specifically we get the front-end server to tag all incoming application requests with unique identifiers.
+This request identifier can be attached to an HTTP request as a header, which is visible to all 
+internal components of the PaaS cloud. Then we configure the data collecting agents within the 
+cloud platform to record the request identifiers along with any events they capture. 
+This way we maintain the relationship between application requests, and the resulting
+local state changes in different layers of the cloud, without breaking the existing level
+of abstraction in the cloud architecture. This approach is also scalable, since the events are
+recorded in a stateless, distributed manner. The data analysis components can later
+aggregate the recorded events by request identifiers to efficiently group the related events,
+in on demand fashion.
+
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_architecture}
@@ -31,11 +56,13 @@ and other interested parties are notified of performance anomalies urgently.
 \label{fig:apm_architecture}
 \end{figure}
 
-Figure~\ref{fig:apm_architecture} illustrates the high-level architecture of the proposed APM, and how 
-it fits into the PaaS cloud stack. APM components are shown in grey, with their interactions indicated
+Figure~\ref{fig:apm_architecture} illustrates the high-level architecture of Roots, and how 
+it fits into the PaaS stack. APM components are shown in grey, with their interactions indicated
 by the black lines. The small grey boxes attached to the PaaS components represent the sensors and
 agents used to instrument the cloud platform for data collection purposes. Note that the APM collects
-data from all layers in the PaaS stack (i.e. full stack monitoring).
+data from all layers in the PaaS stack (i.e. full stack monitoring). Figure also indicates tagging incoming
+requests with unique identifiers, and reporting events along with the identifiers of the requests they are
+associated with.
 
 From the front-end and load balancing layer we gather all information related to incoming application
 requests. A big part of this is scraping the HTTP server access logs, which indicate request timestamps,
@@ -52,8 +79,9 @@ to measure their performance. These are lightweight, stateless processes managed
 Data collected by these processes will also be sent to data storage component, and will be available
 for analysis as per-application timeseries data.
 
-At the PaaS kernel layer we employ instrumentation to record information regarding all kernel invocations
-made by the applications. This instrumentation must be applied carefully as to not introduce a noticeable
+At the PaaS kernel layer we collect information regarding all kernel invocations
+made by the applications. This requires intercepting the PaaS kernel invocation
+requests at runtime. This must be done carefully as to not introduce a noticeable
 overhead to the application execution. For each PaaS kernel invocation, we can capture the 
 following parameters.
 \begin{itemize}
@@ -77,13 +105,15 @@ time.
 To avoid introducing delays to the application request processing flow, we implement
 all Roots data collecting agents as asynchronous tasks. That is, none of them would
 suspend application request processing to report data to the data storage components.
-We make sure that all expensive I/O tasks related to data collection and storage is
+We make sure that all expensive I/O tasks related to data collection and storage are
 executed out of the request processing flow.
 In particular, all data is collected into log files or memory buffers that are local to the components being
-monitored. This locally collected (or buffered) data will be periodically sent
+monitored. This locally collected (or buffered) data is periodically sent
 to the data storage components of Roots using separate background tasks and batch communication
 operations. Also special care is taken to isolate the activities in the cloud from potential
-faults in the Roots data collection or storage components.
+failures in the Roots data collection or storage components.
+
+\subsubsection{Data Storage}
 
 The Roots data storage is a database that supports persistently storing monitoring data, and running
 queries on them.  
@@ -93,28 +123,6 @@ by Roots use application and time intervals as indices. Therefore a database tha
 data by application, and then organize records by timestamp will greatly improve the query performance.
 It is also acceptable to remove old monitoring data to make room for more recent events, since Roots
 is performing anomaly detection using the most recent data in near realtime.
-
-\subsubsection{Cross-layer Data Correlation}
-Roots must be able to correlate data records collected at different layers of the PaaS. For example consider
-the execution of a single application request. This single event results in following data records at
-different layers of the cloud, which will be collected and stored by the APM as separate entities.
-
-\begin{itemize}
-\item A front-end server access log entry
-\item Zero or more application log entries
-\item Zero or more PaaS kernel invocation records
-\end{itemize}
-
-We require a mechanism to tie these disparate records together, so the data analysis components can easily
-aggregate the related information. For instance, we must be able to retrieve via an
-aggregation query, all PaaS kernel invocations made by a specific application request.
-
-To facilitate this requirement we propose that the front-end server tags all incoming application requests 
-with unique identifiers.
-This request identifier can be attached to HTTP requests as a header which is visible to all components 
-internal to the PaaS cloud. All data collecting agents can then be configured to record the request identifiers
-whenever recording an event. At the data analysis components Roots can aggregate the data by request identifiers
-to efficiently group the related records.
 
 \subsubsection{Data Analysis}
 
@@ -169,7 +177,7 @@ on the cloud platform or the deployed applications.
 \subsubsection{Roots Process Management}
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{roots_pod}
+\includegraphics[scale=0.45]{roots_pod}
 \caption{Anatomy of a Roots pod.}
 \label{fig:roots_pod}
 \end{figure}
