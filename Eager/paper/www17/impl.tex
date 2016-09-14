@@ -1,7 +1,3 @@
-\textcolor{blue}{This section shows that Roots is more than just a good idea.
-Perhaps a figure showing the implementaion components and architecture would
-help make that point stronger.}
-
 We implemented a Roots prototype for the AppScale cloud
 platform~\cite{6488671}. AppScale is an open source PaaS cloud, API compatible
 with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  Due to
@@ -12,6 +8,15 @@ Roots APM into it. AppScale also turned out to be a great test environment
 since we could deploy it locally, and run a number of existing App Engine
 applications on it.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{roots_impl}
+\caption{Roots prototype implementation for AppScale PaaS.}
+\label{fig:roots_impl}
+\end{figure}
+
+Figure~\ref{fig:roots_impl} shows an overview of our prototype implementation. Roots components
+are shown in grey, while the PaaS components are shown in blue.
 We use ElasticSearch~\cite{elasticsearch} as the data storage component of our prototype. ElasticSearch is ideal 
 for storing large volumes of structured and semi-structured data. It supports scalability and 
 high availability via sharding and replication.
@@ -24,7 +29,7 @@ We configure AppScale's front-end server (based on Nginx) to tag all incoming ap
 with a unique identifier. This identifier is attached to the request as a custom HTTP header.
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
 in all the events reported to ElasticSearch. This enables our prototype to aggregate events originating
-from the same application.
+from the same application request.
 
 We implement a number of data collecting agents in AppScale to gather runtime information
 from all major components. These agents buffer data locally, and store them in ElasticSearch
@@ -32,18 +37,20 @@ in batches. For scraping server logs and storing the extracted entries in Elasti
 we use the Logstash tool~\cite{logstash}. Logstash supports scraping a wide range of standard log formats (e.g. 
 Apache HTTPD access logs), and other custom log formats can be supported via a simple configuration.
 It also integrates naturally with ElasticSearch.
-To capture the PaaS kernel invocation data, we augment AppScale's PaaS SDK implementation,
+To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
 which is derived from the GAE PaaS SDK. More specifically we implement an agent that records
 all PaaS SDK calls, and reports them to ElasticSearch asynchronously. 
 
 Roots pods are implemented as standalone Java server processes. Threads are used to run benchmarkers,
 anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
-REST calls, and many of the data analysis tasks such as filtering and aggregation are performed
+a web API, and many of the data analysis tasks such as filtering and aggregation are performed
 in ElasticSearch itself. By doing so a lot of the heavy computations are offloaded to the 
 ElasticSearch cluster, which is specifically designed for high-performance query processing
 and analytics. Some of the more sophisticated statistical analysis tasks (e.g. change point detection, 
 linear regression) are implemented in R language,
 and the Java-based Roots pods integrate with R using the Rserve protocol~\cite{Urbanek03rserve--}.
+Figure~\ref{fig:roots_impl} only shows two pods, but one can deploy an arbitrary number of pods to
+monitor the application load in the cloud platform.
 
 \subsection{SLO-based Anomaly Detector}
 We implement a performance SLO checker as the primary anomaly detector in Roots. This anomaly detector
