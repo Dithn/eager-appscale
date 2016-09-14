@@ -59,12 +59,18 @@ in on demand fashion.
 Figure~\ref{fig:apm_architecture} illustrates the high-level architecture of Roots, and how 
 it fits into the PaaS stack. APM components are shown in grey, with their interactions indicated
 by the black lines. The small grey boxes attached to the PaaS components represent the sensors and
-agents used to instrument the cloud platform for data collection purposes. Note that the APM collects
-data from all layers in the PaaS stack (i.e. full stack monitoring). Figure also indicates tagging incoming
-requests with unique identifiers, and reporting events along with the identifiers of the requests they are
-associated with.
+agents used to instrument the cloud platform for data collection purposes. 
+In the diagram a user request is getting tagged with the identifier value
+$R$ at the front-end server. This identifier is passed down to the lower layers of the cloud
+along with the request. Events that occur in the lower layers as a result of processing this request
+are recorded with the request identifier $R$, so we can correlate them later. For example, in the 
+data analysis component we can run a filter query to select all the events related to a particular
+request (as shown in the pseudo query in the diagram). Or we can run a ``group by'' 
+query to select all events, and aggregate them by the request identifier.
 
-From the front-end and load balancing layer we gather all information related to incoming application
+Figure~\ref{fig:apm_architecture} also shows Roots collecting data from all layers in the 
+PaaS stack (i.e. full stack monitoring). 
+From the front-end server layer we gather information related to incoming application
 requests. A big part of this is scraping the HTTP server access logs, which indicate request timestamps,
 source and destination addressing information, response time (latency) and other HTTP message
 parameters. This information is readily available for harvesting in most technologies used as front-end
@@ -77,7 +83,7 @@ metrics indicating the resource usage of the individual application instances. A
 employs a set of per-application benchmarking processes, that periodically probes applications
 to measure their performance. These are lightweight, stateless processes managed by the Roots framework.
 Data collected by these processes will also be sent to data storage component, and will be available
-for analysis as per-application timeseries data.
+for analysis as per-application time series data.
 
 At the PaaS kernel layer we collect information regarding all kernel invocations
 made by the applications. This requires intercepting the PaaS kernel invocation
