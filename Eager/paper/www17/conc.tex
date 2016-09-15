@@ -18,16 +18,20 @@ in processing application requests. It can correlate events across different lay
 to track the propagation of application requests through the cloud platform, and
 identify bottlenecks.
 
-Roots monitors applications for SLO compliance. When Roots detects an SLO violation, 
+Roots monitors applications for SLO compliance. It detects anomalies via SLO violations.
+When Roots detects an anomaly, 
 it analyzes workload data and other application runtime data
 to perform root cause analysis. Roots is able to determine whether a particular
 anomaly was caused by a change in the application workload, or due to a bottleneck
 in the cloud platform. To this end we devise a bottleneck identification algorithm, that
 uses a combination of linear regression, quantile analysis and change point detection.
+
 We evaluate Roots using a prototype built for the AppScale open source PaaS. 
-Our results indicate that Roots is highly effective at detecting performance anomalies
-via SLO violations. We also show that our algorithm for bottleneck identification
-produces accurate results almost 100\% of the time. These empirical trials further 
-indicate that Roots does not add a significant overhead to the applications deployed
-on the cloud platform. It is very lightweight, and scales well to handle large application
-volumes with a single pod being able to handle tens of thousands of applications.
+Our results indicate that Roots is effective at detecting performance anomalies
+in near real time. We also show that our bottleneck identification algorithm
+produces accurate results nearly 100\% of the time, pinpointing the exact PaaS
+service or the application component responsible for each anomaly. Our empirical trials further 
+reveal that Roots does not add a significant overhead to the applications deployed
+on the cloud platform. Finally, we show that Roots is very lightweight, 
+and scales well to handle large populations of applications. More specifically,
+we see that a single Roots pod is able to monitor tens of thousands of applications.
