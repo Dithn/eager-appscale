@@ -1,8 +1,11 @@
-The key intuition behind Roots is that
-the cloud platform can aid the developer detect anomalies in deployed applications.
-The cloud platform has full visibility into all the activities that occur in various layers of the cloud,
-including all invocations of the PaaS kernel services. Therefore
-it can automatically collect data regarding events that are related to application request processing. 
+The key intuition behind Roots is that \textcolor{green}{as an intrinsic PaaS service
+%the cloud platform can aid the developer detect anomalies in deployed applications.
+%The cloud platform has full 
+it has visibility into all the activities that occur in various layers of the cloud,
+including all application invocations of the PaaS kernel services through the
+PaaS SDK.} Therefore
+it can automatically collect \textcolor{green}{and correlate}
+ data regarding events that are related to application request processing. 
 The cloud platform can then analyze the collected data offline (but in near realtime) to detect 
 performance anomalies and identify root causes.
 
@@ -25,7 +28,7 @@ a system as complex as a PaaS cloud.
 \end{enumerate}
 
 Each individual layer of the cloud platform is only able to collect data regarding the
-state changes that are local to them. They cannot monitor state changes
+state changes that are local to it. They cannot monitor state changes
 in other layers due to the level of encapsulation provided by each layer. However,
 processing an application request involves cooperation of multiple 
 layers. For example, an application request gets routed through the front-end server before
@@ -45,7 +48,11 @@ cloud platform to record the request identifiers along with any events they capt
 This way we maintain the relationship between application requests, and the resulting
 local state changes in different layers of the cloud, without breaking the existing level
 of abstraction in the cloud architecture. This approach is also scalable, since the events are
-recorded in a stateless, distributed manner. The data analysis components can later
+recorded in a stateless, distributed manner. \textcolor{blue}{It is a
+contradition to say that events are recorded in a manner that is stateless
+since the recording creates state.  Did you mean to say ``distributed and
+eventually consistent?''  Fix this previous sentence.}
+The data analysis components can later
 aggregate the recorded events by request identifiers to efficiently group the related events,
 in on demand fashion.
 
@@ -80,14 +87,20 @@ connections, invalid access attempts and other errors.
 From the application server layer we collect basic application logs as well as any other
 metrics that can be easily collected from the application runtime. This may include some process level
 metrics indicating the resource usage of the individual application instances. Additionally Roots
-employs a set of per-application benchmarking processes, that periodically probes applications
+employs a set of per-application benchmarking processes, that periodically probes 
+different applications
 to measure their performance. These are lightweight, stateless processes managed by the Roots framework.
 Data collected by these processes will also be sent to data storage component, and will be available
 for analysis as per-application time series data.
+\textcolor{blue}{Here there may be some skepticism regarding overhead.  Since
+you are probing the application you may be introducing load which could slow
+the application down.  You will need to be able to argue here or in the
+results section that the probes are non-intrusive.}
+
 
 At the PaaS kernel layer we collect information regarding all kernel invocations
 made by the applications. This requires intercepting the PaaS kernel invocation
-requests at runtime. This must be done carefully as to not introduce a noticeable
+requests \textcolor{green}{made via the SDK} at runtime. This must be done carefully as to not introduce a noticeable
 overhead to the application execution. For each PaaS kernel invocation, we can capture the 
 following parameters.
 \begin{itemize}
@@ -118,6 +131,9 @@ monitored. This locally collected (or buffered) data is periodically sent
 to the data storage components of Roots using separate background tasks and batch communication
 operations. Also special care is taken to isolate the activities in the cloud from potential
 failures in the Roots data collection or storage components.
+\textcolor{blue}{A skeptical reviewer might want to know about whether the
+extra memory footprint triggers excessive garbage collections.  Probably need
+some quantittative discussion of possible overheads.}
 
 \subsubsection{Data Storage}
 
@@ -134,22 +150,24 @@ is performing anomaly detection using the most recent data in near realtime.
 
 Roots data analysis component uses two basic abstractions: \textit{anomaly detectors} 
 and \textit{anomaly handlers}.
-\textit{Anomaly detectors} are processes that periodically analyze the data collected for
+Anomaly detectors are processes that periodically analyze the data collected for
 each deployed application. Roots supports multiple detector implementations, where each implementation
 uses a different statistical method to look for performance anomalies. Detectors are configured
-at application level making is possible for different applications to use different anomaly 
+at application level \textcolor{green}{as separate applications within the Paas} 
+making is possible for different applications to use different anomaly 
 detectors. Roots also supports multiple concurrent anomaly detectors on the same application, which can be used
 to evaluate the efficiency of different detection strategies for any given application. Each
 anomaly detector has an execution schedule (e.g. run every 60 seconds), and a sliding window 
 (e.g. from 10 minutes ago to now)
 associated with it. The boundaries of the window determines the time range
 of the data processed by the detector at any round of execution. Window is updated 
-after each round of execution. Our anomaly detector abstraction is general
-enough to support detecting a wide range of anomalies. However, in our work we
-mainly focus on anomaly detectors that check for violations of performance SLOs.
+after each round of execution. 
+%Our anomaly detector abstraction is general
+%enough to support detecting a wide range of anomalies. However, in our work we
+%mainly focus on anomaly detectors that check for violations of performance SLOs.
 
 When an anomaly detector finds an anomaly in application performance, it sends an event
-to a collection of \textit{anomaly handlers}. The event encapsulates a unique anomaly identifier, 
+to a collection of anomaly handlers. The event encapsulates a unique anomaly identifier, 
 timestamp, application identifier and the source detector's sliding window that correspond to the
 anomaly. Anomaly handlers are configured globally (i.e. each handler
 receives events from all detectors), but each handler can can be programmed to handle only
@@ -158,6 +176,8 @@ all the listening anomaly handlers. Similar to detectors, Roots supports multipl
 implementations -- one for logging anomalies, one for sending alert emails, one
 for updating a dashboard etc. Additionally, Roots provides two special anomaly handler
 implementations: a workload change analyzer, and a bottleneck identifier.
+\textcolor{blue}{The event broadcast to all handlers rases a scalability
+question.  Need to address this concern.}
 
 The ability of anomaly handlers to fire their own events, coupled with their support
 for responding to a filtered subset of incoming events enables constructing
@@ -169,7 +189,7 @@ be programmed to only execute its analysis upon receiving this second type of ev
 This way we perform the workload change analysis first, and perform the
 systemwide bottleneck identification only when it is required to do so.
 
-Both the anomaly detectors and anomaly handlers work with fix-sized sliding windows.
+Both the anomaly detectors and anomaly handlers work with fixed-sized sliding windows.
 They can discard any old data as the sliding window moves along the time line.
 Therefore the amount of state information these entities must keep in memory has
 a strict upper bound. 

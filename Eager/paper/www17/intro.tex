@@ -17,49 +17,87 @@
 %% -- can use asynchronous, but must be able to time correlate
 Over the last decade cloud computing has become a popular approach for deploying
 applications at scale~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}. 
-Many organizations, academic institutions, and hobbyists make use of public
-and/or private clouds to deploy their applications.
-This rapid growth in cloud technology has intensified the need 
+%Many organizations, academic institutions, and hobbyists make use of public
+%and/or private clouds to deploy their applications.
+\textcolor{green}{However, this wide-spread adoption of cloud computing, particularly for
+web services, has been facilitated by ever-deepening software abstractions
+making the diagnosis of performance problems challenging.  As
+abstractions elide more of the complexity necessary to enable scale,
+they also obscure the true causes of performance faults and anomalies.
+Thus the rapid growth in the popularity of cloud technologies
+combined with their increasing opacity} has intensified the need 
 for new techniques to
 monitor applications deployed in cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
-Application developers and users wish to monitor application performance, detect 
+Specifically,
+application developers and users as well as cloud administrators wish to monitor application performance, detect 
 anomalies, and identify system bottlenecks. To obtain this level of deep operational insight into
-cloud-hosted applications, the cloud platforms must be equipped with powerful
+cloud-hosted applications, the cloud platforms must support 
 data gathering and analysis capabilities that span the entire stack of the cloud. 
-However, most cloud technologies available
-today either do not provide any application monitoring support, or only provide primitive
-monitoring features such as application-level logging. Hence, their support for performance
-anomaly detection and bottleneck identification is severely limited.
 
-Further compounding this problem, today's cloud platforms are very 
+\textcolor{green}{
+However, most cloud technologies available
+today either do not provide any application monitoring support, or rely on the
+programmers themselves to introduce application-level logging and
+instrumentation.  As a result, cloud administrators faced with applications
+that are failing to meet their performance targets must that the performance
+instrumentation is both correct and not exacerbating the 
+problems at hand.  Further, because the programmer is often relying on extant
+installed services (e.g. scalable database services, network load balancing,
+scalable in-memory caching services, etc.) that are performance opaque, it is
+often difficult or impossible to diagnose the ``root cause'' of a problem
+within the application or cloud software infrastructure.}
+
+%reporting application performance.
+%
+%only provide primitive
+%monitoring features such as application-level logging. Hence, their support for performance
+%anomaly detection and bottleneck identification is severely limited.
+
+Further compounding the performance
+diagnosis problem, today's cloud platforms are very 
 large and complex~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. They are
 comprised of many layers, where each layer may consist of many interacting components.
-Therefore when a performance anomaly manifests in a user application, it is rather challenging 
+Therefore when a performance anomaly manifests in a user application, it is
+often difficult
 to determine the exact layer or the component of the cloud platform that may be responsible for it. 
 Facilitating this level of comprehensive root cause analysis requires
-data collection at different layers of the cloud, and mechanisms for correlating events at
-different layers and components. Today's cloud platforms do not support such fine-grained
-data collection across the board. The plethora of existing third party cloud monitoring solutions
-do not have visibility into the low-level activities of the cloud thereby rendering them incapable
-of performing systemwide root cause analysis.
+both data collection at different layers of the cloud, and mechanisms for correlating 
+the events that generate the data at
+different layers and in different components. 
+%
+%Today's cloud platforms do not support such fine-grained
+%data collection across the board. 
+%
+%The plethora of existing third party cloud monitoring solutions
+%do not have visibility into the low-level activities of the cloud thereby rendering them incapable
+%of performing systemwide root cause analysis.
 
 Moreover, performance monitoring for cloud applications needs to be highly customizable. Different
 applications have different monitoring requirements in terms of data gathering frequency (sampling rate), 
-length of the history to consider when performing statistical analysis, and the performance 
-SLOs (service level objectives) to maintain over time and check for violations. Cloud monitoring
-should be able to facilitate these diverse requirements at the granularity of the applications.
+length of the history or sample size to consider when performing statistical analysis, and the performance 
+\textcolor{green}{SLOs (service level objectives~\cite{XXX}) that are associated with SLAs
+(service level agreements) that may govern the application.}
+%to maintain over time and check for
+%violations. 
+Cloud monitoring
+should be able to facilitate these diverse requirements \textcolor{green}{on a
+per-application basis}.
 Designing such customizable and extensible performance
 monitoring frameworks that are built into the cloud platforms is a novel and challenging undertaking.
 
 To address these needs, we present the design of  a comprehensive application platform 
-monitor (APM) called Roots that can be built into a wide variety of cloud Platform-as-a-Service (PaaS) technologies. 
+monitor (APM) called \textit{Roots} that can be \textcolor{green}{integrated
+with} variety of cloud Platform-as-a-Service (PaaS) technologies. 
 PaaS clouds provide a very high level of abstraction that hides most of the details concerning application
 runtime. They provide a set of managed services, which developers compose into applications.
-The implementation and deployment details of these services are completely opaque to the developers. 
-However, the existing cloud monitoring techniques rely on being able to capture data from all components 
-of an application, all the way down to the virtual machines that host them. Such methods are
-therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
-To overcome this barrier, we design Roots as another managed service built into the PaaS cloud.
+%The implementation and deployment details of these services are completely opaque to the developers. 
+%However, the existing cloud monitoring techniques rely on being able to capture data from all components 
+%of an application, all the way down to the virtual machines that host them. Such methods are
+%therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
+\textcolor{green}{To be able to correlate application activity with system
+events,} 
+%overcome this barrier, 
+we design Roots as another managed service built into the PaaS cloud.
 It operates at the same level as the other services offered by the cloud platform. This way Roots can collect data
 directly from the internal service implementations of the cloud platform, thus gaining full visibility into all the 
 inner workings of an application. It also enables Roots to operate fully automatically in the background, without
@@ -81,8 +119,8 @@ Previous work has outlined several key requirements that need to be taken into c
 designing a cloud monitoring system~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. 
 We incorporate a number of these features into our design:
 \begin{description}
-\item[Scalability] Roots is extremely lightweight, and does not cause any noticeable overhead in 
-application performance. It puts strict upper bounds on the volume of data kept in memory. 
+\item[Scalability] Roots is lightweight, and does not cause any noticeable overhead in 
+application performance. It also puts strict upper bounds on the volume of data kept in memory. 
 The persistent data is accessed on demand, and can be removed after their usefulness has expired.
 \item[Multitenancy] Roots facilitates configuring monitoring policies at the granularity of individual applications.
 Users can employ different statistical analysis methods to process the monitoring data in ways that are 
@@ -104,7 +142,10 @@ Roots collects most of the data it requires by direct integration with various i
 of the cloud platform. In addition to high-level metrics like request throughput
 and latency, Roots also records the internal PaaS services invoked by user applications,
 and the latency of those internal service calls. It uses batch operations and asynchronous 
-communication to record events in a manner that does not increase request latency.
+communication to record events in a manner that does not substantively
+increase request latency.
+\textcolor{blue}{The remainder of this paragraph should
+go in Section~\ref{sec:arch}.
 In addition, Roots employs a collection of lightweight  benchmarking
 processes to collect performance data regarding user applications. Both
 the benchmarking processes, and the data analysis processes are executed 
@@ -114,7 +155,7 @@ grouped together, and managed as a single entity called a
 information regarding the applications they monitor and analyze. This enables
 a single pod to monitor a large number of applications. Each pod is self-contained,
 and therefore scalability and high availability can be achieved by running multiple pods (sharding),
-and running multiple replicas of the same pod.
+and running multiple replicas of the same pod.}
 
 When Roots detects a performance anomaly in an application, it attempts to uncover the
 root cause of the anomaly by analyzing the workload data,
@@ -134,6 +175,22 @@ in PaaS clouds, produces accurate results nearly 100\% of the time.
 We also demonstrate that Roots does not add a significant performance overhead
 to the applications, and that a single Roots pod can monitor tens of thousands
 of applications concurrently.
+
+\textcolor{green}{Thus we summarize the contributions made by this paper as
+follows:
+\begin{itemize}
+\item we describe the architecture of Roots as a primordial intrinsic PaaS
+service (i.e. on that does not require or depend upon application
+instrumentation and work automatically),
+\item we describe a statistical methodology for determining when an
+application is experiencing a performance fault (as opposed to an increase in
+workload) and identifying
+the layer or
+application component that is responsible for the fault, and
+\item we demonstrate the effectiveness of the approach using a working PaaS
+prototype.
+\end{itemize}
+}
 
 Rest of this paper is organized as follows.
 Section~\ref{sec:background} sets the stage for introducing Roots by describing the domain of 
