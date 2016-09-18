@@ -1,29 +1,29 @@
 As the paradigm of cloud computing grows in popularity, the need for monitoring cloud-hosted 
 applications is coming to the forefront. Application developers and cloud administrators
 wish to detect performance anomalies in cloud applications, and
-perform root cause analysis. However, the high level of abstraction provided by cloud
+perform root cause analysis to diagnose problems. However, the high level of abstraction provided by cloud
 platforms, coupled with their scale and complexity, makes performance monitoring and
-systemwide root cause analysis a daunting problem. This situation is particularly apparent in
-PaaS clouds, which hide application runtime details beneath a layer of curated services.
+root cause analysis daunting problems. This situation is particularly apparent in
+PaaS clouds, where the application runtime details are hidden beneath a layer of curated services.
 The existing cloud monitoring solutions do not have the necessary penetrative power
-to monitor all the different layers of such cloud platforms. Consequently, their monitoring
+to monitor all the different layers of such cloud platforms, and consequently, their monitoring
 and root cause analysis capabilities are severely limited.
 
 We propose Roots, an online monitoring framework for applications deployed in a PaaS cloud. 
 Roots is designed to function as a curated service
-built into the PaaS cloud. It relieves the application developers from having to configure
+built into the cloud platform. It relieves the application developers from having to configure
 their own monitoring solutions, or having to instrument the application code in anyway.
 Roots captures runtime data from all the different layers involved
 in processing application requests. It can correlate events across different layers
 to track the propagation of application requests through the cloud platform, and
-identify bottlenecks.
+identify bottlenecks anywhere in the system.
 
-Roots monitors applications for SLO compliance. It detects anomalies via SLO violations.
+Roots monitors applications for SLO compliance, and detects anomalies via SLO violations.
 When Roots detects an anomaly, 
 it analyzes workload data and other application runtime data
 to perform root cause analysis. Roots is able to determine whether a particular
 anomaly was caused by a change in the application workload, or due to a bottleneck
-in the cloud platform. To this end we devise a bottleneck identification algorithm, that
+in the cloud platform. To this end we also devise a bottleneck identification algorithm, that
 uses a combination of linear regression, quantile analysis and change point detection.
 
 We evaluate Roots using a prototype built for the AppScale open source PaaS. 
@@ -33,5 +33,5 @@ produces accurate results nearly 100\% of the time, pinpointing the exact PaaS
 service or the application component responsible for each anomaly. Our empirical trials further 
 reveal that Roots does not add a significant overhead to the applications deployed
 on the cloud platform. Finally, we show that Roots is very lightweight, 
-and scales well to handle large populations of applications. More specifically,
+and scales well to handle large populations of applications. Specifically,
 we see that a single Roots pod is able to monitor tens of thousands of applications.
