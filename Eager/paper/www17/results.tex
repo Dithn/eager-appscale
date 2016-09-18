@@ -1,3 +1,45 @@
+\textcolor{blue}{It seems like there are four things we want to test to
+evauate the efficacy of roots:
+\begin{enumerate}
+\item how well it identifies SLO violations
+\item how well it characterizes each correctly-identified SLO violation as
+being due to a workload change or a bottleneck
+\item when there is a bottleneck, how well it identifies the correct
+bottleneck
+\item how often it fails, either because it identifies something incorrectly
+or because it misses an identification
+\end{enumerate}
+The results seem to speak to (3) and part of (4) -- the false positive part --
+but not the others.  We may not need graphs or tables for the others but a
+complete evauation would, I think, speak to all four aspects.}
+
+\textcolor{blue}{To address these issues, I suggest the following course of
+action.  For (1) explain that your SLO anomaly detector is correct by
+construction.  It simple determines all cases where 95\% of the values are
+above the SLO in a sliding window.  For (2), in each case you can simply state
+that no SLO occurred due to a change in workload (because your SLO bounds are
+derived from steady-state workload and you don't change the workload).  Point
+(3) you have covered thoroughly in the case where there hasn't been a workload
+change.  However in (2) or (3) you haven't shown how well Roots works when
+there is a workload change.  Discussion of (4) is implied in the text.}
+
+\textcolor{blue}{I also suggested a summarization at the end of the efficacy
+subsection (see comments below).  What you could do here is to put in result
+showing that the bottleneck detector does not erroneously identify bottlenecks
+when the workload changes and then simply cover these four issues in the
+summarization.} 
+ 
+\textcolor{green}{We wish to understand both the efficacy of the Roots system
+in terms of its ability to identify performance anomalies and to correctly
+determine the component responsible for each anomaly.  Additionally, we wish
+to characterize ovrehead introduced by Roots in terms of its effect on
+perceived application performance and to determine the degree to which Roots
+pods enable scalability.}
+
+\textcolor{green}{
+\subsection{Roots Efficacy}
+}
+
 \begin{table}
 \begin{center}
 \begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
@@ -13,10 +55,14 @@ user management & 19 & 15 & 10 \\ \hline
 }
 \end{table}
 
-We first evaluate the effectiveness of Roots as an anomaly detection mechanism. We experiment with
-the SLO-based anomaly detector, using a simple HTML-producing web application called ``guestbook''.
-This application allows users to login, and post comments. It uses the datastore service to save
-the posted comments, and the user management service to handle authentication. Each request processed
+%We first evaluate the effectiveness of Roots as an anomaly detection mechanism. 
+\textcolor{green}{To begin the evaluation of the Roots prototype,}
+we experiment with
+the SLO-based anomaly detector, using a simple HTML-producing web application
+called ``guestbook''~\cite{XXX}.
+This application allows users to login, and post comments. It uses the
+\textcolor{green}{GAE}  datastore service to save
+the posted comments, and the \textcolor{green}{GAE} user management service to handle authentication. Each request processed
 by guestbook results in two PaaS kernel invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
@@ -25,17 +71,21 @@ our experiments on a single node AppScale cloud except where specified. The node
 We run the SLO-based anomaly detector on guestbook with a sampling rate of 15 seconds, an analysis
 rate of 60 seconds, and a window size of 1 hour. We set the minimum sample count to 100, and
 run a series of experiments with different SLOs on the guestbook application. Specifically, we fix
-the SLO probability at 95\%, and set the response time upper bound to $\mu_g + n\sigma_g$. 
+the SLO \textcolor{green}{success} probability at 95\%, and set the response time upper bound to $\mu_g + n\sigma_g$. 
 $\mu_g$ and $\sigma_g$ represent mean and standard deviation of the
 guestbook's response time. We learn these two parameters apriory by benchmarking
 the application. Then we obtain three different upper bound values for the guestbook's
 response time by setting 
-$n$ to 2, 3 and 5. We denote the resulting three SLOs $L_1$, $L_2$ and $L_3$ respectively.
+$n$ to 2, 3 and 5 and denote the resulting three SLOs $L_1$, $L_2$ and $L_3$ respectively.
 
-We also inject performance faults into AppScale by modifying its code. We run a set of experiments
-by injecting faults into the datastore service. Our fault injection logic activates once every hour, and
-slows down all datastore invocations by 45ms within a period of 3 minutes. 45ms is equal 
-to $\mu_g + 5\sigma_g$. Therefore this delay is sufficient to violate all three SLOs used in our experiments. 
+We also inject performance faults into AppScale by modifying its code
+\textcolor{green}{to cause the datastore service to be slow to respond.}
+%. We run a set of experiments
+%by injecting faults into the datastore service. 
+This fault injection logic activates once every hour, and
+slows down all datastore invocations by 45ms over a period of 3 minutes.
+\textcolor{green}{We chose 45ms because it is equal 
+to $\mu_g + 5\sigma_g$ for the AppScale deployment under test.} Therefore this delay is sufficient to violate all three SLOs used in our experiments. 
 We run a similar set of experiments where we inject faults into the user management service of
 AppScale. Each experiment is run for a period of 10 hours.
 
@@ -62,7 +112,9 @@ of the plot. The tall blue lines indicate the Roots anomaly detection events.
 Note that every fault injection window is immediately followed by an anomaly
 detection event, implying near real time reaction from Roots. The only exception is the fault
 injection window at 20:00 hours which is not immediately followed by an anomaly 
-detection event. Roots detected another naturally occurring anomaly at 19:52 hours
+detection event. Roots detected another naturally occurring anomaly
+\textcolor{green}{(i.e. one
+that we did not explicitly inject but none the less caused an SLO violation)} at 19:52 hours
 which caused the anomaly detector to go into the warm up mode. Therefore Roots
 did not immediately react to the faults injected at 20:00 hours. But as soon as the detector became
 active again at 20:17, it detected the anomaly.
@@ -100,7 +152,7 @@ Here too we see that Roots detects anomalies immediately following each fault in
 \end{figure}
 
 Next we evaluate the effectiveness and accuracy of the path distribution analyzer. For this we 
-employ two applications.
+employ two different applications.
 \begin{description}
 \item[key-value store] This application provides the functionality of an online key-value store.  It allows 
 users to store data objects in the cloud where each object is given a unique key. The objects can then be 
@@ -108,7 +160,7 @@ retrieved, updated or deleted using their keys. Different operations
 (create, retrieve, update and delete) of the application are implemented as separate paths of
 execution in the application source code.
 \item[cached key-value store] This is a simple extension of the regular key-value store, which adds
-caching to the read operation using the AppScale's memcache service. The application contains
+caching to the read operation using the AppScale's memcache~\cite{XXX} service. The application contains
 separate paths of execution for cache hits and cache misses.
 \end{description}
 
@@ -126,8 +178,11 @@ case Roots detects the very first burst, and then goes into the warm up mode to 
 the bursts that immediately follow do not raise an alarm. Between 20:30 and 21:00 hours we also
 had two instances where the read request proportion dropped from 90\% to 80\% due to random
 chance. This is because our test client randomizes the read request proportion around the 90\% mark. 
-In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly notified us by 
-detecting them as anomalies.
+In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly 
+\textcolor{green}{identified}
+%notified us by 
+%detecting 
+them as anomalies.
 
 We conduct a similar experiment using the cached key-value store. Here, we run a test client that generates a workload
 that is mostly served from the cache. This is done by repeatedly executing read requests on a small
@@ -137,7 +192,7 @@ lasts up to 2 minutes. As shown in
 figure~\ref{fig:time_line_caching}, Roots path distribution analyzer correctly detects the change 
 in the workload (from many cache hits to many cache misses), nearly every time the test client injects a 
 burst of traffic that triggers the cache miss path of the application. The only exception is when
-multiple bursts are clumped together, in which case only the first first raises an alarm in Roots.
+multiple bursts are clumped together, in which case only the first raises an alarm in Roots.
 
 \begin{figure}
 \centering
@@ -164,8 +219,10 @@ spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on 
 The PELT change point detection method used in this experimental set up is ideally suited for detecting
 such lasting changes in the workload level.
 
-Now we evaluate the bottleneck identification capability of Roots. We first discuss the results obtained using
-the guestbook application. Later we will show some results obtained using a more complex application.
+Next we evaluate the bottleneck identification capability of Roots. We first discuss the results obtained using
+the guestbook application \textcolor{green}{and follow with}
+%. Later we will show some 
+results obtained using a more complex application.
 In the experimental run illustrated in 
 figure~\ref{fig:time_line_guestbook_2s}, Roots determined that all the detected anomalies except for one were 
 caused by the AppScale datastore service. This is consistent with our expectations since in this experiment we 
@@ -177,7 +234,10 @@ this result by manually inspecting the AppScale logs and traces of data collecte
 between 14:19 and
 14:22 the application server hosting the guestbook application experienced some problems, which caused
 request latency to increase significantly. Therefore we can conclude that Roots has correctly identified 
-the root causes of all 18 anomalies in this experimental run.
+the root causes of all 18 anomalies in this experimental run
+\textcolor{green}{including one
+occured in AppScale itself and
+that we did not inject explicitly}.
 
 Similarly, in the experiment shown in figure~\ref{fig:time_line_guestbook_2s_user}, Roots determined
 that all the anomalies are caused by the user management service, except in one instance. This is again
@@ -202,7 +262,8 @@ application server.
 \end{figure}
 
 In order to evaluate how the bottleneck identification performs when an application makes more than 2
-PaaS kernel invocations, we conduct another experiment using an application called ``stock-trader''.
+PaaS kernel invocations, we conduct another experiment using an application
+called ``stock-trader''~\cite{XXX}.
 This application allows setting up organizations, and simulating trading of stocks between the
 organizations. The two main operations in this application are \textit{buy} and \textit{sell}. Each of
 these operations makes 8 calls to the AppScale datastore. 
@@ -234,7 +295,8 @@ are determined to be caused by the second
 datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
 is attributed to the fourth datastore query executed by the application. We have manually verified this
 conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), the fourth datastore
-query has frequently taken a long time to execute, which resulted in an SLO violation at 08:56 hours.
+query has frequently taken a long time to execute \textcolor{green}{(again, on
+its own)}, which resulted in an SLO violation at 08:56 hours.
 
 \begin{figure}
 \centering
@@ -267,7 +329,7 @@ So far we have been experimenting with a simple AppScale cloud deployed on a sin
 To demonstrate how Roots can be used in a multi-node environment, we set up an AppScale cloud
 on a cluster of 10 virtual machines (VMs). VMs are provisioned by a Eucalyptus (IaaS)
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
-to deploy 8 instancesof the guestbook application on AppScale. We use the multitenant support
+to deploy 8 instances of the guestbook application on AppScale. We use the multitenant support
 in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). This means each instance
 is hosted on a separate application server instance, and has its own private namespace on the AppScale
 datastore. Each application instance can be accessed via its own public URL. We disable auto-scaling support in 
@@ -291,12 +353,22 @@ reactivated after 25 minutes (time to collect the minimum sample count), they ea
 violation. This is why we see another set of detection events approximately half an hour after the
 original fault injection events.
 
+\textcolor{blue}{Here the paper has concluded its evaluation of the
+efficacy of Roots.  It is now going to detail the performance overhead.  Given
+how extensive the results are, I suggest putting a table here that summarizes
+the overall results perhaps in terms of the four bullet points suggested at
+the beginning of this Section my my commentary.}
+
+\textcolor{green}{
+\subsection{Roots Performance and Scalability}
+}
+
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
 invocations made by each application, since this feature requires some changes to the PaaS SDK. 
 We deploy a number of applications on a vanilla
 AppScale cloud (with no Roots), and measure their request latencies. We use
-the popular Apache Bench tool to measure the request latency under a
+the popular Apache Bench~\cite{XXX} tool to measure the request latency under a
 varying number of concurrent clients. We then take the same measurements
 on an AppScale cloud with Roots, and compare the results against the ones obtained
 from the vanilla AppScale cloud. In both environments we disable the auto-scaling

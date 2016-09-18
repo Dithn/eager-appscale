@@ -1,8 +1,21 @@
-We implemented a Roots prototype for the AppScale cloud
-platform~\cite{6488671}. AppScale is an open source PaaS cloud, API compatible
-with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  Due to
-the API compatibility, any application developed for GAE can be deployed and
-executed on AppScale with no code changes. Since AppScale is open source
+\textcolor{green}{To investigate the efficacy of Roots as an approach to
+implementing performance diagnostics as a PaaS service, we have developed a
+working prototype system and set of algorithms that use it to automatically
+identify SLO-violating performance anomalies.
+For this investigation, we used the 
+%implemented a Roots prototype for the 
+AppScale
+platform~\cite{6488671} as a substrate.} AppScale is an open source PaaS cloud
+\textcolor{green}{infrastructure that is} API compatible
+with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  
+\textcolor{green}{However, it has been engineered so that it can run on a
+single machine (using the Linux OS), distributed on a ``bare metal'' cluster
+of machines, or in an Infrastructure as a Service cloud (like Amazon AWS).}
+
+Due to \textcolor{green}{AppScale's}
+API compatibility \textcolor{green}{with GAE}, any application developed for GAE can be deployed and
+executed on AppScale \textcolor{green}{regardless of how AppScale itself is
+deployed} with no code changes. Since AppScale is open source
 software, we were able to modify parts of its implementation to integrate the
 Roots APM into it. AppScale also turned out to be a great test environment
 since we could deploy it locally, and run a number of existing App Engine
@@ -25,7 +38,7 @@ for fast retrieval and efficient querying. Additionally it also provides
 powerful data filtering and aggregation features, which greatly simplify the implementations of high-level
 data analysis algorithms.
 
-We configure AppScale's front-end server (based on Nginx) to tag all incoming application requests
+We configure AppScale's front-end server (based on Nginx~\cite{XXX}) to tag all incoming application requests
 with a unique identifier. This identifier is attached to the request as a custom HTTP header.
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
 in all the events reported to ElasticSearch. This enables our prototype to aggregate events originating
@@ -44,16 +57,31 @@ all PaaS SDK calls, and reports them to ElasticSearch asynchronously.
 Roots pods are implemented as standalone Java server processes. Threads are used to run benchmarkers,
 anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
-in ElasticSearch itself. By doing so a lot of the heavy computations are offloaded to the 
-ElasticSearch cluster, which is specifically designed for high-performance query processing
+in ElasticSearch itself. 
+%By doing so a lot of the heavy 
+\textcolor{green}{In this way, our Roots implementation offloads lengthy}
+computations 
+%are offloaded 
+to 
+%the 
+ElasticSearch 
+%cluster, 
+which is specifically designed for high-performance query processing
 and analytics. Some of the more sophisticated statistical analysis tasks (e.g. change point detection, 
-linear regression) are implemented in R language,
+linear regression \textcolor{green}{described below}) are implemented in the R
+language~\cite{XXX},
 and the Java-based Roots pods integrate with R using the Rserve protocol~\cite{Urbanek03rserve--}.
 Figure~\ref{fig:roots_impl} only shows two pods, but one can deploy an arbitrary number of pods to
 monitor the application load in the cloud platform.
 
-\subsection{SLO-based Anomaly Detector}
-We implement a performance SLO checker as the primary anomaly detector in Roots. This anomaly detector
+\subsection{SLO-violating Anomalies}
+
+\textcolor{green}{As described in Section~\ref{sec:background}, our
+demonstration of Roots defines anaomalies as performance events that cause SLO
+violations.  Thus we require a detector to automatically identify when a
+violation has occurred.}
+%We implement a performance SLO checker as the primary anomaly detector in Roots. 
+This anomaly detector
 allows application developers to specify simple performance SLOs for deployed applications. A
 performance SLO consists of an upper bound on the application response time ($T$), and the probability ($p$)
 that the application response time falls under the specified upper bound. Therefore, a general performance 
@@ -73,7 +101,15 @@ The SLO-based anomaly detector supports following configuration parameters:
 acts as a limit on the number of samples to keep in memory.
 \end{itemize}
 
-Once the anomaly detector comes across an SLO violation, it will continue to see the violation
+\textcolor{green}{Like all Roots detectors, the anomaly detector runs
+concurrently with the application it is monitoring.}
+Once the anomaly detector 
+%comes across 
+\textcolor{green}{identifies} 
+an SLO violation, it will continue to 
+%see 
+\textcolor{green}{identify}
+the violation
 until the historical data which contains the anomaly drops off from the sliding window. 
 In order to prevent the detector from needlessly reporting the same anomaly multiple times,
 we purge all the data from anomaly detector's sliding window whenever it detects an SLO violation.
@@ -82,22 +118,32 @@ with the minimum number of samples. This implies that each anomaly is followed b
 For instance, with a sampling rate of 15 seconds, and a minimum
 samples count of 100, the warm up period can last up to 25 minutes.
 
-\subsection{Path Distribution Analyzer}
+\subsection{Path Distribution Anomalies}
 
-Path distribution analyzer is another special anomaly detector we implement in Roots. This
-anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
-By aggregating the PaaS kernel invocations by application request identifiers, and then sorting them by
-their sequence numbers, this anomaly detector is able to identify the sequence of
-PaaS kernel invocations made by each application request. 
-Each identified invocation sequence corresponds to a path of
-execution through the application code (i.e. a path through the control flow graph of the application). 
-Then the anomaly detector evaluates the number of requests
-that invoked the same PaaS kernel invocation sequence. From that the anomaly detector
-computes the distribution of different execution paths of an application.
-
-A path distribution is comprised of the set of execution paths available in an application, along
+\textcolor{green}{We have implemented a path distribution analyzer and anomaly
+detector in Roots.
+Its function is to identify recurring sequences of
+PaaS API calls and to determine the distribution (i.e. the frequency) with
+which each path occurs over time.  Then, using this information which we term
+a ``path distribution,'' it reports an anomaly when the distribution of call paths
+changes.}
+%
+%is another special anomaly detector we implement in Roots. This
+%anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
+%By aggregating the PaaS kernel invocations by application request identifiers, and then sorting them by
+%their sequence numbers, this anomaly detector is able to identify the sequence of
+%PaaS kernel invocations made by each application request. 
+%Each identified invocation sequence corresponds to a path of
+%execution through the application code (i.e. a path through the control flow graph of the application). 
+%Then the anomaly detector evaluates the number of requests
+%that invoked the same PaaS kernel invocation sequence. From that the anomaly detector
+%computes the distribution of different execution paths of an application.
+\textcolor{green}{For each application},
+a path distribution is comprised of the set of execution paths available in
+that application, along
 with the proportion of requests that executed each path.
 It is an indicator of the type of request workload handled by an application.
+
 For example consider a data management application that has a read-only execution path, and a read-write 
 execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
 execute the read-write path, we may characterize the request workload as mostly read-only. 
@@ -120,16 +166,20 @@ detect the change as an anomaly. Similarly it is also able to detect when new pa
 are being invoked by requests (a form of novelty detection).
 
 \subsection{Workload Change Analyzer}
-Performance anomalies can arise due to bottlenecks in the cloud platform or changes in the application
-workload.
+
+Performance anomalies can arise either due to bottlenecks in the cloud platform or 
+changes in the application workload.
 When Roots detects a performance anomaly (e.g. an application failing to meet its performance SLO),
-we need to be able to determine which of the above two causes may be behind it.
+it needs to be able to determine \textcolor{green}{whether the failure is due
+to an increase in workload or a bottleneck that has suddenly manifest.}
+%which of the above two causes may be behind it.
 To check if the workload of an application has changed recently, Roots uses a workload change analyzer.
-This is implemented as an anomaly handler, which gets executed every time an anomaly detector
-notifies of a performance anomaly. Note that this is different from the path distribution analyzer,
+This \textcolor{green}{Roots component}  is implemented as an anomaly handler, which gets executed every time an 
+anomaly detector
+\textcolor{green}{identifies} a performance anomaly. Note that this is different from the path distribution analyzer,
 which is implemented as an anomaly detector. While the path distribution analyzer looks for changes in the
 \textit{type} of the workload, the workload change analyzer looks for changes
-in the workload \textit{size}. 
+in the workload \textit{size} \textcolor{green}{or \textit{rate}}. 
 In other words, it determines if the target application has received more requests than usual, which
 may have caused a performance degradation.
 
@@ -141,19 +191,34 @@ detection algorithms (PELT~\cite{doi:10.1080/01621459.2012.737745}, binary segme
 and CL method~\cite{chen1993joint}), any of which can be used to detect level shifts in the
 workload size. Algorithms like PELT favor long lasting shifts (plateaus) in the workload trend, over momentary spikes.
 We expect momentary spikes to be fairly common in workload data. But it's the plateaus that cause
-request buffers to fill up, and hog server-side resources for extended periods of time thus
+request buffers to fill up, and 
+%hog 
+\textcolor{green}{consume}
+server-side resources for extended periods of time thus
 causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
-Now we describe our algorithm for identifying performance bottlenecks. It uses a combination
+%Now we describe our algorithm for identifying performance bottlenecks. It 
+\textcolor{green}{The prototype Roots bottleneck identification algorithm}
+uses a combination
 of quantile analysis, linear regression and change point detection. While Roots can
 support many different bottleneck identification algorithms, we use
-the algorithm proposed here in all of our experiments, and show that it produces accurate results nearly
-100\% of the time. It has been carefully designed to identify the true bottleneck from a number
-of candidates, and it is a major contribution associated with this work.
+the algorithm proposed here in the
+%all of our 
+experiments \textcolor{green}{described below}, and 
+%show
+\textcolor{green}{find}
+that it produces accurate results nearly
+100\% of the time. It has been 
+%carefully 
+designed to identify the true bottleneck from a number
+of candidates, and 
+%it is a major 
+\textcolor{green}{we believe it to be a}
+contribution associated with this work.
 
 Applications running in the cloud consist of user code executed on the application server, 
-and remote service calls to various PaaS kernel services. AppScale cloud
+and remote service calls to various PaaS kernel services. An AppScale cloud
 consists of the same kernel services present in the Google App Engine public cloud (datastore, memcache,
 urlfetch, blobstore, user management etc.).
 We consider each PaaS kernel invocation, and the code running on the application server as 
@@ -168,28 +233,54 @@ For any given application request,
 Roots captures the time spent on each kernel invocation ($T_{X_1}, T_{X_2}, ... T_{X_n}$), and the 
 total response time ($T_{total}$) of the request. These time values are related by the formula
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$, where $r$ is all the time spent in the resident 
-application server executing user code. $r$ is not
+application server executing user code \textcolor{green}{(i.e. the time not
+spent executing PaaS services during a request)}. $r$ is not
 directly measured in Roots, but it can be computed from the above formula 
-since Roots captures $T_{total}$ and all other $T_{Xn}$ values. In our previous
-work we have shown that PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
-Therefore we may state that $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
+since Roots captures $T_{total}$ and all other $T_{Xn}$ values. In previous
+work~\cite{XXX} we found that 
+\textcolor{green}{most open source}
+PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
+\textcolor{green}{We make use of these findings and assert that for typical,
+well-designed PaaS applications}
+%Therefore we may state that 
+$r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
 
-Roots bottleneck identification mechanism selects up to four components as possible candidates
-for the bottleneck. These four candidates are then further evaluated by a weighted algorithm to
-determine the actual bottleneck in the cloud platform. We first describe how Roots selects the
+Roots bottleneck identification mechanism \textcolor{green}{first ranks and
+and then selects the top components (up to 4) as possible candidates
+for the bottleneck.} These candidates are then further evaluated by a weighted algorithm to
+determine the actual bottleneck in the cloud platform. We 
+%first 
+\textcolor{green}{begin by describing} 
+%describe 
+how Roots selects the
 bottleneck candidates.
 
 \subsubsection{Relative Importance of PaaS Kernel Invocations} 
-The purpose of this metric is to find the component that is contributing mostly towards the variance in the total
+The purpose of this metric is to find the component that is contributing 
+\textcolor{green}{the most} towards the variance in the total
 response time. We start by selecting a window $W$ in time which includes a sufficient number of application requests,
 and ending at the point when the performance anomaly was detected. Note that for each application request
 in $W$, we can fetch the total response time ($T_{total}$), and the time spent on individual PaaS kernel
-services ($T_{X_n}$) from the Roots data storage.
+services ($T_{X_n}$) from the Roots data storage (\textcolor{green}{(which is
+implemented using ElasticSearch in this prototype)}.
 
 Then we take all the $T_{total}$ values
-and the corresponding $T_{X_n}$ values in $W$, and fit them to the linear regression model
-$T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$. Here we leave $r$ out deliberately, since it is typically small. To prevent
-any bad data from skewing the model, we also filter out requests where the $r$ value is too high. This
+and the corresponding $T_{X_n}$ values in $W$, and fit 
+\textcolor{green}{a linear model of the form}
+%them to the linear regression model
+$T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$
+\textcolor{green}{using linear regression.}. Here we leave $r$ out
+deliberately, since it is typically \textcolor{green}{and ideally} small. 
+
+\textcolor{green}{Occasionally, in AppScale we observe a call path where $r$ is
+large relative to $T_{X_n}$.  Often these events are correlated with large
+$T_{X_n}$ values as well leading us to suspect that the effect may be due to
+an issue with the AppScale infrastructure (e.g. a Java garbage collection
+event).  Overall Roots detects these events and identifies them correctly (cf
+Subsections~\ref{sec:highquantile} and ~\ref{sec:tailend} below), but they
+perturb the relative importance analysis.   To prevent these events}
+%any bad data 
+from skewing the \textcolor{green}{relative importance}  model, we also filter out requests where the $r$ value is too high. This
 is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ over the selected window, and removing 
 any requests where $r > \mu_r + 1.65\sigma_r$.
 
@@ -203,20 +294,21 @@ The component associated with the highest ranked regressor is a strong candidate
 for the bottleneck that we are looking for. Statistically, this is the component that causes the application
 response time to vary the most.
 
-\subsubsection{Historical Trend of Relative Importance}
+\subsubsection{Changes in Relative Importance}
 This is a simple extension of the previous metric. We divide the time window $W$ into equal-sized segments,
 and compute the relative importance metrics for regressors within each segment. We also compute the
 relative importance of $r$ within each segment. This way we can
 obtain a time series of relative importance values for each regressor and $r$. These time series
 represent how the relative importance of each component has changed over time.
 
-We subject each time series to change point analysis to detect if the relative importance of any particular
+We subject each \textcolor{green}{relative imporance} time series to change point analysis to detect if the relative importance of any particular
 variable has increased recently. If such a variable can be found, then the component
 associated with that variable is also a potential candidate for the bottleneck. 
-The candidate selected by this method represents is
+That is, the candidate selected by this method represents
 a component whose performance has been stable in the past, and has become variable recently. 
 
 \subsubsection{High Quantiles}
+\label{sec:highquantile}
 Next we turn our attention to the individual distributions of the $T_{X_n}$ and $r$. 
 Recall that for each PaaS kernel invocation
 $X_k$, we have a distribution of $T_{X_k}$ values in the window $W$. Similarly we
@@ -229,6 +321,7 @@ is chosen as another potential candidate for the bottleneck. This component can 
 as taking a long time to execute in general.
 
 \subsubsection{Tail End Values}
+\label{sec:tailend}
 Finally, we further analyze each $T_{X_n}$ distribution and $r$ distribution to detect which one has the largest tail end values.
 We are particularly interested in the values that are larger than a certain high quantile, such as the 0.99 quantile.
 For each tail end value $t$, we compute the metric $P^q_t$. This is the percentage difference between $t$ and the
@@ -240,9 +333,14 @@ the values in its distribution (i.e. point anomalies).
 \subsubsection{Selecting the Performance Bottleneck}
 Above four mechanisms can choose up to four candidates for the performance bottleneck. The number of
 chosen candidates can be less than four, since the same candidate can get selected from more than
-one mechanism. Note that each of the above four mechanisms are designed to look for different
+one 
+%mechanism. 
+\textcolor{green}{algorithm}.  Note that each of the above four mechanisms are designed to look for different
 types of bottlenecks. The relative importance method looks for a component that has consistently
-high variance. The historical trend of relative importance facilitates finding a component whose
+high variance. The 
+\textcolor{green}{change-point detection in relative importance}
+%historical trend of relative importance 
+facilitates finding a component whose
 performance has only recently become highly variable. The high quantile method is good at
 finding a component which is slow in general. The last method finds a component with poor
 tail latency. If more than one of these methods choose the same candidate for the bottleneck,
