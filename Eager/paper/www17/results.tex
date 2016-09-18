@@ -18,16 +18,17 @@ action.  For (1) explain that your SLO anomaly detector is correct by
 construction.  It simple determines all cases where 95\% of the values are
 above the SLO in a sliding window.  For (2), in each case you can simply state
 that no SLO occurred due to a change in workload (because your SLO bounds are
-derived from steady-state workload and you don't change the workload).  Point
+derived from steady-state workload and you don't change the workload) except
+in Figure 9.  There you show change in workload detection.  You should
+probably point out, however, that there no other SLO violations during this
+period and the bottleneck detector was never triggered.  Point
 (3) you have covered thoroughly in the case where there hasn't been a workload
-change.  However in (2) or (3) you haven't shown how well Roots works when
-there is a workload change.  Discussion of (4) is implied in the text.}
+change.  
+Discussion of (4) is implied in the text.}
 
 \textcolor{blue}{I also suggested a summarization at the end of the efficacy
-subsection (see comments below).  What you could do here is to put in result
-showing that the bottleneck detector does not erroneously identify bottlenecks
-when the workload changes and then simply cover these four issues in the
-summarization.} 
+subsection (see comments below).  What you could do here is to start with
+these four points and then summarize each of them in the summary table.}
  
 \textcolor{green}{We wish to understand both the efficacy of the Roots system
 in terms of its ability to identify performance anomalies and to correctly
