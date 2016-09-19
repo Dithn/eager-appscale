@@ -133,6 +133,13 @@ Figure~\ref{fig:time_line_guestbook_2s_user} shows the anomaly detection time li
 same application and SLO, while faults are being injected into the user management service.
 Here too we see that Roots detects anomalies immediately following each fault injection window.
 
+All the results discussed up to this point
+demonstrate the efficacy of our anomaly detection method. The SLO-based
+anomaly detector used in Roots is correct by construction, in the sense it simply detects whenever
+an application fails to uphold a preconfigured performance SLO. Since each SLO violation is caused
+by an unexpected performance degradation in the application, Roots can be expected to correctly identify
+performance anomalies via the observed SLO violations.
+
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_crud}
@@ -291,10 +298,10 @@ its own), which resulted in an SLO violation at 08:56 hours.
 
 In the experiments illustrated in figures~\ref{fig:time_line_guestbook_2s}, \ref{fig:time_line_guestbook_2s_user}, 
 \ref{fig:time_line_stocks_1}, and \ref{fig:time_line_stocks_2} we maintain
-the application request rate steady throughout the 10 hour periods. Therefore as expected,
+the application request rate steady throughout the 10 hour periods. Therefore,
 the workload change analyzer of Roots did not detect any significant shifts in the workload level. 
 Consequently, none of the anomalies detected in these 4 experiments were attributed to a workload change.
-The bottleneck identification was therefore triggered for each anomaly, always resulting in a performance diagnosis
+The bottleneck identification was therefore triggered for each anomaly, always resulting in a diagnosis
 involving an application component.
 
 \begin{figure}
