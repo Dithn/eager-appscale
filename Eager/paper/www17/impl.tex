@@ -1,21 +1,19 @@
-\textcolor{green}{To investigate the efficacy of Roots as an approach to
+To investigate the efficacy of Roots as an approach to
 implementing performance diagnostics as a PaaS service, we have developed a
-working prototype system and set of algorithms that use it to automatically
+working prototype, and a set of algorithms that uses it to automatically
 identify SLO-violating performance anomalies.
-For this investigation, we used the 
-%implemented a Roots prototype for the 
-AppScale
-platform~\cite{6488671} as a substrate.} AppScale is an open source PaaS cloud
-\textcolor{green}{infrastructure that is} API compatible
+For this investigation, we used the AppScale
+platform~\cite{6488671} as a substrate. AppScale is an open source PaaS cloud
+that is API compatible
 with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  
-\textcolor{green}{However, it has been engineered so that it can run on a
+However, it has been engineered so that it can run on a
 single machine (using the Linux OS), distributed on a ``bare metal'' cluster
-of machines, or in an Infrastructure as a Service cloud (like Amazon AWS).}
+of machines, or in an Infrastructure-as-a-Service cloud like Amazon EC2.
 
-Due to \textcolor{green}{AppScale's}
-API compatibility \textcolor{green}{with GAE}, any application developed for GAE can be deployed and
-executed on AppScale \textcolor{green}{regardless of how AppScale itself is
-deployed} with no code changes. Since AppScale is open source
+Due to AppScale's
+API compatibility with GAE, any application developed for GAE can be deployed and
+executed on AppScale with no code changes, regardless of how AppScale itself is
+deployed. Since AppScale is open source
 software, we were able to modify parts of its implementation to integrate the
 Roots APM into it. AppScale also turned out to be a great test environment
 since we could deploy it locally, and run a number of existing App Engine
@@ -39,14 +37,17 @@ powerful data filtering and aggregation features, which greatly simplify the imp
 data analysis algorithms.
 
 We configure AppScale's front-end server (based on Nginx~\cite{XXX}) to tag all incoming application requests
-with a unique identifier. This identifier is attached to the request as a custom HTTP header.
+with a unique identifier. This identifier is attached to the incoming request as a custom HTTP header.
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
 in all the events reported to ElasticSearch. This enables our prototype to aggregate events originating
 from the same application request.
 
 We implement a number of data collecting agents in AppScale to gather runtime information
 from all major components. These agents buffer data locally, and store them in ElasticSearch
-in batches. For scraping server logs and storing the extracted entries in ElasticSearch,
+in batches. Events are buffered until the buffer accumulates 1MB of data, subject to a hard time limit of 
+15 seconds. This ensures that the events are promptly reported to the Roots data
+storage while keeping the memory footprint of the data collecting agents small and bounded. 
+For scraping server logs and storing the extracted entries in ElasticSearch,
 we use the Logstash tool~\cite{logstash}. Logstash supports scraping a wide range of standard log formats (e.g. 
 Apache HTTPD access logs), and other custom log formats can be supported via a simple configuration.
 It also integrates naturally with ElasticSearch.
@@ -58,37 +59,29 @@ Roots pods are implemented as standalone Java server processes. Threads are used
 anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
 in ElasticSearch itself. 
-%By doing so a lot of the heavy 
-\textcolor{green}{In this way, our Roots implementation offloads lengthy}
-computations 
-%are offloaded 
-to 
-%the 
-ElasticSearch 
-%cluster, 
-which is specifically designed for high-performance query processing
-and analytics. Some of the more sophisticated statistical analysis tasks (e.g. change point detection, 
-linear regression \textcolor{green}{described below}) are implemented in the R
-language~\cite{XXX},
-and the Java-based Roots pods integrate with R using the Rserve protocol~\cite{Urbanek03rserve--}.
+This way, our Roots implementation offloads heavy computations 
+to ElasticSearch which is specifically designed for high-performance query processing
+and analytics. Some of the more sophisticated statistical analysis tasks (e.g. change point detection and 
+linear regression as described below) are implemented in the R
+language, and the Java-based Roots pods integrate with R using the Rserve protocol~\cite{Urbanek03rserve--}.
 Figure~\ref{fig:roots_impl} only shows two pods, but one can deploy an arbitrary number of pods to
 monitor the application load in the cloud platform.
 
 \subsection{SLO-violating Anomalies}
 
-\textcolor{green}{As described in Section~\ref{sec:background}, our
-demonstration of Roots defines anaomalies as performance events that cause SLO
-violations.  Thus we require a detector to automatically identify when a
-violation has occurred.}
-%We implement a performance SLO checker as the primary anomaly detector in Roots. 
-This anomaly detector
+As described in section~\ref{sec:background}, our
+demonstration of Roots defines anomalies as performance events that trigger SLO
+violations. Thus, we devise a detector to automatically identify when a SLO
+violation has occurred. This anomaly detector
 allows application developers to specify simple performance SLOs for deployed applications. A
 performance SLO consists of an upper bound on the application response time ($T$), and the probability ($p$)
 that the application response time falls under the specified upper bound. Therefore, a general performance 
 SLO can be stated as: ``application responds under $T$ milliseconds $p$\% of the time''.
 
 When activated for a given application this anomaly detector starts a benchmarking process
-that periodically measures the response time of the target application. The detector then periodically
+that periodically measures the response time of the target application. Probes made by the benchmarking 
+process are several seconds apart in time (sampling rate), so as to not strain the application with load.
+The detector then periodically
 analyzes the collected response time measurements to check if the application meets the specified performance
 SLO. Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. 
 The SLO-based anomaly detector supports following configuration parameters:
@@ -101,15 +94,8 @@ The SLO-based anomaly detector supports following configuration parameters:
 acts as a limit on the number of samples to keep in memory.
 \end{itemize}
 
-\textcolor{green}{Like all Roots detectors, the anomaly detector runs
-concurrently with the application it is monitoring.}
-Once the anomaly detector 
-%comes across 
-\textcolor{green}{identifies} 
-an SLO violation, it will continue to 
-%see 
-\textcolor{green}{identify}
-the violation
+Once the anomaly detector identifies an SLO violation, it will continue to 
+identify the same violation
 until the historical data which contains the anomaly drops off from the sliding window. 
 In order to prevent the detector from needlessly reporting the same anomaly multiple times,
 we purge all the data from anomaly detector's sliding window whenever it detects an SLO violation.
@@ -120,13 +106,24 @@ samples count of 100, the warm up period can last up to 25 minutes.
 
 \subsection{Path Distribution Anomalies}
 
-\textcolor{green}{We have implemented a path distribution analyzer and anomaly
-detector in Roots.
-Its function is to identify recurring sequences of
-PaaS API calls and to determine the distribution (i.e. the frequency) with
-which each path occurs over time.  Then, using this information which we term
+We have implemented a path distribution analyzer and anomaly
+detector in Roots. Its function is to identify recurring sequences of
+PaaS kernel invocations made by an application.
+Each identified sequence corresponds to a path of
+execution through the application code (i.e. a path through the control flow graph of the application). 
+This detector is able to determine the frequency with
+which each path is executed over time. Then, using this information which we term
 a ``path distribution,'' it reports an anomaly when the distribution of call paths
-changes.}
+changes. 
+
+For each application,
+a path distribution is comprised of the set of execution paths available in
+that application, along with the proportion of requests that executed each path.
+It is an indicator of the type of request workload handled by an application.
+For example consider a data management application that has a read-only execution path, and a read-write 
+execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
+execute the read-write path, we may characterize the request workload as read-heavy.
+
 %
 %is another special anomaly detector we implement in Roots. This
 %anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
@@ -138,19 +135,10 @@ changes.}
 %Then the anomaly detector evaluates the number of requests
 %that invoked the same PaaS kernel invocation sequence. From that the anomaly detector
 %computes the distribution of different execution paths of an application.
-\textcolor{green}{For each application},
-a path distribution is comprised of the set of execution paths available in
-that application, along
-with the proportion of requests that executed each path.
-It is an indicator of the type of request workload handled by an application.
-
-For example consider a data management application that has a read-only execution path, and a read-write 
-execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
-execute the read-write path, we may characterize the request workload as mostly read-only. 
+ 
 Roots path distribution analyzer facilitates computing the path distribution for each application
 with no static analysis, by only analyzing the runtime data gathered from the applications.
-
-Roots path distribution analyzer periodically computes the path distribution for a given application.
+It periodically computes the path distribution for a given application.
 If it detects that the latest path distribution is significantly different from the distributions seen in the 
 past, it triggers an anomaly. This is done by computing the mean request proportion for each path
 (over a sliding window of historical data),
@@ -170,16 +158,15 @@ are being invoked by requests (a form of novelty detection).
 Performance anomalies can arise either due to bottlenecks in the cloud platform or 
 changes in the application workload.
 When Roots detects a performance anomaly (e.g. an application failing to meet its performance SLO),
-it needs to be able to determine \textcolor{green}{whether the failure is due
-to an increase in workload or a bottleneck that has suddenly manifest.}
-%which of the above two causes may be behind it.
+it needs to be able to determine whether the failure is due
+to an increase in workload or a bottleneck that has suddenly manifested.
 To check if the workload of an application has changed recently, Roots uses a workload change analyzer.
-This \textcolor{green}{Roots component}  is implemented as an anomaly handler, which gets executed every time an 
+This Roots component  is implemented as an anomaly handler, which gets executed every time an 
 anomaly detector
-\textcolor{green}{identifies} a performance anomaly. Note that this is different from the path distribution analyzer,
+identifies a performance anomaly. Note that this is different from the path distribution analyzer,
 which is implemented as an anomaly detector. While the path distribution analyzer looks for changes in the
 \textit{type} of the workload, the workload change analyzer looks for changes
-in the workload \textit{size} \textcolor{green}{or \textit{rate}}. 
+in the workload \textit{size} or \textit{rate}. 
 In other words, it determines if the target application has received more requests than usual, which
 may have caused a performance degradation.
 
@@ -191,10 +178,7 @@ detection algorithms (PELT~\cite{doi:10.1080/01621459.2012.737745}, binary segme
 and CL method~\cite{chen1993joint}), any of which can be used to detect level shifts in the
 workload size. Algorithms like PELT favor long lasting shifts (plateaus) in the workload trend, over momentary spikes.
 We expect momentary spikes to be fairly common in workload data. But it's the plateaus that cause
-request buffers to fill up, and 
-%hog 
-\textcolor{green}{consume}
-server-side resources for extended periods of time thus
+request buffers to fill up, and consume server-side resources for extended periods of time, thus
 causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
