@@ -358,22 +358,19 @@ how extensive the results are, I suggest putting a table here that summarizes
 the overall results perhaps in terms of the four bullet points suggested at
 the beginning of this Section my my commentary.}
 
-\textcolor{green}{
 \subsection{Roots Performance and Scalability}
-}
-
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
-invocations made by each application, since this feature requires some changes to the PaaS SDK. 
+invocations made by each application, since this feature requires some changes to the PaaS kernel
+implementation. 
 We deploy a number of applications on a vanilla
 AppScale cloud (with no Roots), and measure their request latencies. We use
-the popular Apache Bench~\cite{XXX} tool to measure the request latency under a
+the popular Apache Bench tool to measure the request latency under a
 varying number of concurrent clients. We then take the same measurements
 on an AppScale cloud with Roots, and compare the results against the ones obtained
 from the vanilla AppScale cloud. In both environments we disable the auto-scaling
 support of AppScale, so that all client requests are served from a single application
-server instance. The PaaS SDK libraries we have instrumented for Roots reside within
-the application server. Therefore, the kernel invocation events get buffered in
+server instance. In our prototype implementation of Roots, the kernel invocation events get buffered in
 the application server before they are sent to the Roots data storage. We wish to
 explore how this feature performs when the application server is under heavy load.
 
