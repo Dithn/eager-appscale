@@ -1,5 +1,5 @@
 As the paradigm of cloud computing grows in popularity, the need for monitoring cloud-hosted 
-applications is coming to the forefront. Application developers and cloud administrators
+applications is becoming critical. Application developers and cloud administrators
 wish to detect performance anomalies in cloud applications, and
 perform root cause analysis to diagnose problems. However, the high level of abstraction provided by cloud
 platforms, coupled with their scale and complexity, makes performance monitoring and
@@ -9,14 +9,15 @@ The existing cloud monitoring solutions do not have the necessary penetrative po
 to monitor all the different layers of such cloud platforms, and consequently, their monitoring
 and root cause analysis capabilities are severely limited.
 
-We propose Roots, an online monitoring framework for applications deployed in a PaaS cloud. 
+We propose Roots, a near real time monitoring framework for applications deployed in a PaaS cloud. 
 Roots is designed to function as a curated service
-built into the cloud platform. It relieves the application developers from having to configure
+built into the cloud platform, as opposed to an external monitoring system. 
+It relieves the application developers from having to configure
 their own monitoring solutions, or having to instrument the application code in anyway.
 Roots captures runtime data from all the different layers involved
 in processing application requests. It can correlate events across different layers
 to track the propagation of application requests through the cloud platform, and
-identify bottlenecks anywhere in the system.
+identify bottlenecks deep within the kernel services of the PaaS.
 
 Roots monitors applications for SLO compliance, and detects anomalies via SLO violations.
 When Roots detects an anomaly, 
