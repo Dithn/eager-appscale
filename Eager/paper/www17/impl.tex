@@ -182,26 +182,15 @@ request buffers to fill up, and consume server-side resources for extended perio
 causing noticeable performance anomalies.
 
 \subsection{Bottleneck Identification}
-%Now we describe our algorithm for identifying performance bottlenecks. It 
-\textcolor{green}{The prototype Roots bottleneck identification algorithm}
-uses a combination
+The prototype Roots bottleneck identification algorithm uses a combination
 of quantile analysis, linear regression and change point detection. While Roots can
 support many different bottleneck identification algorithms, we use
-the algorithm proposed here in the
-%all of our 
-experiments \textcolor{green}{described below}, and 
-%show
-\textcolor{green}{find}
-that it produces accurate results nearly
-100\% of the time. It has been 
-%carefully 
-designed to identify the true bottleneck from a number
-of candidates, and 
-%it is a major 
-\textcolor{green}{we believe it to be a}
-contribution associated with this work.
+the algorithm proposed here in the experiments described below, and 
+find that it produces accurate results nearly 100\% of the time. It has been 
+designed to identify the true bottleneck from a number of candidates, and 
+we believe it to be a major contribution associated with this work.
 
-Applications running in the cloud consist of user code executed on the application server, 
+Applications running in the cloud consist of user code executed in the application server, 
 and remote service calls to various PaaS kernel services. An AppScale cloud
 consists of the same kernel services present in the Google App Engine public cloud (datastore, memcache,
 urlfetch, blobstore, user management etc.).
@@ -217,55 +206,47 @@ For any given application request,
 Roots captures the time spent on each kernel invocation ($T_{X_1}, T_{X_2}, ... T_{X_n}$), and the 
 total response time ($T_{total}$) of the request. These time values are related by the formula
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$, where $r$ is all the time spent in the resident 
-application server executing user code \textcolor{green}{(i.e. the time not
-spent executing PaaS services during a request)}. $r$ is not
+application server executing user code (i.e. the time not
+spent executing PaaS services during a request). $r$ is not
 directly measured in Roots, but it can be computed from the above formula 
 since Roots captures $T_{total}$ and all other $T_{Xn}$ values. In previous
-work~\cite{XXX} we found that 
-\textcolor{green}{most open source}
+work~\cite{Jayathilaka:2015:RTS:2806777.2806842} we found that typical
 PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
-\textcolor{green}{We make use of these findings and assert that for typical,
-well-designed PaaS applications}
-%Therefore we may state that 
-$r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
+We make use of these findings and assert that for typical,
+well-designed PaaS applications $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
 
-Roots bottleneck identification mechanism \textcolor{green}{first ranks and
-and then selects the top components (up to 4) as possible candidates
-for the bottleneck.} These candidates are then further evaluated by a weighted algorithm to
+Roots bottleneck identification mechanism first
+selects up to four components as possible candidates
+for the bottleneck. These candidates are then further evaluated by a weighted algorithm to
 determine the actual bottleneck in the cloud platform. We 
-%first 
-\textcolor{green}{begin by describing} 
-%describe 
-how Roots selects the
-bottleneck candidates.
+begin by describing how Roots selects the four bottleneck candidates.
 
 \subsubsection{Relative Importance of PaaS Kernel Invocations} 
 The purpose of this metric is to find the component that is contributing 
-\textcolor{green}{the most} towards the variance in the total
-response time. We start by selecting a window $W$ in time which includes a sufficient number of application requests,
+the most towards the variance in the total response time. 
+We start by selecting a window $W$ in time which includes a sufficient number of application requests,
 and ending at the point when the performance anomaly was detected. Note that for each application request
 in $W$, we can fetch the total response time ($T_{total}$), and the time spent on individual PaaS kernel
-services ($T_{X_n}$) from the Roots data storage (\textcolor{green}{(which is
-implemented using ElasticSearch in this prototype)}.
+services ($T_{X_n}$) from the Roots data storage (which is
+implemented using ElasticSearch in this prototype).
 
 Then we take all the $T_{total}$ values
 and the corresponding $T_{X_n}$ values in $W$, and fit 
-\textcolor{green}{a linear model of the form}
-%them to the linear regression model
+a linear model of the form 
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$
-\textcolor{green}{using linear regression.}. Here we leave $r$ out
-deliberately, since it is typically \textcolor{green}{and ideally} small. 
+using linear regression. Here we leave $r$ out
+deliberately, since it is typically and ideally small. 
 
-\textcolor{green}{Occasionally, in AppScale we observe a call path where $r$ is
+Occasionally in AppScale, we observe a request where $r$ is
 large relative to $T_{X_n}$.  Often these events are correlated with large
 $T_{X_n}$ values as well leading us to suspect that the effect may be due to
-an issue with the AppScale infrastructure (e.g. a Java garbage collection
-event).  Overall Roots detects these events and identifies them correctly (cf
-Subsections~\ref{sec:highquantile} and ~\ref{sec:tailend} below), but they
-perturb the relative importance analysis.   To prevent these events}
-%any bad data 
-from skewing the \textcolor{green}{relative importance}  model, we also filter out requests where the $r$ value is too high. This
-is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ over the selected window, and removing 
+an issue with the AppScale infrastructure (e.g. a major garbage collection
+event in the PaaS software).  Overall, Roots detects these events and identifies them correctly (cf
+subsections~\ref{sec:highquantile} and ~\ref{sec:tailend} below), but they
+perturb the linear regression model.  To prevent these events
+from skewing the regression model, we filter out requests where the $r$ value is too high. This
+is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ 
+over the selected window, and removing 
 any requests where $r > \mu_r + 1.65\sigma_r$.
 
 Once the regression model has been computed, we run a relative importance algorithm~\cite{JSSv017i01} to rank each of the
@@ -285,7 +266,7 @@ relative importance of $r$ within each segment. This way we can
 obtain a time series of relative importance values for each regressor and $r$. These time series
 represent how the relative importance of each component has changed over time.
 
-We subject each \textcolor{green}{relative imporance} time series to change point analysis to detect if the relative importance of any particular
+We subject each relative importance time series to change point analysis to detect if the relative importance of any particular
 variable has increased recently. If such a variable can be found, then the component
 associated with that variable is also a potential candidate for the bottleneck. 
 That is, the candidate selected by this method represents
@@ -309,26 +290,22 @@ as taking a long time to execute in general.
 Finally, we further analyze each $T_{X_n}$ distribution and $r$ distribution to detect which one has the largest tail end values.
 We are particularly interested in the values that are larger than a certain high quantile, such as the 0.99 quantile.
 For each tail end value $t$, we compute the metric $P^q_t$. This is the percentage difference between $t$ and the
-$q$ quantile of the corresponding distribution. The component, whose distribution distribution has
+$q$ quantile of the corresponding distribution. The component, whose distribution has
 the largest $P^q_t$ is chosen as another potential performance bottleneck.
 This is the case where a component has rare outliers which are much larger than the rest of 
 the values in its distribution (i.e. point anomalies).
 
 \subsubsection{Selecting the Performance Bottleneck}
 Above four mechanisms can choose up to four candidates for the performance bottleneck. The number of
-chosen candidates can be less than four, since the same candidate can get selected from more than
-one 
-%mechanism. 
-\textcolor{green}{algorithm}.  Note that each of the above four mechanisms are designed to look for different
+chosen candidates can be less than four, since the same candidate may get selected from more than
+one algorithm. Note that each of the above four mechanisms are designed to look for different
 types of bottlenecks. The relative importance method looks for a component that has consistently
-high variance. The 
-\textcolor{green}{change-point detection in relative importance}
-%historical trend of relative importance 
+high variance. The change-point detection in relative importance
 facilitates finding a component whose
 performance has only recently become highly variable. The high quantile method is good at
 finding a component which is slow in general. The last method finds a component with poor
 tail latency. If more than one of these methods choose the same candidate for the bottleneck,
-we can claim it to the actual bottleneck with high confidence.
+we can claim it to be the actual bottleneck with high confidence.
 
 Based on the above intuition, we design a simple weighting mechanism to find the actual
 bottleneck from the selected candidates. Any component chosen by the relative importance
