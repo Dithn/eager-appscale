@@ -75,7 +75,7 @@ applications deployed in PaaS clouds. An application of this nature exposes
 one or more web application programming interfaces (web APIs) through which
 clients can interact with it. The web APIs accept HTTP/S requests sent by
 remote clients, and respond with machine readable responses (e.g. HTML, JSON,
-XML, Protocol Buffers~\cite{XXX}). This type of applications tend to be highly
+XML, Protocol Buffers~\cite{protobuff}). This type of applications tend to be highly
 interactive, and clients typically have strict expectations on the application
 response time. Studies have shown that poor application response
 time may even lead to revenue loss~\cite{latency-matters}.
@@ -156,7 +156,8 @@ that has given rise to the issue at hand.
 
 Note that there are several
 third party cloud monitoring solutions available today which provide some performance
-anomaly detection support. However, they require additional configuration, are expensive
+anomaly detection support~\cite{newrelic,datadog,dynatrace}. 
+However, they require additional configuration, are expensive
 and cannot support root cause analysis across the entire cloud stack since they do not
 have visibility into all components of the cloud
-platform~\cite{XXX}.
+platform.
