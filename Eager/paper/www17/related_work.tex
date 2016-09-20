@@ -13,15 +13,16 @@ subjected to statistical analysis and/or machine learning to detect performance 
 However, the paradigm of cloud computing, being relatively new, is yet to be
 fully penetrated by PADBI systems research. The size, complexity and the dynamic nature of 
 cloud platforms make performance monitoring a particularly challenging problem.
-The existing technologies like Amazon CloudWatch
-and New Relic facilitate monitoring cloud applications in IaaS clouds by observing low level
-cloud resources (e.g. virtual machines), and instrumenting application code. But such technologies
-are neither viable nor sufficient in
-PaaS and SaaS clouds where the low level cloud resources are hidden under layers of managed
-services and SDKs, and the application code is executed in sandboxed environments that are not
-amenable to instrumentation. Roots on the other hand is built into the 
+The existing technologies like Amazon CloudWatch~\cite{cloudwatch},
+New Relic~\cite{newrelic} and DataDog~\cite{datadog} facilitate monitoring cloud applications 
+by instrumenting low level cloud resources (e.g. virtual machines), and application code. But such technologies
+are either impracticable or insufficient in
+PaaS clouds where the low level cloud resources are hidden under layers of managed
+services, and the application code is executed in a sandboxed environment that is not
+always amenable to instrumentation. When code instrumentation is possible, it tends to be
+burdensome, error prone, and detrimental to the application's performance. Roots on the other hand is built into the 
 fabric of the PaaS cloud giving it full visibility into all the activities that take place in the entire
-software stack.
+software stack, without requiring application code instrumentation.
 
 Our work borrows heavily from the past literature~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120} 
 which detail the key features of cloud APMs. As a result, we pay special attention to requirements like
