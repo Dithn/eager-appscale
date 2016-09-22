@@ -86,14 +86,16 @@ active again at 20:17, it detected the anomaly.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_guestbook_2s}
-\caption{Anomaly detection in guestbook application (timeline).}
+\caption{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection 
+at the datastore service. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_guestbook_2s}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_guestbook_2s_user}
-\caption{Anomaly detection in guestbook application (timeline).}
+\caption{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection
+at the user management service. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_guestbook_2s_user}
 \end{figure}
 
@@ -111,14 +113,19 @@ performance anomalies via the observed SLO violations.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_crud}
-\caption{Anomaly detection in key-value store application (timeline). }
+\caption{Anomaly detection in key-value store application during a period of 10 hours. Steady-state traffic is read-heavy. Red arrows
+indicate injection of write-heavy bursts. Blue arrows indicate all the anomalies detected by the path distribution
+analyzer.}
 \label{fig:time_line_crud}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_caching}
-\caption{Anomaly detection in cached key-value store application (timeline).}
+\caption{Anomaly detection in cached key-value store application during a period of 10 hours. Steady-state traffic is mostly
+served from the cache. Red arrows
+indicate injection of cache-miss bursts. Blue arrows indicate all the anomalies detected by the path distribution
+analyzer.}
 \label{fig:time_line_caching}
 \end{figure}
 
@@ -216,14 +223,16 @@ application server.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_stocks_1}
-\caption{Anomaly detection in stock-trader application (timeline).}
+\caption{Anomaly detection in stock-trader application during a period of 10 hours. Red arrows indicate fault injection
+at the 1st datastore query. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_stocks_1}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_stocks_2}
-\caption{Anomaly detection in stock-trader application (timeline).}
+\caption{Anomaly detection in stock-trader application during a period of 10 hours. Red arrows indicate fault injection
+at the 2nd datastore query. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_stocks_2}
 \end{figure}
 
@@ -295,7 +304,9 @@ agree on their results.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_g1g8}
-\caption{Anomaly detection in 8 applications deployed in a clustered AppScale cloud.}
+\caption{Anomaly detection in 8 applications deployed in a clustered AppScale cloud. Red arrows
+indicate fault injection at the datastore service for queries generated from a specific host. Cross
+marks indicate all the anomalies detected by Roots during the experiment.}
 \label{fig:time_line_g1g8}
 \end{figure}
 
