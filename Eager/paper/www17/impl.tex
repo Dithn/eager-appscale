@@ -36,7 +36,7 @@ for fast retrieval and efficient querying. Additionally it also provides
 powerful data filtering and aggregation features, which greatly simplify the implementations of high-level
 data analysis algorithms.
 
-We configure AppScale's front-end server (based on Nginx~\cite{XXX}) to tag all incoming application requests
+We configure AppScale's front-end server (based on Nginx) to tag all incoming application requests
 with a unique identifier. This identifier is attached to the incoming request as a custom HTTP header.
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
 in all the events reported to ElasticSearch. This enables our prototype to aggregate events originating
