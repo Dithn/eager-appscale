@@ -1,36 +1,4 @@
-\textcolor{blue}{It seems like there are four things we want to test to
-evauate the efficacy of roots:
-\begin{enumerate}
-\item how well it identifies SLO violations
-\item how well it characterizes each correctly-identified SLO violation as
-being due to a workload change or a bottleneck
-\item when there is a bottleneck, how well it identifies the correct
-bottleneck
-\item how often it fails, either because it identifies something incorrectly
-or because it misses an identification
-\end{enumerate}
-The results seem to speak to (3) and part of (4) -- the false positive part --
-but not the others.  We may not need graphs or tables for the others but a
-complete evauation would, I think, speak to all four aspects.}
-
-\textcolor{blue}{To address these issues, I suggest the following course of
-action.  For (1) explain that your SLO anomaly detector is correct by
-construction.  It simple determines all cases where 95\% of the values are
-above the SLO in a sliding window.  For (2), in each case you can simply state
-that no SLO occurred due to a change in workload (because your SLO bounds are
-derived from steady-state workload and you don't change the workload) except
-in Figure 9.  There you show change in workload detection.  You should
-probably point out, however, that there no other SLO violations during this
-period and the bottleneck detector was never triggered.  Point
-(3) you have covered thoroughly in the case where there hasn't been a workload
-change.  
-Discussion of (4) is implied in the text.}
-
-\textcolor{blue}{I also suggested a summarization at the end of the efficacy
-subsection (see comments below).  What you could do here is to start with
-these four points and then summarize each of them in the summary table.}
- 
-We wish to understand the efficacy of Roots
+ We wish to understand the efficacy of Roots
 in terms of its ability to detect performance anomalies, and correctly
 identify the component responsible for each anomaly.  Additionally, we wish
 to characterize the overhead introduced by Roots in terms of its effect on
@@ -359,11 +327,39 @@ reactivated after 25 minutes (time to collect the minimum sample count), they ea
 violation. This is why we see another set of detection events approximately half an hour after the
 original fault injection events.
 
-\textcolor{blue}{Here the paper has concluded its evaluation of the
-efficacy of Roots.  It is now going to detail the performance overhead.  Given
-how extensive the results are, I suggest putting a table here that summarizes
-the overall results perhaps in terms of the four bullet points suggested at
-the beginning of this Section my my commentary.}
+We conclude our discussion of Roots efficacy with a summary of our results. Table~\ref{tab:results_summary}
+provides an overview of all the results presented so far, broken down into four features that we wish to see
+in an anomaly detection and bottleneck identification system.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|p{2cm}|p{6cm}|}
+\hline
+Feature & Results Observed in Roots \\ \hline
+Detecting anomalies & 
+All the artificially induced anomalies were detected, except when multiple anomalies are
+clustered together in time. In that case only the first anomaly was detected.
+Roots also detected several anomalies that occurred
+due to a combination of injected faults, and natural faults. \\ \hline
+Characterizing anomalies as
+being due to workload changes or bottlenecks &
+When anomalies were induced by varying the application workload, Roots correctly determined
+that the anomalies were caused by workload changes. In all other cases
+we kept the workload steady, and hence the anomalies were attributed to a
+system bottleneck. \\ \hline
+Identifying correct bottleneck & 
+In all the cases where bottleneck identification was performed, Roots correctly identified 
+the bottleneck component. \\ \hline
+Reaction time & 
+All the artificially induced anomalies (SLO violations) were detected as soon as enough samples of the fault
+were taken by the benchmarking process (2-5 minutes from the start of the fault injection period). \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Summary of Roots efficacy results.
+\label{tab:results_summary}
+}
+\end{table}
 
 \subsection{Roots Performance and Scalability}
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 

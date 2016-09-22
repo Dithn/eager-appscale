@@ -74,9 +74,10 @@ Magalhaes and Silva have made significant contributions in the area of anomaly d
 and root cause analysis in web applications~\cite{Magalhaes:2010:DPA:1906485.1906774, Magalhaes:2011:RAP:1982185.1982234}. 
 They compute the correlation between application
 workload and latency. If the level of correlation drops significantly, they consider it to be an
-anomaly. A similar correlation analysis between workload and other system parameters 
-(e.g. CPU and memory usage) is used to check whether an anomaly was caused by a workload
-change. They also use an aspect-oriented programming model in their target applications, which
+anomaly. A similar correlation analysis between workload and other local system metrics 
+(e.g. CPU and memory usage) is used to identify the system resource that is responsible for
+a given anomaly.
+They also use an aspect-oriented programming model in their target applications, which
 allows them to easily instrument application code, and gather metrics regarding various 
 remote services (e.g. database) invoked by the application. This data is subjected to a 
 series of simple linear regressions to perform root cause analysis. This approach assumes
