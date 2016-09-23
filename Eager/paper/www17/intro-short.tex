@@ -133,7 +133,7 @@ application code invokes various service implementations of the PaaS cloud.
 %
 Roots collects most of the data it requires by direct integration with various internal components 
 of the cloud platform. In addition to high-level metrics like request throughput
-and latency, Roots also records calls to the internal PaaS services invoked by user applications,
+and latency, Roots also records calls to the internal PaaS services made by user applications,
 and the latency of those internal service calls. It uses batch operations and asynchronous 
 communication to record events in a manner that does not substantively
 increase request latency.
@@ -158,7 +158,7 @@ It determines if the detected anomaly was caused by a change in the
 application workload (e.g. a sudden spike in the number of client requests), or an internal
 bottleneck in the cloud platform (e.g. a slow database query). To facilitate
 this
-analysis we propose ``bottleneck identification'' methodology
+analysis we propose a ``bottleneck identification'' methodology
 for PaaS clouds. 
 It uses a combination of quantile analysis, change point detection
 and linear regression to perform root cause analysis. 
@@ -168,8 +168,8 @@ Roots using the AppScale~\cite{6488671} open source PaaS.
 %We evaluate the feasibility and the 
 %efficacy of Roots by conducting a series of empirical trials using our prototype. 
 Our results indicate that using information gathered from the entire cloud
-stack to parameterize the bottleneck identification algorithm Roots
-produces accurate identification results nearly 100\% of the time. 
+stack to parameterize the bottleneck identification algorithm, Roots
+makes accurate diagnoses nearly 100\% of the time. 
 We also demonstrate that Roots does not add a significant performance overhead
 to the applications, and that a single Roots pod can monitor tens of thousands
 of applications concurrently.
