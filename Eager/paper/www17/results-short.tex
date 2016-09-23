@@ -1,8 +1,8 @@
 We wish to understand the efficacy of Roots
 in terms of its ability to identify and characterize SLO violations,
 We also wish to understand how well it identifies the
-bottlenexk component when a violation is not induced by a workload change.
-Finally, we wish to investigate the performance and scalability fo the Roots
+bottleneck component when a violation is not caused by a workload change.
+Finally, we wish to investigate the performance and scalability of the Roots
 prototype. 
 %\begin{itemize}
 %\item its ability to identify SLO violations,
@@ -41,7 +41,7 @@ user management & 19 & 15 & 10 \\ \hline
 
 To begin the evaluation of the Roots prototype we experiment with
 the SLO-based anomaly detector, using a simple HTML-producing Java 
-web application called ``guestbook''~\cite{XXX}.
+web application called ``guestbook''.
 This application allows users to login, and post comments. It uses the
 AppScale  datastore service to save
 the posted comments, and the AppScale user management service to handle authentication. Each request processed
@@ -51,7 +51,7 @@ our experiments on a single node AppScale cloud except where specified. The node
 14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory.
 
 We run the SLO-based anomaly detector on guestbook with a sampling rate of 15 seconds, an analysis
-rate of 60 seconds, and a window size of 1 hour. We set the minimum sample count to 100, and
+rate of 60 seconds, and a window size of 1 hour. We set the minimum samples count to 100, and
 run a series of experiments with different SLOs on the guestbook application. Specifically, we fix
 the SLO success probability at 95\%, and set the response time upper bound to $\mu_g + n\sigma_g$. 
 $\mu_g$ and $\sigma_g$ represent the mean and standard deviation of the
@@ -90,6 +90,14 @@ subject to the tightness of the SLO.
 
 \subsection{Anomaly Detection Speed}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.55]{time_line_guestbook_2s}
+\caption{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection
+at the datastore service. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
+\label{fig:time_line_guestbook_2s}
+\end{figure}
+
 Next we analyze how fast and often Roots can detect anomalies in an application. We
 first consider the performance of guestbook under the $L_1$ SLO while 
 injecting faults into the datastore service. Figure~\ref{fig:time_line_guestbook_2s} shows
@@ -108,13 +116,6 @@ did not immediately react to the faults injected at 20:00 hours. But as soon as 
 active again at 20:17, it detected the anomaly.  Again, as in the previous
 experiment, the detection accuracy was determined to be 100\% by manual
 inspection.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.55]{time_line_guestbook_2s}
-\caption{SLO-violation Anomaly detection in guestbook application (timeline).}
-\label{fig:time_line_guestbook_2s}
-\end{figure}
 
 %\begin{figure}
 %\centering
@@ -203,7 +204,8 @@ in red dashed lines.}
 \end{figure}
 
 Next we evaluate the Roots workload change analyzer. In this experiment we run a varying workload
-against the key-value store application for 10 hours. The load generating client is programmed
+against a test application for 10 hours. The test application is an online key-value store that supports
+basic data management operations. The load generating client is programmed
 to maintain a mean workload level of 500 requests per minute. However, the client
 is also programmed to randomly send large bursts of traffic at times of its choosing. During these bursts 
 the client may send more than 1000 requests a minute, thus impacting the performance of
@@ -251,7 +253,8 @@ including one that we did not inject explicitly.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_stocks_1}
-\caption{SLO-violation Anomaly detection in stock-trader application (timeline).}
+\caption{Anomaly detection in stock-trader application during a period of 10 hours. Red arrows indicate fault injection
+at the 1st datastore query. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_stocks_1}
 \end{figure}
 
@@ -331,7 +334,7 @@ of the application.
 %identify bottlenecks with a high level of confidence since two or more candidate detection methods
 %agree on their results.
 
-\subsection{Multiple Applications}
+\subsection{Multiple Applications in a Clustered Setting}
 
 \begin{figure}
 \centering
@@ -343,7 +346,7 @@ of the application.
 So far we have been experimenting with a simple AppScale cloud deployed on a single virtual machine.
 To demonstrate how Roots can be used in a multi-node environment, we set up an AppScale cloud
 on a cluster of 10 virtual machines (VMs). VMs are provisioned by a
-Eucalyptus~\cite{XXX} (IaaS)
+Eucalyptus~\cite{eucalyptus09} (IaaS)
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
 to deploy 8 instances of the guestbook application on AppScale. We use the multitenant support
 in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). This means each instance
@@ -473,7 +476,7 @@ of cases the mean request latency is slightly lower when Roots is in use.
 %\label{fig:pod_performance}
 %\end{figure}
 
-Finally, to investigate how Roots scalability, we deploy
+Finally, to demonstrate Roots scalability, we deploy
 a Roots pod on a virtual machine with 4 CPU cores and 4GB memory.
 %
 %To simulate monitoring multiple applications, we run multiple concurrent anomaly
@@ -487,12 +490,11 @@ a Roots pod on a virtual machine with 4 CPU cores and 4GB memory.
 %illustrates the maximum resource utilization of the Roots pod for different counts of
 %concurrent anomaly detectors. 
 %
-With 100 concurrent detectors, the memory usage was 200MB and the CPU usage
-50\% of a single core.  Using just the one machine, with 4 cores and 4GB of
+With 10000 concurrent detectors, the maximum memory usage of the pod was 778MB and the CPU usage
+was 60\% of a single core.  Using just the one machine, with 4 cores and 4GB of
 memory, a single pod was able to service 40000 concurrent detectors. 
-Since one pod can service several applications simultaneously
- and pods are independent,
-these results indicate that it is possible to scale Roots effectively.
+Since one pod can service a large number of applications simultaneously
+ and pods are independent, these results indicate that it is possible to scale Roots effectively.
 
 %maximum CPU usage is 238\%, where 400\% is the available limit
 %for 4 CPU cores. The maximum memory usage in this case is only 778 MB. 
