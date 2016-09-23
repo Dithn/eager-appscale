@@ -1,88 +1,9 @@
-\subsection{Platform-as-a-Service (PaaS)}
-
-%PaaS clouds, which have been experiencing a rapid growth in 
-%popularity~\cite{paas-growth,paas-growth2},
-%typically host web-accessible (HTTP/S) applications, to which they provide
-%high levels of scalability, availability, and sandboxed execution. 
-%PaaS
-%clouds provide scalability by automatically allocating resources for
-%applications on the fly (auto scaling), and provide availability through the
-%execution of multiple instances of the application. 
-Applications (typically web services) deployed on
-a PaaS cloud depend on a number of ``curated'' scalable services intrinsic to the 
-cloud platform. Our goal is to design Roots as another intrinsic service of the PaaS cloud
-so that it can function automatically and non-intrusively as an Application
-Performance Monitor (APM).
-%PaaS clouds provide a high level of
-%abstraction to the application developer that effectively hides all the
-%infra\-structure-level details such as physical resource allocation (CPU,
-%memory, disk etc), operating system, and network configuration. This enables
-%application developers to focus solely on the programming aspects of their
-%applications, without having to be concerned about deployment issues.
-%Consequently, viable PaaS technologies as well as PaaS-hosted applications
-%have been increasing rapidly in number~\cite{paas-growth,paas-growth2}.  
-%But
-%due to the high level of abstraction, performance monitoring and root cause
-%analysis is particularly challenging in PaaS clouds. Due to this reason, and
-%the large number of PaaS applications available for testing, we design Roots
-%APM to operate within PaaS clouds.
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{paas_architecture}
-\caption{PaaS system organization.}
-\label{fig:paas_architecture}
-\end{figure}
-
-Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. Arrows indicate
-the flow of data and control in response to application requests.
-At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
-and networking resources. 
-%How this infrastructure is set up may vary from a simple cluster of physical 
-%machines to a comprehensive Infrastructure-as-a-Service (IaaS) cloud. In large scale PaaS clouds,
-%this layer typically consists of many virtual machines and/or containers with the ability to acquire more
-%resources on the fly.
-
-On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
-services that high-level application developers can compose into their applications. The provided services
-often include database services, caching services, authentication services,
-and queuing services.
-% and much more. 
-Some PaaS clouds
-provide a managed set of APIs (a ``software development
-kit'' or SDK) for the application developer to access these fundamental
-services (e.g. Google App Engine~\cite{gae}). 
-%In that case all interactions between the applications and the PaaS kernel must take place through
-%the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}). 
-
-Application servers
-%One level above the PaaS kernel we find the application servers that are used to deploy and run
-%applications. Application servers 
-provide the necessary integration (linkage) between application code (which
-must be uploaded to the PaaS) and the
-underlying PaaS kernel, while sandboxing application code for secure, multi-tenant operation. 
-On top
-of the application servers layer resides the request
-front-end and load balancing layer. 
-
-%This layer is responsible
-%for receiving all application requests, filtering them and routing them to an appropriate application
-%server instance for further execution. Front-end server is therefore the entry point for PaaS-deployed
-%applications for all application clients.
-
-%Each of the above layers can span multiple processes, running over multiple physical or virtual
-%machines. Therefore the execution of a single application request typically involves cooperation
-%of multiple distributed processes and/or machines. In order to perform comprehensive monitoring
-%and root cause analysis, we need to be able to monitor each of the above layers along with their
-%enclosed components. Further, we need to be able to trace the flow of data and control
-%across different layers and components.
-
-\subsection{Cloud-hosted Web Applications} 
-
 %\textcolor{blue}{You might want to move some of this discussion into the
 %introduction since it allows the reader to understand the focus of the work we
 %present.}
 %Added more details about PaaS services to the intro
+
+%\subsection{The PaaS Model} 
 
 Our work concentrates on the web
 applications deployed in PaaS clouds. An application of this nature exposes
@@ -100,8 +21,12 @@ application response time for scalability
 reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine
 requires that no application request takes more than 60 seconds to execute.
 
-PaaS-hosted web applications rely on various PaaS kernel services offered by the underlying
-cloud platform. By offloading common application functionality such as data storage, caching,
+PaaS-hosted web applications, like those that run in Google's App Engine
+(GAE)~\cite{gae},  
+rely on various PaaS kernel services offered by the underlying
+cloud platform which they access via a language-specific ``software
+development kit'' (SDK). 
+By offloading common application functionality such as data storage, caching,
 user management, and security to a set of scalable and secure
 managed cloud services, application developers
 can greatly reduce the amount of code they have to write. 
@@ -139,7 +64,7 @@ Implementing data collection and analysis as a service built into the PaaS cloud
 anomaly detection and bottleneck identification to be a ``curated'' service that is 
 reliably managed by the cloud platform.
 
-\subsection{Performance Anomalies}
+\subsection{PaaS Performance Anomalies}
 
 %In this work we define \textit{anomalies} as application performance change events that cause
 %one or more performance SLOs to be violated. 

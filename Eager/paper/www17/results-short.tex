@@ -1,24 +1,29 @@
 We wish to understand the efficacy of Roots
-in terms of 
-\begin{itemize}
-\item its ability to identify SLO violations,
-\item its ability to characterizes each correctly-identified SLO violation as
-being due to a workload change or a bottleneck,
-\item when there is a bottleneck, its ability to identify the correct
-bottleneck, 
-\item the speed with which it reacts to anomalies, and
-\item its failure rate (accuracy).
-\end{itemize}
-%its ability to detect performance anomalies, and correctly
-%identify the component responsible for each anomaly.  
-Additionally, we wish
-to characterize the overhead introduced by Roots in terms of its effect on
-perceived application performance, and determine the degree to which Roots
-pods enable scalability.
+in terms of its ability to identify and characterize SLO violations,
+We also wish to understand how well it identifies the
+bottlenexk component when a violation is not induced by a workload change.
+Finally, we wish to investigate the performance and scalability fo the Roots
+prototype. 
+%\begin{itemize}
+%\item its ability to identify SLO violations,
+%\item its ability to characterizes each correctly-identified SLO violation as
+%being due to a workload change or a bottleneck,
+%\item when there is a bottleneck, its ability to identify the correct
+%bottleneck, 
+%\item the speed with which it reacts to anomalies, and
+%\item its failure rate (accuracy).
+%\end{itemize}
+%%its ability to detect performance anomalies, and correctly
+%%identify the component responsible for each anomaly.  
+%Additionally, we wish
+%to characterize the overhead introduced by Roots in terms of its effect on
+%perceived application performance, and determine the degree to which Roots
+%pods enable scalability.
 
 \subsection{Roots Efficacy}
 
 \begin{table}
+{\footnotesize
 \begin{center}
 \begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
 \hline
@@ -27,6 +32,7 @@ datastore & 18 & 11 & 10 \\ \hline
 user management & 19 & 15 & 10 \\ \hline
 \end{tabular}
 \end{center}
+}
 \caption{Number of anomalies detected in guestbook app under different SLOs 
 ($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
 \label{tab:anomaly_counts}
@@ -121,12 +127,12 @@ inspection.
 %same application and SLO, while faults are being injected into the user management service.
 %Here too we see that Roots detects anomalies immediately following each fault injection window.
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.55]{time_line_crud}
-\caption{Path-distribution Anomaly detection in key-value store application (timeline). }
-\label{fig:time_line_crud}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.55]{time_line_crud}
+%\caption{Path-distribution Anomaly detection in key-value store application (timeline). }
+%\label{fig:time_line_crud}
+%\end{figure}
 
 %\begin{figure}
 %\centering
@@ -135,45 +141,45 @@ inspection.
 %\label{fig:time_line_caching}
 %\end{figure}
 
-\subsection{Path Analyzer Accuracy and Speed}
+%\subsection{Path Analyzer Accuracy and Speed}
+%
+%Next we evaluate the effectiveness and accuracy of the path distribution analyzer. For this we 
+%employ a key-value store application. 
+%%two different applications.
+%%\begin{description}
+%%\item[key-value store] 
+%This application provides the functionality of an online key-value store.  It allows 
+%users to store data objects in the cloud where each object is given a unique key. The objects can then be 
+%retrieved, updated or deleted using their keys. Different operations
+%(create, retrieve, update and delete) of the application are implemented as separate paths of
+%execution in the application source code.
+%%\item[cached key-value store] This is a simple extension of the regular key-value store, which adds
+%%caching to the read operation using the AppScale's memcache service. The application contains
+%%separate paths of execution for cache hits and cache misses.
+%%\end{description}
+%
+%We first deploy the key-value store on AppScale, and populate it with a number of data objects. Then we
+%run a test client against it which generates a read-heavy workload. On average this workload
+%consists of 90\% read requests and 10\% write requests (create and update). The test client
+%is also programmed to randomly send bursts of write-heavy workloads. These bursts consist
+%of 90\% write requests on average, and each burst lasts up to 2 minutes. Figure~\ref{fig:time_line_crud}
+%shows the write-heavy bursts as events on a time line (indicated by red arrows). Note that almost every burst is
+%immediately followed by an anomaly detection event in Roots (indicated by blue arrows). The path
+%distribution analyzer detects \textit{every} time the distribution of requests among different paths of execution
+%changes significantly. The only time we do not see an anomaly detection event is when multiple
+%bursts are clustered together in time (e.g. 3 bursts between 17:04 and 17:24 hours). In this
+%case Roots detects the very first burst, and then goes into the warm up mode to collect more data. Therefore
+%the bursts that immediately follow do not raise an alarm. These undetected
+%events show the conditions under which Roots fails to detect anomalies.
+%Events that occur while Roots is gathering a new sample after an anomaly is
+%detected are missed.
 
-Next we evaluate the effectiveness and accuracy of the path distribution analyzer. For this we 
-employ a key-value store application. 
-%two different applications.
-%\begin{description}
-%\item[key-value store] 
-This application provides the functionality of an online key-value store.  It allows 
-users to store data objects in the cloud where each object is given a unique key. The objects can then be 
-retrieved, updated or deleted using their keys. Different operations
-(create, retrieve, update and delete) of the application are implemented as separate paths of
-execution in the application source code.
-%\item[cached key-value store] This is a simple extension of the regular key-value store, which adds
-%caching to the read operation using the AppScale's memcache service. The application contains
-%separate paths of execution for cache hits and cache misses.
-%\end{description}
-
-We first deploy the key-value store on AppScale, and populate it with a number of data objects. Then we
-run a test client against it which generates a read-heavy workload. On average this workload
-consists of 90\% read requests and 10\% write requests (create and update). The test client
-is also programmed to randomly send bursts of write-heavy workloads. These bursts consist
-of 90\% write requests on average, and each burst lasts up to 2 minutes. Figure~\ref{fig:time_line_crud}
-shows the write-heavy bursts as events on a time line (indicated by red arrows). Note that almost every burst is
-immediately followed by an anomaly detection event in Roots (indicated by blue arrows). The path
-distribution analyzer detects \textit{every} time the distribution of requests among different paths of execution
-changes significantly. The only time we do not see an anomaly detection event is when multiple
-bursts are clustered together in time (e.g. 3 bursts between 17:04 and 17:24 hours). In this
-case Roots detects the very first burst, and then goes into the warm up mode to collect more data. Therefore
-the bursts that immediately follow do not raise an alarm. These undetected
-events show the conditions under which Roots fails to detect anomalies.
-Events that occur while Roots is gathering a new sample after an anomaly is
-detected are missed.
-
-In addition,
-Between 20:30 and 21:00 hours we also
-had two instances where the read request proportion dropped from 90\% to 80\% due to random
-chance. This is because our test client randomizes the read request proportion around the 90\% mark. 
-In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly 
-identified them as anomalies.
+%In addition,
+%Between 20:30 and 21:00 hours we also
+%had two instances where the read request proportion dropped from 90\% to 80\% due to random
+%chance. This is because our test client randomizes the read request proportion around the 90\% mark. 
+%In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly 
+%identified them as anomalies.
 
 %We conduct a similar experiment using the cached key-value store. Here, we run a test client that generates a workload
 %that is mostly served from the cache. This is done by repeatedly executing read requests on a small
@@ -363,6 +369,42 @@ reactivated after 25 minutes (time to collect the minimum sample count), they ea
 violation. This is why we see another set of detection events approximately half an hour after the
 original fault injection events.
 
+\subsection{Summarizing the Results}
+
+Table~\ref{tab:results_summary} provides an overview of the efficacy
+evalution.
+\begin{table}
+{\footnotesize
+\begin{center}
+\begin{tabular}{|p{2cm}|p{6cm}|}
+\hline
+Feature & Results Observed in Roots \\ \hline
+Detecting accuracy &
+The first occurance of all artificially induced anomalies were detected.
+Roots also detected several ``natural'' anomalies in AppScale. \\ \hline
+Anomaly Differentiation &
+All anomalies were correctly identified as either due to workload change or
+bottleneck. \\ \hline
+Bottleneck Identification &
+In all the cases where a bottleneck was identified Roots identified the
+correct bottleneck. \\ \hline
+Reaction time &
+All induced SLO violations were detected as soon
+as enough samples of the fault
+were taken by the benchmarking process. \\
+\hline
+\end{tabular}
+\end{center}
+}
+\caption{Summary of Roots efficacy results.
+\label{tab:results_summary}
+}
+\end{table}
+While not exhaustive, these results indicate that Roots is able to achieve a
+high degree of accuracy in detecting and characterizing performance anomalies
+and then identifying the component or reason for each anomaly in a working,
+production-quality open source PaaS.
+
 \subsection{Roots Performance and Scalability}
 
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
@@ -381,6 +423,7 @@ the application server before they are sent to the Roots data storage. We wish t
 explore how this feature performs when the application server is under heavy load.
 
 \begin{table}
+{\footnotesize
 \begin{center}
 \begin{tabular}{|c|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|}
 \hline &
@@ -389,16 +432,17 @@ explore how this feature performs when the application server is under heavy loa
     App./Concurrency & Mean (ms) & SD & Mean (ms) & SD\\
 
 \hline
-guestbook/1 & 12 & 3.9 & 12 & 3.7 \\ \hline
+%guestbook/1 & 12 & 3.9 & 12 & 3.7 \\ \hline
 guestbook/50 & 375 & 51.4 & 374 & 53 \\ \hline
-stock-trader/1 & 151 & 13 & 145 & 13.7 \\ \hline
+%stock-trader/1 & 151 & 13 & 145 & 13.7 \\ \hline
 stock-trader/50 & 3631 & 690.8 & 3552 & 667.7 \\ \hline
-kv store/1 & 7 & 1.5 & 8 & 2.2 \\ \hline
+%kv store/1 & 7 & 1.5 & 8 & 2.2 \\ \hline
 kv store/50 & 169 & 26.7  & 150 & 25.4  \\ \hline
-cached kv store/1 & 3 & 2.8 & 2 & 3.3 \\ \hline
-cached kv store/50 & 101 & 24.8 & 97 & 35.1  \\ \hline
+%cached kv store/1 & 3 & 2.8 & 2 & 3.3 \\ \hline
+%cached kv store/50 & 101 & 24.8 & 97 & 35.1  \\ \hline
 \end{tabular}
 \end{center}
+}
 \caption{Latency comparison of applications when running on
 a vanilla AppScale cloud vs when running on a Roots-enabled
 AppScale cloud.
@@ -407,48 +451,60 @@ AppScale cloud.
 \end{table}
 
 Table~\ref{tab:perf_overhead} shows the comparison of request 
-latencies. We discover that Roots does not add a significant overhead
+latencies with 50 clients for each of the applications. 
+We discover that Roots does not add a significant overhead
 to the request latency in any of the scenarios considered. In all the cases,
 the mean request latency when Roots is in use, is within one standard deviation
 from the mean request latency when Roots is not in use. Also in a number
 of cases the mean request latency is slightly lower when Roots is in use.
-The request latency increases when the number of concurrent clients is
-increased from 1 to 50 (since all requests are handled by a single
-application server), but still there is no sign of any detrimental overhead
-from Roots even under load. Since we buffer PaaS kernel invocation
-events in memory, and report them to ElasticSearch asynchronously, and
-out of the request processing flow, there is no measurable impact on
-the request latency from Roots.
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{pod_performance}
-\caption{Resource utilization of a Roots pod.}
-\label{fig:pod_performance}
-\end{figure}
+%The request latency increases when the number of concurrent clients is
+%increased from 1 to 50 (since all requests are handled by a single
+%application server), but still there is no sign of any detrimental overhead
+%from Roots even under load. Since we buffer PaaS kernel invocation
+%events in memory, and report them to ElasticSearch asynchronously, and
+%out of the request processing flow, there is no measurable impact on
+%the request latency from Roots.
 
-Finally, to demonstrate how lightweight and scalable Roots is, we deploy
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.3]{pod_performance}
+%\caption{Resource utilization of a Roots pod.}
+%\label{fig:pod_performance}
+%\end{figure}
+
+Finally, to investigate how Roots scalability, we deploy
 a Roots pod on a virtual machine with 4 CPU cores and 4GB memory.
-To simulate monitoring multiple applications, we run multiple concurrent anomaly
-detectors in the pod. Each detector is configured with a 1 hour sliding window.
-We vary the number of concurrent
-detectors between 100 and 10000, and run each configuration for
-2 hours. We track the memory and CPU usage of the
-pod during each of these runs using the jstat and pidstat tools. 
+%
+%To simulate monitoring multiple applications, we run multiple concurrent anomaly
+%detectors in the pod. Each detector is configured with a 1 hour sliding window.
+%We vary the number of concurrent
+%detectors between 100 and 10000, and run each configuration for
+%2 hours. We track the memory and CPU usage of the
+%pod during each of these runs using the jstat and pidstat tools. 
+%
+%Figure~\ref{fig:pod_performance}
+%illustrates the maximum resource utilization of the Roots pod for different counts of
+%concurrent anomaly detectors. 
+%
+With 100 concurrent detectors, the memory usage was 200MB and the CPU usage
+50\% of a single core.  Using just the one machine, with 4 cores and 4GB of
+memory, a single pod was able to service 40000 concurrent detectors. 
+Since one pod can service several applications simultaneously
+ and pods are independent,
+these results indicate that it is possible to scale Roots effectively.
 
-Figure~\ref{fig:pod_performance}
-illustrates the maximum resource utilization of the Roots pod for different counts of
-concurrent anomaly detectors. We see that with 10000 concurrent
-detectors, the maximum CPU usage is 238\%, where 400\% is the available limit
-for 4 CPU cores. The maximum memory usage in this case is only 778 MB. 
-Since each anomaly detector operates with a fixed-sized window, and they
-bring additional data into memory only when required, the memory
-usage of the Roots pod generally stays low. In particular, the average resource usage
-is far less than the maximum usage values shown in figure~\ref{fig:pod_performance}. 
-For example, in case of 10000 detectors, the average CPU usage is only 32\%, and 
-the average memory usage is 507 MB. We also experimented with larger concurrent
-detector counts, and we were able to pack up to 40000 detectors into the pod before
-getting constrained by the CPU capacity of our quad-core VM.
-This result implies that we can monitor tens of thousands 
-of applications using a single pod, thereby scaling up to a very large number
-of applications using only a handful of pods.
+%maximum CPU usage is 238\%, where 400\% is the available limit
+%for 4 CPU cores. The maximum memory usage in this case is only 778 MB. 
+%Since each anomaly detector operates with a fixed-sized window, and they
+%bring additional data into memory only when required, the memory
+%usage of the Roots pod generally stays low. In particular, the average resource usage
+%is far less than the maximum usage values shown in figure~\ref{fig:pod_performance}. 
+%For example, in case of 10000 detectors, the average CPU usage is only 32\%, and 
+%the average memory usage is 507 MB. We also experimented with larger concurrent
+%detector counts, and we were able to pack up to 40000 detectors into the pod before
+%getting constrained by the CPU capacity of our quad-core VM.
+%This result implies that we can monitor tens of thousands 
+%of applications using a single pod, thereby scaling up to a very large number
+%of applications using only a handful of pods.
+%

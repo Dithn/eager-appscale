@@ -88,7 +88,8 @@ aggregated asynchronoulsy, when needed.
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{apm_architecture}
-\caption{Roots APM architecture.}
+\caption{Roots APM architecture.  Roots injects a request ID ($R$) at request
+ingress that it uses to correlate events at each level of the stack.}
 \label{fig:apm_architecture}
 \end{figure}
 %
@@ -123,21 +124,21 @@ PaaS stack (i.e. full stack monitoring).
 %Data collected by these processes will also be sent to data storage component, and will be available
 %for analysis as per-application time series data. 
 %
-In particular, for each request 
+%In particular, for each request 
 %at the PaaS kernel layer we collect information regarding all kernel invocations
 %made by the applications. This requires intercepting the PaaS kernel invocations
 %at runtime. This must be done carefully as to not introduce a noticeable
 %overhead to the application execution. For each PaaS kernel invocation, 
-we can capture the 
-following parameters.
-\begin{itemize}
-\item Source application making the kernel invocation
-\item Timestamp
-\item A sequence number indicating the order of PaaS kernel invocations within an application request
-\item Target kernel service and operation
-\item Execution time of the invocation
-\item Request size, hash and other parameters
-\end{itemize}
+%we can capture the 
+%following parameters.
+%\begin{itemize}
+%\item Source application making the kernel invocation
+%\item Timestamp
+%\item A sequence number indicating the order of PaaS kernel invocations within an application request
+%\item Target kernel service and operation
+%\item Execution time of the invocation
+%\item Request size, hash and other parameters
+%\end{itemize}
 Collecting this 
 information
 %PaaS kernel invocation details 

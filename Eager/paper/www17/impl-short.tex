@@ -91,15 +91,15 @@ SLO.
 
 %Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. 
 
-The SLO-based anomaly detector supports following configuration parameters:
-\begin{itemize}
-\item Performance SLO: Response time upper bound ($T$), and the probability ($p$).
-\item Sampling rate: Rate at which the target application is benchmarked.
-\item Analysis rate: Rate at which the anomaly detector checks whether the application has failed to meet the SLO.
-\item Minimum samples: Minimum number of samples to collect before checking for SLO violations.
-\item Window size: Length of the sliding window (in time) to consider when checking for SLO violations. This
-acts as a limit on the number of samples to keep in memory.
-\end{itemize}
+%The SLO-based anomaly detector supports following configuration parameters:
+%\begin{itemize}
+%\item Performance SLO: Response time upper bound ($T$), and the probability ($p$).
+%\item Sampling rate: Rate at which the target application is benchmarked.
+%\item Analysis rate: Rate at which the anomaly detector checks whether the application has failed to meet the SLO.
+%\item Minimum samples: Minimum number of samples to collect before checking for SLO violations.
+%\item Window size: Length of the sliding window (in time) to consider when checking for SLO violations. This
+%acts as a limit on the number of samples to keep in memory.
+%\end{itemize}
 
 %Once the anomaly detector identifies an SLO violation, it will continue to 
 %identify the same violation
@@ -112,29 +112,29 @@ This implies that each anomaly is followed by a ``warm up'' period.
 For instance, with a sampling rate of 15 seconds, and a minimum
 samples count of 100, the warm up period can last up to 25 minutes.
 
-\subsection{Path Distribution Anomalies}
-
-We have implemented a path distribution analyzer and anomaly
-detector in Roots. Its function is to identify recurring sequences of
-PaaS kernel invocations made by an application.
-Each identified sequence corresponds to a path of
-execution through the application code (i.e. a path through the control flow graph of the application). 
-This detector is able to determine the frequency with
-which each path is executed over time. Then, using this information which we term
-a ``path distribution,'' it reports an anomaly when the distribution of call paths
-changes. 
-
-%For each application,
-%a path distribution is comprised of the set of execution paths available in
-%that application, along with the proportion of requests that executed each path.
-%It is an indicator of the type of request workload handled by an application.
-%For example consider a data management application that has a read-only execution path, and a read-write 
-%execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
-%execute the read-write path, we may characterize the request workload as read-heavy.
-
+%\subsection{Path Distribution Anomalies}
+%%
+%We have implemented a path distribution analyzer and anomaly
+%detector in Roots. Its function is to identify recurring sequences of
+%PaaS kernel invocations made by an application.
+%Each identified sequence corresponds to a path of
+%execution through the application code (i.e. a path through the control flow graph of the application). 
+%This detector is able to determine the frequency with
+%which each path is executed over time. Then, using this information which we term
+%a ``path distribution,'' it reports an anomaly when the distribution of call paths
+%changes. 
 %
-%is another special anomaly detector we implement in Roots. This
-%anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
+%%For each application,
+%%a path distribution is comprised of the set of execution paths available in
+%%that application, along with the proportion of requests that executed each path.
+%%It is an indicator of the type of request workload handled by an application.
+%%For example consider a data management application that has a read-only execution path, and a read-write 
+%%execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
+%%execute the read-write path, we may characterize the request workload as read-heavy.
+%
+%%
+%%is another special anomaly detector we implement in Roots. This
+%%anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
 %By aggregating the PaaS kernel invocations by application request identifiers, and then sorting them by
 %their sequence numbers, this anomaly detector is able to identify the sequence of
 %PaaS kernel invocations made by each application request. 
@@ -146,14 +146,14 @@ changes.
  
 %Roots path distribution analyzer facilitates computing the path distribution for each application
 %with no static analysis, by only analyzing the runtime data gathered from the applications.
-The Roots path distribution analyzer  periodically computes the path distribution for a given application.
-If it detects that the latest path distribution is significantly different from the distributions seen in the 
-past, it triggers an anomaly. This is done by computing the mean request proportion for each path
-(over a sliding window of historical data),
-and then comparing the latest request proportion values against the means. If the latest proportion
-is off by more than $n$ standard deviations from its mean, the detector considers it to be an
-anomaly. The sensitivity of the detector can be configured by changing the value of $n$, which
-defaults to 2. 
+%The Roots path distribution analyzer  periodically computes the path distribution for a given application.
+%If it detects that the latest path distribution is significantly different from the distributions seen in the 
+%past, it triggers an anomaly. This is done by computing the mean request proportion for each path
+%(over a sliding window of historical data),
+%and then comparing the latest request proportion values against the means. If the latest proportion
+%is off by more than $n$ standard deviations from its mean, the detector considers it to be an
+%anomaly. The sensitivity of the detector can be configured by changing the value of $n$, which
+%defaults to 2. 
 
 %This anomaly detector enables developers to know when the nature of their application request
 %workload changes. For example in the previous data management application, if suddenly 90\%
