@@ -1,0 +1,40 @@
+We propose Roots, a near real time monitoring and analysis
+framework for applications deployed in a PaaS cloud. 
+Roots is designed to function as a curated service
+built into the cloud platform, as opposed to an external monitoring system. 
+It relieves the application developers from having to configure
+their own monitoring solutions or, indeed,
+from having to instrument the application code.
+%Roots captures runtime data from the different layers involved
+%in processing application requests. It can correlate events across different layers
+%to track the propagation of application requests through the cloud platform, and
+%identify bottlenecks deep within the kernel services of the PaaS.
+
+%Roots monitors applications for SLO compliance, and detects anomalies via SLO violations.
+%When Roots detects an anomaly, 
+%it analyzes workload data and other application runtime data
+%to perform root cause analysis. Roots is able to determine whether a particular
+%anomaly was caused by a change in the application workload, or due to a bottleneck
+%in the cloud platform. To this end we also devise a bottleneck identification algorithm, that
+%uses a combination of linear regression, quantile analysis and change point detection.
+
+We evaluate Roots using a prototype built for the AppScale open source PaaS. 
+Our results indicate that Roots is effective at detecting performance anomalies
+in near real time. We also show that our bottleneck identification algorithm
+produces accurate results nearly 100\% of the time (cf
+Table~\ref{tab:results_summary}), pinpointing the exact PaaS
+service or the application component responsible for each anomaly. Our empirical trials further 
+reveal that Roots does not add a significant overhead to the applications deployed
+on the cloud platform. Finally, we show that Roots is lightweight, 
+and scales well to handle large populations of applications. 
+%Specifically,
+%we see that a single Roots pod is able to monitor tens of thousands of applications.
+
+%In our future work we plan to expand the data gathering capabilities of Roots into
+%the low level virtual machines and containers that host various services of the cloud
+%platform. We intend to tap into the hypervisors
+%and container managers to harvest runtime data regarding the resource usage (CPU, memory, disk etc.) of
+%PaaS services and other application components. With that we expect to extend
+%the root cause analysis support of Roots so that it can not only pinpoint the
+%bottlenecked application components, but also the low level hosts and system
+%resources that constitute each bottleneck.

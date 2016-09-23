@@ -33,10 +33,12 @@ user management & 19 & 15 & 10 \\ \hline
 \end{tabular}
 \end{center}
 }
-\caption{Number of anomalies detected in guestbook app under different SLOs 
+\vspace{-0.2in}
+\caption{\textit{Number of anomalies detected in guestbook app under different SLOs 
 ($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
 \label{tab:anomaly_counts}
-}
+}}
+\vspace{-0.2in}
 \end{table}
 
 To begin the evaluation of the Roots prototype we experiment with
@@ -93,9 +95,14 @@ subject to the tightness of the SLO.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_guestbook_2s}
-\caption{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection
-at the datastore service. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
+\vspace{-0.3in}
+\caption{\textit{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection
+at the datastore service. Blue arrows indicate all anomalies detected by
+Roots.
+%during the experimental run.
+}}
 \label{fig:time_line_guestbook_2s}
+\vspace{-0.2in}
 \end{figure}
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
@@ -196,10 +203,12 @@ inspection.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{workload_change_trace}
-\caption{Workload size over time for the key-value store application. The test client randomly sends
+\includegraphics[scale=0.35]{workload_change_trace}
+\vspace{-0.2in}
+\caption{\textit{Workload size over time for the key-value store application. The test client randomly sends
 large bursts of traffic causing the spikes in the plot. Roots anomaly detection events are shown
-in red dashed lines.}
+in red dashed lines.}}
+\vspace{-0.2in}
 \label{fig:workload_change}
 \end{figure}
 
@@ -253,8 +262,13 @@ including one that we did not inject explicitly.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_stocks_1}
-\caption{Anomaly detection in stock-trader application during a period of 10 hours. Red arrows indicate fault injection
-at the 1st datastore query. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
+\vspace{-0.3in}
+\caption{\textit{Anomaly detection in stock-trader application during a period of 10 hours. 
+%Red arrows indicate fault injection
+%at the 1st datastore query. Blue arrows indicate all anomalies detected by
+%Roots during the experimental run.
+}}
+\vspace{-0.2in}
 \label{fig:time_line_stocks_1}
 \end{figure}
 
@@ -339,7 +353,10 @@ of the application.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_g1g8}
-\caption{SLO-violation Anomaly detection in 8 applications deployed in a clustered AppScale cloud.}
+\vspace{-0.3in}
+\caption{\textit{SLO-violation Anomaly detection in 8 applications deployed in
+a clustered AppScale cloud.}}
+\vspace{-0.2in}
 \label{fig:time_line_g1g8}
 \end{figure}
 
@@ -399,9 +416,11 @@ were taken by the benchmarking process. \\
 \end{tabular}
 \end{center}
 }
-\caption{Summary of Roots efficacy results.
+\vspace{-0.2in}
+\caption{\textit{Summary of Roots efficacy results.
 \label{tab:results_summary}
-}
+}}
+\vspace{-0.1in}
 \end{table}
 While not exhaustive, these results indicate that Roots is able to achieve a
 high degree of accuracy in detecting and characterizing performance anomalies
@@ -446,11 +465,13 @@ kv store/50 & 169 & 26.7  & 150 & 25.4  \\ \hline
 \end{tabular}
 \end{center}
 }
-\caption{Latency comparison of applications when running on
+\vspace{-0.2in}
+\caption{\textit{Latency comparison of applications when running on
 a vanilla AppScale cloud vs when running on a Roots-enabled
-AppScale cloud.
+AppScale cloud.}
 \label{tab:perf_overhead}
 }
+\vspace{-0.2in}
 \end{table}
 
 Table~\ref{tab:perf_overhead} shows the comparison of request 

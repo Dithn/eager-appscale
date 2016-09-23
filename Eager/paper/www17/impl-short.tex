@@ -180,9 +180,15 @@ identifies a performance anomaly.
 Specifically, it determines if the target application has received more requests than usual, which
 may have caused a performance degradation.
 
-Workload change analyzer uses change point detection algorithms to analyze the historical trend of 
-the application's workload. We use the ``number of requests
-per unit time'' as the metric of workload size. 
+In contrast with the method described 
+in~\cite{Magalhaes:2010:DPA:1906485.1906774,
+Magalhaes:2011:RAP:1982185.1982234} which uses correlation between request
+latency and workload, our 
+workload change analyzer uses change point detection algorithms to 
+identify changes in
+the application's request rate. 
+%We use the ``number of requests
+%per unit time'' as the metric of workload size. 
 %This information can be obtained from the Roots
 %data storage as a time series. 
 Our implementation of Roots supports a number of well known change point
