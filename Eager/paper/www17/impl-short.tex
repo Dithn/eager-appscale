@@ -9,7 +9,7 @@ with the popular Google App Engine (GAE) cloud platform~\cite{gae}.
 However, it has been engineered so that it can run on a
 single machine (using the Linux OS), distributed on a ``bare metal'' cluster
 of machines, or in an Infrastructure-as-a-Service cloud like Amazon EC2.
-We modify AppScale's internal compnents as need to implement Roots.
+We modify AppScale's internal components as needed to implement Roots.
 
 %Due to AppScale's
 %API compatibility with GAE, any application developed for GAE can be deployed and
@@ -37,7 +37,7 @@ We use ElasticSearch~\cite{elasticsearch} as the data storage component of our p
 %for fast retrieval and efficient querying. Additionally it also provides
 %powerful data filtering and aggregation features, which greatly simplify the implementations of high-level
 %data analysis algorithms.
-We also configure AppScale's front-end server (based on Nginx~\cite{XXX}) to tag all incoming application requests
+We also configure AppScale's front-end server (based on Nginx) to tag all incoming application requests
 with a unique identifier. This identifier is attached to the incoming request as a custom HTTP header.
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
 in all the events reported to ElasticSearch. This enables our prototype to aggregate events originating
@@ -57,8 +57,8 @@ To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel im
 which is derived from the GAE PaaS SDK. More specifically we implement an agent that records
 all PaaS SDK calls, and reports them to ElasticSearch asynchronously. 
 
-Roots pods (which more computationally intensive Roots components) are implemented as standalone Java server processes. 
-Threads are used to run benchmarkers,
+Roots pods (which  contains more computationally intensive Roots components) are implemented 
+as standalone Java server processes. Threads are used to run benchmarkers,
 anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
 in ElasticSearch itself. 
@@ -82,12 +82,13 @@ performance SLO consists of an upper bound on the application response time ($T$
 that the application response time falls under the specified upper bound. 
 %Therefore, a general performance 
 %SLO can be stated as: ``application responds under $T$ milliseconds $p$\% of the time''.
-When activated the detector starts a benchmarking process (within a Roots pod)
+When activated, the detector starts a benchmarking process (within a Roots pod)
 that periodically measures the response time of the target application. Probes made by the benchmarking 
 process are several seconds apart in time (sampling rate), so as to not strain the application with load.
 The detector then periodically
 analyzes the collected response time measurements to check if the application meets the specified performance
-SLO. 
+SLO. The detector also accepts a minimum samples count as a parameter. This is the minimum number of 
+samples the detector should take before evaluating an SLO.
 
 %Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. 
 
@@ -176,7 +177,7 @@ identifies a performance anomaly.
 %which is implemented as an anomaly detector. While the path distribution analyzer looks for changes in the
 %\textit{type} of the workload, the workload change analyzer looks for changes
 %in the workload \textit{size} or \textit{rate}. 
-Specifically it determines if the target application has received more requests than usual, which
+Specifically, it determines if the target application has received more requests than usual, which
 may have caused a performance degradation.
 
 Workload change analyzer uses change point detection algorithms to analyze the historical trend of 
@@ -195,8 +196,8 @@ workload size.  In this paper we use PELT to detect changes in workload.
 
 \subsection{Bottleneck Identification}
 
-The prototype Roots bottleneck identification algorithm uses a combination
-of quantile analysis, linear regression and change point detection. 
+%The Roots bottleneck identification algorithm uses a combination
+%of quantile analysis, linear regression and change point detection. 
 %While Roots can
 %support many different bottleneck identification algorithms, we use
 %the algorithm proposed here in the experiments described below, and 
@@ -207,7 +208,7 @@ of quantile analysis, linear regression and change point detection.
 
 Applications running in the cloud consist of user code executed in the application server, 
 and remote service calls to various PaaS kernel services. An AppScale cloud
-consists of the same kernel services present in the Google App Engine public cloud (datastore, memcache,
+provides the same kernel services present in the Google App Engine public cloud (datastore, memcache,
 urlfetch, blobstore, user management etc.).
 We consider each PaaS kernel invocation, and the code running on the application server as 
 separate \textit{components}. Each application request causes one or more components to
@@ -215,6 +216,11 @@ execute, and any one of the components can become a bottleneck to cause performa
 The purpose of bottleneck identification is to find, out of all
 the components executed by an application, the one component that is most likely to have caused 
 application performance to deteriorate.
+
+Roots bottleneck identification mechanism first
+selects up to four components as possible candidates
+for the bottleneck. These candidates are then further evaluated by a weighted algorithm to
+determine the actual bottleneck in the cloud platform.
 
 Suppose an application makes $n$ PaaS kernel invocations ($X_1, X_2, ... X_n$) for each request. 
 For any given application request,
@@ -229,6 +235,7 @@ work~\cite{Jayathilaka:2015:RTS:2806777.2806842} we found that typical
 PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
 We make use of these findings and assert that for typical,
 well-designed PaaS applications $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
+With that, we now describe how our algorithm chooses the four bottleneck candidates.
 
 %Roots bottleneck identification mechanism first
 %selects up to four components as possible candidates
@@ -254,16 +261,16 @@ $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$
 using linear regression. Here we leave $r$ out
 deliberately, since it is typically and ideally small. 
 
-While occasionally in AppScale, we observe a request where $r$ is
+Occasionally in AppScale, we observe a request where $r$ is
 large relative to $T_{X_n}$.  Often these events are correlated with large
 $T_{X_n}$ values as well leading us to suspect that the effect may be due to
 an issue with the AppScale infrastructure (e.g. a major garbage collection
-event in the PaaS software).  Overall, Roots detects these events and identifies them correctly (cf
+event in the PaaS software).  Overall, Roots detects these events, and identifies them correctly (cf
 subsections~\ref{sec:highquantile} and ~\ref{sec:tailend} below), but they
-perturb the relative importance identification specifically.
-
-%To prevent these events
-%from skewing the regression model, we filter out requests where the $r$ value is too high. This
+perturb the linear regression specifically.
+To prevent these events from skewing the regression model, 
+we filter out requests where the $r$ value is too high when fitting the model. 
+%This
 %is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ 
 %over the selected window, and removing 
 %any requests where $r > \mu_r + 1.65\sigma_r$.
@@ -332,9 +339,8 @@ the values in its distribution (i.e. point anomalies).
 %we can claim it to be the actual bottleneck with high confidence.
 
 %Based on the above intuition, 
-We use a simple scoring mechanism to combine these bottleneck-finding algorithms.
-%find the actual
-%bottleneck from the selected candidates. 
+We use a simple scoring mechanism to
+find the actual bottleneck from the selected candidates. 
 Any component chosen by the relative importance
 method gets 4 points. Components chosen by the other three methods get 3 points each. 
 We sum up the points assigned to each component, and the component with the highest
