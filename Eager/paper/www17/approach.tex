@@ -1,12 +1,12 @@
 Our approach is based on the following observations.
 \begin{itemize}
-\item In a well-designed PaaS web-service application, 
+\item In a well-designed web application targeted for PaaS environments, 
 most of the ``work'' is done by
 curated services intrinsic to the PaaS cloud.  
 %Put
 %another way, if the application is not leveraging the PaaS services to the
 %fullest extent, it is not taking advantage of the PaaS model.
-\item An application making maximal use of the PaaS services find that its
+\item An application making maximal use of the PaaS services finds that its
 performance is defined by the performance of these services.  Since the 
 implementation and deployment details of the PaaS services are hidden
 from the applications,
@@ -36,16 +36,8 @@ including all invocations of the PaaS kernel services made by the applications.
 
 Since Roots does not rely on application instrumentation inserted by the
 programmer or a third-party tool, it must be able to collect performance data
-for a specific application and correlate application behavior with performance
-events occuring within the PaaS services.
- 
-%There are two issues that need to be addressed when designing a monitoring framework for
-%a system as complex as a PaaS cloud.
-%\begin{enumerate}
-%\item Collecting data from multiple different layers.
-%\item Correlating data collected from different layers.
-%\end{enumerate}
-
+for a specific application, and correlate application behavior with performance
+events occurring within the PaaS services.
 Typically, each individual layer of the cloud platform collects data regarding
 its own
 state changes. It cannot monitor state changes
@@ -53,6 +45,13 @@ in other layers without violating the software isolation properties of
 layering in general.   That is, layers typically log their own internal
 activities, but do not (or cannot is many cases) correlate these activities
 with the internal activities of other layers.
+ 
+%There are two issues that need to be addressed when designing a monitoring framework for
+%a system as complex as a PaaS cloud.
+%\begin{enumerate}
+%\item Collecting data from multiple different layers.
+%\item Correlating data collected from different layers.
+%\end{enumerate}
 
 %However,
 %processing an application request involves cooperation of multiple 
@@ -174,7 +173,7 @@ Most data retrieval queries executed
 by Roots use application and time intervals as indices. Therefore a database that can index monitoring
 data by application, and then organize records by timestamp will greatly improve the query performance.
 It is also acceptable to remove old monitoring data to make room for more recent events, since Roots
-is performing anomaly detection using the most recent data in near realtime.
+is performing anomaly detection using the most recent data in near real time.
 
 \subsubsection{Data Analysis}
 
