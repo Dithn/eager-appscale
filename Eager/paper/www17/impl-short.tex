@@ -55,7 +55,7 @@ we use the Logstash tool~\cite{logstash}.
 %It also integrates naturally with ElasticSearch.
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
 which is derived from the GAE PaaS SDK. More specifically we implement an agent that records
-all PaaS SDK calls, and reports them to ElasticSearch asynchronously. 
+all PaaS SDK calls, and reports them to ElasticSearch. 
 
 Roots pods (which  contains more computationally intensive Roots components) are implemented 
 as standalone Java server processes. Threads are used to run benchmarkers,
@@ -241,7 +241,7 @@ work~\cite{Jayathilaka:2015:RTS:2806777.2806842} we found that typical
 PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
 We make use of these findings and assert that for typical,
 well-designed PaaS applications $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
-With that, we now describe how our algorithm chooses the four bottleneck candidates.
+Now we now describe how our algorithm chooses the four bottleneck candidates.
 
 %Roots bottleneck identification mechanism first
 %selects up to four components as possible candidates

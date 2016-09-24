@@ -59,7 +59,8 @@ performance.
 %runtime data. Otherwise their analyses will be inaccurate.
 Implementing data collection and analysis as a service built into the PaaS cloud allows 
 anomaly detection and bottleneck identification to be a ``curated'' service that is 
-reliably managed by the cloud platform.
+reliably managed by the cloud platform. The method of using low-level instrumentation
+for root cause analysis has already proven effective in IaaS clouds~\cite{Dean:2014:PTR:2696535.2696551}.
 
 \subsection{PaaS Performance Anomalies}
 
@@ -114,5 +115,4 @@ third party cloud monitoring solutions available today which provide some perfor
 anomaly detection support~\cite{newrelic,datadog,dynatrace}. 
 However, they require additional configuration, are expensive
 and cannot support root cause analysis across the entire cloud stack since they do not
-have visibility into all components of the cloud
-platform.
+have visibility into all components of the cloud.
