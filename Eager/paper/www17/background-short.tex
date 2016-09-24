@@ -12,7 +12,7 @@ clients can interact with it. The web APIs accept HTTP/S requests sent by
 remote clients, and respond with machine readable responses (e.g. HTML, JSON,
 XML, Protocol Buffers~\cite{protobuff}). This type of applications tend to be highly
 interactive, and clients typically have strict expectations on the application
-response time. 
+response time~\cite{latency-matters}. 
 %Studies have shown that poor application response
 %time may even lead to revenue loss~\cite{latency-matters}.
 Additionally, the PaaS cloud on
@@ -21,7 +21,7 @@ application response time for scalability
 reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine
 requires that no application request takes more than 60 seconds to execute.
 
-PaaS-hosted web applications, like those that run in Google's App Engine
+PaaS-hosted web applications, like those that run on Google App Engine
 (GAE)~\cite{gae},  
 rely on various PaaS kernel services offered by the underlying
 cloud platform. 
@@ -33,7 +33,7 @@ can greatly reduce the amount of code they have to write.
 %manage many other support software that would otherwise be necessary (e.g. a database server, 
 %a message broker etc.). 
 In other words, when developing applications for a PaaS environment, the
-developer simply focuses on implementing his/her application code
+developer simply focuses on implementing his/her application logic
 using the available PaaS services to the greatest extent possible.
 All the remaining deployment and utility services are left to be handled 
 by the PaaS cloud. 
@@ -48,7 +48,8 @@ platform's internal implementation.
 
 One way to circumvent this 
 limitation is to instrument application code, and continuously monitor the time taken by various
-parts of the application. But this activity can be tedious for the application developer, 
+parts of the application~\cite{newrelic,datadog,dynatrace}. 
+But this activity can be tedious for the application developer, 
 may be error prone thereby misleading those attempting to
 diagnose a problem, and
 the additional code instrumentation may slow down or alter the application's
@@ -67,10 +68,10 @@ reliably managed by the cloud platform.
 
 Our model is
 one in which the clients of a web application have engaged in a
-``service-level agreement'' (SLA)
+``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
 with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
 stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breech of the
-agreement (similar to ~\cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  A performance anomaly, then, is an event or set of events that
+agreement (similar to \cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  A performance anomaly, then, is an event or set of events that
 causes an application-level SLO to be violated.
 %approach associates each application with
 %a set of performance SLOs. We consider SLOs concerning the application response time
