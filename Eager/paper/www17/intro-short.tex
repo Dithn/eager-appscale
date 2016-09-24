@@ -32,15 +32,15 @@ application performance, detect anomalies, and identify system bottlenecks. To o
 this level of deep operational insight into cloud-hosted applications, the cloud platforms must support 
 data gathering and analysis capabilities that span the entire software stack of the cloud. 
 However, most cloud technologies available
-today do not provide any application monitoring support. Cloud administrators must therefore trust the
+today do not provide adequate application monitoring support. Cloud administrators must therefore trust the
 application developers to implement necessary logging and instrumentation 
-at the application level~\cite{newrelic,datadog}. This typically entails using third party, external monitoring software,
+at the application level. This typically entails using third party, external monitoring software~\cite{newrelic,datadog,dynatrace},
 which significantly increases the effort and financial cost of maintaining applications.
 Developers must also ensure
 that their instrumentation is both correct, and does not degrade 
 application performance.  Nevertheless, since the applications depend on extant
-cloud services (e.g. scalable database services, 
-scalable in-memory caching services, etc.) that are performance opaque, it is
+cloud services (e.g. database services, 
+in-memory caching, etc.) that are performance opaque, it is
 often difficult, if not impossible to diagnose the ``root cause'' of a performance problem
 using extrinsic forms of monitoring.
 
@@ -60,7 +60,7 @@ often challenging
 to determine the exact layer or the component of the cloud platform that may be responsible for it. 
 Facilitating this level of comprehensive root cause analysis requires
 both data collection at different layers of the cloud, and mechanisms for correlating 
-the events recorded at different layers. 
+the events recorded at different layers~\cite{7420511}. 
 %
 %Today's cloud platforms do not support such fine-grained
 %data collection across the board. 
@@ -84,7 +84,7 @@ To address these needs, we present the design of  a comprehensive application pl
 monitor (APM) called \textit{Roots} that can be integrated
 with a variety of cloud Platform-as-a-Service (PaaS) technologies. 
 PaaS clouds provide a very high level of abstraction that hides most of the details concerning application
-runtime. They provide a set of managed services, which developers compose into applications.
+runtime~\cite{Soni:2014:CCB:2592737.2592741}. They provide a set of managed services, which developers compose into applications.
 %The implementation and deployment details of these services are completely opaque to the developers. 
 %However, the existing cloud monitoring techniques rely on being able to capture data from all components 
 %of an application, all the way down to the virtual machines that host them. Such methods are
