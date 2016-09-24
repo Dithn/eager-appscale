@@ -29,7 +29,7 @@ We modify AppScale's internal components as needed to implement Roots.
 
 Figure~\ref{fig:roots_impl} shows an overview of our prototype implementation. Roots components
 are shown in grey, while the PaaS components are shown in blue.
-We use ElasticSearch~\cite{elasticsearch} as the data storage component of our prototype. 
+We use ElasticSearch~\cite{Kononenko:2014:MMR:2597073.2597091} as the data storage component of our prototype. 
 %ElasticSearch is ideal 
 %for storing large volumes of structured and semi-structured data. It supports scalability and 
 %high availability via sharding and replication.
@@ -180,7 +180,7 @@ identifies a performance anomaly.
 Specifically, it determines if the target application has received more requests than usual, which
 may have caused a performance degradation.
 
-In contrast with the method described 
+In contrast to the method described 
 in~\cite{Magalhaes:2010:DPA:1906485.1906774,
 Magalhaes:2011:RAP:1982185.1982234} which uses correlation between request
 latency and workload, our 
@@ -353,6 +353,7 @@ We sum up the points assigned to each component, and the component with the high
 score is declared to be the bottleneck. The relative importance method acts as a tie breaker
 in case the four methods select four different candidates. The performance anomalies we
 are interested in are typically caused by long lasting performance issues in the system 
-(pattern anomalies). Since the relative importance method looks for components with
+(collective anomalies~\cite{Chandola:2009:ADS:1541880.1541882}). 
+Since the relative importance method looks for components with
 consistently high variance, it is somewhat better at finding components
 with lasting performance issues.
