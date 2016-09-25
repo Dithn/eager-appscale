@@ -12,7 +12,7 @@ par(mar=c(1.5,0,1,0))
 plot(NA, ylim=c(-0.4,0.4), xlim=range_times, ann=FALSE, axes=FALSE, xlab='Time')
 #abline(h=0, lwd=2, col="#5B7FA3")
 
-title(xlab='Time (HH:mm)', cex.lab=0.9, line=0.1)
+title(xlab='Time (hh:mm)', cex.lab=0.9, line=0.1)
  
 axis.POSIXct(1, at=seq.POSIXt(range_times[1], range_times[2], by=30 * 60), srt=45, format="%H:%M", cex.axis=0.8, pos=0, lwd=2.2, lwd.tick=2, col="#5B7FA3", font=2, xlab='Time')
 
