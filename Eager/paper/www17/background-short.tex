@@ -10,8 +10,8 @@ applications deployed in PaaS clouds. An application of this nature exposes
 one or more web application programming interfaces (web APIs) through which
 clients can interact with it. The web APIs accept HTTP/S requests sent by
 remote clients, and respond with machine readable responses (e.g. HTML, JSON,
-XML, Protocol Buffers~\cite{protobuff}). This type of applications tend to be highly
-interactive, and clients typically have strict expectations on the application
+XML, Protocol Buffers~\cite{protobuff}). These types of applications tend to be highly
+interactive, and clients typically have strict expectations about application
 response time~\cite{latency-matters}. 
 %Studies have shown that poor application response
 %time may even lead to revenue loss~\cite{latency-matters}.
@@ -27,29 +27,32 @@ rely on various PaaS kernel services offered by the underlying
 cloud platform. 
 By offloading common application functionality such as data storage, caching,
 user management, and security to a set of scalable and
-managed cloud services, application developers
-can greatly reduce the amount of code they have to write. 
+managed cloud services, significantly simplifying and expediting 
+application development and deployment.
+%%application developers 
+%%can greatly reduce the amount of code they must write. 
 %It also eliminates the need to install, run and
 %manage many other support software that would otherwise be necessary (e.g. a database server, 
 %a message broker etc.). 
-In other words, when developing applications for a PaaS environment, the
-developer simply focuses on implementing his/her application logic
-using the available PaaS services to the greatest extent possible.
-All the remaining deployment and utility services are left to be handled 
-by the PaaS cloud. 
+%%In other words, when developing applications for a PaaS environment, the
+%%developer simply focuses on implementing his/her application logic
+%%using the available PaaS services to the greatest extent possible.
+%%All the remaining deployment and utility services are left to be handled 
+%%by the PaaS cloud. 
 
 The downside of this approach is that application developers no longer have full runtime visibility
-into the application execution. Since most of the application functionality is provided by a set 
-of PaaS kernel services that are in cloud provider's domain, the application
-developer does not have total control over application performance. If the application 
-response time becomes too slow, the application developer is not in a position to determine
-where in the entire cloud platform the performance bottleneck is due to the opacity of the cloud
+into application execution. Since most of the application functionality is provided by a set 
+of PaaS kernel services under control of the cloud provider, the application
+developer does not have complete control over application performance. If application 
+response time becomes too slow, it is very challenging if not impossible
+for the application developer to determine
+the cause of the performance bottleneck due to the opacity of the cloud
 platform's internal implementation. 
 
 One way to circumvent this 
 limitation is to instrument application code, and continuously monitor the time taken by various
 parts of the application~\cite{newrelic,datadog,dynatrace}. 
-But this activity can be tedious for the application developer, 
+Unfortunately, this activity can be tedious for the application developer, 
 may be error prone thereby misleading those attempting to
 diagnose a problem, and
 the additional code instrumentation may slow down or alter the application's
@@ -59,8 +62,8 @@ performance.
 %runtime data. Otherwise their analyses will be inaccurate.
 Implementing data collection and analysis as a service built into the PaaS cloud allows 
 anomaly detection and bottleneck identification to be a ``curated'' service that is 
-reliably managed by the cloud platform. The method of using low-level instrumentation
-for root cause analysis has already proven effective in IaaS clouds~\cite{Dean:2014:PTR:2696535.2696551}.
+reliably and scalably managed by the cloud platform. Such use of low-level instrumentation
+for root cause analysis has been shown to be effective in IaaS clouds~\cite{Dean:2014:PTR:2696535.2696551}.
 
 \subsection{PaaS Performance Anomalies}
 
@@ -72,7 +75,8 @@ one in which the clients of a web application have engaged in a
 ``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
 with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
 stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breech of the
-agreement (similar to \cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  A performance anomaly, then, is an event or set of events that
+agreement (similar to \cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  
+A performance anomaly, then, is an event or set of events that
 causes an application-level SLO to be violated.
 %approach associates each application with
 %a set of performance SLOs. We consider SLOs concerning the application response time
@@ -83,11 +87,11 @@ causes an application-level SLO to be violated.
 Further, we refer to the process
 of diagnosing whether increased workload or an unusually slow software component is responsible for
 an anomaly, and in the latter case, the identification of the slow component
-as \textit{root cause analysis}.  When request latency increases violating an SLO,
-and the workload has not increased, we assume that there is a ``bottleneck''
+as \textit{root cause analysis}.  When request latency increases and violates an SLO when
+the workload has not increased, we assume that there is a ``bottleneck''
 component in the application code or PaaS runtime that is responsible.  Roots
 performs root cause analysis in near real time so
-that it can urgently alert cloud users and administrators of the detected problems.
+that it can alert cloud users and administrators of the detected problems.
 %For a given anomaly, the root cause could be a change in the application workload or
 %a \textit{bottleneck} in the application runtime.  Bottlenecks may occur in the application code, 
 %or in the PaaS services that the application rely on.

@@ -25,7 +25,7 @@ making the diagnosis of performance problems challenging.
 Therefore, the rapid expansion of cloud technologies
 combined with their increasing opacity has intensified the need 
 for new techniques to
-monitor applications deployed in cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
+monitor applications deployed using cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
 
 Application developers and cloud administrators wish to monitor 
 application performance, detect anomalies, and identify system bottlenecks. To obtain 
@@ -40,7 +40,7 @@ Developers must also ensure
 that their instrumentation is both correct, and does not degrade 
 application performance.  Nevertheless, since the applications depend on extant
 cloud services (e.g. database services, 
-in-memory caching, etc.) that are performance opaque, it is
+in-memory caching, etc.) that are performance-opaque, it is
 often difficult, if not impossible to diagnose the ``root cause'' of a performance problem
 using extrinsic forms of monitoring.
 
@@ -82,8 +82,8 @@ the events recorded at different layers~\cite{7420511}.
 
 To address these needs, we present the design of  a comprehensive application platform 
 monitor (APM) called \textit{Roots} that can be integrated
-with a variety of cloud Platform-as-a-Service (PaaS) technologies. 
-PaaS clouds provide a very high level of abstraction that hides most of the details concerning application
+into a variety of cloud Platform-as-a-Service (PaaS) technologies. 
+PaaS clouds provide a high level of abstraction that hides most of the details concerning application
 runtime~\cite{Soni:2014:CCB:2592737.2592741}. They provide a set of managed services, which developers compose into applications.
 %The implementation and deployment details of these services are completely opaque to the developers. 
 %However, the existing cloud monitoring techniques rely on being able to capture data from all components 
@@ -131,12 +131,16 @@ application code invokes various service implementations of the PaaS cloud.
 %applications as they are deployed.
 %\end{description}
 %
-Roots collects most of the data it requires by direct integration with various internal components 
-of the cloud platform. In addition to high-level metrics like request throughput
-and latency, Roots also records calls to the internal PaaS services made by user applications,
+
+%Roots collects most of the data it requires by direct integration with various internal components 
+%of the cloud platform. In addition to high-level metrics like request throughput
+Roots performs direct measurement of internal PaaS components.
+In addition to high-level metrics such as request throughput
+and latency, Roots records calls to the internal PaaS services made by user applications,
 and the latency of those internal service calls. It uses batch operations and asynchronous 
-communication to record events in a manner that does not substantively
-increase request latency.
+communication to record events with the goal of introducing minimal overhead.
+ %a manner that does not substantively
+%increase request latency.
 %\textcolor{blue}{The remainder of this paragraph should
 %go in Section~\ref{sec:arch}.
 %In addition, Roots employs a collection of lightweight  benchmarking
@@ -151,16 +155,14 @@ increase request latency.
 %and running multiple replicas of the same pod.}
 
 When Roots detects a performance anomaly in an application, it attempts to
-identify the
-root cause of the anomaly by analyzing the workload data,
-and the performance of the internal PaaS cloud services the application depends on. 
+identify the root cause of the anomaly by analyzing the PaaS workload data,
+and the performance of the internal PaaS cloud services on which the application depends.
 It determines if the detected anomaly was caused by a change in the
 application workload (e.g. a sudden spike in the number of client requests), or an internal
 bottleneck in the cloud platform (e.g. a slow database query). To facilitate
-this
-analysis we propose a ``bottleneck identification'' methodology
+this analysis we propose a ``bottleneck identification'' methodology
 for PaaS clouds. 
-It uses a combination of quantile analysis, change point detection
+Our approach uses a combination of quantile analysis, change point detection
 and linear regression to perform root cause analysis. 
 
 We test the efficacy of our approach with a working prototype of 
@@ -171,8 +173,9 @@ Our results indicate that using information gathered from the entire cloud
 stack to parameterize the bottleneck identification algorithm, Roots
 makes accurate diagnoses nearly 100\% of the time. 
 We also demonstrate that Roots does not add a significant performance overhead
-to the applications, and that a single Roots pod can monitor tens of thousands
-of applications concurrently.
+to the applications, and that a single Roots pod (our encapsulation abstraction for
+data analysis processes) can monitor tens of thousands
+of applications simultaneously.
 
 Thus we summarize the contributions made by this paper as follows.
 \begin{itemize}
@@ -183,7 +186,7 @@ application instrumentation.
 application is experiencing a performance anomaly, and identifying the 
 workload change or the application component that is responsible for the anomaly.
 \item We demonstrate the effectiveness of the approach using a working PaaS
-prototype.
+prototype and real web applications.
 \end{itemize}
 
 %Rest of this paper is organized as follows.

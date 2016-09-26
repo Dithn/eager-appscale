@@ -2,14 +2,11 @@ To investigate the efficacy of Roots as an approach to
 implementing performance diagnostics as a PaaS service, we have developed a
 working prototype, and a set of algorithms that uses it to automatically
 identify SLO-violating performance anomalies.
-For this investigation, we used the AppScale
-platform~\cite{6488671} as a substrate. AppScale is an open source PaaS cloud
-that is API compatible
-with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  
-However, it has been engineered so that it can run on a
-single machine (using the Linux OS), distributed on a ``bare metal'' cluster
-of machines, or in an Infrastructure-as-a-Service cloud like Amazon EC2.
-We modify AppScale's internal components as needed to implement Roots.
+For this investigation, we integrate Roots into AppScale~\cite{6488671}, an open source PaaS cloud
+that is API-compatible with Google's cloud platform App Engine~\cite{gae}.  
+AppScale can run on bare metal or within cloud infrastructures (Amazon EC2, Google Compute Engine, 
+ Microsoft Azure, etc.) and executes App Engine applications without modification.
+We minimally modify AppScale's internal components to integrate Roots.
 
 %Due to AppScale's
 %API compatibility with GAE, any application developed for GAE can be deployed and
@@ -29,7 +26,7 @@ We modify AppScale's internal components as needed to implement Roots.
 
 Figure~\ref{fig:roots_impl} shows an overview of our prototype implementation. Roots components
 are shown in grey, while the PaaS components are shown in blue.
-We use ElasticSearch~\cite{Kononenko:2014:MMR:2597073.2597091} as the data storage component of our prototype. 
+We use ElasticSearch~\cite{Kononenko:2014:MMR:2597073.2597091} for data storage in our prototype. 
 %ElasticSearch is ideal 
 %for storing large volumes of structured and semi-structured data. It supports scalability and 
 %high availability via sharding and replication.
@@ -37,31 +34,31 @@ We use ElasticSearch~\cite{Kononenko:2014:MMR:2597073.2597091} as the data stora
 %for fast retrieval and efficient querying. Additionally it also provides
 %powerful data filtering and aggregation features, which greatly simplify the implementations of high-level
 %data analysis algorithms.
-We also configure AppScale's front-end server (based on Nginx) to tag all incoming application requests
-with a unique identifier. This identifier is attached to the incoming request as a custom HTTP header.
+We configure AppScale's front-end server (Nginx) to tag all incoming application requests
+with a unique identifier via a custom HTTP header. 
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
-in all the events reported to ElasticSearch. This enables our prototype to aggregate events originating
-from the same application request.
+in all the events reported to ElasticSearch. This enables our prototype to aggregate events based 
+on application request IDs.
 
 We implement a number of data collecting agents in AppScale to gather runtime information
-from all major components. These agents buffer data locally, and store them in ElasticSearch
-in batches. Events are buffered until the buffer accumulates 1MB of data, subject to a hard time limit of 
-15 seconds. This ensures that the events are promptly reported to the Roots data
+from all major components of the PaaS. These agents buffer data locally, and store them in ElasticSearch
+in batches. Roots persist events when the buffer accumulates 1MB of data or every 15 seconds, whichever comes
+first.  This ensures that the events are promptly reported to the Roots data
 storage while keeping the memory footprint of the data collecting agents small and bounded. 
 For scraping server logs and storing the extracted entries in ElasticSearch,
-we use the Logstash tool~\cite{logstash}. 
+our prototype uses Logstash~\cite{logstash}. 
 %Logstash supports scraping a wide range of standard log formats (e.g. 
 %Apache HTTPD access logs), and other custom log formats can be supported via a simple configuration.
 %It also integrates naturally with ElasticSearch.
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
-which is derived from the GAE PaaS SDK. More specifically we implement an agent that records
-all PaaS SDK calls, and reports them to ElasticSearch. 
+which is derived from the GAE PaaS SDK. Specifically, we implement a Roots agent that monitors
+and times all PaaS SDK calls and reports them to ElasticSearch. 
 
-Roots pods (which  contains more computationally intensive Roots components) are implemented 
-as standalone Java server processes. Threads are used to run benchmarkers,
-anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
+We implement Roots pods (which  contain more computationally intensive Roots components) 
+as standalone Java server processes. We use threads to run benchmarkers,
+anomaly detectors, and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
-in ElasticSearch itself. 
+directly using ElasticSearch.
 %This way, our Roots implementation offloads heavy computations 
 %to ElasticSearch which is specifically designed for high-performance query processing
 %and analytics. Some of the more sophisticated statistical analysis tasks (e.g. change point detection and 
@@ -76,7 +73,7 @@ in ElasticSearch itself.
 %demonstration of Roots defines anomalies as performance events that trigger SLO
 %violations. Thus, we devise a detector to automatically identify when a SLO
 %violation has occurred. 
-This anomaly detector
+The Roots SLO anomaly detector
 allows application developers to specify simple performance SLOs for deployed applications. A
 performance SLO consists of an upper bound on the application response time ($T$), and the probability ($p$)
 that the application response time falls under the specified upper bound. 
@@ -85,10 +82,10 @@ that the application response time falls under the specified upper bound.
 When activated, the detector starts a benchmarking process (within a Roots pod)
 that periodically measures the response time of the target application. Probes made by the benchmarking 
 process are several seconds apart in time (sampling rate), so as to not strain the application with load.
-The detector then periodically
+The detector periodically
 analyzes the collected response time measurements to check if the application meets the specified performance
 SLO. The detector also accepts a minimum samples count as a parameter. This is the minimum number of 
-samples the detector should take before evaluating an SLO.
+samples the detector takes before (re-)evaluating an SLO.
 
 %Whenever it detects that the application has failed to meet the SLO, it triggers an anomaly event. 
 
@@ -105,12 +102,12 @@ samples the detector should take before evaluating an SLO.
 %Once the anomaly detector identifies an SLO violation, it will continue to 
 %identify the same violation
 %until the historical data which contains the anomaly drops off from the sliding window. 
-In order to prevent the detector from needlessly reporting the same anomaly multiple times,
-we purge all the data from anomaly detector's sliding window whenever it detects an SLO violation.
+To prevent the detector from reporting the same anomaly multiple times,
+we purge all the data from anomaly detector's sliding window upon SLO violation detection.
 %However, the detector cannot check for further SLO violations until it repopulates the sliding window 
 %with the minimum number of samples. 
-This implies that each anomaly is followed by a ``warm up'' period.
-For instance, with a sampling rate of 15 seconds, and a minimum
+This necessitates that each anomaly is followed by a ``warm up'' period before the next violation 
+can be detected.  For instance, with a sampling rate of 15 seconds, and a minimum
 samples count of 100, the warm up period can last up to 25 minutes.
 
 %\subsection{Path Distribution Anomalies}
@@ -169,15 +166,14 @@ samples count of 100, the warm up period can last up to 25 minutes.
 %When Roots detects a performance anomaly (e.g. an application failing to meet its performance SLO),
 %it needs to be able to determine whether the failure is due
 %to an increase in workload or a bottleneck that has suddenly manifested.
-To check if the workload of an application has changed recently, Roots uses a workload change analyzer.
-This Roots component  is implemented as an anomaly handler, which gets executed every time an 
-anomaly detector
-identifies a performance anomaly. 
+To detect changes in workload, Roots implements a workload change analyzer as an anomaly handler. 
+This handler is invoked for every anomaly detected by Roots.
 %Note that this is different from the path distribution analyzer,
 %which is implemented as an anomaly detector. While the path distribution analyzer looks for changes in the
 %\textit{type} of the workload, the workload change analyzer looks for changes
 %in the workload \textit{size} or \textit{rate}. 
-Specifically, it determines if the target application has received more requests than usual, which
+It determines if there is a change in the number of requests
+received by the target application, which
 may have caused a performance degradation.
 
 In contrast to the method described 
@@ -212,21 +208,23 @@ workload size.  In this paper we use PELT to detect changes in workload.
 %designed to identify the true bottleneck from a number of candidates, and 
 %we believe it to be a major contribution associated with this work.
 
-Applications running in the cloud consist of user code executed in the application server, 
-and remote service calls to various PaaS kernel services. An AppScale cloud
-provides the same kernel services present in the Google App Engine public cloud (datastore, memcache,
+Applications running in the cloud consist of user code executed in an application server, 
+which invoke remote service calls to PaaS kernel services. An AppScale cloud
+provides the same kernel services as Google App Engine (GAE) (datastore, memcache,
 urlfetch, blobstore, user management etc.).
 We consider each PaaS kernel invocation, and the code running on the application server as 
 separate \textit{components}. Each application request causes one or more components to
-execute, and any one of the components can become a bottleneck to cause performance anomalies.  
-The purpose of bottleneck identification is to find, out of all
-the components executed by an application, the one component that is most likely to have caused 
-application performance to deteriorate.
+execute, and any one of the components can become a bottleneck and cause performance anomalies.  
+The purpose of bottleneck identification is to find, across all
+the components executed by an application, the one that is most likely to have 
+degraded application performance.
 
-Roots bottleneck identification mechanism first
+To enable this, Roots 
 selects up to four components as possible candidates
-for the bottleneck. These candidates are then further evaluated by a weighted algorithm to
+for bottleneck identification. These candidates are then further evaluated by a weighted algorithm to
 determine the actual bottleneck in the cloud platform.
+
+%HERE CJK
 
 Suppose an application makes $n$ PaaS kernel invocations ($X_1, X_2, ... X_n$) for each request. 
 For any given application request,
