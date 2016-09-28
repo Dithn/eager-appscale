@@ -5,7 +5,7 @@ to characterize the overhead introduced by Roots in terms of its effect on
 perceived application performance, and determine the degree to which Roots
 pods enable scalability.
 
-\subsection{Roots Efficacy}
+\subsection{Anomaly Detection: Accuracy and Speed}
 
 \begin{table}
 \begin{center}
@@ -110,6 +110,7 @@ an application fails to uphold a preconfigured performance SLO. Since each SLO v
 by an unexpected performance degradation in the application, Roots can be expected to correctly identify
 performance anomalies via the observed SLO violations.
 
+\subsection{Path Distribution Analyzer: Accuracy and Speed}
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_crud}
@@ -169,6 +170,7 @@ in the workload (from many cache hits to many cache misses), nearly every time t
 burst of traffic that triggers the cache miss path of the application. The only exception is when
 multiple bursts are clumped together, in which case only the first raises an alarm in Roots.
 
+\subsection{Workload Change Analyzer Accuracy}
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{workload_change_trace}
@@ -195,6 +197,7 @@ spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on 
 The PELT change point detection method used in this experimental set up is ideally suited for detecting
 such lasting changes in the workload level.
 
+\subsection{Bottleneck Identification Accuracy}
 Next we evaluate the bottleneck identification capability of Roots. We first discuss the results obtained using
 the guestbook application, and follow with
 results obtained using a more complex application.
@@ -301,6 +304,7 @@ at least two of the four candidates to be the same (score values 6 or higher). T
 identify bottlenecks with a high level of confidence since two or more candidate detection methods
 agree on their results.
 
+\subsection{Multiple Applications in a Clustered Setting}
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_g1g8}
@@ -338,10 +342,6 @@ reactivated after 25 minutes (time to collect the minimum sample count), they ea
 violation. This is why we see another set of detection events approximately half an hour after the
 original fault injection events.
 
-We conclude our discussion of Roots efficacy with a summary of our results. Table~\ref{tab:results_summary}
-provides an overview of all the results presented so far, broken down into four features that we wish to see
-in an anomaly detection and bottleneck identification system.
-
 \begin{table}
 \begin{center}
 \begin{tabular}{|p{2cm}|p{6cm}|}
@@ -371,6 +371,11 @@ were taken by the benchmarking process (2-5 minutes from the start of the fault 
 \label{tab:results_summary}
 }
 \end{table}
+
+\subsection{Summarizing the Results}
+We conclude our discussion of Roots efficacy with a summary of our results. Table~\ref{tab:results_summary}
+provides an overview of all the results presented so far, broken down into four features that we wish to see
+in an anomaly detection and bottleneck identification system.
 
 \subsection{Roots Performance and Scalability}
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
