@@ -3,9 +3,9 @@ implementing performance diagnostics as a PaaS service, we have developed a
 working prototype, and a set of algorithms that uses it to automatically
 identify SLO-violating performance anomalies.
 For this investigation, we integrate Roots into AppScale~\cite{6488671}, an open source PaaS cloud
-that is API-compatible with Google's cloud platform App Engine~\cite{gae}.  
+that is API-compatible with Google App Engine~\cite{gae} public cloud.  
 AppScale can run on bare metal or within cloud infrastructures (Amazon EC2, Google Compute Engine, 
- Microsoft Azure, etc.) and executes App Engine applications without modification.
+ Microsoft Azure, etc.), and executes App Engine applications without modification.
 We minimally modify AppScale's internal components to integrate Roots.
 
 \begin{figure}
@@ -43,9 +43,9 @@ directly using ElasticSearch.
 
 \subsection{Detecting SLO Violations}
 
-The Roots SLO performance anomaly detector
+The Roots SLO-based performance anomaly detector
 allows application developers to specify simple performance SLOs for deployed applications. A
-performance SLO is an upper bound on the application response time ($T$) and a probability ($p$)
+performance SLO is an upper bound on the application response time ($T$), and a probability ($p$)
 that the application response time is below the specified upper bound. 
 When activated, the detector starts an application benchmarking process (within a Roots pod)
 that periodically measures the response time of the target application. Probes made by the benchmarking 
@@ -53,9 +53,10 @@ process are several seconds apart in time (defined by the process sampling rate)
 so as not to degrade application performance.
 The detector periodically
 analyzes the collected response time measurements to check if the application meets the specified performance
-SLO. The detector also accepts a minimum sample count as a parameter. This is the number of 
-samples the detector takes between SLO (re-)evaluations.  If the fraction of response times
-that exceed $T$ is greater than $p$, the SLO has been violated and Roots triggers an anomaly event.
+SLO. The detector also accepts a minimum sample count as a parameter. This is the minimum number of 
+samples the detector should take before evaluating an SLO.  If the fraction of response time measurements
+that are
+less than $T$ falls below $p$, the SLO has been violated, and Roots triggers an anomaly event.
 
 To prevent the detector from detecting the same anomaly multiple times, we flush
 the detection window upon each SLO violation. A side effect of this is that 
@@ -117,12 +118,12 @@ sample count of 100, this ``warm up'' period will be 25 minutes.
 
 To detect changes in workload, Roots implements a workload change analyzer as an anomaly handler. 
 This handler is invoked for every anomaly detected by Roots.
-The workload change analyzer determines if the anomaly is due to a change in workload (i.e.
-an increase in the request rate of the application or PaaS).  Roots can report
-changes in workloads via alerts; PaaS administrators can use such alerts to determine when to
+The workload change analyzer determines if an anomaly is due to a change in workload (i.e.
+an increase in the application request rate). Roots can report
+changes in workload via alerts; PaaS administrators can use such alerts to determine when to
 add resources to the system.
-Roots only considers anomalies \textit{that are not due to a workload change} for further root
-cause analysis.
+Roots subjects anomalies \textit{that are not due to a workload change} to bottleneck
+identification.
 
 In contrast to the method described 
 in~\cite{Magalhaes:2010:DPA:1906485.1906774,
@@ -141,32 +142,31 @@ workload size.  For the results in this paper, we use PELT to detect changes in 
 
 \subsection{Bottleneck Identification}
 
-Roots performs root cause analysis (i.e. bottleneck identification) for any SLO violations (performance
-anomalies) that are triggered by something other than a change in workload.
+Roots performs bottleneck identification for any performance
+anomalies that are triggered by something other than a change in workload.
 To enable this, Roots performs multiple analyses over the PaaS performance data that it
-collects (using full-stack monitoring, without application instrumention).
+collects using full-stack monitoring, without application instrumentation.
 
 As described above, PaaS applications 
 consist of user code that is executed by one or more application servers,
-which invokes remote service calls to PaaS kernel services. 
-AppScale provides the same kernel services as most PaaS systems (datastore, memcache,
-urlfetch, blobstore, user management etc.) and implements the same PaaS SDK as
-Google App Engine (GAE).
+which makes remote service calls to PaaS kernel services. 
+AppScale provides the same kernel services provided by GAE (datastore, memcache,
+urlfetch, blobstore, user management etc.).
 We consider each PaaS kernel invocation and the code running in the application server as 
 separate \textit{components}. Each application request causes one or more components to
-execute and any one of the components can become a bottleneck and cause performance anomalies.  
+execute, and any one of the components can become a bottleneck to cause performance anomalies.  
 The purpose of bottleneck identification is to find, across all
 the components executed by an application, the one that is most likely to have 
 degraded application performance.
 
-Roots tracks the total time and the time spent in each component for each request, 
+Roots tracks the total time and the time spent in individual components for each request, 
 and relates them via the formula $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$. 
-$T_{total}$ is the total response time of the request. $T_{X_i}$ is the time spent in PaaS kernel
-invocation X at time i.  $r$ is the time spent in the resident
+$T_{total}$ is the total response time of the request. $T_{X_i}$ is the time spent on
+$X_i$ -- the $i^{th}$ PaaS kernel invocation.  $r$ is the time spent in the resident
 application server executing user code (i.e. the time not
-spent executing PaaS services during a request). Roots measures the T values in the platform and
-computes $r$ using this formula ($r$ is not measured directly because doing so would require 
-application instrumentation).  Given that typical PaaS-hosted web
+spent executing PaaS services during a request). Roots measures the T values in the platform, and
+computes $r$ using this formula. $r$ is not measured directly because doing so would require 
+application instrumentation. Given that typical PaaS-hosted web
 applications spend most of their time executing platform 
 services~\cite{Jayathilaka:2015:RTS:2806777.2806842},
 we expect $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$ in the common case.
@@ -174,7 +174,7 @@ we expect $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$ in the common case.
 \subsubsection{Selecting Bottleneck Candidates}
 
 Roots employs multiple candidate selection algorithms to identify components that are potentially
-the root cause of detected anomaly. We employ multiple, different statisical methods
+the root cause of detected anomaly. We employ multiple statistical methods
 to identify a variety of inconsistencies or changes in the performance characteristics of 
 individual components.  In our prototype, we consider the relative importance of components, 
 changes in relative importance, and two 
@@ -185,21 +185,19 @@ outliers in performance history.
 Relative importance~\cite{JSSv017i01} identifies the component that is contributing 
 the most towards the variance in the total response time. 
 To use it, we regress the kernel calls against the total response time.
-That is, for a time window $W$ prior to the detection of the anomaly, Roots
+That is, for a time window $W$ just prior to the detection of the anomaly, Roots
 fits a linear model using linear regression of the form
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$
-over the performance data (per request) in the window.
+over the per-request performance data in the window.
 
-We omit $r$ so as not to double count it in the regression
-(it is part of $T_{total}$).
+We omit $r$ since it is typically small.
 For cases in which the anomaly occurs in $r$ (e.g. a performance problem in the 
-Application Server, platform/system, or application code), $r$ will 
+application server or user code), $r$ may
 not fit our assumption that $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.  When this
-occurs, we assume that $r$ is normally distributed and independent and filter out
-requests from the window for which $r$ is outside the 0.95 quantile ($r > \mu_r + 1.65\sigma_r$)
-so preclude them from skewing the regression. 
-We consider the role of $r$ 
-using other methods (described below).
+occurs, we assume that $r$ is normally distributed and independent, and filter out
+requests from the window for which $r$ is larger than the 0.95 quantile ($r > \mu_r + 1.65\sigma_r$)
+to preclude them from skewing the regression. 
+We consider the influence of $r$ in other methods described below.
 
 Roots ranks the regressors (i.e. $T_{X_n}$ values) based on their contribution to the variance 
 in $T_{total}$.  We use the LMG method~\cite{lmg80} to do so which is resistant to multicollinearity, 
@@ -210,44 +208,47 @@ Roots selects the highest ranked component as a candidate.
 
 \paragraph*{Change in Relative Importance}
 The next method selects the most likely candidate by detecting \textit{changes} in relative importance
-(indicating that there is a change in the variation that component contributes to the total time).
-For this method, Roots divides the time window $W$ into equal-sized segments
+over time.
+This indicates how the variance a component contributes towards the total response time has
+changed over time.
+For this method, Roots divides the time window $W$ into equal-sized segments,
 and computes relative importance for regressors within each segment. 
-We subject each relative importance time series to change point analysis (PELT in our prototype) 
-and extract the variable that increases in relative importance, if any.
+This results in multiple time series of relative importance values.
+We subject each relative importance time series to change point analysis (PELT in our prototype), 
+and extract the variable that shows an increase in relative importance, if any.
 If such a variable is found, then the component
 associated with that variable is considered by Roots as a bottleneck candidate.
+The candidate selected by this method represents
+a component whose performance has been stable in the past, and has become variable recently.
 
 \paragraph*{High Quantiles}
-Roots next analyzes the empirical distributions of $T_{X_k}$ and $r$ to identify 
-long running, rare events.  Specifically, it computes the 0.99 quantile
-for each distribution.  Roots then selects the component with the largest quantile value as
-another potential bottleneck candidate.  This method identifies components with performance
-measurements that are high-valued outliers in the distribution. We include it to 
-capture events in the platform that degrade the performance of all components and those that
-degrade performance during execution of the application code (garbage collection event, application
-server problem, resource failure, etc.).
+Next we turn our attention to the individual distributions of $T_{X_k}$ and $r$.
+Out of all the available distributions,
+we wish to find the one whose quantile values are the largest.
+Specifically, we compute a high	
+quantile (e.g. 0.99 quantile) for each distribution. The component, whose distribution
+contains the largest quantile value
+is chosen as another potential candidate for the bottleneck. This component can be considered
+as having a high latency in general.
 
 \paragraph*{Tail End Values}
 Finally, Roots analyzes each $T_{X_k}$ and $r$ distribution to identify the one 
-with the largest tail values for a particular quantile.
+with the largest tail values with respect to a particular high quantile.
 For each tail end value $t$, we compute the metric $P^q_t$. 
 This is the percentage difference between $t$ and the
-$q$ quantile of the corresponding distribution. Roots selects the component with the 
+$q$ quantile of the corresponding distribution. We set $q$ to 0.99 in our experiments.
+Roots selects the component with the 
 distribution that has the largest $P^q_t$ as another potential bottleneck candidate.
-Like the candidate extracted via the 0.99 quantile method, this method identifies
-candidates that exhibit high-valued outliers in their distributions.
+This method identifies
+candidates that contain rare, high-valued outliers (point anomalies) in their distributions.
 
 \subsubsection{Selecting Among Candidates}
-
 We use a simple scoring mechanism to identify the root cause of a bottleneck 
-from the selected candidates.  There are at most four candidates (given the four
-methods employed for their selection) that this
-method considers.  The method assigns 4 points to the component chosen
-by relative importance and 3 points to all other candidates. 
+from the selected candidates. There are at most four candidates to consider.  
+The method assigns 4 points to the component chosen
+by relative importance, and 3 points to all other candidates. 
 We declare the root cause component as the one with the largest
 point sum.  This method uses relative importance as the tie-breaker because it
-targets components with consistently high variance and thus is able to identify
+targets components with consistently high variance, and thus is able to identify
 longer lasting performance issues in the system
-(collective anomalies~\cite{Chandola:2009:ADS:1541880.1541882}).
-
+(i.e. collective anomalies~\cite{Chandola:2009:ADS:1541880.1541882}).

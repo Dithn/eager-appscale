@@ -1,5 +1,5 @@
-We next evaluate the efficacy of Roots in bottleneck identification for performance anomalies 
-in PaaS applications.
+We next evaluate the efficacy of Roots as a performance monitoring and root cause
+analysis system for PaaS applications.
 To do so, we consider its ability to identify and characterize SLO violations.
 For violations that are not caused by a change in workload, we evaluate Roots' ability to identify
 the PaaS component that is the cause of the performance anomaly.
@@ -43,8 +43,8 @@ user management & 19 & 15 & 10 \\ \hline
 \vspace{-0.2in}
 \end{table}
 
-We first experiment with the Roots
-SLO-based, anomaly detector using a simple HTML-producing, Java App Engine
+We first experiment with the SLO-based anomaly detector of Roots
+using a simple HTML-producing, Java 
 web application called ``guestbook''.
 %https://cloud.google.com/appengine/docs/java/gettingstarted/creating-guestbook
 This application allows users to login and post comments. It uses the
@@ -105,7 +105,6 @@ at the datastore service. Blue arrows indicate all anomalies detected by
 Roots.
 }}
 \label{fig:time_line_guestbook_2s}
-\vspace{-0.2in}
 \end{figure}
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
@@ -421,7 +420,6 @@ were taken by the benchmarking process. \\
 \caption{\textit{Summary of Roots efficacy results.
 \label{tab:results_summary}
 }}
-\vspace{-0.1in}
 \end{table}
 Table~\ref{tab:results_summary} summarizes our results.
 While not exhaustive, these results indicate that Roots is able to achieve a
@@ -431,7 +429,7 @@ the component that causes each anomaly in a production, open source PaaS.
 
 \subsection{Roots Performance and Scalability}
 
-Finally, we evaluate the performance overhead incurred by Roots on the applications deployed in the 
+Now we evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
 invocations made by each application, since this feature requires some changes to the PaaS kernel
 implementation. 
