@@ -25,9 +25,9 @@ making the diagnosis of performance problems challenging.
 Therefore, the rapid expansion of cloud technologies
 combined with their increasing opacity has intensified the need 
 for new techniques to
-monitor applications deployed using cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
+monitor applications deployed in cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
 
-Application developers and cloud administrators wish to monitor 
+Application developers and cloud administrators generally wish to monitor 
 application performance, detect anomalies, and identify system bottlenecks. To obtain 
 this level of deep operational insight into cloud-hosted applications, the cloud platforms must support 
 data gathering and analysis capabilities that span the entire software stack of the cloud. 
@@ -89,7 +89,7 @@ runtime~\cite{Soni:2014:CCB:2592737.2592741}. They provide a set of managed serv
 %However, the existing cloud monitoring techniques rely on being able to capture data from all components 
 %of an application, all the way down to the virtual machines that host them. Such methods are
 %therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
-To be able to correlate application activity with system events,
+To be able to correlate application activity with cloud platform events,
 we design Roots as another managed service built into the PaaS cloud. Therefore
 it operates at the same level as the other services offered by the cloud platform. This way Roots can collect data
 directly from the internal service implementations of the cloud platform, thus gaining full visibility into all the 
@@ -134,10 +134,10 @@ application code invokes various service implementations of the PaaS cloud.
 
 %Roots collects most of the data it requires by direct integration with various internal components 
 %of the cloud platform. In addition to high-level metrics like request throughput
-Roots performs direct measurement of internal PaaS components.
+Roots monitors applications by directly integrating with internal PaaS components.
 In addition to high-level metrics such as request throughput
 and latency, Roots records calls to the internal PaaS services made by user applications,
-and the latency of those internal service calls. It uses batch operations and asynchronous 
+along with the latency of those internal service calls. It uses batch operations and asynchronous 
 communication to record events with the goal of introducing minimal overhead.
  %a manner that does not substantively
 %increase request latency.
