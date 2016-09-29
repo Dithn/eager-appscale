@@ -5,7 +5,7 @@
 
 %\subsection{The PaaS Model} 
 
-Our work concentrates on the web
+Our work concentrates on web
 applications deployed in PaaS clouds. An application of this nature exposes
 one or more web application programming interfaces (web APIs) through which
 clients can interact with it. The web APIs accept HTTP/S requests sent by
@@ -15,8 +15,8 @@ interactive, and clients typically have strict expectations about application
 response time~\cite{latency-matters}. 
 %Studies have shown that poor application response
 %time may even lead to revenue loss~\cite{latency-matters}.
-Additionally, the PaaS cloud on
-which an application is running may impose additional constraints on the
+The PaaS cloud on
+which an application is running may also impose additional constraints on the
 application response time for scalability
 reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine
 requires that no application request takes more than 60 seconds to execute.
@@ -25,10 +25,10 @@ PaaS-hosted web applications, like those that run on Google App Engine
 (GAE)~\cite{gae},  
 rely on various PaaS kernel services offered by the underlying
 cloud platform. 
-By offloading common application functionality such as data storage, caching,
-user management, and security to a set of scalable and
-managed cloud services, significantly simplifying and expediting 
-application development and deployment.
+Offloading common application functionality such as data storage, caching,
+and user management to a set of scalable and
+managed cloud services, significantly simplifies and expedites
+application development.
 %%application developers 
 %%can greatly reduce the amount of code they must write. 
 %It also eliminates the need to install, run and
@@ -42,7 +42,7 @@ application development and deployment.
 
 The downside of this approach is that application developers no longer have full runtime visibility
 into application execution. Since most of the application functionality is provided by a set 
-of PaaS kernel services under control of the cloud provider, the application
+of PaaS kernel services managed by the cloud provider, the application
 developer does not have complete control over application performance. If application 
 response time becomes too slow, it is very challenging if not impossible
 for the application developer to determine
@@ -60,9 +60,9 @@ performance.
 %Also there is no way to enforce correct, and consistent instrumentation of application code.  
 %That is, the application developers must be careful in gathering and storing the appropriate
 %runtime data. Otherwise their analyses will be inaccurate.
-Implementing data collection and analysis as a service built into the PaaS cloud allows 
+In contrast, implementing data collection and analysis as a service built into the PaaS cloud allows 
 anomaly detection and bottleneck identification to be a ``curated'' service that is 
-reliably and scalably managed by the cloud platform. Such use of low-level instrumentation
+reliably and scalably managed by the cloud platform. Such use of low-level data gathering
 for root cause analysis has been shown to be effective in IaaS clouds~\cite{Dean:2014:PTR:2696535.2696551}.
 
 \subsection{PaaS Performance Anomalies}
@@ -74,7 +74,7 @@ Our model is
 one in which the clients of a web application have engaged in a
 ``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
 with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
-stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breech of the
+stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breach of the
 agreement (similar to \cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  
 A performance anomaly, then, is an event or set of events that
 causes an application-level SLO to be violated.
