@@ -109,7 +109,7 @@ application code invokes various service implementations of the PaaS cloud.
 Previous work has outlined several key requirements that need to be taken into consideration when
 designing a cloud monitoring system~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120}. 
 We incorporate a number of these features into our design:
-\begin{description}
+\begin{LaTeXdescription}
 \item[Scalability] Roots is lightweight, and does not cause any noticeable overhead in 
 application performance. It also puts strict upper bounds on the volume of data kept in memory. 
 The persistent data is accessed on demand, and can be removed after their usefulness has expired.
@@ -127,7 +127,7 @@ spring to life in the cloud platform, they inherit the same augmentations, and s
 When Roots detects a problem, it attempts to automatically identify the root cause by analyzing
 available workload and service invocation data. Data collection begins automatically for new
 applications as they are deployed.
-\end{description}
+\end{LaTeXdescription}
 
 Roots collects most of the data it requires by direct integration with various internal components 
 of the cloud platform. In addition to high-level metrics like request throughput
