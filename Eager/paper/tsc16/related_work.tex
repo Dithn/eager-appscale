@@ -1,0 +1,103 @@
+Roots falls into the category of performance anomaly detection and bottleneck identification (PADBI) systems.
+A PADBI system is an entity that observes, in real time, the performance behaviors
+of a running system or application, while collecting vital measurements at discrete time intervals to create baseline
+models of typical system behaviors~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
+Such systems play a crucial role in achieving guaranteed service reliability, performance and
+quality of service by detecting performance issues in a timely manner before they escalate into major outages
+or SLO violations~\cite{6045942}. 
+PADBI systems are thoroughly researched, and well understood in the context of traditional standalone and
+network applications. Many system administrators are familiar with frameworks like 
+Nagios~\cite{Harlan:2003:NMN:860375.860378}, Open NMS~\cite{opennms} and Zabbix~\cite{Tader:2010:SMZ:1883478.1883485} which
+can be used to collect data from a wide range of applications and devices. The collected data can be
+subjected to statistical analysis and/or machine learning to detect performance anomalies. 
+
+However, the paradigm of cloud computing, being relatively new, is yet to be
+fully penetrated by PADBI systems research. The size, complexity and the dynamic nature of 
+cloud platforms make performance monitoring a particularly challenging problem.
+The existing technologies like Amazon CloudWatch~\cite{cloudwatch},
+New Relic~\cite{newrelic} and DataDog~\cite{datadog} facilitate monitoring cloud applications 
+by instrumenting low level cloud resources (e.g. virtual machines), and application code. But such technologies
+are either impracticable or insufficient in
+PaaS clouds where the low level cloud resources are hidden under layers of managed
+services, and the application code is executed in a sandboxed environment that is not
+always amenable to instrumentation. When code instrumentation is possible, it tends to be
+burdensome, error prone, and detrimental to the application's performance. Roots on the other hand is built into the 
+fabric of the PaaS cloud giving it full visibility into all the activities that take place in the entire
+software stack, without requiring application code instrumentation.
+
+Our work borrows heavily from the past literature~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120} 
+which detail the key features of cloud APMs. As a result, we pay special attention to requirements like
+scalability, autonomy and dynamic resource management in our design.
+Ibidunmoye et al highlight the importance of multilevel bottleneck identification as an open research
+question~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. This is the ability to
+identify bottlenecks from a set of top-level application service components, and further down through the 
+virtualization layer to system resource bottlenecks. Our plan for Roots is very much in sync with this
+vision. We currently support identifying bottlenecks from a set of services provided by the PaaS kernel.
+As a part of our future work, we plan to extend this support towards the virtualization layer and the
+physical resources of the cloud platform.
+
+A number of researchers have emphasized the importance of differentiating between workload changes and
+application issues when performing bottleneck identification. Cherkasova et al developed an online
+performance modeling technique to detect anomalies in traditional transaction processing systems~\cite{4630116}. 
+They divide time into contiguous segments, such that within each
+segment the application workload (volume and type of transactions) and resource usage (CPU) can be 
+fit to a linear regression model.
+Segments for which a model cannot be found, are considered anomalies. Then they remove anomalous segments
+from the history, and perform model reconciliation to differentiate between workload changes and application problems. 
+While this method is powerful, it
+requires instrumenting application code to detect different external calls (e.g. database queries) executed by the application. 
+Since the model uses different transaction types as parameters, 
+some prior knowledge regarding the transactions needs to be fed into the system. 
+The algorithm is also very compute intensive, due to continuous segmentation and model fitting.
+In contrast, we use a very lightweight SLO monitoring method in Roots to detect performance anomalies, and
+only perform heavy computations to perform bottleneck identification. 
+
+Dean et al implemented PerfCompass~\cite{Dean:2014:PTR:2696535.2696551}, 
+an anomaly detection and localization method for IaaS clouds. They instrument
+the VM operating systems to capture the system calls made by user applications. Anomalies are detected by
+looking for unusual increases in system call execution time. They group system calls into execution units
+(processes, threads etc), and analyze how many units are affected by any given anomaly (fault impact factor). 
+Based on this metric they conclude if the problem was caused by a workload change or an application
+level issue. We take a similar approach in Roots, in that we capture the PaaS kernel invocations
+made by user applications. We use application response time (latency) as an indicator of anomalies,
+and group PaaS kernel invocations into application requests to perform bottleneck identification.
+
+Nguyen et al presented PAL, another anomaly detection and localization mechanism targeting
+distributed applications deployed on IaaS clouds~\cite{Nguyen:2011:PPR:2038633.2038634}. 
+Similar to Roots, they also use an SLO monitoring approach to detect application
+performance anomalies. When an anomaly is detected, they perform change point analysis
+on gathered resource usage data (CPU, memory and network) to identify the anomaly onset time.
+Having detected one or more anomaly onset events in different components of the
+distributed application, they sort the events by time to determine
+the propagation pattern of the anomaly.
+
+Magalhaes and Silva have made significant contributions in the area of anomaly detection
+and root cause analysis in web applications~\cite{Magalhaes:2010:DPA:1906485.1906774, Magalhaes:2011:RAP:1982185.1982234}. 
+They compute the correlation between application
+workload and latency. If the level of correlation drops significantly, they consider it to be an
+anomaly. A similar correlation analysis between workload and other local system metrics 
+(e.g. CPU and memory usage) is used to identify the system resource that is responsible for
+a given anomaly.
+They also use an aspect-oriented programming model in their target applications, which
+allows them to easily instrument application code, and gather metrics regarding various 
+remote services (e.g. database) invoked by the application. This data is subjected to a 
+series of simple linear regressions to perform root cause analysis. This approach assumes
+that remote services are independent of each other. However, in a cloud platform where
+kernel services are deployed in the same shared infrastructure, this assumption might not
+hold true. Therefore we improve on their methodology, and use multiple linear regression
+with relative importance to identify cloud platform bottlenecks. Relative importance
+is resistant to multicollinearity, and therefore does not require the independence assumption.
+
+Anomaly detection is a general problem not restricted to performance analysis. Researchers
+have studied anomaly detection from many different points of view, and as a result many
+viable algorithms and solutions have emerged over time~\cite{Chandola:2009:ADS:1541880.1541882}.
+Prior work in performance anomaly detection and root cause analysis can be classified as statistical
+methods (e.g. \cite{6311395,Malkowski:2007:BDU:1783374.1783389,Magalhaes:2011:RAP:1982185.1982234,Nguyen:2011:PPR:2038633.2038634}) 
+and machine learning methods (e.g. \cite{Cohen:2004:CID:1251254.1251270,Yu:2013:SNA:2494621.2494643,bhaduri2011detecting}).
+While we use many statistical methods
+in our work (change point analysis, relative importance, quantile analysis), Roots is not tied to any of these
+techniques. Rather, we provide a framework on top of which new anomaly detectors and anomaly
+handlers can be built. It is indeed possible to build an anomaly detector that trains a model
+from historic data, and then uses it to detect anomalies in newly encountered data. We
+leave evaluating the tradeoffs between resolution power and scalability of such advanced
+methods to our future work.
