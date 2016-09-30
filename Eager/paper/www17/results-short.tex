@@ -49,14 +49,14 @@ web application called ``guestbook''.
 %https://cloud.google.com/appengine/docs/java/gettingstarted/creating-guestbook
 This application allows users to login and post comments. It uses the
 AppScale  datastore service to persist
-posted comments and the AppScale user management service to handle authentication. 
+posted comments, and the AppScale user management service to handle authentication. 
 Each request processed
 by guestbook results in two PaaS kernel invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
 14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory.
 
-We run the Roots SLO-based, anomaly detector on guestbook with a sampling rate of 15 seconds, an analysis
+We run the SLO-based anomaly detector of Roots on guestbook with a sampling rate of 15 seconds, an analysis
 rate of 60 seconds, and a window size of 1 hour. We set the minimum samples count to 100, and
 run a series of experiments with different SLOs on the guestbook application. Specifically, we fix
 the SLO success probability at 95\%, and set the response time upper bound to $\mu_g + n\sigma_g$. 
@@ -85,12 +85,12 @@ SLO (45ms) is used, the only anomalies detected are the ones
 caused by our hourly fault injection mechanism. As the SLO is tightened by lowering the upper bound,
 Roots detects additional anomalies. These additional anomalies
 result from a combination of injected faults, and other naturally occurring faults
-in the system. That is, Roots also detects naturally occurring
-faults (temporary spikes in application latency), when a number of injected faults
-were still in the sliding window of the anomaly detector. Together these two types of
+in the system. That is, Roots detects naturally occurring
+faults (temporary spikes in application latency), while a number of injected faults
+are still in the sliding window of the anomaly detector. Together these two types of
 faults caused SLO violations usually several minutes after the fault injection period
 has expired.  In each case, however, a manual inspection of the data reveals
-that Roots identified \textit{all} of the faults (injected and natural) correctly,
+that Roots identified \textit{all} of the injected and natural faults correctly,
 missing none subject to the tightness of the SLO.
 
 \subsection{Anomaly Detection Speed}
@@ -116,7 +116,7 @@ period lasts up to 3 minutes.
 The blue arrows indicate the Roots anomaly detection events.
 Note that every fault injection period is immediately followed by an anomaly
 detection event, implying near real time reaction from Roots. The only exception is the fault
-injection window at 20:00 hours which is not immediately followed by an anomaly 
+injection window at 20:00 hours, which is not immediately followed by an anomaly 
 detection event. Roots detected another naturally occurring anomaly
 (i.e. one
 that we did not explicitly inject but nonetheless caused an SLO violation) at 19:52 hours,
@@ -243,7 +243,7 @@ figure~\ref{fig:time_line_guestbook_2s}, Roots determined that all the detected 
 caused by the AppScale datastore service. This is consistent with our expectations since in this experiment we 
 artificially inject faults into the datastore. 
 The only anomaly that is not traced back to the datastore service is the one that was detected at 14:32 hours.
-This is indicated by the blue arrow with a small square marker at the top. For this anomaly, Roots concluded that
+This is indicated by the blue arrow with a square marker at the top. For this anomaly, Roots concluded that
 the bottleneck is the local execution at the application server ($r$). We have verified
 this result by manually inspecting the AppScale logs and traces of data collected by Roots. As it turns out,
 between 14:19 and
@@ -365,9 +365,9 @@ To demonstrate how Roots can be used in a multi-node environment, we deploy AppS
 using a cluster of 10 virtual machines (VMs). VMs are provisioned by a
 Eucalyptus~\cite{eucalyptus09} (IaaS)
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
-to deploy 8 instances of the guestbook application on AppScale. We use the multitenant support
+to deploy 8 instances of the guestbook application on AppScale. We use the multi-tenant support
 in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). 
-Each application instance has its own datastore namespace (is isolated from the others) 
+Each application instance has its own datastore namespace, is isolated from the others,
 and is accessed via its own public URL. We disable auto-scaling support in 
 the AppScale cloud, and inject faults into the datastore service of AppScale by delaying queries from a particular
 VM by 100ms.
@@ -425,8 +425,8 @@ were taken by the benchmarking process. \\
 Table~\ref{tab:results_summary} summarizes our results.
 While not exhaustive, these results indicate that Roots is able to achieve a
 high degree of accuracy in detecting and characterizing performance anomalies.
-Moreover, for the experiemental setups that we consider, Roots is able to accurately identify
-the component that causes each anomaly in a production, open source PaaS.
+Moreover, for the experimental configurations that we consider, Roots is able to accurately identify
+the component that causes each anomaly in a production-quality, open source PaaS.
 
 \subsection{Roots Performance and Scalability}
 
