@@ -3,9 +3,9 @@ implementing performance diagnostics as a PaaS service, we have developed a
 working prototype, and a set of algorithms that uses it to automatically
 identify SLO-violating performance anomalies.
 For this investigation, we integrate Roots into AppScale~\cite{6488671}, an open source PaaS cloud
-that is API-compatible with Google App Engine~\cite{gae} public cloud.  
-AppScale can run on bare metal or within cloud infrastructures (Amazon EC2, Google Compute Engine, 
- Microsoft Azure, etc.), and executes App Engine applications without modification.
+that is API-compatible with the Google App Engine~\cite{gae} public cloud.  
+AppScale can run on bare metal or within cloud infrastructures (Amazon EC2, Eucalyptus, 
+etc.), and executes GAE applications without modification.
 We minimally modify AppScale's internal components to integrate Roots.
 
 \begin{figure}
@@ -22,7 +22,7 @@ We configure AppScale's front-end server (Nginx) to tag all incoming application
 with a unique identifier via a custom HTTP header. 
 All data collecting agents in the cloud extract this identifier, and include it as an attribute
 in all the events reported to ElasticSearch. This enables our prototype to aggregate events based 
-on application request IDs.
+on request IDs.
 
 We implement a number of data collecting agents in AppScale to gather runtime information
 from all major components of the PaaS. These agents buffer data locally, and store them in ElasticSearch
@@ -33,21 +33,21 @@ For scraping server logs and storing the extracted entries in ElasticSearch,
 our prototype uses Logstash~\cite{logstash}. 
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
 which is derived from the GAE PaaS SDK. Specifically, we implement a Roots agent that monitors
-and times all PaaS SDK calls and reports them to ElasticSearch. 
+and times all PaaS kernel invocations, and reports them to ElasticSearch. 
 
-We implement Roots pods (which  contain more computationally intensive Roots components) 
+We implement Roots pods, which contain more computationally intensive Roots components, 
 as standalone Java server processes. We use threads to run benchmarkers,
 anomaly detectors, and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
-directly using ElasticSearch.
+directly in ElasticSearch.
 
 \subsection{Detecting SLO Violations}
 
-The Roots SLO-based performance anomaly detector
+The SLO-based anomaly detector of Roots
 allows application developers to specify simple performance SLOs for deployed applications. A
 performance SLO is an upper bound on the application response time ($T$), and a probability ($p$)
 that the application response time is below the specified upper bound. 
-When activated, the detector starts an application benchmarking process (within a Roots pod)
+When activated, the detector starts an application benchmarking process within a Roots pod
 that periodically measures the response time of the target application. Probes made by the benchmarking 
 process are several seconds apart in time (defined by the process sampling rate), 
 so as not to degrade application performance.
@@ -147,8 +147,8 @@ anomalies that are triggered by something other than a change in workload.
 To enable this, Roots performs multiple analyses over the PaaS performance data that it
 collects using full-stack monitoring, without application instrumentation.
 
-As described above, PaaS applications 
-consist of user code that is executed by one or more application servers,
+PaaS applications 
+consist of user code that is executed in one or more application servers,
 which makes remote service calls to PaaS kernel services. 
 AppScale provides the same kernel services provided by GAE (datastore, memcache,
 urlfetch, blobstore, user management etc.).
@@ -161,10 +161,10 @@ degraded application performance.
 
 Roots tracks the total time and the time spent in individual components for each request, 
 and relates them via the formula $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$. 
-$T_{total}$ is the total response time of the request. $T_{X_i}$ is the time spent on
-$X_i$ -- the $i^{th}$ PaaS kernel invocation.  $r$ is the time spent in the resident
-application server executing user code (i.e. the time not
-spent executing PaaS services during a request). Roots measures the T values in the platform, and
+$T_{total}$ is the total execution time of a request. $T_{X_i}$ is the time spent executing
+$X_i$; the $i^{th}$ PaaS kernel invocation.  $r$ is the time spent in the resident
+application server executing user code (i.e. the time
+spent not executing PaaS services during a request). Roots measures the $T$ values in the platform, and
 computes $r$ using this formula. $r$ is not measured directly because doing so would require 
 application instrumentation. Given that typical PaaS-hosted web
 applications spend most of their time executing platform 
@@ -173,11 +173,12 @@ we expect $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$ in the common case.
 
 \subsubsection{Selecting Bottleneck Candidates}
 
-Roots employs multiple candidate selection algorithms to identify components that are potentially
-the root cause of detected anomaly. We employ multiple statistical methods
-to identify a variety of inconsistencies or changes in the performance characteristics of 
+Roots employs multiple candidate selection algorithms to identify up to four 
+components that are potentially
+the bottleneck responsible for the detected anomaly. Our algorithms look for
+a variety of inconsistencies and changes in the performance characteristics of 
 individual components.  In our prototype, we consider the relative importance of components, 
-changes in relative importance, and two 
+variations in relative importance, and two 
 distributional techniques that distinguish rare events and 
 outliers in performance history.
 
@@ -222,7 +223,7 @@ The candidate selected by this method represents
 a component whose performance has been stable in the past, and has become variable recently.
 
 \paragraph*{High Quantiles}
-Next we turn our attention to the individual distributions of $T_{X_k}$ and $r$.
+Next we turn our attention to the distributions of $T_{X_k}$ and $r$.
 Out of all the available distributions,
 we wish to find the one whose quantile values are the largest.
 Specifically, we compute a high	
@@ -247,8 +248,10 @@ We use a simple scoring mechanism to identify the root cause of a bottleneck
 from the selected candidates. There are at most four candidates to consider.  
 The method assigns 4 points to the component chosen
 by relative importance, and 3 points to all other candidates. 
-We declare the root cause component as the one with the largest
+We declare the bottleneck component as the one with the largest
 point sum.  This method uses relative importance as the tie-breaker because it
 targets components with consistently high variance, and thus is able to identify
 longer lasting performance issues in the system
 (i.e. collective anomalies~\cite{Chandola:2009:ADS:1541880.1541882}).
+Prior work~\cite{Magalhaes:2011:RAP:1982185.1982234} has shown that 
+regression-based techniques are highly effective in root cause analysis.
