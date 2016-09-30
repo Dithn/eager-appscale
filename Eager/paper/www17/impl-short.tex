@@ -29,7 +29,7 @@ from all major components of the PaaS. These agents buffer data locally, and sto
 in batches. Roots persist events when the buffer accumulates 1MB of data or every 15 seconds, whichever comes
 first.  This ensures that the events are promptly reported to the Roots data
 storage while keeping the memory footprint of the data collecting agents small and bounded. 
-For scraping server logs and storing the extracted entries in ElasticSearch,
+For processing server logs and storing the extracted entries in ElasticSearch,
 our prototype uses Logstash~\cite{logstash}. 
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
 which is derived from the GAE PaaS SDK. Specifically, we implement a Roots agent that monitors
@@ -142,11 +142,15 @@ workload size.  For the results in this paper, we use PELT to detect changes in 
 
 \subsection{Bottleneck Identification}
 
-Roots performs bottleneck identification for any performance
-anomalies that are triggered by something other than a change in workload.
-To enable this, Roots performs multiple analyses over the PaaS performance data that it
-collects using full-stack monitoring, without application instrumentation.
+%Roots performs bottleneck identification for any performance
+%anomalies that are triggered by something other than a change in workload.
+%To enable this, Roots performs multiple analyses over the PaaS performance data that it
+%collects using full-stack monitoring, without application instrumentation.
 
+When an anomaly occurs and it is not due to an increase in workload,
+the purpose of bottleneck identification is to find, across all
+the components executed by an application, the one that is most likely to have 
+degraded application performance.
 PaaS applications 
 consist of user code that is executed in one or more application servers,
 which makes remote service calls to PaaS kernel services. 
@@ -155,9 +159,6 @@ urlfetch, blobstore, user management etc.).
 We consider each PaaS kernel invocation and the code running in the application server as 
 separate \textit{components}. Each application request causes one or more components to
 execute, and any one of the components can become a bottleneck to cause performance anomalies.  
-The purpose of bottleneck identification is to find, across all
-the components executed by an application, the one that is most likely to have 
-degraded application performance.
 
 Roots tracks the total time and the time spent in individual components for each request, 
 and relates them via the formula $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$. 
@@ -173,11 +174,15 @@ we expect $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$ in the common case.
 
 \subsubsection{Selecting Bottleneck Candidates}
 
-Roots employs multiple candidate selection algorithms to identify up to four 
+Roots employs multiple candidate selection algorithms to identify 
+%up to four 
 components that are potentially
 the bottleneck responsible for the detected anomaly. Our algorithms look for
 a variety of inconsistencies and changes in the performance characteristics of 
-individual components.  In our prototype, we consider the relative importance of components, 
+individual components.  In our prototype, we consider four slection
+algorithms:
+one that determines the relative importance (in terms of explained variance)
+of components, one that tracks 
 variations in relative importance, and two 
 distributional techniques that distinguish rare events and 
 outliers in performance history.
@@ -185,7 +190,9 @@ outliers in performance history.
 \paragraph*{Relative Importance}
 Relative importance~\cite{JSSv017i01} identifies the component that is contributing 
 the most towards the variance in the total response time. 
-To use it, we regress the kernel calls against the total response time.
+To use it, Roots regresses the latencies from a set of calls to
+the PaaS services that a specific request generates against the total 
+response time of the request.
 That is, for a time window $W$ just prior to the detection of the anomaly, Roots
 fits a linear model using linear regression of the form
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$
@@ -201,7 +208,7 @@ to preclude them from skewing the regression.
 We consider the influence of $r$ in other methods described below.
 
 Roots ranks the regressors (i.e. $T_{X_n}$ values) based on their contribution to the variance 
-in $T_{total}$.  We use the LMG method~\cite{lmg80} to do so which is resistant to multicollinearity, 
+in $T_{total}$.  It uses the LMG method~\cite{lmg80} to do so which is resistant to multicollinearity, 
 and provides a breakdown of the $R^2$ value of
 the regression according to how strongly each regressor influences
 the variance of the dependent variable ($T_{total}$).
@@ -210,13 +217,16 @@ Roots selects the highest ranked component as a candidate.
 \paragraph*{Change in Relative Importance}
 The next method selects the most likely candidate by detecting \textit{changes} in relative importance
 over time.
-This indicates how the variance a component contributes towards the total response time has
+This algorithm determines 
+how the variance a component contributes towards the total response time has
 changed over time.
 For this method, Roots divides the time window $W$ into equal-sized segments,
 and computes relative importance for regressors within each segment. 
 This results in multiple time series of relative importance values.
 We subject each relative importance time series to change point analysis (PELT in our prototype), 
-and extract the variable that shows an increase in relative importance, if any.
+and attempts to
+identify the variable that shows a change and the greatest
+increase in relative importance.
 If such a variable is found, then the component
 associated with that variable is considered by Roots as a bottleneck candidate.
 The candidate selected by this method represents
@@ -229,15 +239,18 @@ we wish to find the one whose quantile values are the largest.
 Specifically, we compute a high	
 quantile (e.g. 0.99 quantile) for each distribution. The component, whose distribution
 contains the largest quantile value
-is chosen as another potential candidate for the bottleneck. This component can be considered
-as having a high latency in general.
+is chosen as another potential candidate for the bottleneck since it has
+recently (i.e. within the analysis window) large latencies. 
+
+%This component can be considered
+%as having a high latency in general.
 
 \paragraph*{Tail End Values}
 Finally, Roots analyzes each $T_{X_k}$ and $r$ distribution to identify the one 
-with the largest tail values with respect to a particular high quantile.
-For each tail end value $t$, we compute the metric $P^q_t$. 
-This is the percentage difference between $t$ and the
-$q$ quantile of the corresponding distribution. We set $q$ to 0.99 in our experiments.
+with the largest outlier value with respect to a particular high quantile.
+For each maximum latency value $t$, we compute the metric $P^q_t$ 
+as the percentage difference between $t$ and a target quantile
+$q$ of the corresponding distribution. We set $q$ to 0.99 in our experiments.
 Roots selects the component with the 
 distribution that has the largest $P^q_t$ as another potential bottleneck candidate.
 This method identifies

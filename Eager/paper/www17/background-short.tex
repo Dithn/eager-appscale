@@ -43,7 +43,8 @@ application development.
 The downside of this approach is that application developers no longer have full runtime visibility
 into application execution. Since most of the application functionality is provided by a set 
 of PaaS kernel services managed by the cloud provider, the application
-developer does not have complete control over application performance. If application 
+developer does not have complete insight into application performance. 
+If application 
 response time becomes too slow, it is very challenging if not impossible
 for the application developer to determine
 the cause of the performance bottleneck due to the opacity of the cloud
@@ -84,17 +85,18 @@ causes an application-level SLO to be violated.
 %If the performance of an application deteriorates to the
 %point that at least one of its SLOs is violated, we treat it as an anomaly. 
 
-Further, we refer to the process
-of diagnosing whether increased workload or an unusually slow software component is responsible for
-an anomaly, and in the latter case, the identification of the slow component
-as \textit{root cause analysis}.  When request latency increases and violates an SLO when
-the workload has not increased, we assume that there is a ``bottleneck''
-component in the application code or PaaS runtime that is responsible.  Roots
-performs root cause analysis in near real time so
-that it can alert cloud users and administrators of the detected problems.
-%For a given anomaly, the root cause could be a change in the application workload or
-%a \textit{bottleneck} in the application runtime.  Bottlenecks may occur in the application code, 
-%or in the PaaS services that the application rely on.
+Further, we refer to the process of diagnosing whether increased workload or
+an unusually slow software component is responsible for an anomaly, and in the
+latter case, the identification of the slow component as \textit{root cause
+analysis}.  When request latency increases and violates an SLO and the
+workload has not increased, we assume that there is a ``bottleneck'' component
+in the application code or PaaS runtime that is responsible.  Roots performs
+root cause analysis in near real time so that it can alert cloud users and
+administrators of problems it detects.
+%For a given anomaly, the root cause could be a change in the application
+%workload or a \textit{bottleneck} in the application runtime.  Bottlenecks
+%may occur in the application code, or in the PaaS services that the
+%application rely on.
 
 %In order to maintain a satisfactory level of user experience and adhere to any previously
 %agreed upon performance SLOs, application developers and cloud administrators wish
@@ -114,9 +116,9 @@ that it can alert cloud users and administrators of the detected problems.
 %cloud platforms in use today. It is even more challenging to perform root cause analysis
 %due to the complexity and the blackbox nature of the cloud platforms. 
 
-Note that there are several
-third party cloud monitoring solutions available today which provide some performance
-anomaly detection support~\cite{newrelic,datadog,dynatrace}. 
-However, they require additional configuration, are expensive
-and cannot support root cause analysis across the entire cloud stack since they do not
-have visibility into all components of the cloud.
+%Note that there are several
+%third party cloud monitoring solutions available today which provide some performance
+%anomaly detection support~\cite{newrelic,datadog,dynatrace}. 
+%However, they require additional configuration, are expensive
+%and cannot support root cause analysis across the entire cloud stack since they do not
+%have visibility into all components of the cloud.

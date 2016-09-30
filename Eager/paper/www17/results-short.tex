@@ -22,7 +22,7 @@ prototype.
 %perceived application performance, and determine the degree to which Roots
 %pods enable scalability.
 
-\subsection{Roots Efficacy}
+\subsection{SLO Anomaly Detection}
 
 \begin{table}
 {\footnotesize
@@ -51,7 +51,8 @@ This application allows users to login and post comments. It uses the
 AppScale  datastore service to persist
 posted comments, and the AppScale user management service to handle authentication. 
 Each request processed
-by guestbook results in two PaaS kernel invocations -- one to check if the user is logged in, and 
+by guestbook results in two PaaS kernel service
+invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
 14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory.
@@ -76,7 +77,7 @@ Therefore this delay is sufficient to violate all three SLOs used in our experim
 We also perform experiments in which we inject faults into the user management service of
 AppScale. Each experiment is run for a period of 10 hours.
 
-\subsection{Anomaly Detection Accuracy}
+\subsubsection{Anomaly Detection Accuracy}
 
 Table~\ref{tab:anomaly_counts} shows how the number of anomalies detected by 
 Roots in a 10 hour period varies when the SLO is changed. The number of anomalies
@@ -93,7 +94,7 @@ has expired.  In each case, however, a manual inspection of the data reveals
 that Roots identified \textit{all} of the injected and natural faults correctly,
 missing none subject to the tightness of the SLO.
 
-\subsection{Anomaly Detection Speed}
+\subsubsection{Anomaly Detection Speed}
 
 \begin{figure}
 \centering
@@ -201,7 +202,7 @@ inspection.
 %burst of traffic that triggers the cache miss path of the application. The only exception is when
 %multiple bursts are clumped together, in which case only the first raises an alarm in Roots.
 
-\subsection{Workload Change Analyzer Performance}
+\subsection{Workload Change Analyzer}
 
 \begin{figure}
 \centering
@@ -232,7 +233,7 @@ spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on 
 The PELT change point detection method used in this experimental set up is ideally suited for detecting
 such lasting changes in the workload level.
 
-\subsection{Bottleneck Identification Accuracy}
+\subsection{Bottleneck Identification}
 
 In this subsection, we evaluate the bottleneck identification capability of 
 Roots. We first discuss the results obtained using
@@ -381,14 +382,16 @@ ElasticSearch, Logstash and the Roots pod are deployed on a separate VM.
 Figure~\ref{fig:time_line_g1g8} shows the resulting event sequence. Note that we detect anomalies 
 in 3 applications ($G4$, $G6$ and $G7$) immediately after each fault injection. Inspecting the 
 topology of our AppScale cluster revealed that these were the only 3 applications that were 
-hosted on $V_f$. As a result, our bi-hourly fault injection caused their SLOs to
-get violated. Other applications did not exhibit any SLO violations since we are monitoring against
-a very high response time upper bound. In each case Roots detected the SLO violations 2-3 minutes into the fault injection
+hosted on $V_f$. As a result, bi-hourly fault injection caused their SLOs to
+get violated. Other applications did not exhibit any SLO violations since 
+the SLO specifies 
+a high response time upper bound. In each case Roots detected the SLO violations 2-3 minutes into the fault injection
 period. As soon as this happens, the anomaly detectors of $G4$, $G6$ and $G7$ entered their warmup phases.
 Our fault injection logic continued to inject faults for at least 2 more minutes. 
 Therefore when the anomaly detectors
 reactivated after 25 minutes (which is the time to collect the minimum sample count), they each saw another SLO
-violation. This is why we see another set of detection events approximately half an hour after the
+violation. This is another set of detection events appears in the figure
+approximately half an hour after the
 original fault injection events.
 
 \subsection{Results Summary}
@@ -430,7 +433,7 @@ the component that causes each anomaly in a production-quality, open source PaaS
 
 \subsection{Roots Performance and Scalability}
 
-Now we evaluate the performance overhead incurred by Roots on the applications deployed in the 
+We evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
 invocations made by each application, since this feature requires some changes to the PaaS kernel
 implementation. 

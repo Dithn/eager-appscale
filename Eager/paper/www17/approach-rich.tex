@@ -71,8 +71,8 @@ internal components of the PaaS cloud. We configure performance data collecting
 agents in each software layer in the PaaS 
 cloud to record the request identifiers along with any events they capture. 
 This way we maintain the relationship between application requests, and the resulting
-local state changes in different layers of the cloud without breaking the
-abstraction layering in the cloud architecture. 
+local state changes in different layers of the cloud without breaking the existing level
+of abstraction in the cloud architecture. 
 To make this approach scalable, we collect events independently within their layers, and 
 aggregate on-demand.
 
@@ -105,12 +105,12 @@ ingress that it uses to correlate events at each level of the stack.}
 
 Figure~\ref{fig:apm_architecture} shows Roots collecting data from all
 layers in a PaaS stack (i.e. full stack monitoring). 
-Such monitoring enables it to trace the execution of individual requests
+Such monitoring enables us to trace the execution of individual requests
 through the cloud platform. In addition
-to Roots data collecting agents directly integrated with the cloud platform, Roots employs
+to the data collecting agents directly integrated with the cloud platform, Roots employs
 a collection of application benchmarking processes that periodically measure
-application latency. It uses these measurements to
-evaluate the performance SLOs for each application.
+application latency. Roots uses measurements taken by these processes to
+evaluate the performance SLOs of each application.
 
 %Finally, at the lowest infrastructure level, we can collect information related to virtual machines, containers
 %and their resource usage. We can also gather metrics on network usage by individual components which
@@ -147,11 +147,9 @@ Anomaly detectors are processes that periodically analyze the data collected for
 each deployed application. Roots supports multiple detector implementations, where each implementation
 uses a different statistical method to look for performance anomalies. Detectors are configured
 per-application, making it possible for different applications to use different anomaly 
-detectors. Roots also supports multiple concurrent anomaly detectors 
-on the same application so that mixture approaches can be employed.
-%, which can be used
-%to evaluate the efficiency of different detection strategies for any given application. Each
-Each anomaly detector has an execution schedule (e.g. run every 60 seconds), and a sliding window 
+detectors. Roots also supports multiple concurrent anomaly detectors on the same application, which can be used
+to evaluate the efficiency of different detection strategies for any given application. Each
+anomaly detector has an execution schedule (e.g. run every 60 seconds), and a sliding window 
 (e.g. from 10 minutes ago to now)
 associated with it. The boundaries of the window determines the time range
 of the data processed by the detector at any round of execution. Window is updated 
@@ -199,13 +197,13 @@ workload change detection, and bottleneck identification.
 \subsection{Roots Pods}
 \label{sec:process_mgt}
 
-%\begin{figure}
-%\centering
-%\includegraphics[scale=0.4]{roots_pod}
-%\caption{Anatomy of a Roots pod. The diagram shows 2 application benchmarking processes (B), 
-%3 anomaly detectors (D), and 2 handlers (H).}
-%\label{fig:roots_pod}
-%\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{roots_pod}
+\caption{Anatomy of a Roots pod. The diagram shows 2 application benchmarking processes (B), 
+3 anomaly detectors (D), and 2 handlers (H).}
+\label{fig:roots_pod}
+\end{figure}
 %Most data collection activities in Roots can be treated as passive -- i.e. they
 %happen automatically as the applications receive and process requests in the cloud
 %platform. They do not require explicit scheduling or management. In contrast,
@@ -227,10 +225,10 @@ efficient starting/stopping of pods
 without impacting other PaaS and Roots components. Our pods design also facilitates
 replication for high availability and application load distribution
 among multiple pods for scalability.
-%Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
-%The anomaly detectors and handlers communicate
-%using an internal shared memory communication bus, so that events triggered by one anomaly
-%detector flow into all handlers. 
+Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
+The anomaly detectors and handlers communicate
+using an internal shared memory communication bus, so that events triggered by one anomaly
+detector flow into all handlers. 
 
 %To automate the process of managing pods, they can be tied into the core
 %process management framework of the PaaS cloud. That way whenever the cloud
