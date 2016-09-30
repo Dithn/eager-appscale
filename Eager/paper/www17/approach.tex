@@ -197,13 +197,13 @@ workload change detection, and bottleneck identification.
 \subsection{Roots Pods}
 \label{sec:process_mgt}
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.4]{roots_pod}
-\caption{Anatomy of a Roots pod. The diagram shows 2 application benchmarking processes (B), 
-3 anomaly detectors (D), and 2 handlers (H).}
-\label{fig:roots_pod}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.4]{roots_pod}
+%\caption{Anatomy of a Roots pod. The diagram shows 2 application benchmarking processes (B), 
+%3 anomaly detectors (D), and 2 handlers (H).}
+%\label{fig:roots_pod}
+%\end{figure}
 %Most data collection activities in Roots can be treated as passive -- i.e. they
 %happen automatically as the applications receive and process requests in the cloud
 %platform. They do not require explicit scheduling or management. In contrast,
@@ -225,10 +225,10 @@ efficient starting/stopping of pods
 without impacting other PaaS and Roots components. Our pods design also facilitates
 replication for high availability and application load distribution
 among multiple pods for scalability.
-Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
-The anomaly detectors and handlers communicate
-using an internal shared memory communication bus, so that events triggered by one anomaly
-detector flow into all handlers. 
+%Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
+%The anomaly detectors and handlers communicate
+%using an internal shared memory communication bus, so that events triggered by one anomaly
+%detector flow into all handlers. 
 
 %To automate the process of managing pods, they can be tied into the core
 %process management framework of the PaaS cloud. That way whenever the cloud

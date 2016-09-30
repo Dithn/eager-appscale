@@ -223,7 +223,7 @@ The candidate selected by this method represents
 a component whose performance has been stable in the past, and has become variable recently.
 
 \paragraph*{High Quantiles}
-Next we turn our attention to the distributions of $T_{X_k}$ and $r$.
+Roots next analyzes the empirical distributions of $T_{X_k}$ and $r$.
 Out of all the available distributions,
 we wish to find the one whose quantile values are the largest.
 Specifically, we compute a high	
@@ -244,14 +244,19 @@ This method identifies
 candidates that contain rare, high-valued outliers (point anomalies) in their distributions.
 
 \subsubsection{Selecting Among Candidates}
-We use a simple scoring mechanism to identify the root cause of a bottleneck 
-from the selected candidates. There are at most four candidates to consider.  
-The method assigns 4 points to the component chosen
-by relative importance, and 3 points to all other candidates. 
-We declare the bottleneck component as the one with the largest
-point sum.  This method uses relative importance as the tie-breaker because it
-targets components with consistently high variance, and thus is able to identify
-longer lasting performance issues in the system
-(i.e. collective anomalies~\cite{Chandola:2009:ADS:1541880.1541882}).
-Prior work~\cite{Magalhaes:2011:RAP:1982185.1982234} has shown that 
-regression-based techniques are highly effective in root cause analysis.
+The above four methods may select up to four candidate components for the bottleneck. 
+We designate 
+the candidate chosen by a majority of methods as the actual bottleneck. A four-way
+tie is broken by assigning more priority to the candidate chosen by the relative importance
+method.
+%We use a simple weighting mechanism to identify the root cause of a bottleneck 
+%from the selected candidates. There are at most four candidates to consider.  
+%The method assigns 4 points to the component chosen
+%by relative importance, and 3 points to all other candidates. 
+%We declare the bottleneck component as the one with the largest
+%point sum.  This method uses relative importance as the tie-breaker because it
+%targets components with consistently high variance, and thus is able to identify
+%longer lasting performance issues in the system
+%(i.e. collective anomalies~\cite{Chandola:2009:ADS:1541880.1541882}).
+%Prior work~\cite{Magalhaes:2011:RAP:1982185.1982234} has shown that 
+%regression-based techniques are highly effective in root cause analysis.

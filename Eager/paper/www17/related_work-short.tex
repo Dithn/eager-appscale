@@ -1,0 +1,26 @@
+Roots falls into the category of performance anomaly detection and bottleneck identification 
+(PADBI) systems~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
+Such systems play a crucial role in achieving guaranteed performance and
+quality of service by detecting performance issues in a timely manner before they escalate into major outages
+or SLO violations~\cite{6045942}. 
+However, the paradigm of cloud computing is yet to be
+fully penetrated by PADBI systems research. The size, complexity and the dynamic nature of 
+cloud platforms make performance monitoring a particularly challenging problem.
+The existing technologies like Amazon CloudWatch~\cite{cloudwatch},
+New Relic~\cite{newrelic} and DataDog~\cite{datadog} facilitate monitoring cloud applications 
+by instrumenting low level cloud resources (e.g. virtual machines), and application code. But such technologies
+are either impracticable or insufficient in
+PaaS clouds where the low level cloud resources are hidden by abstractions.
+
+Our work is heavily inspired by the past literature that detail the key features of 
+cloud APMs~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120} . 
+We also borrow from
+Magalhaes and Silva who uses statistical correlation and linear regression to perform
+root cause analysis in web applications~\cite{Magalhaes:2010:DPA:1906485.1906774, Magalhaes:2011:RAP:1982185.1982234}. 
+Dean et al implemented PerfCompass~\cite{Dean:2014:PTR:2696535.2696551}, 
+an anomaly detection and localization method for IaaS clouds. They instrument operating system kernels
+of VMs to perform root cause analysis in IaaS clouds. We take a similar approach where we instrument
+the kernel services of the PaaS cloud.
+Nguyen et al presented PAL, another anomaly detection mechanism targeting
+distributed applications deployed on IaaS clouds~\cite{Nguyen:2011:PPR:2038633.2038634}. 
+Similar to Roots, they also use an SLO monitoring approach to detect anomalies.
