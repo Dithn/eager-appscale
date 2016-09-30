@@ -17,9 +17,9 @@ bottlenecks. To
 obtain this level of operational insight in a cloud,
 the cloud platform must support data gathering and analysis capabilities that
 span the entire software stack.  However, most cloud technologies
-available today do not provide a way to monitor the application, the cloud
+available today do not provide adequate means to monitor an application, the cloud
 services it uses, and the runtime in a way that allows performance bottlenecks
-to be identified within the full stack.
+to be identified within the entire software stack.
 
 Application-level instrumentation packages are
 plentiful~\cite{newrelic,datadog,dynatrace} but because they perturb the
@@ -30,7 +30,8 @@ applications correctly (e.g. logging all of the relevant
 information to diagnose a rare performance fault).  Even when good application
 instrumentation is available, however, because applications depend 
 so heavily on
-extant cloud services (e.g. database services, in-memory caching, etc.)
+extant cloud services (e.g. database services, in-memory caching, etc.) that
+are performance opaque,
 it is often difficult, if not impossible, to diagnose
 the ``root cause'' of a performance problem.
 
@@ -86,14 +87,14 @@ the events recorded at different layers~\cite{7420511}.
 %monitoring frameworks that are built into the cloud platforms is a novel and challenging undertaking.
 
 In this paper, we present \textit{Roots} --  
-full-stack application platform 
+a full-stack application platform 
 monitor (APM) that is designed to be integrated
 into a variety of cloud Platform-as-a-Service (PaaS) technologies. 
 PaaS clouds, in particular, provide abstractions that hide most of the 
 details concerning application
 runtime~\cite{Soni:2014:CCB:2592737.2592741}. 
 To do so, they offer a set of scalable managed services
-which developers developers access (rather than build or install) 
+which developers access (rather than build or install) 
 to implement their applications.
 %to compose 
 %into applications.
@@ -110,14 +111,14 @@ as another managed service built into the PaaS cloud.
 %it operates at the same level as the other services offered by the cloud platform. This way Roots can collect data
 %directly from the internal service implementations of the cloud platform, thus gaining full visibility into all the 
 %inner workings of an application. 
-As an added benefit, by implementing Roots as PaaS-supported service
+As an added benefit, by implementing Roots as an intrinsic PaaS service,
 %It also enables Roots to 
 it can operate fully automatically in the background, without
 requiring instrumentation of application code. Instead,
 Roots intercepts and records events as the
 application code invokes various service implementations of the PaaS cloud
 and then correlates them with specific application requests.
-Roots also records the latency of each application request and
+Roots also records the latency of each application request, and
 of each application call to an
 internal service implementation. It uses batch operations and asynchronous 
 communication to record events with the goal of introducing minimal overhead.
@@ -180,7 +181,7 @@ communication to record events with the goal of introducing minimal overhead.
 When Roots detects a performance anomaly in application request latency, 
 it attempts to
 identify the root cause of the anomaly by analyzing the previous workload 
-data for the application,
+data of the application,
 and the performance of the internal PaaS services on which the application depends.
 It determines if the detected anomaly was caused by a change in the
 application workload (e.g. a sudden spike in the number of client requests), or an internal

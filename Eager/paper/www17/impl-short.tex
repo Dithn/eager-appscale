@@ -148,7 +148,7 @@ workload size.  For the results in this paper, we use PELT to detect changes in 
 %collects using full-stack monitoring, without application instrumentation.
 
 When an anomaly occurs and it is not due to an increase in workload,
-the purpose of bottleneck identification is to find, across all
+the bottleneck identification feature attempts to find, across all
 the components executed by an application, the one that is most likely to have 
 degraded application performance.
 PaaS applications 
@@ -190,8 +190,8 @@ outliers in performance history.
 \paragraph*{Relative Importance}
 Relative importance~\cite{JSSv017i01} identifies the component that is contributing 
 the most towards the variance in the total response time. 
-To use it, Roots regresses the latencies from a set of calls to
-the PaaS services that a specific request generates against the total 
+To use it, Roots regresses the latencies of the PaaS kernel invocations
+that a specific request generates against the total 
 response time of the request.
 That is, for a time window $W$ just prior to the detection of the anomaly, Roots
 fits a linear model using linear regression of the form
@@ -240,7 +240,7 @@ Specifically, we compute a high
 quantile (e.g. 0.99 quantile) for each distribution. The component, whose distribution
 contains the largest quantile value
 is chosen as another potential candidate for the bottleneck since it has
-recently (i.e. within the analysis window) large latencies. 
+recently had (i.e. within the analysis window) large latencies. 
 
 %This component can be considered
 %as having a high latency in general.
@@ -259,8 +259,8 @@ candidates that contain rare, high-valued outliers (point anomalies) in their di
 \subsubsection{Selecting Among Candidates}
 The above four methods may select up to four candidate components for the bottleneck. 
 We designate 
-the candidate chosen by a majority of methods as the actual bottleneck. A four-way
-tie is broken by assigning more priority to the candidate chosen by the relative importance
+the candidate chosen by a majority of methods as the actual bottleneck. Ties
+are broken by assigning more priority to the candidate chosen by the relative importance
 method.
 %We use a simple weighting mechanism to identify the root cause of a bottleneck 
 %from the selected candidates. There are at most four candidates to consider.  
