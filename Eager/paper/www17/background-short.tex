@@ -18,16 +18,16 @@ response time~\cite{latency-matters}.
 The PaaS cloud on
 which an application is running may also impose additional constraints on the
 application response time for scalability
-reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine
+reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine (GAE)~\cite{gae}
 requires that no application request takes more than 60 seconds to execute.
 
-PaaS-hosted web applications, like those that run on Google App Engine
-(GAE)~\cite{gae},  
-rely on various PaaS kernel services offered by the underlying
-cloud platform. 
+PaaS-hosted web applications, like those that run on GAE,  
+rely on various services offered by the underlying
+cloud platform. We refer to these services as PaaS kernel services or PaaS
+services.
 Offloading common application functionality such as data storage, caching,
 and user management to a set of scalable and
-managed cloud services, significantly simplifies and expedites
+managed PaaS services, significantly simplifies and expedites
 application development.
 %%application developers 
 %%can greatly reduce the amount of code they must write. 

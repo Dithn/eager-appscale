@@ -17,16 +17,16 @@ bottlenecks. To
 obtain this level of operational insight in a cloud,
 the cloud platform must support data gathering and analysis capabilities that
 span the entire software stack.  However, most cloud technologies
-available today do not provide adequate means to monitor an application, the cloud
-services it uses, and the runtime in a way that allows performance bottlenecks
-to be identified within the entire software stack.
+available today do not provide adequate means to monitor applications or the cloud
+services they depend on, in a way that facilitates identifying performance bottlenecks
+within the cloud platform.
 
 Application-level instrumentation packages are
-plentiful~\cite{newrelic,datadog,dynatrace} but because they perturb the
-application they can significantly increase the
-effort and financial cost of development and maintenance.  Moreover, cloud
+plentiful~\cite{newrelic,datadog,dynatrace}, but because they perturb the
+applications they can significantly increase the
+effort and financial cost of application development and maintenance.  Moreover, cloud
 administrators must trust the application developers to instrument their
-applications correctly (e.g. logging all of the relevant 
+applications correctly (e.g. logging all the relevant 
 information to diagnose a rare performance fault).  Even when good application
 instrumentation is available, however, because applications depend 
 so heavily on
@@ -34,7 +34,6 @@ extant cloud services (e.g. database services, in-memory caching, etc.) that
 are performance opaque,
 it is often difficult, if not impossible, to diagnose
 the ``root cause'' of a performance problem.
-
 
 %Cloud
 %administrators must therefore trust the application developers to implement
@@ -93,9 +92,9 @@ into a variety of cloud Platform-as-a-Service (PaaS) technologies.
 PaaS clouds, in particular, provide abstractions that hide most of the 
 details concerning application
 runtime~\cite{Soni:2014:CCB:2592737.2592741}. 
-To do so, they offer a set of scalable managed services
-which developers access (rather than build or install) 
-to implement their applications.
+To do so, they offer a set of scalable, managed cloud services that
+provide an assortment of functionality,
+which developers invoke from the application implementations.
 %to compose 
 %into applications.
 %The implementation and deployment details of these services are completely opaque to the developers. 
@@ -103,8 +102,8 @@ to implement their applications.
 %of an application, all the way down to the virtual machines that host them. Such methods are
 %therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
 To be able to correlate application activity with cloud service events,
-Roots must be able to introspect the full platform software stack.  Thus we
-have chosen to design it to function
+Roots must be able to introspect the entire platform software stack. Therefore we
+have chosen to design it to operate
 %we design Roots 
 as another managed service built into the PaaS cloud. 
 %Therefore
@@ -113,14 +112,14 @@ as another managed service built into the PaaS cloud.
 %inner workings of an application. 
 As an added benefit, by implementing Roots as an intrinsic PaaS service,
 %It also enables Roots to 
-it can operate fully automatically in the background, without
+it can function fully automatically in the background, without
 requiring instrumentation of application code. Instead,
 Roots intercepts and records events as the
-application code invokes various service implementations of the PaaS cloud
+application code invokes various service implementations of the PaaS cloud,
 and then correlates them with specific application requests.
 Roots also records the latency of each application request, and
 of each application call to an
-internal service implementation. It uses batch operations and asynchronous 
+internal cloud service implementation. It uses batch operations and asynchronous 
 communication to record events with the goal of introducing minimal overhead.
 
 %The proposed
