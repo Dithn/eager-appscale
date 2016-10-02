@@ -28,17 +28,18 @@ Each individual layer of the cloud platform is only able to collect data regardi
 state changes that are local to it. They cannot monitor state changes
 in other layers due to the level of encapsulation provided by each layer. However,
 processing an application request involves cooperation of multiple 
-layers. For example, an application request gets routed through the front-end server before
-it reaches the application server. The application server may then invoke one or more PaaS kernel
-services. Depending on how the kernel services are implemented,
-even more layers may get involved in processing the request. 
+layers. 
+%For example, an application request gets routed through the front-end server before
+%it reaches the application server. The application server may then invoke one or more PaaS kernel
+%services. Depending on how the kernel services are implemented,
+%even more layers may get involved in processing the request. 
 In order to facilitate systemwide monitoring and
 bottleneck identification, we should be able to gather data from all the different layers involved
 in processing a request. Then we should be able to correlate the collected data, and tie the events that
 are related to the same request together.
 
-To facilitate these requirements, we start by augmenting the front-end server of the cloud platform. 
-Specifically we get the front-end server to tag all incoming application requests with unique identifiers.
+To facilitate these requirements, we augment the front-end server of the cloud platform. 
+Specifically, we get the front-end server to tag all incoming application requests with unique identifiers.
 This request identifier can be attached to an HTTP request as a header, which is visible to all 
 internal components of the PaaS cloud. Then we configure the data collecting agents within the 
 cloud platform to record the request identifiers along with any events they capture. 
@@ -58,13 +59,13 @@ in on demand fashion.
 \end{figure}
 
 Figure~\ref{fig:apm_architecture} illustrates the high-level architecture of Roots, and how 
-it fits into the PaaS stack. APM components are shown in grey, with their interactions indicated
-by the black lines. The small grey boxes attached to the PaaS components represent the
-agents used to instrument the cloud platform for data collection purposes. 
+it fits into the PaaS stack. APM components are shown in grey. 
+The small grey boxes attached to the PaaS components represent the
+agents used to instrument the cloud platform. 
 In the diagram a user request is getting tagged with the identifier value
 $R$ at the front-end server. This identifier is passed down to the lower layers of the cloud
-along with the request. Events that occur in the lower layers as a result of processing this request
-are recorded with the request identifier $R$, so we can correlate them later. For example, in the 
+along with the request. Events that occur in the lower layers while processing this request
+are recorded with the request identifier $R$, so Roots can correlate them later. For example, in the 
 data analysis component we can run a filter query to select all the events related to a particular
 request (as shown in the pseudo query in the diagram). Or we can run a ``group by'' 
 query to select all events, and aggregate them by the request identifier.
@@ -72,11 +73,11 @@ query to select all events, and aggregate them by the request identifier.
 Figure~\ref{fig:apm_architecture} also shows Roots collecting data from all layers in the 
 PaaS stack (i.e. full stack monitoring). 
 From the front-end server layer we gather information related to incoming application
-requests. A big part of this is scraping the HTTP server access logs, which indicate request timestamps,
-source and destination addressing information, response time (latency) and other HTTP message
-parameters. This information is readily available for harvesting in most technologies used as front-end
-servers (e.g. Apache HTTPD, Nginx). Additionally we may also collect information pertaining to active
-connections, invalid access attempts and other errors.
+requests. This mostly involves scraping the HTTP server access logs, which are
+readily available for harvesting in most technologies used as front-end
+servers (e.g. Apache HTTPD, Nginx). 
+%Additionally we may also collect information pertaining to active
+%connections, invalid access attempts and other errors.
 
 From the application server layer we collect basic application logs as well as any other
 metrics that can be easily collected from the application runtime. This may include some process level
@@ -107,8 +108,7 @@ unique to Roots.
 Finally, at the lowest infrastructure level, we can collect information related to virtual machines, containers
 and their resource usage. We can also gather metrics on network usage by individual components which
 might be useful in a number of traffic engineering use cases. Where appropriate we can also scrape
-hypervisor and container manager logs to get an idea of how resources are allocated and released over
-time.
+hypervisor and container manager logs to learn how resources are allocated and released over time.
 
 To avoid introducing delays to the application request processing flow, we implement
 all Roots data collecting agents as asynchronous tasks. That is, none of them would
@@ -125,16 +125,17 @@ failures in the Roots data collection or storage components.
 
 The Roots data storage is a database that supports persistently storing monitoring data, and running
 queries on them.  
-Cloud providers have the freedom to implement this component in any way they see fit, as long
-as it scales to the number of applications deployed in the cloud platform. Most data retrieval queries executed
+%Cloud providers have the freedom to implement this component in any way they see fit, as long
+%as it scales to the number of applications deployed in the cloud platform. 
+Most data retrieval queries executed
 by Roots use application and time intervals as indices. Therefore a database that can index monitoring
-data by application, and then organize records by timestamp will greatly improve the query performance.
+data by application and timestamp will greatly improve the query performance.
 It is also acceptable to remove old monitoring data to make room for more recent events, since Roots
-is performing anomaly detection using the most recent data in near realtime.
+performs anomaly detection using the most recent data in near realtime.
 
 \subsubsection{Data Analysis}
 
-Roots data analysis component uses two basic abstractions: \textit{anomaly detectors} 
+Roots data analysis components use two basic abstractions: \textit{anomaly detectors} 
 and \textit{anomaly handlers}.
 Anomaly detectors are processes that periodically analyze the data collected for
 each deployed application. Roots supports multiple detector implementations, where each implementation
@@ -175,15 +176,16 @@ This way we perform the workload change analysis first, and perform the
 systemwide bottleneck identification only when it is required to do so.
 
 Both the anomaly detectors and anomaly handlers work with fixed-sized sliding windows.
-They can discard any old data as the sliding window moves along the time line.
-Therefore the amount of state information these entities must keep in memory has
+%They can discard any old data as the sliding window moves along the time line.
+Therefore the amount of state these entities must keep in memory has
 a strict upper bound. 
 The extensibility of Roots is primarily achieved through the abstractions of anomaly
 detectors and handlers. Roots makes it simple to implement new detectors and handlers,
 and plug them into the system. Both the detectors and the handlers are executed
 as lightweight processes that do not interfere with the rest of the processes in
-the cloud platform. Failures in detectors and handlers have no impact
-on the cloud platform or the deployed applications.
+the cloud platform. 
+%Failures in detectors and handlers have no impact
+%on the cloud platform or the deployed applications.
 
 \subsubsection{Roots Process Management}
 \label{sec:process_mgt}
@@ -205,26 +207,27 @@ and data analysis processes into units called Roots pods.
 
 Each Roots pod is responsible for starting and maintaining a preconfigured set of
 benchmarkers and data analysis processes (i.e. anomaly detectors and handlers). 
-Each of these processes are light enough, so as to pack a large number of them
+These processes are light enough, so as to pack a large number of them
 into a single pod. Pods are self-contained entities, and there is no inter-communication
 between pods. Processes in a pod can efficiently communicate with each other 
 using shared memory, and call out to the central Roots data storage to retrieve 
-collected performance data for analysis. This enables starting and stopping 
-Roots pods with minimal impact on the overall monitoring system. Furthermore, pods
+collected performance data for analysis. 
+%This enables starting and stopping 
+%Roots pods with minimal impact on the overall monitoring system. 
+Furthermore, pods
 can be replicated for high availability, and application load can be distributed
 among multiple pods for scalability.
 
 Figure~\ref{fig:roots_pod} illustrates a Roots pod monitoring two applications.
 It consists of two benchmarking processes, three anomaly detectors and 
 two anomaly handlers. The anomaly detectors and handlers communicate
-using an internal shared memory communication bus, so that events triggered by one anomaly
-detector flow into all handlers. 
+using an internal shared memory communication bus. 
 
-To automate the process of managing pods, they can be tied into the core
-process management framework of the PaaS cloud. That way whenever the cloud
-platform initializes, a collection of pods can be started automatically.
-Application deployment process of the PaaS cloud can be augmented
-to register each new application with one of the available pods, so that the
-benchmarkers and anomaly detectors can start running on the application.
-Moreover, pods can be moved around or restarted as needed in response
-to errors and autoscaling events that occur in the cloud platform.
+%To automate the process of managing pods, they can be tied into the core
+%process management framework of the PaaS cloud. That way whenever the cloud
+%platform initializes, a collection of pods can be started automatically.
+%Application deployment process of the PaaS cloud can be augmented
+%to register each new application with one of the available pods, so that the
+%benchmarkers and anomaly detectors can start running on the application.
+%Moreover, pods can be moved around or restarted as needed in response
+%to errors and autoscaling events that occur in the cloud platform.
