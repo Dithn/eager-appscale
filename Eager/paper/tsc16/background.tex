@@ -31,8 +31,8 @@ so that it can function automatically and non-intrusively as an APM.
 \label{fig:paas_architecture}
 \end{figure}
 
-Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. Arrows indicate
-the flow of data and control in response to application requests.
+Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. 
+%Arrows indicate the flow of data and control in response to application requests.
 At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
 and networking resources. How this infrastructure is set up may vary from a simple cluster of physical 
 machines to a comprehensive Infrastructure-as-a-Service (IaaS) cloud. 
@@ -44,13 +44,13 @@ On top of the infrastructure layer lies the PaaS kernel. This is a collection of
 services that high-level application developers can compose into their applications. The provided services
 may include database services, caching services, queuing services and more. Some PaaS clouds
 provide a managed set of APIs (a ``software development
-kit'' or SDK) for the application developer to access these fundamental services. 
-In that case all interactions between the applications and the PaaS kernel must take place through
-the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}). 
+kit'' or SDK) for the application developer to access these fundamental services (e.g. Google App Engine~\cite{gae}). 
+%In that case all interactions between the applications and the PaaS kernel must take place through
+%the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}). 
 
 One level above the PaaS kernel we find the application servers that are used to deploy and run
 applications. Application servers provide the necessary linkage between application code and the
-underlying PaaS kernel, while sandboxing application code for secure, multi-tenant operation. On top
+underlying PaaS kernel services, while sandboxing application code for secure, multi-tenant operation. On top
 of the application servers layer resides the request
 front-end and load balancing layer. This layer is responsible
 for receiving all application requests, and routing them to an appropriate application
@@ -87,13 +87,13 @@ reasons~\cite{azure-limits,gae-limits}.
 %For example Google App Engine
 %requires that no application request takes more than 60 seconds to execute.
 
-PaaS-hosted web applications rely on various PaaS kernel services offered by the underlying
+PaaS-hosted web applications rely on the PaaS kernel services offered by the underlying
 cloud platform. By offloading common application functionality such as data storage, caching,
 user management, and security to a set of managed cloud services, application developers
-can greatly reduce the amount of code they have to write. It also eliminates the need to install, run and
+greatly reduces the amount of code they have to write. It also eliminates the need to install, run and
 manage many other support software that would otherwise be necessary (e.g. a database server, 
 a message broker etc.). In a well designed PaaS application, most of the work is carried out
-by PaaS kernel services.
+by PaaS kernel services~\cite{Jayathilaka:2015:RTS:2806777.2806842}.
 %In other words, when developing applications for a PaaS environment, the
 %developer just focuses on implementing his/her application code
 %using the available PaaS services. All deployment and utility services are provisioned 
@@ -108,24 +108,24 @@ where in the entire cloud platform the performance bottleneck is due to the opac
 platform's internal implementation. 
 
 One way to circumvent this 
-limitation is to instrument application code, and continuously monitor the time taken by various
-parts of the application. But this activity can be tedious for the application developer, 
-may be error prone thereby misleading those attempting to
-diagnose a problem, and
-the additional code instrumentation may slow down or alter the application's
+limitation is to instrument application code~\cite{newrelic,datadog,dynatrace}, 
+and continuously monitor the time taken by various
+parts of the application. But such application-level instrumentation is tedious, and
+error prone thereby misleading those attempting to diagnose problems.
+The additional code instrumentation may also slow down or alter the application's
 performance. 
 %Also there is no way to enforce correct, and consistent instrumentation of application code.  
 %That is, the application developers must be careful in gathering and storing the appropriate
 %runtime data. Otherwise their analyses will be inaccurate.
-Implementing data collection and analysis as a service built into the PaaS cloud allows 
-anomaly detection and bottleneck identification to be a ``curated'' service that is 
+In contrast, implementing data collection and analysis as a service built into the PaaS cloud allows 
+performance diagnosis to be a ``curated'' service that is 
 reliably managed by the cloud platform.
 
 \subsection{Performance Anomalies}
 %In this work we define \textit{anomalies} as application performance change events that cause
 %one or more performance SLOs to be violated. 
 Our model is one in which the clients of a web application have engaged in a
-``service-level agreement'' (SLA)
+``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
 with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
 stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breech of the
 agreement.
@@ -158,9 +158,9 @@ or in the PaaS services that the application rely on.
 %cloud platforms in use today. It is even more challenging to perform root cause analysis
 %due to the complexity and the blackbox nature of the cloud platforms. 
 
-Note that there are several
-third party cloud monitoring solutions available today which provide some performance
-anomaly detection support~\cite{newrelic,datadog,dynatrace}. 
-However, they require additional configuration and code instrumentation, are expensive
-and cannot support root cause analysis across the entire cloud stack since they do not
-have visibility into all components of the cloud platform.
+%Note that there are several
+%third party cloud monitoring solutions available today which provide some performance
+%anomaly detection support~\cite{newrelic,datadog,dynatrace}. 
+%However, they require additional configuration and code instrumentation, are expensive
+%and cannot support root cause analysis across the entire cloud stack since they do not
+%have visibility into all components of the cloud platform.
