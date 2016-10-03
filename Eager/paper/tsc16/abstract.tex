@@ -1,14 +1,15 @@
-In this paper, we describe Roots -- a system for automatically identifying the
-``root cause'' of performance anomalies in web applications deployed
-in Platform-as-a-Service (PaaS) clouds.
-Roots does not require
-application-level instrumentation.  Instead, it tracks events within the PaaS
-cloud that are triggered by application requests using a
-combination of metadata injection and platform-level instrumentation.
-
-We describe the extensible Roots architecture, a prototype implementation 
-of the system, and a statistical methodology for performance anomaly
-detection and diagnosis.  We evaluate the efficacy of Roots
-using a set of PaaS-hosted web services, and detail the performance
-overhead and scalability of the implementation.
+In this paper, we investigate Roots, a holistic 
+system for application performance monitoring (APM), 
+performance anomaly detection, and root cause bottleneck identification 
+in cloud platform-as-a-service (PaaS) systems.
+Roots performs lightweight, full stack monitoring by integrating
+the APM as a managed PaaS service.  By doing so, Roots is able to 
+efficiently collect and correlate performance data across the PaaS stack,
+precluding the need for application instrumentation.  Roots employs
+a combination of statistical techniques that analyze this data to detect
+changes in workload (i.e. a service-level objective violation) and, for 
+anomalies not due to a workload increase, to identify the PaaS component
+that is most likely to have degraded application performance. 
+We implement Roots in the AppScale open source cloud platform and evaluate its 
+accuracy and overhead using PaaS-hosted web applications.
 

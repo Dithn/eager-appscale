@@ -1,21 +1,17 @@
 To investigate the efficacy of Roots as an approach to
 implementing performance diagnostics as a PaaS service, we have developed a
 working prototype, and a set of algorithms that uses it to automatically
-identify SLO-violating performance anomalies.
-For this investigation, we used the AppScale
-platform~\cite{6488671} as a substrate. AppScale is an open source PaaS cloud
-that is API compatible
-with the popular Google App Engine (GAE) cloud platform~\cite{gae}.  
-However, it has been engineered so that it can run on
-``bare metal'' machines, or in an Infrastructure-as-a-Service cloud like Amazon EC2.
+identify SLO-violating performance anomalies.  For anomalies not due to increases
+in workload (HTTP request rate), we develop an anomaly handler for bottleneck
+identification which identify the root cause of the anomaly.
 
-Due to AppScale's
-API compatibility with GAE, any application developed for GAE can be deployed
-on AppScale with no code changes. Since AppScale is open source
-software, we were able to modify parts of its implementation to integrate the
-Roots APM into it. AppScale also turned out to be a great test environment
-since we could deploy it locally, and run a number of existing App Engine
-applications on it.
+We implement our prototype in AppScale~\cite{6488671}, an open source PaaS cloud 
+that is API compatible with Google App Engine. This compatibility enables
+us to evaluate our approach using real applications developed by others since
+App Engine applications run on AppScale without modification.
+Because AppScale is open source,
+we were able to modify its implementation minimally to integrate 
+Roots. 
 
 \begin{figure}
 \centering
@@ -70,8 +66,8 @@ language, and the Roots pods integrate with R using the Rserve protocol~\cite{Ur
 
 \subsection{SLO-violating Anomalies}
 
-As described in section~\ref{sec:background}, our
-demonstration of Roots defines anomalies as performance events that trigger SLO
+As described previously,
+Roots defines anomalies as performance events that trigger SLO
 violations. Thus, we devise a detector to automatically identify when a SLO
 violation has occurred. This anomaly detector
 allows application developers to specify simple performance SLOs for deployed applications. A
