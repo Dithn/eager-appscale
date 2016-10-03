@@ -1,10 +1,10 @@
-We next evaluate the efficacy of Roots as a performance monitoring and root cause
+We evaluate the efficacy of Roots as a performance monitoring and root cause
 analysis system for PaaS applications.
 To do so, we consider its ability to identify and characterize SLO violations.
 For violations that are not caused by a change in workload, we evaluate Roots' ability to identify
 the PaaS component that is the cause of the performance anomaly. We also
 evaluate the Roots path distribution analyzer, and its ability to identify
-execution paths, and changes in path distributions.
+execution paths along with changes in path distributions.
 Finally, we investigate the performance and scalability of the Roots
 prototype. 
 
@@ -147,19 +147,22 @@ separate paths of execution for cache hits and cache misses.
 
 We first deploy the key-value store on AppScale, and populate it with a number of data objects. Then we
 run a test client against it which generates a read-heavy workload. On average this workload
-consists of 90\% read requests and 10\% write requests (create and update). The test client
+consists of 90\% read requests and 10\% write requests. The test client
 is also programmed to randomly send bursts of write-heavy workloads. These bursts consist
 of 90\% write requests on average, and each burst lasts up to 2 minutes. Figure~\ref{fig:time_line_crud}
 shows the write-heavy bursts as events on a time line (indicated by red arrows). Note that almost every burst is
-immediately followed by an anomaly detection event in Roots (indicated by blue arrows). 
+immediately followed by an anomaly detection event (indicated by blue arrows). 
 The only time we do not see an anomaly detection event is when multiple
 bursts are clustered together in time (e.g. 3 bursts between 17:04 and 17:24 hours). In this
-case Roots detects the very first burst, and then goes into the warm up mode to collect more data. Therefore
-the bursts that immediately follow do not raise an alarm. Between 20:30 and 21:00 hours we also
+case Roots detects the very first burst, and then goes into the warm up mode to collect more data. 
+%Therefore the bursts that immediately follow do not raise an alarm. 
+Between 20:30 and 21:00 hours we also
 had two instances where the read request proportion dropped from 90\% to 80\% due to random
-chance. This is because our test client randomizes the read request proportion around the 90\% mark. 
-In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly 
-identified them as anomalies.
+chance. 
+%This is because our test client randomizes the read request proportion around the 90\% mark. 
+Roots identified these two incidents also as anomalous.
+%In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly 
+%identified them as anomalies.
 
 We conduct a similar experiment using the cached key-value store. Here, we run a test client that generates a workload
 that is mostly served from the cache. This is done by repeatedly executing read requests on a small
@@ -195,8 +198,8 @@ Roots detected the corresponding anomalies, and determined them to be caused by 
 As a result, bottleneck identification was not triggered for any of these anomalies.
 Even though the bursts of traffic appear to be momentary
 spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on the application performance.
-The PELT change point detection method used in this experimental set up is ideally suited for detecting
-such lasting changes in the workload level.
+%The PELT change point detection method used in this experimental set up is ideally suited for detecting
+%such lasting changes in the workload level.
 
 \subsection{Bottleneck Identification Accuracy}
 Next we evaluate the bottleneck identification capability of Roots. We first discuss the results obtained using
@@ -285,8 +288,7 @@ In the experiments illustrated in figures~\ref{fig:time_line_guestbook_2s}, \ref
 the application request rate steady throughout the 10 hour periods. Therefore,
 the workload change analyzer of Roots did not detect any significant shifts in the workload level. 
 Consequently, none of the anomalies detected in these 4 experiments were attributed to a workload change.
-The bottleneck identification was therefore triggered for each anomaly, always resulting in a diagnosis
-involving an application component.
+The bottleneck identification was therefore triggered for each anomaly.
 
 %\begin{figure}
 %\centering
@@ -323,9 +325,10 @@ To demonstrate how Roots can be used in a multi-node environment, we set up an A
 on a cluster of 10 virtual machines (VMs). VMs are provisioned by a Eucalyptus (IaaS)
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
 to deploy 8 instances of the guestbook application on AppScale. We use the multitenant support
-in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). This means each instance
-is hosted on a separate application server instance, and has its own private namespace on the AppScale
-datastore. Each application instance can be accessed via its own public URL. We disable auto-scaling support in 
+in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). 
+Each instance
+is hosted on a separate application server instance, has its own private namespace on the AppScale
+datastore, and can be accessed via a unique URL. We disable auto-scaling support in 
 the AppScale cloud, and inject faults into the datastore service of AppScale in such a way that queries
 issued from a particular VM, are processed with a 100ms delay. We identify the VM by its IP address
 in our test environment, and shall refer to it as $V_f$ in the discussion. We trigger
@@ -342,9 +345,9 @@ get violated. Other applications did not exhibit any SLO violations since we are
 a very high response time upper bound. In each case Roots detected the SLO violations 2-3 minutes into the fault injection
 period. As soon as that happened, the anomaly detectors of $G4$, $G6$ and $G7$ entered the warmup mode.
 But our fault injection logic kept injecting faults for at least 2 more minutes. Therefore when the anomaly detectors
-reactivated after 25 minutes (time to collect the minimum sample count), they each saw another SLO
+reactivated after 25 minutes (time to collect the minimum sample count), they each detected another SLO
 violation. As a result, we see another set of detection events approximately half an hour after the
-original fault injection events.
+fault injection events.
 
 \begin{table}
 \begin{center}
