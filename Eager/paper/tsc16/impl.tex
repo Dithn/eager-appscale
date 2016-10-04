@@ -1,14 +1,14 @@
 To investigate the efficacy of Roots as an approach to
 implementing performance diagnostics as a PaaS service, we have developed a
 working prototype, and a set of algorithms that uses it to automatically
-identify SLO-violating performance anomalies.  For anomalies not due to increases
-in workload (HTTP request rate), we develop an anomaly handler for bottleneck
-identification which identify the root cause of the anomaly.
+identify SLO-violating performance anomalies.  For anomalies not caused by increases
+in workload (HTTP request rate), Roots performs further analysis to identify the
+bottleneck component that is responsible for the issue.
 
 We implement our prototype in AppScale~\cite{6488671}, an open source PaaS cloud 
-that is API compatible with Google App Engine. This compatibility enables
+that is API compatible with Google App Engine (GAE)~\cite{gae}. This compatibility enables
 us to evaluate our approach using real applications developed by others since
-App Engine applications run on AppScale without modification.
+GAE applications run on AppScale without modification.
 Because AppScale is open source,
 we were able to modify its implementation minimally to integrate 
 Roots. 
@@ -26,7 +26,7 @@ We use ElasticSearch~\cite{elasticsearch} as the data storage component of our p
 for storing large volumes of structured and semi-structured data~\cite{Kononenko:2014:MMR:2597073.2597091}. 
 %It supports scalability and high availability via sharding and replication.
 ElasticSearch continuously organizes and indexes data, making the information available 
-for fast and efficient querying. Additionally it also provides
+for fast and efficient querying. Additionally, it also provides
 powerful data filtering and aggregation features, which greatly simplify the implementations of high-level
 data analysis algorithms.
 
@@ -42,7 +42,7 @@ from all major components. These agents buffer data locally, and store them in E
 in batches. Events are buffered until the buffer accumulates 1MB of data, subject to a hard time limit of 
 15 seconds. This ensures that the events are promptly reported to the Roots data
 storage while keeping the memory footprint of the data collecting agents small and bounded. 
-For scraping server logs and storing the extracted entries in ElasticSearch,
+For scraping server logs, and storing the extracted entries in ElasticSearch,
 we use the Logstash tool~\cite{logstash}. 
 %Logstash supports scraping a wide range of standard log formats (e.g. 
 %Apache HTTPD access logs), and other custom log formats can be supported via a simple configuration.
@@ -51,7 +51,7 @@ To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel im
 which is derived from the GAE PaaS SDK. More specifically we implement an agent that records
 all PaaS SDK calls, and reports them to ElasticSearch asynchronously. 
 
-Roots pods are implemented as standalone Java server processes. Threads are used to run benchmarkers,
+We implement Roots pods as standalone Java server processes. Threads are used to run benchmarkers,
 anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
 in ElasticSearch itself. 
@@ -73,10 +73,10 @@ violation has occurred. This anomaly detector
 allows application developers to specify simple performance SLOs for deployed applications. A
 performance SLO consists of an upper bound on the application response time ($T$), and the probability ($p$)
 that the application response time falls under the specified upper bound. 
-%Therefore, a general performance 
-%SLO can be stated as: ``application responds under $T$ milliseconds $p$\% of the time''.
+A general performance 
+SLO can be stated as: ``application responds under $T$ milliseconds $p$\% of the time''.
 
-When activated for a given application this anomaly detector starts a benchmarking process
+When enabled for a given application, this anomaly detector starts a benchmarking process
 that periodically measures the response time of the target application. Probes made by the benchmarking 
 process are several seconds apart in time (sampling rate), so as to not strain the application with load.
 The detector then periodically
@@ -118,7 +118,7 @@ For each application,
 a path distribution is comprised of the set of execution paths available in
 that application, along with the proportion of requests that executed each path.
 It is an indicator of the type of request workload handled by an application.
-For example consider a data management application that has a read-only execution path, and a read-write 
+For example, consider a data management application that has a read-only execution path, and a read-write 
 execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
 execute the read-write path, we may characterize the request workload as read-heavy.
 
@@ -204,11 +204,11 @@ For any given application request,
 Roots captures the time spent on each kernel invocation ($T_{X_1}, T_{X_2}, ... T_{X_n}$), and the 
 total response time ($T_{total}$) of the request. These time values are related by the formula
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n} + r$, where $r$ is all the time spent in the resident 
-application server executing user code (i.e. the time not
-spent executing PaaS services during a request). $r$ is not
+application server executing user code (i.e. the time
+spent not executing PaaS kernel services). $r$ is not
 directly measured in Roots, since that requires code instrumentation.
 However, in previous
-work~\cite{Jayathilaka:2015:RTS:2806777.2806842} we found that typical
+work~\cite{Jayathilaka:2015:RTS:2806777.2806842} we showed that typical
 PaaS-hosted web applications spend most of their time invoking PaaS kernel services.
 We make use of these findings, and assert that for typical,
 well-designed PaaS applications $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
@@ -248,15 +248,15 @@ any requests where $r > \mu_r + 1.65\sigma_r$.
 Once the regression model has been computed, we run a relative importance algorithm~\cite{JSSv017i01} to rank each of the
 regressors (i.e. $T_{X_n}$ values) based on their contribution to the variance of $T_{total}$. 
 We use the LMG method~\cite{lmg80} which is resistant to multicollinearity, and provides a break down of the $R^2$ value of
-the regression according to how strongly each regressor is influencing the variance of the dependent variable.
+the regression according to how strongly each regressor influences the variance of the dependent variable.
 The relative importance values of the regressors add up to the $R^2$ of the linear regression. We consider
 $1 - R^2$ (the portion of variance in $T_{total}$ not explained by the PaaS kernel invocations) as the relative importance of $r$. 
-The component associated with the highest ranked regressor is a chosen as a bottleneck candidate.
+The component associated with the highest ranked regressor is chosen as a bottleneck candidate.
 Statistically, this is the component that causes the application response time to vary the most.
 
 \subsubsection{Changes in Relative Importance}
 Next we divide the time window $W$ into equal-sized segments,
-and compute the relative importance metrics for regressors and $r$ within each segment. We also compute the
+and compute the relative importance metrics for regressors within each segment. We also compute the
 relative importance of $r$ within each segment. This way we can
 obtain a time series of relative importance values for each regressor and $r$. These time series
 represent how the relative importance of each component has changed over time.
@@ -269,7 +269,7 @@ a component whose performance has been stable in the past, and has become variab
 
 \subsubsection{High Quantiles}
 \label{sec:highquantile}
-Next we analyze the individual distributions of the $T_{X_n}$ and $r$. 
+Next we analyze the individual distributions of $T_{X_n}$ and $r$. 
 %Recall that for each PaaS kernel invocation
 %$X_k$, we have a distribution of $T_{X_k}$ values in the window $W$. Similarly we
 %can also extract a distribution of $r$ values from $W$. 
@@ -284,8 +284,8 @@ having a high latency in general.
 \subsubsection{Tail End Values}
 \label{sec:tailend}
 Finally, Roots analyzes each $T_{X_k}$ and $r$ distribution to identify the one 
-with the largest outlier value with respect to a particular high quantile.
-For each maximum latency value $t$, we compute the metric $P^q_t$ 
+with the largest tail values with respect to a particular high quantile.
+For each maximum (tail end) latency value $t$, we compute the metric $P^q_t$ 
 as the percentage difference between $t$ and a target quantile
 $q$ of the corresponding distribution. We set $q$ to 0.99 in our experiments.
 Roots selects the component with the 
