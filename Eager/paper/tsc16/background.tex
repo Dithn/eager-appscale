@@ -1,45 +1,42 @@
-PaaS clouds, which have been experiencing a rapid growth in 
-popularity~\cite{paas-growth,paas-growth2},
-typically host web-accessible (HTTP/S) applications, to which they provide
-sandboxed execution, high levels of scalability, and high availability.
+PaaS clouds have been experiencing a rapid growth in 
+popularity in the recent years~\cite{paas-growth,paas-growth2}. They
+typically host web-accessible (HTTP/S) applications, while providing
+sandboxed execution, high scalability, and high availability.
 PaaS clouds are complex distributed systems that
 provide scalability by automatically allocating resources for
 applications on the fly (auto scaling), and availability through the
-execution of multiple instances of each application via 
-application servers.  
+execution of multiple instances of each application.  
 
-PaaS Application servers at runtime link applications to 
-scalable services in the PaaS that developers employ for their implementation.
-PaaS front-end servers expose web application entry points and
-provide load-balancing for client HTTP/S requests and responses
-to and from application servers.
-PaaS clouds such as Google App Engine~\cite{gae} 
-and Microsoft Azure~\cite{azure} export these kernel services via a 
-well-defined APIs (which are collectively referred to as 
-a ``software development kit'' or SDK). 
+PaaS applications rely on a set of managed, scalable services 
+offered by the underlying cloud platform. We refer to these services as 
+PaaS kernel services. PaaS clouds like Google
+App Engine~\cite{gae} and Microsoft Azure~\cite{azure} export
+the kernel services via a well-defined set of APIs, that are collectively
+referred to as the PaaS ``software development kit'' (SDK). The application
+servers provide the linkage between application code and the PaaS kernel
+services. A set of front-end servers expose web application entry points, and
+provide load-balancing for HTTP/S clients invoking the applications.
 
 By providing most of the functionality that applications require via
-a PaaS kernel, the PaaS model significantly reduces the amount of code that applications developers
+kernel services, the PaaS model significantly reduces the amount of code that applications developers
 must write.  PaaS clouds also relieve developers of the burden of configuration, 
 deployment, and scaling through platform automation.  In combination, the PaaS model
 significantly increases programmer productivity.
-
-A downside of the PaaS model however, is that these features also hide
-the performance details of PaaS applications -- 
-since these applications spend most of their time executing kernel 
-services~\cite{Jayathilaka:2015:RTS:2806777.2806842}.
-As a result it is challenging for developers and cloud administrators alike to 
-pinpoint and resolve performance anomalies and bottlenecks given the
-opacity of the PaaS's internal implementation. 
+However, a downside of this approach is that these features also hide
+the performance details of PaaS applications. 
+Since the applications spend most of their time executing kernel 
+services~\cite{Jayathilaka:2015:RTS:2806777.2806842},
+it is challenging for the developers to diagnose performance issues given the
+opacity of the cloud platform's internal implementation. 
 
 One way to circumvent this 
-limitation is to instrument application code~\cite{newrelic,datadog,dynatrace}, 
+problem is to instrument application code~\cite{newrelic,datadog,dynatrace}, 
 and continuously monitor the time taken by various
 parts of the application. But such application-level instrumentation is tedious, and
 error prone thereby misleading those attempting to diagnose problems.
-Moreover, the instrumentation code may also slow down or alter the application's
+Moreover, the instrumentation code may slow down or alter the application's
 performance. 
-In contrast, implementing data collection and analysis as a service 
+In contrast, implementing data collection and analysis as a kernel service 
 built into the PaaS cloud allows 
 performance diagnosis to be a ``curated'' service that is 
 reliably managed by the cloud platform.

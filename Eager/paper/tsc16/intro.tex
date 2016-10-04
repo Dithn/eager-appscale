@@ -129,8 +129,8 @@ available workload and service invocation data.
 
 Roots collects most of the data it requires by direct integration with various internal components 
 of the cloud platform. In addition to high-level metrics like request throughput
-and latency, Roots also records the internal PaaS services invocations made by applications,
-and the latency of those internal operations. It uses batch operations and asynchronous 
+and latency, Roots also records the internal PaaS service invocations made by applications,
+and the latency of those internal calls. It uses batch operations and asynchronous 
 communication to record events in a manner that does not substantively
 increase request latency.
 %\textcolor{blue}{The remainder of this paragraph should
@@ -151,7 +151,7 @@ root cause of the anomaly by analyzing the workload data,
 and the performance of the internal PaaS services the application depends on. 
 Roots can determine if the detected anomaly was caused by a change in the
 application workload (e.g. a sudden spike in the number of client requests), or an internal
-bottleneck in the cloud platform (e.g. a slow database query). To this end we also propose
+bottleneck in the cloud platform (e.g. a slow database query). To this end we propose
 a statistical bottleneck identification method for PaaS clouds. 
 It uses a combination of quantile analysis, change point detection
 and linear regression to perform root cause analysis. 
