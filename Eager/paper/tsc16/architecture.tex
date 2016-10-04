@@ -2,7 +2,7 @@ Roots is a holistic system for application performance monitoring (APM),
 performance anomaly detection, and root cause bottleneck identification.
 The key intuition behind the system is that, as an intrinsic PaaS service, Roots
 has visibility into all activities of the PaaS cloud, across layers.
-Moreover, since the PaaS applications we have observed send most of their time in 
+Moreover, since the PaaS applications we have observed spend most of their time in 
 PaaS kernel services~\cite{Jayathilaka:2015:RTS:2806777.2806842}, we hypothesize
 that we can infer application performance from observations of how
  the application uses the platform, i.e. by efficiently monitoring the time spent in 
@@ -13,7 +13,7 @@ identifying their root cause in near real time with low overhead.
 The PaaS model that we assume with Roots is one 
 in which the clients of a web application engage in a
 ``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
-with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
+with the ``owner'' or operator of the application that is hosted in a PaaS cloud.  The SLA
 stipulates a response-time ``service-level objective'' (SLO) that, if violated, 
 constitutes a breech of the agreement.
 If the performance of an application deteriorates to the
@@ -25,42 +25,41 @@ For a given anomaly, the root cause could be a change in the application workloa
 a \textit{bottleneck} in the application runtime. Bottlenecks may occur in the 
 application code, or in the PaaS kernel services that the application relies on.
 
-Roots collects performance data across the runtime stack and aggregates it based on 
-request/response.  It uses this data to infer application performance and to identify
+Roots collects performance data across the cloud platform stack, and aggregates it based on 
+request/response.  It uses this data to infer application performance, and to identify
 SLO violations (performance anomalies).  Roots can further handle different types of anomalies
 in different ways.  We overview each of these functionalities in the remainder of this section.
-pairs.
 
 \subsection{Data Collection and Correlation}
 
-We must address when designing a monitoring framework for
+We must address two issues when designing a monitoring framework for
 a system as complex as a PaaS cloud.
 \begin{enumerate}
 \item Collecting data from multiple different layers.
 \item Correlating data collected from different layers.
 \end{enumerate}
 
-Any PaaS APM must (i) collect data from all layers of the PaaS software stack, and
-(ii) correlate related events across layers.
+%Any PaaS APM must (i) collect data from all layers of the PaaS software stack, and
+%(ii) correlate related events across layers.
 Each layer of the cloud platform is only able to collect data regarding the
 state changes that are local to it. A layer cannot monitor state changes
-in other layers due to the level of encapsulation provided by each layer. However,
+in other layers due to the level of encapsulation provided by layers. However,
 processing an application request involves cooperation of multiple layers. 
 To facilitate system-wide monitoring and
 bottleneck identification, we must gather data from all the different layers involved
 in processing a request. To combine the information across layers
-we correlate the data and link events related to the same request together.
+we correlate the data, and link events related to the same request together.
 
 To enable this, we augment the front-end server of the cloud platform. 
 Specifically, we have it tag incoming application requests with unique identifiers.
-This request identifier is an HTTP request as a header, which is visible to all 
+This request identifier is added to the HTTP request as a header, which is visible to all 
 internal components of the PaaS cloud. Next, we configure data collecting agents 
 within the platform to record the request identifiers along with any events they capture. 
-This way we maintain the relationship between application requests, and the resulting
+This way we record the relationship between application requests, and the resulting
 local state changes in different layers of the cloud, without breaking the existing level
 of abstraction in the cloud architecture. This approach is also scalable, since the events are
 recorded in a distributed manner without having to maintain any state at the data collecting agents. 
-Roots then aggregates the recorded events by request 
+Roots aggregates the recorded events by request 
 identifier to efficiently group the related events as required during analysis.
 
 \begin{figure}
@@ -82,8 +81,8 @@ data analysis component we can run a filter query to select all the events relat
 request (as shown in the pseudo query in the diagram). Similarly, Roots can run a ``group by'' 
 query to select all events, and aggregate them by the request identifier.
 
-Figure~\ref{fig:apm_architecture} also shows 
-The figure also depicts Roots data collection across all layers in the 
+Figure~\ref{fig:apm_architecture} also
+depicts Roots data collection across all layers in the 
 PaaS stack (i.e. full stack monitoring). 
 From the front-end server layer we gather information related to incoming application
 requests. This involves scraping the HTTP server access logs, which are
@@ -124,12 +123,10 @@ hypervisor and container manager logs to learn how resources are allocated and r
 To avoid introducing delays to the application request processing flow, we implement
 Roots data collecting agents as asynchronous tasks. That is, none of them 
 suspend application request processing to report data to the data storage components.
-In addition,  we separate I/O tasks related to data collection and storage are
-from request processing.
 To enable this, we collect data into log files or memory buffers that are local to the 
 components being monitored. This locally collected (or buffered) data is periodically sent
 to the data storage components of Roots using separate background tasks and batch communication
-operations. We also isolate the activities in the cloud from potential
+operations. We also isolate the activities in the cloud platform from potential
 failures in the Roots data collection or storage components.
 
 \subsection{Data Storage}
@@ -164,7 +161,7 @@ When an anomaly detector finds an anomaly in application performance, it sends a
 to a collection of anomaly handlers. The event encapsulates a unique anomaly identifier, 
 timestamp, application identifier and the source detector's sliding window that correspond to the
 anomaly. Anomaly handlers are configured globally (i.e. each handler
-receives events from all detectors), but each handler can can be programmed to handle only
+receives events from all detectors), but each handler can be programmed to handle only
 certain types of events. Furthermore, they can fire their own events, which are also delivered to
 all the listening anomaly handlers. Similar to detectors, Roots supports multiple anomaly handler
 implementations -- one for logging anomalies, one for sending alert emails, one
@@ -181,7 +178,7 @@ from any anomaly detector. If an anomaly cannot be associated with a workload
 change, it can fire a different type of event. The bottleneck identifier, can
 be programmed to only execute its analysis upon receiving this second type of event.
 This way we perform the workload change analysis first, and perform the
-systemwide bottleneck identification only when it is required to do so.
+systemwide bottleneck identification only when it is necessary.
 
 Both the anomaly detectors and anomaly handlers work with fixed-sized sliding windows.
 Therefore the amount of state these entities must keep in memory has
