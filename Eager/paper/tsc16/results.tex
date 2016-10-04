@@ -278,7 +278,7 @@ artificially induced anomalies along with a few extras. All the anomalies, excep
 are determined to be caused by the second
 datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
 is attributed to the fourth datastore query executed by the application. We have manually verified this
-conclusion to be accurate. 
+diagnosis to be accurate. 
 %Since 08:27 (when the previous anomaly was detected), the fourth datastore
 %query has frequently taken a long time to execute (again, on
 %its own), which resulted in an SLO violation at 08:56 hours.
@@ -289,6 +289,12 @@ the application request rate steady throughout the 10 hour periods. Therefore,
 the workload change analyzer of Roots did not detect any significant shifts in the workload level. 
 Consequently, none of the anomalies detected in these 4 experiments were attributed to a workload change.
 The bottleneck identification was therefore triggered for each anomaly.
+
+To evaluate the agreement level among the four bottleneck candidate selection methods, we analyze 407
+anomalies detected by Roots over a period of 3 weeks. We see that except on 13 instances, in all the 
+remaining cases 2 or more candidate selection methods agreed on the final bottleneck component chosen.
+This implies that most of the time (96.8\%) Roots 
+identifies bottlenecks with high confidence.
 
 %\begin{figure}
 %\centering
