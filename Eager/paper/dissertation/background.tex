@@ -37,11 +37,66 @@ In the next subsection we take a closer look at a specific type of cloud platfor
 We use PaaS clouds as a case study and a testbed in a number of our explorations.
 
 \subsection{Platform-as-a-Service Clouds}
-PaaS clouds provide a managed application programming platform, where an application developer can simply 
-write some code, and run it at scale at the push of a button. It relieves the developer from having to install or configure
-any hardware resources, virtual machines or operating systems. Moreover, PaaS clouds do not require the developers
-to set up any utility services their applications might require such as a database or a distributed cache. 
+
+PaaS clouds, which have been growing in popularity~\cite{paas-growth,paas-growth2}, 
+typically host web-accessible (HTTP/S) applications, to which they provide
+high levels of scalability, availability, and sandboxed execution. PaaS clouds
+provide scalability by automatically allocating resources for
+applications on the fly (auto scaling), and provide availability through the
+execution of multiple instances of the application. Applications deployed on
+a PaaS cloud depend on a number of scalable services intrinsic to the 
+cloud platform, that we refer to as \textit{kernel services}.
+
+PaaS clouds provide a high level of
+abstraction to the application developer that effectively hides all the
+infra\-structure-level details such as physical resource allocation (CPU,
+memory, disk etc), operating system, and network configuration. 
+Moreover, PaaS clouds do not require the developers
+to set up any utility services their applications might require such as a 
+database or a distributed cache. 
 Everything an application requires is provisioned and managed by the PaaS cloud.
+This enables
+application developers to focus solely on the programming aspects of their
+applications, without having to be concerned about deployment issues. On
+the other hand, the software abstractions provided by PaaS clouds obscure
+runtime details of applications making it difficult to reason about application
+performance, and diagnose performance issues.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{paas_architecture}
+\caption{PaaS system organization.}
+\label{fig:paas_architecture}
+\end{figure}
+
+Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. Arrows indicate
+the flow of data and control in response to application requests.
+At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
+and networking resources. How this infrastructure is set up may vary from a simple cluster of physical 
+machines to a comprehensive Infrastructure-as-a-Service (IaaS) cloud. In large scale PaaS clouds,
+this layer typically consists of many virtual machines and/or containers with the ability to acquire more
+resources on the fly.
+
+On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
+services that high-level application developers can compose into their applications. The provided kernel services
+may include database services, caching services, queuing services and more. Some PaaS clouds
+also provide a managed set of programming APIs (a ``software development
+kit'' or SDK) for the application developer to access these kernel services. 
+In that case all interactions between the applications and the PaaS kernel must take place through
+the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}). 
+
+One level above the PaaS kernel we find the application servers that are used to deploy and run
+applications. Application servers provide the necessary integration (linkage) between application code and the
+underlying PaaS kernel, while sandboxing application code for secure, multi-tenant operation. On top
+of the application servers layer resides the request
+front-end and load balancing layer. This layer is responsible
+for receiving all application requests, filtering them and routing them to an appropriate application
+server instance for further execution. Front-end server is therefore the entry point for PaaS-hosted
+applications for all application clients.
+
+Each of the above layers can span multiple processes, running over multiple physical or virtual
+machines. Therefore the execution of a single application request typically involves cooperation
+of multiple distributed processes and/or machines.
 
 \begin{figure}
 \centering
@@ -54,22 +109,21 @@ to an application via the web API;
 \vspace{-0.2in}
 \end{figure}
 
-Figure~\ref{fig:cloud_app_model} provides a graphical overview of a PaaS cloud. 
-The cloud platform provides a base 
-framework, called cloud SDK (software development kit), on which new applications can be developed. 
-The cloud SDK 
-is a set of high level programming APIs, with abstractions for common application services such as data storage, caching, 
-user management and more. The developer uses these abstractions to implement his/her application logic, and packages 
-it as a web application. The service implementations for the 
-cloud SDK are highly scalable, highly available (have SLAs associated with them),
+Figure~\ref{fig:cloud_app_model} illustrates the application deployment model of PaaS clouds. 
+The cloud platform provides a set of kernel services. 
+The PaaS SDK provides the developer with well defined interfaces (entry points)
+for these kernel services.  
+The developer uses the kernel services, via the SDK, to implement his/her application logic, and packages 
+it as a web application. The implementations of the kernel services
+are highly scalable, highly available (have SLAs associated with them),
 and automatically managed by the platform. Developers then
 upload their applications to the cloud for deployment.
 Once deployed, the applications and any web APIs exported by them can be accessed 
 via HTTP/S requests by external or co-located clients.
 
-PaaS clouds are specifically built for deploying and running applications -- 
-applications that are directly consumed by end users and other client applications. This means, all the problems 
-outlined in the previous section, such as poor development practices, performance SLAs and performance 
+PaaS clouds are specifically built for deploying and running applications
+that are directly consumed by end users and other client applications. This means, all the problems 
+outlined in the previous section, such as poor development practices, performance SLOs and performance 
 debugging directly impact PaaS clouds. Therefore PaaS clouds are ideal candidates for implementing the type
 of governance systems proposed in this work. 
 
