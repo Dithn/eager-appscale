@@ -1,0 +1,168 @@
+Cloud computing has revolutionized the way programmers develop and deploy applications.
+Cloud computing turns compute infrastructures, programming platforms and software systems
+into online utility services that can be easily shared with many users.
+By running computations and storing data on large, managed infrastructures and 
+programming platforms, cloud computing ensures scalability and high-availability of 
+user applications. Moreover, by offering such resources
+as utility services, cloud computing is able to facilitate a cost-effective, on-demand
+resource provisioning model that greatly enhances user productivity.
+
+Over the last decade cloud computing technologies have enjoyed explosive growth 
+and near universal adoption due to their many benefits and 
+promises~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}. 
+Industry analysts project that the cloud computing market value will exceed \$150 billion
+by the year 2020~\cite{cloud-growth}.
+Already core cloud 
+functionalities are available from a large and growing number of service providers. 
+Some of these service providers offer hosted cloud solutions that can be used
+via the web to deploy applications without installing any physical hardware 
+(e.g. Amazon AWS~\cite{amazon-aws-web}, Google App Engine~\cite{gae}, Microsoft Azure~\cite{azure-web}). Others
+provide cloud technologies as downloadable software, which users can install
+on their computers or data centers to set up their own private clouds 
+(e.g. Eucalyptus~\cite{eucalyptus09}, AppScale~\cite{6488671}, OpenShift~\cite{openshift}). 
+
+Both the IT industry and the academia have responded very positively to this new 
+model of application 
+development. Many business organizations are currently in the process of migrating
+their IT infrastructure to the cloud. A large number of organizations
+run their entire business as a cloud-based operation (e.g. Netflix, Snapchat). For startups
+and academic researchers who do not have a large IT budget or a staff, the cost-effective 
+on-demand resource provisioning model of the cloud has proved to be indispensable.
+The growing number of academic conferences and journals dedicated to discussing
+cloud computing is further evidence that cloud is an essential branch in the field
+of computer science.
+
+Despite its many benefits, cloud computing has also given rise to a number of application
+development and maintenance challenges that have gone unaddressed for many years. 
+First and foremost, cloud platforms do not enforce any of the developer best practices
+the software engineering community has established over the last half-century. This
+includes code reuse, proper versioning of software artifacts, dependency management
+between application components and backward compatible code updates. In
+some cases, organizations require certain conventions/standards to be enforced on
+all production software. Cloud platforms do not provide any facilities for enforcing
+such administrative conformance on cloud-hosted applications. Instead, cloud platforms
+make it extremely trivial and quick to deploy new applications or update existing
+applications. The resulting speed-up of the development cycles combined with the lack of 
+oversight and enforcement, makes it extremely difficult for 
+IT personnel to manage large volumes of cloud-hosted applications.
+
+Secondly, today's cloud platforms do not provide any support for reasoning about the 
+performance of the deployed applications. When an application is implemented for
+a given cloud platform, one must subject it to extensive performance testing in order
+to comprehend its performance limits; a process that is both 
+tedious and time consuming. The difficulty in understanding the performance 
+traits of cloud-hosted applications is primarily due to the very high level of 
+abstraction provided by the cloud platforms. These abstractions shield many details 
+concerning the application runtime, and without visibility into such low level application 
+execution details it is impossible
+to build a robust performance model for a cloud-hosted application. Because of the same
+limitation, it is also not possible to establish service-level objectives (SLOs) concerning
+the performance of cloud-hosted applications. 
+
+An SLO specifies a system's minimum quality of service (QoS) level in a measurable and
+controllable manner. SLOs may be related to various QoS
+parameters such as availability, response time (latency), and throughput. A performance SLO for 
+a cloud-hosted application
+would specify an upper bound on the application response time, and the likelihood that limit is valid.
+In practice, SLOs are used to form service-level agreements (SLAs).
+An SLA is a formal agreement between a service provider and a consumer, that dictates the SLOs 
+that the service provider is obligated to maintain, along with the 
+penalties for failing to maintain those QoS levels. In this context, failure to maintain an
+SLO may constitute a breach of the agreement, thereby holding the service provider accountable,
+and subjecting them to the penalties stated in the SLA. Such contracts are crucial for
+mission critical applications, interactive applications and most web and mobile applications.
+However, without a systematic mechanism to determine the performance limits of cloud-hosted
+applications, it is impossible to formulate performance SLOs or SLAs.
+Consequently, existing cloud platforms only offer SLAs regarding service availability (uptime). 
+
+Thirdly, cloud platforms provide very poor support for performance debugging
+user applications. Most cloud platforms only provide the simplest monitoring and logging features,
+and do not provide any mechanisms for detecting performance anomalies or identifying
+bottlenecks in the application code or the underlying cloud platform. This limitation has given rise
+to a new class of third party service providers that specialize in monitoring cloud applications
+(e.g. New Relic, Dynatrace, Datadog). But these third party solutions require additional configuration 
+and are expensive. They also require instrumentation of application code, which if not done
+correctly, may lead to incorrect diagnoses concerning application performance. The cloud
+platforms do not provide any facilities for ensuring the instrumentation is correct. The perturbation
+introduced by the instrumentation is also likely to change and degrade the performance traits
+of an application.
+Furthermore, the extrinsic, third party monitoring systems only have a restricted view 
+of the user application, due to the high level of abstraction provided by cloud platform software.
+This limits the capability of the monitoring systems in terms of the type of analyses they can carry out.
+Today's cloud platforms are also very large and complex with many interacting components.
+An external monitoring service cannot see all this complexity, and hence cannot pinpoint
+the component that might be responsible for an observed application performance anomaly.
+
+In order to make cloud computing more reliable and dependable for the users as well
+as the cloud service providers, the above limitations need to be addressed satisfactorily.
+Doing so will also greatly simplify the tasks of developing cloud applications, and maintaining 
+them in the long run. As a means of reaching this goal, I propose and explore the
+following thesis question.
+
+{\bf Can we efficiently enforce governance on cloud-based web applications to achieve 
+administrative conformance, developer best practices, and performance objectives through 
+automated analysis and diagnostics?} 
+
+Governance in this context can be defined as the mechanism by which the acceptable 
+operational parameters are specified and maintained in a software system. This involves 
+multiple steps:
+\begin{itemize}
+\item Specifying the acceptable operational parameters
+\item Enforcing the specified parameters
+\item Monitoring the system to detect deviations from the acceptable behavior
+\item Taking preventive or corrective action when necessary
+\end{itemize}
+
+The concept of software system governance as defined here is very similar to the
+notion of governing a country. In a country too we should specify the acceptable
+parameters, which establishes the general laws and the rights of the citizens. Such 
+parameters are then
+enforced by various authorities. When some person or a group deviates from those parameters,
+it is detected, and corrective action is taken by bringing the responsible party to the justice.
+
+Automated governance protocols have been designed and implemented for software systems in
+the past, specially in classic web services and SOA applications. Such systems enable specifying
+acceptable behavior via machine readable policies, which are then automatically enforced by
+a policy enforcement agent. Monitoring agents watch the system to detect any deviations from
+the acceptable behavior (i.e. policy violations), and alert users or follow predefined corrective
+procedures. We can envision similar facilities being implemented in a cloud platform to 
+enforce good programming practices and various performance objectives. The operational
+parameters in this case may include coding and packaging conventions for the cloud-hosted
+applications, and their performance limits.
+
+In order for governance to be
+useful and meaningful within the scope of the cloud, we must be able to meet two additional
+goals. First, the governance system should be efficient in the sense that it should not introduce
+a significant runtime overhead to the cloud-hosted applications, and it should scale up to
+handle a large number of applications and policies. Secondly, the governance system should be
+fully automated. Since cloud platforms are comprised of thousands of applications and components,
+it is not practical for a human administrator to be involved in the governance process at any level.
+
+Extending on the above thesis question, and the vision for efficient, automated governance for
+cloud-hosted applications, I propose the following research plan:
+
+\begin{itemize}
+\item Design and implement a scalable, low-overhead governance framework for cloud platforms,
+complete with a policy specification language and a policy engine. The governance framework should be
+built into the cloud platforms, and must
+strive to keep the runtime overhead of the user applications to a minimum while enforcing
+common developer best practices and other organizational conventions.
+\item Design and implement a methodology for formulating performance SLOs for cloud-hosted 
+ web applications, without
+ subjecting them to extensive performance testing or instrumentation. The formulated
+ performance SLOs must be correct, tight and durable in the face of changing
+ conditions of the cloud.
+ \item Design and implement a scalable cloud application monitoring framework for detecting
+application performance anomalies, SLO violations and diagnosing potential root causes. 
+The framework should support collecting
+ a wide range of runtime data from the user applications and the underlying cloud platform
+ without instrumenting the user code, and without introducing significant runtime overheads.
+ It should further facilitate employing a number of new and existing statistical methods
+ and algorithms to analyze the gathered data in near realtime.
+\end{itemize}
+
+Following section provides the background details regarding cloud computing and governance.
+Next three sections further elaborate on the above three research goals respectively. 
+Each section details our designs, assumptions and related work. Implementation details,
+preliminary results and future work are also discussed where appropriate. Final section
+summarizes and concludes this dissertation.

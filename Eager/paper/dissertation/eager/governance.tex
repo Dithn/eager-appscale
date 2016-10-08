@@ -1,0 +1,66 @@
+% enforcement problem: what and when
+% requirements for a solution
+API governance policy enforcement, in a cloud setting, is a tradeoff between
+application intrusiveness and policy expressibility.  Detailed, fine-grained
+policies that penetrate the application provide maximal expressibility.
+In the logical extreme, building policy into the application to govern each of
+its internal operations or instructions is maximally intrusive.  However, this 
+intrusiveness
+introduces complexity and performance overhead that may overshadow its
+benefit.  Alternatively, policy enforcement outside the application
+necessarily limits what can be enforced.  For example, ensuring that an
+application does not connect to a specific network address and/or port
+requires run-time traffic interception (typically by a firewall that is
+interposed between the application and the offending network).
+Thus, the tradeoff is between what can be enforced and when (relative to
+application execution) it is enforced.
+
+For policy implementation, often the additional complexities introduced by
+late-binding and intrusiveness outweigh the benefits.  For example, in an
+application that consists of API calls to services that, in turn, make calls
+to other services, run-time policy enforcement can make violations difficult
+to resolve, especially when the interaction between services is
+non-deterministic.  When a specific violation occurs, it may be ``buried'' in a
+lattice of API invocations that is difficult to traverse, especially if the
+application itself is designed to handle large-scale request traffic loads.
+
+Ideally, then, enforcement takes place as non-intrusively as possible before
+the application begins executing.  In this way, a violation can be detected and
+resolved \textit{before the API is used}, thereby avoiding possible
+degradations in user-experience that run-time checks and violations may
+introduce.  The drawback of attempting to enforce all governance before the
+application begin executing is that policies that express restrictions only
+resolvable at run time cannot be implemented.  
+Thus, for scalable applications that use API calls internally in a cloud
+setting, an API governance approach should attempt to implement as much as
+possible no later than deployment time but must also include some form of
+run-time enforcement.  
+
+Note that the most effective approach to implementing a specific policy is not
+always clear.  For example, user authentication is usually implemented as a
+run-time policy check for web services since users enter and leave the system dynamically.
+However it is possible to check statically, at deployment time, whether the
+application is consulting with a specific identity management service (accessed
+by a versioned API) thereby enabling deployment-time enforcement.
+
+Thus, any efficient API governance solution for clouds must include the
+following functionalities.
+\begin{itemize}
+\item {\bf Policy Specification Language} -- The system must include a way to
+specify policies that can be implemented either at deployment time (or sooner)
+or, ultimately at run-time.  
+\item {\bf API Specification Language} -- Policies must be able to refer to
+API functionalities to be able to express governance edicts for specific APIs
+or classes of APIs.
+\item {\bf Deployment Control} --  The system must be able to check policies
+no later than the time that an application is deployed.
+\item {\bf Run-time control} -- For policies that cannot be enforced before
+runtime, the system must be able to intervene dynamically.
+\end{itemize}
+In addition, a good solution should automate 
+as much of the implementation
+of API governance as possible.  Automation in a cloud context serves two
+purposes.  First, it enables scale by allowing potentially complex
+optimizations to be implemented reliably by the system (and not by manual
+intervention).  Secondly, automation improves repeatability and auditability
+thereby ensuring greater system integrity.

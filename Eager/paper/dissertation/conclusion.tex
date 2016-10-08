@@ -1,0 +1,119 @@
+Cloud computing delivers IT infrastructure resources, programming platforms, and software
+applications as shared utility services. Enterprises and developers increasingly deploy applications 
+on cloud platforms due to the scalability, high availability and many other
+productivity enhancing features of the cloud. Cloud-hosted applications 
+depend on the core services provided
+by the cloud platform for resources. In some cases they use the services provided by the cloud to implement most of
+the application functionality as well (e.g. PaaS-hosted applications). 
+Cloud-hosted applications are typically
+accessed over the Internet, via the web APIs exposed by the applications.
+
+As the applications hosted in cloud platforms continue to increase in number, the need for enforcing
+governance on them becomes accentuated. We define governance as the mechanism by which the 
+acceptable operational parameters are specified and maintained for a cloud-hosted application.
+Governance enables specifying the acceptable
+development standards and runtime parameters (performance, availability, security requirements etc.) 
+for cloud-hosted applications as policies. Such
+policies can then be enforced automatically at various stages of the application life-cycle. 
+Governance further entails
+monitoring cloud-hosted applications to ensure that they operate at a certain level of quality,
+and taking corrective action when problems are detected. Through the steps of specification,
+enforcement, monitoring and correction, governance can help resolve a number of prevalent issues in
+today's cloud platforms. These issues include lack of good software engineering practices (code reuse,
+dependency management, versioning etc), lack of performance SLAs for cloud-hosted applications,
+and lack of performance debugging support. 
+
+This proposal is aimed at exploring the feasibility of efficiently enforcing governance on cloud-hosted
+applications, and evaluating the effectiveness of governance as a means of achieving administrative
+conformance, developer best practices and performance objectives in the cloud. Considering the scale of
+today's cloud platforms in terms of the number of users and the applications, 
+we wish to automate much of the governance tasks through
+automated analysis and diagnostics. To achieve efficiency, we put more emphasis on deployment-time
+policy enforcement and non-invasive passive monitoring of cloud platforms, thereby keeping the 
+governance overhead
+to a minimum. We avoid run-time enforcement and invasive instrumentation of cloud applications 
+as much as possible. We also focus on building governance systems that are deeply integrated with
+the cloud platforms themselves. This enables using the existing scalability and high availability features of the cloud
+to provide an efficient governance solution that can control all application events in a fine-grained
+manner. Furthermore, such integrated solutions relieve the users from having to maintain and pay
+for additional, external governance and monitoring solutions.
+
+With the goal of efficient, integrated and automated governance for cloud-hosted applications in mind,
+we propose the following three research goals.
+\begin{enumerate}
+\item Design and implement a scalable, low-overhead governance framework for cloud platforms,
+complete with a policy specification language and a policy engine. The governance framework should be
+integrated into the cloud platforms, and must
+strive to keep the runtime overhead of the user applications to a minimum while enforcing
+common developer best practices and other organizational conventions.
+\item Design and implement a methodology for formulating performance SLAs for cloud-hosted 
+ web applications, without
+ subjecting them to extensive performance testing or instrumentation. The formulated
+ performance SLAs must be correct, tight and durable in the face of changing
+ conditions of the cloud.
+ \item Design and implement a scalable cloud application monitoring framework for detecting
+application performance anomalies, SLA violations and diagnosing potential root causes. 
+The framework should support collecting
+ a wide range of performance and usage data from the user applications and the underlying cloud platform
+ without instrumenting the user code, and without introducing significant runtime overheads.
+ It should further facilitate employing a number of new and existing statistical methods
+ and algorithms to analyze the gathered data in near realtime.
+\end{enumerate}
+
+We design and implement EAGER~\cite{6903538, eager-fop15} as a means of 
+achieving the first goal. EAGER is a lightweight
+governance framework built into PaaS clouds. It supports defining policies using a simple syntax
+based on the popular Python programming language. EAGER promotes deployment-time
+policy enforcement, where policies are enforced on user applications (and APIs) every time
+an application is uploaded to the cloud. By carrying out policy validations at
+application deployment-time, and refusing to deploy applications that violate policies,
+ we provide fail-fast semantics which ensure that deployed applications are fully policy compliant. 
+EAGER architecture also provides the necessary provisions for facilitating run-time policy
+enforcement (through an API gateway proxy) if necessary. Our experimental results show
+that EAGER validation and policy enforcement overhead is very small, and it scales well to
+handle thousands of user applications and policies. Overall, we show that integrated governance
+for cloud-hosted applications is not only feasible, but also can be implemented with very
+little overhead and effort.
+
+To achieve the second goal of formulating performance SLAs, we design and implement 
+Cerebro~\cite{Jayathilaka:2015:RTS:2806777.2806842} --
+a system that can predict bounds on the response time of web applications developed for PaaS clouds.
+Cerebro is able to analyze a given web application, and determine a bound on its response time without
+subjecting the application to any testing or runtime instrumentation. This is achieved by a mechanism
+that combines static analysis of application source code with runtime monitoring of the underlying
+cloud platform (PaaS SDK to be specific). Cerebro is fast, can be invoked at the deployment-time 
+of an application, and does not require any human input or intervention. 
+The bounds predicted by Cerebro can be used as statistical guarantees (with well defined correctness
+probabilities) to form performance SLAs. Cerebro's SLA prediction capability, coupled with a policy
+enforcement framework such as EAGER, can facilitate specification and enforcement of performance-related
+policies for cloud-hosted applications. We implement Cerebro for Google App Engine public cloud
+and AppScale private cloud. Our experiments with real world PaaS applications show that Cerebro
+is able to determine accurate performance SLAs that closely reflect the actual response time
+of the applications. Furthermore, we show that Cerebro predicted SLAs are not easily affected by
+the dynamic nature of the cloud platform, and they remain valid for long durations. More specifically, 
+Cerebro predictions remain correct for more than 12 days on average~\cite{7396174}. 
+
+Finally, we design and implement Roots to address our third goal. Roots is a performance monitoring and root
+cause analysis system built into PaaS clouds. It collects data from all the different layers of the
+PaaS stack -- from load balancers to low level PaaS kernel service implementations. However,
+it does so efficiently, without instrumenting user code and without introducing a significant
+overhead to the application request processing flow. Data gathered at different layers can
+be correlated easily thereby enabling tracing of application requests through the PaaS stack.
+Roots is also extensible in the sense that 
+any number of statistical analysis methods can be incorporated into Roots for performance
+anomaly detection and diagnosis. Furthermore, it facilitates configuring monitoring requirements
+at the granularity of user applications, thereby allowing different applications to be monitored
+and analyzed differently. Roots also supports executing multiple different analysis methods on the same
+application concurrently. When an anomaly has been detected, Roots is able to determine if
+the anomaly was caused by a change in the application workload or due to a performance 
+bug in one of the underlying PaaS kernel services. A low overhead, integrated, full stack monitoring
+framework of this nature is a novel contribution in the cloud space (especially with respect
+to PaaS clouds, which abstract out many runtime details from the user). 
+
+We have already made much progress with respect to the first and second goals discussed above.
+We have implemented significant parts of EAGER and Cerebro, and demonstrated various results
+and contributions in our past work. Roots is largely an ongoing project, and much of its implementation
+and experimentation is left for future work. We plan to get an initial set of results on Roots out
+by the Fall of 2016. Then we plan on working towards consolidating all our research contributions
+into a single thesis focused on governance for cloud-hosted applications, and defending it
+by the end of 2016. 

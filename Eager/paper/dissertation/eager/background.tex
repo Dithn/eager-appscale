@@ -1,0 +1,90 @@
+The popularization of network computing and the World Wide Web (WWW) 
+has led to the development and adoption of web services~\cite{6094008} as
+the technology of choice for implementing modern service-oriented 
+architectures (SOA~\cite{Haines:2010:SAM:1787234.1787269}).
+The interface portion of a web service, which abstracts and modularizes
+its service implementation
+details while making the service network-accessible, is commonly referred to
+as a {\em web API}. As far as the users and applications that consume a 
+web service
+are concerned, the web API is the only point of contact and source of
+functionality for the underlying service implementation.
+
+Software engineering best practices separate the service implementation
+from API, both during development and maintenance.
+The service implementation and API are integrated via 
+a ``web service stack'' that implements functionality common to all web
+services (message routing, request authentication, etc.).
+Because the API is visible to external parties ({\em i.e.} clients of the
+services), any changes to the API
+impacts users and applications not under the immediate administrative control
+of the API provider.  For this reason, API features 
+usually undergo long
+periods of ``deprecation'' so that independent clients of the services can have
+ample time to ``get ready'' for an API change.  At the same time,
+technological innovations often prompt service reimplementation and/or 
+upgrade to
+achieve greater cost efficiencies, performance levels, etc.
+Thus, APIs typically have a more
+slowly evolving and longer lasting lifecycle than the service
+implementations
+to which they interface. 
+
+Cloud computing is based on the idea of exposing some digital asset or a
+capability ({\em e.g.} compute power, database, etc.) 
+as a highly scalable web service.  Mobile
+devices, due to their limited hardware resources often offload much of their
+processing and storage needs to remote services running in a ``cloud''
+connected to the Internet.  Web APIs
+play a crucial role in both these paradigms. 
+
+As a result, modern computing clouds, especially clouds implementing some form
+of Platform-as-a-Service (PaaS)~\cite{4548165}, have accelerated the
+proliferation of
+web APIs and their use.  Most PaaS
+clouds~\cite{appscale13,cloudfoundry,openshift} include
+features designed to
+ease the development and hosting of web APIs for scalable use over the Internet. 
+This phenomenon is making API governance an absolute necessity in the cloud
+environments.
+
+In particular, API governance promotes code reuse among developers
+since each API must be treated as a tracked and controlled software entity.
+It also ensures that software users benefit from change control since the APIs
+they use
+change in a controlled and non-disruptive manner.  From a maintenance
+perspective, API governance 
+makes it possible to enforce best-practice coding procedures, 
+naming conventions, and deployment procedures uniformly.
+API governance is also critical to API lifecycle
+management --  the management of deployed APIs in response to new feature
+requests, bug fixes, and organizational priorities. 
+API ``churn'' that results from lifecycle management
+is a common phenomenon and a growing
+problem for web-based applications~\cite{6930607}.
+Without proper governance systems to manage the constant evolution of APIs,
+API providers run the risk of making their APIs unreliable while potentially
+breaking downstream applications that depend on the APIs.
+
+Unfortunately, most web frameworks used to develop and host web APIs do not 
+provide API governance facilities. This missing functionality is
+especially glaring
+for cloud platforms that are focused on rapid
+deployment of APIs at scale.   Commercial pressures frequently prioritize
+deployment speed and scale over longer-term maintenance considerations only to
+generate unanticipated future costs.
+
+As a partial countermeasure, developers of cloud-based web services are 
+frequently given
+additional tasks associated with 
+implementing custom {\em ad hoc} governance solutions using either locally
+developed mechanisms or loosely integrated
+third-party API management services. 
+These add-on governance
+approaches often fall short in terms of their consistency and enforcement
+capabilities since
+by definition they have to operate outside the
+cloud (either external to it or as a cloud-hosted application). 
+As such, they do not have the end-to-end 
+access to all the metadata and cloud-internal control mechanisms
+that are necessary to implement strong governance at scale. 
