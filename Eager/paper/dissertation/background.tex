@@ -3,17 +3,26 @@
 Cloud computing is a form of distributed computing that turns compute infrastructure, programming
 platforms and software systems into scalable utility services. By exposing various compute and programming
 resources as utility services, cloud computing promotes resource sharing at scale via the Internet.
+The cloud model precludes the users from having to set up their own hardware, and in some cases also software. Instead,
+the users can simply acquire the resources ``in the cloud'' via the internet, and relinquish them when
+the resources are no longer needed. The cloud model also does not require the users to pay any start up
+cost. The users only have to pay for the resources they acquired, usually based on a pay-per-use
+billing model.
+
 Depending on the type of resources
 offered as services, cloud computing platforms can be categorized into three main categories:
-
 \begin{description}
 \item [Infrastructure-as-a-Service clouds (IaaS)]
 Offers low-level compute, storage and networking
-resources as a service. Compute resources are typically provided in the form of on-demand virtual machines 
+resources as a service. Compute resources are typically provided in the form of on-demand virtual machines (VMs)
 with specific CPU, memory and disk configurations (e.g. Amazon EC2, Google Compute Engine, Eucalyptus). 
+The provisioned VMs usually come with a base operating system installed. The users must install the other software
+necessary to use them.
 \item [Platform-as-a-Service clouds (PaaS)]
 Offers a programming platform as a service, that can be used to develop and deploy applications at scale 
-(e.g. Google App Engine, AppScale, Heroku, Amazon Elastic Beanstalk).
+(e.g. Google App Engine, AppScale, Heroku, Amazon Elastic Beanstalk). The programming platform consists
+of several scalable services that can be used to offload certain application features such as data storage, caching
+and authentication.
 \item [Software-as-a-Service clouds (SaaS)]
 Offers a collection of software applications and tools as a service, that can be directly consumed by
 application endusers (e.g. Salesforce, Workday, Citrix go2meeting). This can be thought of as a new way 
@@ -45,9 +54,9 @@ provide scalability by automatically allocating resources for
 applications on the fly (auto scaling), and provide availability through the
 execution of multiple instances of the application. Applications deployed on
 a PaaS cloud depend on a number of scalable services intrinsic to the 
-cloud platform, that we refer to as \textit{kernel services}.
+cloud platform. We refer to these services as \textit{kernel services}.
 
-PaaS clouds provide a high level of
+PaaS clouds, through their kernel services, provide a high level of
 abstraction to the application developer that effectively hides all the
 infra\-structure-level details such as physical resource allocation (CPU,
 memory, disk etc), operating system, and network configuration. 
@@ -79,7 +88,10 @@ resources on the fly.
 
 On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
 services that high-level application developers can compose into their applications. The provided kernel services
-may include database services, caching services, queuing services and more. Some PaaS clouds
+may include database services, caching services, queuing services and more. 
+The implementations of the kernel services are highly scalable, highly available (have SLAs associated with them),
+and automatically managed by the platform while being completely opaque
+to the application developers. Some PaaS clouds
 also provide a managed set of programming APIs (a ``software development
 kit'' or SDK) for the application developer to access these kernel services. 
 In that case all interactions between the applications and the PaaS kernel must take place through
@@ -111,12 +123,9 @@ to an application via the web API;
 
 Figure~\ref{fig:cloud_app_model} illustrates the application deployment model of PaaS clouds. 
 The cloud platform provides a set of kernel services. 
-The PaaS SDK provides the developer with well defined interfaces (entry points)
-for these kernel services.  
+The PaaS SDK provides well defined interfaces (entry points) for these kernel services.  
 The developer uses the kernel services, via the SDK, to implement his/her application logic, and packages 
-it as a web application. The implementations of the kernel services
-are highly scalable, highly available (have SLAs associated with them),
-and automatically managed by the platform. Developers then
+it as a web application. Developers then
 upload their applications to the cloud for deployment.
 Once deployed, the applications and any web APIs exported by them can be accessed 
 via HTTP/S requests by external or co-located clients.
@@ -170,7 +179,7 @@ goals of IT governance are three fold:
 A number of frameworks, models and even certification systems have emerged over time to help organizations 
 implement IT governance. When the software engineering community started gravitating towards web services and
 service-oriented computing (SOC)~\cite{1254461, what-is-soa}, a new type of digital assets rose to prominence within corporate IT 
-infrastructures -- ``services''. Aggregates of loosely-coupled, reusable, modular services soon replaced 
+infrastructures -- ``services''. Compositions of loosely-coupled, reusable, modular services soon replaced 
 large monolithic software
 installations. Services required new forms of governance for managing their performance
 and risks. Hence the notion of service-oriented architecture (SOA) governance came into existence. 
@@ -182,7 +191,7 @@ of SOA governance is ensuring and validating that service artifacts within the a
 as expected and maintaining a certain level of quality~\cite{gartner-soa-gov}.
 Consequently, a number of tools that help organizations implement SOA governance 
 have also evolved~\cite{Schepers:2008:LAS:1363686.1363932,4730489,6478236,5577268}.
-Since web services are the mostly widely used form of services in SOA-driven systems, most of these
+Since web services are the most widely used form of services in SOA-driven systems, most of these
 SOA governance tools have a strong focus on controlling web services. 
 
 Policies play a crucial role in all forms of governance. A policy is a specification of the acceptable behavior
@@ -204,8 +213,8 @@ separate implementation and interface components. The web APIs exposed by these 
 role of the service interface.
 Much like classic services, each cloud-hosted application 
 can be a dependency for another
-co-located cloud application, or an application running elsewhere (e.g. a mobile agent). 
-Due to this resemblance, many concepts related to SOA governance are
+co-located cloud application, or an application running elsewhere (e.g. a mobile app). 
+Due to this resemblance, we argue that many concepts related to SOA governance are
 directly applicable to cloud platforms and cloud-hosted applications. For instance, we can envision an 
 automated policy enforcement agent enacting a 
 set of policies that control the behavior and the life-cycle of cloud-hosted applications.
@@ -214,8 +223,8 @@ applications.
 \begin{enumerate}
 \item Development and deployment conventions (including dependency management, naming and packaging
 standards and backward compatibility)
-\item Performance SLAs offered to the users
-\item Diagnosing performance bugs and bottlenecks
+\item Performance SLOs/SLAs offered to the users
+\item Diagnosing performance anomalies and bottlenecks
 \end{enumerate}
 
 A cloud-hosted application is comprised of two parts -- implementation and API. The implementation
