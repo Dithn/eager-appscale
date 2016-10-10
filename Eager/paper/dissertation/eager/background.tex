@@ -5,7 +5,7 @@ architectures (SOA~\cite{Haines:2010:SAM:1787234.1787269}).
 The interface portion of a web service, which abstracts and modularizes
 its service implementation
 details while making the service network-accessible, is commonly referred to
-as a {\em web API}. As far as the users and applications that consume a 
+as a {\em web API}. As far as the users and client applications that consume a 
 web service
 are concerned, the web API is the only point of contact and source of
 functionality for the underlying service implementation.
@@ -17,7 +17,7 @@ a ``web service stack'' that implements functionality common to all web
 services (message routing, request authentication, etc.).
 Because the API is visible to external parties ({\em i.e.} clients of the
 services), any changes to the API
-impacts users and applications not under the immediate administrative control
+impacts users and client applications not under the immediate administrative control
 of the API provider.  For this reason, API features 
 usually undergo long
 periods of ``deprecation'' so that independent clients of the services can have
@@ -27,15 +27,15 @@ upgrade to
 achieve greater cost efficiencies, performance levels, etc.
 Thus, APIs typically have a more
 slowly evolving and longer lasting lifecycle than the service
-implementations to which they interface. 
+implementations to which they provide access. 
 
 Cloud computing is based on the idea of exposing some digital asset or a
 capability ({\em e.g.} compute power, database, etc.) 
-as a highly scalable web service.  Mobile
+as a highly scalable utility service.  Mobile
 devices, due to their limited hardware resources often offload much of their
 processing and storage needs to remote services running in a ``cloud''
 connected to the Internet.  Web APIs
-play a crucial role in both these paradigms. 
+play a crucial role in such scenarios. 
 
 Consequently, modern computing clouds, especially clouds implementing some form
 of Platform-as-a-Service (PaaS)~\cite{4548165}, have accelerated the
@@ -72,9 +72,8 @@ deployment of APIs at scale.   Commercial pressures frequently prioritize
 deployment speed and scale over longer-term maintenance considerations only to
 generate unanticipated future costs.
 
-As a partial countermeasure, developers of cloud-based web services are 
-frequently given
-additional tasks associated with 
+As a partial countermeasure, developers of cloud-hosted applications are 
+frequently given additional tasks associated with 
 implementing custom {\em ad hoc} governance solutions using either locally
 developed mechanisms or loosely integrated
 third-party API management services. 
@@ -82,7 +81,15 @@ These add-on governance
 approaches often fall short in terms of their consistency and enforcement
 capabilities since
 by definition they have to operate outside the
-cloud (either external to it or as a cloud-hosted application). 
+cloud (either external to it or as another cloud-hosted application). 
 As such, they do not have the end-to-end 
 access to all the metadata and cloud-internal control mechanisms
 that are necessary to implement strong governance at scale. 
+
+We use the term ``client application'' to refer to an application that consumes
+a cloud-hosted application by making remote API calls. A cloud-hosted
+application refers to a service deployed in a cloud platform, which may
+be accessed remotely via its web API. This model allows a cloud-hosted
+application to also be a client application at the same time. That is, a cloud-hosted
+application may export a web API, while being a client of one or more
+other APIs that it depends on for its internal functionality. 
