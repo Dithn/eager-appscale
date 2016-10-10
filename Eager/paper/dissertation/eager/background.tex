@@ -21,14 +21,13 @@ impacts users and applications not under the immediate administrative control
 of the API provider.  For this reason, API features 
 usually undergo long
 periods of ``deprecation'' so that independent clients of the services can have
-ample time to ``get ready'' for an API change.  At the same time,
+ample time to ``migrate'' to newer versions of an API.  On the other hand,
 technological innovations often prompt service reimplementation and/or 
 upgrade to
 achieve greater cost efficiencies, performance levels, etc.
 Thus, APIs typically have a more
 slowly evolving and longer lasting lifecycle than the service
-implementations
-to which they interface. 
+implementations to which they interface. 
 
 Cloud computing is based on the idea of exposing some digital asset or a
 capability ({\em e.g.} compute power, database, etc.) 
@@ -38,10 +37,9 @@ processing and storage needs to remote services running in a ``cloud''
 connected to the Internet.  Web APIs
 play a crucial role in both these paradigms. 
 
-As a result, modern computing clouds, especially clouds implementing some form
+Consequently, modern computing clouds, especially clouds implementing some form
 of Platform-as-a-Service (PaaS)~\cite{4548165}, have accelerated the
-proliferation of
-web APIs and their use.  Most PaaS
+proliferation of web APIs and their use.  Most PaaS
 clouds~\cite{appscale13,cloudfoundry,openshift} include
 features designed to
 ease the development and hosting of web APIs for scalable use over the Internet. 
@@ -51,7 +49,7 @@ environments.
 In particular, API governance promotes code reuse among developers
 since each API must be treated as a tracked and controlled software entity.
 It also ensures that software users benefit from change control since the APIs
-they use
+they depend on
 change in a controlled and non-disruptive manner.  From a maintenance
 perspective, API governance 
 makes it possible to enforce best-practice coding procedures, 
@@ -66,7 +64,7 @@ Without proper governance systems to manage the constant evolution of APIs,
 API providers run the risk of making their APIs unreliable while potentially
 breaking downstream applications that depend on the APIs.
 
-Unfortunately, most web frameworks used to develop and host web APIs do not 
+Unfortunately, most web technologies used to develop and host web APIs do not 
 provide API governance facilities. This missing functionality is
 especially glaring
 for cloud platforms that are focused on rapid
