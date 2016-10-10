@@ -2,7 +2,7 @@ The growth of the World Wide Web (WWW), web services, and cloud computing have
 significantly influenced the way developers implement software applications.
 Instead of implementing all the functionality from the scratch, developers
 increasingly offload as much application functionality as possible to remote,
-web-accessible services, each of which exports its own application programming
+web-accessible services ``in the cloud'', each of which exports its own application programming
 interface (API).  Thus, a modern application often combines local program logic
 with calls to APIs that interface to cloud-hosted applications.
 This approach significantly reduces both the programming and
@@ -56,11 +56,11 @@ and efficient programming of application features), as well as governance issues
 when implementing applications.
 
 Existing API management solutions~\cite{3scale,apigee,layer7} are typically available as
-external stand-alone services that are not integrated with the cloud. Some of them do attempt to
+external stand-alone services that are not integrated with the cloud. They do attempt to
 address governance concerns beyond mere access control. However, because they
 are not integrated within the cloud platform, their function is
 advisory and documentarian.  That is, they 
-do not possess the ability to implement full enforcement and, instead, alert
+do not possess the ability to implement full enforcement, and instead, alert
 operators to potential issues without preventing non-compliant behavior.
 They are also costly, and they can fail independently of the cloud, thereby affecting 
 the scalability and availability of the software that they govern.
@@ -142,8 +142,8 @@ governance where possible and run-time governance where necessary.
 %implementing scalable web service venues. 
 
 EAGER implements policies governing the APIs that are 
-deployed within a single administrative domain. It treats APIs as
-first-class digital assets due to the following reasons.
+deployed within a single administrative domain (a single cloud platform). 
+It treats APIs as first-class software assets due to the following reasons.
 \begin{itemize}
 \item APIs are often
 longer lived than the individual clients that use them or the implementations
@@ -163,7 +163,7 @@ independently without the loss of governance control.
 EAGER further enhances software maintainability by guaranteeing that 
 developers reuse existing APIs when possible to create new software artifacts
 (to prevent API redundancy and unverified API use). Concurrently, it
-tracks changes made by developers to deployed web APIs to prevent
+tracks changes made by developers to already deployed web APIs to prevent
 any backwards-incompatible API changes from being put into production.
 
 EAGER includes a language for specifying 
