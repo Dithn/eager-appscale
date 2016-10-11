@@ -7,46 +7,46 @@
 }
 \end{figure*}
 
-To experiment with implementation of API governance, we have developed EAGER
--- an architecture for implementing governance suitable for integration
+To experiment with API governance in cloud environments, we devise EAGER
+-- an architecture for implementing governance that is suitable for integration
 as a cloud-native feature.
 %EAGER leverages existing SOA governance techniques and 
 %best practices and adapts them to make them
 %suitable for cloud platform-level integration.
 In this section, we
-overview the high-level design of EAGER, describe its main
-components and the policy language.  Our goal in its design is two fold.
-First, we wished to verify that the integration between policy specification,
+overview the high-level design of EAGER, its main
+components, and the policy language.  Our design is motivated by two objectives.
+First, we wish to verify that the integration among policy specification,
 API specification,
-deployment control, and run-time control is feasible in a cloud setting.
-Secondly, we wished to use the design as the basis for a prototype
+deployment-time control, and run-time control is feasible in a cloud setting.
+Secondly, we wish to use the design as the basis for a prototype
 implementation that we could use to evaluate the impact of API governance
 empirically.
 
 EAGER is designed to be integrated with PaaS clouds. 
 PaaS clouds accept code that is then
-deployed within the platform so that it may make calls to existing services
-(cloud SDK) supported by the platform.
-EAGER is designed to intercept all events related to application 
-deployment within the cloud
-and enforces deployment-time governance checks and
-logging. 
+deployed within the platform so that it may make calls to kernel services
+offered by the cloud platform, or other applications already
+deployed in the cloud platform via their APIs.
+EAGER intercepts all events related to application 
+deployment within the cloud,
+and enforces governance checks at deployment-time. 
 %These governance features include API metadata validation, 
 %dependency validation, policy validation and 
 %API backward compatibility
 %checking. 
 When a policy verification check fails, 
-EAGER aborts the deployment of the application and logs the information
+EAGER aborts the deployment of the application, and logs the information
 necessary to perform remediation.  EAGER assumes that it is integrated with
-the cloud and that the cloud initiates\footnote{We use the term
+the cloud, and that the cloud initiates\footnote{We use the term
 ``initiates'' to differentiate the first clean installation of the cloud, from
 a cloud restart.  EAGER must be able to maintain compliance across restarts,
 but it assumes that when the cloud is installed and suitably tested, it is in
 a policy compliant state.} 
-in a compliant state ({\em i.e.} there are
+in a policy compliant state ({\em i.e.} there are
 no policy violations when the cloud is started before any applications are
 deployed).  It tries to maintain the cloud
-in a ``governed'' state at all times.  That is, with EAGER active, the cloud
+in a policy compliant state at all times.  That is, with EAGER active, the cloud
 is
 automatically prevented from transitioning out of policy compliance due to a
 change in the applications it hosts.
@@ -61,16 +61,16 @@ change in the applications it hosts.
 %discuss as future work).
 
 Figure~\ref{fig:eager_design} illustrates the main components of EAGER (in
-blue) and their interactions. Solid arrows represent the interactions that take place
+blue), and their interactions. Solid arrows represent the interactions that take place
 during application deployment-time, before an application has been validated
 for deployment. Short-dashed arrows indicate the interactions that take place
 during deployment-time, after an application has been successfully validated.
 Long-dashed arrows indicate interactions at run-time. The diagram also outlines the
-components of EAGER that are used to provide deployment  control and run-time control.
+components of EAGER that are used to provide deployment-time  control and run-time control.
 Note that some components participate in interactions related to both deployment and
-run-time control (e.g. Metadata Manager).
+run-time control (e.g. metadata manager).
 
-EAGER must be invoked by the cloud whenever a user
+EAGER is invoked by the cloud whenever a user
 attempts to deploy an application in the cloud.
 %the developer tools available on his/her workstation that activate the target
 %cloud's deployment mechanisms. 
@@ -80,17 +80,17 @@ attempts to deploy an application in the cloud.
 The cloud's application deployment mechanisms must be altered so that
 each deployment request is
 intercepted by EAGER, which then performs the required governance checks.
-If a governance check fails, EAGER will preempt the application deployment,
-log relevant data pertaining to the event for later analysis,  and
-return an error. Otherwise, it proceeds with the application deployment by
+If a governance check fails, EAGER preempts the application deployment,
+logs relevant data pertaining to the event for later analysis,  and
+returns an error. Otherwise, it proceeds with the application deployment by
 activating the deployment mechanisms on the user's 
 behalf. 
 
 Architecturally, the deployment action requires three inputs: the policy
-specification governing the deployment, the code to be deployed, and a
-specification of the APIs that the code exports.
+specification governing the deployment, the application code to be deployed, and a
+specification of the APIs that the application exports.
 EAGER assumes that cloud administrators have developed and installed policies
-(stored in the Metadata Manager)
+(stored in the metadata manager)
 that are to be checked against all deployments.  API specifications for the
 application must also be available to the governance engine.  Because the API
 specifications are to be derived from the code (and are, thus, under developer
@@ -100,18 +100,18 @@ to perform analysis on the application, and
 generate API specifications in a suitable API specification language. These
 specifications must be present
 when the deployment request is considered by the platform.  In the prototype
-implementation described in Section~\ref{sec:eager_prototype_impl}, the API specifications are
+implementation described in section~\ref{sec:eager_prototype_impl}, the API specifications are
 generated as part of the application development process ({\em e.g.} by the
 build system).  They may also
 be offered as a trusted service hosted in the cloud. 
 In this case, developers will submit their source code
-to this service, which will generate the necessary API specifications in the cloud and trigger
+to this service, which will generate the necessary API specifications in the cloud, and trigger
 the application deployment process via EAGER.
 
-The proposed architecture is designed not to require major changes to the 
-existing components of the cloud since its deployment mechanisms are likely to
-be web service based.  However, EAGER does require integration at the service level
-({\em e.g.} it must be a trusted service component in a PaaS cloud). 
+The proposed architecture does not require major changes to the 
+existing components of the cloud, since its deployment mechanisms are likely to
+be web service based.  However, EAGER does require integration at the platform level.
+That is, it must be a trusted component in the cloud platform. 
 %All the 
 %EAGER components can be easily implemented as feature additions. 
 %The only noteworthy change that is required is the mechanism to intercept application deployment requests and act upon them. 
@@ -119,40 +119,42 @@ be web service based.  However, EAGER does require integration at the service le
 %Following subsections further describe the design and responsibilities of EAGER components.
 
 \subsubsection{Metadata Manager}
-The Metadata Manager stores all the API metadata in EAGER. This metadata 
+The metadata manager stores all the API metadata in EAGER. This metadata 
 includes policy specifications,  API names, versions, specifications and 
 dependencies.
 It uses the dependency information to compute the dependency tree 
 among 
-all deployed APIs and applications. Additionally, the Metadata Manager
-also keeps track of developers, their subscriptions to various APIs and the access credentials (API keys) issued to them. 
+all deployed APIs and applications. Additionally, the metadata manager
+also keeps track of developers, their subscriptions to various APIs, 
+and the access credentials (API keys) issued to them. 
 For these purposes,
-the Metadata Manager must logically include both a database
+the metadata manager must logically include both a database,
 and an identity management system.
 %management system. The developer information may be stored in a specialized user
 %store ({\em e.g.} LDAP).
 
-The Metadata Manager is exposed to other components through a well defined web service interface.
+The metadata manager is exposed to other components through a well defined web service interface.
 This interface allows querying existing API metadata and updating them. In the proposed model, the stored metadata is updated 
-occasionally (only when a new application is deployed or when a developer subscribes to a published API). Therefore the Metadata Manager
+occasionally -- only when a new application is deployed or when a developer subscribes to a published API. 
+Therefore the Metadata Manager
 does not need to support a very high write throughput. This performance
 characteristic allows the Metadata Manager to be implemented with strong 
 transactional semantics,
-which reduces the development overhead of other components that rely on Metadata Manager. Availability can be improved via
-simple replication methods.
+which reduces the development overhead of other components that rely on metadata manager. 
+Availability can be improved via simple replication methods.
 
 \subsubsection{API Deployment Coordinator} 
 \label{sec:adc}
 The API Deployment Coordinator (ADC)
-intercepts all application deployment requests and determines whether they are
+intercepts all application deployment requests, and determines whether they are
 suitable for deployment, based on a set of policies specified by the cloud
 administrators. It receives application deployment requests via a web service
-interface. At a high-level, ADC is the most important entity in the EAGER deployment
+interface. At a high-level, ADC is the most important entity in the EAGER's deployment-time
 control strategy.
 
 An application deployment request contains the name of the application,
 version number, names and versions of the APIs exported by the application,
-detailed API specifications and other API dependencies as declared by the
+detailed API specifications, and other API dependencies as declared by the
 developer. Application developers only need to specify explicitly the name and
 version of the application and the list of dependencies (i.e. APIs consumed by
 the application). All other metadata can be computed automatically by
@@ -162,7 +164,7 @@ performing introspection on the application source code.
 %metadata calculations, including the automatic generation of API
 %specifications.
 
-The API specifications used to describe the web APIs should specify the
+The API specifications used to describe the web APIs should state the
 operations and the schema of their inputs and outputs.  Any standard API
 description language can be used for this purpose, as long as it clearly
 describes the schema of the requests and responses. For describing REST
@@ -174,12 +176,12 @@ RESTful API Modeling Language (RAML) or any other language that provides similar
 %to create API specifications.
 
 When a new deployment request is received, the ADC checks whether the
-application declares any API dependencies. If so, it queries the Metadata
-Manager to make sure that all the declared dependencies are already available
+application declares any API dependencies. If so, it queries the metadata
+manager to make sure that all the declared dependencies are already available
 in the cloud.  Then it inspects the enclosed application metadata to see if
 the current application exports any web APIs. If the application exports at
-least one API, the ADC makes another call to the Metadata Manager and pulls
-any existing metadata related to that API. If the Metadata Manager cannot
+least one API, the ADC makes another call to the metadata manager, and retrieves
+any existing metadata related to that API. If the metadata manager cannot
 locate any data related to the API in question, ADC assumes it to be a brand
 new API (i.e. no previous version of that API has been deployed in the cloud),
 and proceeds to the next step of the governance check, which is policy
@@ -190,16 +192,14 @@ request to see if they are compatible.
 
 To perform this API compatibility verification, the ADC checks to see whether
 the latest specification of an API contains all the operations available in
-the old specification. API specifications are generated at the application developer's
-end and submitted to EAGER along with the application deployment request.
-If the latest API specification is missing at least one
+the old specification. If the latest API specification is missing at least one
 operation that it had previously, the ADC reports this to the user and aborts
 the deployment. If all the past operations are present in the latest
 specification, the ADC performs a type check to make sure that all past and
 present operations are type compatible. This is done by performing recursive
-introspection on the input and output types declared in the API
+introspection on the input and output data types declared in the API
 specifications. EAGER looks for type compatibility based on the following
-rules inspired by Hoare logic~\cite{Hoare:1969:ABC:363235.363259} and the
+rules inspired by Hoare logic~\cite{Hoare:1969:ABC:363235.363259}, and the
 rules of type inheritance from object oriented programming:
 \begin{itemize}
 \vspace{0.1in}
@@ -214,18 +214,34 @@ In addition to the type checks, ADC may also compare other parameters declared i
 such as HTTP methods, mime types and URL patterns. We have also explored and 
 published results on using a combination of syntactic and semantic comparison
 to determine the compatibility between APIs~\cite{6930607,jayathilaka2014using}.
-Once the API specifications have been successfully compared without error,
-the ADC initiates policy validation. 
+Once the API specifications have been successfully compared without error, and 
+the compatibility established, the ADC initiates policy validation. 
 
 \subsubsection{EAGER Policy Language and Examples}
 \label{sec:policy-lang}
 Policies are specified by cloud
-or organizational administrators using a subset of an object oriented language
-(we chose Python for the prototype).
+or organizational administrators using a subset of the popular 
+Python programming language.
+This design choice is motivated by several reasons.
+\begin{itemize}
+\item A high-level programming language such as Python is easier to learn and use
+for policy implementors. 
+\item Platform implementors can use existing Python interpreters to parse
+and execute policy files. Similarly, policy implementors can use existing Python
+development tools to write and test policies.
+\item In comparison to declarative policy languages (e.g. WS-Policy),
+a programming language like Python offers more flexibility and expressive power.
+For example, a policy may perform some local computation, and use the results
+in its enforcement clauses. The control flow tools of the language (e.g. conditionals, loops) 
+facilitate specifying complex policies.
+\item The expressive power of the language can be closely regulated by controlling
+the set of allowed built-in modules and functions.
+\end{itemize}
+
 We restrict the language to prevent state from being preserved across
 policy validations. In particular, the EAGER policy interpreter disables 
 file and network operations, third party library calls, 
-and intrinsics that allow
+and other language features that allow
 state to persist across invocations.  
 In addition, EAGER processes each 
 policy independently of others (i.e. each policy must be self-contained and 
@@ -235,9 +251,10 @@ language features can be used to specify policies in EAGER.
 To accommodate built-in language APIs that the administrators trust by {\em fiat},
 all module and function restrictions of the EAGER policy language are enforced
 through a configurable white-list. The policy engine evaluates each module and function
-reference against this white-list to determine whether they are allowed in the context of
+reference found in policy specifications
+against this white-list to determine whether they are allowed in the context of
 EAGER. Cloud administrators have the freedom
-and flexibility to expand the set of allowed built-in and third party modules by making
+to expand the set of allowed built-in and third party modules by making
 changes to this white-list.
 
 As part of policy language, EAGER
@@ -269,7 +286,7 @@ assert_app_dependency_in_range(app, name,\
 In addition to these assertions, EAGER adds a function
 called ``compare\_versions'' to the list 
 of available built-in functions. Policy
-writers can use this function to compare version 
+implementors can use this function to compare version 
 number strings associated with
 applications and APIs.
 
@@ -279,7 +296,7 @@ applications and APIs.
 %arbitrary complexity and logic with ease. 
 
 In the remainder of this section we illustrate the use of the policy language
-through examples.
+through several examples.
 The first example policy mandates that any application or mash-up
 that uses both Geo and Direction APIs must adhere to certain versioning 
 rules. More specifically, if the application uses Geo 3.0 or higher, it must use
@@ -305,7 +322,7 @@ In the above example, \textit{app} is a special immutable logical variable avail
 all policy files. This variable allows policies to access information
 pertaining to the current application deployment request. The assert\_true and assert\_false
 functions allow testing for arbitrary conditions, thus greatly improving the expressive
-power and flexibility of the policy language.
+power of the policy language.
 
 The next example shows a policy file that mandates that all applications deployed
 by the ``admin@test.com'' user must have role-based authentication enabled, so that only
@@ -357,8 +374,7 @@ This argument can be used to specify
 a custom error message that will be returned to the application developer, if his/her application
 violates the assertion in question.
 
-The next example is a relatively simple policy file 
-that prevents developers from introducing
+The next example policy prevents developers from introducing
 dependencies on deprecated web APIs. Deprecated APIs 
 are those that have been flagged
 by their respective authors for removal 
@@ -425,11 +441,11 @@ for api in app.api_list:
 
 This policy accesses the metadata of API operations that 
 is available in the API descriptions.
-Since API descriptions can be auto-generated 
+Since API descriptions are auto-generated 
 from the source code of the APIs, this policy indirectly
 references information pertaining to the actual API implementations.
 
-Finally, we present an example for the POST method.  The 
+Finally, we present an example for the HTTP POST method.  The 
 policy below mandates 
 that all POST operations exposed by an API are secured 
 with OAuth version 2.0.
@@ -448,10 +464,10 @@ for api in app.api_list:
 
 EAGER places no restrictions on how many policy files are specified by 
 administrators. Applications are validated against each policy file. Failure
-of any assertion in any policy file will cause the ADC to abort 
-application deployment. Once an application has been checked against all
+of any assertion in any policy file causes the ADC to abort 
+application deployment. Once an application is checked against all
 applicable policies, ADC persists the latest application and API metadata into
-the Metadata Manager.  At this point, the ADC may report success to the user
+the Metadata Manager.  At this point, the ADC may report success to the user,
 and proceed with application deployment. In a PaaS setting
 this deployment activity typically involves three steps:
 
@@ -481,14 +497,14 @@ OAuth~\cite{oauth2}
 access
 token (as is typical of many commercial REST-based web services) 
 or a similar authorization credential, which can be used to identify the
-developer/application that is invoking the API. This credential management
-identification process is used for auditing and run-time governance in EAGER.
+developer/application that is invoking the API. This credential
+validation process is used for auditing, and run-time governance in EAGER.
 
-The API keys issued by the ADP are stored in the Metadata Manager. When a
+The API keys issued by the ADP are stored in the metadata manager. When a
 programmer develops a new application using one or more API dependencies, we
-can require the developer to declare its dependencies along with the API
+require the developer to declare its dependencies along with the API
 keys obtained from the ADP. The ADC verifies this information against
-the Metadata Manager as a part of its dependency check and ensures that the
+the metadata manager as a part of its dependency check, and ensures that the
 declared dependencies are correct and the specified API keys are valid. 
 
 Deployment-time governance policies
@@ -507,25 +523,25 @@ results of the portal, and application developers will no longer be able to
 subscribe to them. However, already existing subscriptions and API keys will continue
 to work until the API is eventually retired. 
 The deprecation is considered a courtesy notice for application developers
-who have developed applications using the API, to migrate their code to a newer and active version
-if the API. 
+who have developed applications using the API, to migrate their code to a newer version
+of the API. 
 Once retired, any applications that have
 not still been migrated to the latest version of the API will cease to operate.
 
 \subsubsection{API Gateway} 
 Run-time governance of web services by systems such as
 Synapse~\cite{synapse} make use of an API ``proxy'' or gateway.
-The EAGER API Gateway does so to intercept API calls and validate 
+The EAGER API gateway does so to intercept API calls and validate 
 the API keys contained within them.
 EAGER intercepts requests by blocking direct access to the APIs in the
 application run-time (app servers), and publishing the API Gateway address as
 the API endpoint in the ADP. We do so via firewall rules
-or router configuration that prevents the cloud app servers from receiving any
-API traffic from a source other than the API Gateway. Once the API Gateway validates
+that prevent the cloud app servers from receiving any
+API traffic from a source other than the API gateway. Once the API gateway validates
 an API call, it routes the message to the
 application server in the cloud platform that hosts the API.
 
-The API Gateway can be implemented via one or more (load-balanced) servers.
-In addition to API key validation, the API Gateway performs other
-functions such as monitoring, throttling (rate limiting), SLA
-enforcement, and run-time policy validation. 
+The API gateway can be implemented via one or more load-balanced servers.
+In addition to API key validation, the API gateway can perform other
+functions such as monitoring, throttling (rate limiting), 
+and run-time policy validation. 
