@@ -1,9 +1,9 @@
 all: paper
 
 paper:  
-	pdflatex proposal
-	bibtex proposal
-	pdflatex proposal
-	pdflatex proposal
+	pdflatex dissertation
+	bibtex dissertation
+	pdflatex dissertation
+	pdflatex dissertation
 clean: 
-	rm -f proposal.aux proposal.bbl proposal.blg proposal.dvi proposal.log 
+	rm -f dissertation.aux dissertation.bbl dissertation.blg dissertation.dvi dissertation.log 
