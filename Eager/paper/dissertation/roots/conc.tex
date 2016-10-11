@@ -1,39 +1,48 @@
-As more and more applications are deployed in cloud platforms, the need
-for comprehensive performance monitoring and root cause analysis 
-in cloud environments continues to grow in significance. However,
-cloud platforms are large, complex systems with high levels of
-programming abstractions. This makes it challenging to collect,
-correlate and analyze data in a way that is amenable to detecting
-performance anomalies and diagnosing bottlenecks. The existing
-monitoring frameworks for cloud platforms are not integrated
-well into the cloud platforms, which makes them incapable of
-performing full stack monitoring, and diagnosing problems
-outside user code in the core components of the cloud platform.
+As the paradigm of cloud computing grows in popularity, the need for monitoring cloud-hosted 
+applications is becoming critical. Application developers and cloud administrators
+wish to detect performance anomalies in cloud applications, and
+perform root cause analysis to diagnose problems. However, the high level of abstraction provided by cloud
+platforms, coupled with their scale and complexity, makes performance diagnosis
+a daunting problem. This situation is particularly apparent in
+PaaS clouds, where the application runtime details are hidden beneath a layer of curated services.
+The existing cloud monitoring solutions do not have the necessary penetrative power
+to monitor all the different layers of such cloud platforms, and consequently, their diagnosis
+capabilities are severely limited.
 
-We propose Roots, a monitoring framework built into PaaS clouds
-that can monitor all aspects of the cloud platform from the top
-level front-end servers to PaaS kernel services of the lowest level.
-Moreover, Roots supports correlating events that occur at different
-levels of the cloud platform in response to user requests. This
-in turns enables tracing the flow of user requests through the
-cloud stack, thereby facilitating root cause analysis in a very
-fine-grained manner. Roots is also highly extensible, and
-encourages configuration at the granularity of individual
-user applications. 
+We propose Roots, a near real time monitoring framework for applications deployed in a PaaS cloud. 
+Roots is designed to function as a curated service
+built into the cloud platform, as opposed to an external monitoring system. 
+It relieves the application developers from having to configure
+their own monitoring solutions, or having to instrument the application code in anyway.
+Roots captures runtime data from all the different layers involved
+in processing application requests. It can correlate events across different layers, and
+identify bottlenecks deep within the kernel services of the PaaS.
 
-Roots collects data efficiently using a 
-collection of passive sensors/agents, and avoids instrumenting
-user code. The data analysis layer of Roots is organized as 
-self-contained pods of lightweight processes. Pods can be
-deployed in a distributed manner (with sharding), and is
-amenable to replication thereby providing high levels of
-scalability and availability. 
+Roots monitors applications for SLO compliance, and detects anomalies via SLO violations.
+When Roots detects an anomaly, 
+it analyzes workload data and other application runtime data
+to perform root cause analysis. Roots is able to determine whether a particular
+anomaly was caused by a change in the application workload, or due to a bottleneck
+in the cloud platform. To this end we also devise a bottleneck identification algorithm, that
+uses a combination of linear regression, quantile analysis and change point detection. 
+We also present an analysis method by which Roots can identify different paths of execution
+in an application. Our method does not require static analysis, and we use it to detect
+changes in an application's workload characteristics.
 
-We are currently in the process of implementing a Roots
-prototype for the AppScale open source PaaS cloud. We
-use ElasticSearch as the primary data storage component in
-our implementation. We plan to evaluate the effectiveness
-of Roots using a wide range anomaly detection and root
-cause analysis mechanisms. We also plan on testing the
-overhaed and scalability of Roots using real world applications
-and workloads.
+We evaluate Roots using a prototype built for the AppScale open source PaaS. 
+Our results indicate that Roots is effective at detecting performance anomalies
+in near real time. We also show that our bottleneck identification algorithm
+produces accurate results nearly 100\% of the time, pinpointing the exact PaaS
+service or the application component responsible for each anomaly. Our empirical trials further 
+reveal that Roots does not add a significant overhead to the applications deployed
+on the cloud platform. Finally, we show that Roots is very lightweight, 
+and scales well to handle large populations of applications.
+
+In our future work we plan to expand the data gathering capabilities of Roots into
+the low level virtual machines and containers that host various services of the cloud
+platform. We intend to tap into the hypervisors
+and container managers to harvest runtime data regarding the resource usage (CPU, memory, disk etc.) of
+PaaS services and other application components. With that we expect to extend
+the root cause analysis support of Roots so that it can not only pinpoint the
+bottlenecked application components, but also the low level hosts and system
+resources that constitute each bottleneck.

@@ -1,0 +1,16 @@
+In this paper, we investigate Roots, a holistic 
+application performance monitoring (APM) framework for 
+performance anomaly detection and bottleneck identification 
+in cloud platform-as-a-service (PaaS) systems.
+Roots performs lightweight, full stack monitoring by integrating
+the APM as a managed PaaS service.  By doing so, Roots is able to 
+efficiently collect and correlate performance data across the PaaS stack,
+precluding the need for application instrumentation.  Roots employs
+a combination of statistical techniques that analyze this data to detect performance
+anomalies (i.e. violations of service-level objectives). For each anomaly, 
+Roots determines whether the event was caused by a change in 
+the workload, and if not identifies the bottleneck component in the cloud platform
+that is most likely to have degraded application performance. 
+We implement Roots in the AppScale open source cloud platform, and evaluate its 
+accuracy and overhead using PaaS-hosted web applications.
+
