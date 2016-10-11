@@ -118,7 +118,7 @@ That is, it must be a trusted component in the cloud platform.
 %This can be done without changing the existing components of the cloud.
 %Following subsections further describe the design and responsibilities of EAGER components.
 
-\subsubsection{Metadata Manager}
+\subsection{Metadata Manager}
 The metadata manager stores all the API metadata in EAGER. This metadata 
 includes policy specifications,  API names, versions, specifications and 
 dependencies.
@@ -143,7 +143,7 @@ transactional semantics,
 which reduces the development overhead of other components that rely on metadata manager. 
 Availability can be improved via simple replication methods.
 
-\subsubsection{API Deployment Coordinator} 
+\subsection{API Deployment Coordinator} 
 \label{sec:adc}
 The API Deployment Coordinator (ADC)
 intercepts all application deployment requests, and determines whether they are
@@ -217,7 +217,7 @@ to determine the compatibility between APIs~\cite{6930607,jayathilaka2014using}.
 Once the API specifications have been successfully compared without error, and 
 the compatibility established, the ADC initiates policy validation. 
 
-\subsubsection{EAGER Policy Language and Examples}
+\subsection{EAGER Policy Language and Examples}
 \label{sec:policy-lang}
 Policies are specified by cloud
 or organizational administrators using a subset of the popular 
@@ -486,7 +486,7 @@ Step $1$ is required to complete the application deployment in the cloud even
 without EAGER. We explain the significance of steps $2$ and $3$ in the 
 following subsections.
 
-\subsubsection{API Discovery Portal} 
+\subsection{API Discovery Portal} 
 The API Discovery Portal (ADP) is an online
 catalog where developers can browse available web APIs. Whenever the ADC
 approves and deploys a new application, it registers all the APIs exported by
@@ -528,7 +528,7 @@ of the API.
 Once retired, any applications that have
 not still been migrated to the latest version of the API will cease to operate.
 
-\subsubsection{API Gateway} 
+\subsection{API Gateway} 
 Run-time governance of web services by systems such as
 Synapse~\cite{synapse} make use of an API ``proxy'' or gateway.
 The EAGER API gateway does so to intercept API calls and validate 
