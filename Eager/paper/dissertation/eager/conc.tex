@@ -1,14 +1,14 @@
-In this section, we describe EAGER, a model and a software architecture that 
+In this chapter, we describe EAGER, a model and a software architecture that 
 facilitates API governance as a cloud-native feature. EAGER supports comprehensive policy
 enforcement, dependency management, and a variety of other deployment-time API
 governance features. It promotes many software development and maintenance
-best practices including versioning, code reuse, and retaining API backwards
-compatibility. EAGER also includes a language based on Python that enables
-creating, debugging, and maintaining API policies in a simple and intuitive
+best practices including versioning, code reuse, and API backwards
+compatibility retention. EAGER also includes a language based on Python that enables
+creating, debugging, and maintaining API governance policies in a simple and intuitive
 manner. EAGER can be built into cloud platforms that are used to host APIs
 to automate governance tasks that otherwise require custom code or developer intervention.
 
-Our empirical results (gathered using a prototype of EAGER developed for AppScale)
+Our empirical results, gathered using a prototype of EAGER developed for AppScale,
 show that EAGER adds negligibly small overhead to the cloud application 
 deployment process, and the overhead grows linearly
 with the number of APIs deployed. We also show that EAGER scales well 
@@ -20,11 +20,11 @@ to handle tens of thousands of APIs and hundreds of policies.
 %combine deployment-time and run-time governance capabilities at scale.
 
 As part of our future work, we plan to investigate the degree to which
-deployment-time governance can be maximized.
+deployment-time governance can be expanded.
 Run-time API governance imposes a number of new scalability and
 reliability challenges.  By offloading as much of the governance overhead to
-deployment time as possible, EAGER will ensure that the impact of run-time
-governance can be minimized.  
+deployment-time as possible, EAGER ensures that the impact of run-time
+governance is minimized.  
 
 We also plan to investigate the specific language features that are essential
 to EAGER's combined deployment-time and run-time approach.  The use of Python
@@ -34,12 +34,11 @@ we have left unrestricted are necessary.  By minimizing the policy language
 specification we hope to make its implementation more efficient, less
 error prone to develop and debug, and more amenable to automatic analysis.
 
-%Another future research direction is the integration of policy language and
-%run-time API governance. In
-%other words we wish to explore the possibility of using the same Python-based
-%policy language for
-%specifying policies that are enforced on APIs at run-time (i.e. on individual
-%API calls). Since API calls
-%are way more frequent than API deployment events, we need to pay attention to
-%the performance aspects
-%of the policy engine to make this integration practically useful.
+Another future research direction is the integration of policy language and
+run-time API governance.
+We wish to explore the possibility of using the same Python-based
+policy language for
+specifying policies that are enforced on APIs at run-time (i.e. on individual
+API calls). Since API calls
+far more frequent than API deployment events, we should evaluate
+the performance aspects of the policy engine to make this integration practically useful.
