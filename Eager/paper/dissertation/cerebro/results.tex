@@ -23,7 +23,7 @@ study. We execute these applications in the Google App Engine public cloud
 and in an AppScale (v2.0) private cloud.  We instrument the programs to collect
 execution time statistics for verification purposes only 
 (the instrumentation data is not used to predict
-the SLAs).  The AppScale private cloud used for testing was
+the SLOs).  The AppScale private cloud used for testing was
 hosted using four ``m3.2xlarge'' virtual machines running on a private
 Eucalyptus~\cite{eucalyptus09} cloud.
 
@@ -40,25 +40,26 @@ Eucalyptus~\cite{eucalyptus09} cloud.
 %The AppScale private cloud used for testing was powered by four m3.2xlarge virtual machines 
 %running on a private Eucalyptus~\cite{eucalyptus09} cluster.
 
-We first report the time required for Cerebro to perform its analysis and SLA prediction.
+We first report the time required for Cerebro to perform its analysis and SLO prediction.
 Across web APIs, Cerebro takes $10.00$ seconds on average, with a 
-maximum time of $14.25$ seconds for StudentInfo application.
+maximum time of $14.25$ seconds for the StudentInfo application.
 These times include the time taken
-by the static analyzer to analyze all the web API operations
+by the static analyzer to analyze all the web API operations,
 and the time taken by QBETS to make predictions. For these results, the length of 
-the time series collected by PaaS monitoring agent is $1528$ data points ($25.5$ hours of monitoring data). Since the QBETS analysis time depends on the length of the input time series, 
+the time series collected by PaaS monitoring agent is $1528$ data points ($25.5$ hours of monitoring data). 
+Since the QBETS analysis time depends on the length of the input time series, 
 we also measured the time for 2 weeks of monitoring data ($19322$ data points) to provide
-some insight into the overhead of SLA prediction.  Even in this case, Cerebro
+some insight into the overhead of SLO prediction.  Even in this case, Cerebro
 requires only $574.05$ seconds ($9.6$ minutes) on average.
 
-\subsubsection{Correctness of Predictions}
+\subsection{Correctness of Predictions}
 \label{sec:correctness}
 
 We first evaluate the correctness of Cerebro predictions.  A set of
 predictions is \textit{correct} if the \textit{fraction} of measured 
 response time values that fall below the Cerebro prediction is greater than 
-or equal to the SLA target probability. 
-For example, if the SLA probability is $0.95$ (i.e. $p=95$ in QBETS) for
+or equal to the SLO success probability. 
+For example, if the SLO success probability is $0.95$ (i.e. $p=95$ in QBETS) for
 a specific web API, then the Cerebro predictions are correct if at least
 $95\%$ of the response times measured for the web API are smaller than their
 corresponding Cerebro predictions. 
@@ -67,8 +68,8 @@ We benchmark each web API for a period of 15 to 20 hours.  During this time we
 run a remote HTTP client that makes requests to the web APIs once every
 minute. The application instrumentation measures and records the response
 time of the API operation for each request (i.e. within the application).
-Concurrently and within the same PaaS system, we execute the Cerebro
-PaaS monitoring agent which is an independently hosted application within the
+Concurrently, and within the same PaaS system, we execute the Cerebro
+PaaS monitoring agent, which is an independently hosted application within the
 cloud that benchmarks each SDK operation once every minute.
 
 Our test request rate (1 request/minute) is not sufficient to put the backend cloud servers
@@ -88,7 +89,7 @@ upper bound for the $95^{th}$ percentile of the web API response time, with an
 upper confidence of $0.01$. 
 
 QBETS generates a prediction for \textit{every} value in the input time series 
-(one per minute).  Cerebro reports the last one as the SLA prediction to the
+(one per minute).  Cerebro reports the last one as the SLO prediction to the
 user or PaaS administrator in production.  However, having per-minute predictions 
 enables us to compare these predictions against actual web API execution
 times measured during the same time period to evaluate Cerebro correctness. 
@@ -112,29 +113,29 @@ from a sample of $1000$ prediction-measurement pairs.
 \end{figure}
 
 Figure~\ref{fig:accuracy_summary} shows the final results of this experiment.
-Each of the columns in Figure~\ref{fig:accuracy_summary} corresponds 
+Each of the columns in figure~\ref{fig:accuracy_summary} corresponds 
 to a single web API operation in 
 one of the sample applications. The columns are labeled in the 
 form of \textit{ApplicationName\#OperationName}, a convention 
-we will continue to use in the rest of the section. %To maintain clarity in the figures we do not 
-%illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
-%web API operations covering all five sample applications. We note that other web API operations we tested also produce
-%very similar results.
+we will continue to use in the rest of the section. To maintain clarity in the figures we do not 
+illustrate the results for all web API operations in the sample applications. Instead we present the results for a selected set of 
+web API operations covering all five sample applications. We note that other web API operations we tested also produce
+very similar results.
 
 Since we are using Cerebro to predict the $95^{th}$ percentile of the API
 response times, Cerebro's predictions are correct when at 
 least $95\%$ of the measured response times are
 less than their corresponding predicted upper bounds. According to
-Figure~\ref{fig:accuracy_summary}, Cerebro achieves this goal for all the
+figure~\ref{fig:accuracy_summary}, Cerebro achieves this goal for all the
 applications in both cloud environments. 
-%The lowest percentage accuracy observed in our tests is 94.6\% (in the case
-%of StockTrader\#buy on AppScale), which is also very close to the target of
-%95\%.  Such minor lapses below 95\% are acceptable anyway, since we expect
-%percentage accuracy value to be gently fluctuating around some average value
-%over time (a phenomenon that will be explained in our later results).
-%Overall, this result shows us that Cerebro produces highly accurate SLA
-%predictions for a variety of applications running on two very different cloud
-%platforms.
+The lowest percentage accuracy observed in our tests is 94.6\% (in the case
+of StockTrader\#buy on AppScale), which is also very close to the target of
+95\%.  Such minor lapses below 95\% are acceptable anyway, since we expect
+percentage accuracy value to be gently fluctuating around some average value
+over time (a phenomenon that will be explained in our later results).
+Overall, this result shows us that Cerebro produces highly accurate SLO
+predictions for a variety of applications running on two very different cloud
+platforms.
 
 The web API operations illustrated in Figure~\ref{fig:accuracy_summary} cover
 a wide spectrum of scenarios that may be encountered in real world.
@@ -171,7 +172,7 @@ and Cerebro was configured to use a maximum entity count of $10$.
 %for such a wide range 
 %of web API implementations and runtime scenarios on two cloud platforms.
 
-\subsubsection{Tightness of Predictions}
+\subsection{Tightness of Predictions}
 
 In this section we discuss the tightness of the predictions generated by Cerebro. 
 Tightness is a measure of how closely the predictions
@@ -181,7 +182,7 @@ by simply predicting overly large values for web API response times. For example
 predict a response time of several years for exactly $95\%$ of the web API
 invocations and zero for the others, it would likely
 achieve a correctness percentage of $95\%$.  From a practical perspective,
-however, such an extreme upper bound is not useful as the basis for an SLA. 
+however, such an extreme upper bound is not useful as an SLO. 
 %This parameter is just as important as the percentage of measurements that fall under the predicted SLA values. 
 %Note that Cerebro can achieve a very high percentage accuracy level by simply generating a 
 %sequence of large predictions. But such results will obviously be of very little use to the API
@@ -199,7 +200,7 @@ Figure~\ref{fig:diff_summary} depicts the average difference between predicted
 response time bounds and actual response times for
 our sample web APIs when running in the App Engine and AppScale clouds. 
 These results were obtained considering a sequence of $1000$ 
-consecutive predictions (of $95^{th}$ percentile) and the averages are
+consecutive predictions (of $95^{th}$ percentile), and the averages are
 computed only for correct predictions (i.e. ones above their corresponding
 measurements).
 %Within these prediction sequences only the cases 
@@ -207,7 +208,7 @@ measurements).
 %presented earlier, we know that this case occurs at least 95\% of the time.
 
 According to Figure~\ref{fig:diff_summary}, Cerebro generates fairly tight 
-SLA predictions for most web API operations considered in the experiments. In fact,
+SLO predictions for most web API operations considered in the experiments. In fact,
 $14$ out of the $20$ cases illustrated in the figure show average difference
 values less than $65$ms. In a few cases, however, the bounds differ from the
 average measurement substantially:
@@ -216,10 +217,10 @@ average measurement substantially:
 \item ServerHealth\#info, SocialMapper\#addComment, StockTrader\#buy and StockTrader\#sell on App Engine
 \end{itemize}
 
-%To understand why Cerebro generates conservative predictions for some operations we further 
-%investigate the performance characteristics of them. We take StudentInfo\#getAllStudents
-%operation on App Engine as a case study, and analyze its execution time measurements in depth. 
-%This is the case which exhibits the largest average difference between predicted and actual execution times.
+To understand why Cerebro generates conservative predictions for some operations we further 
+investigate the performance characteristics of them. We take StudentInfo\#getAllStudents
+operation on App Engine as a case study, and analyze its execution time measurements in depth. 
+This is the case which exhibits the largest average difference between predicted and actual execution times.
 
 \begin{figure}
 \centering
@@ -230,8 +231,7 @@ average measurement substantially:
 
 Figure~\ref{fig:get_all_students_cdf} shows the empirical cumulative
 distribution function (CDF) of measured execution times for the 
-StudentInfo\#getAllStudents on
-Google App Engine (one of the extreme cases). 
+StudentInfo\#getAllStudents on Google App Engine. 
 This distribution was obtained by considering the application's instrumentation 
 results gathered within a window of $1000$ minutes. 
 The average of this sample is $3431.79$ms, and the $95^{th}$ percentile
@@ -239,23 +239,13 @@ from the CDF is $4739$ms.  Thus, taken as a distribution, the ``spread''
 between the average and the $95^{th}$ percentile is more
 than $1300$ms.  
 
-% ----- Hiranya: The following observation is wrong. Cerebro spread is 1600ms, not 1100ms -----
-
-%For this case (column 4 in Figure~\ref{fig:diff_summary}), Cerebro's
-%spread is approximately $1100$ms.  Thus Cerebro appears to be generating an
-%accurate estimate of the $95^{th}$ percentile for this data.  That is, a
-%response time SLA of $1100$ms would likely be achievable with probability
-%at least $0.95$ 
-%for the StudentInfo\#getAllStudents web API when the application is
-%running in Google App Engine. 
-
 From this, it becomes evident that StudentInfo\#getAll\-Students 
 records very high execution times frequently. 
 In order to incorporate such high outliers, Cerebro must be conservative 
 and predict large values for
 the $95^{th}$ percentile. This is a required feature to ensure that 95\% or more 
 API invocations have
-execution times under the predicted SLA. But as a consequence, the average 
+execution times under the predicted SLO. But as a consequence, the average 
 distance between the 
 measurements and the predictions increases significantly.
 
@@ -297,15 +287,13 @@ Another interesting observation we can make regarding the tightness of
 predictions is that the predictions made in the AppScale cloud platform are
 significantly tighter than the ones made in Google App Engine
 (Figure~\ref{fig:diff_summary}). 
-%Five out of the six scenarios in which Cerebro has generated conservative
-%predictions are from App Engine.  Furthermore,
 For nine out of the ten operations tested, Cerebro has generated tighter
 predictions in the AppScale environment. This is because web API performance
 on AppScale is far more stable and predictable thus resulting in fewer
 measurements that occur far from the average.
 
 The reason why AppScale's performance is more stable over time is because it is
-deployed on a set of closely controlled 
+deployed on a set of closely controlled, 
 and monitored cluster of virtual machines (VMs) that use a private
 Infrastructure-as-a-Service (IaaS) cloud to implement isolation.  In particular, the 
 VMs assigned to AppScale do not share nodes with ``noisy neighbors'' in our
@@ -322,11 +310,11 @@ response time when using it.
 %highly scalable, may not be able to support tight performance SLAs. Their performance is subject to high variations making it difficult to always support attractive
 %performance guarantees. Small private cloud platforms on the other hand can provide much better, consistent and stable performance guarantees, albeit their
 %poor scalability. %From an organization's point of view this could be a strong motivator to adopt private cloud over public clouds.
-Cerebro, however, is able to predict a correct and tight SLAs for applications
+Cerebro, however, is able to predict a correct and tight SLOs for applications
 running in either platform: the lower variance private
 AppScale PaaS, and the extreme scale but more varying Google App Engine PaaS.
 
-\subsubsection{SLA Validity Duration}
+\subsection{SLO Validity Duration}
 
 %So far we have examined the accuracy and tightness of the predictions produced by Cerebro. In this section we 
 %focus on the validity period of the Cerebro predictions.
@@ -357,13 +345,14 @@ AppScale PaaS, and the extreme scale but more varying Google App Engine PaaS.
 
 To be of practical value to PaaS administration, the duration over which a
 Cerebro prediction remains valid must be long enough to allow appropriate
-remedial action when load conditions change, and the SLA is in danger of being
-violated.  In particular, SLAs must remain correct for at least the time
+remedial action when load conditions change, and the SLO is in danger of being
+violated.  In particular, SLOs must remain correct for at least the time
 necessary to allow human responses to changing conditions such as
 the commitment of more resources to web APIs that are in violation or alerts
-to support staff that customers may be calling to claim SLA breach.  Ideally,
+to support staff that customers may be calling to claim SLO breach (which 
+likely resulted in a higher level SLA violation).  Ideally,
 each prediction should persist as correct for several hours or more to match
-staff response time to potential SLA violations.
+staff response time to potential SLO violations.
 
 %If that is the case, the cloud administrators can take some remedial actions like 
 %committing more resources to the deployed APIs,
@@ -372,24 +361,24 @@ staff response time to potential SLA violations.
 %a lot of computing time and manpower will be wasted recomputing Cerebro predictions and evaluating the results. Also, given that
 %modern cloud platforms are used to host thousands of web APIs, such aggressive re-computation of predictions may not be scalable.
 
-However, determining when a Cerebro-predicted SLA becomes invalid is
+However, determining when a Cerebro-predicted SLO becomes invalid is
 potentially complex. For example, given the definition of correctness
-described in Subsection~\ref{sec:correctness}, it is possible to report an SLA violation
+described in subsection~\ref{sec:correctness}, it is possible to report an SLO violation
 when the running tabulation of correctness percentage falls below the target
 probability (when expressed as a percentage).  However, if this metric is
 used, and Cerebro is correct for many consecutive measurements, a sudden
 change in conditions that causes the response time to persist at a higher
 level will not immediately trigger a violation.  For example, Cerebro might be
 correct for several consecutive months and then incorrect for several
-consecutive weeks before the overall correctness percentage drops below $95\%$
-and a violation is detected.  If the SLA is measured over a year, such time
+consecutive days before the overall correctness percentage drops below $95\%$,
+and a violation is detected.  If the SLO is measured over a year, such time
 scales may be acceptable but we believe that PaaS administrators would
-consider such a long period of time where the SLAs were continuously in
+consider such a long period of time where the SLOs were continuously in
 violation unacceptable.
 Thus we adopt the more conservative approach described in 
 section~\ref{sec:cerebro_sla_durability} to measure the duration over
 which a prediction remains valid than simply measuring the time until the
-correctness percentage drops below the SLA-specified value.
+correctness percentage drops below the SLO-specified value.
 Tables~\ref{tab:gae_validity} and~\ref{tab:as_validity} present these durations
 for Cerebro predictions in Google App Engine and AppScale
 respectively. These results were calculated by analyzing a trace of
@@ -398,7 +387,7 @@ data collected over 7 days.
 %\begin{table}[tdp]
 \begin{table}
 \caption{Prediction validity period distributions of different operations in
-App Engine. Validity durations were computed by observing $3$ consecutive SLA
+App Engine. Validity durations were computed by observing $3$ consecutive SLO
 violations. $5^{th}$ and $95^{th}$ columns represent the 5th and 95th 
 percentiles of the
 distributions respectively. All values are in hours.
@@ -421,7 +410,7 @@ Rooms\#getRoomsInCity & 2.08 & 30.12 & 82.58 \\ \hline
 
 \begin{table}
 \caption{Prediction validity period distributions of different operations in
-AppScale. Validity periods were computed by observing $3$ consecutive SLA
+AppScale. Validity periods were computed by observing $3$ consecutive SLO
 violations. $5^{th}$ and $95^{th}$ 
 columns represent the 5th and 95th percentiles of the
 distributions respectively. All values are in hours.
@@ -503,7 +492,7 @@ just consider the $5^{th}$ percentiles of the distributions, they are
 also longer than $1$ hour. The smallest $5^{th}$ percentile value of 
 $1.41$ hours is 
 given by the ServerHealth\#info operation. This result implies that, based on
-our conservative model for detecting SLA violations,
+our conservative model for detecting SLO violations,
 Cerebro predictions made on Google App Engine would be valid for at least
 $1.41$ hours or more, at least 95\% of the time.
 
@@ -514,7 +503,7 @@ fairly stable performance characteristics in Google App Engine.
 This is reflected in
 the $5^{th}$ percentiles of StudentInfo\#getStudent and Rooms\#getRoomByName. 
 Alternatively
-operations that execute writes, iterative reads or long sequences of cloud SDK
+operations that execute writes, iterative datastore reads or long sequences of cloud SDK
 operations have shorter prediction validity durations.
 
 For AppScale, 
@@ -523,7 +512,7 @@ Rooms\#getRoomsInCity operation. All other operations tested in
 AppScale have average prediction validity durations greater
 than $54$ hours. The lowest $5^{th}$ percentile value in the 
 distributions, which is 1.95 hours, is 
-also shown by Rooms\#getRoomsInCity. This means, the SLAs predicted for
+also shown by Rooms\#getRoomsInCity. This means, the SLOs predicted for
 AppScale would hold correct for at least $1.95$ hours or more, 
 at least 95\% of the time.
 %Other operations have 5th percentile values greater than 6 hours. 
@@ -546,7 +535,7 @@ in AppScale.
 %to running Watchtower and other sample applications. Therefore it is a much more stable environment compared to 
 %App Engine -- a fact that is reflected in the calculated prediction validity periods.
 
-\subsubsection{Long-term SLA Durability and Renegotiation Frequency}
+\subsection{Long-term SLO Durability and Reassessment Frequency}
 In this section we further analyze how the Cerebro-predicted SLAs change over 
 long periods of time (e.g. several months). Our goal is to understand the frequency with
 which Cerebro requires API consumers to renegotiate auto-generated performance SLAs. That is,
