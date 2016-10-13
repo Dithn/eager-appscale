@@ -348,10 +348,10 @@ as being the time duration over which
 the prediction is valid. 
 We refer to this duration as the \textit{SLO validity duration}.
 
-\subsection{SLO Reassessment Model}
+\subsection{SLO Reassessment}
 We extend Cerebro with an SLO reassessment process that invalidates SLOs at the end of the
-SLO validity duration, and re-establishes a new SLO for the API consumer.
-API consumers acquire an initial SLO for a web API 
+SLO validity duration, and provides a new SLO for the API consumer.
+API consumers receive an initial SLO for a web API 
 hosted by a Cerebro-equipped PaaS
 as part of the API subscription process (i.e. when obtaining API keys). This initial SLO
 may be issued in the form of an SLA that is negotiated between the API provider and
@@ -361,21 +361,24 @@ tuple $<API\ Consumer, API, Timestamp, SLO\ Value>$.
 
 When Cerebro detects consecutive violations of one of its predictions,
 it considers the corresponding SLO to be invalid, 
-and notifies the affected API consumers to acquire a 
-new SLO. Cerebro can suspend API access by affected API consumers until 
-the new SLO is established, or simply record violations for later remediation.
-Ideally however, it is desirable that the SLO be immediately and automatically 
-renewed. We refer to such on-the-fly
-SLO changes as SLO reassessments. Upon reassessment, 
+and provides the affected API consumers with a 
+new SLO. 
+Upon this SLO change, 
 Cerebro updates the $Timestamp$ and $SLO\ Value$ entries
 in the appropriate data tuple for future reference.
+%Cerebro can suspend API access by affected API consumers until 
+%the new SLO is established, or simply record violations for later remediation.
+%Ideally however, it is desirable that the SLO be immediately and automatically 
+%renewed. We refer to such on-the-fly
+%SLO changes as SLO reassessments. 
 
-There is also a second type of SLO reassessment that is possible with Cerebro.
+There is also a second way that an API consumer may encounter an SLO change.
 When recomputing SLOs periodically, Cerebro might come across situations where the latest SLO is smaller
-than some previously established SLO (i.e. a tighter SLO is available). Cerebro can notify the 
-API consumer about this prospect, but wait for authorization from the API consumer before 
-establishing the SLO. If the API consumer consents to the SLO change, Cerebro may update the
-data tuple, and treat the SLO as established.
+than some previously issued SLO (i.e. a tighter SLO is available). Cerebro can notify the 
+API consumer about this prospect. 
+If the API consumer consents to the SLO change, Cerebro may update the
+data tuple, and treat the new SLO as in effect.
+
 We next use empirical testing and simulations to explore 
 the feasibility of the Cerebro SLO reassessment process, and 
 evaluate how SLO validity duration and invalidation impact API consumers over time.
