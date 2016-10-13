@@ -1,7 +1,7 @@
 The goal of our work is to analyze a web API statically, and from this analysis 
 without deploying or running the web API, 
 accurately predict an upper bound on its response time. With such a prediction,
-developers and cloud administrators can provide performance SLAs to the API consumers (human or 
+developers and cloud administrators can provide performance SLOs to the API consumers (human or 
 programmatic), to help them reason about 
 the performance implications of using APIs -- something that is not possible today.
 For general purpose applications, such worst-case execution time analysis has been shown
@@ -10,23 +10,28 @@ simple programs or specific application domains.
 
 To overcome these challenges, we take inspiration from the latter and exploit 
 the application domain of PaaS-hosted web APIs to achieve our goal.  
-In this paper, we focus on the popular Google App Engine (GAE) public PaaS 
+In this chapter, we focus on the popular Google App Engine (GAE) public PaaS, 
 and AppScale private PaaS, which support the same applications, 
 development and deployment model, and platform services.
 
 The first characteristic of PaaS systems
 that we exploit to facilitate our analysis 
 is their predefined programming interfaces 
-through which they export various platform services. 
+through which they export various kernel services. 
 Herein we refer to these programming interfaces as the cloud software development 
-kit or the \textit{cloud SDK}. We refer to the individual member interfaces of the cloud SDK
+kit or the \textit{cloud SDK}. The cloud SDK is comprised of several interfaces, each of which
+plays the role of a client stub for some kernel service offered by the cloud platform.
+We refer to the individual member interfaces of the cloud SDK
 as \textit{cloud SDK interfaces}, and to their constituent operations 
 as \textit{cloud SDK operations}.  These interfaces export scalable
 functionality that is commonly used to implement web APIs:  
-key-value datastores, databases,
-data caching, task and user management, security and authentication, etc.
+key-value datastores, 
+caching, task scheduling, security and authentication, etc.
+In an application, each cloud SDK call represents an invocation of a PaaS kernel
+service. Therefore, we use the terms \textit{cloud SDK calls} and \textit{PaaS kernel invocations}
+interchangeably in the remainder of this chapter. 
 The App Engine and AppScale cloud SDK is detailed 
-in \url{https://cloud.google.com/appengine/docs/java/javadoc/}. 
+in \url{https://cloud.google.com/appengine/docs/java/javadoc/}.
 
 %App Engine, for example, provides several cloud SDKs; one for each
 %programming language supported (Java, Python, Go etc). Each SDK consists of
@@ -64,16 +69,14 @@ in \url{https://cloud.google.com/appengine/docs/java/javadoc/}.
 %\end{figure}
 
 With PaaS clouds, developers implement their application code as a combination of calls to the
-cloud SDK and their own code.  The service implementations for the 
-cloud SDK are highly scalable, highly available (have SLAs associated with them),
-and automatically managed by the platform. Developers then
+cloud SDK, and their own code. Developers then
 upload their applications to the cloud for deployment.
 Once deployed, the applications and any web APIs exported by them can be accessed 
 via HTTP/S requests by external or co-located clients.
 
-Typically, PaaS-hosted web APIs perform one or more
-cloud SDK calls.  The reason for this is two-fold.  First, 
-cloud SDKs provide web APIs with much of the functionality that they require.
+Typically, PaaS-hosted web APIs make one or more cloud SDK calls.
+The reason for this is two-fold. First, 
+kernel services that underpin the cloud SDK provide web APIs with much of the functionality that they require.
 Second, PaaS clouds ``sandbox'' web APIs to enforce quotas, to enable billing,
 and to restrict certain functionality
 that can lead to security holes, platform instability, or scaling issues~\cite{gae-sandbox}.
@@ -91,7 +94,7 @@ all web API operations start and end at well defined program points, and
 we are able to infer this structure from common software patterns.  Also,
 concurrency is restricted by capping the number of threads
 and requiring that a thread cannot outlive the request
-that creates it.  Finally, PaaS clouds enforce quotas and limits on service
+that creates it.  Finally, PaaS clouds enforce quotas and limits on kernel service
 (cloud SDK) use~\cite{azure-limits,gae-limits,gae-sandbox}.
 App Engine, for example, requires that all web API requests complete under 60 seconds.
 Otherwise they are terminated by the platform. 

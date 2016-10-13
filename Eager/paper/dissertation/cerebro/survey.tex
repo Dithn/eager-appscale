@@ -38,7 +38,7 @@ the PaaS SDK and the platform restrictions like quotas and response time limits
 discourage looping.
 
 Approximately 29\% of all the loops in 
-the analyzed programs do not contain any cloud SDK invocations. 
+the analyzed programs do not contain any cloud SDK calls. 
 A majority of the loops (61\%) however, are
 used to iterate over a dataset that is returned from the datastore cloud SDK interface 
 of App Engine (i.e iterating on the result set 
@@ -69,15 +69,14 @@ users & 44 \\ \hline
 xmpp & 3 \\ \hline
 \end{tabular}
 \end{center}
-\vspace{-0.2in}
 \end{table}
 
 Table~\ref{tab:sdk_call_counts} lists the number of times each cloud 
 SDK interface is called across all paths and methods in the analyzed programs.
-The Datastore API is the most commonly used interface.
+The datastore API is the most commonly used interface.
 This is because data management is fundamental 
-to most web APIs and the PaaS
-disallows using the local filesystem to do so,
+to most web APIs, and the PaaS
+disallows using the local filesystem to do so
 for scalability and portability reasons.
 
 \begin{figure}
@@ -104,14 +103,14 @@ Finally, our experience with App Engine web APIs indicates that a significant
 portion of the total time of a method (web API operation) is spent in cloud SDK calls.
 Confirming this hypothesis requires careful instrumentation (i.e. difficult
 to automate) of the web API codes.  We performed such a test by hand on two 
-representative applications and found that the time spent in code other than cloud SDK calls
+representative applications, and found that the time spent in code other than cloud SDK calls
 accounts for $0$-$6$\% of the total time (0-3ms for a 30-50ms web API operation).
 
 This study of various characteristics typical of 
 PaaS-hosted web APIs indicates that there may be 
 opportunities to exploit the specific aspects of this
-application domain to simplify analysis and to facilitate
-performance prediction.  In particular, operations in these applications
+application domain to simplify analysis, and to facilitate
+performance SLO prediction.  In particular, operations in these applications
 are short, have a small number of paths to analyze, implement few
 loops, and invoke a small number of cloud SDK calls. Moreover, most
 of the time spent executing these operations results from cloud SDK invocations.
