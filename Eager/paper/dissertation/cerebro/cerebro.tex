@@ -1,20 +1,21 @@
 Given the restricted application domain of PaaS-hosted web APIs, we believe
-that it is possible to design a system that predicts response time SLAs for
+that it is possible to design a system that predicts response time SLOs for
 them using only static information from the web API code itself.  To enable
 this, we design Cerebro with three primary components:
 \begin{itemize}
-\item A static analysis tool that extracts sequences of cloud SDK operations for 
+\item A static analysis tool that extracts sequences of cloud SDK calls for 
 each path through a method (web API operation),
 \item A monitoring agent that runs in the target PaaS, and efficiently monitors 
 the performance of the underlying cloud SDK operations, and
-\item An SLA predictor that uses the outputs of these two components to accurately predict an upper bound on the response time of the web API.
+\item An SLO predictor that uses the outputs of these two components to 
+accurately predict an upper bound on the response time of the web API.
 \end{itemize}
 We overview each of these components in the subsections that follow, and then 
 discuss the Cerebro workflow with an example.
 
-\subsubsection{Static Analysis}
+\subsection{Static Analysis}
  This component analyzes the source code of the web API
-(or some intermediate representation of it) and extracts a sequence of cloud SDK operations.
+(or some intermediate representation of it), and extracts a sequence of cloud SDK calls.
 We implement our analysis for Java bytecode programs
 using the Soot framework~\cite{Vallee-Rai:2010:SJB:1925805.1925818}.
 Currently, our prototype analyzer considers the 
@@ -25,27 +26,27 @@ following Java codes as exposed web APIs.
 \item any other classes explicitly specified by the developer in a special configuration file.
 \end{itemize}
 
-Cerebro performs a simple construction and interprocedural static analysis 
+Cerebro performs a simple construction and inter-procedural static analysis 
 of control flow graph 
 (CFG)~\cite{Allen:1970:CFA:800028.808479,Aho:1986:CPT:6448,Morgan:1998:BOC:288765,Muchnick:1998:ACD:286076} for each web API operation.
-The algorithm extracts all cloud SDK operations along
+The algorithm extracts all cloud SDK calls along
 each path through the methods. Cerebro analyzes other functions
 that the method calls, recursively.  Cerebro caches cloud SDK details for each function 
 once analyzed so that it can be reused efficiently for other call sites to the same
-function. Cerebro does not analyze third-party library calls, if any 
-(which in our experience typically do not contain cloud SDK calls). Cerebro encodes
+function. Cerebro does not analyze third-party library calls, if any, 
+which in our experience typically do not contain cloud SDK calls. Cerebro encodes
 each cloud SDK call sequence for each path in a lookup table. We identify
 cloud SDK calls by their Java package name (e.g. \texttt{com.google.appengine.apis}).
 
 To handle loops, we first extract them from the CFG and 
-annotate all cloud SDK invocations that occur within them.
-We annotate each such SDK invocation with an estimate on the number of times
+annotate all cloud SDK calls that occur within them.
+We then annotate each such SDK call with an estimate on the number of times
 the loop is likely to execute in the worst case. 
 We estimate loop bounds using a loop bound prediction algorithm 
 based on abstract interpretation~\cite{bygde2010static}. 
 
 As shown in the previous section, loops in these programs 
-are rare and, when they do occur, they are
+are rare, and when they do occur, they are
 used to iterate over a dataset returned from a database.
 For such data-dependent loops, we estimate the bounds if specified 
 in the cloud SDK call (e.g. the maximum number of 
@@ -53,17 +54,17 @@ entities to return~\cite{gae-fetch-options}).
 If our analysis is unable to estimate the bounds for these loops, Cerebro prompts
 the developer for an estimate of the likely dataset size and/or loop bounds.
 
-\subsubsection{PaaS Monitoring Agent}
+\subsection{PaaS Monitoring Agent}
 Cerebro monitors and records the response time of individual
 cloud SDK operations within a running PaaS system.  Such support can be 
 implemented as a PaaS-native feature or as
 a PaaS application (web API); we use the latter in our prototype.
 The monitoring agent runs in the background with, but separate from, 
 other PaaS-hosted web APIs.
-The agent invokes cloud SDK operations periodically on synthetic datasets and 
+The agent invokes cloud SDK operations periodically on synthetic datasets, and 
 records timestamped response times in the PaaS datastore for each cloud SDK
 operation.
-Finally, the agent periodically reclaims old measurement data
+The agent also periodically reclaims old measurement data
 to eliminate unnecessary storage. The Cerebro monitoring and reclamation 
 rates are configurable, and monitoring benchmarks can be added and customized
 easily to capture common PaaS-hosted web API coding patterns.
@@ -74,28 +75,28 @@ benchmarks loop iteration over datastore entities to capture
 the performance of iterative datastore reads for datastore result set sizes 
 of 10, 100, and 1000. We limit ourselves to these values because the PaaS requires
 that all operations complete (respond) within 60 seconds -- so the data
-sizes returned are typically small. Sizing up the datastore in terms of powers of 10,
+sizes (i.e. number of data entities) returned are typically small. Sizing up the datastore in terms of powers of 10,
 mirrors the typical approach taken by DevOps personnel
 to approximate the size of a database. If necessary, our prototype allows adding iterative
 datastore read benchmarks for other result set sizes easily. 
 
-\subsubsection{Making SLA Predictions}
+\subsection{Making SLO Predictions}
 \label{sec:qbets}
-To make SLA predictions, Cerebro uses 
+To make SLO predictions, Cerebro uses 
 Queue Bounds Estimation from Time Series (QBETS)~\cite{Nurmi:2007:QQB:1791551.1791556},
 a non-parametric time series analysis method that we developed in prior work.
 We originally designed QBETS for
 predicting the scheduling delays for the batch queue systems 
-used in high performance computing environments but it has proved effective
+used in high performance computing environments, but it has proved effective
 in other settings where forecasts from arbitrary times series are
 needed~\cite{uptime-bootstrap,quant-est,euca-power-tr-14}.  In 
 particular, it is both
-non-parametric and it automatically
+non-parametric, and it automatically
 adapts to changes in the underlying time series dynamics making it useful in
 settings where forecasts are required from arbitrary data with widely varying
 characteristics. 
-%We adapt it herein for use ``as-a-service'' in PaaS systems 
-%to predict the execution time of web APIs.
+We adapt it herein for use ``as-a-service'' in PaaS systems 
+to predict the execution time of web APIs.
 
 A QBETS analysis requires three inputs:
 \begin{enumerate}
@@ -112,7 +113,6 @@ exactly $k$ successes is described by a Binomial distribution (assuming
 observation independence)
 having parameters $n$ and $q$.  If $Q$ is the $p^{th}$ percentile of the
 distribution from which the observations have been drawn, the equation 
-\vspace{-0.1in}
 \begin{equation}\label{sumformula}
 1 - \sum_{j=0}^k { n \choose j } \cdot (1-q)^{j} \cdot q^{n-j}
 \end{equation}
@@ -131,13 +131,13 @@ QBETS also attempts to detect change points in the time series of observations
 so that it can apply this inference technique to only the most recent 
 segment of the series that appears to be stationary.  
 To do so, it compares
-percentile bounds predictions with observations throughout the series and
+percentile bound predictions with observations throughout the series, and
 determines where the series is likely to have undergone a change.  It then
 discards observations from the series prior to this change point and
 continues.  As a result, when QBETS starts, it must ``learn'' the series by
 scanning it in time series order to determine the change points.  We report
 Cerebro learning time in our empirical evaluation in
-Subsection~\ref{sec:learning}.
+subsection~\ref{sec:learning}.
 
 %The predicted value has a probability of $0.01p$ of 
 %being greater than or equal to the next data point that
@@ -155,7 +155,7 @@ which makes the QBETS
 bound estimates conservative.  That is, the value returned by QBETS as a bound
 prediction is larger than the true $p^{th}$ percentile with probability $1-c$
 under the assumptions of the QBETS model. 
-In this study, we use the $95^{th}$ percentile and $c = 0.01$.
+In this study, we use the $95^{th}$ percentile with $c = 0.01$.
 
 Note that the algorithm itself can be implemented efficiently so that it is
 suitable for on-line use.  Details of this implementation as well as a fuller
@@ -196,7 +196,7 @@ More specifically, if the values in the time series change too fast for QBETS to
 a stationary dataset at least as long as the minimum history length, its prediction 
 accuracy may suffer.
 
-\subsubsection{Example Cerebro Workflow}
+\subsection{Example Cerebro Workflow}
 
 \begin{figure}
 \centering
@@ -207,7 +207,7 @@ accuracy may suffer.
 
 Figure~\ref{fig:cerebro_arch} illustrates how the Cerebro components interact with
 each other during the prediction making process.  Cerebro can be
-invoked when a web API is deployed to a PaaS cloud or at any time during the development
+invoked when a web API is deployed to a PaaS cloud, or at any time during the development
 process to give developers insight into the worst-case response time of their
 applications.
 
@@ -230,10 +230,10 @@ sequence of cloud SDK operations.
 desired $p$ and $c$ values to predict an upper bound. 
 \end{enumerate}
 Cerebro uses the largest predicted value (across path sequences) 
-as its SLA prediction for a web API operation. The exhaustive approach by 
-which Cerebro predicts SLAs for all possible program paths ensures that
-the final SLA holds valid regardless of which path gets executed at runtime.
-This process (SLA prediction) can be implemented
+as its SLO prediction for a web API operation. The exhaustive approach by 
+which Cerebro predicts SLOs for all possible program paths ensures that
+the final SLO holds valid regardless of which path gets executed at runtime.
+This SLO prediction process can be implemented
 as a co-located service in the PaaS cloud or as a standalone utility.  We do 
 the latter in our prototype.
 
@@ -260,20 +260,20 @@ the time series data corresponding to that
 operation by the loop bound estimate before aggregating. In cases where the operation 
 is inside a data-dependent loop, we request the time series data from 
 the monitoring agent for its iterative datastore read benchmark 
-for a number of entities that is equal to or larger than the annotation
+for a number of entities that is equal to or larger than the annotation,
 and include it in the joint time series.
 
 Cerebro passes the final joint
 time series for each sequence of operations to QBETS, 
 which returns the worst-case upper bound response time it predicts.
 If the QBETS predicted value is $Q$ milliseconds, 
-Cerebro forms the SLA as ``the web API will respond in
+Cerebro forms the SLO as ``the web API will respond in
 under $Q$ milliseconds, $p$\% of the time''. 
 When the web API has multiple operations, Cerebro estimates multiple 
-SLAs for the API. 
+SLOs for the API. 
 If a single value is needed for the entire API regardless of operation,
 Cerebro returns the largest 
-predicted value as the final SLA (i.e. the worst-case SLA for the API).
+predicted value as the final SLO (i.e. the worst-case SLO for the API).
 
 %Cerebro allows PaaS administrators to define API governance policies that 
 %allow an application to be deployed only when its web APIs will meet a 
@@ -291,31 +291,31 @@ predicted value as the final SLA (i.e. the worst-case SLA for the API).
 %as the output. In situations where we just need a single prediction value, we pick the last prediction of the output
 %sequence, and discard the rest.
 
-\subsubsection{SLA Durability}
+\subsection{SLO Durability}
 \label{sec:cerebro_sla_durability}
-For a given web API, Cerebro predicts an initial response time SLA
+For a given web API, Cerebro predicts an initial response time SLO
 at the API's deployment-time (following the above workflow). 
 It then consults an on-line API benchmarking
-service to continuously verify the predicted response time SLA
+service to continuously verify the predicted response time SLO
 to determine if and when it has been violated.
-SLA violations occur when conditions in the PaaS change in
+SLO violations occur when conditions in the PaaS change in
 ways that adversely impact the performance of the cloud SDK operations. 
 Such changes can result
-from congestion (multitenancy), component failures, and modifications to
-PaaS service implementations. The continuous tracking of SLA violations is
+from congestion (multi-tenancy), component failures, and modifications to
+PaaS service implementations. The continuous tracking of SLO violations is
 necessary to notify the affected API consumers promptly.
 
-Cerebro also periodically recomputes the SLAs for the APIs over time. 
+Cerebro also periodically recomputes the SLOs for the APIs over time. 
 Cerebro is able to perform fast, online
 prediction of time series percentiles via QBETS as more SDK benchmarking data becomes 
 available from the cloud SDK monitor.
-This periodic recomputation of SLAs is important because changes in the PaaS
-can occur that make new SLAs available that are better and tighter than the
+This periodic recomputation of SLOs is important because changes in the PaaS
+can occur that make new SLOs available that are better and tighter than the
 previously predicted ones. Cerebro must detect when such
-changes occur so that API consumers can be notified and SLAs renegotiated.
+changes occur so that API consumers can be notified.
 
-To determine SLA durability, we extend Cerebro with a 
-statistical model for detecting when a Cerebro-generated SLA becomes invalid. 
+To determine SLO durability, we extend Cerebro with a 
+statistical model for detecting when a Cerebro-generated SLO becomes invalid. 
 Suppose at time $t$ Cerebro predicts value $Q$ as the $p$-th percentile of
 some API's execution time.  If $Q$ is a correct prediction,
 the probability of API's next measured response time being greater than 
@@ -339,40 +339,43 @@ table of these values to determine the number of consecutive measurements above
 $Q$ that constitute a ``rare event'' indicating a possible change in conditions.
 
 Each time Cerebro makes a new prediction, it computes the current
-autocorrelation and uses the QBETS rare-event look-up table to determine $C_{w}$:
+autocorrelation, and uses the QBETS rare-event look-up table to determine $C_{w}$:
 the number of consecutive values that constitute a rare event.
 We measure the time from when
 Cerebro makes the prediction until we observe $C_{w}$ 
 consecutive values above that prediction 
 as being the time duration over which
 the prediction is valid. 
-We refer to this duration as the \textit{SLA validity duration}.
+We refer to this duration as the \textit{SLO validity duration}.
 
-\subsubsection{ SLA Negotiation Model}
-We extend Cerebro with an SLA negotiation process that invalidates SLAs at the end of the
-SLA validity duration, and re-establishes a new SLA for the API consumer.
-API consumers acquire an initial SLA for a web API hosted by a Cerebro-equipped PaaS
-as part of the API subscription process (i.e. when obtaining API keys).
-At this point Cerebro also records the 
-tuple $<API\ Consumer, API, Timestamp, SLA\ Value>$.
+\subsection{SLO Reassessment Model}
+We extend Cerebro with an SLO reassessment process that invalidates SLOs at the end of the
+SLO validity duration, and re-establishes a new SLO for the API consumer.
+API consumers acquire an initial SLO for a web API 
+hosted by a Cerebro-equipped PaaS
+as part of the API subscription process (i.e. when obtaining API keys). This initial SLO
+may be issued in the form of an SLA that is negotiated between the API provider and
+the consumer.
+At this point Cerebro records the 
+tuple $<API\ Consumer, API, Timestamp, SLO\ Value>$.
 
 When Cerebro detects consecutive violations of one of its predictions,
-it considers the corresponding SLA to be invalid, 
-and notifies the affected API consumers to establish a 
-new SLA. Cerebro can suspend API access by affected API consumers until 
-renegotiation occurs, or simply record violations for later remediation.
-Ideally however, it is desirable that the SLA be immediately and automatically 
+it considers the corresponding SLO to be invalid, 
+and notifies the affected API consumers to acquire a 
+new SLO. Cerebro can suspend API access by affected API consumers until 
+the new SLO is established, or simply record violations for later remediation.
+Ideally however, it is desirable that the SLO be immediately and automatically 
 renewed. We refer to such on-the-fly
-SLA changes as SLA renegotiations. Upon renegotiation, 
-Cerebro updates the $Timestamp$ and $SLA\ Value$ entries
+SLO changes as SLO reassessments. Upon reassessment, 
+Cerebro updates the $Timestamp$ and $SLO\ Value$ entries
 in the appropriate data tuple for future reference.
 
-There is also a second type of SLA renegotiation that is possible with Cerebro.
-When recomputing SLAs periodically, Cerebro might come across situations where the latest SLA is smaller
-than some previously established SLA (i.e. a tighter SLA is available). Cerebro can notify the 
+There is also a second type of SLO reassessment that is possible with Cerebro.
+When recomputing SLOs periodically, Cerebro might come across situations where the latest SLO is smaller
+than some previously established SLO (i.e. a tighter SLO is available). Cerebro can notify the 
 API consumer about this prospect, but wait for authorization from the API consumer before 
-establishing the SLA. If the API consumer consents to the SLA change, Cerebro may update the
-data tuple, and treat the SLA as established.
+establishing the SLO. If the API consumer consents to the SLO change, Cerebro may update the
+data tuple, and treat the SLO as established.
 We next use empirical testing and simulations to explore 
-the feasibility of the Cerebro SLA negotiation process, and 
-evaluate how response time SLA duration and invalidation impact API consumers over time.
+the feasibility of the Cerebro SLO reassessment process, and 
+evaluate how SLO validity duration and invalidation impact API consumers over time.
