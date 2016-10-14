@@ -1,20 +1,20 @@
 Roots is a holistic system for application performance monitoring (APM), 
-performance anomaly detection, and root cause bottleneck identification.
+performance anomaly detection, and bottleneck identification.
 The key intuition behind the system is that, as an intrinsic PaaS service, Roots
 has visibility into all activities of the PaaS cloud, across layers.
 Moreover, since the PaaS applications we have observed spend most of their time in 
 PaaS kernel services~\cite{Jayathilaka:2015:RTS:2806777.2806842}, we hypothesize
-that we can infer application performance from observations of how
- the application uses the platform, i.e. by efficiently monitoring the time spent in 
+that we can reason about application performance from observations of how
+ the application uses the platform, i.e. by monitoring the time spent in 
 PaaS kernel services. If we are able to do so, then we can avoid application
-instrumentation and its downsides while detecting performance anomalies and 
+instrumentation and its downsides while detecting performance anomalies, and 
 identifying their root cause in near real time with low overhead.
 
 The PaaS model that we assume with Roots is one 
 in which the clients of a web application engage in a
-``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
+``service level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
 with the ``owner'' or operator of the application that is hosted in a PaaS cloud.  The SLA
-stipulates a response-time ``service-level objective'' (SLO) that, if violated, 
+stipulates a response-time ``service level objective'' (SLO) that, if violated, 
 constitutes a breech of the agreement.
 If the performance of an application deteriorates to the
 point that at least one of its SLOs is violated, we treat it 
@@ -23,7 +23,7 @@ of diagnosing the reason for
 an anomaly as \textit{root cause analysis}.
 For a given anomaly, the root cause could be a change in the application workload or
 a \textit{bottleneck} in the application runtime. Bottlenecks may occur in the 
-application code, or in the PaaS kernel services that the application relies on.
+application code, or in the PaaS kernel services that the application depends on.
 
 Roots collects performance data across the cloud platform stack, and aggregates it based on 
 request/response.  It uses this data to infer application performance, and to identify
@@ -39,16 +39,14 @@ a system as complex as a PaaS cloud.
 \item Correlating data collected from different layers.
 \end{enumerate}
 
-%Any PaaS APM must (i) collect data from all layers of the PaaS software stack, and
-%(ii) correlate related events across layers.
 Each layer of the cloud platform is only able to collect data regarding the
 state changes that are local to it. A layer cannot monitor state changes
 in other layers due to the level of encapsulation provided by layers. However,
 processing an application request involves cooperation of multiple layers. 
 To facilitate system-wide monitoring and
 bottleneck identification, we must gather data from all the different layers involved
-in processing a request. To combine the information across layers
-we correlate the data, and link events related to the same request together.
+in processing a request. To combine the information across layers,
+we correlate the data, and link events related to the same client request together.
 
 To enable this, we augment the front-end server of the cloud platform. 
 Specifically, we have it tag incoming application requests with unique identifiers.
@@ -95,7 +93,7 @@ metrics indicating resource usage of the individual application instances. Addit
 employs a set of per-application benchmarking processes that periodically probes 
 different applications
 to measure their performance. These are lightweight, stateless processes managed by the Roots framework.
-Data collected by these processes is sent to data storage component and is available
+Data collected by these processes is sent to the data storage component, and is available
 for analysis as per-application time series data. 
 
 At the PaaS kernel layer we collect information regarding all kernel invocations
@@ -200,8 +198,9 @@ the cloud platform.
 memory communication bus local to the pod.}
 \label{fig:roots_pod}
 \end{figure}
+
 Most data collection activities in Roots can be treated as passive -- i.e. they
-happen automatically as the applications receive and process requests in the cloud
+take place automatically as the applications receive and process requests in the cloud
 platform. They do not require explicit scheduling or management. In contrast,
 application benchmarking and data analysis are active processes that require
 explicit scheduling and management.  This is achieved by grouping benchmarking
@@ -214,8 +213,8 @@ into a single pod. Pods are self-contained entities, and there is no inter-commu
 between pods. Processes in a pod can efficiently communicate with each other 
 using shared memory, and call out to the central Roots data storage to retrieve 
 collected performance data for analysis. 
-%This enables starting and stopping 
-%Roots pods with minimal impact on the overall monitoring system. 
+This enables starting and stopping 
+Roots pods with minimal impact on the overall monitoring system. 
 Furthermore, pods
 can be replicated for high availability, and application load can be distributed
 among multiple pods for scalability.
