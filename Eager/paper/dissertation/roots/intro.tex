@@ -22,18 +22,23 @@ web applications, is facilitated by ever-deepening software abstractions.
 These abstractions elide the complexity necessary to enable scale, while
 making application development easier and faster.
 But they also obscure the runtime details of cloud applications, 
-making the diagnosis of performance problems challenging.
+making the diagnosis of performance problems challenging. 
 Therefore, the rapid expansion of cloud technologies
 combined with their increasing opacity has intensified the need 
 for new techniques to
 monitor applications deployed in cloud platforms~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619}. 
 
+Timely detection
+of performance problems and SLO violations, and the ability to identify the causes
+of such issues are important prerequisites for implementing
+governance in cloud environments.
 Application developers and cloud administrators generally wish to monitor 
 application performance, detect anomalies, and identify bottlenecks. To obtain 
 this level of operational insight into cloud-hosted applications, the cloud platforms must support 
 data gathering and analysis capabilities that span the entire software stack of the cloud. 
 However, most cloud technologies available
-today do not provide adequate application monitoring support. Cloud administrators must therefore trust the
+today do not provide adequate application monitoring support. 
+Cloud administrators must therefore trust the
 application developers to implement necessary instrumentation 
 at the application level. This typically entails using third party, external monitoring software~\cite{newrelic,dynatrace,datadog},
 which significantly increases the effort and financial cost of maintaining applications.
@@ -41,7 +46,7 @@ Developers must also ensure
 that their instrumentation is both correct, and does not degrade 
 application performance.  Nevertheless, since the applications depend on extant
 cloud services (e.g. scalable database services, 
-scalable in-memory caching services, etc.) that are performance opaque, it is
+scalable in-memory caching, etc.) that are performance opaque, it is
 often difficult, if not impossible to diagnose the ``root cause'' of a performance problem
 using such extrinsic forms of monitoring.
 
@@ -73,7 +78,7 @@ the events recorded at different layers.
 Moreover, performance monitoring for cloud applications needs to be highly customizable. Different
 applications have different monitoring requirements in terms of data gathering frequency (sampling rate), 
 length of the history to consider when performing statistical analysis (sample size), and the performance 
-SLOs (service level objectives~\cite{Keller:2003:WFS:635430.635442}) that govern the application.
+SLOs (service level objectives~\cite{Keller:2003:WFS:635430.635442}) and policies that govern the application.
 Cloud monitoring should be able to facilitate these diverse requirements on a
 per-application basis.
 Designing such customizable and extensible performance
@@ -86,7 +91,7 @@ PaaS clouds provide a very high level of abstraction that hides most of the deta
 runtime. They provide a set of managed services, which developers compose into applications.
 To be able to correlate application activity with cloud platform events,
 we design Roots as another managed service built into the PaaS cloud. 
-%Therefore it operates at the same level as the other services offered by the cloud platform. 
+Therefore it operates at the same level as the other services offered by the cloud platform. 
 This way Roots can collect data
 directly from the internal service implementations of the cloud platform, thus gaining full visibility into all the 
 inner workings of an application. It also enables Roots to operate fully automatically in the background, without
