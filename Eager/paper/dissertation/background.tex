@@ -34,15 +34,20 @@ to consume software via the Internet.
 Due to the benefits associated with cloud computing (scalability, high availability, productivity enhancement etc.),
 many developers and organizations have adopted the cloud as their preferred means of developing, deploying and
 delivering software applications. Such cloud-hosted applications expose one or more web application programming 
-interfaces (web APIs) through which users can remotely interact with the applications. A cloud-hosted 
-application may
+interfaces (web APIs) through which client programs can remotely interact with the applications. That is, clients
+send HTTP/S requests, and receive machine readable responses (e.g. HTML, JSON,
+XML, Protocol Buffers~\cite{protobuff}) in return. This type of web-accessible, cloud-hosted applications
+tend to be highly interactive, and clients have strict expectations on the application
+response time~\cite{latency-matters}.
+
+A cloud-hosted application may
 also consume web APIs exposed by other cloud-hosted applications. Thus, cloud-hosted applications
-form an intricate graph of inter-dependencies among them, where each application can service a set of
+form an intricate graph of inter-dependencies among them, where each application can service a set of client
 applications, while being dependent on a set of other applications. However, in general, each cloud-hosted
 application directly depends on the core services offered by the underlying cloud platform for compute power, storage,
 network connectivity and scalability.
 
-In the next subsection we take a closer look at a specific type of cloud platforms -- Platform-as-a-Service clouds.
+In the next section we take a closer look at a specific type of cloud platforms -- Platform-as-a-Service clouds.
 We use PaaS clouds as a case study and a testbed in a number of our explorations.
 
 \section{Platform-as-a-Service Clouds}
@@ -95,7 +100,7 @@ to the application developers. Some PaaS clouds
 also provide a managed set of programming APIs (a ``software development
 kit'' or SDK) for the application developer to access these kernel services. 
 In that case all interactions between the applications and the PaaS kernel must take place through
-the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}). 
+the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}, Microsoft Azure~\cite{azure}). 
 
 One level above the PaaS kernel we find the application servers that are used to deploy and run
 applications. Application servers provide the necessary integration (linkage) between application code and the

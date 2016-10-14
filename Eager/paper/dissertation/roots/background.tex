@@ -1,12 +1,3 @@
-PaaS clouds have been experiencing a rapid growth in 
-popularity in the recent years~\cite{paas-growth,paas-growth2}. They
-typically host web-accessible (HTTP/S) applications, while providing
-sandboxed execution, high scalability, and high availability.
-PaaS clouds are complex distributed systems that
-provide scalability by automatically allocating resources for
-applications on the fly (auto scaling), and availability through the
-execution of multiple instances of each application.  
-
 PaaS applications rely on a set of managed, scalable services 
 offered by the underlying cloud platform. We refer to these services as 
 PaaS kernel services. PaaS clouds like Google
@@ -18,9 +9,7 @@ services. A set of front-end servers expose web application entry points, and
 provide load-balancing for HTTP/S clients invoking the applications.
 
 By providing most of the functionality that applications require via
-kernel services, the PaaS model significantly reduces the amount of code that applications developers
-must write.  PaaS clouds also relieve developers of the burden of configuration, 
-deployment, and scaling through platform automation.  In combination, the PaaS model
+kernel services, the PaaS model
 significantly increases programmer productivity.
 However, a downside of this approach is that these features also hide
 the performance details of PaaS applications. 
@@ -41,46 +30,18 @@ built into the PaaS cloud allows
 performance diagnosis to be a ``curated'' service that is 
 reliably managed by the cloud platform.
 
-%Client programs interact PaaS-hosted applications via web APIs.  That is, clients
-%send HTTP/S requests and receive machine readable responses (e.g. HTML, JSON,
-%XML, Protocol Buffers~\cite{protobuff}) in return. Web applications are typically 
-%interactive and have clients with strict expectations on the application
-%response time~\cite{latency-matters}.
-%Additionally, the PaaS cloud on which an application is running may impose 
-%additional constraints on the
-%application response time for scalability
-%reasons~\cite{azure-limits,gae-limits}.  
-%We observe that PaaS-hosted web applications spend a majority of their 
-%execution time in the PaaS kernel services~\cite{Jayathilaka:2015:RTS:2806777.2806842}.
-
-
-%moved to architecture since its really not background but instead the model we assume for roots
-%\subsection{Performance Anomalies}
-%Our model is one in which the clients of a web application have engaged in a
-%``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
-%with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
-%stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breech of the
-%agreement.
-%If the performance of an application deteriorates to the
-%point that at least one of its SLOs is violated, we treat it as an \textit{anomaly}. Moreover, the process
-%of diagnosing the reason for 
-%an anomaly is referred to as \textit{root cause analysis}.
-%For a given anomaly, the root cause could be a change in the application workload or
-%a \textit{bottleneck} in the application runtime. Bottlenecks may occur in the application code, 
-%or in the PaaS services that the application rely on.
-
-%In order to maintain a satisfactory level of user experience and adhere to any previously
-%agreed upon performance SLOs, application developers and cloud administrators wish
-%to detect performance anomalies as soon as they occur. When detected, they
-%must perform root cause analysis to identify the cause of the anomaly, and take some
-%corrective and/or preventive action. 
-%This diagnosis usually occurs as a two step process. First, one must determine
-%whether the anomaly was caused by a change in the workload (e.g. a sudden 
-%increase in the number of client requests). If that is the case,
-%the resolution typically involves allocating more resources to the application or spawning
-%more instances of the application for load balancing purposes. If the anomaly cannot be 
-%attributed to a workload change, one must go another step to find the bottleneck component
-%that has given rise to the issue at hand.
+In order to maintain a satisfactory level of user experience and adhere to any previously
+agreed upon performance SLOs, application developers and cloud administrators wish
+to detect performance anomalies as soon as they occur. When detected, they
+must perform root cause analysis to identify the cause of the anomaly, and take some
+corrective and/or preventive action. 
+This diagnosis usually occurs as a two step process. First, one must determine
+whether the anomaly was caused by a change in the workload (e.g. a sudden 
+increase in the number of client requests). If that is the case,
+the resolution typically involves allocating more resources to the application or spawning
+more instances of the application for load balancing purposes. If the anomaly cannot be 
+attributed to a workload change, one must go another step to find the bottleneck component
+that has given rise to the issue at hand.
 
 %Detecting performance anomalies
 %requires continuous monitoring of application performance which could be tedious with
