@@ -120,18 +120,6 @@ It is an indicator of the type of request workload handled by an application.
 For example, consider a data management application that has a read-only execution path, and a read-write 
 execution path. If 90\% of the requests execute the read-only path, and the remaining 10\% of the requests
 execute the read-write path, we may characterize the request workload as read-heavy.
-
-%
-%is another special anomaly detector we implement in Roots. This
-%anomaly detector periodically analyzes the PaaS kernel invocations made by the applications.
-%By aggregating the PaaS kernel invocations by application request identifiers, and then sorting them by
-%their sequence numbers, this anomaly detector is able to identify the sequence of
-%PaaS kernel invocations made by each application request. 
-%Each identified invocation sequence corresponds to a path of
-%execution through the application code (i.e. a path through the control flow graph of the application). 
-%Then the anomaly detector evaluates the number of requests
-%that invoked the same PaaS kernel invocation sequence. From that the anomaly detector
-%computes the distribution of different execution paths of an application.
  
 Roots path distribution analyzer facilitates computing the path distribution for each application
 with no static analysis, by only analyzing the runtime data gathered from the applications.
@@ -164,8 +152,8 @@ identifies a performance anomaly. Note that this is different from the path dist
 which is implemented as an anomaly detector. While the path distribution analyzer looks for changes in the
 \textit{type} of the workload, the workload change analyzer looks for changes
 in the workload \textit{size} or \textit{rate}. 
-%In other words, it determines if the target application has received more requests than usual, which
-%may have caused a performance degradation.
+In other words, it determines if the target application has received more requests than usual, which
+may have caused a performance degradation.
 
 Workload change analyzer uses change point detection algorithms to analyze the historical trend of 
 the application workload. We use the ``number of requests
@@ -214,9 +202,8 @@ well-designed PaaS applications $r \ll T_{X_1} + T_{X_2} + ... + T_{X_n}$.
 
 Roots bottleneck identification mechanism first
 selects up to four components as possible candidates
-for the bottleneck. These candidates are then further evaluated by a weighted algorithm to
+for the bottleneck. These candidates are then further evaluated by a weighting algorithm to
 determine the actual bottleneck in the cloud platform. 
-%We begin by describing how Roots selects the four bottleneck candidates.
 
 \subsubsection{Relative Importance of PaaS Kernel Invocations} 
 The purpose of this metric is to find the component that is contributing 
@@ -225,7 +212,7 @@ We select a window $W$ in time which includes a sufficient number of application
 and ending at the point when the performance anomaly was detected. Note that for each application request
 in $W$, we can fetch the total response time ($T_{total}$), and the time spent on individual PaaS kernel
 services ($T_{X_n}$) from the Roots data storage.
-Then we take all the $T_{total}$ values
+We take all these $T_{total}$ values
 and the corresponding $T_{X_n}$ values in $W$, and fit 
 a linear model of the form 
 $T_{total} = T_{X_1} + T_{X_2} + ... + T_{X_n}$
@@ -233,11 +220,11 @@ using linear regression. Here we leave $r$ out
 deliberately, since it is typically and ideally small. 
 
 Occasionally in AppScale, we observe a request where $r$ is
-large relative to $T_{X_n}$.  Often these events are correlated with large
+large relative to $T_{X_n}$.  Often these rare events are correlated with large
 $T_{X_n}$ values as well leading us to suspect that the effect may be due to
 an issue with the AppScale infrastructure (e.g. a major garbage collection
-event in the PaaS software).  Overall, Roots detects these events and identifies them correctly (cf
-subsections~\ref{sec:highquantile} and ~\ref{sec:tailend} below), but they
+event in the PaaS software).  Overall, Roots detects these events, and identifies them correctly (as
+explained below), but they
 perturb the linear regression model.  To prevent that,
 we filter out requests where the $r$ value is too high. This
 is done by computing the mean ($\mu_r$) and standard deviation ($\sigma_r$) of $r$ 
@@ -250,13 +237,13 @@ We use the LMG method~\cite{lmg80} which is resistant to multicollinearity, and 
 the regression according to how strongly each regressor influences the variance of the dependent variable.
 The relative importance values of the regressors add up to the $R^2$ of the linear regression. We consider
 $1 - R^2$ (the portion of variance in $T_{total}$ not explained by the PaaS kernel invocations) as the relative importance of $r$. 
-The component associated with the highest ranked regressor is chosen as a bottleneck candidate.
+The component associated with the highest ranked regressor (i.e. highest relative importance) is chosen as a bottleneck candidate.
 Statistically, this is the component that causes the application response time to vary the most.
 
 \subsubsection{Changes in Relative Importance}
 Next we divide the time window $W$ into equal-sized segments,
 and compute the relative importance metrics for regressors within each segment. We also compute the
-relative importance of $r$ within each segment. This way we can
+relative importance of $r$ within each segment. This way we
 obtain a time series of relative importance values for each regressor and $r$. These time series
 represent how the relative importance of each component has changed over time.
 
@@ -269,9 +256,9 @@ a component whose performance has been stable in the past, and has become variab
 \subsubsection{High Quantiles}
 \label{sec:highquantile}
 Next we analyze the individual distributions of $T_{X_n}$ and $r$. 
-%Recall that for each PaaS kernel invocation
-%$X_k$, we have a distribution of $T_{X_k}$ values in the window $W$. Similarly we
-%can also extract a distribution of $r$ values from $W$. 
+Recall that for each PaaS kernel invocation
+$X_k$, we have a distribution of $T_{X_k}$ values in the window $W$. Similarly we
+can also extract a distribution of $r$ values from $W$. 
 Out of all the available distributions
 we find the one whose quantile values are the largest.
 Specifically, we compute a high
