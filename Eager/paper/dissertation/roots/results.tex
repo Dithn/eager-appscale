@@ -209,26 +209,26 @@ artificially inject faults into the datastore.
 The only anomaly that is not traced back to the datastore service is the one that was detected at 14:32 hours.
 This is indicated by the blue arrow with a small square marker at the top. For this anomaly, Roots concluded that
 the bottleneck is the local execution at the application server ($r$). We have verified
-this result by manually inspecting the AppScale logs and traces of data collected by Roots. As it turns out,
+this result by manually inspecting the AppScale logs, and traces of data collected by Roots. As it turns out,
 between 14:19 and
 14:22 the application server hosting the guestbook application experienced some problems, which caused
 request latency to increase significantly. 
-%Therefore we can conclude that Roots has correctly identified 
-%the root causes of all 18 anomalies in this experimental run
-%including one that we did not inject explicitly. 
+Therefore we can conclude that Roots has correctly identified 
+the root causes of all 18 anomalies in this experimental run
+including one that we did not inject explicitly. 
 
 Similarly, in the experiment shown in figure~\ref{fig:time_line_guestbook_2s_user}, Roots determined
 that all the anomalies are caused by the user management service, except in one instance. This is again
 inline with our expectations since in this experiment we inject faults into the user management service. For the
 anomaly detected at 04:30 hours, Roots determined that local execution time is the primary bottleneck.
 Like earlier, we have manually verified this diagnosis to be accurate.
-%In this case too the server hosting the guestbook application became slow
-%during the 04:23 - 04:25 time window, and Roots correctly identified the bottleneck as the local
-%application server.
+In this case too the server hosting the guestbook application became slow
+during the 04:23 - 04:25 time window, and Roots correctly identified the bottleneck as the local
+application server.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_stocks_1}
+\includegraphics[scale=0.65]{time_line_stocks_1}
 \caption{Anomaly detection in stock-trader application during a period of 10 hours. Red arrows indicate fault injection
 at the 1st datastore query. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_stocks_1}
@@ -236,7 +236,7 @@ at the 1st datastore query. Blue arrows indicate all anomalies detected by Roots
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_stocks_2}
+\includegraphics[scale=0.65]{time_line_stocks_2}
 \caption{Anomaly detection in stock-trader application during a period of 10 hours. Red arrows indicate fault injection
 at the 2nd datastore query. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_stocks_2}
@@ -265,7 +265,7 @@ event is immediately followed by a Roots anomaly detection event. There are also
 anomalies in the time line which were SLO violations caused by a combination of injected faults, and
 naturally occurring faults in the system. For all the anomalies detected
 in this test, Roots correctly selected the first datastore call in the application code as the bottleneck. 
-The additional four anomalies occurred because a large number of injected faults were in the sliding window
+The additional four anomalies occurred when a large number of injected faults were still in the sliding window
 of the detector. Therefore, it is accurate to attribute those anomalies also to the first datastore query
 of the application.
 
@@ -276,9 +276,9 @@ are determined to be caused by the second
 datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
 is attributed to the fourth datastore query executed by the application. We have manually verified this
 diagnosis to be accurate. 
-%Since 08:27 (when the previous anomaly was detected), the fourth datastore
-%query has frequently taken a long time to execute (again, on
-%its own), which resulted in an SLO violation at 08:56 hours.
+Since 08:27, when the previous anomaly was detected, the fourth datastore
+query has frequently taken a long time to execute (again, on
+its own), which resulted in an SLO violation at 08:56 hours.
 
 In the experiments illustrated in figures~\ref{fig:time_line_guestbook_2s}, \ref{fig:time_line_guestbook_2s_user}, 
 \ref{fig:time_line_stocks_1}, and \ref{fig:time_line_stocks_2} we maintain
@@ -288,7 +288,7 @@ Consequently, none of the anomalies detected in these 4 experiments were attribu
 The bottleneck identification was therefore triggered for each anomaly.
 
 To evaluate the agreement level among the four bottleneck candidate selection methods, we analyze 407
-anomalies detected by Roots over a period of 3 weeks. We see that except on 13 instances, in all the 
+anomalies detected by Roots over a period of 3 weeks. We report that except on 13 instances, in all the 
 remaining cases 2 or more candidate selection methods agreed on the final bottleneck component chosen.
 This implies that most of the time (96.8\%) Roots 
 identifies bottlenecks with high confidence.
@@ -316,7 +316,7 @@ identifies bottlenecks with high confidence.
 \subsection{Multiple Applications in a Clustered Setting}
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_g1g8}
+\includegraphics[scale=0.65]{time_line_g1g8}
 \caption{Anomaly detection in 8 applications deployed in a clustered AppScale cloud. Red arrows
 indicate fault injection at the datastore service for queries generated from a specific host. Cross
 marks indicate all the anomalies detected by Roots during the experiment.}
@@ -328,12 +328,12 @@ To demonstrate how Roots can be used in a multi-node environment, we set up an A
 on a cluster of 10 virtual machines (VMs). VMs are provisioned by a Eucalyptus (IaaS)
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
 to deploy 8 instances of the guestbook application on AppScale. We use the multitenant support
-in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). 
+in AppScale to register each instance of guestbook as a different application (named $G1$ through $G8$). 
 Each instance
 is hosted on a separate application server instance, has its own private namespace on the AppScale
 datastore, and can be accessed via a unique URL. We disable auto-scaling support in 
 the AppScale cloud, and inject faults into the datastore service of AppScale in such a way that queries
-issued from a particular VM, are processed with a 100ms delay. We identify the VM by its IP address
+issued from a particular VM, are processed with a 100ms delay. We identify this VM by its IP address
 in our test environment, and shall refer to it as $V_f$ in the discussion. We trigger
 the fault injection every 2 hours, and when activated it lasts for up to 5 minutes. Then we monitor
 the applications using Roots for a period of 10 hours. Each anomaly detector is configured
@@ -342,19 +342,22 @@ ElasticSearch, Logstash and the Roots pod are deployed on a separate VM.
 
 Figure~\ref{fig:time_line_g1g8} shows the resulting event sequence. Note that we detect anomalies 
 in 3 applications ($G4$, $G6$ and $G7$) immediately after each fault injection. Inspecting the 
-topology of our AppScale cluster revealed that these were the only 3 applications that were 
+topology of our AppScale cloud revealed that these were the only 3 applications that were 
 hosted on $V_f$. As a result, the bi-hourly fault injection caused their SLOs to
 get violated. Other applications did not exhibit any SLO violations since we are monitoring against
-a very high response time upper bound. In each case Roots detected the SLO violations 2-3 minutes into the fault injection
+a very high response time upper bound. 
+
+In each case Roots detected the SLO violations 2-3 minutes into the fault injection
 period. As soon as that happened, the anomaly detectors of $G4$, $G6$ and $G7$ entered the warmup mode.
 But our fault injection logic kept injecting faults for at least 2 more minutes. Therefore when the anomaly detectors
 reactivated after 25 minutes (time to collect the minimum sample count), they each detected another SLO
 violation. As a result, we see another set of detection events approximately half an hour after the
 fault injection events.
 
+\subsection{Results Summary}
 \begin{table}
 \begin{center}
-\begin{tabular}{|p{2cm}|p{6cm}|}
+\begin{tabular}{|p{5cm}|p{9cm}|}
 \hline
 Feature & Results Observed in Roots \\ \hline
 Detecting anomalies & 
@@ -384,7 +387,6 @@ All the artificially induced changes to the path distribution were detected. \\
 }
 \end{table}
 
-\subsection{Results Summary}
 We conclude our discussion of Roots efficacy with a summary of our results. Table~\ref{tab:results_summary}
 provides an overview of all the results presented so far, broken down into four features that we wish to see
 in an anomaly detection and bottleneck identification system.
@@ -407,7 +409,7 @@ explore how this feature performs when the application server is under heavy loa
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|c|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|p{1cm}|}
 \hline &
       \multicolumn{2}{c|}{Without Roots} &
       \multicolumn{2}{c|}{With Roots} \\ \hline
@@ -436,20 +438,14 @@ latencies. We discover that Roots does not add a significant overhead
 to the request latency in any of the scenarios considered. In all the cases,
 the mean request latency when Roots is in use, is within one standard deviation
 from the mean request latency when Roots is not in use. 
-%Also in a number
-%of cases the mean request latency is slightly lower when Roots is in use.
 The request latency increases when the number of concurrent clients is
 increased from 1 to 50 (since all requests are handled by a single
 application server), but still there is no sign of any detrimental overhead
 from Roots even under load. 
-%Since we buffer PaaS kernel invocation
-%events in memory, and report them to ElasticSearch asynchronously, and
-%out of the request processing flow, there is no measurable impact on
-%the request latency from Roots.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.45]{pod_performance}
+\includegraphics[scale=0.55]{pod_performance}
 \caption{Resource utilization of a Roots pod.}
 \label{fig:pod_performance}
 \end{figure}
@@ -471,10 +467,6 @@ for 4 CPU cores. The maximum memory usage in this case is only 778 MB.
 Since each anomaly detector operates with a fixed-sized window, and they
 bring additional data into memory only when required, the memory
 usage of the Roots pod generally stays low. 
-%In particular, the average resource usage
-%is far less than the maximum usage values shown in figure~\ref{fig:pod_performance}. 
-%For example, in case of 10000 detectors, the average CPU usage is only 32\%, and 
-%the average memory usage is 507 MB. 
 We also experimented with larger concurrent
 detector counts, and we were able to pack up to 40000 detectors into the pod before
 getting constrained by the CPU capacity of our VM.
