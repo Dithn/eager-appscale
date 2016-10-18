@@ -1,7 +1,9 @@
 As the paradigm of cloud computing grows in popularity, the need for monitoring cloud-hosted 
 applications is becoming critical. Application developers and cloud administrators
 wish to detect performance anomalies in cloud applications, and
-perform root cause analysis to diagnose problems. However, the high level of abstraction provided by cloud
+perform root cause analysis to diagnose problems. Uncovering performance bottlenecks in a timely manner,
+and resolving them urgently is also a key requirement for implementing governance in cloud
+environments. However, the high level of abstraction provided by cloud
 platforms, coupled with their scale and complexity, makes performance diagnosis
 a daunting problem. This situation is particularly apparent in
 PaaS clouds, where the application runtime details are hidden beneath a layer of curated services.
@@ -32,14 +34,14 @@ changes in an application's workload characteristics.
 We evaluate Roots using a prototype built for the AppScale open source PaaS. 
 Our results indicate that Roots is effective at detecting performance anomalies
 in near real time. We also show that our bottleneck identification algorithm
-produces accurate results nearly 100\% of the time, pinpointing the exact PaaS
+produces accurate results nearly 100\% of the time, pinpointing the exact PaaS kernel
 service or the application component responsible for each anomaly. Our empirical trials further 
 reveal that Roots does not add a significant overhead to the applications deployed
 on the cloud platform. Finally, we show that Roots is very lightweight, 
 and scales well to handle large populations of applications.
 
 In our future work we plan to expand the data gathering capabilities of Roots into
-the low level virtual machines and containers that host various services of the cloud
+the low level virtual machines, and containers that host various services of the cloud
 platform. We intend to tap into the hypervisors
 and container managers to harvest runtime data regarding the resource usage (CPU, memory, disk etc.) of
 PaaS services and other application components. With that we expect to extend
