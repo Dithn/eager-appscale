@@ -12,7 +12,7 @@ prototype.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\begin{tabular}{|c|p{2cm}|p{2cm}|p{2cm}|}
 \hline
 Faulty Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
 datastore & 18 & 11 & 10 \\ \hline
@@ -34,7 +34,7 @@ the posted comments, and the AppScale user management service to handle authenti
 by guestbook results in two PaaS kernel invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
-14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory.
+14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz), and 4GB of memory.
 
 We run the SLO-based anomaly detector on guestbook with a sampling rate of 15 seconds, an analysis
 rate of 60 seconds, and a window size of 1 hour. We set the minimum sample count to 100, and
@@ -44,14 +44,14 @@ $\mu_g$ and $\sigma_g$ represent the mean and standard deviation of the
 guestbook's response time. We learn these two parameters apriori by benchmarking
 the application. Then we obtain three different upper bound values for the guestbook's
 response time by setting 
-$n$ to 2, 3 and 5 and denote the resulting three SLOs $L_1$, $L_2$ and $L_3$ respectively.
+$n$ to 2, 3 and 5. We denote the resulting three SLOs $L_1$, $L_2$ and $L_3$ respectively.
 
 We also inject performance faults into AppScale by modifying its code
 to cause the datastore service to be slow to respond.
 This fault injection logic activates once every hour, and
 slows down all datastore invocations by 45ms over a period of 3 minutes.
 We chose 45ms because it is equal 
-to $\mu_g + 5\sigma_g$ for the AppScale deployment under test. 
+to $\mu_g + 5\sigma_g$ for the guestbook deployment under test. 
 Therefore this delay is sufficient to violate all three SLOs used in our experiments. 
 We run a similar set of experiments where we inject faults into the user management service of
 AppScale. Each experiment is run for a period of 10 hours.
@@ -78,16 +78,16 @@ period lasts up to 3 minutes.
 The blue arrows indicate the Roots anomaly detection events.
 Note that every fault injection period is immediately followed by an anomaly
 detection event, implying near real time reaction from Roots, except in case of the fault
-injection window at 20:00 hours. Roots detected another naturally occurring anomaly
+injection window at 20:00 hours. Roots detected a naturally occurring anomaly
 (i.e. one
-that we did not explicitly inject but nonetheless caused an SLO violation) at 19:52 hours,
+that we did not explicitly inject, but nonetheless caused an SLO violation) at 19:52 hours,
 which caused the anomaly detector to go into the warm up mode. Therefore Roots
 did not immediately react to the faults injected at 20:00 hours. But as soon as the detector became
 active again at 20:17, it detected the anomaly.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_guestbook_2s}
+\includegraphics[scale=0.65]{time_line_guestbook_2s}
 \caption{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection 
 at the datastore service. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_guestbook_2s}
@@ -95,7 +95,7 @@ at the datastore service. Blue arrows indicate all anomalies detected by Roots d
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_guestbook_2s_user}
+\includegraphics[scale=0.65]{time_line_guestbook_2s_user}
 \caption{Anomaly detection in guestbook application during a period of 10 hours. Red arrows indicate fault injection
 at the user management service. Blue arrows indicate all anomalies detected by Roots during the experimental run.}
 \label{fig:time_line_guestbook_2s_user}
@@ -115,7 +115,7 @@ Here too we see that Roots detects anomalies immediately following each fault in
 \subsection{Path Distribution Analyzer: Accuracy and Speed}
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_crud}
+\includegraphics[scale=0.65]{time_line_crud}
 \caption{Anomaly detection in key-value store application during a period of 10 hours. Steady-state traffic is read-heavy. Red arrows
 indicate injection of write-heavy bursts. Blue arrows indicate all the anomalies detected by the path distribution
 analyzer.}
@@ -124,7 +124,7 @@ analyzer.}
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.55]{time_line_caching}
+\includegraphics[scale=0.65]{time_line_caching}
 \caption{Anomaly detection in cached key-value store application during a period of 10 hours. Steady-state traffic is mostly
 served from the cache. Red arrows
 indicate injection of cache-miss bursts. Blue arrows indicate all the anomalies detected by the path distribution
@@ -136,7 +136,7 @@ Next we evaluate the effectiveness and accuracy of the path distribution analyze
 employ two different applications.
 \begin{description}
 \item[key-value store] This application provides the functionality of an online key-value store.  It allows 
-users to store data objects in the cloud where each object is given a unique key. The objects can then be 
+users to store data objects in the cloud where each object is assigned a unique key. The objects can then be 
 retrieved, updated or deleted using their keys. Different operations
 (create, retrieve, update and delete) are implemented as separate paths of
 execution in the application.
@@ -155,14 +155,11 @@ immediately followed by an anomaly detection event (indicated by blue arrows).
 The only time we do not see an anomaly detection event is when multiple
 bursts are clustered together in time (e.g. 3 bursts between 17:04 and 17:24 hours). In this
 case Roots detects the very first burst, and then goes into the warm up mode to collect more data. 
-%Therefore the bursts that immediately follow do not raise an alarm. 
 Between 20:30 and 21:00 hours we also
 had two instances where the read request proportion dropped from 90\% to 80\% due to random
 chance. 
-%This is because our test client randomizes the read request proportion around the 90\% mark. 
+This is because our test client randomizes the read request proportion around the 90\% mark. 
 Roots identified these two incidents also as anomalous.
-%In these two instances the read proportion was deemed too far off from 90\%, and Roots correctly 
-%identified them as anomalies.
 
 We conduct a similar experiment using the cached key-value store. Here, we run a test client that generates a workload
 that is mostly served from the cache. This is done by repeatedly executing read requests on a small
