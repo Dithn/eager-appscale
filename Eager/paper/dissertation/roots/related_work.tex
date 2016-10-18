@@ -4,7 +4,7 @@ of a running system or application, while collecting vital measurements at discr
 models of typical system behaviors~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
 Such systems play a crucial role in achieving guaranteed service reliability, performance and
 quality of service by detecting performance issues in a timely manner before they escalate into major outages
-or SLO violations~\cite{6045942}. 
+or SLO/SLA violations~\cite{6045942}. 
 PADBI systems are thoroughly researched, and well understood in the context of traditional standalone and
 network applications. Many system administrators are familiar with frameworks like 
 Nagios~\cite{Harlan:2003:NMN:860375.860378}, Open NMS~\cite{opennms} and Zabbix~\cite{Tader:2010:SMZ:1883478.1883485} which
@@ -22,16 +22,16 @@ services, and the application code is executed in a sandboxed environment that i
 always amenable to instrumentation. When code instrumentation is possible, it tends to be
 burdensome, error prone, and detrimental to the application's performance. Roots on the other hand is built into the 
 fabric of the PaaS cloud giving it full visibility into all the activities that take place in the entire
-software stack.
+software stack, and it does not require application-level instrumentation.
 
 Our work borrows heavily from the past literature~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120} 
-that detail the key features of cloud APMs. As a result, we strive to incorporate requirements like
+that detail the key features of cloud APMs. Consequently, we strive to incorporate requirements like
 scalability, autonomy and dynamic resource management into our design.
 Ibidunmoye et al highlight the importance of multilevel bottleneck identification as an open research
 question~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. This is the ability to
 identify bottlenecks from a set of top-level application service components, and further down through the 
 virtualization layer to system resource bottlenecks. Our plan for Roots is highly in sync with this
-vision. We currently support identifying bottlenecks from a set of services provided by the PaaS kernel.
+vision. We currently support identifying bottlenecks from a set of kernel services provided by the PaaS cloud.
 As a part of our future work, we plan to extend this support towards the virtualization layer and the
 physical resources of the cloud platform.
 
@@ -46,9 +46,9 @@ While this method is powerful, it
 requires instrumenting application code to detect different external calls (e.g. database queries) executed by the application. 
 Since the model uses different transaction types as parameters, 
 some prior knowledge regarding the transactions also needs to be fed into the system. 
-%The algorithm is also very compute intensive, due to continuous segmentation and model fitting.
-%In contrast, we use a very lightweight SLO monitoring method in Roots to detect performance anomalies, and
-%only perform heavy computations to perform bottleneck identification. 
+The algorithm is also very compute intensive, due to continuous segmentation and model fitting.
+In contrast, we use a very lightweight SLO monitoring method in Roots to detect performance anomalies, and
+only perform heavy computations to perform bottleneck identification. 
 
 Dean et al implemented PerfCompass~\cite{Dean:2014:PTR:2696535.2696551}, 
 an anomaly detection and localization method for IaaS clouds. They instrument
@@ -58,17 +58,17 @@ looking for unusual increases in system call execution time. They group system c
 Based on this metric they conclude if the problem was caused by a workload change or an application
 level issue. We take a similar approach in Roots, in that we capture the PaaS kernel invocations
 made by user applications. 
-%We use application response time (latency) as an indicator of anomalies,
-%and group PaaS kernel invocations into application requests to perform bottleneck identification.
+We use application response time (latency) as an indicator of anomalies,
+and group PaaS kernel invocations into application requests to perform bottleneck identification.
 
 Nguyen et al presented PAL, another anomaly detection and localization mechanism targeting
 distributed applications deployed on IaaS clouds~\cite{Nguyen:2011:PPR:2038633.2038634}. 
 Similar to Roots, they also use an SLO monitoring approach to detect application
 performance anomalies. When an anomaly is detected, they perform change point analysis
 on gathered resource usage data (CPU, memory and network) to identify the anomaly onset time.
-%Having detected one or more anomaly onset events in different components of the
-%distributed application, they sort the events by time to determine
-%the propagation pattern of the anomaly.
+Having detected one or more anomaly onset events in different components of the
+distributed application, they sort the events by time to determine
+the propagation pattern of the anomaly.
 
 Magalhaes and Silva have made significant contributions in the area of anomaly detection
 and root cause analysis in web applications~\cite{Magalhaes:2010:DPA:1906485.1906774, Magalhaes:2011:RAP:1982185.1982234}. 
