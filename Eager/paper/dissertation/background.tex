@@ -236,7 +236,7 @@ software versioning requirements, and practices that enable software artifacts t
 while maintaining backward compatibility.
 Others specify run-time constraints, which need to be enforced per application request.
 
-\item [Performance service level objectives]
+\item [Formulating performance SLOs]
 A service level objective (SLO) specifies a system's minimum quality of service (QoS) level in a measurable and
 controllable manner~\cite{smj2000}. They may cover various QoS
 parameters such as availability, response time (latency), and throughput. A performance SLO
@@ -249,14 +249,15 @@ constitute an SLA breach, for which the service provider is held accountable.
 
 \item [Application performance monitoring]
 Application performance monitoring (APM) refers to continuously monitoring cloud-hosted applications
-to detect SLO violations and other performance anomalies. It also includes diagnosing the root
-cause of each detected anomaly, so issues can be resolved faster. 
+to detect violations of performance SLOs and other performance anomalies. 
+It also includes diagnosing the root
+cause of each detected anomaly, so performance issues can be resolved faster. 
 This typically requires collecting run-time data from many different
 components in the cloud platform, and correlating them to identify patterns and trends. 
 \end{description}
 
 These governance features are crucial for
-achieving administrative conformance, developer best practices,
+achieving the benefits outlined in our thesis question -- administrative conformance, developer best practices,
 and performance objectives. But none of these features are implemented satisfactorily in the
 cloud technologies available today.
 In order to fill the gaps caused by these limitations, many third-party governance solutions that operate as external services

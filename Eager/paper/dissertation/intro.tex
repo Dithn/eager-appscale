@@ -160,6 +160,33 @@ The framework should support collecting
  and algorithms to analyze the gathered data in near realtime.
 \end{itemize}
 
+We need to answer a number of scientific questions in order to successfully execute the 
+above research plan. First we must a devise a methodology for enforcing policies efficiently
+without introducing a significant overhead to application performance. There is also an interesting
+trade off to be explored between what policies can be enforced, and when can they be enforced with respect
+to the life cycle of a cloud-hosted application. We solve these problems by diving the application
+life cycle into three phases -- development-time, deployment-time and run-time. To minimize the
+impact of policy enforcement on application performance, we perform most policy
+enforcement tasks during deployment-time; i.e. when an application is being deployed in the 
+cloud platform, before it is available for use. However, we acknowledge that not all policies
+can be enforced at deployment-time, and therefore some support for run-time policy enforcement
+is also required. We design our policy enforcement framework based on these principles, and 
+show that deployment-time policy enforcement is efficient, and such an implementation can scale
+to thousands of applications and policies.
+
+To formulate performance SLOs for cloud-hosted applications without subjecting them to extensive testing,
+we need mechanisms that can identify the key operations executed by the application, and a
+statistical framework to reason about the performance of those operations. We use static
+analysis to extract the sequence of operations (cloud services) invoked by a given application,
+and employ platform-level monitoring to construct a historic performance model of the individual operations.
+We rely on a time series analysis and forecasting method to combine the above two sets of information,
+and derive statistical guarantees on the application response time. These calculated response time
+limits are associated with a specific correctness probability, and hence are suitable to be used
+as performance SLOs. We demonstrate that the SLOs formulated via this approach are 
+correct (subject to a given probability) and tight. We also present a statistical framework
+for reasoning about the validity period of each SLO, and show that each predicted SLO
+remains correct for periods ranging from several hours to multiple weeks.
+
 Following chapter provides the background details regarding cloud computing and governance.
 Next three chapters further elaborate on the above three objectives respectively. 
 Each chapter details our designs, assumptions and related work. Implementation details,
