@@ -202,7 +202,7 @@ Policies play a crucial role in all forms of governance. A policy is a specifica
 and the life-cycle of some entity. The entity could be a department, a software system, a service or a 
 human process such as developing
 a new application. In SOA governance, policies state how services should be developed, how they are to be
-deployed, how to secure them and what level of quality-of-service to maintain while a service is in operation.
+deployed, how to secure them, and what level of quality-of-service to maintain while a service is in operation.
 SOA governance tools enable administrators to specify acceptable service behavior and life-cycle as policies, and
 a software policy enforcement agent automatically enacts those policies to control various aspects of the 
 services~\cite{5976827,4483228,4279691}. 
@@ -211,7 +211,7 @@ services~\cite{5976827,4483228,4279691}.
 Cloud computing can be thought of as a heightened version of service-oriented computing. While classic
 SOC strives to offer data and application functionality as services, cloud computing offers a variety
 of computing resources
-as services including hardware infrastructure (compute power, storage space and networking) and programming
+as services, including hardware infrastructure (compute power, storage space and networking) and programming
 platforms. Moreover, the applications deployed on cloud platforms are typically implemented as services with
 separate implementation and interface components. 
 Much like classic services, each cloud-hosted application 
@@ -220,46 +220,58 @@ co-located cloud application, or an application running elsewhere (e.g. a mobile
 
 Due to this resemblance, we argue that many concepts related to SOA governance are
 directly applicable to cloud platforms and cloud-hosted applications. 
-We extend the previous definition of SOA governance, and define governance for cloud-hosted applications
+We extend the definition of SOA governance, and define governance for cloud-hosted applications
 as the process of ensuring that the cloud-hosted applications
 operate as expected while maintaining a certain quality of service level.
 This is a broad definition that allows room for many potential avenues of research.
-In our research we explore three aspects related to cloud-hosted applications that are crucial
-for implementing automated governance in a cloud environment.
+In our work we explore three specific features of governance as they apply to cloud-hosted applications.
 
 \begin{description}
 \item [Policy enforcement]
-We ensure that all applications deployed in a given cloud platform 
+Policy enforcement refers to ensuring that all applications deployed in a cloud platform
 adhere to a set of policies specified by a platform or organizational administrator.
 Some of these policies include specific
 dependency management practices, naming and packaging standards for software artifacts, 
 software versioning requirements, and practices that enable software artifacts to evolve 
 while maintaining backward compatibility.
-Others specify run-time constraints, which need to be evaluated per application request.
-Many of the conditions that constitute these policies are the result of decades of software 
-engineering research and practice. 
-However, each user and organization may wish to enforce some variation of them.
+Others specify run-time constraints, which need to be enforced per application request.
 
-\item [Performance SLOs]
-We explore the possibility of formulating statistically correct service level objectives (SLOs)
-concerning the performance of cloud-hosted applications.
-An SLO specifies a system's minimum quality of service (QoS) level in a measurable and
+\item [Performance service level objectives]
+A service level objective (SLO) specifies a system's minimum quality of service (QoS) level in a measurable and
 controllable manner~\cite{smj2000}. They may cover various QoS
 parameters such as availability, response time (latency), and throughput. A performance SLO
 specifies an upper bound on the application response time, and the likelihood that limit is valid.
 In practice, SLOs are used to form service level agreements (SLAs). An SLA is
 a formal agreement negotiated between a service provider and a consumer, that dictates the SLOs 
 that the service provider is obligated to maintain, along with the 
-penalties for failing to maintain those QoS levels.
+penalties for failing to maintain those QoS levels. In this context, failure to meet an SLO may
+constitute an SLA breach, for which the service provider is held accountable.
 
 \item [Application performance monitoring]
-We explore performance monitoring and diagnosis aspect of cloud-hosted applications.
-This involves timely detection of performance anomalies before they escalate into major outages or
-SLA violations. We also devise mechanisms for automatically diagnosing the potential root cause
-of each detected anomaly, thereby enabling faster remediation of performance issues in
-cloud settings.
+Application performance monitoring (APM) refers to continuously monitoring cloud-hosted applications
+to detect SLO violations and other performance anomalies. It also includes diagnosing the root
+cause of each detected anomaly, so issues can be resolved faster. 
+This typically requires collecting run-time data from many different
+components in the cloud platform, and correlating them to identify patterns and trends. 
 \end{description}
 
+These governance features are crucial for
+achieving administrative conformance, development and deployment best practices,
+and performance objectives. But none of these features are implemented satisfactorily in the
+cloud technologies available today.
+In order to fill the gaps caused by these limitations, many third-party governance solutions that operate as external services
+have come into existence. For example, services like 3Scale~\cite{3scale}, Apigee~\cite{apigee} and Layer7~\cite{layer7} provide a wide range
+of access control and API management features for web applications served from cloud platforms. Similarly, 
+services like New Relic~\cite{newrelic}, Dynatrace~\cite{dynatrace} and Datadog~\cite{datadog} provide monitoring support for cloud-hosted 
+applications. But these services are expensive, and requires additional programming and/or configuration.
+Some of them even require changes to applications in the form of code instrumentation. Moreover,
+since these services operate outside the cloud platforms they govern, they have limited visibility and control
+over the applications and related components residing in the cloud. A main goal of our research is to facilitate governance
+from within the cloud, as an automated, cloud-native feature. We show that such built-in governance capabilities are
+more robust, effective and easy to use than external third-party solutions that overlays governance on top of the
+cloud.
+
+\subsection{API Governance}
 A cloud-hosted application is comprised of two parts -- implementation and API. The implementation
 contains the functionality of the application. It primarily consists of code that implements
 various application features. The API is the interface that exposes the application to the
@@ -267,23 +279,11 @@ network. It enables remote users and client applications to interact with the ap
 HTTP/S requests. The responses generated by an API could be based on HTML (for display on a web
 browser). Or they could be based on a data format such as XML or JSON (for machine-to-machine 
 interaction). Regardless of the technology used to implement an API, it is the part of the application 
-that is visible to the users. Therefore governance
+that is visible to the remote clients. 
+Therefore governance
 mechanisms should pay special attention to exercising control over them -- a notion that we refer
 to as \textit{API governance}~\cite{6903538}. A poorly implemented API may render the whole application unusable.
 A backward incompatible change to an API, can break any downstream applications dependent on it. 
 Therefore it is important to be able to configure and enforce governance policies at the granularity of
 APIs. Similarly, we need to be able to stipulate performance SLOs for individual APIs, and monitor
 them as separate independent entities.
-
-Since the existing cloud platforms do not provide adequate governance support in terms of policy
-enforcement and monitoring, many third-party governance solutions that operate as external services
-have come into existence. For example, services like 3Scale, Apigee and Layer7 provide a wide range
-of access control and API management features for web APIs served from cloud platforms. Similarly, 
-services like New Relic, Dynatrace and Datadog provide monitoring support for cloud-hosted 
-applications. But these services are expensive, and requires additional programming and/or configuration.
-Some of them even require changes to applications in the form of code instrumentation. Moreover,
-since these services operate outside the cloud platforms they govern, they have limited visibility and control
-over the applications and related components residing in the cloud. A main goal of our research is to provide governance
-from within the cloud, as an automated, cloud-native feature. We show that such built-in governance capabilities are
-more robust, effective and easy to use than external third-party solutions that overlays governance on top of the
-cloud. 
