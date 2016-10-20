@@ -59,12 +59,10 @@ abstraction provided by the cloud platforms. These abstractions shield many deta
 concerning the application runtime, and without visibility into such low level application 
 execution details it is impossible
 to build a robust performance model for a cloud-hosted application. Due to the same
-reason, it is also not possible to establish service level objectives (SLOs), and 
-service level agreements (SLAs) concerning
+reason, it is also not possible to stipulate statistical upper bounds on
 the performance of cloud-hosted applications. 
-Consequently, existing cloud platforms only offer SLOs/SLAs regarding service availability (uptime).
-However, SLOs/SLAs that provide strong
-statistical guarantees on application performance are vital for developers 
+Consequently, existing cloud platforms only offer such guarantees regarding service availability (uptime).
+However, strong statistical guarantees on application performance are vital for developers 
 who implement downstream systems that consume the cloud-hosted applications,
 and cloud administrators who wish to maintain a consistent quality of service
 level.
@@ -91,10 +89,10 @@ the component that might be responsible for a perceived application performance 
 \textbf{In order to make cloud computing more reliable and dependable for the users as well
 as the cloud service providers, the above limitations need to be addressed satisfactorily.}
 Doing so will also greatly simplify the tasks of developing cloud applications, and maintaining 
-them in the long run. Developers will be able to stipulate SLOs regarding the performance of
-their cloud-hosted applications, and offer competitive SLAs to the end users that consume those
-applications. Developers as well as cloud administrators will be able to detect anomalies and
-SLO violations promptly, and take corrective actions before the issues escalate to major
+them in the long run. Developers will be able to specify statistical guarantees on the performance of
+their cloud-hosted applications, and offer competitive service level agreements (SLAs) to the end users that consume those
+applications. Developers as well as cloud administrators will be able to detect anomalies
+promptly, and take corrective actions before the issues escalate to major
 outages or other crises. Therefore, as a means of reaching this goal, I propose and explore the
 following thesis question.
 
@@ -131,7 +129,8 @@ applications, and their performance limits.
 
 \textbf{In order for governance to be
 useful within the scope of the cloud, we must be able to meet two additional
-goals.} First, the governance system should be efficient in the sense that it should not introduce
+goals -- efficiency and automation.} First, the governance system should be 
+efficient in the sense that it should not introduce
 a significant runtime overhead to the cloud-hosted applications, and it should scale up to
 handle a large number of applications and policies. Secondly, the governance system should be
 fully automated. Since cloud platforms are comprised of thousands of applications and components,
@@ -146,13 +145,13 @@ complete with a policy specification language and a policy engine. The governanc
 built into the cloud platforms, and must
 strive to keep the runtime overhead of the user applications to a minimum while enforcing
 common developer best practices and other organizational conventions.
-\item Design and implement a methodology for formulating performance SLOs for cloud-hosted 
- web applications, without
+\item Design and implement a methodology for formulating statistical upper bounds on the
+performance of cloud-hosted web applications, without
  subjecting them to extensive performance testing or instrumentation. The formulated
- performance SLOs must be correct, tight and durable in the face of changing
+upper bounds must be correct, tight and durable in the face of changing
  conditions of the cloud.
  \item Design and implement a scalable cloud application monitoring framework for detecting
-application performance anomalies, SLO violations and diagnosing potential root causes. 
+application performance anomalies and diagnosing potential root causes. 
 The framework should support collecting
  a wide range of runtime data from the user applications and the underlying cloud platform
  without instrumenting the user code, and without introducing significant runtime overheads.
@@ -161,31 +160,53 @@ The framework should support collecting
 \end{itemize}
 
 We need to answer a number of scientific questions in order to successfully execute the 
-above research plan. First we must a devise a methodology for enforcing policies efficiently
+above research plan. First we must a devise a methodology to enforce policies efficiently
 without introducing a significant overhead to application performance. There is also an interesting
-trade off to be explored between what policies can be enforced, and when can they be enforced with respect
-to the life cycle of a cloud-hosted application. We solve these problems by diving the application
-life cycle into three phases -- development-time, deployment-time and run-time. To minimize the
+trade off to be explored between what policies can be enforced, and when they can be enforced with respect
+to the life cycle of a cloud-hosted application. We solve these problems by dividing the application
+life cycle into three phases -- development-time, deployment-time and run-time. \textbf{To minimize the
 impact of policy enforcement on application performance, we perform most policy
 enforcement tasks during deployment-time; i.e. when an application is being deployed in the 
-cloud platform, before it is available for use. However, we acknowledge that not all policies
-can be enforced at deployment-time, and therefore some support for run-time policy enforcement
+cloud platform, before it is available for use.} However, we acknowledge that not all policies
+are enforceable at deployment-time, and therefore some support for run-time policy enforcement
 is also required. We design our policy enforcement framework based on these principles, and 
 show that deployment-time policy enforcement is efficient, and such an implementation can scale
 to thousands of applications and policies.
 
-To formulate performance SLOs for cloud-hosted applications without subjecting them to extensive testing,
-we need mechanisms that can identify the key operations executed by the application, and a
+To formulate performance upper bounds for cloud-hosted applications without subjecting them to extensive testing,
+we need mechanisms that can identify the key operations executed by an application, and a
 statistical framework to reason about the performance of those operations. We use static
 analysis to extract the sequence of operations (cloud services) invoked by a given application,
-and employ platform-level monitoring to construct a historic performance model of the individual operations.
-We rely on a time series analysis and forecasting method to combine the above two sets of information,
-and derive statistical guarantees on the application response time. These calculated response time
+and platform-level monitoring to construct a historic performance model of the individual operations.
+\textbf{We employ a time series analysis and forecasting method to combine static analysis results with
+platform monitoring data to
+derive statistical guarantees on the application response time.} These calculated performance
 limits are associated with a specific correctness probability, and hence are suitable to be used
-as performance SLOs. We demonstrate that the SLOs formulated via this approach are 
-correct (subject to a given probability) and tight. We also present a statistical framework
-for reasoning about the validity period of each SLO, and show that each predicted SLO
-remains correct for periods ranging from several hours to multiple weeks.
+as service level objectives (SLOs). We demonstrate that the upper bounds formulated via this approach are 
+both accurate, and closely resembles the actual performance of the applications. We also present a statistical framework
+to reason about the validity period of each upper bound, and show that the predicted bounds
+remain correct for periods ranging from several hours to multiple weeks.
+
+In order to facilitate performance anomaly detection and root cause analysis without instrumenting
+application code, we need to capture various performance events that occur in the cloud platform
+when an application responds to a user request. We should then correlate these different events,
+and employ statistical analysis to identify anomalous behaviors in them. Any given statistical
+method is only sensitive to a certain class of anomalies. Therefore, to be able to diagnose a wide range of
+performance anomalies, we should devise algorithms that combine multiple statistical analysis
+methods. \textbf{We propose a performance diagnosis methodology that combines linear regression, change point
+detection and quantile analysis.} Our approach detects performance anomalies in near real time,
+and identifies the root cause of each anomaly as a workload change or a performance bottleneck
+in the cloud platform. In case of performance bottlenecks, our approach can also correctly identify
+the exact component in the cloud platform, in which the bottleneck manifested.
+
+\textbf{While not an exhaustive approach for implementing governance in the cloud, our research plan
+pushes the state of the art in cloud computing significantly towards achieving
+administrative conformance, developer best practices and performance objectives.} Moreover,
+our work addresses three out of the four steps associated with software system governance --
+specification, enforcement and monitoring. These alone can significantly improve cloud platforms
+in terms of their reliability, developer-friendliness and ease of management. 
+We do not directly tackle remediation, but our work
+lays the groundwork for implementing automated problem remediation in future cloud platforms.
 
 Following chapter provides the background details regarding cloud computing and governance.
 Next three chapters further elaborate on the above three objectives respectively. 
