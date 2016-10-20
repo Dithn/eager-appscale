@@ -117,7 +117,7 @@ of multiple distributed processes and/or machines.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.35]{cloud_app_model}
+\includegraphics[scale=0.4]{cloud_app_model}
 \caption{Applications deployed in a PaaS cloud: (a) An external client making requests
 to an application via the web API;
 (b) A PaaS-hosted application invoking another in the same cloud.
@@ -211,70 +211,56 @@ services~\cite{5976827,4483228,4279691}.
 \subsection{Governance for Cloud-hosted Applications}
 Cloud computing can be thought of as a heightened version of service-oriented computing. While classic
 SOC strives to offer data and application functionality as services, cloud computing offers a variety
-of additional computing resources
+of computing resources
 as services including hardware infrastructure (compute power, storage space and networking) and programming
 platforms. Moreover, the applications deployed on cloud platforms are typically implemented as services with
-separate implementation and interface components. The web APIs exposed by these applications play the
-role of the service interface.
+separate implementation and interface components. 
 Much like classic services, each cloud-hosted application 
 can be a dependency for another
 co-located cloud application, or an application running elsewhere (e.g. a mobile app). 
 
 Due to this resemblance, we argue that many concepts related to SOA governance are
 directly applicable to cloud platforms and cloud-hosted applications. 
-We extend the definition of SOA governance, and define governance for cloud-hosted applications
-as the process of ensuring that 
-\begin{enumerate}
-\item the cloud-hosted applications are implemented and deployed according to a set of
-developer and organizational standards, and
-\item they operate as expected while maintaining a certain quality-of-service level.
-\end{enumerate}
-
+We extend the previous definition of SOA governance, and define governance for cloud-hosted applications
+as the process of ensuring that the cloud-hosted applications
+operate as expected while maintaining a certain quality of service level.
 This is a broad definition that allows room for many potential avenues of research.
-In our research we explore three of them. We briefly describe the research objectives
-that constitute each avenue here, and provide detailed discussions in the chapters that
-follow.
+In our research we explore three aspects related to cloud-hosted applications that are crucial
+for implementing automated governance in a cloud environment.
 
-First, we wish to ensure that all applications deployed in a given cloud platform follow a set of
-development and deployment policies that are specified by a platform or organizational administrator.
-These policies may include specific
+\begin{description}
+\item [Policy enforcement]
+We ensure that all applications deployed in a given cloud platform 
+adhere to a set of policies specified by a platform or organizational administrator.
+Some of these policies include specific
 dependency management practices, naming and packaging standards for software artifacts, 
-software versioning requirements, and practices that enable software artifacts to evolve maintaining backward compatibility. 
-Many of the conditions that constitute these policies are the result of decades of software engineering research and practice. 
-However, each user and organization may wish to follow some variation of them. Therefore
-cloud platforms should allow administrators to specify custom
-policies that fit their use cases. Once specified, the cloud platform
-should enforce the policies in a scalable manner, without causing the application performance to
-deteriorate. The cloud platform should also ensure that the applications maintain policy compliance at
-all times -- even through system and application updates.
+software versioning requirements, and practices that enable software artifacts to evolve 
+while maintaining backward compatibility.
+Others specify run-time constraints, which need to be evaluated per application request.
+Many of the conditions that constitute these policies are the result of decades of software 
+engineering research and practice. 
+However, each user and organization may wish to enforce some variation of them.
 
-Secondly, we look at formulating concrete service level objectives (SLOs) and 
-service level agreements (SLAs) concerning the performance of cloud-hosted applications.
+\item [Performance SLOs (and SLAs)]
+We explore the possibility of formulating concrete service level objectives (SLOs)
+for the applications deployed in a cloud platform.
 An SLO specifies a system's minimum quality of service (QoS) level in a measurable and
 controllable manner. They may cover various QoS
-parameters such as availability, response time (latency), and throughput. A performance SLO for 
-a cloud-hosted application
+parameters such as availability, response time (latency), and throughput. A performance SLO
 specifies an upper bound on the application response time, and the likelihood that limit is valid.
-In practice, SLOs are used to form an SLA --
+In practice, SLOs are used to form service level agreements (SLAs). An SLA is
 a formal agreement negotiated between a service provider and a consumer, that dictates the SLOs 
 that the service provider is obligated to maintain, along with the 
-penalties for failing to maintain those QoS levels. Such agreements are crucial for
-mission critical applications, interactive applications and most web and mobile applications.
-However, today's cloud platforms lack the ability to reason about application performance.
-Consequently, existing cloud platforms only offer SLAs regarding service availability (uptime)
-to their users. Therefore
-cloud platforms should be enhanced with mechanisms to analyze and reason about 
-application performance limits, so they can offer performance SLOs and SLAs.
+penalties for failing to maintain those QoS levels.
 
-Finally, we wish to implement performance monitoring and diagnosis for cloud-hosted applications.
-In order to detect violations of performance SLOs, and violations of policies that govern the performance aspects of
-applications, cloud platforms should continuously monitor application performance.
-Cloud platforms should be able to detect problems in a timely manner before
-they escalate into major outages or SLA violations. For each detected problem, the cloud
-platform should also be able to diagnose the potential root cause, thereby enabling faster
-remediation.
+\item [Application performance monitoring]
+We explore performance monitoring and diagnosis aspect of cloud-hosted applications.
+This involves timely detection of performance anomalies before they escalate into major outages or
+SLA violations. We also devise mechanisms for automatically diagnosing the potential root cause
+of each detected anomaly, thereby enabling faster remediation of performance issues in
+cloud settings.
+\end{description}
 
-\subsection{API Governance}
 A cloud-hosted application is comprised of two parts -- implementation and API. The implementation
 contains the functionality of the application. It primarily consists of code that implements
 various application features. The API is the interface that exposes the application to the
@@ -287,16 +273,8 @@ mechanisms should pay special attention to exercising control over them -- a not
 to as \textit{API governance}~\cite{6903538}. A poorly implemented API may render the whole application unusable.
 A backward incompatible change to an API, can break any downstream applications dependent on it. 
 Therefore it is important to be able to configure and enforce governance policies at the granularity of
-APIs.
-
-Our research focuses on using automated policy enforcement, diagnostics and other related 
-governance features to ensure that
-cloud-hosted applications (and their APIs) adhere to developer best practices 
-and administrative conventions, while
-consistently meeting performance expectations (SLOs) of the developers and the users. We strive to design
-governance mechanisms that scale up well to handle cloud workloads -- i.e. large numbers of applications
-and policies. We build on existing SOC and cloud computing research, and introduce novel methods
-where existing governance and detection methods fall short. 
+APIs. Similarly, we need to be able to stipulate performance SLOs for individual APIs, and monitor
+them as separate independent entities.
 
 Since the existing cloud platforms do not provide adequate governance support in terms of policy
 enforcement and monitoring, many third-party governance solutions that operate as external services
@@ -306,7 +284,7 @@ services like New Relic, Dynatrace and Datadog provide monitoring support for cl
 applications. But these services are expensive, and requires additional programming and/or configuration.
 Some of them even require changes to applications in the form of code instrumentation. Moreover,
 since these services operate outside the cloud platforms they govern, they have limited visibility and control
-over the applications and related components residing in the cloud. The goal of our research is to provide governance
+over the applications and related components residing in the cloud. A main goal of our research is to provide governance
 from within the cloud, as an automated, cloud-native feature. We show that such built-in governance capabilities are
 more robust, effective and easy to use than external third-party solutions that overlays governance on top of the
 cloud. 
