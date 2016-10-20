@@ -1,15 +1,15 @@
 Cloud computing has revolutionized the way programmers develop and deploy applications.
-Cloud computing turns compute infrastructures, programming platforms and software systems
-into online utility services that can be easily shared with many users.
+\textbf{Cloud computing turns compute infrastructures, programming platforms and software systems
+into online utility services that can be easily shared with many users.}
 By running computations and storing data on large, managed infrastructures and 
 programming platforms, cloud computing ensures scalability and high-availability of 
 user applications. Moreover, by offering such resources
 as utility services, cloud computing is able to facilitate a cost-effective, on-demand
 resource provisioning model that greatly enhances user productivity.
 
-Over the last decade cloud computing technologies have enjoyed explosive growth 
+\textbf{Over the last decade cloud computing technologies have enjoyed explosive growth 
 and near universal adoption due to their many benefits and 
-promises~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}. 
+promises~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}.} 
 Industry analysts project that the cloud computing market value will exceed \$150 billion
 by the year 2020~\cite{cloud-growth}.
 Already core cloud 
@@ -21,9 +21,9 @@ provide cloud technologies as downloadable software, which users can install
 on their computers or data centers to set up their own private clouds 
 (e.g. Eucalyptus~\cite{eucalyptus09}, AppScale~\cite{6488671}, OpenShift~\cite{openshift}). 
 
-Both the IT industry and the academia have responded very positively to this new 
+\textbf{Both the IT industry and the academia have responded very positively to this new 
 model of application 
-development. Many business organizations are currently in the process of migrating
+development.} Many business organizations are currently in the process of migrating
 their IT infrastructure to the cloud. A large number of organizations
 run their entire business as a cloud-based operation (e.g. Netflix, Snapchat). For startups
 and academic researchers who do not have a large IT budget or a staff, the cost-effective 
@@ -32,10 +32,13 @@ The growing number of academic conferences and journals dedicated to discussing
 cloud computing is further evidence that cloud is an essential branch in the field
 of computer science.
 
-Despite its many benefits, cloud computing has also given rise to a number of application
-development and maintenance challenges that have gone unaddressed for many years. 
-First and foremost, cloud platforms do not enforce any of the developer best practices
-the software engineering community has established over the last half-century. This
+\textbf{Despite its many benefits, cloud computing has also given rise to several application
+development and maintenance challenges that have gone unaddressed for many years.}
+As the number of applications deployed in cloud platforms continue to increase these
+shortcoming are rapidly becoming conspicuous. We highlight three such issues.
+ 
+\textbf{First and foremost, cloud platforms do not enforce any of the developer best practices
+the software engineering community has established over the last half-century.} This
 includes code reuse, proper versioning of software artifacts, dependency management
 between application components and backward compatible code updates. In
 some cases, organizations require certain development and maintenance standards to be enforced on
@@ -46,8 +49,8 @@ applications (i.e. roll out new versions). The resulting speed-up of the develop
 oversight and enforcement, makes it extremely difficult for 
 IT personnel to manage large volumes of cloud-hosted applications.
 
-Secondly, today's cloud platforms do not provide any support for reasoning about the 
-performance of the deployed applications. When an application is implemented for
+\textbf{Secondly, today's cloud platforms do not provide any support for reasoning about the 
+performance of the deployed applications.} When an application is implemented for
 a given cloud platform, one must subject it to extensive performance testing in order
 to comprehend its performance limits; a process that is both 
 tedious and time consuming. The difficulty in understanding the performance 
@@ -56,28 +59,16 @@ abstraction provided by the cloud platforms. These abstractions shield many deta
 concerning the application runtime, and without visibility into such low level application 
 execution details it is impossible
 to build a robust performance model for a cloud-hosted application. Because of the same
-limitation, it is also not possible to establish service-level objectives (SLOs) concerning
-the performance of cloud-hosted applications. 
+limitation, it is also not possible to establish service-level objectives (SLOs), and 
+service-level agreements (SLAs) concerning
+the performance of cloud-hosted applications. SLOs and SLAs that provide strong
+statistical guarantees regarding application performance are vital for developers 
+who implement downstream systems that consume the cloud-hosted applications,
+and cloud administrators who are looking to maintain a consistent quality of service
+level.
 
-An SLO specifies a system's minimum quality of service (QoS) level in a measurable and
-controllable manner. SLOs may cover various QoS
-parameters such as availability, response time (latency), and throughput. A performance SLO for 
-a cloud-hosted application
-would specify an upper bound on the application response time, and the likelihood that limit is valid.
-In practice, SLOs are used to form service-level agreements (SLAs).
-An SLA is a formal agreement between a service provider and a consumer, that dictates the SLOs 
-that the service provider is obligated to uphold, along with the 
-penalties for failing to maintain those QoS levels. In this context, failure to uphold an
-SLO may constitute a breach of the agreement, thereby holding the service provider accountable,
-and subjecting them to the penalties stated in the SLA. Such contracts are crucial for
-mission critical applications, interactive applications and most web and mobile applications.
-However, without a systematic mechanism to determine the performance limits of cloud-hosted
-applications, it is impossible to formulate performance SLOs or SLAs.
-Consequently, existing cloud platforms only offer SLAs regarding service availability (uptime)
-to their users. 
-
-Thirdly, cloud platforms provide very poor support for performance debugging
-user applications. Most cloud platforms only provide the simplest monitoring and logging features,
+\textbf{Thirdly, cloud platforms provide very poor support for performance debugging
+user applications.} Most cloud platforms only provide the simplest monitoring and logging features,
 and do not provide any mechanisms for detecting performance anomalies or identifying
 bottlenecks in the application code or the underlying cloud platform. This limitation has given rise
 to a new class of third party service providers that specialize in monitoring cloud applications
@@ -95,8 +86,8 @@ Today's cloud platforms are also very large and complex with many interacting co
 An external monitoring service cannot observe this complexity in full, and hence cannot pinpoint
 the component that might be responsible for a perceived application performance anomaly.
 
-In order to make cloud computing more reliable and dependable for the users as well
-as the cloud service providers, the above limitations need to be addressed satisfactorily.
+\textbf{In order to make cloud computing more reliable and dependable for the users as well
+as the cloud service providers, the above limitations need to be addressed satisfactorily.}
 Doing so will also greatly simplify the tasks of developing cloud applications, and maintaining 
 them in the long run. Developers will be able to stipulate SLOs regarding the performance of
 their cloud-hosted applications, and offer competitive SLAs to the end users that consume those
@@ -109,8 +100,8 @@ following thesis question.
 administrative conformance, developer best practices, and performance objectives through 
 automated analysis and diagnostics?} 
 
-Governance in this context can be defined as the mechanism by which the acceptable 
-operational parameters are specified and maintained in a software system. This involves 
+\textbf{Governance in this context can be defined as the mechanism by which the acceptable 
+operational parameters are specified and maintained in a software system.} This involves 
 multiple steps:
 \begin{itemize}
 \item Specifying the acceptable operational parameters
@@ -119,8 +110,8 @@ multiple steps:
 \item Taking preventive or corrective action when necessary
 \end{itemize}
 
-The concept of software system governance as defined here is very similar to the
-notion of governing a country. In a country too we should specify the acceptable
+\textbf{The concept of software system governance as defined here is analogous to the
+notion of governing a country.} In a country too we should specify the acceptable
 parameters, which establishes the general laws and the rights of the citizens. Such 
 parameters are then
 enforced by various authorities. When some person or a group deviates from those parameters,
@@ -131,21 +122,21 @@ the past, specially in classic web services and SOA applications. Such systems e
 acceptable behavior via machine readable policies, which are then automatically enforced by
 a policy enforcement agent. Monitoring agents watch the system to detect any deviations from
 the acceptable behavior (i.e. policy violations), and alert users or follow predefined corrective
-procedures. We can envision similar facilities being implemented in a cloud platform to 
-enforce good programming practices and various performance objectives. The operational
+procedures. \textbf{We can envision facilities similar to SOA governance being implemented in a cloud platform to 
+enforce good programming practices and various performance objectives.} The operational
 parameters in this case may include coding and packaging conventions for the cloud-hosted
 applications, and their performance limits.
 
-In order for governance to be
+\textbf{In order for governance to be
 useful within the scope of the cloud, we must be able to meet two additional
-goals. First, the governance system should be efficient in the sense that it should not introduce
+goals.} First, the governance system should be efficient in the sense that it should not introduce
 a significant runtime overhead to the cloud-hosted applications, and it should scale up to
 handle a large number of applications and policies. Secondly, the governance system should be
 fully automated. Since cloud platforms are comprised of thousands of applications and components,
 it is not practical for a human administrator to be involved in the governance process at any level.
 
 Extending on the above thesis question, and the vision for efficient, automated governance for
-cloud-hosted applications, I propose the following research plan:
+cloud-hosted applications, we devise the following research plan:
 
 \begin{itemize}
 \item Design and implement a scalable, low-overhead governance framework for cloud platforms,
@@ -168,7 +159,7 @@ The framework should support collecting
 \end{itemize}
 
 Following chapter provides the background details regarding cloud computing and governance.
-Next three chapters further elaborate on the above three research goals respectively. 
-Each section details our designs, assumptions and related work. Implementation details,
-results and future work are also discussed where appropriate. Final section
+Next three chapters further elaborate on the above three objectives respectively. 
+Each chapter details our designs, assumptions and related work. Implementation details,
+results and future work are also discussed where appropriate. Final chapter
 summarizes and concludes this dissertation.

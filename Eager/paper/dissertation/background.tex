@@ -193,7 +193,7 @@ Multiple definitions of SOA governance
 are in circulation, but most of them agree that the purpose of SOA governance is to exercise control over
 services and associated processes (service development, testing, monitoring etc). A commonly used definition
 of SOA governance is ensuring and validating that service artifacts within the architecture are operating
-as expected and maintaining a certain level of quality~\cite{gartner-soa-gov}.
+as expected, and maintaining a certain level of quality~\cite{gartner-soa-gov}.
 Consequently, a number of tools that help organizations implement SOA governance 
 have also evolved~\cite{Schepers:2008:LAS:1363686.1363932,4730489,6478236,5577268}.
 Since web services are the most widely used form of services in SOA-driven systems, most of these
@@ -219,19 +219,62 @@ role of the service interface.
 Much like classic services, each cloud-hosted application 
 can be a dependency for another
 co-located cloud application, or an application running elsewhere (e.g. a mobile app). 
+
 Due to this resemblance, we argue that many concepts related to SOA governance are
-directly applicable to cloud platforms and cloud-hosted applications. For instance, we can envision an 
-automated policy enforcement agent enacting a 
-set of policies that control the behavior and the life-cycle of cloud-hosted applications.
-More specifically, we are interested in using policies to control the following aspects of cloud-hosted 
-applications.
+directly applicable to cloud platforms and cloud-hosted applications. 
+We extend the definition of SOA governance, and define governance for cloud-hosted applications
+as the process of ensuring that 
 \begin{enumerate}
-\item Development and deployment conventions (including dependency management, naming and packaging
-standards and backward compatibility)
-\item Performance SLOs/SLAs offered to the users
-\item Diagnosing performance anomalies and bottlenecks
+\item the cloud-hosted applications are implemented and deployed according to a set of
+developer and organizational standards, and
+\item they operate as expected while maintaining a certain quality-of-service level.
 \end{enumerate}
 
+This is a broad definition that allows room for many potential avenues of research.
+In our research we explore three of them. We briefly describe the research objectives
+that constitute each avenue here, and provide detailed discussions in the chapters that
+follow.
+
+First, we wish to ensure that all applications deployed in a given cloud platform follow a set of
+development and deployment policies that are specified by a platform or organizational administrator.
+These policies may include specific
+dependency management practices, naming and packaging standards for software artifacts, 
+software versioning requirements, and practices that enable software artifacts to evolve maintaining backward compatibility. 
+Many of the conditions that constitute these policies are the result of decades of software engineering research and practice. 
+However, each user and organization may wish to follow some variation of them. Therefore
+cloud platforms should allow administrators to specify custom
+policies that fit their use cases. Once specified, the cloud platform
+should enforce the policies in a scalable manner, without causing the application performance to
+deteriorate. The cloud platform should also ensure that the applications maintain policy compliance at
+all times -- even through system and application updates.
+
+Secondly, we look at formulating concrete service level objectives (SLOs) and 
+service level agreements (SLAs) concerning the performance of cloud-hosted applications.
+An SLO specifies a system's minimum quality of service (QoS) level in a measurable and
+controllable manner. They may cover various QoS
+parameters such as availability, response time (latency), and throughput. A performance SLO for 
+a cloud-hosted application
+specifies an upper bound on the application response time, and the likelihood that limit is valid.
+In practice, SLOs are used to form an SLA --
+a formal agreement negotiated between a service provider and a consumer, that dictates the SLOs 
+that the service provider is obligated to maintain, along with the 
+penalties for failing to maintain those QoS levels. Such agreements are crucial for
+mission critical applications, interactive applications and most web and mobile applications.
+However, today's cloud platforms lack the ability to reason about application performance.
+Consequently, existing cloud platforms only offer SLAs regarding service availability (uptime)
+to their users. Therefore
+cloud platforms should be enhanced with mechanisms to analyze and reason about 
+application performance limits, so they can offer performance SLOs and SLAs.
+
+Finally, we wish to implement performance monitoring and diagnosis for cloud-hosted applications.
+In order to detect violations of performance SLOs, and violations of policies that govern the performance aspects of
+applications, cloud platforms should continuously monitor application performance.
+Cloud platforms should be able to detect problems in a timely manner before
+they escalate into major outages or SLA violations. For each detected problem, the cloud
+platform should also be able to diagnose the potential root cause, thereby enabling faster
+remediation.
+
+\subsection{API Governance}
 A cloud-hosted application is comprised of two parts -- implementation and API. The implementation
 contains the functionality of the application. It primarily consists of code that implements
 various application features. The API is the interface that exposes the application to the
@@ -250,7 +293,7 @@ Our research focuses on using automated policy enforcement, diagnostics and othe
 governance features to ensure that
 cloud-hosted applications (and their APIs) adhere to developer best practices 
 and administrative conventions, while
-consistently meeting performance expectations of the developers and the users. We strive to design
+consistently meeting performance expectations (SLOs) of the developers and the users. We strive to design
 governance mechanisms that scale up well to handle cloud workloads -- i.e. large numbers of applications
 and policies. We build on existing SOC and cloud computing research, and introduce novel methods
 where existing governance and detection methods fall short. 
