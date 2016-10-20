@@ -123,7 +123,6 @@ to an application via the web API;
 (b) A PaaS-hosted application invoking another in the same cloud.
 \label{fig:cloud_app_model}
 }
-\vspace{-0.2in}
 \end{figure}
 
 Figure~\ref{fig:cloud_app_model} illustrates the application deployment model of PaaS clouds. 
@@ -241,11 +240,11 @@ Many of the conditions that constitute these policies are the result of decades 
 engineering research and practice. 
 However, each user and organization may wish to enforce some variation of them.
 
-\item [Performance SLOs (and SLAs)]
-We explore the possibility of formulating concrete service level objectives (SLOs)
-for the applications deployed in a cloud platform.
+\item [Performance SLOs]
+We explore the possibility of formulating statistically correct service level objectives (SLOs)
+concerning the performance of cloud-hosted applications.
 An SLO specifies a system's minimum quality of service (QoS) level in a measurable and
-controllable manner. They may cover various QoS
+controllable manner~\cite{smj2000}. They may cover various QoS
 parameters such as availability, response time (latency), and throughput. A performance SLO
 specifies an upper bound on the application response time, and the likelihood that limit is valid.
 In practice, SLOs are used to form service level agreements (SLAs). An SLA is
