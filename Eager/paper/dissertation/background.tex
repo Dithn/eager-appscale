@@ -1,27 +1,28 @@
 \section{Cloud Computing}
 
 Cloud computing is a form of distributed computing that turns compute infrastructure, programming
-platforms and software systems into scalable utility services. By exposing various compute and programming
+platforms and software systems into scalable utility services~\cite{hassan2011demystifying,Mell:2011:SND:2206223}. 
+By exposing various compute and programming
 resources as utility services, cloud computing promotes resource sharing at scale via the Internet.
 The cloud model precludes the users from having to set up their own hardware, and in some cases also software. Instead,
 the users can simply acquire the resources ``in the cloud'' via the internet, and relinquish them when
-the resources are no longer needed. The cloud model also does not require the users to pay any start up
-cost. The users only have to pay for the resources they acquired, usually based on a pay-per-use
+the resources are no longer needed. The cloud model also does not require the users to spend any start up
+capital. The users only have to pay for the resources they acquired, usually based on a pay-per-use
 billing model.
 
 Depending on the type of resources
-offered as services, cloud computing platforms can be categorized into three main categories:
+offered as services, cloud computing platforms can be categorized into three main categories~\cite{Mell:2011:SND:2206223}.
 \begin{description}
 \item [Infrastructure-as-a-Service clouds (IaaS)]
 Offers low-level compute, storage and networking
 resources as a service. Compute resources are typically provided in the form of on-demand virtual machines (VMs)
 with specific CPU, memory and disk configurations (e.g. Amazon EC2, Google Compute Engine, Eucalyptus). 
-The provisioned VMs usually come with a base operating system installed. The users must install the other software
+The provisioned VMs usually come with a base operating system installed. The users must install all the application software
 necessary to use them.
 \item [Platform-as-a-Service clouds (PaaS)]
 Offers a programming platform as a service, that can be used to develop and deploy applications at scale 
 (e.g. Google App Engine, AppScale, Heroku, Amazon Elastic Beanstalk). The programming platform consists
-of several scalable services that can be used to offload certain application features such as data storage, caching
+of several scalable services that can be used to obtain certain application features such as data storage, caching
 and authentication.
 \item [Software-as-a-Service clouds (SaaS)]
 Offers a collection of software applications and tools as a service, that can be directly consumed by
@@ -94,30 +95,30 @@ resources on the fly.
 On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
 services that high-level application developers can compose into their applications. The provided kernel services
 may include database services, caching services, queuing services and more. 
-The implementations of the kernel services are highly scalable, highly available (have SLAs associated with them),
+The implementations of the kernel services are highly scalable, highly available (have SLOs associated with them),
 and automatically managed by the platform while being completely opaque
 to the application developers. Some PaaS clouds
 also provide a managed set of programming APIs (a ``software development
 kit'' or SDK) for the application developer to access these kernel services. 
 In that case all interactions between the applications and the PaaS kernel must take place through
-the cloud provider specified APIs (e.g. Google App Engine~\cite{gae}, Microsoft Azure~\cite{azure}). 
+the cloud provider specified SDK (e.g. Google App Engine~\cite{gae}, Microsoft Azure~\cite{azure}). 
 
 One level above the PaaS kernel we find the application servers that are used to deploy and run
 applications. Application servers provide the necessary integration (linkage) between application code and the
-underlying PaaS kernel, while sandboxing application code for secure, multi-tenant operation. On top
+PaaS kernel services, while sandboxing application code for secure, multi-tenant execution. On top
 of the application servers layer resides the request
 front-end and load balancing layer. This layer is responsible
-for receiving all application requests, filtering them and routing them to an appropriate application
+for receiving all application requests, filtering them, and routing them to an appropriate application
 server instance for further execution. Front-end server is therefore the entry point for PaaS-hosted
 applications for all application clients.
 
 Each of the above layers can span multiple processes, running over multiple physical or virtual
-machines. Therefore the execution of a single application request typically involves cooperation
+machines. Therefore processing a single application request typically involves cooperation
 of multiple distributed processes and/or machines.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{cloud_app_model}
+\includegraphics[scale=0.4]{cloud_app_model2}
 \caption{Applications deployed in a PaaS cloud: (a) An external client making requests
 to an application via the web API;
 (b) A PaaS-hosted application invoking another in the same cloud.
@@ -135,9 +136,9 @@ Once deployed, the applications and any web APIs exported by them can be accesse
 via HTTP/S requests by external or co-located clients.
 
 PaaS clouds are specifically built for deploying and running applications
-that are directly consumed by end users and other client applications. This means, all the problems 
-outlined in the previous section, such as poor development practices, performance SLOs and performance 
-debugging directly impact PaaS clouds. Therefore PaaS clouds are ideal candidates for implementing the type
+that are directly consumed by end users and other client applications. As a result all the problems 
+outlined in the previous chapter, such as poor development practices, lack of performance SLOs, and lack of performance 
+debugging support directly impact PaaS clouds. Therefore PaaS clouds are ideal candidates for implementing the type
 of governance systems proposed in this work. 
 
 We use PaaS clouds in our research extensively both as case studies
@@ -164,7 +165,7 @@ during their life-cycle:
 \item[Deployment-time] The finished application is being uploaded to the PaaS cloud for deployment
 \item[Run-time] Application is running, and processing user requests
 \end{description}
-We explore ways to use these different phases to our advantage so as to minimize the governance
+We explore ways to use these different phases to our advantage in order to minimize the governance
 overhead on running applications. 
 
 \section{Governance}
