@@ -59,10 +59,10 @@ abstraction provided by the cloud platforms. These abstractions shield many deta
 concerning the application runtime, and without visibility into such low level application 
 execution details it is impossible
 to build a robust performance model for a cloud-hosted application. Due to the same
-reason, it is also not possible to stipulate upper bounds (service level objectives or SLOs) on
+reason, it is also not possible to stipulate bounds (service level objectives or SLOs) on
 the performance of cloud-hosted applications. 
 Consequently, existing cloud platforms only offer such guarantees regarding service availability.
-However, strong statistical upper bounds on application performance are vital for developers 
+However, strong statistical bounds on application performance are vital for developers 
 who implement downstream systems that consume the cloud-hosted applications,
 and cloud administrators who wish to maintain a consistent quality of service
 level.
@@ -145,10 +145,10 @@ complete with a policy specification language and a policy engine. The governanc
 built into the cloud platforms, and must
 keep the runtime overhead of the user applications to a minimum while enforcing
 common developer best practices and other organizational conventions.
-\item Design and implement a methodology for formulating statistical upper bounds (SLOs) on the
+\item Design and implement a methodology for formulating statistical bounds (SLOs) on the
 performance of cloud-hosted web applications, without
  subjecting them to extensive performance testing or instrumentation. The formulated
-upper bounds must be correct, tight and durable in the face of changing
+bounds must be correct, tight and durable in the face of changing
  conditions of the cloud.
  \item Design and implement a scalable cloud application monitoring framework for detecting
 performance anomalies and diagnosing potential root causes. 
@@ -173,7 +173,7 @@ is also required. We design our policy enforcement framework based on these prin
 show that deployment-time policy enforcement is efficient, and such an implementation can scale
 to thousands of applications and policies.
 
-To formulate performance upper bounds for cloud-hosted applications without subjecting them to extensive testing,
+To formulate performance bounds for cloud-hosted applications without subjecting them to extensive testing,
 we need mechanisms that can identify the key operations executed by an application, and a
 statistical framework to reason about the performance of those operations. We use static
 analysis to extract the sequence of critical operations (cloud services) invoked by a given application.
@@ -181,10 +181,10 @@ We continuously monitor the cloud platform to construct a historic performance m
 \textbf{We employ a time series analysis and forecasting method to combine static analysis results with
 platform monitoring data to
 derive statistical guarantees on the application response time.} These calculated performance
-upper bounds are associated with a specific correctness probability, and hence are suitable to be used
-as SLOs. We demonstrate that the upper bounds formulated via this approach are 
+bounds are associated with a specific correctness probability, and hence are suitable to be used
+as SLOs. We demonstrate that the bounds formulated via this approach are 
 both accurate, and closely resemble the actual performance of the applications. We also present a statistical framework
-to reason about the validity period of each upper bound, and show that the predicted bounds
+to reason about the validity period of each bound, and show that the predicted bounds
 remain correct for periods ranging from several hours to several weeks.
 
 In order to facilitate performance anomaly detection and root cause analysis without instrumenting
