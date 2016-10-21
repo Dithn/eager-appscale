@@ -172,7 +172,7 @@ overhead on running applications.
 \subsection{IT and SOA Governance}
 Traditionally, information and technology (IT) governance~\cite{brown2005framing} has been a branch of 
 corporate governance, focused on
-improving performance and managing the risks associated with the use of information and technology. The primary
+improving performance and managing the risks associated with the use of IT. The primary
 goals of IT governance are three fold:
 
 \begin{itemize}
@@ -200,11 +200,11 @@ Since web services are the most widely used form of services in SOA-driven syste
 SOA governance tools have a strong focus on controlling web services. 
 
 Policies play a crucial role in all forms of governance. A policy is a specification of the acceptable behavior
-and the life-cycle of some entity. The entity could be a department, a software system, a service or a 
+and the life cycle of some entity. The entity could be a department, a software system, a service or a 
 human process such as developing
 a new application. In SOA governance, policies state how services should be developed, how they are to be
-deployed, how to secure them, and what level of quality-of-service to maintain while a service is in operation.
-SOA governance tools enable administrators to specify acceptable service behavior and life-cycle as policies, and
+deployed, how to secure them, and what level of quality of service to maintain while a service is in operation.
+SOA governance tools enable administrators to specify acceptable service behavior and life cycle as policies, and
 a software policy enforcement agent automatically enacts those policies to control various aspects of the 
 services~\cite{5976827,4483228,4279691}. 
 
@@ -213,11 +213,11 @@ Cloud computing can be thought of as a heightened version of service-oriented co
 SOC strives to offer data and application functionality as services, cloud computing offers a variety
 of computing resources
 as services, including hardware infrastructure (compute power, storage space and networking) and programming
-platforms. Moreover, the applications deployed on cloud platforms are typically implemented as services with
+platforms. Moreover, the applications deployed on cloud platforms typically behave like services with
 separate implementation and interface components. 
 Much like classic services, each cloud-hosted application 
 can be a dependency for another
-co-located cloud application, or an application running elsewhere (e.g. a mobile app). 
+co-located cloud application, or a client application running elsewhere (e.g. a mobile app). 
 
 Due to this resemblance, we argue that many concepts related to SOA governance are
 directly applicable to cloud platforms and cloud-hosted applications. 
@@ -253,40 +253,36 @@ Application performance monitoring (APM) refers to continuously monitoring cloud
 to detect violations of performance SLOs and other performance anomalies. 
 It also includes diagnosing the root
 cause of each detected anomaly, so performance issues can be resolved faster. 
-This typically requires collecting run-time data from many different
-components in the cloud platform, and correlating them to identify patterns and trends. 
 \end{description}
 
-These governance features are crucial for
-achieving the benefits outlined in our thesis question -- administrative conformance, developer best practices,
-and performance objectives. But none of these features are implemented satisfactorily in the
+None of the above features are implemented satisfactorily in the
 cloud technologies available today.
 In order to fill the gaps caused by these limitations, many third-party governance solutions that operate as external services
 have come into existence. For example, services like 3Scale~\cite{3scale}, Apigee~\cite{apigee} and Layer7~\cite{layer7} provide a wide range
 of access control and API management features for web applications served from cloud platforms. Similarly, 
 services like New Relic~\cite{newrelic}, Dynatrace~\cite{dynatrace} and Datadog~\cite{datadog} provide monitoring support for cloud-hosted 
 applications. But these services are expensive, and require additional programming and/or configuration.
-Some of them even require changes to applications in the form of code instrumentation. Moreover,
+Some of them also require changes to applications in the form of code instrumentation. Moreover,
 since these services operate outside the cloud platforms they govern, they have limited visibility and control
 over the applications and related components residing in the cloud. A main goal of our research is to facilitate governance
 from within the cloud, as an automated, cloud-native feature. We show that such built-in governance capabilities are
-more robust, effective and easy to use than external third-party solutions that overlays governance on top of the
+more robust, effective and easy to use than external third-party solutions that overlay governance on top of the
 cloud.
 
-\subsection{API Governance in the Cloud}
+\subsection{API Governance}
 A cloud-hosted application is comprised of two parts -- implementation and API. The implementation
 contains the functionality of the application. It primarily consists of code that implements
 various application features. The API is the interface that exposes the application to the
-network. It enables remote users and client applications to interact with the application by sending
+Internet. It enables remote users and client applications to interact with the application by sending
 HTTP/S requests. The responses generated by an API could be based on HTML (for display on a web
-browser). Or they could be based on a data format such as XML or JSON (for machine-to-machine 
+browser), or they could be based on a data format such as XML or JSON (for machine-to-machine 
 interaction). Regardless of the technology used to implement an API, it is the part of the application 
 that is visible to the remote clients. 
 
 Developers today
 increasingly depend on the functionality of remote web applications in the cloud, which
 are accessible through their APIs. Thus, a modern application 
-often combines local program logic with calls to remote APIs. 
+often combines local program logic with calls to web APIs. 
 This model significantly reduces both the programming and
 the maintenance workload associated with applications. In theory, because
 the APIs interface to software that is curated by cloud providers, the client
@@ -294,16 +290,16 @@ application leverages greater scalability, performance,
 and availability in the implementations it calls upon through these APIs, than
 it would if those implementations were local to the client application
 (e.g. as locally available software libraries).
-Moreover, by accessing shared services, developers avoid ``re-inventing the
-wheel'' each time they need a commonly available service. The scale at
-which clouds operate ensures that these services can support the large volume
+Moreover, by accessing shared web applications, developers avoid ``re-inventing the
+wheel'' each time they need a commonly available application feature. The scale at
+which clouds operate ensures that the APIs can support the large volume
 of requests generated by the ever-growing client population.
 
 As a result, web-accessible APIs and the software applications to which
 they provide access are rapidly proliferating. At the time of this writing, 
 ProgrammableWeb~\cite{pweb}, a popular web API index, lists more than $15,000$
 publicly available web APIs, and a nearly 100\% annual growth rate~\cite{pweb_growth}.
-These APIs increasingly employ the REST (Representational State Transfer) architectural style, and 
+These APIs increasingly employ the REST (Representational State Transfer) architectural style~\cite{Fielding:2000:ASD:932295}, and 
 many of them target commercial applications (e.g. advertising, shopping, travel, etc.).
 However, several non-commercial entities have also recently published web 
 APIs, e.g. IEEE~\cite{ieeeapis}, UC Berkeley~\cite{ucbapis}, and the US White
@@ -311,7 +307,7 @@ House~\cite{whitehouseapis}.
 
 This proliferation of web APIs in the cloud demands that governance
 mechanisms implement specific measures to exercise control over them -- a notion that we refer
-to as \textit{API governance}~\cite{6903538}. A poorly implemented API may render the whole application unusable.
+to as \textit{API governance}~\cite{6903538}. A poorly implemented API may render a whole application unusable.
 A backward incompatible change to an API, can break any downstream applications dependent on it. 
 Therefore it is important to be able to configure and enforce governance policies at the granularity of
 APIs. Similarly, we need to be able to stipulate performance SLOs for individual APIs, and monitor
