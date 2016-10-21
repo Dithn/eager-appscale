@@ -67,7 +67,7 @@ who implement downstream systems that consume the cloud-hosted applications,
 and cloud administrators who wish to maintain a consistent quality of service
 level.
 
-\textbf{Thirdly, cloud platforms provide very poor support for performance debugging
+\textbf{Thirdly, cloud platforms do not provide adequate support for performance debugging
 user applications.} Most cloud platforms only provide the simplest monitoring and logging features,
 and do not provide any mechanisms for detecting performance anomalies or identifying
 bottlenecks in the application code or the underlying cloud platform. This limitation has given rise
@@ -136,9 +136,8 @@ handle a large number of applications and policies. Secondly, the governance sho
 fully automated. Since cloud platforms are comprised of thousands of applications and components,
 it is not practical for a human administrator to be involved in the governance process.
 
-Extending on the above thesis question, and the vision for efficient, automated governance for
-cloud-hosted applications, we devise the following research plan:
-
+\textbf{Extending on the above thesis question, and the vision for efficient, automated governance for
+cloud-hosted applications, we devise the following research plan.}
 \begin{itemize}
 \item Design and implement a scalable, low-overhead governance framework for cloud platforms,
 complete with a policy specification language and a policy engine. The governance framework should be
@@ -160,41 +159,41 @@ The framework should support collecting
 \end{itemize}
 
 We need to address a number of scientific questions in order to successfully execute the 
-above research plan. First we must a devise a methodology to enforce policies efficiently
-without introducing a significant overhead to application performance. There is an interesting
+above research plan. \textbf{First we must a devise a methodology to efficiently 
+enforce a wide range of policies on cloud-hosted applications,
+without introducing a significant overhead to application performance.} There is an interesting
 trade off to be explored here between what policies can be enforced, and when they can be enforced with respect
 to the life cycle of a cloud-hosted application. We solve these problems by dividing the application
-life cycle into three phases -- development-time, deployment-time and run-time. \textbf{To minimize the
+life cycle into three phases -- development-time, deployment-time and run-time. To minimize the
 impact of policy enforcement on application performance, we perform most policy
 enforcement tasks during deployment-time; i.e. when an application is being deployed in the 
-cloud platform, before it is executed.} However, we acknowledge that not all policies
+cloud platform, before it is executed. However, we acknowledge that not all policies
 are enforceable at deployment-time, and therefore some support for run-time policy enforcement
 is also required. We design our policy enforcement framework based on these principles, and 
 show that deployment-time policy enforcement is efficient, and such an implementation can scale
 to thousands of applications and policies.
 
-To formulate performance bounds for cloud-hosted applications without subjecting them to extensive testing,
+\textbf{To formulate performance bounds for cloud-hosted applications without subjecting them to extensive testing,
 we need mechanisms that can identify the key operations executed by an application, and a
-statistical framework to reason about the performance of those operations. We use static
+statistical framework to reason about the performance of those operations.} We use static
 analysis to extract the sequence of critical operations (cloud services) invoked by a given application.
 We continuously monitor the cloud platform to construct a historic performance model of the individual operations.
-\textbf{We employ a time series analysis and forecasting method to combine static analysis results with
+We employ a time series analysis and forecasting method to combine static analysis results with
 platform monitoring data to
-derive statistical guarantees on the application response time.} These calculated performance
+derive statistical guarantees on the application response time. These calculated performance
 bounds are associated with a specific correctness probability, and hence are suitable to be used
 as SLOs. We demonstrate that the bounds formulated via this approach are 
 both accurate, and closely resemble the actual performance of the applications. We also present a statistical framework
 to reason about the validity period of each bound, and show that the predicted bounds
 remain correct for periods ranging from several hours to several weeks.
 
-In order to facilitate performance anomaly detection and root cause analysis without instrumenting
-application code, we need to capture various performance events that occur in the cloud platform
-when an application responds to a user request. We should then correlate these different events,
-and employ statistical analysis to identify anomalous behaviors in them. Any given statistical
+\textbf{In order to facilitate performance anomaly detection and root cause analysis without instrumenting
+application code, we need to capture various performance events that occur in the cloud platform,
+correlate them, and employ statistical analysis to identify anomalous patterns in them.} Any given statistical
 method is only sensitive to a certain class of anomalies. Therefore, to be able to diagnose a wide range of
 performance anomalies, we should devise algorithms that combine multiple statistical analysis
-methods. \textbf{We propose a performance diagnosis methodology that combines linear regression, change point
-detection and quantile analysis.} Our approach detects performance anomalies in near real time,
+methods. We propose a performance diagnosis methodology that combines linear regression, change point
+detection and quantile analysis. Our approach detects performance anomalies in near real time,
 and identifies the root cause of each anomaly as a workload change or a performance bottleneck
 in the cloud platform. In case of performance bottlenecks, our approach can also correctly identify
 the exact component in the cloud platform, in which the bottleneck manifested.
