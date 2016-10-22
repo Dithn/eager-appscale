@@ -10,9 +10,9 @@
 To experiment with API governance in cloud environments, we devise EAGER
 -- an architecture for implementing governance that is suitable for integration
 as a cloud-native feature.
-%EAGER leverages existing SOA governance techniques and 
-%best practices and adapts them to make them
-%suitable for cloud platform-level integration.
+EAGER leverages existing SOA governance techniques and 
+best practices, and adapts them to make them
+suitable for cloud platform-level integration.
 In this section, we
 overview the high-level design of EAGER, its main
 components, and the policy language.  Our design is motivated by two objectives.
@@ -31,34 +31,22 @@ deployed in the cloud platform via their APIs.
 EAGER intercepts all events related to application 
 deployment within the cloud,
 and enforces governance checks at deployment-time. 
-%These governance features include API metadata validation, 
-%dependency validation, policy validation and 
-%API backward compatibility
-%checking. 
 When a policy verification check fails, 
 EAGER aborts the deployment of the application, and logs the information
 necessary to perform remediation.  EAGER assumes that it is integrated with
-the cloud, and that the cloud initiates\footnote{We use the term
-``initiates'' to differentiate the first clean installation of the cloud, from
-a cloud restart.  EAGER must be able to maintain compliance across restarts,
-but it assumes that when the cloud is installed and suitably tested, it is in
-a policy compliant state.} 
+the cloud, and that the cloud initiates 
 in a policy compliant state ({\em i.e.} there are
-no policy violations when the cloud is started before any applications are
-deployed).  It tries to maintain the cloud
+no policy violations when the cloud is first launched before any applications are
+deployed).  
+We use the term
+``initiates'' to differentiate the first clean launch of the cloud, from
+a platform restart.  EAGER must be able to maintain compliance across restarts,
+but it assumes that when the cloud is first installed and suitably tested, it is in
+a policy compliant state.
+Moreover, it maintains the cloud
 in a policy compliant state at all times.  That is, with EAGER active, the cloud
-is
-automatically prevented from transitioning out of policy compliance due to a
+is automatically prevented from transitioning out of policy compliance due to a
 change in the applications it hosts.
-
-%In this work we focus on the deployment-time governance capabilities of EAGER. 
-%At present, it also implements the same run-time governance features that are
-%common to most API management facilities (which is necessary but not the
-%subject of the research we present in this paper).
-%However, our experience with the interplay between the new deployment-time
-%governance techniques we discuss and the extant methodologies for run-time
-%features leads to new possibilities for run-time governance as well (which we
-%discuss as future work).
 
 Figure~\ref{fig:eager_design} illustrates the main components of EAGER (in
 blue), and their interactions. Solid arrows represent the interactions that take place
@@ -72,11 +60,6 @@ run-time control (e.g. metadata manager).
 
 EAGER is invoked by the cloud whenever a user
 attempts to deploy an application in the cloud.
-%the developer tools available on his/her workstation that activate the target
-%cloud's deployment mechanisms. 
-%In some cloud
-%implementations these tools could be available as an online service accessed
-%via a web browser. In either case, 
 The cloud's application deployment mechanisms must be altered so that
 each deployment request is
 intercepted by EAGER, which then performs the required governance checks.
@@ -92,7 +75,7 @@ specification of the APIs that the application exports.
 EAGER assumes that cloud administrators have developed and installed policies
 (stored in the metadata manager)
 that are to be checked against all deployments.  API specifications for the
-application must also be available to the governance engine.  Because the API
+application must also be available to the governance framework.  Because the API
 specifications are to be derived from the code (and are, thus, under developer
 control and not administrator control) our design assumes that automated
 tools are available
@@ -200,16 +183,17 @@ present operations are type compatible. This is done by performing recursive
 introspection on the input and output data types declared in the API
 specifications. EAGER looks for type compatibility based on the following
 rules inspired by Hoare logic~\cite{Hoare:1969:ABC:363235.363259}, and the
-rules of type inheritance from object oriented programming:
+rules of type inheritance from object oriented programming.
+
 \begin{itemize}
-\vspace{0.1in}
-\item New version of an input type is compatible with the old version of an input type, if the new version contains either all or less attributes than the 
+\item New version of an input type is compatible with the old version of an input type, 
+if the new version contains either all or less attributes than the 
 old version, and any new attributes that are unique to the new version are optional.
-\vspace{0.1in}
-\item New version of an output type is compatible with the old version of an output type, if the new version contains either all or more attributes than the 
+\item New version of an output type is compatible with the old version of an output type, 
+if the new version contains either all or more attributes than the 
 old version.
-\vspace{0.1in}
 \end{itemize}
+
 In addition to the type checks, ADC may also compare other parameters declared in the API specifications
 such as HTTP methods, mime types and URL patterns. We have also explored and 
 published results on using a combination of syntactic and semantic comparison
@@ -260,12 +244,11 @@ changes to this white-list.
 As part of policy language, EAGER
 defines a set of assertions that policy writers can use to specify various 
 checks to perform on the applications. 
-Currently, this assertion list includes:
+Listing~\ref{lst:assertions} shows the assertions currently supported by EAGER.
 
-%\vspace{0.25in}
-\vspace{0.05in}
 {\footnotesize 
-\begin{lstlisting}[language=Python, frame=single]
+\begin{lstlisting}[language=Python, frame=single, 
+caption={Assertions supported by the EAGER policy language.}, label={lst:assertions}]
 assert_true(condition, optional_error_msg)
 assert_false(condition, optional_error_msg)
 assert_app_dependency(app, d_name, d_version)
@@ -297,42 +280,40 @@ applications and APIs.
 
 In the remainder of this section we illustrate the use of the policy language
 through several examples.
-The first example policy mandates that any application or mash-up
+The first example policy, shown in listing~\ref{lst:comp_versions}, 
+mandates that any application or mash-up
 that uses both Geo and Direction APIs must adhere to certain versioning 
 rules. More specifically, if the application uses Geo 3.0 or higher, it must use
 Direction 4.0 or higher. Note that the version numbers are compared using the
 ``compare\_versions'' functions described earlier.
 
-\vspace{0.05in}
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
-g = filter(lambda dep: dep.name == `Geo', \
-	app.dependencies)
-d = filter(lambda dep: dep.name == `Direction',\
-	app.dependencies)
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false,
+caption={Enforcing API version comparison}, label={lst:comp_versions}]
+g = filter(lambda dep: dep.name == `Geo', app.dependencies)
+d = filter(lambda dep: dep.name == `Direction', app.dependencies)
 if g and d:
   g_api, d_api = g[0], d[0]
   if compare_versions(g_api.version, `3.0') >= 0:
     assert_true(compare_versions(d_api.version, `4.0') >= 0)
 \end{lstlisting}
 }
-\vspace{0.05in}
 
-In the above example, \textit{app} is a special immutable logical variable available to
+In listing~\ref{lst:comp_versions}, \textit{app} is a special immutable logical variable available to
 all policy files. This variable allows policies to access information
 pertaining to the current application deployment request. The assert\_true and assert\_false
 functions allow testing for arbitrary conditions, thus greatly improving the expressive
 power of the policy language.
 
-The next example shows a policy file that mandates that all applications deployed
+Listing~\ref{lst:roles} shows a policy file that mandates that all applications deployed
 by the ``admin@test.com'' user must have role-based authentication enabled, so that only
 users in the ``manager'' role can access them. To carry out this check the policy accesses
 the security configuration specified in the application descriptor (e.g. the
 web.xml for a Java application).
 
-\vspace{0.05in}
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false, 
+caption={Enforcing role-based authorization.}, label={lst:roles}]
 if app.owner == `admin@test.com':
   roles = app.web_xml[`security-role']
   constraints = app.web_xml[`security-constraint']
@@ -341,16 +322,15 @@ if app.owner == `admin@test.com':
   assert_true(`manager' == roles[0][`role-name'])
 \end{lstlisting}
 }
-\vspace{0.05in}
 
-Next, we present an example policy, which mandates that all deployed APIs must explicitly
+Listing~\ref{lst:swagger} shows an example policy, which mandates that all deployed APIs must explicitly
 declare an operation which is accessible through the HTTP OPTIONS method. This policy further ensures
 that these operations return a description of the API in the Swagger~\cite{hl:swagger} machine-readable API
 description language.
 
-\vspace{0.05in}
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false, 
+caption={Enforcing APIs to publish a description.}, label={lst:swagger}]
 options = filter(lambda op : op.method == `OPTIONS',  
   api.operations)
 assert_true(options, `API does not support OPTIONS')
@@ -358,7 +338,6 @@ assert_true(options[0].type == `swagger.API',
   `Does not return a Swagger description')
 \end{lstlisting}
 }
-\vspace{0.05in}
 
 Returning machine-readable API descriptions from web APIs 
 makes it easier to automate the API discovery and consumption processes. Several other
@@ -379,12 +358,12 @@ dependencies on deprecated web APIs. Deprecated APIs
 are those that have been flagged
 by their respective authors for removal 
 in the near future. Therefore introducing dependencies on such
-APIs is not recommended. The following policy will 
-enforce this condition in the cloud.
+APIs is not recommended. The policy in listing~\ref{lst:deprecated} 
+enforces this condition in the cloud.
 
-\vspace{0.05in}
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false, 
+caption={Preventing dependencies on deprecated APIs.}, label={lst:deprecated}]
 deprecated = filter(
   lambda dep : dep.status == 'DEPRECATED', 
   app.dependencies)
@@ -392,7 +371,18 @@ assert_false(deprecated,
   'Must not use a deprecated dependency')
 \end{lstlisting}
 }
-\vspace{0.05in}
+
+{\footnotesize
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false, 
+caption={Tenant-aware policy enforcement.}, label={lst:tenants}]
+if app.owner.endswith(`@engineering.test.com'):
+  assert_app_dependency(app, `Log', `1.0')
+elif app.owner.endswith(`@sales.test.com'):
+  assert_app_dependency(app, `AnalyticsLog', `1.0')
+else:
+  assert_app_dependency(app, `GenericLog', `1.0')
+\end{lstlisting}
+}
 
 Our next example presents a policy that enforces governance 
 rules in a user-aware (i.e. tenant-aware) manner. Assume
@@ -404,29 +394,16 @@ log their activities using a set of preexisting logging APIs.
 However, we further want to ensure that applications
 deployed by the sales team log their activities using 
 a special analytics API. A policy such as the one
-that follows can enforce these conditions.
+in listing~\ref{lst:tenants} can enforce these conditions.
 
-\vspace{0.05in}
-{\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
-if app.owner.endswith(`@engineering.test.com'):
-  assert_app_dependency(app, `Log', `1.0')
-elif app.owner.endswith(`@sales.test.com'):
-  assert_app_dependency(app, `AnalyticsLog', `1.0')
-else:
-  assert_app_dependency(app, `GenericLog', `1.0')
-\end{lstlisting}
-}
-\vspace{0.05in} 
-
-The example below shows a policy that mandates 
+The example in listing~\ref{lst:paging} shows a policy, which mandates 
 that all HTTP GET operations exposed by APIs must support
 paging. APIs that do so define two input parameters 
 named ``start'' and ``count'' to the GET call.
 
-\vspace{0.05in}
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false, 
+caption={Enforcement of paging functionality in APIs.}, label={lst:paging}]
 for api in app.api_list:
   get = filter(lambda op : op.method == `GET',  
     api.operations)
@@ -437,7 +414,6 @@ for api in app.api_list:
       `count' in param_names)
 \end{lstlisting}
 }
-\vspace{0.05in}
 
 This policy accesses the metadata of API operations that 
 is available in the API descriptions.
@@ -446,13 +422,13 @@ from the source code of the APIs, this policy indirectly
 references information pertaining to the actual API implementations.
 
 Finally, we present an example for the HTTP POST method.  The 
-policy below mandates 
+policy in listing~\ref{lst:oauth} mandates 
 that all POST operations exposed by an API are secured 
 with OAuth version 2.0.
 
-\vspace{0.05in}
 {\footnotesize
-\begin{lstlisting}[language=Python, frame=single, showstringspaces=false]
+\begin{lstlisting}[language=Python, frame=single, showstringspaces=false, 
+caption={Enforcement of OAuth-based authentication for APIs.}, label={lst:oauth}]
 for api in app.api_list:
   post = filter(lambda op : op.method == `POST', 
   	api.operations)
@@ -460,7 +436,6 @@ for api in app.api_list:
     assert_true(op.authorizations.get(`oauth2'))
 \end{lstlisting}
 }
-\vspace{0.05in}
 
 EAGER places no restrictions on how many policy files are specified by 
 administrators. Applications are validated against each policy file. Failure
@@ -472,14 +447,10 @@ and proceed with application deployment. In a PaaS setting
 this deployment activity typically involves three steps:
 
 \begin{enumerate}
-\vspace{0.05in}
 \item Deploy the application in the cloud application run-time (application server).
-\vspace{0.05in}
 \item Publish the APIs enclosed in the application and their specifications to
 the API Discovery Portal or catalog.
-\vspace{0.05in}
 \item Publish the APIs enclosed in the application to an API Gateway server.
-\vspace{0.05in}
 \end{enumerate}
 
 Step $1$ is required to complete the application deployment in the cloud even
