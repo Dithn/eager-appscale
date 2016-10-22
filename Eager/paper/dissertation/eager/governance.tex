@@ -1,5 +1,3 @@
-% enforcement problem: what and when
-% requirements for a solution
 In a cloud setting, enforcement of governance policies on APIs is a tradeoff between
 what can be enforced, and when they are enforced. Performing policy enforcement
 at application run-time provides full control over what can be enforced, since the policy 
@@ -27,7 +25,7 @@ the application begins executing.  In this way, a violation can be detected and
 resolved \textit{before the API is used}, thereby avoiding possible
 degradations in user-experience that run-time checks and violations may
 introduce.  The drawback of attempting to enforce all governance before the
-application begin executing is that policies that express restrictions only
+application begins executing is that policies that express restrictions only
 resolvable at run time cannot be implemented.  
 Thus, for scalable applications that use API calls internally in a cloud
 setting, an API governance approach should attempt to implement as much as
@@ -52,11 +50,11 @@ API functionalities to be able to express governance edicts for specific APIs
 or classes of APIs.
 \item {\bf Deployment-time Control} --  The system must be able to check policies
 no later than the time that an application is deployed.
-\item {\bf Run-time control} -- For policies that cannot be enforced before
+\item {\bf Run-time Control} -- For policies that cannot be enforced before
 runtime, the system must be able to intervene dynamically.
 \end{itemize}
-In addition, a good solution should automate 
-as much of the implementation
+
+In addition, a good solution should automate as much of the implementation
 of API governance as possible.  Automation in a cloud context serves two
 purposes.  First, it enables scale by allowing potentially complex
 optimizations to be implemented reliably by the system, and not by manual

@@ -1,5 +1,5 @@
-In this chapter we discuss implementing scalable, automated API governance via
-policy enforcement for cloud-hosted applications.
+In this chapter we discuss implementing scalable, automated API governance
+for cloud-hosted web applications, via the method of policy enforcement.
 A lack of API governance can lead to many problems including security breaches, 
 poor code reuse, violation of service-level objectives (SLOs), 
 naming and branding issues, and abuse of digital 
@@ -104,14 +104,6 @@ governance facilities as well.  The goal of our research is to identify how to
 implement enforced API governance most efficiently by combining deployment-time  
 governance where possible and run-time governance where necessary.
 
-%Thus while
-%EAGER also implements run-time
-%enforcement in a way similar to API management
-%solutions~\cite{wso2am,apigee,layer7,3scale}, in this paper, we focus
-%on its deployment-time governance features as a way of helping to meet the
-%emerging challenges faced by those
-%implementing scalable web service venues. 
-
 EAGER implements policies governing the APIs that are 
 deployed within a single administrative domain (i.e. a single cloud platform). 
 It treats APIs as first-class software assets due to the following reasons.
@@ -157,10 +149,6 @@ the implementation and integration as an investigation of
 the generality of the approach.  By focusing on deployment actions and
 run-time message checking, we believe that the integration methodology
 will translate to other extant cloud platforms.
-
-%show that the EAGER 
-%architecture can be easily implemented in extant clouds with
-%minimal changes to the underlying platform technology. 
 
 We further show that 
 EAGER API governance and policy enforcement impose a negligible 

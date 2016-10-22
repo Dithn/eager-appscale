@@ -1,9 +1,3 @@
-For all practical intents and purposes, web 
-applications deployed in the cloud are a form of web services. 
-Therefore we often refer to them simply as \textit{services} in the remainder of this chapter. 
-We use the term \textit{client application} to refer to an application that consumes
-a cloud-hosted application by making remote API calls.
-
 Software engineering best practices separate the service implementation
 from API, both during development and maintenance.
 The service implementation and API are integrated via 
@@ -23,13 +17,15 @@ Thus, APIs typically have a more
 slowly evolving and longer lasting lifecycle than the service
 implementations to which they provide access. 
 
-Modern computing clouds, especially clouds implementing some form
+Cloud-hosted web applications are both implemented and used as
+services, with separate implementation and API components.
+Consequently, modern computing clouds, especially clouds implementing some form
 of Platform-as-a-Service (PaaS)~\cite{4548165}, have accelerated the
 proliferation of web APIs and their use.  Most PaaS
 clouds~\cite{appscale13,cloudfoundry,openshift} include
 features designed to
 ease the development and hosting of web APIs for scalable use over the Internet. 
-This phenomenon is making API governance an absolute necessity in the cloud
+This phenomenon is making API governance an absolute necessity in cloud
 environments.
 
 In particular, API governance promotes code reuse among developers
