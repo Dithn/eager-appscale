@@ -1,51 +1,29 @@
-Web services, service oriented architectures, and cloud platforms have
-revolutionized the way developers engineer and deploy software.
-Using the web service model, developers create new applications
-by ``mashing up'' content and functionality 
-from existing services 
-exposed via web-accessible application programming interfaces (web APIs).
-This approach both expedites and simplifies implementation since 
-developers can leverage the 
-software engineering and maintenance efforts of others.
-Moreover, platform-as-a-service (PaaS) clouds
-for hosting web applications have emerged as a key
-technology for managing applications at scale in both public (managed) and 
-private settings~\cite{paas-growth}.  
-
-Consequently, web APIs are rapidly 
-proliferating.  At the time of this writing, 
-ProgrammableWeb~\cite{pweb} indexes over $15,000$
-publicly available web APIs.
-These APIs increasingly employ the REST (Representational State Transfer) 
-architectural style~\cite{Fielding:2000:ASD:932295}, and target both
-commercial (e.g. advertising, shopping, travel, etc.) and non-commercial
-(e.g. IEEE~\cite{ieeeapis}, UC Berkeley~\cite{ucbapis}, US White
-House~\cite{whitehouseapis}) application domains.
-
-Despite the many benefits, reusing existing services also has its costs.  
-In particular, new applications become dependent on the 
+Cloud-hosted web applications are deployed and used as web services. 
+They enable a level of service reuse that both expedites
+and simplifies the development of new client applications.
+Despite the many benefits, reusing existing services also has pitfalls.  
+In particular, new client applications become dependent on the 
 services they compose.  These dependencies
 impact correctness, performance, and availability of the composite 
-applications -- for which the ``top level'' developer is often held accountable.  
+applications, for which the ``top level'' developer is often held accountable.  
 Compounding the situation, the underlying services can and do change over time
 while their APIs remain stable,
 unbeknownst to the developers that programmatically access them.
 Unfortunately, there is a dearth of tools that help developers reason about these 
 dependencies throughout an application's 
-lifecycle (i.e. development, deployment, and run-time).  Without such tools, 
+life cycle (i.e. development, deployment, and run-time).  Without such tools, 
 programmers must adopt extensive, continuous, and costly, testing and profiling methods
 to understand the performance impact on their applications
 that results from the increasingly complex collection of
 services that they depend on.
 
-To address this issue, we present Cerebro, a new approach that
-predicts bounds on 
-the response time performance of web
+To address this issue, we present Cerebro, a new approach that 
+predicts bounds on the response time performance of web
 APIs exported by applications that are hosted in a PaaS cloud.
 The goal of Cerebro is to allow 
 a PaaS administrator to determine what response time service level objective (SLO) can be
 fulfilled by each web API operation exported by the applications
-hosted in the PaaS.  
+hosted in the PaaS. 
 
 An ``SLO'' specifies the minimum service level promised by the
 service provider regarding some non-functional property of the service such as
@@ -58,10 +36,10 @@ takes the form: ``the service will be available $p\%$ of the time''.
 Here the value $p\%$ is the correctness probability of the SLO. Similarly, a
 response time SLO would take the form of the statement: ``the service will respond 
 under $Q$ milliseconds, $p\%$ of the time. Naturally, $p$ should be a value close
-to $100$, for this type of SLOs to be useful in practice. 
+to $100$, for this type of SLOs to be useful in practice.
 
-In a corporate setting, SLOs are used to form service level agreements (SLAs).
-SLAs are formal contracts that govern the service provider-consumer relationship~\cite{Keller:2003:WFS:635430.635442}.
+In a corporate setting, SLOs are used to form service level agreements (SLAs), 
+formal contracts that govern the service provider-consumer relationship~\cite{Keller:2003:WFS:635430.635442}.
 They consist of SLOs, and the clauses that describe what happens if the
 service fails to meet those SLOs (for example, if the
 service is only available $p^\prime\%$ of the time, where $p^\prime < p$). This
@@ -72,64 +50,29 @@ minimum service levels (i.e. SLOs), and the associated correctness probabilities
 are the things that matter from a performance and capacity planning point of view
 of an application. 
 
-%SLOs typically specify a minimum service level, and a
-%probability (usually large) that the minimum service level will be
-%maintained. 
-Cerebro uses a combination of static analysis of the hosted web APIs, 
-and runtime monitoring of the PaaS cloud (\textit{not} the web APIs themselves) 
-to determine what minimum response time guarantee can be made 
-with a target probability specified by a PaaS administrator. These calculated
-SLOs enable developers to
-reason about the performance of the applications that consume the cloud-hosted
-web APIs.
 Currently, cloud computing systems such as Amazon Web Services
 (AWS)~\cite{amazon-aws-web} and
 Google App Engine (GAE)~\cite{gae} advertise SLOs specifying the fraction of
-availability over a fixed time period for their services.
+availability over a fixed time period (i.e. uptime) for their services.
 However, they do not provide SLOs
 that state minimum levels of performance.
-In contrast, Cerebro facilitates generating performance SLOs, with
-probabilities specified by the cloud provider in a way that is scalable. These
-predicted SLOs can also be used to formulate SLAs regarding the performance of
-cloud-hosted applications -- a feature that is lacking in today's cloud
-platforms.
-
-%of 
-%integrate services as part of their functionality.
-%To enable this, we employ the notion of service-level agreement (SLA) from 
-%public cloud computing systems such as Amazon Web Services (AWS)~\cite{amazon-aws-web} and 
-%Google App Engine~\cite{gae}.  SLAs are policies that specify
-%what a developer can expect from a service in terms of availability or error rate,
-%typically before they receive a financial credit for paid
-%use of the service~\cite{aws-ec2-sla,aws-s3-sla,aws-rds-sla,gae-sla,gcs-sla}.
-%For example, AWS makes its Elastic Compute Cloud (EC2) and Elastic Block Store (EBS) 
-%available with a monthly uptime percentage 
-%of at least 99.95\%; Google makes Big Query and and App Engine services (e.g. the 
-%Bigtable-based datastore) available with monthly uptime percentage of at least 
-%99.95\% where downtime is determined by a 5\% and 10\% error rate, respectively.
-%Cerebro extends this notion of SLA to the execution time (response time) 
-%of web APIs that are deployed via (i.e. hosted by) PaaS
-%technologies (e.g. App Engine, 
-%AppScale~\cite{6488671}, Azure~\cite{azure-web}, etc.).
-%For example, a Cerebro SLA says that an API operation will respond to a HTTP request
-%within 100ms at least 95\% of the time.
-
-Cerebro is designed to improve the use of both public and private PaaS clouds 
-which have emerged as popular application
-hosting venues~\cite{paas-growth}.
-For example, there are over four million active GAE
-applications that 
-can execute on Google's public cloud or over AppScale, an open source, private 
-cloud version of App Engine.
-A PaaS cloud provides developers 
-with a collection of commonly used, scalable services,
-that the platform makes accessible via a software 
-development kit (cloud SDK).
-These services are fully managed, and covered under 
-the availability SLAs of the cloud platform. For example, services 
-in GAE and AppScale cloud
-include a distributed NoSQL datastore, task management, 
-and data caching, among others. 
+In contrast, Cerebro facilitates auto-generating performance SLOs for cloud-hosted
+web APIs in a way that is scalable.
+Cerebro uses a combination of static analysis of the hosted web APIs, 
+and runtime monitoring of the PaaS kernel services
+to determine what minimum statistical guarantee can be made regarding an
+API's response time,
+with a target probability specified by a PaaS administrator. These calculated
+SLOs enable developers to
+reason about the performance of the client applications that consume the cloud-hosted
+web APIs. They can also be used to negotiate SLAs regarding the performance of
+cloud-hosted web applications.
+Moreover, predicted SLOs are useful as baselines or thresholds when monitoring APIs 
+for consistent performance -- a feature that is useful for both API providers
+as well as consumers. Collectively, Cerebro and the SLOs predicted by it 
+enable implementing a number of automated governance scenarios involving
+policy enforcement and application performance monitoring, in ways that
+were not possible before.
 
 Cerebro generates response time SLOs for APIs exported by a web
 application
@@ -146,9 +89,6 @@ For example, an application hosted in Google App Engine might export one or
 more web APIs to its users while leveraging the internal 
 datastore kernel service that is available as part of the Google App Engine PaaS.
 
-% that integrates such services 
-%by combining static analysis
-%of the program with dynamic performance sampling of the platform services.
 Cerebro uses static analysis to identify the PaaS kernel invocations
 that dominate the response time of web APIs. By surveying a collection of
 web applications developed for a PaaS cloud, we show
@@ -166,26 +106,13 @@ and returns the ``worst-case''
 upper bound on the time necessary to 
 complete the operation.
 
-%Cerebro also integrates a nonparametric
-%prediction tool called QBETS~\cite{Nurmi:2007:QQB:1791551.1791556} that 
-%we have developed in prior work for a completely different 
-%purpose: batch queue prediction in high-performance computing 
-%systems. Cerebro ``service-izes'' QBETS for use in a cloud platform and
-%interacts with it
-%dynamically to estimate an upper bound on the execution time of each service operation.
-%Cerebro then combines this estimate with its static analysis to forecast an execution SLA 
-%for the web API.
-
 Because service implementations and platform behavior under load change over time,
 Cerebro's predictions necessarily have a lifetime. That is, the predicted SLOs may
 become invalid after some time.  
 As part of this chapter, we develop a model for detecting such SLO invalidations. 
 We use this model to investigate
 the effective lifetime of Cerebro predictions. When such changes occur,
-Cerebro can be reinvoked to establish new SLOs for any deployed web API.  %Alternatively,
-%the Cerebro PaaS monitoring mechanism can be used to identify potential SLA violations
-%so that they can be avoided via mechanisms such 
-%as web API rate limiting and platform resource acquisition.
+Cerebro can be reinvoked to establish new SLOs for any deployed web API.  
 
 We have implemented Cerebro for both the Google App Engine public PaaS, and 
 the AppScale private PaaS. Given its modular design and this experience, 
@@ -228,18 +155,10 @@ resources for the application, installs the application components, and
 configures them to use the kernel services. EAGER injects a policy checking and
 enforcement step into this deployment workflow, so that only applications that
 are compliant with respect to site-specific policies are successfully deployed. 
-%Because Cerebro requires no application instrumentation and because the call
-%path analysis takes place off-line, it can be used by EAGER to implement
-%policies governing response-time SLAs.  That is, 
-Cerebro allows
-PaaS administrators to define
+Cerebro allows PaaS administrators to define
 EAGER policies that allow an application to be deployed \textit{only} when its
 web APIs meet a pre-determined SLO target, and to be
 notified by the platform when such SLOs require revision.
-
-%web API development, 
-%it precludes the need for deployment, load testing, and
-%instrumentation of the web APIs being analyzed.
 
 We structure the rest of this chapter as follows.
 We first characterize the domain of 
