@@ -357,20 +357,15 @@ as part of the API subscription process (i.e. when obtaining API keys). This ini
 may be issued in the form of an SLA that is negotiated between the API provider and
 the consumer.
 At this point Cerebro records the 
-tuple $<API\ Consumer, API, Timestamp, SLO\ Value>$.
+tuple $<Consumer, API, Timestamp, SLO>$.
 
 When Cerebro detects consecutive violations of one of its predictions,
 it considers the corresponding SLO to be invalid, 
 and provides the affected API consumers with a 
 new SLO. 
 Upon this SLO change, 
-Cerebro updates the $Timestamp$ and $SLO\ Value$ entries
+Cerebro updates the $Timestamp$ and $SLO$ entries
 in the appropriate data tuple for future reference.
-%Cerebro can suspend API access by affected API consumers until 
-%the new SLO is established, or simply record violations for later remediation.
-%Ideally however, it is desirable that the SLO be immediately and automatically 
-%renewed. We refer to such on-the-fly
-%SLO changes as SLO reassessments. 
 
 There is also a second way that an API consumer may encounter an SLO change.
 When recomputing SLOs periodically, Cerebro might come across situations where the latest SLO is smaller

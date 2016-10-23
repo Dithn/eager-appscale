@@ -861,6 +861,14 @@ $75.5\%$ for the simple predictor (Figure~\ref{fig:simple_pred_accuracy}).
 \subsection{Learning Duration}
 \label{sec:learning}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.45]{gae_accuracy}
+\caption{Running tabulation of correctness percentage for predictions made on App Engine for a period
+of $1000$ minutes, one prediction per minute.}
+\label{fig:gae_accuracy}
+\end{figure}
+
 As described in subsection~\ref{sec:qbets},
 QBETS uses a form of supervised learning internally to determine each of its
 bound predictions.  Each time a new prediction is presented, it updates its
@@ -876,14 +884,6 @@ Similarly, in figure~\ref{fig:as_accuracy} we show a running tabulation of
 correctness percentage for Cerebro
 predictions made in AppScale during the first 
 $1000$ minutes of operation (again, one prediction generated per minute). 
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.45]{gae_accuracy}
-\caption{Running tabulation of correctness percentage for predictions made on App Engine for a period
-of $1000$ minutes, one prediction per minute.}
-\label{fig:gae_accuracy}
-\end{figure}
 
 \begin{figure}
 \centering

@@ -74,9 +74,12 @@ enable implementing a number of automated governance scenarios involving
 policy enforcement and application performance monitoring, in ways that
 were not possible before.
 
+Statically reasoning about the execution time of arbitrary programs is challenging
+if not unsolvable. Therefore we scale the problem down by restricting our analysis
+to cloud-hosted web applications. Specifically, 
 Cerebro generates response time SLOs for APIs exported by a web
 application
-developed using the kernel services available within the PaaS.  For brevity, in this work
+developed using the kernel services available within a PaaS cloud. For brevity, in this work
 we will use the
 term \textit{web API} to refer to a web-accessible API exported by an
 application hosted on a PaaS platform. Further, 
