@@ -1,33 +1,8 @@
-%%Web services and service oriented architecture encourage developers to create new applications by
-%%composing existing services via their web APIs. But such integration of services makes it difficult to
-%%reason about the performance and other non-functional properties of 
-%%composite applications. To
-%%facilitate such reasoning, web APIs should be exported for use
-%%by applications with strong performance 
-%%guarantees (SLAs).%, so that application developers are aware of 
-%what to expect from the web APIs they consume. 
-
-%%To this end,
-%We have presented Cerebro, a system that predicts response time 
-%bounds for web APIs deployed in PaaS clouds. 
-%We
-%choose PaaS clouds as the target environment of our 
-%research due to their rapidly growing popularity as a technology
-%for hosting scalable web APIs, and their SDK-based, restricted 
-%application development model, 
-%which makes it easier to analyze PaaS applications statically.
 Cerebro is a system that predicts response time 
 bounds for web APIs deployed in PaaS clouds.  It does so via 
 static analysis to extract the sequence of cloud SDK 
 calls (i.e. PaaS kernel invocations) made by a given web API code combined with
 historical performance measurements of cloud SDK calls. 
-%to predict 
-%the response time of the web
-%API. 
-%The historical performance data of cloud SDK 
-%calls are gathered using a special monitoring agent
-%executed in the PaaS cloud, that periodically benchmarks and records 
-%cloud SDK performance, independent of deployed applications and web APIs.
 Cerebro employs QBETS, a non-parametric time series analysis and 
 forecasting method, to analyze
 cloud SDK performance data, and predict bounds
@@ -41,10 +16,6 @@ no application instrumentation) making it scalable.
 
 We have implemented a prototype of Cerebro for Google App Engine public PaaS,
 and AppScale private PaaS,
-%We have subjected our
-%prototype to a myriad of tests to study its efficacy in terms of
-%correctness, tightness of predictions, and duration of prediction 
-%validity.  
 and evaluate it using a set of representative
 and open source web applications developed by others.  
 Our findings indicate that the prototype can determine response time levels
@@ -75,6 +46,15 @@ and 95\% of the time this duration is at least
 1.41 hours for App Engine and 1.95 hours for AppScale.
 \end{itemize}
 
+Cerebro facilitates reasoning about the performance of web APIs deployed
+in a cloud environment, a capability that is crucial for implementing several
+automated governance features. The bounds predicted by Cerebro can be used to
+enforce policies regarding the performance level expected from cloud-hosted
+web applications. They can be used as SLOs, which in turns can be used to
+formulate SLAs that are advertised to API clients. They can also be used as
+thresholds when implementing application performance monitoring (APM),
+subject of the next chapter.
+
 In the current design, Cerebro's cloud SDK monitoring agent only monitors 
 a predefined set of cloud SDK operations. In our future work we wish 
 to explore the possibility of making this component more dynamic,
@@ -92,4 +72,6 @@ and policy engine for PaaS clouds, so
 that PaaS administrators can enforce SLO-related policies on web APIs at deployment-time.
 Such a system will make it possible to prevent any API that 
 does not adhere to the organizational performance
-standards from being deployed in the production cloud environment.
+standards from being deployed in the production cloud environment. It can 
+also enforce policies that prevent applications from taking dependencies on APIs
+that are not up to the expected performance standards.
