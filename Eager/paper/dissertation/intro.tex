@@ -118,15 +118,18 @@ parameters are then
 enforced by various authorities. When some person or a group deviates from those parameters,
 it is detected, and corrective action is taken by bringing the responsible party to the justice.
 
-Automated governance protocols have been designed and implemented for software systems in
-the past, specially in classic web services and service-oriented architecture (SOA) applications. 
-Such systems enable specifying
+Automated governance for software systems is a well researched area,
+especially in connection with classic web services and service-oriented architecture 
+(SOA) applications~\cite{gartner-soa-gov,soagov,Schepers:2008:LAS:1363686.1363932,5577268,4730489}. 
+\textbf{We adapt the methodologies outlined in the existing SOA governance research corpus, so
+they can be applied to cloud computing systems.}
+These methodologies enable specifying
 acceptable behavior via machine readable policies, which are then automatically enforced by
 a policy enforcement agent. Monitoring agents watch the system to detect any deviations from
 the acceptable behavior (i.e. policy violations), and alert users or follow predefined corrective
-procedures. \textbf{We can envision facilities similar to SOA governance being implemented in a cloud platform to 
-enforce good programming practices and various performance objectives.} The operational
-parameters in this case may include coding and packaging conventions for the cloud-hosted
+procedures. We can envision similar facilities being implemented in a cloud platform to 
+achieve administrative conformance, developer best practices and various performance objectives. The operational
+parameters in this case may include coding and deployment conventions for the cloud-hosted
 applications, and their expected level of performance.
 
 \textbf{In order for governance to be
@@ -173,7 +176,7 @@ deployment-time policy enforcement is efficient, and a governance framework that
 performs most, if not all, enforcement tasks at deployment-time can scale
 to thousands of applications and policies.
 
-\textbf{To formulate performance bounds for cloud-hosted applications without subjecting them to extensive testing,
+\textbf{To formulate performance bounds for cloud-hosted applications,
 we need mechanisms to identify the key operations executed by an application, and a
 statistical framework to reason about the performance of those operations.} We use static
 analysis to extract the sequence of critical operations (cloud services) invoked by a given application.
@@ -183,8 +186,8 @@ derive statistical guarantees on the application response time. These calculated
 bounds are associated with a specific correctness probability, and hence can be used
 as SLOs. We also devise a statistical framework to reason about the validity period of each bound.
 
-\textbf{In order to facilitate performance anomaly detection and root cause analysis without instrumenting
-application code, we capture various performance events that occur in the cloud platform,
+\textbf{In order to facilitate performance anomaly detection and root cause analysis,
+we capture various performance events that occur in the cloud platform,
 correlate them, and employ statistical analysis to identify anomalous patterns in them.} Any given statistical
 method is only sensitive to a certain class of anomalies. Therefore, to be able to diagnose a wide range of
 performance anomalies, we devise an algorithm that combines linear regression, change point
