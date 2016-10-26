@@ -16,12 +16,12 @@ on their computers or data centers to set up their own private clouds
 \textbf{Cloud computing model provides high scalability, high availability and enhanced levels of 
 user productivity.} Cloud platforms run on large resource pools, typically in one or more
 data centers managed by the platform provider. Therefore cloud platforms have access to a vast
-amount of hardware and software resources. This enables user applications
+amount of hardware and software resources. This enables cloud-hosted applications
 to scale to varying load conditions, and maintain high availability. Moreover, by offering resources
 as utility services, cloud computing is able to facilitate a cost-effective, on-demand
 resource provisioning model that greatly enhances user productivity. 
 
-\textbf{Over the last decade cloud computing technologies have enjoyed explosive growth 
+\textbf{Over the last decade cloud computing technologies have enjoyed explosive growth, 
 and near universal adoption due to their many benefits and 
 promises~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188}.} 
 Industry analysts project that the cloud computing market value will exceed \$150 billion
@@ -54,7 +54,8 @@ oversight and verification, makes it extremely difficult for
 IT personnel to manage large volumes of cloud-hosted applications.
 
 \textbf{Secondly, today's cloud platforms do not provide any support for reasoning about the 
-performance of the deployed applications.} When an application is implemented for
+performance of the deployed applications, and establishing performance objectives for them.} 
+When an application is implemented for
 a given cloud platform, one must subject it to extensive performance testing in order
 to comprehend its performance limits; a process that is both 
 tedious and time consuming. The difficulty in understanding the performance 
@@ -71,25 +72,22 @@ who implement downstream systems that consume the cloud-hosted applications,
 and cloud administrators who wish to maintain a consistent quality of service
 level.
 
-\textbf{Thirdly, cloud platforms do not provide adequate support for performance debugging
-user applications.} Most cloud platforms only provide the simplest monitoring and logging features,
+\textbf{Thirdly, cloud platforms do not provide adequate support for monitoring application performance,
+and running diagnostics when an application fails to meet its performance objectives.} 
+Most cloud platforms only provide the simplest monitoring and logging features,
 and do not provide any mechanisms for detecting performance anomalies or identifying
 bottlenecks in the application code or the underlying cloud platform. This limitation has given rise
 to a new class of third party service providers that specialize in monitoring cloud applications
 (e.g. New Relic~\cite{newrelic}, Dynatrace~\cite{dynatrace}, Datadog~\cite{datadog}). But these 
-third party solutions are expensive, and they require additional configuration. 
-They also mandate instrumentation of application code, which if not done
-correctly, may lead to incorrect diagnoses concerning application performance. The cloud
-platforms do not provide any facilities for ensuring correct instrumentation, and the perturbation
-introduced by the instrumentation is also likely to change and degrade the application performance.
-Furthermore, the extrinsic, third party monitoring systems only have a restricted view 
-of the user application, due to the high level of abstraction provided by cloud platform software.
-This limits the capabilities of the monitoring systems in terms of the type of analyses they can carry out.
-Today's cloud platforms are also very large and complex with many interacting components.
-An external monitoring service cannot observe this complexity in full, and hence cannot pinpoint
+third party solutions are expensive. They also require code instrumentation, which
+if not done correctly, leads to incorrect diagnoses. The perturbation
+introduced by the instrumentation also changes and degrades application performance.
+Furthermore, the extrinsic monitoring systems have a restricted view 
+of the cloud platform, due to the high level of abstraction provided by cloud platform software.
+Therefore they cannot observe the complexity of the cloud platform in full, and hence cannot pinpoint
 the component that might be responsible for a perceived application performance anomaly.
 
-\textbf{In order to make the cloud computing model more dependable and convenient for the users as well
+\textbf{In order to make the cloud computing model more dependable, maintainable and convenient for the users as well
 as the cloud service providers, the above limitations need to be addressed satisfactorily.}
 Doing so will also greatly simplify the tasks of developing cloud applications, and maintaining 
 them in the long run. Developers will be able to specify SLOs on the performance of
@@ -99,7 +97,7 @@ promptly, and take corrective actions before the issues escalate to major
 outages or other crises. Therefore, as a means of reaching this goal, we propose and explore the
 following thesis question.
 
-{\bf Can we efficiently enforce governance on cloud-based web applications to achieve 
+{\bf Can we efficiently enforce governance for cloud-based web applications to achieve 
 administrative conformance, developer best practices, and performance objectives through 
 automated analysis and diagnostics?} 
 
@@ -132,9 +130,9 @@ parameters in this case may include coding and packaging conventions for the clo
 applications, and their expected level of performance.
 
 \textbf{In order for governance to be
-useful within the scope of cloud computing, it must be both efficient and automated.}
-Cloud platforms are comprised of many components that need to be managed with
-separate policies. 
+useful within the context of cloud computing, it must be both efficient and automated.}
+Cloud platforms are comprised of many components that have different life cycles
+and maintenance requirements. 
 They also serve a very large number of users who deploy applications in
 the cloud. Therefore governance systems designed for the cloud should scale to handle a 
 large volume of applications and policies,
@@ -146,28 +144,25 @@ involved in the governance process given the scale of the cloud platforms.
 we take the following three-step approach.}
 \begin{itemize}
 \item Design and implement a scalable, low-overhead governance framework for cloud platforms,
-complete with a policy specification language and a policy engine. The governance framework should be
+complete with a policy specification language and a policy enforcer. The governance framework should be
 built into the cloud platforms, and must
 keep the runtime overhead of the user applications to a minimum while enforcing
 common developer best practices and other organizational conventions.
-\item Design and implement a methodology for formulating statistical bounds (SLOs) on the
+\item Design and implement a methodology for formulating statistical bounds on the
 performance of cloud-hosted web applications, without
  subjecting them to extensive performance testing or instrumentation. The formulated
 bounds must be correct, tight and durable in the face of changing
- conditions of the cloud.
- \item Design and implement a scalable cloud application monitoring framework for detecting
-performance anomalies and diagnosing potential root causes. 
-The framework should support collecting
- a wide range of runtime data from the user applications and the underlying cloud platform
- without instrumenting the user code, and without introducing significant runtime overheads.
- It should further facilitate employing a number of new and existing statistical methods,
- and algorithms to analyze the gathered data.
+ conditions of the cloud, and they should be suitable for use as performance SLOs.
+ \item Design and implement a scalable cloud application performance monitoring (APM) framework for detecting
+violations of performance objectives, and other performance-related anomalies. For each
+issue detected, the framework should be able to run diagnostics, and identify the potential
+root cause. It should support collecting data from the cloud platform
+ without instrumenting user code, and without introducing significant runtime overheads.
 \end{itemize}
 
-\textbf{To minimize the impact of policy enforcement on application performance,
-we divide the application life cycle into multiple phases, and perform policy
-enforcement tasks when the application is being deployed; a technique that we
-refer to as deployment-time policy enforcement.} 
+\textbf{To minimize policy enforcement overhead on application performance,
+we perform policy enforcement tasks when the application is deployed; a technique that we
+name deployment-time policy enforcement.} 
 We explore the
 trade off between what policies can be enforced, and when they can be enforced with respect
 to the life cycle of a cloud-hosted application. 
@@ -179,25 +174,20 @@ performs most, if not all, enforcement tasks at deployment-time can scale
 to thousands of applications and policies.
 
 \textbf{To formulate performance bounds for cloud-hosted applications without subjecting them to extensive testing,
-we need mechanisms that can identify the key operations executed by an application, and a
+we need mechanisms to identify the key operations executed by an application, and a
 statistical framework to reason about the performance of those operations.} We use static
 analysis to extract the sequence of critical operations (cloud services) invoked by a given application.
 We continuously monitor the cloud platform to construct a historic performance model of the individual operations.
-We employ a time series analysis and forecasting method to combine static analysis results with
-platform monitoring data to
+We then combine static analysis results with platform monitoring data to
 derive statistical guarantees on the application response time. These calculated performance
-bounds are associated with a specific correctness probability, and hence are suitable to be used
-as SLOs. We demonstrate that the bounds formulated via this approach are 
-both accurate, and closely resemble the actual performance of the applications. We also present a statistical framework
-to reason about the validity period of each bound, and show that the predicted bounds
-remain correct for periods ranging from several hours to several weeks.
+bounds are associated with a specific correctness probability, and hence can be used
+as SLOs. We also devise a statistical framework to reason about the validity period of each bound.
 
 \textbf{In order to facilitate performance anomaly detection and root cause analysis without instrumenting
-application code, we need to capture various performance events that occur in the cloud platform,
+application code, we capture various performance events that occur in the cloud platform,
 correlate them, and employ statistical analysis to identify anomalous patterns in them.} Any given statistical
 method is only sensitive to a certain class of anomalies. Therefore, to be able to diagnose a wide range of
-performance anomalies, we should devise algorithms that combine multiple statistical analysis
-methods. We propose a performance diagnosis methodology that combines linear regression, change point
+performance anomalies, we devise an algorithm that combines linear regression, change point
 detection and quantile analysis. Our approach detects performance anomalies in near real time,
 and identifies the root cause of each anomaly as a workload change or a performance bottleneck
 in the cloud platform. In case of performance bottlenecks, our approach can also correctly identify
