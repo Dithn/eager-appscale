@@ -53,26 +53,26 @@ oversight and verification, makes it extremely difficult for
 IT personnel to manage large volumes of cloud-hosted applications.
 
 \textbf{Secondly, today's cloud platforms do not provide any support for reasoning about the 
-performance of the deployed applications, and establishing performance objectives for them.} 
-When an application is implemented for
+performance of the deployed applications, and establishing service level objectives (SLOs) 
+regarding their performance.} A performance SLO in this context specifies a bound on application's
+response time (latency). When an application is implemented for
 a given cloud platform, one must subject it to extensive performance testing in order
-to comprehend its performance limits; a process that is both 
+to comprehend its performance bounds; a process that is both 
 tedious and time consuming. The difficulty in understanding the performance 
-traits of cloud-hosted applications is primarily due to the very high level of 
+bounds of cloud-hosted applications is primarily due to the very high level of 
 abstraction provided by the cloud platforms. These abstractions shield many details 
 concerning the application runtime, and without visibility into such low level application 
 execution details it is impossible
 to build a robust performance model for a cloud-hosted application. Due to the same
-reason, it is also not possible to stipulate bounds (service level objectives or SLOs) on
-the performance of cloud-hosted applications. 
-Consequently, existing cloud platforms only offer such guarantees regarding service availability.
-However, strong statistical bounds on application performance are vital for developers 
+reason, it is also not possible to stipulate SLOs on the performance of cloud-hosted applications. 
+Consequently, existing cloud platforms only offer SLOs regarding service availability.
+However, SLOs on application performance are vital for developers 
 who implement downstream systems that consume the cloud-hosted applications,
 and cloud administrators who wish to maintain a consistent quality of service
 level.
 
 \textbf{Thirdly, cloud platforms do not provide adequate support for monitoring application performance,
-and running diagnostics when an application fails to meet its performance objectives.} 
+and running diagnostics when an application fails to meet its performance SLOs.} 
 Most cloud platforms only provide the simplest monitoring and logging features,
 and do not provide any mechanisms for detecting performance anomalies or identifying
 bottlenecks in the application code or the underlying cloud platform. This limitation has given rise
@@ -97,7 +97,7 @@ outages or other crises. Therefore, as a means of reaching this goal, we propose
 following thesis question.
 
 {\bf Can we efficiently enforce governance for cloud-based web applications to achieve 
-administrative conformance, developer best practices, and performance objectives through 
+administrative conformance, developer best practices, and performance SLOs through 
 automated analysis and diagnostics?} 
 
 \textbf{We define governance in this context as the mechanism by which the acceptable 
@@ -127,7 +127,7 @@ acceptable behavior via machine readable policies, which are then automatically 
 a policy enforcement agent. Monitoring agents watch the system to detect any deviations from
 the acceptable behavior (i.e. policy violations), and alert users or follow predefined corrective
 procedures. We can envision similar facilities being implemented in a cloud platform to 
-achieve administrative conformance, developer best practices and various performance objectives. The operational
+achieve administrative conformance, developer best practices and performance SLOs. The operational
 parameters in this case may include coding and deployment conventions for the cloud-hosted
 applications, and their expected level of performance.
 
@@ -150,12 +150,12 @@ complete with a policy specification language and a policy enforcer. The governa
 built into the cloud platforms, and must
 keep the runtime overhead of the user applications to a minimum while enforcing
 developer best practices and administrative conformance.
-\item Design and implement a methodology for formulating performance objectives (bounds)
+\item Design and implement a methodology for formulating performance SLOs (bounds)
 for cloud-hosted web applications, without
  subjecting them to extensive performance testing or instrumentation. The formulated
-bounds must be correct, tight and durable in the face of changing conditions of the cloud.
+SLOs must be correct, tight and durable in the face of changing conditions of the cloud.
  \item Design and implement a scalable cloud application performance monitoring (APM) framework for detecting
-violations of performance objectives. For each
+violations of performance SLOs. For each
 violation detected, the framework should be able to run diagnostics, and identify the potential
 root cause. It should support collecting data from the cloud platform
  without instrumenting user code, and without introducing significant runtime overheads.
@@ -174,7 +174,7 @@ deployment-time policy enforcement is efficient, and a governance framework that
 performs most, if not all, enforcement tasks at deployment-time can scale
 to thousands of applications and policies.
 
-\textbf{We combine static analysis with platform monitoring to formulate performance objectives for
+\textbf{We combine static analysis with platform monitoring to formulate performance SLOs for
 cloud-hosted applications.} Static analysis
 extracts the sequence of critical operations (cloud services) invoked by a given application.
 Platform monitoring facilitates constructing a historic performance model for the individual operations.
@@ -184,18 +184,18 @@ are associated with a specific correctness probability, and hence can be used
 as SLOs. We also devise a statistical framework to evaluate the validity period of 
 calculated performance bounds.
 
-\textbf{In order to detect and diagnose performance objective violations,
+\textbf{In order to detect and diagnose performance SLO violations,
 we capture various performance events that occur in the cloud platform,
 correlate them, and employ statistical analysis to identify anomalous patterns.} Any given statistical
 method is only sensitive to a certain class of anomalies. Therefore, to be able to diagnose a wide range of
 performance anomalies, we devise an algorithm that combines linear regression, change point
-detection and quantile analysis. Our approach detects performance objective violations in near real time,
+detection and quantile analysis. Our approach detects performance SLO violations in near real time,
 and identifies the root cause of each event as a workload change or a performance bottleneck
 in the cloud platform. In case of performance bottlenecks, our approach also correctly identifies
 the exact component in the cloud platform, in which the bottleneck manifested.
 
 \textbf{Our contributions push the state of the art in cloud computing significantly towards achieving
-administrative conformance, developer best practices and performance objectives.} Moreover,
+administrative conformance, developer best practices and performance SLOs.} Moreover,
 our work addresses three out of the four steps associated with software system governance --
 specification, enforcement and monitoring. We show that these alone can significantly improve cloud platforms
 in terms of their reliability, developer-friendliness and ease of management. 
