@@ -150,15 +150,14 @@ we take the following three-step approach.}
 complete with a policy specification language and a policy enforcer. The governance framework should be
 built into the cloud platforms, and must
 keep the runtime overhead of the user applications to a minimum while enforcing
-common developer best practices and other organizational conventions.
-\item Design and implement a methodology for formulating statistical bounds on the
-performance of cloud-hosted web applications, without
+developer best practices and administrative conformance.
+\item Design and implement a methodology for formulating performance objectives (bounds)
+for cloud-hosted web applications, without
  subjecting them to extensive performance testing or instrumentation. The formulated
-bounds must be correct, tight and durable in the face of changing
- conditions of the cloud, and they should be suitable for use as performance SLOs.
+bounds must be correct, tight and durable in the face of changing conditions of the cloud.
  \item Design and implement a scalable cloud application performance monitoring (APM) framework for detecting
-violations of performance objectives, and other performance-related anomalies. For each
-issue detected, the framework should be able to run diagnostics, and identify the potential
+violations of performance objectives. For each
+violation detected, the framework should be able to run diagnostics, and identify the potential
 root cause. It should support collecting data from the cloud platform
  without instrumenting user code, and without introducing significant runtime overheads.
 \end{itemize}
@@ -176,24 +175,24 @@ deployment-time policy enforcement is efficient, and a governance framework that
 performs most, if not all, enforcement tasks at deployment-time can scale
 to thousands of applications and policies.
 
-\textbf{To formulate performance bounds for cloud-hosted applications,
-we need mechanisms to identify the key operations executed by an application, and a
-statistical framework to reason about the performance of those operations.} We use static
-analysis to extract the sequence of critical operations (cloud services) invoked by a given application.
-We continuously monitor the cloud platform to construct a historic performance model of the individual operations.
-We then combine static analysis results with platform monitoring data to
-derive statistical guarantees on the application response time. These calculated performance
-bounds are associated with a specific correctness probability, and hence can be used
-as SLOs. We also devise a statistical framework to reason about the validity period of each bound.
+\textbf{We combine static analysis with platform monitoring to formulate performance objectives for
+cloud-hosted applications.} Static analysis
+extracts the sequence of critical operations (cloud services) invoked by a given application.
+Platform monitoring facilitates constructing a historic performance model for the individual operations.
+We then employ a time series analysis method to combine these results, and calculate statistical bounds 
+for application response time. The performance bounds calculated in this manner
+are associated with a specific correctness probability, and hence can be used
+as SLOs. We also devise a statistical framework to evaluate the validity period of 
+calculated performance bounds.
 
-\textbf{In order to facilitate performance anomaly detection and root cause analysis,
+\textbf{In order to detect and diagnose performance objective violations,
 we capture various performance events that occur in the cloud platform,
-correlate them, and employ statistical analysis to identify anomalous patterns in them.} Any given statistical
+correlate them, and employ statistical analysis to identify anomalous patterns.} Any given statistical
 method is only sensitive to a certain class of anomalies. Therefore, to be able to diagnose a wide range of
 performance anomalies, we devise an algorithm that combines linear regression, change point
-detection and quantile analysis. Our approach detects performance anomalies in near real time,
-and identifies the root cause of each anomaly as a workload change or a performance bottleneck
-in the cloud platform. In case of performance bottlenecks, our approach can also correctly identify
+detection and quantile analysis. Our approach detects performance objective violations in near real time,
+and identifies the root cause of each event as a workload change or a performance bottleneck
+in the cloud platform. In case of performance bottlenecks, our approach also correctly identifies
 the exact component in the cloud platform, in which the bottleneck manifested.
 
 \textbf{Our contributions push the state of the art in cloud computing significantly towards achieving
