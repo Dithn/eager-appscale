@@ -15,21 +15,21 @@ Governance enables specifying the acceptable
 development standards and runtime parameters (performance, availability, security requirements etc.) 
 for cloud-hosted applications as policies. Such
 policies can then be enforced automatically at various stages of the application life-cycle. 
-Governance further entails
+Governance also entails
 monitoring cloud-hosted applications to ensure that they operate at a certain level of quality,
 and taking corrective action when deviations are detected. Through the steps of specification,
-enforcement, monitoring and correction, governance can help resolve a number of prevalent issues in
+enforcement, monitoring and correction, governance facilitates resolving a number of prevalent issues in
 today's cloud platforms. These issues include lack of good software engineering practices (code reuse,
 dependency management, versioning etc), lack of performance SLOs for cloud-hosted applications,
 and lack of performance debugging support. 
 
 We explore the feasibility of efficiently enforcing governance on cloud-hosted
 applications, and evaluate the effectiveness of governance as a means of achieving administrative
-conformance, developer best practices and performance objectives in the cloud. Considering the scale of
+conformance, developer best practices and performance SLOs in the cloud. Considering the scale of
 today's cloud platforms in terms of the number of users and the applications, 
 we strive to automate much of the governance tasks through
 automated analysis and diagnostics. To achieve efficiency, we put more emphasis on deployment-time
-policy enforcement, static analysis of performance limits, and non-invasive passive monitoring of 
+policy enforcement, static analysis of performance bounds, and non-invasive passive monitoring of 
 cloud platforms, thereby keeping the governance overhead
 to a minimum. We avoid run-time enforcement and invasive instrumentation of cloud applications 
 as much as possible. We also focus on building governance systems that are deeply integrated with
@@ -38,46 +38,35 @@ to provide an efficient governance solution that can control all application eve
 manner. Furthermore, such integrated solutions relieve the users from having to maintain and pay
 for additional, external governance and monitoring solutions.
 
-With the goal of efficient, integrated and automated governance for cloud-hosted applications in mind,
-we propose the following three research goals.
+In order to explore the feasibility of implementing efficient, automated governance systems in 
+cloud environments, and evaluate the efficacy of such systems, we follow a three-step
+research plan.
 \begin{enumerate}
-\item Design and implement a scalable, low-overhead governance framework for cloud platforms,
-complete with a policy specification language and a policy engine. The governance framework should be
-integrated into the cloud platforms, and must
-strive to keep the runtime overhead of the user applications to a minimum while enforcing
-common developer best practices and other organizational conventions.
-\item Design and implement a methodology for formulating performance SLOs for cloud-hosted 
- web applications, without
- subjecting them to extensive performance testing or instrumentation. The formulated
- performance SLOs must be correct, tight and durable in the face of changing
- conditions of the cloud.
- \item Design and implement a scalable cloud application monitoring framework for detecting
-application performance anomalies, SLO violations and diagnosing potential root causes. 
-The framework should support collecting
- a wide range of performance and usage data from the user applications and the underlying cloud platform
- without instrumenting the user code, and without introducing significant runtime overheads.
- It should further facilitate employing a number of new and existing statistical methods
- and algorithms to analyze the gathered data in near realtime.
+\item Design and implement a scalable, low-overhead policy enforcement framework for cloud platforms.
+\item Design and implement a methodology for formulating performance SLOs for cloud-hosted applications.
+ \item Design and implement a scalable application performance monitoring framework for 
+ detecting and diagnosing performance anomalies in cloud platforms.
 \end{enumerate}
 
-We design and implement EAGER~\cite{6903538, eager-fop15} as a means of 
-achieving the first goal. EAGER is a lightweight
-governance framework built into PaaS clouds. It supports defining policies using a simple syntax
+We design and implement EAGER~\cite{6903538, eager-fop15} -- a lightweight governance policy
+enforcement framework built into PaaS clouds. It supports defining policies using a simple syntax
 based on the popular Python programming language. EAGER promotes deployment-time
 policy enforcement, where policies are enforced on user applications (and APIs) every time
 an application is uploaded to the cloud. By carrying out policy validations at
 application deployment-time, and refusing to deploy applications that violate policies,
- we provide fail-fast semantics which ensure that deployed applications are fully policy compliant. 
+ we provide fail-fast semantics, which ensure that deployed applications are fully policy compliant. 
 EAGER architecture also provides the necessary provisions for facilitating run-time policy
-enforcement (through an API gateway proxy) if necessary. Our experimental results show
+enforcement (through an API gateway proxy) when necessary. This is required, since not all
+policy requirements are enforceable at deployment-time; e.g. a policy that prevents an
+application from making connections to a specific network address. Our experimental results show
 that EAGER validation and policy enforcement overhead is negligibly small, and it scales well to
 handle thousands of user applications and policies. Overall, we show that integrated governance
 for cloud-hosted applications is not only feasible, but also can be implemented with very
 little overhead and effort.
 
-To achieve the second goal of formulating performance SLOs, we design and implement 
+To facilitate formulating performance SLOs, we design and implement 
 Cerebro~\cite{Jayathilaka:2015:RTS:2806777.2806842} --
-a system that can predict bounds on the response time of web applications developed for PaaS clouds.
+a system that predicts bounds on the response time of web applications developed for PaaS clouds.
 Cerebro is able to analyze a given web application, and determine a bound on its response time without
 subjecting the application to any testing or runtime instrumentation. This is achieved by a mechanism
 that combines static analysis of application source code with runtime monitoring of the underlying
@@ -96,13 +85,13 @@ enforcement framework such as EAGER, can facilitate specification and enforcemen
 policies for cloud-hosted applications. We implement Cerebro for Google App Engine public cloud
 and AppScale private cloud. Our experiments with real world PaaS applications show that Cerebro
 is able to determine accurate performance SLOs that closely reflect the actual response time
-of the applications. Furthermore, we show that Cerebro predicted SLOs are not easily affected by
+of the applications. Furthermore, we show that Cerebro-predicted SLOs are not easily affected by
 the dynamic nature of the cloud platform, and they remain valid for long durations. More specifically, 
 Cerebro predictions remain correct for more than 12 days on average~\cite{7396174}. 
 
-Finally, we design and implement Roots to address our third goal. Roots is a performance anomaly detection and 
+Finally, we design and implement Roots -- a performance anomaly detection and 
 bottleneck identification system built into PaaS clouds. It collects data from all the different layers of the
-PaaS stack -- from load balancers to low level PaaS kernel service implementations. However,
+PaaS stack; from load balancers to low level PaaS kernel service implementations. However,
 it does so efficiently, without instrumenting user code, and without introducing a significant
 overhead to the application request processing flow. 
 Roots uses the metadata (request identifiers) injected by the load balancers to correlate the
@@ -125,3 +114,19 @@ paths of execution in an application via the run-time data gathered from the clo
 We show that this mechanism is capable of detecting characteristic changes in application
 workload as a special type of anomalies. Our design of Roots also consists of a component
 that can detect quantitative changes in application workload.
+
+Above results demonstrate that efficient and automated governance in cloud environments
+is not only feasible, but also highly effective. We did not have to implement a cloud platform from the 
+scratch to implement the governance systems designed as a part of this work. Rather,
+we were able to implement the proposed governance systems in existing cloud platforms
+like Google App Engine and AppScale; often with minimal changes to the cloud platform
+software. Our implementations are integrated with the cloud platform (i.e. they operate from
+within the cloud platform), and hence preclude 
+the cloud platform users from having to set up or
+implement their own external governance solutions that provide API management or
+application monitoring functionality. Our governance systems are also efficient, in the 
+sense they do not add a significant overhead to the applications deployed in the cloud
+platform, and they scale well to handle a very large number of applications and governance
+policies. In conclusion, our governance systems enable achieving developer best practices, 
+administrative conformance and performance SLOs for cloud-hosted applications in ways
+that were not possible before.
