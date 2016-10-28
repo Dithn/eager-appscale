@@ -42,9 +42,9 @@ In order to explore the feasibility of implementing efficient, automated governa
 cloud environments, and evaluate the efficacy of such systems, we follow a three-step
 research plan.
 \begin{enumerate}
-\item Design and implement a scalable, low-overhead policy enforcement framework for cloud platforms.
+\item Design and implement a scalable, low-overhead policy enforcement system for cloud platforms.
 \item Design and implement a methodology for formulating performance SLOs for cloud-hosted applications.
- \item Design and implement a scalable application performance monitoring framework for 
+ \item Design and implement a scalable application performance monitoring system for 
  detecting and diagnosing performance anomalies in cloud platforms.
 \end{enumerate}
 
@@ -92,7 +92,7 @@ Cerebro predictions remain correct for more than 12 days on average~\cite{739617
 Finally, we design and implement Roots -- a performance anomaly detection and 
 bottleneck identification system built into PaaS clouds. It collects data from all the different layers of the
 PaaS stack; from load balancers to low level PaaS kernel service implementations. However,
-it does so efficiently, without instrumenting user code, and without introducing a significant
+it does so without instrumenting user code, and without introducing a significant
 overhead to the application request processing flow. 
 Roots uses the metadata (request identifiers) injected by the load balancers to correlate the
 events observed in different layers, 
@@ -103,30 +103,31 @@ anomaly detection and diagnosis. Furthermore, it facilitates configuring monitor
 at the granularity of user applications, which allows different applications to be monitored
 and analyzed differently. 
 
-Roots detects performance anomalies by monitoring applications for SLO violations. 
-When an anomaly (i.e. an SLO violation) is detected, Roots is able to determine if
+Roots detects performance anomalies by monitoring applications for performance SLO violations. 
+When an anomaly (i.e. an SLO violation) is detected, Roots determines if
 the anomaly was caused by a change in the application workload or by a performance 
-bottleneck in one of the underlying PaaS kernel services. To this end we present a mechanism
-that uses a combination of linear regression, change point detection and quantile analysis to
-perform root cause analysis. We show that our combined approach makes correct diagnoses nearly
-100\% of the time. Finally, we also present a path distribution analyzer that can identify different
-paths of execution in an application via the run-time data gathered from the cloud platform.
+bottleneck in one of the underlying PaaS kernel services. If the SLO violation was caused by
+a performance bottleneck in the cloud, Roots needs to be able to locate the exact PaaS kernel
+service in which the bottleneck manifested. To this end we present a root cause analysis method
+that uses a combination of linear regression, change point detection and quantile analysis.
+We show that our combined methodology makes accurate diagnoses nearly
+100\% of the time. Moreover, we also present a path distribution analyzer that can identify different
+paths of execution in an application, via the run-time data gathered from the cloud platform.
 We show that this mechanism is capable of detecting characteristic changes in application
-workload as a special type of anomalies. Our design of Roots also consists of a component
-that can detect quantitative changes in application workload.
+workload as a special type of anomalies.
 
-Above results demonstrate that efficient and automated governance in cloud environments
+Our results demonstrate that efficient and automated governance in cloud environments
 is not only feasible, but also highly effective. We did not have to implement a cloud platform from the 
 scratch to implement the governance systems designed as a part of this work. Rather,
-we were able to implement the proposed governance systems in existing cloud platforms
+we were able to implement the proposed governance systems for existing cloud platforms
 like Google App Engine and AppScale; often with minimal changes to the cloud platform
-software. Our implementations are integrated with the cloud platform (i.e. they operate from
-within the cloud platform), and hence preclude 
+software. Our policy enforcement and monitoring systems are integrated with the cloud platform 
+(i.e. they operate from within the cloud platform), and hence preclude 
 the cloud platform users from having to set up or
 implement their own external governance solutions that provide API management or
 application monitoring functionality. Our governance systems are also efficient, in the 
 sense they do not add a significant overhead to the applications deployed in the cloud
 platform, and they scale well to handle a very large number of applications and governance
-policies. In conclusion, our governance systems enable achieving developer best practices, 
+policies. In conclusion, our governance systems facilitate achieving developer best practices, 
 administrative conformance and performance SLOs for cloud-hosted applications in ways
 that were not possible before.
