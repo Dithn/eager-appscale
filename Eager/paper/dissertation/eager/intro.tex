@@ -21,7 +21,7 @@ As a result, the developers must be concerned with development issues (correct
 and efficient programming of application logic), as well as governance issues 
 (administrative control and management) when implementing applications for the cloud.
 
-Existing API management solutions~\cite{3scale,apigee,layer7} are typically available as
+Existing API management solutions~\cite{3scale,apigee,layer7} typically operate as
 external stand-alone services that are not integrated with the cloud. They do attempt to
 address governance concerns beyond mere access control. However, because they
 are not integrated within the cloud platform, their function is
@@ -31,9 +31,9 @@ operators to potential issues without preventing non-compliant behavior.
 They are also costly, and they can fail independently of the cloud, thereby affecting 
 the scalability and availability of the software that they govern.
 Finally, it is not possible for them to
-implement governance at deployment-time -- the phase of the software lifecycle
+implement policy enforcement at deployment-time -- the phase of the software lifecycle
 during which an API change or a new API is being put into service.
-Because of the scale at which clouds operate, deployment-time governance is
+Because of the scale at which clouds operate, deployment-time enforcement is
 critical since it permits policy violations to be remediated before the
 changes are put into production ({\em i.e.} before run-time).
 
@@ -79,7 +79,7 @@ management and comprehensive policy enforcement at API deployment-time.
 Using EAGER, we investigate the trade-offs between deployment-time policy
 enforcement and run-time policy enforcement.
 Deployment-time enforcement is attractive for several
-reasons.  First, if run-time only API governance is implemented, 
+reasons.  First, if only run-time API governance is implemented, 
 policy violations will go undetected until the offending APIs are used,
 possibly in a deep stack or call path in an application.  
 As a result, it may be difficult or time consuming to pinpoint the specific
@@ -97,12 +97,12 @@ typically implies that each API call will be intercepted by a policy-checking en
 that uses admission control, and an enforcement mechanism creating scalability
 concerns.  Because deployment
 events occur before the application is executed,
-traffic need not be intercepted and checked ``in flight'', improving the
+traffic need not be intercepted and checked ``in flight'', thus improving the
 scaling properties of governed APIs.  However, not all governance policies can be
 implemented strictly at deployment-time.  As such, EAGER includes run-time
-governance facilities as well.  The goal of our research is to identify how to
+enforcement facilities as well.  The goal of our research is to identify how to
 implement enforced API governance most efficiently by combining deployment-time  
-governance where possible and run-time governance where necessary.
+enforcement where possible, and run-time enforcement where necessary.
 
 EAGER implements policies governing the APIs that are 
 deployed within a single administrative domain (i.e. a single cloud platform). 
@@ -125,7 +125,7 @@ the API level, thereby permitting the service and client implementations to chan
 independently without the loss of governance control.
 EAGER further enhances software maintainability by guaranteeing that 
 developers reuse existing APIs when possible to create new software artifacts
-(to prevent API redundancy and unverified API use). Concurrently, it
+(to prevent API redundancy and unverified API use). At the same time, it
 tracks changes made by developers to already deployed web APIs to prevent
 any backwards-incompatible API changes from being put into production.
 
