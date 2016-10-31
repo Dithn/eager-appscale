@@ -15,11 +15,13 @@ life cycle (i.e. development, deployment, and run-time).  Without such tools,
 programmers must adopt extensive, continuous, and costly, testing and profiling methods
 to understand the performance impact on their applications
 that results from the increasingly complex collection of
-services that they depend on. The ability to understand the performance bounds
-of a service is also vital in several governance use cases such as
-performance-aware policy enforcement, and application performance monitoring.
+services that they depend on. 
 
-To address this issue, we present Cerebro, a new approach that 
+The ability to understand the performance bounds
+of a service is vital in several governance use cases such as
+performance-aware policy enforcement, and application performance monitoring.
+To address this requirement without subjecting applications to extensive
+testing, we present Cerebro. It is a new approach that 
 predicts bounds on the response time performance of web
 APIs exported by applications that are hosted in a PaaS cloud.
 The goal of Cerebro is to allow 
