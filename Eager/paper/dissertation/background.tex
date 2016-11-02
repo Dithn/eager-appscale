@@ -1,7 +1,7 @@
 \section{Cloud Computing}
 
-Cloud computing is a form of distributed computing that turns compute infrastructure, programming
-platforms and software systems into scalable utility services~\cite{hassan2011demystifying,Mell:2011:SND:2206223}. 
+\textbf{Cloud computing is a form of distributed computing that turns compute infrastructure, programming
+platforms and software systems into scalable utility services~\cite{hassan2011demystifying,Mell:2011:SND:2206223}.}
 By exposing various compute and programming
 resources as utility services, cloud computing promotes resource sharing at scale via the Internet.
 The cloud model precludes the users from having to set up their own hardware, and in some cases also software. Instead,
@@ -10,8 +10,8 @@ the resources are no longer needed. The cloud model also does not require the us
 capital. The users only have to pay for the resources they acquired, usually based on a pay-per-use
 billing model.
 
-Depending on the type of resources
-offered as services, cloud computing platforms can be categorized into three main categories~\cite{Mell:2011:SND:2206223}.
+\textbf{Depending on the type of resources
+offered as services, cloud computing platforms can be categorized into three main categories~\cite{Mell:2011:SND:2206223}.}
 \begin{description}
 \item [Infrastructure-as-a-Service clouds (IaaS)]
 Offers low-level compute, storage and networking
@@ -32,17 +32,17 @@ endusers. Instead of prompting the users to download and install any software, S
 to consume software via the Internet.  
 \end{description}
 
-Due to the benefits associated with cloud computing (scalability, high availability, productivity enhancement etc.),
-many developers and organizations have adopted the cloud as their preferred means of developing, deploying and
-delivering software applications. Such cloud-hosted applications expose one or more web application programming 
-interfaces (web APIs) through which client programs can remotely interact with the applications. That is, clients
-send HTTP/S requests, and receive machine readable responses (e.g. HTML, JSON,
+Due to these benefits associated with cloud computing (scalability, high availability, productivity enhancement etc.),
+many developers and organizations use the cloud as their preferred means of developing and deploying
+software applications. \textbf{Cloud-hosted applications expose one or more web application programming 
+interfaces (web APIs) through which client programs can remotely interact with the applications.} That is, clients
+send HTTP/S requests to the API, and receive machine readable responses (e.g. HTML, JSON,
 XML, Protocol Buffers~\cite{protobuff}) in return. This type of web-accessible, cloud-hosted applications
 tend to be highly interactive, and clients have strict expectations on the application
 response time~\cite{latency-matters}.
 
-A cloud-hosted application may
-also consume web APIs exposed by other cloud-hosted applications. Thus, cloud-hosted applications
+\textbf{A cloud-hosted application may
+also consume web APIs exposed by other cloud-hosted applications.} Thus, cloud-hosted applications
 form an intricate graph of inter-dependencies among them, where each application can service a set of client
 applications, while being dependent on a set of other applications. However, in general, each cloud-hosted
 application directly depends on the core services offered by the underlying cloud platform for compute power, storage,
@@ -53,19 +53,19 @@ We use PaaS clouds as a case study and a testbed in a number of our explorations
 
 \section{Platform-as-a-Service Clouds}
 
-PaaS clouds, which have been growing in popularity~\cite{paas-growth,paas-growth2}, 
+\textbf{PaaS clouds, which have been growing in popularity~\cite{paas-growth,paas-growth2}, 
 typically host web-accessible (HTTP/S) applications, to which they provide
-high levels of scalability, availability, and sandboxed execution. PaaS clouds
+high levels of scalability, availability, and sandboxed execution.} PaaS clouds
 provide scalability by automatically allocating resources for
 applications on the fly (auto scaling), and provide availability through the
 execution of multiple instances of the application. Applications deployed on
 a PaaS cloud depend on a number of scalable services intrinsic to the 
 cloud platform. We refer to these services as \textit{kernel services}.
 
-PaaS clouds, through their kernel services, provide a high level of
+\textbf{PaaS clouds, through their kernel services, provide a high level of
 abstraction to the application developer that effectively hides all the
 infra\-structure-level details such as physical resource allocation (CPU,
-memory, disk etc), operating system, and network configuration. 
+memory, disk etc), operating system, and network configuration.} 
 Moreover, PaaS clouds do not require the developers
 to set up any utility services their applications might require such as a 
 database or a distributed cache. 
@@ -86,14 +86,14 @@ performance, and diagnose performance issues.
 
 Figure~\ref{fig:paas_architecture} shows the key layers of a typical PaaS cloud. Arrows indicate
 the flow of data and control in response to application requests.
-At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
-and networking resources. How this infrastructure is set up may vary from a simple cluster of physical 
+\textbf{At the lowest level of a PaaS cloud is an infrastructure that consists of the necessary compute, storage
+and networking resources.} How this infrastructure is set up may vary from a simple cluster of physical 
 machines to a comprehensive Infrastructure-as-a-Service (IaaS) cloud. In large scale PaaS clouds,
 this layer typically consists of many virtual machines and/or containers with the ability to acquire more
 resources on the fly.
 
-On top of the infrastructure layer lies the PaaS kernel. This is a collection of managed, scalable
-services that high-level application developers can compose into their applications. The provided kernel services
+\textbf{On top of the infrastructure layer lies the PaaS kernel -- a collection of managed, scalable
+services that high-level application developers can compose into their applications.} The provided kernel services
 may include database services, caching services, queuing services and more. 
 The implementations of the kernel services are highly scalable, highly available (have SLOs associated with them),
 and automatically managed by the platform while being completely opaque
@@ -103,17 +103,20 @@ kit'' or SDK) for the application developer to access these kernel services.
 In that case all interactions between the applications and the PaaS kernel must take place through
 the cloud provider specified SDK (e.g. Google App Engine~\cite{gae}, Microsoft Azure~\cite{azure}). 
 
-One level above the PaaS kernel we find the application servers that are used to deploy and run
-applications. Application servers provide the necessary integration (linkage) between application code and the
-PaaS kernel services, while sandboxing application code for secure, multi-tenant execution. On top
-of the application servers layer resides the request
-front-end and load balancing layer. This layer is responsible
+\textbf{One level above the PaaS kernel we find the application servers that are used to deploy and run
+applications.} Application servers provide the necessary integration (linkage) between application code and the
+PaaS kernel services, while sandboxing application code for secure, multi-tenant execution. They also
+enable horizontal scaling of applications by running the same application on multiple application server
+instances.
+
+\textbf{On top of the application servers layer resides the request
+front-end and load balancing layer.} This layer is responsible
 for receiving all application requests, filtering them, and routing them to an appropriate application
 server instance for further execution. Front-end server is therefore the entry point for PaaS-hosted
 applications for all application clients.
 
-Each of the above layers can span multiple processes, running over multiple physical or virtual
-machines. Therefore processing a single application request typically involves cooperation
+\textbf{Each of the above layers can span multiple processes, running over multiple physical or virtual
+machines.} Therefore processing a single application request typically involves cooperation
 of multiple distributed processes and/or machines.
 
 \begin{figure}
@@ -129,20 +132,20 @@ to an application via the web API;
 Figure~\ref{fig:cloud_app_model} illustrates the application deployment model of PaaS clouds. 
 The cloud platform provides a set of kernel services. 
 The PaaS SDK provides well defined interfaces (entry points) for these kernel services.  
-The developer uses the kernel services, via the SDK, to implement his/her application logic, and packages 
-it as a web application. Developers then
+\textbf{The developer uses the kernel services, via the SDK, to implement his/her application logic, and packages 
+it as a web application.} Developers then
 upload their applications to the cloud for deployment.
 Once deployed, the applications and any web APIs exported by them can be accessed 
 via HTTP/S requests by external or co-located clients.
 
-PaaS clouds are specifically built for deploying and running applications
-that are directly consumed by end users and other client applications. As a result all the problems 
+\textbf{PaaS clouds are specifically built for deploying and running applications
+that are directly consumed by end users and other client applications.} As a result all the problems 
 outlined in the previous chapter, such as poor development practices, lack of performance SLOs, and lack of performance 
 debugging support directly impact PaaS clouds. Therefore PaaS clouds are ideal candidates for implementing the type
 of governance systems proposed in this work. 
 
-We use PaaS clouds in our research extensively both as case studies
-and experimental platforms. Specifically, we use Google App Engine and AppScale as test environments
+\textbf{We use PaaS clouds in our research extensively both as case studies
+and experimental platforms.} Specifically, we use Google App Engine and AppScale as test environments
 to experiment with our new governance systems. App Engine is a highly scalable public PaaS cloud hosted and
 managed by Google in their data centers. While it is open for anyone to deploy and run web applications, it is not
 open source software, and its internal deployment details are not commonly known. AppScale is open source
@@ -152,13 +155,13 @@ for App Engine can be deployed on AppScale without any code changes. In our expe
 AppScale over a small cluster of physical machines, or over a set of virtual machines provided by an IaaS cloud
 such as Eucalyptus.
 
-By experimenting with real world PaaS clouds we demonstrate the practical feasibility and the effectiveness of 
-the systems we design and implement. Furthermore, there are currently over a million applications deployed
+\textbf{By experimenting with real world PaaS clouds we demonstrate the practical feasibility and the effectiveness of 
+the systems we design and implement.} Furthermore, there are currently over a million applications deployed
 in App Engine, with a significant proportion of them being open source applications. Therefore we have access
 to a large number of real world PaaS applications to experiment with.
 
-PaaS-hosted applications are typically developed and tested outside the cloud (on a developer's workstation), 
-and then later uploaded to the cloud. Therefore PaaS-hosted applications typically undergo three phases 
+\textbf{PaaS-hosted applications are typically developed and tested outside the cloud (on a developer's workstation), 
+and then later uploaded to the cloud.} Therefore PaaS-hosted applications typically undergo three phases 
 during their life-cycle:
 \begin{description}
 \item[Development-time] The application is being developed and tested on a developer's workstation
@@ -170,10 +173,11 @@ overhead on running applications.
 
 \section{Governance}
 \subsection{IT and SOA Governance}
-Traditionally, information and technology (IT) governance~\cite{brown2005framing} has been a branch of 
-corporate governance, focused on
-improving performance and managing the risks associated with the use of IT. The primary
-goals of IT governance are three fold:
+\textbf{Traditionally, information and technology (IT) governance~\cite{brown2005framing} has been a branch of 
+corporate governance, focused on improving performance and managing the risks associated with the use of IT.} 
+A number of frameworks, models and even certification systems have emerged over time to help organizations 
+implement IT governance~\cite{Ataya:2013:ISR:2523514.2523590,gov-cert}. 
+The primary goals of IT governance are three fold.
 
 \begin{itemize}
 \item Assure that the use of IT generates business value
@@ -181,15 +185,18 @@ goals of IT governance are three fold:
 \item Mitigate the risks of using IT
 \end{itemize}
 
-A number of frameworks, models and even certification systems have emerged over time to help organizations 
-implement IT governance. When the software engineering community started gravitating towards web services and
+\textbf{When the software engineering community started gravitating towards web services and
 service-oriented computing (SOC)~\cite{1254461, what-is-soa, Haines:2010:SAM:1787234.1787269}, 
 a new type of digital assets rose to prominence within corporate IT 
-infrastructures -- ``services''. Compositions of loosely-coupled, reusable, modular services soon replaced 
-large monolithic software
-installations. Services required new forms of governance for managing their performance
-and risks. Hence the notion of service-oriented architecture (SOA) governance came into existence~\cite{gartner-soa-gov,soagov}. 
+infrastructures -- ``services''.} A service is a self-contained entity that logically represents a
+business activity (a functionality; e.g. user authentication, billing, VM management) 
+while hiding its internal implementation details from the consumers~\cite{what-is-soa}. 
+Compositions of loosely-coupled, reusable, modular services soon replaced 
+large monolithic software installations. 
 
+\textbf{Services required new forms of governance for managing their performance
+and risks, and hence the notion of service-oriented architecture (SOA) governance 
+came into existence~\cite{gartner-soa-gov,soagov}.} 
 Multiple definitions of SOA governance
 are in circulation, but most of them agree that the purpose of SOA governance is to exercise control over
 services and associated processes (service development, testing, monitoring etc). A commonly used definition
@@ -200,7 +207,7 @@ have also evolved~\cite{Schepers:2008:LAS:1363686.1363932,4730489,6478236,557726
 Since web services are the most widely used form of services in SOA-driven systems, most of these
 SOA governance tools have a strong focus on controlling web services~\cite{6094008}. 
 
-Policies play a crucial role in all forms of governance. A policy is a specification of the acceptable behavior
+\textbf{Policies play a crucial role in all forms of governance.} A policy is a specification of the acceptable behavior
 and the life cycle of some entity. The entity could be a department, a software system, a service or a 
 human process such as developing
 a new application. In SOA governance, policies state how services should be developed, how they are to be
