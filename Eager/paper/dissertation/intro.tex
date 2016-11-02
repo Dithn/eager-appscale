@@ -54,9 +54,12 @@ IT personnel to manage large volumes of cloud-hosted applications.
 
 \textbf{Secondly, today's cloud platforms do not provide support for establishing 
 service level objectives (SLOs) regarding the performance of deployed applications.} 
-A performance SLO specifies a bound on application's
-response time (latency). When an application is implemented for
-a given cloud platform, one must subject it to extensive performance testing in order
+A performance SLO specifies a bound on application's response time (latency). 
+Such bounds are vital for developers 
+who implement downstream systems that consume the cloud-hosted applications,
+and cloud administrators who wish to maintain a consistent quality of service
+level. However, when an application is implemented for
+a cloud platform, one must subject it to extensive performance testing in order
 to comprehend its performance bounds; a process that is both 
 tedious and time consuming. The difficulty in understanding the performance 
 bounds of cloud-hosted applications is primarily due to the very high level of 
@@ -66,10 +69,6 @@ execution details it is impossible
 to build a robust performance model for a cloud-hosted application. Due to this
 reason, it is not possible to stipulate SLOs on the performance of cloud-hosted applications. 
 Consequently, existing cloud platforms only offer SLOs regarding service availability.
-However, SLOs on application performance are vital for developers 
-who implement downstream systems that consume the cloud-hosted applications,
-and cloud administrators who wish to maintain a consistent quality of service
-level.
 
 \textbf{Thirdly, cloud platforms do not provide adequate support for monitoring application performance,
 and running diagnostics when an application fails to meet its performance SLOs.} 
@@ -95,10 +94,10 @@ applications. Developers as well as cloud administrators will be able to detect 
 promptly, and take corrective actions before the issues escalate to major
 outages or other crises.
 
-\textbf{Our research focuses on the use of \textit{governance} in cloud environments 
-as a means of addressing the above issues.} Governance is the mechanism 
+\textbf{Our research focuses on addressing the above issues in cloud environments 
+using \textit{governance}.} We define governance as the mechanism 
 by which the acceptable operational parameters are specified and maintained in a 
-software system. This involves multiple steps:
+software system~\cite{brown2005framing,gartner-soa-gov}. This involves multiple steps:
 \begin{itemize}
 \item Specifying the acceptable operational parameters
 \item Enforcing the specified parameters
@@ -108,7 +107,7 @@ software system. This involves multiple steps:
 To learn the feasibility and the efficacy of applying governance
 techniques in a cloud platform, we propose and explore the following thesis
 question:
-{\bf Can we efficiently enforce governance for cloud-based web applications to achieve 
+{\bf Can we efficiently enforce governance for cloud-hosted web applications to achieve 
 administrative conformance, developer best practices, and performance SLOs through 
 automated analysis and diagnostics?} 
 
@@ -168,7 +167,7 @@ deployment-time policy enforcement is efficient, and a governance framework that
 performs most, if not all, enforcement tasks at deployment-time can scale
 to thousands of applications and policies.
 
-\textbf{We combine static analysis with platform monitoring to formulate performance SLOs for
+\textbf{We combine static analysis with platform monitoring to establish performance SLOs for
 cloud-hosted applications.} Static analysis
 extracts the sequence of critical operations (cloud services) invoked by a given application.
 Platform monitoring facilitates constructing a historic performance model for the individual operations.
@@ -190,8 +189,8 @@ the exact component in the cloud platform, in which the bottleneck manifested.
 
 \textbf{Our contributions push the state of the art in cloud computing significantly towards achieving
 administrative conformance, developer best practices and performance SLOs.} Moreover,
-our work addresses three out of the four steps associated with software system governance --
-specification, enforcement and monitoring. We show that these alone can significantly improve cloud platforms
-in terms of their reliability, developer-friendliness and ease of management. 
-We do not directly tackle remediation, but our work
-lays the groundwork for implementing automated problem remediation in future cloud platforms.
+our work addresses all the major steps associated with software system governance --
+specification, enforcement and monitoring. We show that this approach can significantly improve cloud platforms
+in terms of their reliability, developer-friendliness and ease of management. We also demonstrate
+that the governance capabilities proposed in our work can be built into existing cloud platforms,
+without having to implement them from the scratch.
