@@ -16,25 +16,28 @@ offered as services, cloud computing platforms can be categorized into three mai
 \item [Infrastructure-as-a-Service clouds (IaaS)]
 Offers low-level compute, storage and networking
 resources as a service. Compute resources are typically provided in the form of on-demand virtual machines (VMs)
-with specific CPU, memory and disk configurations (e.g. Amazon EC2, Google Compute Engine, Eucalyptus). 
+with specific CPU, memory and disk configurations 
+(e.g. Amazon EC2~\cite{amazon-ec2-web}, Google Compute Engine~\cite{gce-web}, Eucalyptus~\cite{eucalyptus-tr}). 
 The provisioned VMs usually come with a base operating system installed. The users must install all the application software
 necessary to use them.
 \item [Platform-as-a-Service clouds (PaaS)]
 Offers a programming platform as a service, that can be used to develop and deploy applications at scale 
-(e.g. Google App Engine, AppScale, Heroku, Amazon Elastic Beanstalk). The programming platform consists
+(e.g. Google App Engine~\cite{gae}, AppScale~\cite{6488671}, Heroku~\cite{heroku-web}, Amazon Elastic Beanstalk~\cite{amazon-ebs-web}). 
+The programming platform consists
 of several scalable services that can be used to obtain certain application features such as data storage, caching
 and authentication.
 \item [Software-as-a-Service clouds (SaaS)]
 Offers a collection of software applications and tools as a service, that can be directly consumed by
-application endusers (e.g. Salesforce, Workday, Citrix go2meeting). This can be thought of as a new way 
-of delivering software to
+application endusers (e.g. Salesforce~\cite{sf-saas}, Workday~\cite{workday}, Citrix go2meeting~\cite{gotomeeting}). 
+This can be thought of as a new way of delivering software to
 endusers. Instead of prompting the users to download and install any software, SaaS enables the users
 to consume software via the Internet.  
 \end{description}
 
 Due to these benefits associated with cloud computing (scalability, high availability, productivity enhancement etc.),
 many developers and organizations use the cloud as their preferred means of developing and deploying
-software applications. \textbf{Cloud-hosted applications expose one or more web application programming 
+software applications~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188,cloud-growth}. 
+\textbf{Cloud-hosted applications expose one or more web application programming 
 interfaces (web APIs) through which client programs can remotely interact with the applications.} That is, clients
 send HTTP/S requests to the API, and receive machine readable responses (e.g. HTML, JSON,
 XML, Protocol Buffers~\cite{protobuff}) in return. This type of web-accessible, cloud-hosted applications
@@ -268,7 +271,7 @@ services like New Relic~\cite{newrelic}, Dynatrace~\cite{dynatrace} and Datadog~
 applications. But these services are expensive, and require additional programming and/or configuration.
 Some of them also require changes to applications in the form of code instrumentation. Moreover,
 since these services operate outside the cloud platforms they govern, they have limited visibility and control
-over the applications and related components residing in the cloud. A main goal of our research is to facilitate governance
+over the applications and related components residing in the cloud. A goal of our research is to facilitate governance
 from within the cloud, as an automated, cloud-native feature. We show that such built-in governance capabilities are
 more robust, effective and easy to use than external third-party solutions that overlay governance on top of the
 cloud.
