@@ -8,7 +8,9 @@ The cloud model precludes the users from having to set up their own hardware, an
 the users can simply acquire the resources ``in the cloud'' via the internet, and relinquish them when
 the resources are no longer needed. The cloud model also does not require the users to spend any start up
 capital. The users only have to pay for the resources they acquired, usually based on a pay-per-use
-billing model.
+billing model. Due to these benefits associated with cloud computing,
+many developers and organizations use the cloud as their preferred means of developing and deploying
+software applications~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188,cloud-growth}. 
 
 \textbf{Depending on the type of resources
 offered as services, cloud computing platforms can be categorized into three main categories~\cite{Mell:2011:SND:2206223}.}
@@ -34,9 +36,6 @@ endusers. Instead of prompting the users to download and install any software, S
 to consume software via the Internet.  
 \end{description}
 
-Due to these benefits associated with cloud computing (scalability, high availability, productivity enhancement etc.),
-many developers and organizations use the cloud as their preferred means of developing and deploying
-software applications~\cite{Antonopoulos:2010:CCP:1855007,Pinheiro:2014:ACC:2618168.2618188,cloud-growth}. 
 \textbf{Cloud-hosted applications expose one or more web application programming 
 interfaces (web APIs) through which client programs can remotely interact with the applications.} That is, clients
 send HTTP/S requests to the API, and receive machine readable responses (e.g. HTML, JSON,
@@ -80,6 +79,15 @@ the other hand, the software abstractions provided by PaaS clouds obscure
 runtime details of applications making it difficult to reason about application
 performance, and diagnose performance issues.
 
+\textbf{PaaS clouds facilitate deploying and running applications
+that are directly consumed by human users and other client applications.} As a result all the problems 
+outlined in the previous chapter, such as poor development practices, 
+lack of performance SLOs, and lack of performance debugging support directly 
+impact PaaS clouds. Therefore PaaS clouds are ideal candidates for implementing the type
+of governance systems proposed in this work. 
+
+\subsection{PaaS Architecture}
+
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{paas_architecture}
@@ -106,14 +114,14 @@ kit'' or SDK) for the application developer to access these kernel services.
 In that case all interactions between the applications and the PaaS kernel must take place through
 the cloud provider specified SDK (e.g. Google App Engine~\cite{gae}, Microsoft Azure~\cite{azure}). 
 
-\textbf{One level above the PaaS kernel we find the application servers that are used to deploy and run
+\textbf{One level above the PaaS kernel reside the application servers that are used to deploy and run
 applications.} Application servers provide the necessary integration (linkage) between application code and the
 PaaS kernel services, while sandboxing application code for secure, multi-tenant execution. They also
 enable horizontal scaling of applications by running the same application on multiple application server
 instances.
 
-\textbf{On top of the application servers layer resides the request
-front-end and load balancing layer.} This layer is responsible
+\textbf{The front-end and load balancing layer resides on top of the application servers layer.} 
+This layer is responsible
 for receiving all application requests, filtering them, and routing them to an appropriate application
 server instance for further execution. Front-end server is therefore the entry point for PaaS-hosted
 applications for all application clients.
@@ -121,6 +129,21 @@ applications for all application clients.
 \textbf{Each of the above layers can span multiple processes, running over multiple physical or virtual
 machines.} Therefore processing a single application request typically involves cooperation
 of multiple distributed processes and/or machines.
+
+\subsection{PaaS Usage Model}
+
+Three types of users interact with PaaS clouds.
+\begin{description}
+\item[Cloud administrators] These are the personnel responsible for installing and maintaining the
+cloud platform software. They are always affiliated with the cloud platform provider.
+\item[Application developers] These are the users who develop applications, and deploy them
+in the PaaS cloud.
+\item[Application clients] These are the users that consume the applications deployed in a PaaS cloud.
+These include human users as well as other client applications that programmatically access
+PaaS-hosted applications.
+\end{description}
+Depending on how a particular PaaS cloud is set up (e.g. private or public cloud), the above three user groups
+may belong to the same or multiple organizations.
 
 \begin{figure}
 \centering
@@ -132,20 +155,24 @@ to an application via the web API;
 }
 \end{figure}
 
-Figure~\ref{fig:cloud_app_model} illustrates the application deployment model of PaaS clouds. 
-The cloud platform provides a set of kernel services. 
+Figure~\ref{fig:cloud_app_model} illustrates how the application developers
+interact with PaaS clouds. The cloud platform provides a set of kernel services. 
 The PaaS SDK provides well defined interfaces (entry points) for these kernel services.  
-\textbf{The developer uses the kernel services, via the SDK, to implement his/her application logic, and packages 
-it as a web application.} Developers then
-upload their applications to the cloud for deployment.
+\textbf{The application developer uses the kernel services via the SDK to implement his/her application logic, and packages 
+it as a web application.} Developers then upload their applications to the cloud for deployment.
 Once deployed, the applications and any web APIs exported by them can be accessed 
 via HTTP/S requests by external or co-located clients.
 
-\textbf{PaaS clouds are specifically built for deploying and running applications
-that are directly consumed by end users and other client applications.} As a result all the problems 
-outlined in the previous chapter, such as poor development practices, lack of performance SLOs, and lack of performance 
-debugging support directly impact PaaS clouds. Therefore PaaS clouds are ideal candidates for implementing the type
-of governance systems proposed in this work. 
+\textbf{PaaS-hosted applications are typically developed and tested outside the cloud (on a developer's workstation), 
+and then later uploaded to the cloud.} Therefore PaaS-hosted applications typically undergo three phases 
+during their life-cycle:
+\begin{description}
+\item[Development-time] The application is being developed and tested on a developer's workstation
+\item[Deployment-time] The finished application is being uploaded to the PaaS cloud for deployment
+\item[Run-time] Application is running, and processing user requests
+\end{description}
+We explore ways to use these different phases to our advantage in order to minimize the governance
+overhead on running applications. 
 
 \textbf{We use PaaS clouds in our research extensively both as case studies
 and experimental platforms.} Specifically, we use Google App Engine and AppScale as test environments
@@ -162,17 +189,6 @@ such as Eucalyptus.
 the systems we design and implement.} Furthermore, there are currently over a million applications deployed
 in App Engine, with a significant proportion of them being open source applications. Therefore we have access
 to a large number of real world PaaS applications to experiment with.
-
-\textbf{PaaS-hosted applications are typically developed and tested outside the cloud (on a developer's workstation), 
-and then later uploaded to the cloud.} Therefore PaaS-hosted applications typically undergo three phases 
-during their life-cycle:
-\begin{description}
-\item[Development-time] The application is being developed and tested on a developer's workstation
-\item[Deployment-time] The finished application is being uploaded to the PaaS cloud for deployment
-\item[Run-time] Application is running, and processing user requests
-\end{description}
-We explore ways to use these different phases to our advantage in order to minimize the governance
-overhead on running applications. 
 
 \section{Governance}
 \subsection{IT and SOA Governance}
@@ -241,7 +257,7 @@ Governance is a broad topic that allows room for many potential avenues of resea
 \begin{description}
 \item [Policy enforcement]
 Policy enforcement refers to ensuring that all applications deployed in a cloud platform
-adhere to a set of policies specified by a platform or organizational administrator.
+adhere to a set of policies specified by a cloud administrator.
 Some of these policies include specific
 dependency management practices, naming and packaging standards for software artifacts, 
 software versioning requirements, and practices that enable software artifacts to evolve 
@@ -255,12 +271,16 @@ A service level objective (SLO) specifies a system's minimum quality of service 
 controllable manner~\cite{smj2000}. They may cover various QoS
 parameters such as availability, response time (latency), and throughput. A performance SLO
 specifies an upper bound on the application's response time, and the likelihood that bound is valid.
+Cloud administrators and application developers use performance SLOs to negotiate service level agreements (SLAs)
+with clients, and monitor applications for consistent operation. Clients use them to reason about
+the performance of downstream applications that depend on cloud-hosted applications.
 
 \item [Application performance monitoring]
 Application performance monitoring (APM) refers to continuously monitoring cloud-hosted applications
 to detect violations of performance SLOs and other performance anomalies. 
 It also includes diagnosing the root cause of each detected anomaly, thereby expediting
-remediation.
+remediation. This feature is useful for cloud administrators, application developers and clients
+alike.
 \end{description}
 
 \textbf{None of the above features are implemented satisfactorily in the cloud technologies available today.}
@@ -316,14 +336,14 @@ House~\cite{whitehouseapis}.
 
 \textbf{This proliferation of web APIs in the cloud demands new techniques that
 automate the maintenance and evolution of APIs as a first-class software
-resource -- a notion that we refer
-to as \textit{API governance}~\cite{6903538}.} A poorly implemented API may render a whole application unusable.
-A backward incompatible change to an API, can break any downstream applications dependent on it. 
-Therefore it is important to be able to configure and enforce governance policies at the granularity of
-APIs. Similarly, we need to be able to stipulate performance SLOs for individual APIs, and monitor
-them as separate independent entities.
+resource -- a notion that we refer to as \textit{API governance}~\cite{6903538}.} 
 API management in the form of run-time mechanisms to implement
 access control is not new, and many good commercial offerings exist today~\cite{3scale,apigee,layer7}.   
 However, API governance -- consistent, generalized, policy
 implementation across multiple APIs in an administrative domain --
 is a new area of research made poignant by the emergence of cloud computing.
+
+\textbf{We design governance systems targeting the APIs exposed by the cloud-hosted
+web applications}. We facilitate configuring and enforcing policies at
+the granularity of APIs. Similarly, we design systems that stipulate performance SLOs 
+for individual APIs, and monitor them as separate independent entities.
