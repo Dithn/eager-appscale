@@ -1,32 +1,33 @@
-Cerebro is a system that predicts response time 
-bounds for web APIs deployed in PaaS clouds.  It does so via 
-static analysis to extract the sequence of cloud SDK 
-calls (i.e. PaaS kernel invocations) made by a given web API code combined with
-historical performance measurements of cloud SDK calls. 
-Cerebro employs QBETS, a non-parametric time series analysis and 
-forecasting method, to analyze
-cloud SDK performance data, and predict bounds
-on response time that can be used as statistical ``guarantees'' with
-associated guarantee probabilities.
+Stipulating SLOs (bounds) on the response time of web APIs is crucial for 
+implementing several automated governance features. To this end we present
+Cerebro, a system that predicts response time SLOs for web APIs deployed 
+in PaaS clouds. The SLOs predicted by Cerebro can be used to
+enforce policies regarding the performance level expected from cloud-hosted
+web applications. They can be used to negotiate SLAs with API clients.
+They can also be used as
+thresholds when implementing application performance monitoring (APM) --
+subject of the next chapter.
 Cerebro is intended for use during development and 
 deployment phases of a web API, and 
 precludes the need for continuous performance testing of the API code. 
 Further, it does not interfere with run-time operation (i.e. it requires
 no application instrumentation) making it scalable.
 
-We have implemented a prototype of Cerebro for Google App Engine public PaaS,
-and AppScale private PaaS,
-and evaluate it using a set of representative
-and open source web applications developed by others.  
-Our findings indicate that the prototype can determine response time levels
-that correspond to specific target SLOs.  These predictions are also durable,
-with average validity times varying between one day and several weeks.
-We also find that API consumers do not experience SLO changes often, and the maximum
-number of times an API consumer encounters an SLO change over a period of 112 days is six.
-Overall, this work shows that automatic definition of response-time SLOs for web APIs is practically
-viable in real world cloud settings, and API consumer timeframes.
+Cerebro uses static analysis to extract the sequence of cloud SDK 
+calls (i.e. PaaS kernel invocations) made by a given web API code, 
+and combines that with the
+historical performance measurements of individual cloud SDK calls. 
+Cerebro employs QBETS, a non-parametric time series analysis and 
+forecasting method, to analyze cloud SDK performance data, and predict bounds
+on API response time that can be used as statistical ``guarantees'' with
+associated guarantee probabilities.
 
-We use Cerebro to predict the 95th percentile of the API operation response time. 
+We have implemented a prototype of Cerebro for Google App Engine public PaaS,
+and AppScale private PaaS. We evaluate it using a set of representative
+and open source web applications developed by others.  
+Our findings indicate that the prototype can determine response time SLOs
+with target accuracy levels specified by an administrator. 
+Specifically, we use Cerebro to predict the 95th percentile of the API operation response time. 
 We find that:
 \begin{itemize}
 \item Cerebro achieves the desired correctness goal of 95\% for all the applications in both cloud environments.
@@ -44,16 +45,12 @@ prediction validity durations for Cerebro.  The average duration of a valid
 Cerebro prediction is between 24 and 72 hours,
 and 95\% of the time this duration is at least 
 1.41 hours for App Engine and 1.95 hours for AppScale.
-\end{itemize}
+\end{itemize} 
 
-Cerebro facilitates reasoning about the performance of web APIs deployed
-in a cloud environment, a capability that is crucial for implementing several
-automated governance features. The bounds predicted by Cerebro can be used to
-enforce policies regarding the performance level expected from cloud-hosted
-web applications. They can be used as SLOs, which in turns can be used to
-formulate SLAs that are advertised to API clients. They can also be used as
-thresholds when implementing application performance monitoring (APM),
-subject of the next chapter.
+We also find that API consumers do not experience SLO changes often, and the maximum
+number of times an API consumer encounters an SLO change over a period of 112 days is six.
+Overall, this work shows that automatic definition of response-time SLOs for web APIs is practically
+viable in real world cloud settings, and API consumer timeframes.
 
 In the current design, Cerebro's cloud SDK monitoring agent only monitors 
 a predefined set of cloud SDK operations. In our future work we wish 

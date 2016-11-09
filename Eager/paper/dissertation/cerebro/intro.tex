@@ -1,3 +1,10 @@
+In the previous chapter we discussed how to implement API governance in
+cloud environments via policy enforcement. This chapter focuses on stipulating
+bounds on the performance of cloud-hosted web applications.
+The ability to understand the performance bounds
+of an application is vital in several governance use cases such as
+performance-aware policy enforcement, and application performance monitoring.
+
 Cloud-hosted web applications are deployed and used as web services. 
 They enable a level of service reuse that both expedites
 and simplifies the development of new client applications.
@@ -17,9 +24,6 @@ to understand the performance impact on their applications
 that results from the increasingly complex collection of
 services that they depend on. 
 
-The ability to understand the performance bounds
-of a service is vital in several governance use cases such as
-performance-aware policy enforcement, and application performance monitoring.
 We present Cerebro to address this requirement without subjecting applications to extensive
 testing or instrumentation. Cerebro is a new approach that 
 predicts bounds on the response time performance of web
