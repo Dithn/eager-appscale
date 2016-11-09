@@ -1,13 +1,3 @@
-PaaS applications rely on a set of managed, scalable services 
-offered by the underlying cloud platform. We refer to these services as 
-PaaS kernel services. PaaS clouds like Google
-App Engine~\cite{gae} and Microsoft Azure~\cite{azure} export
-the kernel services via a well-defined set of APIs, that are collectively
-referred to as the PaaS ``software development kit'' (SDK). The application
-servers provide the linkage between application code and the PaaS kernel
-services. A set of front-end servers expose web application entry points, and
-provide load-balancing for HTTP/S clients invoking the applications.
-
 By providing most of the functionality that applications require via
 kernel services, the PaaS model
 significantly increases programmer productivity.
@@ -15,7 +5,7 @@ However, a downside of this approach is that these features also hide
 the performance details of PaaS applications. 
 Since the applications spend most of their time executing kernel 
 services~\cite{Jayathilaka:2015:RTS:2806777.2806842},
-it is challenging for the developers to diagnose performance issues given the
+it is challenging for the developers to debug performance issues given the
 opacity of the cloud platform's internal implementation. 
 
 One way to circumvent this 
