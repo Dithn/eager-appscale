@@ -1,5 +1,5 @@
 Stipulating SLOs (bounds) on the response time of web APIs is crucial for 
-implementing several automated governance features. To this end we present
+implementing several features related to automated governance. To this end we present
 Cerebro, a system that predicts response time SLOs for web APIs deployed 
 in PaaS clouds. The SLOs predicted by Cerebro can be used to
 enforce policies regarding the performance level expected from cloud-hosted
@@ -27,7 +27,7 @@ and AppScale private PaaS. We evaluate it using a set of representative
 and open source web applications developed by others.  
 Our findings indicate that the prototype can determine response time SLOs
 with target accuracy levels specified by an administrator. 
-Specifically, we use Cerebro to predict the 95th percentile of the API operation response time. 
+Specifically, we use Cerebro to predict the 95th percentile of the API response time. 
 We find that:
 \begin{itemize}
 \item Cerebro achieves the desired correctness goal of 95\% for all the applications in both cloud environments.
@@ -47,9 +47,10 @@ and 95\% of the time this duration is at least
 1.41 hours for App Engine and 1.95 hours for AppScale.
 \end{itemize} 
 
-We also find that API consumers do not experience SLO changes often, and the maximum
+We also find that, when using Cerebro to establish SLOs, the API consumers do not 
+experience SLO changes often, and the maximum
 number of times an API consumer encounters an SLO change over a period of 112 days is six.
-Overall, this work shows that automatic definition of response-time SLOs for web APIs is practically
+Overall, this work shows that automatic stipulation of response-time SLOs for web APIs is practically
 viable in real world cloud settings, and API consumer timeframes.
 
 In the current design, Cerebro's cloud SDK monitoring agent only monitors 
