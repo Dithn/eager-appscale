@@ -1,0 +1,243 @@
+Begin forwarded message:
+
+From: WWW 2017 <www2017@easychair.org>
+Subject: WWW 2017 ACCEPTANCE notification for paper 645
+Date: December 19, 2016 at 2:44:49 PM PST
+To: Hiranya Jayathilaka <hiranya@cs.ucsb.edu>
+
+Dear Hiranya Jayathilaka,
+
+Congratulations! We are pleased to inform you that your submission has been accepted to WWW 2017:
+
+645 : Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+
+This year we received 966 valid submissions, 33% more than last year.  We were able to accept only 164 of these, representing an accept rate of about 17%.
+
+All accepted papers will appear in the proceedings as full-length publications and will also be presented as talks at the conference.  We will send the following additional information to you shortly:
+1. Details with the session and duration allocated for your oral presentation.
+2. Information on the procedure and timing for submitting your camera-ready version (tentative due date for the camera-ready version is Feb 14, 2017)
+3. Information on registering for WWW 2017
+
+The program committee worked very hard to thoroughly review all the submitted papers and to provide action points to improve your paper.  All papers were reviewed by at least three program committee members (and most of the papers were reviewed by four or more), and by track chairs (and in some tracks also a senior PC member) to oversee discussion amongst the reviewers and provide an overall recommendation for the paper.  We trust that you will take their suggestions into account when producing the final version of your paper.
+
+As WWW is a forum for presenting and discussing current research, at least one author must complete the regular conference registration and commit to present the paper at the conference. If you have multiple papers accepted, it is fine for a single person to present more than one.
+
+Once again, congratulations -- and we look forward to seeing you in Perth, Australia!  Further information about the conference can be found at http://www.www2017.com.au/ 
+
+The reviews for your paper are below.
+
+Best regards,
+
+Eugene Agichtein and Evgeniy Gabrilovich
+WWW 2017 Program Co-Chairs
+
+
+----------------------- REVIEW 1 ---------------------
+PAPER: 645
+TITLE: Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+AUTHORS: Hiranya Jayathilaka, Chandra Krintz and Rich Wolski
+
+Originality: 3
+Impact: 2
+Reproducibility: 3
+Overall evaluation: 3
+
+----------- Strong Points -----------
+1. This paper presents a useful system for detecting and localing performance anomalies in full-stack PaaS systems.
+2. They authors present a full working system in a commerical-grade cloud platform.
+
+----------- Weak Points -----------
+1. Many cloud providers have moved to hosting PaaS systems on top of IaaS systems (e.g., Heroku). Google App Engine, the model for PaaS used in the paper, isn't widely used. It isn't clear how widely applicable this design is to deployed PaaS systems.
+2. The evaluation uses completely synthetic faults that have very simple behavior: excessive latecny on all requests for a few minutes. These faults may not adequately reflect the range of failures seen in the real world, such as more sporadic or bursty failures.
+3. The paper isn't clear on a deployment scenario: with a clean separation of cloud tenants from operators, how is this system used and by whom?
+
+----------- Detailed Review -----------
+This paper tackles the important of diagnosing performance problems in deployed systems, and does so with a full-stack tracing approach. This seems like a good match for full-stack PaaS systems.
+The design seems solid, and the results demonstrate the system is able to pinpoint failures fairly quickly in a few situations. It will likely be very useful for users/operators of AppScale.
+
+But, there are a few problems with the work.
+
+There are many past full-stack tracing/diagnosis systems, such as xTrace and others. The paper uses a different set of analysis for finding anomalies and workload changes, but it isn't clear how the tracing methodology relates or whether a new system is needed for this.
+
+How Roots should be used also ins't clear: it clearly cuts across boundaries. But, in most cloud hosting environments there is a clean separation of the cloud operators and tenants, and operators likely don't share performance data with tenants. The paper isn't clear on who would use this system -- in house cloud environments?
+
+Likewise, the paper targes PaaS systems with SLAs to enforce SLOs. However, pretty much no commercial PaaS or IaaS systems do this; looking at their terms, they are clear that they typically guarantee uptime but noting about responsiveness.
+
+The evaluation for this work simulates failures by increasing the latency of requests for 3 minutes. However, this biases the failures towards ones that Roots is designed to detect, and doesn't necessarily show whether Roots can detect real failures. It would be useful to have more discussion of exactly how failures manifest and more carefully model the full range of failures. For example, the work doesn't consider misbehaving tenants that increase load on a service and cause SLO failures. Roots will detect these at the services as being too slow, but doesn't seem to track it back to other tenants that have increased their workload. Or, rather, the paper doesn't show Roots can do this. As a PaaS system likely comprises services on multiple machines, the evaluation also doesn't show the use or Roots in a large distributed system with numerous services on different phyiscal hosts. Looking at burstier loads that may be harder to characterize would also be useful to demonstrate !
+the likelihood of false positives.
+
+The design uses "Pods" to group related services for scalability, but doesn't explain exactly what a pod is, how it is used, or how the choice is made of what to put in a pod. Is this a tenant decision or an operator decision?
+
+For the SLO violation detector, the paper isn't clear on whether this is application specific or is generic. Is this something tenants provide and run, or does the cloud provider?
+
+The bottleneck detector assumes there is nothing asynchronous or parallel about request handling; this may be true in for some systems but some comment on why it is true in general would be useful.
+
+The discussion of anomaly detection speed never quantifies speed; figure 3 is too coarse-grained to be able to read the latency of detection directly from it. Simlarly, figure 4 is also too large a timescale to really show latencies.
+
+
+----------------------- REVIEW 2 ---------------------
+PAPER: 645
+TITLE: Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+AUTHORS: Hiranya Jayathilaka, Chandra Krintz and Rich Wolski
+
+Originality: 3
+Impact: 2
+Reproducibility: 3
+Overall evaluation: -2
+
+----------- Strong Points -----------
++ Modified real PAAS stack.
++ Real applications are indeed cobbled from different PAAS services, so this approach makes sense.
++ Problem is novel.
+
+----------- Weak Points -----------
+- Toy examples; real applications are much more complex.
+- Solution novelty is unclear.
+
+----------- Detailed Review -----------
+Applications running in the cloud are constructed from different PAAS services, so this approach to identifying performance bottlenecks makes sense. However, real applications are likely to be composed from a large number of services that are organized not in a simple linear chain but in arbitrary DAG workflows. Each component often reaches out to multiple other components in parallel. Sometimes it must wait for all of them to respond; in other cases, it waits for the first one. The paper does not talk about how to handle these cases. In addition, application or service code might not synchronously wait for an invocation to finish; instead, it might continue executing, either completing other tasks that don't depend on the response or more rarely, speculating on the response. I am not convinced that in these cases anomaly detection and root cause analysis will work.
+
+In addition, what about network delays when a service invokes another service? If a packet is delayed at the NIC of the machine that made the invocation, will the invoked service be flagged as slow? 
+
+In general, I failed to get a sense of what's novel in the solutions used. The problem statement does seem novel -- performance monitoring in a PAAS environment.
+
+
+----------------------- REVIEW 3 ---------------------
+PAPER: 645
+TITLE: Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+AUTHORS: Hiranya Jayathilaka, Chandra Krintz and Rich Wolski
+
+Originality: 3
+Impact: 2
+Reproducibility: 2
+Overall evaluation: -2
+
+----------- Strong Points -----------
+- tackles a very important problem
+- well-written and presented
+
+----------- Weak Points -----------
+- The detection of performance anomalies is less effective as hoped due to
+ frequent double counting of anomalies (see clustered spikes in fig3/5/6).
+- The evaluation should be more extensive and include more realistc cases.
+
+----------- Detailed Review -----------
+Roots attempts to monitor and perform root cause attribution for
+unmodified web applications running on top of a PaaS. To this end, it
+provides a simple solution for this problem by tagging incoming
+requests while measuring their execution time inside multiple PaaS
+services and its software stacks.
+
+To provide more thorough evaluation results, please consider:
+
+1. Validating the double counting problem of SLO violations
+
+The proposed test method of detecting SLO violations is shown to work well in
+detecting injected failures, but the claim mode in 4.1 for a detector matching
+SLO violations only once seems far fetched.
+In fact, the sliding window model seems to catch almost every violation twice
+(i.e. fig 6 with all 5 violations being reported twice).
+It would be better to merge these correlated events in a later processing step
+after concluding that both events are in fact pointing at the same SLO violation.
+
+2. Evaluation of bottleneck identification
+
+To evaluate the bottleneck identification, it would be better to
+include an experiment with a varying bottleneck, other than the
+hardcoded fault injection in the datastore service. For example, one
+could include faults in the user authentication module for the
+guestbook service to demonstrate the versatility in identifying
+bottleneck.
+
+Further comments:
+- Overall, this paper would greatly benefit from a real-world example of a
+ bottleneck in a more complex setup (i.e. more nodes) rather than the rather
+ basic fault injection presented in here.
+- In tbl 3, the latency seems to be consistently reduced with Roots vs. an
+ unmodified instance, even though Roots adds overhead when processing a
+ request, I would appreciate a discussion of this anomaly.
+- On page 3, the term "LMG" is used without introduction.
+- The term "benchmarkers" on page 3 is used without prior introduction.
+
+
+----------------------- REVIEW 4 ---------------------
+PAPER: 645
+TITLE: Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+AUTHORS: Hiranya Jayathilaka, Chandra Krintz and Rich Wolski
+
+Originality: 3
+Impact: 2
+Reproducibility: 2
+Overall evaluation: 3
+
+----------- Strong Points -----------
++ The problem is very important: better performance monitoring for Cloud applications is much needed and often an afterthought.
++ I like the approach of providing performance monitoring as a service with the rest of the capabilities that a Cloud provider offers. I believe if current Cloud computing infrastructures had better performance diagnosis capabilities, it'd be a big competitive advantage.
+
+----------- Weak Points -----------
+- The evaluation is rather underwhelming.
+- Given that Roots does not target application-level instrumentation, it might have a hard time isolating low-level constructs that are root causes of performance problems (i.e., performance bugs in the code).
+
+----------- Detailed Review -----------
+o I fear that isolating the root cause of a problem in an application at the component granularity is far too high level (I am referring to the case, where the root cause is not in the cloud infrastructure). How could you improve this situation? 
+o There was no detailed discussion as to how much effort it would likely take to 1) instrument an existing cloud framework (e.g., Azure) with the capability similar to Roots'. In particular, I am curious how much maintenance effort would be required (I assume cloud frameworks' code evolve very rapidly).
+o The authors could try their approach on more applications and potentially collaborate with large Cloud providers to have "real-world" results.
+o It is valuable to inject performance bugs and determine whether Roots is able to catch them, but it would be far more compelling to find new performance bugs (I realize you did find one).
+o It is not sufficient to only look at latency to evaluate the performance impact of Roots. Since you are relying on asynchronous tasks for data collection, you are likely increasing the utilization of the servers you operate on, meaning you are reducing the available computing capacity that the provider could otherwise allocate to a customer. Please report utilization numbers.
+o A key piece of missing related work that needs to be discussed is the X-ray work from OSDI'12. Another one is the Pivot tracing paper from SOSP'15 (best paper).
+
+
+----------------------- REVIEW 5 ---------------------
+PAPER: 645
+TITLE: Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+AUTHORS: Hiranya Jayathilaka, Chandra Krintz and Rich Wolski
+
+Originality: 2
+Impact: 2
+Reproducibility: 3
+Overall evaluation: 3
+
+----------- Strong Points -----------
+* The authors have built a realistic prototype of their monitoring system.
+* The approach is lightweight, and neither impacts the application code nor the performance of that code.
+* The paper is clearly written and well presented.
+
+----------- Weak Points -----------
+* The deployment strategy would requires modifications to all platform services in the PaaS stack - there is no scope for incremental deployment.
+* It is unclear how the approach generalizes to more complicated applications (e.g. applications that make a variable number of requests per user request).
+* There's a lot of related work in this space, and the novelty of the contribution is slim.
+
+----------- Detailed Review -----------
+The paper describes a system called "Roots", which is a PaaS cloud service that collects the output of instrumentation from other PaaS components, associates that output with client-level requests (by tagging incoming requests and flowing the tag between the application and other components), and performs anomaly detection and root-cause analysis to determine the reasons for SLA violations. The authors have implemented a prototype using the AppScale open-source PaaS stack, and demonstrate the efficacy of their solution on a variety of simple applications by injecting faults and showing that these are correctly and promptly attributed to their cause.
+
+The deployment strategy assumes that it is possible to modify the entire PaaS stack. Is this a reasonable assumption? Is there any way that you could make your solution incrementally deployable, e.g. by virtualizing the application executor? The paper only discusses coarse-grained timing statistics, so it seems possible that the same anomalies could be detected by a less invasive form of app-level monitoring.
+
+You seem to have a clear idea about the application model (mostly blocked on PaaS kernel calls, making a static and small number of requests) but I didn't get a clear sense of whether this is general enough to support most PaaS applications. For example, the vector representation of a request that you use in your linear model seems to assume that all requests translate into the same sequence kernel invocations. It also wasn't clear how this would deal with very heterogeneous request: e.g. if you modeled Twitter this way, would every tweet by @katyperry be an anomaly? 
+
+I would have expected to see citations to all of the following papers, and a discussion of how your work relates to them:
+
+Aguilera et al. "Performance Debugging for Distributed Systems of Black Boxes", SOSP 2003.
+Barham et al. "Using Magpie for request extraction and workload modelling", OSDI 2004.
+Chen et al. "Pinpoint: Problem Determination in Large, Dynamic Internet Services", DSN 2002.
+Sigelman et al. "Dapper, a Large-Scale Distributed Systems Tracing Infrastructure", Technical Report, 2010.
+
+Each of these uses a similar approach of tagging user-level requests with an identifier and tracing its path through the system, requires some modifications to the services, and uses this to perform various analyses such as anomaly detection. While the PaaS angle is new, it's not clear how your work differs fundamentally from these works.
+
+
+-------------------------  METAREVIEW  ------------------------
+PAPER: 645
+TITLE: Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications
+
+This paper describes a monitoring system (Roots), enabling detection and location of performance anomalies for PaaS systems. Components in a PaaS cloud are extended to enable tagging of client requests, enabling the tracking of requests as they flow across process/machine/etc boundaries, which in turn enables easier root-causing of performance anomalies. Ostensible contributions are system architecture, statistical techniques for detecting anomalies and identifying bottleneck components, and a working prototype demonstrating efficacy of such.
+
+Thematic strengths from the reviews:
+* apparently production-grade system, in use in real deployments
+* important problem
+
+Thematic weaknesses:
+* solution lacks novelty: well-explored area with much un-cited work (xTrace, Magpie, X-Ray, Pivot-tracing, Retro, pinpoint...)
+* Targets old model (PaaS/bare-metal rather than more common PaaS/IaaS stack)
+* Evaluation relies on synthetic faults, toy examples, lacks breadth
+* deployment model unclear (who is using it? providers? tenants?)
+
+The paper's primary strength, based on the reviews, is describing a "real world" system. The architecture of the system does not appear at first blush to contribute much beyond existing systems in this area, and the paper neglects significant related work that relies on similar basic designs (Retro NSDI -'15, Pivot-tracing SOSP '15) as well as less-similar but clearly related work pointed out by the reviewers. The detection contribution boils down to some fairly obvious statistical techniques, which while effective, are not obviously novel.
