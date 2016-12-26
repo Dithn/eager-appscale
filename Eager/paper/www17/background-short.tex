@@ -78,21 +78,25 @@ with the ``owner'' or operator of the application that is hosted in a PaaS.  The
 stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breach of the
 agreement (similar to \cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  
 A performance anomaly, then, is an event or set of events that
-causes an application-level SLO to be violated.
+causes an application-level SLO to be violated. The response time SLO of an application
+is specified by the user who deploys the application in the cloud.
 %approach associates each application with
 %a set of performance SLOs. We consider SLOs concerning the application response time
 %(latency), which get violated when an application becomes too slow.
 %If the performance of an application deteriorates to the
 %point that at least one of its SLOs is violated, we treat it as an anomaly. 
 
-Further, we refer to the process of diagnosing whether increased workload or
+We refer to the process of diagnosing whether increased workload or
 an unusually slow software component is responsible for an anomaly, and in the
 latter case, the identification of the slow component as \textit{root cause
 analysis}.  When request latency increases and violates an SLO and the
 workload has not increased, we assume that there is a ``bottleneck'' component
 in the application code or PaaS runtime that is responsible.  Roots performs
 root cause analysis in near real time so that it can alert cloud users and
-administrators of problems it detects.
+administrators of problems it detects. This allows users to
+identify the potential bottlenecks in their application implementations, and revise them
+accordingly. Cloud administrators can use this information to uncover the bottlenecks in the cloud
+platform, and take corrective action.
 %For a given anomaly, the root cause could be a change in the application
 %workload or a \textit{bottleneck} in the application runtime.  Bottlenecks
 %may occur in the application code, or in the PaaS services that the
