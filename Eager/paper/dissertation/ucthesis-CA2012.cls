@@ -213,7 +213,7 @@
     \smallskip in \par
     \smallskip {\@field} \par
     \bigskip \medskip by \par
-    \bigskip \medskip {\@author} \par
+    \bigskip \medskip Hiranya K. Jayathilaka \\ (Iyagalle Gedara) \par
   \end{center}
   {\vspace{6ex}
         Committee in charge:
