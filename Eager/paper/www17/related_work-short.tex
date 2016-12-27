@@ -34,7 +34,25 @@ In our future work we wish to also factor in the events that occur within PaaS s
 and expand the bottleneck identification capabilities of Roots down to internal
 service components, containers and VMs.
 
-Monitoring systems noted above collect data online, but perform heavy computations
+Attariyan et al presented X-ray~\cite{Attariyan:2012:XAR:2387880.2387910}, 
+a performance summarization system that can be applied
+to a wide range of production software. X-ray attributes performance costs to each
+basic block executed by a software application, and estimates the likelihood a block
+was executed due to a potential root cause. With that X-ray can compute a list of root cause
+events ordered by performance costs. However, X-ray relies on instrumenting application
+binaries. It also attributes performance
+issues to root causes under the user's control such as configuration issues.
+Therefore for each application the X-ray user must specify the application configurations,
+program inputs, 
+as well as a way to identify when a new request begins. Roots requires neither binary
+instrumentation, nor any additional user input. Also it can detect performance bottlenecks
+in the cloud platform that are beyond application developer's control. In the
+future we wish to explore the idea of selective instrumentation, in which
+we temporarily instrument an application to gather additional runtime data for a period, so
+we can perform X-ray like performance summarization on-demand.
+
+Systems noted above (\cite{Chen:2002:PPD:647883.738238,Aguilera:2003:PDD:945445.945454,Attariyan:2012:XAR:2387880.2387910}) 
+collect/trace data online, but perform heavy computations
 offline. We take the same approach in Roots by running anomaly detection
 and root cause analysis as offline processes. However, none of the above
 systems have been designed for or tested in a cloud environment. Roots on

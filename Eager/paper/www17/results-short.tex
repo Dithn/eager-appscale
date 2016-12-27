@@ -55,7 +55,8 @@ by guestbook results in two PaaS kernel service
 invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
-14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory.
+14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory, provisioned by
+a Eucalyptus IaaS cloud~\cite{eucalyptus09}.
 
 We run the SLO-based anomaly detector of Roots on guestbook with a sampling rate of 15 seconds, an analysis
 rate of 60 seconds, and a window size of 1 hour. We set the minimum samples count to 100, and
@@ -364,7 +365,7 @@ a clustered AppScale cloud.}}
 
 To demonstrate how Roots can be used in a multi-node environment, we deploy AppScale
 using a cluster of 10 virtual machines (VMs). VMs are provisioned by a
-Eucalyptus~\cite{eucalyptus09} (IaaS)
+Eucalyptus IaaS
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
 to deploy 8 instances of the guestbook application on AppScale. We use the multi-tenant support
 in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). 
