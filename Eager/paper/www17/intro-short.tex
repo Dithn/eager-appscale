@@ -29,9 +29,8 @@ administrators must trust the application developers to instrument their
 applications correctly (e.g. logging all the relevant 
 information to diagnose a rare performance fault).  Even when good application
 instrumentation is available, however, because applications depend 
-so heavily on
-extant cloud services (e.g. database services, in-memory caching, etc.) that
-are performance opaque,
+so heavily on extant performance opaque
+cloud services (e.g. database services, in-memory caching, etc.),
 it is often difficult, if not impossible, to diagnose
 the ``root cause'' of a performance problem.
 
@@ -61,8 +60,7 @@ They are
 comprised of many layers, where each layer may consist of many interacting components.
 Therefore when a performance anomaly manifests in a user application, it is
 often challenging
-to determine whether the anomaly's cause is in the platform software
-and the exact software component that is responsible. 
+to determine the exact software component that is responsible. 
 Facilitating this type root cause analysis requires
 both data collection at different layers of the cloud, and mechanisms for correlating 
 the events recorded at different layers~\cite{7420511}. 
@@ -92,7 +90,7 @@ into a variety of cloud Platform-as-a-Service (PaaS) technologies.
 PaaS clouds, in particular, provide abstractions that hide most of the 
 details concerning application
 runtime~\cite{Soni:2014:CCB:2592737.2592741}. 
-To do so, they offer a set of scalable, managed cloud services that
+They offer a set of scalable, managed cloud services that
 provide an assortment of functionality,
 which developers invoke from the application implementations.
 %to compose 
@@ -103,7 +101,7 @@ which developers invoke from the application implementations.
 %therefore not viable in a PaaS cloud that hides runtime details beneath a layer of managed services.
 To be able to correlate application activity with cloud service events,
 Roots must be able to introspect the entire platform software stack. Therefore we
-have chosen to design it to operate
+have chosen to design it
 %we design Roots 
 as another managed service built into the PaaS cloud. 
 %Therefore
@@ -119,8 +117,8 @@ application code invokes various service implementations of the PaaS cloud,
 and then correlates them with specific application requests.
 Roots also records the latency of each application request, and
 of each application call to an
-internal cloud service implementation. It uses batch operations and asynchronous 
-communication to record events with the goal of introducing minimal overhead.
+internal cloud service implementation. %It uses batch operations and asynchronous 
+%communication to record events with the goal of introducing minimal overhead.
 
 %The proposed
 %APM is not an external system that monitors a cloud platform from the outside (as most APM systems today). 
@@ -188,7 +186,7 @@ bottleneck in the cloud platform (e.g. a slow database query). To facilitate
 this analysis we propose a ``bottleneck identification'' methodology
 for PaaS clouds. 
 Our approach uses a combination of quantile analysis, change point detection
-and linear regression to perform this form of root cause analysis. 
+and linear regression. 
 
 We test the efficacy of our approach with a working prototype of 
 Roots using the AppScale~\cite{6488671} open source PaaS. 
@@ -206,11 +204,11 @@ of applications simultaneously.
 Thus we summarize the contributions made by this paper as follows.
 \begin{itemize}
 \item We describe the architecture of Roots as an intrinsic PaaS
-service, which works automatically without requiring or depending upon
+service, which works automatically without depending upon
 application instrumentation.
 \item We describe a statistical methodology for determining when an
 application is experiencing a performance anomaly, and identifying the 
-workload change or the application component that is responsible for the anomaly.
+workload change or the cloud service that is responsible for the anomaly.
 \item We demonstrate the effectiveness of the approach using a working PaaS
 prototype and real web applications.
 \end{itemize}
