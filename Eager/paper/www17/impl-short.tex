@@ -30,8 +30,8 @@ from all major components of the PaaS. These agents buffer data locally, and sto
 in batches. Roots persist events when the buffer accumulates 1MB of data or every 15 seconds, whichever comes
 first.  This ensures that the events are promptly reported to the Roots data
 storage while keeping the memory footprint of the data collecting agents small and bounded. 
-For processing server logs and storing the extracted entries in ElasticSearch,
-our prototype uses Logstash~\cite{logstash}. 
+%For processing server logs and storing the extracted entries in ElasticSearch,
+%our prototype uses Logstash~\cite{logstash}. 
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
 which is derived from the GAE PaaS SDK. Specifically, we implement a Roots agent that monitors
 and times all PaaS kernel invocations, and reports them to ElasticSearch. 
@@ -40,7 +40,7 @@ We implement Roots pods, which contain more computationally intensive Roots comp
 as standalone Java server processes. We use threads to run benchmarkers,
 anomaly detectors, and handlers concurrently within each pod. Pods communicate with ElasticSearch via
 a web API, and many of the data analysis tasks such as filtering and aggregation are performed
-directly in ElasticSearch.
+in ElasticSearch.
 
 \subsection{Detecting SLO Violations}
 
@@ -50,8 +50,7 @@ performance SLO is an upper bound on the application response time ($T$), and a 
 that the application response time is below the specified upper bound. 
 When activated, the detector starts an application benchmarking process within a Roots pod
 that periodically measures the response time of the target application. Probes made by the benchmarking 
-process are several seconds apart in time (defined by the process sampling rate), 
-so as not to degrade application performance.
+process are several seconds apart in time (defined by the process sampling rate).
 The detector periodically
 analyzes the collected response time measurements to check if the application meets the specified performance
 SLO. The detector also accepts a minimum sample count as a parameter. This is the minimum number of 
@@ -180,7 +179,7 @@ Roots employs multiple candidate selection algorithms to identify
 components that are potentially
 the bottleneck responsible for the detected anomaly. Our algorithms look for
 a variety of inconsistencies and changes in the performance characteristics of 
-individual components.  In our prototype, we consider four slection
+individual components.  In our prototype, we consider four selection
 algorithms:
 one that determines the relative importance (in terms of explained variance)
 of components, one that tracks 
@@ -209,10 +208,10 @@ to preclude them from skewing the regression.
 We consider the influence of $r$ in other methods described below.
 
 Roots ranks the regressors (i.e. $T_{X_n}$ values) based on their contribution to the variance 
-in $T_{total}$.  It uses the LMG method~\cite{lmg80} to do so which is resistant to multicollinearity, 
+in $T_{total}$.  It uses the LMG algorithm~\cite{lmg80} to do so which is resistant to multicollinearity, 
 and provides a breakdown of the $R^2$ value of
 the regression according to how strongly each regressor influences
-the variance of the dependent variable ($T_{total}$).
+the variance of $T_{total}$.
 Roots selects the highest ranked component as a candidate.
 
 \paragraph*{Change in Relative Importance}
@@ -225,8 +224,7 @@ For this method, Roots divides the time window $W$ into equal-sized segments,
 and computes relative importance for regressors within each segment. 
 This results in multiple time series of relative importance values.
 We subject each relative importance time series to change point analysis (PELT in our prototype), 
-and attempts to
-identify the variable that shows a change and the greatest
+and identify the variable that shows a change and the greatest
 increase in relative importance.
 If such a variable is found, then the component
 associated with that variable is considered by Roots as a bottleneck candidate.
