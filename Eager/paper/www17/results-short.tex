@@ -1,5 +1,5 @@
 We next evaluate the efficacy of Roots as a performance monitoring and root cause
-analysis system for PaaS applications.
+analysis system for PaaS-hosted web applications.
 To do so, we consider its ability to identify and characterize SLO violations.
 For violations that are not caused by a change in workload, we evaluate Roots' ability to identify
 the PaaS component that is the cause of the performance anomaly.
@@ -55,7 +55,7 @@ by guestbook results in two PaaS kernel service
 invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
-14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory, provisioned by
+14.04 VM with 4 virtual 2.4 GHz CPU cores and 4GB of memory, provisioned by
 a Eucalyptus IaaS cloud~\cite{eucalyptus09}.
 
 We run the SLO-based anomaly detector of Roots on guestbook with a sampling rate of 15 seconds, an analysis
@@ -68,7 +68,7 @@ the application. Then we obtain three different upper bound values for the guest
 response time by setting 
 $n$ to 2, 3 and 5 and denote the resulting three SLOs $L_1$, $L_2$ and $L_3$ respectively.
 
-Next, we inject performance faults into the AppScale PaaS by modifying its code
+Next, we inject performance faults into AppScale by modifying its code
 to cause the datastore service to be slow to respond.
 This fault injection logic activates once every hour, and
 slows down all datastore invocations by 45ms over a period of 3 minutes.
@@ -110,7 +110,7 @@ Roots.
 \end{figure}
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
-first consider the performance of guestbook under the $L_1$ SLO while 
+consider the performance of guestbook under the $L_1$ SLO while 
 injecting faults into the datastore service. Figure~\ref{fig:time_line_guestbook_2s} shows
 anomalies detected by Roots as events on a time line. The horizontal axis represents 
 passage of time. The red arrows indicate the start of a fault injection period, where each
@@ -229,10 +229,10 @@ Note that each burst is immediately followed by a Roots anomaly detection event 
 In each of these 6 cases, the increase in workload caused a violation of the application performance SLO.
 Roots detected the corresponding anomalies, and determined them to be caused by changes in the workload size.
 As a result, bottleneck identification was not triggered for any of these anomalies.
-Even though the bursts of traffic appear to be momentary
-spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on the application performance.
-The PELT change point detection method used in this experimental set up is ideally suited for detecting
-such lasting changes in the workload level.
+%Even though the bursts of traffic appear to be momentary
+%spikes, each burst lasts for 4 to 5 minutes thereby causing a lasting impact on the application performance.
+%The PELT change point detection method used in this experimental set up is ideally suited for detecting
+%such lasting changes in the workload level.
 
 \subsection{Bottleneck Identification}
 
@@ -391,7 +391,7 @@ period. As soon as this happens, the anomaly detectors of $G4$, $G6$ and $G7$ en
 Our fault injection logic continued to inject faults for at least 2 more minutes. 
 Therefore when the anomaly detectors
 reactivated after 25 minutes (which is the time to collect the minimum sample count), they each saw another SLO
-violation. This is another set of detection events appears in the figure
+violation. Hence another set of detection events appears in the figure
 approximately half an hour after the
 original fault injection events.
 
@@ -404,7 +404,7 @@ original fault injection events.
 \hline
 Feature & Results Observed in Roots \\ \hline
 Detecting accuracy &
-The first occurance of all artificially induced anomalies were detected.
+The first occurrence of all artificially induced anomalies were detected.
 Roots also detected several ``natural'' anomalies in AppScale. \\ \hline
 Anomaly Differentiation &
 All anomalies were correctly identified as either due to workload change or
@@ -483,7 +483,7 @@ Table~\ref{tab:perf_overhead} shows the comparison of request
 latencies with 50 clients for each of the applications. 
 The data shows that Roots does not add a significant overhead
 to the request latency in any of the scenarios considered. In all the cases,
-the mean request latency when Roots is in use is within or below one standard deviation
+the mean request latency when Roots is in use is within one standard deviation
 from the mean request latency when Roots is not in use.
 
 %The request latency increases when the number of concurrent clients is
