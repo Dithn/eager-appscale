@@ -1,7 +1,7 @@
 Roots falls into the category of performance anomaly detection and bottleneck identification 
 (PADBI) systems~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
-Such systems play a crucial role in achieving guaranteed performance and
-quality of service by detecting performance issues in a timely manner before they escalate into major outages
+They play a crucial role in achieving guaranteed performance and
+quality of service by detecting performance issues before they escalate into major outages
 or SLO violations~\cite{6045942}. 
 However, the paradigm of cloud computing is yet to be
 fully penetrated by PADBI systems research. The size, complexity and the dynamic nature of 
@@ -26,7 +26,7 @@ blackbox components~\cite{Aguilera:2003:PDD:945445.945454}.
 They infer the inter-call causal paths between application components, and attribute delays to those
 components. Roots does something similar, but we only consider one level of
 interaction in our work -- from application code to PaaS kernel services. This is sufficient
-to determine the PaaS kernel invocation that may have triggered a performance anomaly.
+to determine the PaaS kernel invocation that may have caused a performance anomaly.
 The blackbox components considered in our work (i.e. the PaaS kernel services) do not
 typically interact with each other. However, each PaaS kernel service is a distributed system
 of its own right with many internal components running on different containers and VMs.
@@ -42,7 +42,7 @@ basic block executed by a software application, and estimates the likelihood a b
 was executed due to a potential root cause. With that X-ray can compute a list of root cause
 events ordered by performance costs. However, X-ray relies on instrumenting application
 binaries. It also attributes performance
-issues to root causes under the user's control such as configuration issues.
+issues to root causes under user's control such as configuration issues.
 Therefore for each application the X-ray user must specify the application configurations,
 program inputs, 
 as well as a way to identify when a new request begins. Roots requires neither binary
