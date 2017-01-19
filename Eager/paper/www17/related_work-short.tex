@@ -72,3 +72,11 @@ the kernel services of the PaaS cloud.
 Nguyen et al presented PAL, another anomaly detection mechanism targeting
 distributed applications deployed on IaaS clouds~\cite{Nguyen:2011:PPR:2038633.2038634}. 
 Similar to Roots, they also use an SLO monitoring approach to detect anomalies.
+
+Anomaly detection is a general problem not restricted to performance analysis. Researchers
+have studied anomaly detection from various standpoints and come up with many
+algorithms~\cite{Chandola:2009:ADS:1541880.1541882}.
+While we use many statistical methods
+in our work (change point analysis, relative importance, quantile analysis), Roots is not tied to any of these
+techniques. Rather, we provide an extensible framework on top of which new anomaly detectors and anomaly
+handlers can be built.
