@@ -165,7 +165,7 @@ that is mostly served from the cache. This is done by repeatedly executing read 
 selected set of object keys. However, the client randomly sends bursts of traffic requesting keys that
 are not likely to be in the application cache, thus resulting in many cache misses. Each burst
 lasts up to 2 minutes. As shown in 
-figure~\ref{fig:time_line_caching}, Roots path distribution analyzer correctly detects the change 
+Figure~\ref{fig:time_line_caching}, Roots path distribution analyzer correctly detects the change 
 in the workload (from many cache hits to many cache misses), nearly every time the test client injects a 
 burst of traffic that triggers the cache miss path of the application. The only exception is when
 multiple bursts are clumped together, in which case only the first raises an alarm in Roots.
@@ -202,7 +202,7 @@ Next we evaluate the bottleneck identification capability of Roots. We first dis
 the guestbook application, and follow with
 results obtained using a more complex application.
 In the experimental run illustrated in 
-figure~\ref{fig:time_line_guestbook_2s}, Roots determined that all the detected anomalies except for one were 
+Figure~\ref{fig:time_line_guestbook_2s}, Roots determined that all the detected anomalies except for one were 
 caused by the AppScale datastore service. This is consistent with our expectations since in this experiment we 
 artificially inject faults into the datastore. 
 The only anomaly that is not traced back to the datastore service is the one that was detected at 14:32 hours.
@@ -215,7 +215,7 @@ request latency to increase significantly. Therefore we can conclude that Roots 
 the root causes of all 18 anomalies in this experimental run
 including one that we did not inject explicitly. 
 
-Similarly, in the experiment shown in figure~\ref{fig:time_line_guestbook_2s_user}, Roots determined
+Similarly, in the experiment shown in Figure~\ref{fig:time_line_guestbook_2s_user}, Roots determined
 that all the anomalies are caused by the user management service, except in one instance. This is again
 inline with our expectations since in this experiment we inject faults into the user management service. For the
 anomaly detected at 04:30 hours, Roots determined that local execution time is the primary bottleneck.
@@ -276,7 +276,7 @@ conclusion to be accurate. Since 08:27 (when the previous anomaly was detected),
 query has frequently taken a long time to execute (again, on
 its own), which resulted in an SLO violation at 08:56 hours.
 
-In the experiments illustrated in figures~\ref{fig:time_line_guestbook_2s}, \ref{fig:time_line_guestbook_2s_user}, 
+In the experiments illustrated in Figures~\ref{fig:time_line_guestbook_2s}, \ref{fig:time_line_guestbook_2s_user}, 
 \ref{fig:time_line_stocks_1}, and \ref{fig:time_line_stocks_2} we maintain
 the application request rate steady throughout the 10 hour periods. Therefore,
 the workload change analyzer of Roots did not detect any significant shifts in the workload level. 
@@ -457,7 +457,7 @@ for 4 CPU cores. The maximum memory usage in this case is only 778 MB.
 Since each anomaly detector operates with a fixed-sized window, and they
 bring additional data into memory only when required, the memory
 usage of the Roots pod generally stays low. In particular, the average resource usage
-is far less than the maximum usage values shown in figure~\ref{fig:pod_performance}. 
+is far less than the maximum usage values shown in Figure~\ref{fig:pod_performance}. 
 For example, in case of 10000 detectors, the average CPU usage is only 32\%, and 
 the average memory usage is 507 MB. We also experimented with larger concurrent
 detector counts, and we were able to pack up to 40000 detectors into the pod before

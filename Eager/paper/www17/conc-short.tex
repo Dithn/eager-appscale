@@ -30,15 +30,16 @@ and scales well to handle large populations of applications.
 %Specifically,
 %we see that a single Roots pod is able to monitor tens of thousands of applications.
 
-%In our future work we plan to expand the data gathering capabilities of Roots into
-%the low level virtual machines and containers that host various services of the cloud
-%platform. We intend to tap into the hypervisors
-%and container managers to harvest runtime data regarding the resource usage (CPU, memory, disk etc.) of
-%PaaS services and other application components. With that we expect to extend
-%the root cause analysis support of Roots so that it can not only pinpoint the
-%bottlenecked application components, but also the low level hosts and system
-%resources that constitute each bottleneck.
+As part of future work, we plan to expand the data gathering capabilities of Roots into
+the low level virtual machines and containers that host various services of the cloud
+platform. We intend to tap into the hypervisors
+and container managers to harvest runtime data 
+regarding the resource usage (CPU, memory, disk etc.) of
+PaaS services and other application components. Roots will use
+this information to identify performance anomalies that are caused by
+the cloud resources on which the PaaS relies.
 
 \vspace{0.1in}
 \noindent
-This work is supported in part by NSF (CCF-1539586, CNS-0905237) and Huawei.
+This work is funded in part by NSF (CCF-1539586, ACI-1541215, CNS-1218808, CNS-0905237, ACI-0751315), NIH (1R01EB014877-01), ONR NEEC (N00174-16-C-0020), Huawei Technologies, and the California Energy Commission (PON-14-304).
+

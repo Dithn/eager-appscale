@@ -1,4 +1,4 @@
-all: paper paper-short
+all: paper-short
 
 paper:  
 	pdflatex paper
