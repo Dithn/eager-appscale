@@ -1,5 +1,5 @@
 We next evaluate the efficacy of Roots as a performance monitoring and root cause
-analysis system for PaaS applications.
+analysis system for PaaS-hosted web applications.
 To do so, we consider its ability to identify and characterize SLO violations.
 For violations that are not caused by a change in workload, we evaluate Roots' ability to identify
 the PaaS component that is the cause of the performance anomaly.
@@ -35,7 +35,7 @@ user management & 19 & 15 & 10 \\ \hline
 \end{tabular}
 \end{center}
 }
-\vspace{-0.2in}
+%\vspace{-0.2in}
 \caption{\textit{Number of anomalies detected in guestbook app under different SLOs 
 ($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
 \label{tab:anomaly_counts}
@@ -55,7 +55,8 @@ by guestbook results in two PaaS kernel service
 invocations -- one to check if the user is logged in, and 
 another to retrieve the existing comments from the datastore. We conduct all
 our experiments on a single node AppScale cloud except where specified. The node itself is an Ubuntu
-14.04 VM with 4 virtual CPU cores (clocked at 2.4GHz) and 4GB of memory.
+14.04 VM with 4 virtual 2.4 GHz CPU cores and 4GB of memory, provisioned by
+a Eucalyptus IaaS cloud~\cite{eucalyptus09}.
 
 We run the SLO-based anomaly detector of Roots on guestbook with a sampling rate of 15 seconds, an analysis
 rate of 60 seconds, and a window size of 1 hour. We set the minimum samples count to 100, and
@@ -67,7 +68,7 @@ the application. Then we obtain three different upper bound values for the guest
 response time by setting 
 $n$ to 2, 3 and 5 and denote the resulting three SLOs $L_1$, $L_2$ and $L_3$ respectively.
 
-Next, we inject performance faults into the AppScale PaaS by modifying its code
+Next, we inject performance faults into AppScale by modifying its code
 to cause the datastore service to be slow to respond.
 This fault injection logic activates once every hour, and
 slows down all datastore invocations by 45ms over a period of 3 minutes.
@@ -99,7 +100,7 @@ missing none subject to the tightness of the SLO.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_guestbook_2s}
-\vspace{-0.3in}
+\vspace{-0.2in}
 \caption{\textit{Anomaly detection in guestbook application during a period of 10 hours. 
 Red arrows indicate fault injection
 at the datastore service. Blue arrows indicate all anomalies detected by
@@ -109,7 +110,7 @@ Roots.
 \end{figure}
 
 Next we analyze how fast and often Roots can detect anomalies in an application. We
-first consider the performance of guestbook under the $L_1$ SLO while 
+consider the performance of guestbook under the $L_1$ SLO while 
 injecting faults into the datastore service. Figure~\ref{fig:time_line_guestbook_2s} shows
 anomalies detected by Roots as events on a time line. The horizontal axis represents 
 passage of time. The red arrows indicate the start of a fault injection period, where each
@@ -266,22 +267,21 @@ including one that we did not inject explicitly.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_stocks_1}
-\vspace{-0.3in}
-\caption{\textit{Anomaly detection in stock-trader application during a period of 10 hours. 
-%Red arrows indicate fault injection
-%at the 1st datastore query. Blue arrows indicate all anomalies detected by
-%Roots during the experimental run.
+\vspace{-0.2in}
+\caption{\textit{Anomaly detection in stock-trader application while injecting faults to the 1st kernel invocation 
 }}
 \vspace{-0.1in}
 \label{fig:time_line_stocks_1}
 \end{figure}
 
-%\begin{figure}
-%\centering
-%\includegraphics[scale=0.55]{time_line_stocks_2}
-%\caption{Anomaly detection in stock-trader application (timeline).}
-%\label{fig:time_line_stocks_2}
-%\end{figure}
+\begin{figure}
+\centering
+\includegraphics[scale=0.55]{time_line_stocks_2}
+\vspace{-0.2in}
+\caption{Anomaly detection in stock-trader application while injecting faults to the 2nd kernel invocation}
+\vspace{-0.1in}
+\label{fig:time_line_stocks_2}
+\end{figure}
 
 To evaluate how the bottleneck identification performs when an application makes more than 2
 PaaS kernel invocations, we conduct another experiment using an application
@@ -309,15 +309,15 @@ The additional four anomalies occurred because a large number of injected faults
 of the detector. Therefore, it is accurate to attribute those anomalies also to the first datastore query
 of the application.
 
-%Figure~\ref{fig:time_line_stocks_2} shows the results from a similar experiment where we inject
-%faults into the second datastore query executed by the operation. Here also Roots detects all the
-%artificially induced anomalies along with a few extras. All the anomalies, except for one, 
-%are determined to be caused by the second
-%datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
-%is attributed to the fourth datastore query executed by the application. We have manually verified this
-%conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), the fourth datastore
-%query has frequently taken a long time to execute (again, on
-%its own), which resulted in an SLO violation at 08:56 hours.
+Figure~\ref{fig:time_line_stocks_2} shows the results from a similar experiment where we inject
+faults into the second datastore query executed by the operation. Here also Roots detects all the
+artificially induced anomalies along with a few extras. All the anomalies, except for one, 
+are determined to be caused by the second
+datastore query of the buy operation. The anomaly detected at 08:56 (marked with a square on top of the blue arrow) 
+is attributed to the fourth datastore query executed by the application. We have manually verified this
+conclusion to be accurate. Since 08:27 (when the previous anomaly was detected), the fourth datastore
+query has frequently taken a long time to execute (again, on
+its own), which resulted in an SLO violation at 08:56 hours.
 
 %In the experiments illustrated in figures~\ref{fig:time_line_guestbook_2s}, 
 %\ref{fig:time_line_guestbook_2s_user}, 
@@ -355,7 +355,7 @@ of the application.
 \begin{figure}
 \centering
 \includegraphics[scale=0.55]{time_line_g1g8}
-\vspace{-0.3in}
+\vspace{-0.2in}
 \caption{\textit{SLO-violation Anomaly detection in 8 applications deployed in
 a clustered AppScale cloud.}}
 \vspace{-0.2in}
@@ -364,7 +364,7 @@ a clustered AppScale cloud.}}
 
 To demonstrate how Roots can be used in a multi-node environment, we deploy AppScale
 using a cluster of 10 virtual machines (VMs). VMs are provisioned by a
-Eucalyptus~\cite{eucalyptus09} (IaaS)
+Eucalyptus IaaS
 cloud, and each VM is comprised of 2 CPU cores and 2GB memory. Then we proceed
 to deploy 8 instances of the guestbook application on AppScale. We use the multi-tenant support
 in AppScale to register each instance of guestbook as a different application ($G1$ through $G8$). 
@@ -390,7 +390,7 @@ period. As soon as this happens, the anomaly detectors of $G4$, $G6$ and $G7$ en
 Our fault injection logic continued to inject faults for at least 2 more minutes. 
 Therefore when the anomaly detectors
 reactivated after 25 minutes (which is the time to collect the minimum sample count), they each saw another SLO
-violation. This is another set of detection events appears in the figure
+violation. Hence another set of detection events appears in the figure
 approximately half an hour after the
 original fault injection events.
 
@@ -403,7 +403,7 @@ original fault injection events.
 \hline
 Feature & Results Observed in Roots \\ \hline
 Detecting accuracy &
-The first occurance of all artificially induced anomalies were detected.
+The first occurrence of all artificially induced anomalies were detected.
 Roots also detected several ``natural'' anomalies in AppScale. \\ \hline
 Anomaly Differentiation &
 All anomalies were correctly identified as either due to workload change or
@@ -419,11 +419,11 @@ were taken by the benchmarking process. \\
 \end{tabular}
 \end{center}
 }
-\vspace{-0.2in}
+%\vspace{-0.2in}
 \caption{\textit{Summary of Roots efficacy results.
 \label{tab:results_summary}
 }}
-%\vspace{-0.2in}
+\vspace{-0.2in}
 \end{table}
 Table~\ref{tab:results_summary} summarizes our results.
 While not exhaustive, these results indicate that Roots is able to achieve a
@@ -469,20 +469,20 @@ kv store/50 & 169 & 26.7  & 150 & 25.4  \\ \hline
 \end{tabular}
 \end{center}
 }
-\vspace{-0.2in}
+%\vspace{-0.2in}
 \caption{\textit{Latency comparison of applications when running on
 a vanilla AppScale cloud vs when running on a Roots-enabled
 AppScale cloud.}
 \label{tab:perf_overhead}
 }
-%\vspace{-0.2in}
+\vspace{-0.2in}
 \end{table}
 
 Table~\ref{tab:perf_overhead} shows the comparison of request 
 latencies with 50 clients for each of the applications. 
 The data shows that Roots does not add a significant overhead
 to the request latency in any of the scenarios considered. In all the cases,
-the mean request latency when Roots is in use is within or below one standard deviation
+the mean request latency when Roots is in use is within one standard deviation
 from the mean request latency when Roots is not in use.
 
 %The request latency increases when the number of concurrent clients is

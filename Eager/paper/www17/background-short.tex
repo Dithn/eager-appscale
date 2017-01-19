@@ -5,21 +5,21 @@
 
 %\subsection{The PaaS Model} 
 
-Our work concentrates on web
+We only consider web
 applications deployed in PaaS clouds. An application of this nature exposes
 one or more web application programming interfaces (web APIs) through which
 clients can interact with it. The web APIs accept HTTP/S requests sent by
 remote clients, and respond with machine readable responses (e.g. HTML, JSON,
-XML, Protocol Buffers~\cite{protobuff}). These types of applications tend to be highly
+XML, Protocol Buffers). This type of applications tend to be highly
 interactive, and clients typically have strict expectations about application
 response time~\cite{latency-matters}. 
 %Studies have shown that poor application response
 %time may even lead to revenue loss~\cite{latency-matters}.
-The PaaS cloud on
-which an application is running may also impose additional constraints on the
+Additionally, the PaaS cloud on
+which an application is running may also impose constraints on the
 application response time for scalability
 reasons~\cite{azure-limits,gae-limits}.  For example Google App Engine (GAE)~\cite{gae}
-requires that no application request takes more than 60 seconds to execute.
+requires that no application request takes longer than 60 seconds to execute.
 
 PaaS-hosted web applications, like those that run on GAE,  
 rely on various services offered by the underlying
@@ -40,12 +40,12 @@ application development.
 %%All the remaining deployment and utility services are left to be handled 
 %%by the PaaS cloud. 
 
-The downside of this approach is that application developers no longer have full runtime visibility
+The downside of this approach is that application developers no longer have full visibility
 into application execution. Since most of the application functionality is provided by a set 
 of PaaS kernel services managed by the cloud provider, the application
 developer does not have complete insight into application performance. 
 If application 
-response time becomes too slow, it is very challenging if not impossible
+response time becomes too slow, it is very challenging
 for the application developer to determine
 the cause of the performance bottleneck due to the opacity of the cloud
 platform's internal implementation. 
@@ -53,8 +53,8 @@ platform's internal implementation.
 One way to circumvent this 
 limitation is to instrument application code, and continuously monitor the time taken by various
 parts of the application~\cite{newrelic,datadog,dynatrace}. 
-Unfortunately, this activity can be tedious for the application developer, 
-may be error prone thereby misleading those attempting to
+Unfortunately, this is tedious for the application developer, 
+error prone thereby misleading those attempting to
 diagnose a problem, and
 the additional code instrumentation may slow down or alter the application's
 performance. 
@@ -63,36 +63,38 @@ performance.
 %runtime data. Otherwise their analyses will be inaccurate.
 In contrast, implementing data collection and analysis as a service built into the PaaS cloud allows 
 anomaly detection and bottleneck identification to be a ``curated'' service that is 
-reliably and scalably managed by the cloud platform. Such use of low-level data gathering
-for root cause analysis has been shown to be effective in IaaS clouds~\cite{Dean:2014:PTR:2696535.2696551}.
+reliably and scalably managed by the cloud platform. %Such use of low-level data gathering
+%for root cause analysis has been shown to be effective in IaaS clouds~\cite{Dean:2014:PTR:2696535.2696551}.
 
 \subsection{PaaS Performance Anomalies}
 
 %In this work we define \textit{anomalies} as application performance change events that cause
 %one or more performance SLOs to be violated. 
 
-Our model is
-one in which the clients of a web application have engaged in a
+Our model is one in which the clients of a web application have engaged in a
 ``service-level agreement'' (SLA)~\cite{Keller:2003:WFS:635430.635442}
-with the ``owner'' or operator of the application that is hosted in a PaaS.  The SLA
+with the ``owner'' of the application that is hosted in a PaaS.  The SLA
 stipulates a response-time ``service-level objective'' (SLO) that, if violated, constitutes a breach of the
-agreement (similar to \cite{Nguyen:2011:PPR:2038633.2038634} but for PaaS).  
-A performance anomaly, then, is an event or set of events that
-causes an application-level SLO to be violated.
+agreement. A performance anomaly, then, is an event or set of events that
+causes an application-level SLO to be violated. The response time SLO of an application
+is specified by its owner, when the application is deployed.
 %approach associates each application with
 %a set of performance SLOs. We consider SLOs concerning the application response time
 %(latency), which get violated when an application becomes too slow.
 %If the performance of an application deteriorates to the
 %point that at least one of its SLOs is violated, we treat it as an anomaly. 
 
-Further, we refer to the process of diagnosing whether increased workload or
+We refer to the process of diagnosing whether increased workload or
 an unusually slow software component is responsible for an anomaly, and in the
 latter case, the identification of the slow component as \textit{root cause
 analysis}.  When request latency increases and violates an SLO and the
 workload has not increased, we assume that there is a ``bottleneck'' component
 in the application code or PaaS runtime that is responsible.  Roots performs
-root cause analysis in near real time so that it can alert cloud users and
-administrators of problems it detects.
+root cause analysis in near real time so that it can alert application owners and
+cloud administrators of problems it detects. This allows application owners to
+identify the potential bottlenecks in their application implementations, and revise them
+accordingly. Cloud administrators can use this information to uncover the bottlenecks in the cloud
+platform, and take corrective action.
 %For a given anomaly, the root cause could be a change in the application
 %workload or a \textit{bottleneck} in the application runtime.  Bottlenecks
 %may occur in the application code, or in the PaaS services that the
