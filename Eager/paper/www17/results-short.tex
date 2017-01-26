@@ -24,23 +24,6 @@ prototype.
 
 \subsection{SLO Anomaly Detection}
 
-\begin{table}
-\caption{Number of anomalies detected in guestbook app under different SLOs 
-($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
-\label{tab:anomaly_counts}}
-{%\footnotesize
-\begin{center}
-\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
-\hline
-Faulty Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
-datastore & 18 & 11 & 10 \\ \hline
-user management & 19 & 15 & 10 \\ \hline
-\end{tabular}
-\end{center}
-}
-\vspace{-0.1in}
-\end{table}
-
 We first experiment with the SLO-based anomaly detector of Roots
 using a simple HTML-producing, Java 
 web application called ``guestbook''.
@@ -78,6 +61,23 @@ AppScale. Each experiment is run for a period of 10 hours.
 
 \subsubsection{Anomaly Detection Accuracy}
 
+\begin{table}
+\caption{Number of anomalies detected in guestbook app under different SLOs 
+($L_1$, $L_2$ and $L_3$) when injecting faults into two different PaaS kernel services.
+\label{tab:anomaly_counts}}
+{%\footnotesize
+\begin{center}
+\begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
+\hline
+Faulty Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
+datastore & 18 & 11 & 10 \\ \hline
+user management & 19 & 15 & 10 \\ \hline
+\end{tabular}
+\end{center}
+}
+\vspace{-0.1in}
+\end{table}
+
 Table~\ref{tab:anomaly_counts} shows how the number of anomalies detected by 
 Roots in a 10 hour period varies when the SLO is changed. The number of anomalies
 drops noticeably when the response time upper bound is increased. When the $L_3$
@@ -104,7 +104,7 @@ Red arrows indicate fault injection
 at the datastore service. Blue arrows indicate all anomalies detected by
 Roots.
 }
-\vspace{-0.1in}
+\vspace{-0.2in}
 \label{fig:time_line_guestbook_2s}
 \end{figure}
 
@@ -266,7 +266,7 @@ including one that we did not inject explicitly.
 \begin{figure}
 %\centering
 \includegraphics[scale=0.55]{time_line_stocks_1}
-%\vspace{-0.2in}
+\vspace{-0.2in}
 \caption{Anomaly detection in stock-trader application while injecting faults to the 1st kernel invocation 
 }
 \vspace{-0.1in}
@@ -276,7 +276,7 @@ including one that we did not inject explicitly.
 \begin{figure}
 %\centering
 \includegraphics[scale=0.55]{time_line_stocks_2}
-%\vspace{-0.2in}
+\vspace{-0.2in}
 \caption{Anomaly detection in stock-trader application while injecting faults to the 2nd kernel invocation}
 \vspace{-0.1in}
 \label{fig:time_line_stocks_2}
@@ -354,10 +354,10 @@ its own), which resulted in an SLO violation at 08:56 hours.
 \begin{figure}
 %\centering
 \includegraphics[scale=0.55]{time_line_g1g8}
-%\vspace{-0.2in}
+\vspace{-0.2in}
 \caption{SLO-violation Anomaly detection in 8 applications deployed in
 a clustered AppScale cloud.}
-%\vspace{-0.1in}
+\vspace{-0.1in}
 \label{fig:time_line_g1g8}
 \end{figure}
 

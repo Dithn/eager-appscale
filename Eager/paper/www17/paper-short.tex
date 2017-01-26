@@ -29,7 +29,7 @@
 %
 % For tracking purposes - this is V2.0 - May 2012
 
-\documentclass[sigconf]{acmart}
+\documentclass{sig-alternate-05-2015}
 
 \usepackage{multirow}
 \usepackage{graphicx}
@@ -50,17 +50,17 @@
 %\setcopyright{cagovmixed}
 
 % DOI
-\acmDOI{10.475/123_4}
+\doi{10.475/123_4}
 
 % ISBN
-\acmISBN{123-4567-24-567/08/06}
+\isbn{123-4567-24-567/08/06}
 
 %Conference
-\acmConference[WWW'17]{WWW conference}{April 2017}{Perth, Australia} 
-\acmYear{2017}
-\copyrightyear{2016}
+\conferenceinfo{WWW '17}{April 2017, Perth, Australia}
+%\acmYear{2017}
+%\copyrightyear{2016}
 
-\acmPrice{15.00}
+\acmPrice{\$15.00}
 
 \begin{document}
 
@@ -73,29 +73,37 @@
 
 \title{Performance Monitoring and Root Cause Analysis for Cloud-hosted Web Applications}
 
-\author{Hiranya Jayathilaka, Chandra Krintz, Rich Wolski}
-\affiliation{%
-  \institution{Computer Science Department}
-  \streetaddress{University of California, Santa Barbara}
+\author{
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor
+Hiranya Jayathilaka, Chandra Krintz, Rich Wolski\\
+       \affaddr{Computer Science Department}\\
+       \affaddr{University of California, Santa Barbara}\\
+       \email{\{hiranya,ckrintz,rich\}@cs.ucsb.edu}
 }
-\email{[hiranya,ckrintz,rich]@cs.ucsb.edu}
+
+\maketitle
 
 \begin{abstract}
 \input{abstract-short}
 \end{abstract}
 
-\keywords{web services, application performance monitoring, platform-as-a-service, cloud computing, root cause analysis}
-
-\maketitle
 
 %
 %  Use this command to print the description
 %
-%\printccsdesc
+\printccsdesc
 
 % We no longer use \terms command
 %\terms{Theory}
 
+\keywords{web services, application performance monitoring, platform-as-a-service, cloud computing, root cause analysis}
 %\keywords{ACM proceedings; \LaTeX; text tagging}
 
 \section{Introduction}
@@ -132,8 +140,8 @@
 % The following two commands are all you need in the
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
-\newpage
-\bibliographystyle{ACM-Reference-Format}
+%\newpage
+\bibliographystyle{abbrv}
 \bibliography{references}  % sigproc.bib is the name of the Bibliography in this case
 % You must have a proper ".bib" file
 %  and remember to run:
