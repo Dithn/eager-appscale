@@ -29,10 +29,11 @@
 %
 % For tracking purposes - this is V2.0 - May 2012
 
-\documentclass{sig-alternate-05-2015}
-
+\documentclass[letterpaper]{sig-alternate-2013}
+ 
 \usepackage{multirow}
 \usepackage{graphicx}
+\usepackage[T1,hyphens]{url}
 \DeclareGraphicsExtensions{.pdf,.png}
 \graphicspath{{./figures/}}
 
@@ -40,27 +41,17 @@
 \usepackage{amsmath}
 \usepackage{color}
 
-% Copyright
-\setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
-%\setcopyright{rightsretained}
-%\setcopyright{usgov}
-%\setcopyright{usgovmixed}
-%\setcopyright{cagov}
-%\setcopyright{cagovmixed}
+\permission{\copyright 2017 International World Wide Web Conference Committee (IW3C2), 
+published under Creative Commons CC BY 4.0 License.}
+\conferenceinfo{WWW 2017,}{April 3--7, 2017, Perth, Australia.}
+\copyrightetc{ACM \the\acmcopyr}
+\crdata{978-1-4503-4913-0/17/04. \\
+http://dx.doi.org/10.1145/3038912.3052649 \\
+\includegraphics{cc.png}
+}
 
-% DOI
-\doi{10.475/123_4}
-
-% ISBN
-\isbn{123-4567-24-567/08/06}
-
-%Conference
-\conferenceinfo{WWW '17}{April 2017, Perth, Australia}
-%\acmYear{2017}
-%\copyrightyear{2016}
-
-\acmPrice{\$15.00}
+\clubpenalty=10000
+\widowpenalty = 10000
 
 \begin{document}
 
@@ -94,16 +85,10 @@ Hiranya Jayathilaka, Chandra Krintz, Rich Wolski\\
 \input{abstract-short}
 \end{abstract}
 
-
-%
-%  Use this command to print the description
-%
-\printccsdesc
-
 % We no longer use \terms command
 %\terms{Theory}
 
-\keywords{web services, application performance monitoring, platform-as-a-service, cloud computing, root cause analysis}
+\keywords{web services; application performance monitoring; platform-as-a-service; cloud computing; root cause analysis}
 %\keywords{ACM proceedings; \LaTeX; text tagging}
 
 \section{Introduction}
@@ -132,6 +117,9 @@ Hiranya Jayathilaka, Chandra Krintz, Rich Wolski\\
 \section{Conclusions and Future Work}
 \label{sec:conclusion}
 \input{conc-short}
+
+\section{Acknowledgments}
+This work is funded in part by NSF (CCF-1539586, ACI-1541215, CNS-1218808, CNS-0905237, ACI-0751315), NIH (1R01EB014877-01), ONR NEEC (N00174-16-C-0020), Huawei Technologies, and the California Energy Commission (PON-14-304).
 
 %\section{Related Work}
 %\input{related_work}
