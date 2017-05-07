@@ -124,9 +124,11 @@ To avoid introducing delays to the application request processing flow, we imple
 Roots data collecting agents as asynchronous tasks. That is, none of them 
 suspend application request processing to report data to the data storage components.
 To enable this, we collect data into log files or memory buffers that are local to the 
-components being monitored. This locally collected (or buffered) data is periodically sent
-to the data storage components of Roots using separate background tasks and batch communication
-operations. We also isolate the activities in the cloud platform from potential
+components being monitored. This locally collected data is periodically written to
+the data storage components of Roots using separate background tasks and batch communication
+operations. These persistence operations are run with sufficient frequency so as to not
+introduce an unnecessary delay, which would compromise Roots' ability to detect anomalies in
+near realtime. We also isolate the activities in the cloud platform from potential
 failures in the Roots data collection or storage components.
 
 \subsection{Data Storage}

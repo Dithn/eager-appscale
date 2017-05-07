@@ -14,7 +14,7 @@ prototype.
 \begin{center}
 \begin{tabular}{|c|p{1cm}|p{1cm}|p{1cm}|}
 \hline
-Faulty Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
+Faulty PaaS Service & $L_1$ (30ms) & $L_2$ (35ms) & $L_3$ (45ms) \\ \hline
 datastore & 18 & 11 & 10 \\ \hline
 user management & 19 & 15 & 10 \\ \hline
 \end{tabular}
@@ -104,6 +104,13 @@ at the user management service. Blue arrows indicate all anomalies detected by R
 Figure~\ref{fig:time_line_guestbook_2s_user} shows the anomaly detection time line for the 
 same application and SLO, while faults are being injected into the user management service.
 Here too we see that Roots detects anomalies immediately following each fault injection window.
+
+Generally, in all our experiments Roots detected anomalies within 2 to 5 minutes of the start of the
+fault injection, if the detector was active when the fault injection started. The longest time to anomaly
+detection we observed was 4 minutes 50 seconds. Note that this is due to the analysis and sampling rate
+parameters we have employed in our tests. We believe that most developers would appreciate
+a reaction time in the order of few minutes. If an even faster reaction time is desired, Roots enables configuring
+detectors with faster analysis and sampling rates.
 
 %All the results discussed up to this point
 %demonstrate the efficacy of our anomaly detection method. The SLO-based
@@ -392,7 +399,7 @@ We conclude our discussion of Roots efficacy with a summary of our results. Tabl
 provides an overview of all the results presented so far, broken down into four features that we wish to see
 in an anomaly detection and bottleneck identification system.
 
-\subsection{Roots Performance and Scalability}
+\subsection{Roots Performance Overhead and Scalability}
 Next we evaluate the performance overhead incurred by Roots on the applications deployed in the 
 cloud platform. We are particularly interested in understanding the overhead of recording the PaaS kernel
 invocations made by each application, since this feature requires some changes to the PaaS kernel
@@ -438,16 +445,14 @@ Table~\ref{tab:perf_overhead} shows the comparison of request
 latencies. We discover that Roots does not add a significant overhead
 to the request latency in any of the scenarios considered. In all the cases,
 the mean request latency when Roots is in use, is within one standard deviation
-from the mean request latency when Roots is not in use. 
-%Also in a number
-%of cases the mean request latency is slightly lower when Roots is in use.
-The request latency increases when the number of concurrent clients is
-increased from 1 to 50 (since all requests are handled by a single
-application server), but still there is no sign of any detrimental overhead
-from Roots even under load. 
-%Since we buffer PaaS kernel invocation
-%events in memory, and report them to ElasticSearch asynchronously, and
-%out of the request processing flow, there is no measurable impact on
+from the mean latency when Roots is not in use. 
+The latency increases with the number of concurrent clients
+(since all requests are handled by a single
+application server), but still there is no evidence of any detrimental overhead
+from Roots even under load. This is due to the asynchronous nature of Roots,
+which buffers monitoring events in memory, and reports them to ElasticSearch
+out of the request processing flow.
+%there is no measurable impact on
 %the request latency from Roots.
 
 \begin{figure}
