@@ -24,7 +24,7 @@ Figure~\ref{fig:roots_impl} shows an overview of our prototype implementation. R
 are shown in grey, while the PaaS components are shown in blue.
 We use ElasticSearch~\cite{elasticsearch} as the data storage component of our prototype. ElasticSearch is ideal 
 for storing large volumes of structured and semi-structured data~\cite{Kononenko:2014:MMR:2597073.2597091}. 
-%It supports scalability and high availability via sharding and replication.
+It can be deployed as a scalable distributed service with sharding and replication.
 ElasticSearch continuously organizes and indexes data, making the information available 
 for fast and efficient querying. Additionally, it also provides
 powerful data filtering and aggregation features, which greatly simplify the implementations of high-level
@@ -49,7 +49,10 @@ we use the Logstash tool~\cite{logstash}.
 %It also integrates naturally with ElasticSearch.
 To capture the PaaS kernel invocation data, we augment AppScale's PaaS kernel implementation,
 which is derived from the GAE PaaS SDK. More specifically we implement an agent that records
-all PaaS SDK calls, and reports them to ElasticSearch asynchronously. 
+all PaaS SDK calls, and reports them to ElasticSearch asynchronously. Most metrics captured by
+our prototype are latency-related (e.g. latency of internal RPC calls and latency of cloud SDK calls).
+We wish to expand Roots' capability to capture a more diverse range of performance metrics in our future
+work.
 
 We implement Roots pods as standalone Java server processes. Threads are used to run benchmarkers,
 anomaly detectors and handlers concurrently within each pod. Pods communicate with ElasticSearch via
@@ -89,7 +92,8 @@ The SLO-based anomaly detector supports following configuration parameters:
 \item Analysis rate: Rate at which the anomaly detector checks whether the application has failed to meet the SLO.
 \item Minimum samples: Minimum number of samples to collect before checking for SLO violations.
 \item Window size: Length of the sliding window (in time) to consider when checking for SLO violations. This
-acts as a limit on the number of samples to keep in memory.
+acts as a limit on the number of samples to keep in memory. This has to be large enough so that each analysis
+cycle has enough data points to calculate results with statistical significance.
 \end{itemize}
 
 %Once the anomaly detector identifies an SLO violation, it will continue to 
