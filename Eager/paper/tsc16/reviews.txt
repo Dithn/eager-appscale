@@ -1,0 +1,134 @@
+Reviewer Comments
+
+Reviewer: 1
+
+Recommendation: Accept With No Changes
+
+Comments:
+This is an extremely well written paper: it describes the design and evaluation of a complex system extremely clearly - the overall structure is logical and leads the reader through the material.
+
+This is not a blue sky research paper. It describes in detail a carefully designed, well-engineered system for monitoring and anomaly detection. This this then followed by a detailed evaluation on some interesting scenarios.
+The main contributions are a) in the rationale for the design of the monitoring which is clearly described, and results in a system that should meet a wide range of application needs. b) in the design and evaluation of the anomaly detection system - the evaluation show that it performs well for the examples given.
+There is a good review of related work, and in the rest of the paper, it is made clear why past experience has resulted in the design decisions that have been made.
+Overall, given the large quantities of work on cloud performance modelling, and associated work on scheduling, I think that this paper will be of interest to a wide audience.
+
+Additional Questions:
+1. Which category describes this manuscript?: Research
+
+2. How relevant is this manuscript to the readers? Explain under Public Comments.: Very Relevant
+
+1. Please explain how this manuscript advances the field of research and/or contributes something new to the literature.: This contributes to the literature in 2 ways:
+1. it describes the design and evaluation of a performance monitoring system for cloud computing.
+2. it describes and evaluates an anomaly detection system
+
+Both have novel features, and have the advantage that thought and effort has been placed in their design and engineering.
+
+2.  Is the manuscript technically sound? Please explain your answer under Public Comments below.: Yes
+
+1. Are the title, abstract, and keywords appropriate? Please explain under Public Comments below.: Yes
+
+2. Does the manuscript contain sufficient and appropriate references? Please explain under Public Comments below.: References are sufficient and appropriate
+
+3. Does the introduction state the objectives of the manuscript in terms that encourage the reader to read on? Please explain under Public Comments below.: Yes
+
+4. How would you rate the organization of the manuscript? (Is it focused? Is the length appropriate for the topic?) Please explain under Public Comments below.: Satisfactory
+
+5. Please rate the readability of the manuscript. Please explain under Public Comments below.: Easy to read
+
+6. Should the supplemental material be included? (Click on the Supplementary Files icon to view files): No, it should not be included at all
+
+7. If yes to 6, should it be accepted:
+
+Please rate the manuscript. Explain your choice: Excellent
+
+
+Reviewer: 2
+
+Recommendation: Author Should Prepare A Major Revision
+
+Comments:
+In this paper, the authors propose a PaaS cloud monitoring framework for detecting performance anomalies, Roots. It is built into the cloud platform and can analyze workload data and other application runtime data to perform root cause analysis. According to the evaluation, Roots can detect performance anomalies in near real time and the bottleneck identification algorithm could produce good results. The comments are follows.
+(1) It is claimed that the built-in monitoring framework Roots does not add a significant overhead to the applications. It is suggested to provide more quantitative results in details. Same suggestions to the “near real time” and “nearly 100%”.
+(2) In table 1, the number of anomalies detected is shown. What are the meanings of the datastore and user management? How could tell the accuracy of the detection of Roots?
+(3) In figure 4-7, the fault injection and anomaly detection are shown in a timely way. Could you authors provide more numeric data about the delay of the detection? Is there any work to compare with the speed performance?
+(4) It is claimed that Roots collect data using asynchronous tasks, in order to avoid degrading the performance of the applications. In this case, could the authors discuss about how to make the detection in real time or nearly real time?
+(5) The anomaly detectors and anomaly handlers are with fixed-sized sliding windows and the memory has a strict upper bound. If there are a lot of data to collect and analysis, how to provide real time detection?
+
+Additional Questions:
+1. Which category describes this manuscript?: Research
+
+2. How relevant is this manuscript to the readers? Explain under Public Comments.: Relevant
+
+1. Please explain how this manuscript advances the field of research and/or contributes something new to the literature.: In this paper, the authors propose a PaaS cloud monitoring framework for detecting performance anomalies, Roots. It is built into the cloud platform and can analyze workload data and other application runtime data to perform root cause analysis. According to the evaluation, Roots can detect performance anomalies in near real time and the bottleneck identification algorithm could produce good results.
+
+2.  Is the manuscript technically sound? Please explain your answer under Public Comments below.: Partially
+
+1. Are the title, abstract, and keywords appropriate? Please explain under Public Comments below.: Yes
+
+2. Does the manuscript contain sufficient and appropriate references? Please explain under Public Comments below.: References are sufficient and appropriate
+
+3. Does the introduction state the objectives of the manuscript in terms that encourage the reader to read on? Please explain under Public Comments below.: Yes
+
+4. How would you rate the organization of the manuscript? (Is it focused? Is the length appropriate for the topic?) Please explain under Public Comments below.: Could be improved
+
+5. Please rate the readability of the manuscript. Please explain under Public Comments below.: Readable - but requires some effort to understand
+
+6. Should the supplemental material be included? (Click on the Supplementary Files icon to view files): Does not apply, no supplementary files included
+
+7. If yes to 6, should it be accepted:
+
+Please rate the manuscript. Explain your choice: Good
+
+
+Reviewer: 3
+
+Recommendation: Author Should Prepare A Major Revision
+
+Comments:
+The paper presents a solution for PaaS Cloud monitoring and anomaly detection and the solution has been made almost a full stack capability. This is ambitious, but it brings some problems and difficulties to both the technical feasibility and the paper's presentation. Please revise the paper with respect to the following comments, which are listed in the sequence of the appearance of the problems in the paper.
+
+1. The title! The balance between the content and the title is bad. The content is aggressive, while the title is so limited.
+1.1 Most content is about monitoring, data collection, and analysis of Roots. Bottleneck identification is just a function or usage of the Roots.
+1.2 Why just web applications?  Roots has collected data even from infrastructure level, and so technically Roots can work for any applications and even the Cloud OS.
+1.3 The author should either find a proper title or narrow down the content.
+
+2. The abstract! This abstract is too abstract. From the abstract, nobody can capture the soul of Roots.
+
+3. Fig.1 shows a nearly full stack data collection. Good and ambitious! BUT, in practice, vendors and users are responsible to only their own realms. For example, users cannot touch as many infrastructure data as possible, while vendors usually do not push any impact on users' applications,  to which users are fully responsible. This is particularly true for IaaS. Although PaaS cloud vendors manage more, it is hardly for them to steal users' data such as access history.
+3.1 Please clarify the working mode of Roots.
+3.2 Please clarify Roots is intrusive or non-intrusive to PaaS Cloud, and why.
+
+4. ElasticSearch can run in a distributed way. Fig. 3 implies a centralised solution. Why?
+
+5. For monitoring, detection, analysis, and experiments, only some words, such like usage and latency, can be seen. What are the metrics, especially, the performance metrics, are recorded and considered in Roots?
+
+6.  Some metrics can be saturated. Usage is one of them and shows significant non-linear change. Moreover, monitored and sampled metrics data may not be time-sequenced due to many reasons in practical cloud platforms, such as AWS. Hence, in most cases, analysis has to be done on aggregation, and previous experience shows  that longer term aggregation results in better prediction, i.e. detection. This problem has not been mentioned at all.
+
+7. Cloud monitoring and anomaly detection have not been well exploited in the related work. By simply searching in Google, we can find some latest ones, for example, http://ieeexplore.ieee.org/document/7389388/.
+
+8. The experiments and the results are not well structured and not strongly supporting the claimed goodness of Roots.
+
+Additional Questions:
+1. Which category describes this manuscript?: Practice / Application / Case Study / Experience Report
+
+2. How relevant is this manuscript to the readers? Explain under Public Comments.: Very Relevant
+
+1. Please explain how this manuscript advances the field of research and/or contributes something new to the literature.: This paper presents a comprehensive solution for PaaS cloud monitoring and anomaly detection.  Although the full stack solution still needs to be improved, its innovation for the community is obvious.
+
+2.  Is the manuscript technically sound? Please explain your answer under Public Comments below.: Partially
+
+1. Are the title, abstract, and keywords appropriate? Please explain under Public Comments below.: No
+
+2. Does the manuscript contain sufficient and appropriate references? Please explain under Public Comments below.: Important references are missing; more references are needed
+
+3. Does the introduction state the objectives of the manuscript in terms that encourage the reader to read on? Please explain under Public Comments below.: Yes
+
+4. How would you rate the organization of the manuscript? (Is it focused? Is the length appropriate for the topic?) Please explain under Public Comments below.: Could be improved
+
+5. Please rate the readability of the manuscript. Please explain under Public Comments below.: Readable - but requires some effort to understand
+
+6. Should the supplemental material be included? (Click on the Supplementary Files icon to view files): Does not apply, no supplementary files included
+
+7. If yes to 6, should it be accepted:
+
+Please rate the manuscript. Explain your choice: Fair

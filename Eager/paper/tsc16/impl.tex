@@ -96,6 +96,10 @@ acts as a limit on the number of samples to keep in memory. This has to be large
 cycle has enough data points to calculate results with statistical significance.
 \end{itemize}
 
+Together, the window size and sampling rate impose an upper bound on the amount of data that needs to be kept in 
+memory for calculations. Analysis rate governs how often the collected data is aggregated. Cloud administrators and
+application developers can tune these parameters to meet their specific accuracy and capacity goals.
+
 %Once the anomaly detector identifies an SLO violation, it will continue to 
 %identify the same violation
 %until the historical data which contains the anomaly drops off from the sliding window. 
