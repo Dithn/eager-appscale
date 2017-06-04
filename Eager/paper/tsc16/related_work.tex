@@ -1,6 +1,6 @@
 Roots falls into the category of performance anomaly detection and bottleneck identification (PADBI) systems.
-A PADBI system is an entity that observes, in real time, the performance behaviors
-of a running system or application, while collecting vital measurements at discrete time intervals to create baseline
+PADBI systems observe online the performance behaviors
+of a running system or application, collecting vital measurements at discrete time intervals to create baseline
 models of typical system behaviors~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
 Such systems play a crucial role in achieving guaranteed service reliability, performance and
 quality of service by detecting performance issues in a timely manner before they escalate into major outages
@@ -25,15 +25,17 @@ fabric of the PaaS cloud giving it full visibility into all the activities that 
 software stack.
 
 Our work borrows heavily from the past literature~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120} 
-that detail the key features of cloud APMs. As a result, we strive to incorporate requirements like
-scalability, autonomy and dynamic resource management into our design.
+that detail the key features of cloud APMs. 
 Ibidunmoye et al highlight the importance of multilevel bottleneck identification as an open research
 question~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. This is the ability to
 identify bottlenecks from a set of top-level application service components, and further down through the 
-virtualization layer to system resource bottlenecks. Our plan for Roots is highly in sync with this
-vision. We currently support identifying bottlenecks from a set of services provided by the PaaS kernel.
-As a part of our future work, we plan to extend this support towards the virtualization layer and the
-physical resources of the cloud platform.
+virtualization layer to system resource bottlenecks.
+We detail our early investigations into doing so
+in \cite{Jayathilaka:2017:PMR:3038912.3052649}. The work herein expands 
+upon both the technical detail and empirical evaluation of this initial 
+work.  Roots is unique in that it supports identifying bottlenecks using only the set of services provided by the PaaS kernel.  
+%As a part of our future work, we plan to extend this support towards the virtualization layer and the
+%physical resources of the cloud platform.
 
 Cherkasova et al developed an online
 performance modeling technique to detect anomalies in traditional transaction processing systems~\cite{4630116}. 
@@ -46,7 +48,7 @@ While this method is powerful, it
 requires instrumenting application code to detect different external calls (e.g. database queries) executed by the application. 
 Since the model uses different transaction types as parameters, 
 some prior knowledge regarding the transactions also needs to be fed into the system. 
-%The algorithm is also very compute intensive, due to continuous segmentation and model fitting.
+The algorithm is compute intensive due to the need for continuous segmentation and model fitting.
 %In contrast, we use a very lightweight SLO monitoring method in Roots to detect performance anomalies, and
 %only perform heavy computations to perform bottleneck identification. 
 

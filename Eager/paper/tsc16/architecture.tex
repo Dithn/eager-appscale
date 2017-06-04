@@ -11,8 +11,8 @@ PaaS kernel services~\cite{Jayathilaka:2015:RTS:2806777.2806842}, we hypothesize
 that we can infer application performance from observations of how
  the application uses the platform, i.e. by efficiently monitoring the time spent in 
 PaaS kernel services. If we are able to do so, then we can avoid application
-instrumentation and its downsides while detecting performance anomalies and 
-identifying their root cause in near real time with low overhead.
+instrumentation and its downsides, while detecting performance anomalies and 
+identifying their root cause quickly and accurately.
 
 The PaaS model that we assume with Roots is one 
 in which the clients of a web application engage in a
@@ -85,115 +85,134 @@ data analysis component we can run a filter query to select all the events relat
 request (as shown in the pseudo query in the diagram). Similarly, Roots can run a ``group by'' 
 query to select all events, and aggregate them by the request identifier.
 
-Figure~\ref{fig:apm_architecture} also
-depicts Roots data collection across all layers in the 
-PaaS stack (i.e. full stack monitoring). 
-From the front-end server layer we gather information related to incoming application
-requests. This involves scraping the HTTP server access logs, which are
-readily available in most technologies used as front-end
-servers (e.g. Apache HTTPD, Nginx). 
+The figure also depicts Roots data collection across the
+PaaS stack (i.e. its full stack monitoring). 
+From the front-end server, Roots collects
+information related to incoming application
+requests. It does so by scraping HTTP server access logs, which are
+exported by most web servers (e.g. Apache HTTPD or Nginx). 
 
-From the application server layer, we collect application logs and 
-metrics from the application runtime that are easily accessible, e.g. process level
-metrics indicating resource usage of the individual application instances. Additionally, Roots
-employs a set of per-application benchmarking processes that periodically probes 
+At the application server level, Roots collects logs and 
+metrics related to the application runtime from 
+the application servers and operating system.
+Roots also employs a set of per-application benchmarking 
+processes that periodically probes 
 different applications
-to measure their performance. These are lightweight, stateless processes managed by the Roots framework.
-Data collected by these processes is sent to data storage component and is available
-for analysis as per-application time series data. 
+to measure their performance. These are lightweight, stateless processes 
+managed by the Roots framework.
+These processes send their measurements to
+the data storage component for analysis.
 
-At the PaaS kernel layer we collect information regarding all kernel invocations
-made by the applications. This requires intercepting the PaaS kernel invocations
-at runtime. This must be done carefully so as to not introduce significant
-overhead application execution. For each PaaS kernel invocation, we capture the 
-following parameters.
+Roots collects information about all kernel invocations
+made by the applications by intercepting kernel invocations at 
+service interface entrypoints.  For each PaaS kernel invocation, 
+we capture the following parameters.
 \begin{itemize}
 \item Source application making the kernel invocation
 \item Timestamp
 \item A sequence number indicating the order of PaaS kernel invocations within an application request
 \item Target kernel service and operation
 \item Execution time of the invocation
-\item Request size, hash and other parameters
+\item Request size, hash, and other parameters
 \end{itemize}
-Collecting PaaS kernel invocation details enables tracing the execution of application 
-requests without requiring that the application code be instrumented.
+These PaaS kernel invocation details enable Roots
+to trace the execution of application 
+requests through the PaaS without instrumenting the application itself.
 
-Finally, at the lowest level we can collect information related to virtual machines, containers
-and their resource usage. We gather metrics on network usage by individual components which
+Finally, at the lowest level Roots collects information 
+related to virtual machines, containers
+and their resource usage. We gather metrics on network usage 
+by individual components which
 is useful for traffic engineering use cases. 
 We also scrape
-hypervisor and container manager logs to learn how resources are allocated and released over time.
+hypervisor and container manager logs to track when
+resources are allocated and released.
 
-To avoid introducing delays to the application request processing flow, we implement
-Roots data collecting agents as asynchronous tasks. That is, none of them 
-suspend application request processing to report data to the data storage components.
-To enable this, we collect data into log files or memory buffers that are local to the 
-components being monitored. This locally collected data is periodically written to
-the data storage components of Roots using separate background tasks and batch communication
-operations. These persistence operations are run with sufficient frequency so as to not
-introduce an unnecessary delay, which would compromise Roots' ability to detect anomalies in
-near realtime. We also isolate the activities in the cloud platform from potential
-failures in the Roots data collection or storage components.
-
-\subsection{Data Storage}
-
-The Roots data storage is a database that supports persistently storing monitoring data, and running
-queries on them.  
-%Cloud providers have the freedom to implement this component in any way they see fit, as long
-%as it scales to the number of applications deployed in the cloud platform. 
-Most data retrieval queries executed
-by Roots use application and time intervals as indices. Therefore a database that can index monitoring
-data by application and timestamp will greatly improve the query performance.
-It is also acceptable to remove old monitoring data to make room for more recent events, since Roots
-performs anomaly detection using the most recent data in near realtime.
+To avoid introducing delays to the application 
+request processing flow, we implement
+Roots data collecting agents as asynchronous tasks. 
+%That is, none of them 
+%suspend application request processing to report data to the data storage components.
+Agents buffer data locally and periodically write to
+data storage components using separate background tasks 
+and batch communication
+operations. These persistence operations must run 
+with sufficient frequency so as to not impede the analysis
+that Roots employs to 
+detect anomalies soon after they occur.
+%We also isolate the activities in the cloud platform from potential
+%failures in the Roots data collection or storage components.
 
 \subsection{Data Analysis}
 
-Roots data analysis components use two basic abstractions: \textit{anomaly detectors} 
-and \textit{anomaly handlers}.
-Anomaly detectors are processes that periodically analyze the data collected for
-each deployed application. Roots supports multiple detector implementations, where each implementation
-uses a different statistical method to look for performance anomalies. Detectors are configured
-per-application, making it possible for different applications to use different anomaly 
-detectors. Roots also supports multiple concurrent anomaly detectors on the same application, which can be used
-to evaluate the efficiency of different detection strategies for any given application. Each
-anomaly detector has an execution schedule (e.g. run every 60 seconds), and a sliding window 
-(e.g. from 10 minutes ago to now)
-associated with it. The boundaries of the window determines the time range
-of the data processed by the detector at any round of execution. Window is updated 
-after each round of execution. 
+Roots stores APM in a database capable of 
+efficient persistent storage
+and querying. We facilitate this via indexing
+data by application ID and timestamp.
+Roots also performs periodic garbage collection on data that is no longer
+pertinent to analyses.
 
-When an anomaly detector finds an anomaly in application performance, it sends an event
-to a collection of anomaly handlers. The event encapsulates a unique anomaly identifier, 
+The data analysis components consist of two extensible
+abstractions: \textit{anomaly detectors} 
+and \textit{anomaly handlers}.
+Anomaly detectors are processes that periodically 
+analyze the data for
+each deployed application. 
+Roots supports multiple detector implementations, 
+each of which is a statistical method for detecting 
+performance anomalies. Detectors are configured
+on a per-application basis, making it possible for different applications to use different anomaly 
+detectors. Roots also supports multiple concurrent anomaly detectors for 
+the same application, which can be used
+to compare the efficacy of different detection strategies concurrently.
+Each anomaly detector has configurable parameters for execution schedule 
+and sliding window duration.
+We use a period 60 seconds for the former and the previous
+10 minutes for the latter, in our prototype and evaluation.
+Window size impacts the time range of events processed
+by the detector when invoked.
+We employ a fixed-size window to bound Roots memory use.
+
+When an anomaly detector detects an anomaly 
+in application performance, it sends an event
+to a collection of anomaly handlers. 
+The event encapsulates a unique anomaly identifier, 
 timestamp, application identifier and the source detector's sliding window that correspond to the
 anomaly. Anomaly handlers are configured globally (i.e. each handler
-receives events from all detectors), but each handler can be programmed to handle only
-certain types of events. Furthermore, they can fire their own events, which are also delivered to
-all the listening anomaly handlers. Similar to detectors, Roots supports multiple anomaly handler
-implementations -- one for logging anomalies, one for sending alert emails, one
-for updating a dashboard etc. Additionally, Roots provides two special anomaly handler
-implementations: a workload change analyzer, and a bottleneck identifier.
-We implement the communication between detectors and handlers 
-using shared memory.
+receives events from all detectors), but each handler filters events
+of interest.
+Handlers can also trigger events, which are delivered to
+all the listening anomaly handlers. Similar to detectors, 
+Roots supports multiple anomaly handler
+implementations, e.g., one for logging anomalies, one for sending alert emails, one
+for updating a dashboard, etc. 
+Additionally, Roots provides two special anomaly handlers:
+a workload change analyzer and a bottleneck identifier.
+Communication between detectors and handlers 
+is performed via shared memory.
 
-The ability of anomaly handlers to fire their own events, coupled with their support
-for responding to a filtered subset of incoming events enables constructing
+The ability of anomaly handlers to filter the events they 
+process and to trigger events directly
+facilitates construction of 
 elaborate event flows with sophisticated logic. For example, the workload
 change analyzer can run some analysis upon receiving an anomaly event
-from any anomaly detector. If an anomaly cannot be associated with a workload
-change, it can fire a different type of event. The bottleneck identifier, can
-be programmed to only execute its analysis upon receiving this second type of event.
-This way we perform the workload change analysis first, and perform the
-systemwide bottleneck identification only when it is necessary.
+from any anomaly detector. If an anomaly cannot be associated 
+with a workload
+change, it can trigger a different type of event. 
+The bottleneck identifier, can
+be configured to execute only when such an event occurs.
+Using his mechanism, Roots performs workload change analysis first
+and systemwide bottleneck identification only when necessary.
 
-Both the anomaly detectors and anomaly handlers work with fixed-sized sliding windows.
-Therefore the amount of state these entities must keep in memory has
-a strict upper bound. 
-The extensibility of Roots is primarily achieved through the abstractions of anomaly
-detectors and handlers. Roots makes it simple to implement new detectors and handlers,
-and plug them into the system. Both the detectors and the handlers are executed
-as lightweight processes that do not interfere with the rest of the processes in
-the cloud platform. 
+%Both the anomaly detectors and anomaly handlers 
+%work with fixed-sized sliding windows.
+%Therefore, the amount of state these entities must keep in memory has
+%a strict upper bound. 
+%The extensibility of Roots is primarily achieved through the abstractions of anomaly
+%detectors and handlers. Roots makes it simple to implement new detectors and handlers,
+%and plug them into the system. Both the detectors and the handlers are executed
+%as lightweight processes that do not interfere with the rest of the processes in
+%the cloud platform. 
 
 \subsection{Roots Process Management}
 \label{sec:process_mgt}

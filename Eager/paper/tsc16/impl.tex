@@ -166,7 +166,7 @@ changes in the application workload.
 When Roots detects a performance anomaly (i.e. an application failing to meet its performance SLO),
 it needs to be able to determine whether the failure is due
 to an increase in workload or a bottleneck that has suddenly manifested.
-To check if the workload of an application has changed recently, Roots uses a workload change analyzer.
+Roots employs a workload change analyzer to detect workload changes.
 This Roots component  is implemented as an anomaly handler, which gets executed every time an 
 anomaly detector
 identifies a performance anomaly. Note that this is different from the path distribution analyzer,

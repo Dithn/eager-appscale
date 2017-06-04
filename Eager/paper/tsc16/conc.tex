@@ -9,36 +9,39 @@ The existing cloud monitoring solutions do not have the necessary penetrative po
 to monitor all the different layers of such cloud platforms, and consequently, their diagnosis
 capabilities are severely limited.
 
-We propose Roots, a near real time monitoring framework for applications deployed in a PaaS cloud. 
+In this paper, we present Roots, an efficient and accurate 
+monitoring framework for applications deployed in a PaaS cloud. 
 Roots is designed to function as a curated service
 built into the cloud platform, as opposed to an external monitoring system. 
 It relieves the application developers from having to configure
 their own monitoring solutions, or having to instrument the application code in anyway.
 Roots captures runtime data from all the different layers involved
-in processing application requests. It can correlate events across different layers, and
-identify bottlenecks deep within the kernel services of the PaaS.
+in processing application requests. It correlates events across different PaaS layers and
+identifies bottlenecks across the PaaS stack.
 
-Roots monitors applications for SLO compliance, and detects anomalies via SLO violations.
+Roots monitors applications for compliance with service level objectives (SLOs) and detects anomalies via SLO violations.
 When Roots detects an anomaly, 
 it analyzes workload data and other application runtime data
 to perform root cause analysis. Roots is able to determine whether a particular
-anomaly was caused by a change in the application workload, or due to a bottleneck
-in the cloud platform. To this end we also devise a bottleneck identification algorithm, that
-uses a combination of linear regression, quantile analysis and change point detection. 
-We also present an analysis method by which Roots can identify different paths of execution
-in an application. Our method does not require static analysis, and we use it to detect
-changes in an application's workload characteristics.
+anomaly was caused by a change in the application workload (request stream), or due to a bottleneck
+in the cloud platform. 
+Our workload change point algorithm
+distinguishes between different paths
+of execution though an application (without static analysis of the application).  Our bottleneck identification algorithm
+uses a combination of linear regression, quantile analysis, 
+and change point detection to identify the PaaS service that is 
+the most likely cause of the performance degredation. 
 
-We evaluate Roots using a prototype built for the AppScale open source PaaS. 
-Our results indicate that Roots is effective at detecting performance anomalies
-in near real time. We also show that our bottleneck identification algorithm
-produces accurate results nearly 100\% of the time, pinpointing the exact PaaS
-service or the application component responsible for each anomaly. Our empirical trials further 
-reveal that Roots does not add a significant overhead to the applications deployed
-on the cloud platform. Finally, we show that Roots is very lightweight, 
-and scales well to handle large populations of applications.
+We evaluate Roots using a prototype built for the AppScale PaaS. 
+Our results indicate that Roots is effective at detecting 
+workload changes and performance bottlenecks within 5 
+minutes from when they start and introduces no false positives.
+Our empirical trials also show that the mean latency of the 
+PaaS platform with Roots is within one standard deviation of the mean
+latency of the cloud platform without Roots, for the workloads we studied. 
 
-In our future work we plan to expand the data gathering capabilities of Roots into
+In our future work, we plan to expand the data 
+gathering capabilities of Roots into
 the low level virtual machines and containers that host various services of the cloud
 platform. We intend to tap into the hypervisors
 and container managers to harvest runtime data regarding the resource usage (CPU, memory, disk etc.) of
@@ -46,3 +49,5 @@ PaaS services and other application components. With that we expect to extend
 the root cause analysis support of Roots so that it can not only pinpoint the
 bottlenecked application components, but also the low level hosts and system
 resources that constitute each bottleneck.
+
+Finally, we acknowledge and thank our research supporters.  This work is funded in part by NSF (CCF-1539586, ACI- 1541215, CNS-1218808, CNS-0905237, ACI-0751315), NIH (1R01EB014877-01), ONR NEEC (N00174-16-C-0020), Huawei Technologies, and the California Energy Commission (PON- 14-304).
