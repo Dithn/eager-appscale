@@ -143,9 +143,9 @@ detect anomalies soon after they occur.
 %We also isolate the activities in the cloud platform from potential
 %failures in the Roots data collection or storage components.
 
-\subsection{Data Analysis}
+\subsection{Data Storage and Analysis}
 
-Roots stores APM in a database capable of 
+Roots stores all collected data in a database capable of 
 efficient persistent storage
 and querying. We facilitate this via indexing
 data by application ID and timestamp.
@@ -168,7 +168,7 @@ to compare the efficacy of different detection strategies concurrently.
 Each anomaly detector has configurable parameters for execution schedule 
 and sliding window duration.
 We use a period 60 seconds for the former and the previous
-10 minutes for the latter, in our prototype and evaluation.
+hour for the latter, in our prototype and evaluation.
 Window size impacts the time range of events processed
 by the detector when invoked.
 We employ a fixed-size window to bound Roots memory use.
@@ -201,7 +201,7 @@ with a workload
 change, it can trigger a different type of event. 
 The bottleneck identifier, can
 be configured to execute only when such an event occurs.
-Using his mechanism, Roots performs workload change analysis first
+Using this mechanism, Roots performs workload change analysis first
 and systemwide bottleneck identification only when necessary.
 
 %Both the anomaly detectors and anomaly handlers 

@@ -1,5 +1,5 @@
 Roots falls into the category of performance anomaly detection and bottleneck identification (PADBI) systems.
-PADBI systems observe online the performance behaviors
+PADBI systems observe, in real time, the performance behaviors
 of a running system or application, collecting vital measurements at discrete time intervals to create baseline
 models of typical system behaviors~\cite{Ibidunmoye:2015:PAD:2808687.2791120}. 
 Such systems play a crucial role in achieving guaranteed service reliability, performance and
@@ -33,9 +33,21 @@ virtualization layer to system resource bottlenecks.
 We detail our early investigations into doing so
 in \cite{Jayathilaka:2017:PMR:3038912.3052649}. The work herein expands 
 upon both the technical detail and empirical evaluation of this initial 
-work.  Roots is unique in that it supports identifying bottlenecks using only the set of services provided by the PaaS kernel.  
+work. We also present a novel mechanism for detecting changes in application workload patterns by analyzing
+the request execution paths.
+Roots is unique in that it supports identifying execution paths and performance bottlenecks using only the set
+of services provided by the PaaS kernel.  
 %As a part of our future work, we plan to extend this support towards the virtualization layer and the
 %physical resources of the cloud platform.
+
+Similar to systems like X-Trace~\cite{Fonseca:2007:XPN:1973430.1973450} and 
+PinPoint~\cite{Chen:2002:PPD:647883.738238}, Roots also tags request messages in
+order to trace their flow through a complex distributed system.
+X-Trace records network activities across protocols and layers, but
+does not support root cause analysis. PinPoint traces
+interactions among J2EE middleware components to localize faults. Roots on the other
+hand traces the PaaS kernel service calls made by an application while
+processing requests.
 
 Cherkasova et al developed an online
 performance modeling technique to detect anomalies in traditional transaction processing systems~\cite{4630116}. 

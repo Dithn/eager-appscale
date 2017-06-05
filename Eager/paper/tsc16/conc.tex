@@ -5,14 +5,14 @@ perform root cause analysis to diagnose problems. However, the high level of abs
 platforms, coupled with their scale and complexity, makes performance diagnosis
 a daunting problem. This situation is particularly apparent in
 PaaS clouds, where the application runtime details are hidden beneath a layer of curated services.
-The existing cloud monitoring solutions do not have the necessary penetrative power
-to monitor all the different layers of such cloud platforms, and consequently, their diagnosis
-capabilities are severely limited.
+%The existing cloud monitoring solutions do not have the necessary penetrative power
+%to monitor all the different layers of such cloud platforms.%, and consequently, their diagnosis
+%capabilities are severely limited.
 
 In this paper, we present Roots, an efficient and accurate 
 monitoring framework for applications deployed in a PaaS cloud. 
 Roots is designed to function as a curated service
-built into the cloud platform, as opposed to an external monitoring system. 
+built into the cloud platform. 
 It relieves the application developers from having to configure
 their own monitoring solutions, or having to instrument the application code in anyway.
 Roots captures runtime data from all the different layers involved
@@ -23,14 +23,14 @@ Roots monitors applications for compliance with service level objectives (SLOs) 
 When Roots detects an anomaly, 
 it analyzes workload data and other application runtime data
 to perform root cause analysis. Roots is able to determine whether a particular
-anomaly was caused by a change in the application workload (request stream), or due to a bottleneck
+anomaly was caused by a change in the application workload (request volume and pattern), or due to a bottleneck
 in the cloud platform. 
-Our workload change point algorithm
+Our workload change point detection algorithm
 distinguishes between different paths
-of execution though an application (without static analysis of the application).  Our bottleneck identification algorithm
+of execution though an application.  Our bottleneck identification algorithm
 uses a combination of linear regression, quantile analysis, 
 and change point detection to identify the PaaS service that is 
-the most likely cause of the performance degredation. 
+the most likely cause of the performance degradation. 
 
 We evaluate Roots using a prototype built for the AppScale PaaS. 
 Our results indicate that Roots is effective at detecting 

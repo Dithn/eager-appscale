@@ -79,7 +79,7 @@ directly capture events and performance data across the PaaS without
 requiring application code instrumentation.
 
 Prior work outlines several key requirements for cloud APMs~\cite{DaCunhaRodrigues:2016:MCC:2851613.2851619,Ibidunmoye:2015:PAD:2808687.2791120},
-which we incorporate into Roots.  They are
+which we incorporate into Roots.  They are:
 \begin{LaTeXdescription}
 \item[Scalability] Roots is lightweight, and does not cause any noticeable overhead in 
 application performance. It puts strict upper bounds on the data kept in memory. 
@@ -108,7 +108,7 @@ It uses batch operations and asynchronous
 communication to minimize its overhead on request latency.
 
 When Roots detects a performance anomaly in an application, 
-it attempts to recover its 
+it attempts to identify its 
 root cause by analyzing the workload data
 and the performance of the internal PaaS services on which the 
 application depends.
@@ -121,7 +121,7 @@ that  combines quantile analysis, change point detection,
 and linear regression to identify the root cause bottleneck 
 (i.e. the PaaS component that most likely caused the performance degredation).
 
-Finally, we devise a mechanism for Roots that distinguishes
+We also devise a mechanism for Roots that distinguishes
 between different paths of execution in the application (control flows).
 Our approach does not require static analysis but instead uses the 
 runtime data collected by Roots. This mechanism calculates the 
