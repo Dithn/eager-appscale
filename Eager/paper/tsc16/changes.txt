@@ -1,3 +1,6 @@
+Feedback from Reviewer 2
+========================
+
 (1) It is claimed that the built-in monitoring framework Roots does not add a significant overhead to the applications. It is suggested to provide more quantitative results in details. Same suggestions to the “near real time” and “nearly 100%”.
 
     Removed such statements and explained this better in the results section. Our evaluations have encountered no false positives in all experiments to date.  The reason why this is possible is our use of a mixture-of-experts approach to accurately identify the root cause in this setting, for the applications and workloads that we have considered to date (in the AppScale prototype).
@@ -17,6 +20,10 @@
 (5) The anomaly detectors and anomaly handlers are with fixed-sized sliding windows and the memory has a strict upper bound. If there are a lot of data to collect and analysis, how to provide real time detection?
 
     Anomaly detectors always work with a bounded data set via a fixed sliding window size (10minutes worth of events). All memory and compute intensive operations are performed in the background. We give an example of this for bottleneck identification. The expensive linear regressions are run in the background and after an anomaly has been detected.
+
+
+Feedback from Reviewer 3
+========================
 
 1. The title! The balance between the content and the title is bad. The content is aggressive, while the title is so limited.
 1.1 Most content is about monitoring, data collection, and analysis of Roots. Bottleneck identification is just a function or usage of the Roots.
@@ -76,6 +83,4 @@
 	pushed out of the sliding window of consideration).
 	We also reworked the intro and conclusions 
 	to be more clear about the results and the overall contribution.
-	
 
-   

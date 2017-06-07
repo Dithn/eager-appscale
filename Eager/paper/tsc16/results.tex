@@ -105,11 +105,10 @@ Figure~\ref{fig:time_line_guestbook_2s_user} shows the anomaly detection time li
 same application and SLO, while faults are being injected into the user management service.
 Here too we see that Roots detects anomalies immediately following each fault injection window.
 
-\textbf{In all of our experiments, Roots detected the anomalies that we injected 
-in X minutes on average with a maximum of 4.8 seconds.}
-This duration can be modified by changing the execution period and 
-window size of the
-detectors. 
+In all of our experiments, Roots detected the injected anomalies 
+in 158 seconds on average with a maximum time to detection of 289 seconds (i.e. less than 5 minutes).
+This duration can be further controlled by changing the analysis rate and 
+window size of the detectors. 
 
 
 \subsection{Path Distribution Analyzer: Accuracy and Speed}
