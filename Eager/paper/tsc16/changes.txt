@@ -1,86 +1,139 @@
+Round 1 Feedback
+~~~~~~~~~~~~~~~~~
+
+
 Feedback from Reviewer 2
 ========================
 
-(1) It is claimed that the built-in monitoring framework Roots does not add a significant overhead to the applications. It is suggested to provide more quantitative results in details. Same suggestions to the “near real time” and “nearly 100%”.
+(1) It is claimed that the built-in monitoring framework Roots does not add a significant overhead to the applications. 
+    It is suggested to provide more quantitative results in details. Same suggestions to the “near real time” and
+	“nearly 100%”.
 
-    Removed such statements and explained this better in the results section. Our evaluations have encountered no false positives in all experiments to date.  The reason why this is possible is our use of a mixture-of-experts approach to accurately identify the root cause in this setting, for the applications and workloads that we have considered to date (in the AppScale prototype).
+    Removed such statements and explained this better in the results section. Our evaluations have encountered no false positives in
+	all experiments to date.  The reason why this is possible is our use of a mixture-of-experts approach to accurately identify the
+	root cause in this setting, for the applications and workloads that we have considered to date (in the AppScale prototype).
+	Specific changes were made in:
+		- Section 3, paragraph 1
+		- Section 3.1 
+		- Section 5
+		- Section 7, paragraphs 2, 4
 
-(2) In table 1, the number of anomalies detected is shown. What are the meanings of the datastore and user management? How could tell the accuracy of the detection of Roots?
+(2) In table 1, the number of anomalies detected is shown. What are the meanings of the datastore and user management? How could
+    tell the accuracy of the detection of Roots?
 
-    These are various services in the PaaS to which we inject faults. To make this more clear, we updated table header and discuss in detail in section 5.1. We measure ccuracy checking if all the injected faults are detected by Roots. We find that for all faults injected, Roots correctly reports the service into which we injected the faults (there are no false positives). When Roots detects additional anomalies, we verify them manually and report on them in the results section.
+    These are various services in the PaaS to which we inject faults. To make this more clear, we updated table header and discuss
+	in detail in section 5.1.
 
-(3) In figure 4-7, the fault injection and anomaly detection are shown in a timely way. Could you authors provide more numeric data about the delay of the detection? Is there any work to compare with the speed performance?
+(3) In figure 4-7, the fault injection and anomaly detection are shown in a timely way. Could you authors provide more numeric
+    data about the delay of the detection? Is there any work to compare with the speed performance?
 
-    Now fixed/clarified in results section. All anomalies are detected within 2-5 minutes of the start of fault injection. 
+    Now fixed/clarified in section 5. All anomalies are detected within 2-5 minutes of the start of fault injection. This is
+	further explained in section 5.1.
  
-(4) It is claimed that Roots collect data using asynchronous tasks, in order to avoid degrading the performance of the applications. In this case, could the authors discuss about how to make the detection in real time or nearly real time?
+(4) It is claimed that Roots collect data using asynchronous tasks, in order to avoid degrading the performance of the applications.
+    In this case, could the authors discuss about how to make the detection in real time or nearly real time?
 
-    Clarified under architecture section. Detectors run every 60 seconds which results in correct detection of root cause (when not a workload change) within 5 minutes of when the anomaly first occurs.
+    Clarified under architecture section (section 3.2). Results concerning detection delay are added to section 5.1.
 
-(5) The anomaly detectors and anomaly handlers are with fixed-sized sliding windows and the memory has a strict upper bound. If there are a lot of data to collect and analysis, how to provide real time detection?
+(5) The anomaly detectors and anomaly handlers are with fixed-sized sliding windows and the memory has a strict upper bound. If
+    there are a lot of data to collect and analysis, how to provide real time detection?
 
-    Anomaly detectors always work with a bounded data set via a fixed sliding window size (10minutes worth of events). All memory and compute intensive operations are performed in the background. We give an example of this for bottleneck identification. The expensive linear regressions are run in the background and after an anomaly has been detected.
+    Anomaly detectors always work with a bounded data set via a fixed sliding window size (10 minutes worth of events). All memory
+	and compute intensive operations are performed in the background. We give an example of this for bottleneck identification.
+	The expensive linear regressions are run in the background and after an anomaly has been detected. Specific details are
+	added to sections 3.2 (last paragraph), 5.3 and 5.6 (paragraph 2).
 
 
 Feedback from Reviewer 3
 ========================
 
 1. The title! The balance between the content and the title is bad. The content is aggressive, while the title is so limited.
-1.1 Most content is about monitoring, data collection, and analysis of Roots. Bottleneck identification is just a function or usage of the Roots.
+1.1 Most content is about monitoring, data collection, and analysis of Roots. Bottleneck identification is just a function or
+    usage of the Roots.
 1.3 The author should either find a proper title or narrow down the content.
 
-	Now retitled to focus on root cause analysis for cloud platform
-	applications (which the paper does).
+	Title has been revised to "Detecting Performance Anomalies in Cloud Platform Applications".
 
-1.2 Why just web applications?  Roots has collected data even from infrastructure level, and so technically Roots can work for any applications and even the Cloud OS.
+1.2 Why just web applications?  Roots has collected data even from infrastructure level, and so technically Roots can work for
+    any applications and even the Cloud OS.
 
-	Because we rely on HTTP/S requests as our workload and track
-	performance data (of PaaS services) for individual HTTP/S r
-	equests.  We have only
-	studied web-based cloud apps (AppScale apps) with Roots and 
-	so cannot make a broader claim until we can investigate
-	the efficacy of Roots for non-HTTP/S driven apps.
-
+	Because we rely on HTTP/S requests as our workload and track performance data (of PaaS services) for individual HTTP/S
+	requests.  We have only studied web-based cloud apps (AppScale apps) with Roots and so cannot make a broader claim until
+	we can investigate the efficacy of Roots for non-HTTP/S driven apps. Updated the abstract and conclusions section to make
+	the scope clear.
 
 2. The abstract! This abstract is too abstract. From the abstract, nobody can capture the soul of Roots.
 
 	Now rewritten to state precisely what the paper does.
 
-3. Fig.1 shows a nearly full stack data collection. Good and ambitious! BUT, in practice, vendors and users are responsible to only their own realms. For example, users cannot touch as many infrastructure data as possible, while vendors usually do not push any impact on users' applications,  to which users are fully responsible. This is particularly true for IaaS. Although PaaS cloud vendors manage more, it is hardly for them to steal users' data such as access history.
+3. Fig.1 shows a nearly full stack data collection. Good and ambitious! BUT, in practice, vendors and users are responsible
+   to only their own realms. For example, users cannot touch as many infrastructure data as possible, while vendors usually do
+   not push any impact on users' applications,  to which users are fully responsible. This is particularly true for IaaS. Although
+   PaaS cloud vendors manage more, it is hardly for them to steal users' data such as access history.
 3.1 Please clarify the working mode of Roots.
 3.2 Please clarify Roots is intrusive or non-intrusive to PaaS Cloud, and why.
 
-   Clarified under architecture section. Roots is used by cloud providers as part of their cloud platform offerings. It is intrusive (but very lightweight as it implements APM and root cause analysis as a built-in PaaS service). The insights and results identified by Roots is communicated to both cloud administrators and application developers.
+   Clarified under section 3, paragraph 1. Roots is used by cloud providers as part of their cloud platform offerings.
+   It is intrusive (but very lightweight as it implements APM and root cause analysis as a built-in PaaS service). The insights and
+   results identified by Roots is communicated to both cloud administrators and application developers.
 
 4. ElasticSearch can run in a distributed way. Fig. 3 implies a centralised solution. Why?
 
-   Clarified that this is a distributed service. The diagram also states "ElasticSearch Cluster".
+   Clarified in section 4, paragraph 3 that this is a distributed service. The diagram also states "ElasticSearch Cluster".
 
-5. For monitoring, detection, analysis, and experiments, only some words, such like usage and latency, can be seen. What are the metrics, especially, the performance metrics, are recorded and considered in Roots?
+5. For monitoring, detection, analysis, and experiments, only some words, such like usage and latency, can be seen. What are the
+   metrics, especially, the performance metrics, are recorded and considered in Roots?
 
-   Our existing prototype heavily relies on latency metrics, but other metrics can be considered in the future if necessary. We clarified this under in section 4.
+   Our existing prototype heavily relies on latency metrics, but other metrics can be considered in the future if necessary. We
+   clarified this under in section 4, paragraph 5.
 
-6.  Some metrics can be saturated. Usage is one of them and shows significant non-linear change. Moreover, monitored and sampled metrics data may not be time-sequenced due to many reasons in practical cloud platforms, such as AWS. Hence, in most cases, analysis has to be done on aggregation, and previous experience shows  that longer term aggregation results in better prediction, i.e. detection. This problem has not been mentioned at all.
+6.  Some metrics can be saturated. Usage is one of them and shows significant non-linear change. Moreover, monitored and sampled
+    metrics data may not be time-sequenced due to many reasons in practical cloud platforms, such as AWS. Hence, in most cases,
+	analysis has to be done on aggregation, and previous experience shows  that longer term aggregation results in better prediction,
+	i.e. detection. This problem has not been mentioned at all.
 
-   We do many calculations on aggregation. Detectors and handlers do this implicitly. We allow configuring the aggregation time by controlling the analysis rate and window size. We added text to implementation section to clarify.
+   We do many calculations on aggregation. Detectors and handlers do this implicitly. We allow configuring the aggregation time by
+   controlling the analysis rate and window size. We added text to section 3.2, 4.3 and 4.4 to clarify.
 
-7. Cloud monitoring and anomaly detection have not been well exploited in the related work. By simply searching in Google, we can find some latest ones, for example, http://ieeexplore.ieee.org/document/7389388/.
+7. Cloud monitoring and anomaly detection have not been well exploited in the related work. By simply searching in Google,
+we can find some latest ones, for example, http://ieeexplore.ieee.org/document/7389388/.
 
-	We cite and describe the most relavent work to our own.  The
-	space constraints preclude us from including all possible variations
-	of cloud monitoring and anomaly detection.  The most relevant
-	(and cited ones) are those for PaaS since our approach
-	relies on PaaS abstractions (e.g. well defined service logs 
-	and their interfaces) for efficiency.
+	We cite and describe the most relavent work to our own. The space constraints preclude us from including all possible variations
+	of cloud monitoring and anomaly detection.  The most relevant (and cited ones) are those for PaaS since our approach
+	relies on PaaS abstractions (e.g. well defined service logs and their interfaces) for efficiency.
 
 8. The experiments and the results are not well structured and not strongly supporting the claimed goodness of Roots.
 
-	We reworked the results section to clarify that 
-	- Roots is efficient, detects anomalies and their root
-	cause within 5 minutes of their injection, and has no 
-	false positivies.  We also discuss when and why Roots
-	reports false negatives (anomalies have not yet been 
-	pushed out of the sliding window of consideration).
-	We also reworked the intro and conclusions 
-	to be more clear about the results and the overall contribution.
+	We reworked the results section (structure and order) to clarify that - Roots is efficient, detects anomalies and their root
+	cause within 5 minutes of their injection, and has no false positivies.  We also discuss when and why Roots
+	reports false negatives (anomalies have not yet been pushed out of the sliding window of consideration).
+	We also reworked the introduction and conclusions to be more clear about the results and the overall contribution.
 
+
+Round 2 Feedback
+~~~~~~~~~~~~~~~~~
+
+
+Feedback from Reviewer 2
+========================
+
+1. My one suggestion to improve the paper is in the abstract... this could do a better job of highlighting the interesting
+  features and advantages. In particular:
+1.1 relieving application developers from building their own monitoring solutions or having to instrument the application code
+1.2 correlating events across different PaaS layers and identifying bottlenecks
+
+  We updated the abstract by incorporating both above points.
+
+
+New Additions Since the Previous Publication at WWW '17
+=======================================================
+
+In general, this TCC submission is far more detailed in every aspect in comparison to the previous WWW publication from the
+same authors. This submission discusses a number of new features of Roots, along with several new results. Some of the
+newly added content include:
+
+* New introduction with a strong focus on monitoring modern cloud platforms.
+* More detailed, and comprehensive discussion on architecture and implementation (in sections 3 and 4).
+* Discussion on the new path distribution analysis method (section 4.2).
+* More detailed discussion on results, including a number of new results (in section 5).
+* More detailed discussion of related work (in section 6).
